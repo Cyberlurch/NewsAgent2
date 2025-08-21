@@ -1,1 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.log
+
+# Local env & caches
+.env
+*.WORKING
+.cache/
+reports/
+
+# OS/IDE noise
+.DS_Store
+*.swp
 
