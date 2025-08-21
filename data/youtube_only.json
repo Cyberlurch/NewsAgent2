@@ -1,0 +1,17 @@
+{
+  "topic_buckets": [
+    {
+      "topic": "mixed",
+      "channels": [
+        {"name": "Prepper News Flash", "url": "https://www.youtube.com/@preppernewsflash"},
+        {"name": "Behold Israel", "url": "https://www.youtube.com/@beholdisrael"},
+        {"name": "Vermietertagebuch", "url": "https://www.youtube.com/@Vermietertagebuch"},
+        {"name": "BlackScoutSurvival", "url": "https://www.youtube.com/@BlackScoutSurvival"},
+        {"name": "Klartext Winkler", "url": "https://www.youtube.com/@klartextwinkler"},
+        {"name": "Redacted", "url": "https://www.youtube.com/@RedactedNews"},
+        {"name": "The Poplar Report", "url": "https://www.youtube.com/@ThePoplarReport"},
+        {"name": "Israel English News", "url": "https://www.youtube.com/@IsraelEnglishNews"}
+      ]
+    }
+  ]
+}
