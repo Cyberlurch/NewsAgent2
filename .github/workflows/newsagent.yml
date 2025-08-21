@@ -1,1 +1,102 @@
+name: NewsAgent daily
+
+on:
+  schedule:
+    - cron: "0 5 * * *"   # 07:00 Europe/Stockholm (UTC+2 im Sommer)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write    # wir kommentieren in ein Issue
+
+env:
+  # Keine E-Mails, nur Chat/Issue
+  SEND_EMAIL: "0"
+  # ggf. sanfter drosseln für Groq
+  GROQ_PAUSE_SEC: "10"
+
+jobs:
+  run:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install system packages (yt-dlp helpers)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Poetry
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install poetry
+
+      - name: Install dependencies
+        run: |
+          poetry install --no-interaction --no-root
+
+      - name: Run NewsAgent (YouTube-only set)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          # Falls Du SMTP_* Secrets gesetzt hast, sind sie unwirksam, da SEND_EMAIL=0
+        run: |
+          # falls noch nicht vorhanden: Minimal-Channeldatei nutzen
+          if [ -f data/youtube_only.json ]; then
+            CHFILE="data/youtube_only.json"
+          else
+            CHFILE="data/channels.json"
+          fi
+          poetry run python -m src.newsagent.main \
+            --channels "$CHFILE" \
+            --threads 1 \
+            --max-chunks 12
+
+      - name: Find newest report (EN)
+        id: find
+        run: |
+          LATEST=$(ls -t src/reports/daily_summary_*.md | head -n1)
+          echo "LATEST=$LATEST" >> "$GITHUB_ENV"
+          echo "Latest report: $LATEST"
+
+      - name: Ensure daily thread issue exists
+        id: upsert
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "📰 Daily NewsAgent";
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100
+            });
+            let issue = issues.find(i => i.title === title);
+            if (!issue) {
+              const res = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body: "Täglicher Thread für den NewsAgent. Abonniere dieses Issue, um Benachrichtigungen zu erhalten."
+              });
+              issue = res.data;
+            }
+            core.setOutput("issue_number", issue.number.toString());
+
+      - name: Post summary as comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ steps.upsert.outputs.issue_number }}
+          body-file: ${{ env.LATEST }}
+
+      - name: Upload report as artifact (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsagent-report
+          path: ${{ env.LATEST }}
 
