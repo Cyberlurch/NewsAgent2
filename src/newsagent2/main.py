@@ -1,4 +1,3 @@
-# src/newsagent2/main.py
 from __future__ import annotations
 
 import os
@@ -11,19 +10,29 @@ from typing import List, Dict
 from dotenv import load_dotenv
 
 from .collectors_youtube import list_recent_videos, fetch_transcript
-from .summarizer import summarize
+from .summarizer import summarize, summarize_item_detail
 from .reporter import to_markdown
 from .emailer import send_markdown
 
 
 def load_channels(path: str) -> List[Dict]:
     """
-    Lädt die Kanalkonfiguration aus einer JSON-Datei im Format
-    { "topic_buckets": [ { "channels": [ {"name": ..., "url": ...}, ... ] } ] }.
+    Lädt die Kanäle aus einer JSON-Konfiguration im Format:
+    {
+      "topic_buckets": [
+        {
+          "topic": "...",
+          "channels": [
+            {"name": "...", "url": "..."},
+            ...
+          ]
+        },
+        ...
+      ]
+    }
     """
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
-
     chans: List[Dict] = []
     for bucket in data.get("topic_buckets", []):
         for c in bucket.get("channels", []):
@@ -48,7 +57,7 @@ def main() -> None:
 
     now_utc = datetime.now(timezone.utc)
     cutoff = now_utc - timedelta(hours=args.hours)
-    # cutoff wird aktuell nur zu Debug-/Dokumentationszwecken gehalten;
+    # cutoff wird aktuell nur zu Dokumentationszwecken gehalten;
     # die eigentliche Filterung passiert in list_recent_videos.
 
     channels = load_channels(args.channels)
@@ -65,7 +74,7 @@ def main() -> None:
             text = fetch_transcript(v["id"])
             desc = v.get("description") or ""
 
-            # Hard-Skip, falls wirklich weder Transkript noch Beschreibung verfügbar
+            # Skip, falls wirklich weder Transkript noch Beschreibung verfügbar
             if not text and not desc:
                 continue
 
@@ -82,9 +91,10 @@ def main() -> None:
             )
 
     if not items:
-        summary = "Keine neuen Inhalte in den letzten 24 Stunden."
+        overview = "Keine neuen Inhalte in den letzten 24 Stunden."
+        details_by_id: Dict[str, str] = {}
     else:
-        # Grobe Deduplikation anhand (titel, kanal) – harte Duplikate rausfiltern
+        # Harte Deduplikation anhand (titel, kanal) – doppelte Items im selben Lauf entfernen
         seen = set()
         unique: List[Dict] = []
         for it in items:
@@ -95,15 +105,36 @@ def main() -> None:
             unique.append(it)
         items = unique
 
-        summary = summarize(items)
+        # Gesamt-Overview mit allen Items
+        overview = summarize(items)
 
-    # Ablegen im Repo-Artefaktverzeichnis
+        # Detail-Zusammenfassungen für eine begrenzte Anzahl Videos
+        max_detail = int(os.getenv("DETAIL_ITEMS_PER_DAY", "8"))
+        details_by_id: Dict[str, str] = {}
+
+        if max_detail > 0:
+            # Neueste Videos zuerst (absteigend nach Veröffentlichungszeit)
+            sorted_items = sorted(
+                items,
+                key=lambda it: it["published_at"],
+                reverse=True,
+            )
+            for it in sorted_items[:max_detail]:
+                try:
+                    details_by_id[it["id"]] = summarize_item_detail(it)
+                except Exception as e:
+                    details_by_id[it["id"]] = (
+                        f"[Fehler bei Detailzusammenfassung: {e!r}]"
+                    )
+
+    # Report als Markdown erzeugen
     os.makedirs("reports", exist_ok=True)
     fn = datetime.now(sto).strftime("reports/daily_summary_%Y-%m-%d_%H-%M.md")
+    md = to_markdown(items, overview, details_by_id)
     with open(fn, "w", encoding="utf-8") as f:
-        f.write(md := to_markdown(items, summary))
+        f.write(md)
 
-    # E-Mail (wenn SEND_EMAIL=1 und SMTP-ENV gesetzt)
+    # E-Mail mit dem gesamten Markdown-Inhalt
     subject = "Daily Summary – NewsAgent2"
     send_markdown(subject, md)
 
