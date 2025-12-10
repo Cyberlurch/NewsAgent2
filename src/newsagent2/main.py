@@ -30,6 +30,7 @@ def load_channels(path: str) -> List[Dict]:
         ...
       ]
     }
+    Für die aktuelle Logik wird das Topic ignoriert; wir flatten nur die Kanalliste.
     """
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -110,22 +111,57 @@ def main() -> None:
 
         # Detail-Zusammenfassungen für eine begrenzte Anzahl Videos
         max_detail = int(os.getenv("DETAIL_ITEMS_PER_DAY", "8"))
+        max_per_channel_detail = int(os.getenv("DETAIL_ITEMS_PER_CHANNEL_MAX", "3"))
         details_by_id: Dict[str, str] = {}
 
-        if max_detail > 0:
-            # Neueste Videos zuerst (absteigend nach Veröffentlichungszeit)
-            sorted_items = sorted(
-                items,
-                key=lambda it: it["published_at"],
-                reverse=True,
-            )
-            for it in sorted_items[:max_detail]:
-                try:
-                    details_by_id[it["id"]] = summarize_item_detail(it)
-                except Exception as e:
-                    details_by_id[it["id"]] = (
-                        f"[Fehler bei Detailzusammenfassung: {e!r}]"
-                    )
+        if max_detail > 0 and max_per_channel_detail > 0:
+            # Gruppiere Items pro Kanal
+            items_by_channel: Dict[str, List[Dict]] = {}
+            for it in items:
+                ch_name = it["channel"]
+                items_by_channel.setdefault(ch_name, []).append(it)
+
+            # Sortiere pro Kanal nach Veröffentlichungszeit (neueste zuerst)
+            for ch_items in items_by_channel.values():
+                ch_items.sort(key=lambda it: it["published_at"], reverse=True)
+
+            # Round-Robin-Auswahl über Kanäle, mit Limit pro Kanal
+            channel_order = sorted(items_by_channel.keys())
+            per_channel_count: Dict[str, int] = {
+                ch: 0 for ch in channel_order
+            }
+
+            selected_count = 0
+            while selected_count < max_detail:
+                made_progress = False
+                for ch in channel_order:
+                    if selected_count >= max_detail:
+                        break
+                    if per_channel_count[ch] >= max_per_channel_detail:
+                        continue
+
+                    ch_items = items_by_channel[ch]
+                    if not ch_items:
+                        continue
+
+                    candidate = ch_items.pop(0)
+                    if candidate["id"] in details_by_id:
+                        continue
+
+                    try:
+                        details_by_id[candidate["id"]] = summarize_item_detail(candidate)
+                    except Exception as e:
+                        details_by_id[candidate["id"]] = (
+                            f"[Fehler bei Detailzusammenfassung: {e!r}]"
+                        )
+
+                    per_channel_count[ch] += 1
+                    selected_count += 1
+                    made_progress = True
+
+                if not made_progress:
+                    # Keine weiteren Items mehr verfügbar, die Bedingungen erfüllen
+                    break
 
     # Report als Markdown erzeugen
     os.makedirs("reports", exist_ok=True)
