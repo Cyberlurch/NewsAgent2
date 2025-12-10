@@ -1,23 +1,33 @@
-name: NewsAgent daily
+# .github/workflows/newsagent.yml
+name: NewsAgent2 daily
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # 07:00 Europe/Stockholm (UTC+2 im Sommer)
+    - cron: "0 5 * * *"  # 07:00 Europe/Stockholm (UTC+2 im Sommer)
   workflow_dispatch:
 
 permissions:
   contents: read
-  issues: write    # wir kommentieren in ein Issue
-
-env:
-  # Keine E-Mails, nur Chat/Issue
-  SEND_EMAIL: "0"
-  # ggf. sanfter drosseln für Groq
-  GROQ_PAUSE_SEC: "10"
 
 jobs:
   run:
     runs-on: ubuntu-24.04
+
+    env:
+      # Groq
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      GROQ_MODEL: ${{ secrets.GROQ_MODEL }}
+      GROQ_PAUSE_SEC: "10"
+
+      # E-Mail (optional)
+      SEND_EMAIL: ${{ secrets.SEND_EMAIL }}          # "1" oder "0"
+      EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+      EMAIL_TO: ${{ secrets.EMAIL_TO }}
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,72 +42,39 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
-      - name: Install Poetry
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install poetry
+          pip install -r requirements.txt
 
-      - - name: Install dependencies
-  run: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-
-      - name: Run NewsAgent (YouTube-only set)
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          # Falls Du SMTP_* Secrets gesetzt hast, sind sie unwirksam, da SEND_EMAIL=0
+      - name: Run NewsAgent2 (YouTube-only set)
         run: |
-          # falls noch nicht vorhanden: Minimal-Channeldatei nutzen
           if [ -f data/youtube_only.json ]; then
             CHFILE="data/youtube_only.json"
           else
             CHFILE="data/channels.json"
           fi
-          poetry run python -m src.newsagent.main \
-            --channels "$CHFILE" \
-            --threads 1 \
-            --max-chunks 12
 
-      - name: Find newest report (EN)
+          python -m src.newsagent2.main \
+            --channels "$CHFILE" \
+            --hours 24
+
+      - name: Find newest report
         id: find
         run: |
-          LATEST=$(ls -t src/reports/daily_summary_*.md | head -n1)
-          echo "LATEST=$LATEST" >> "$GITHUB_ENV"
-          echo "Latest report: $LATEST"
+          LATEST=$(ls -t reports/daily_summary_*.md 2>/dev/null | head -n1 || true)
+          if [ -z "$LATEST" ]; then
+            echo "HAS_REPORT=0" >> "$GITHUB_ENV"
+            echo "No report found."
+          else
+            echo "HAS_REPORT=1" >> "$GITHUB_ENV"
+            echo "LATEST=$LATEST" >> "$GITHUB_ENV"
+            echo "Latest report: $LATEST"
+          fi
 
-      - name: Ensure daily thread issue exists
-        id: upsert
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const title = "📰 Daily NewsAgent";
-            const { data: issues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: "open",
-              per_page: 100
-            });
-            let issue = issues.find(i => i.title === title);
-            if (!issue) {
-              const res = await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title,
-                body: "Täglicher Thread für den NewsAgent. Abonniere dieses Issue, um Benachrichtigungen zu erhalten."
-              });
-              issue = res.data;
-            }
-            core.setOutput("issue_number", issue.number.toString());
-
-      - name: Post summary as comment
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          issue-number: ${{ steps.upsert.outputs.issue_number }}
-          body-file: ${{ env.LATEST }}
-
-      - name: Upload report as artifact (optional)
+      - name: Upload report as artifact
+        if: env.HAS_REPORT == '1'
         uses: actions/upload-artifact@v4
         with:
-          name: newsagent-report
+          name: newsagent2-report
           path: ${{ env.LATEST }}
-
