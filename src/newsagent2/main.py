@@ -15,30 +15,52 @@ from .reporter import to_markdown
 from .emailer import send_markdown
 
 
-def load_channels(path: str) -> List[Dict]:
+def load_channels(path: str):
     """
-    Lädt die Kanäle aus einer JSON-Konfiguration im Format:
+    Lädt Kanal- und Themenkonfiguration aus einer JSON-Datei im Format:
+
     {
       "topic_buckets": [
         {
-          "topic": "...",
+          "topic": "Geo-Politik",
+          "weight": 1.5,              # optional, Default 1.0
           "channels": [
-            {"name": "...", "url": "..."},
-            ...
+            {"name": "preppernewsflash", "url": "..."},
+            {"name": "klartextwinkler", "url": "..."}
           ]
         },
         ...
       ]
     }
-    Für die aktuelle Logik wird das Topic ignoriert; wir flatten nur die Kanalliste.
+
+    Rückgabe:
+      - channels: Liste von Dicts mit 'name' und 'url'
+      - channel_topics: Mapping von Kanalname -> Topic
+      - topic_weights: Mapping von Topic -> Gewicht (float, Default 1.0)
     """
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
-    chans: List[Dict] = []
+
+    channels: List[Dict] = []
+    channel_topics: Dict[str, str] = {}
+    topic_weights: Dict[str, float] = {}
+
     for bucket in data.get("topic_buckets", []):
+        topic = bucket.get("topic", "Allgemein")
+        try:
+            weight = float(bucket.get("weight", 1.0))
+        except (TypeError, ValueError):
+            weight = 1.0
+        # keine negativen oder 0-Gewichte
+        topic_weights[topic] = max(weight, 0.0) or 1.0
+
         for c in bucket.get("channels", []):
-            chans.append({"name": c["name"], "url": c["url"]})
-    return chans
+            name = c["name"]
+            url = c["url"]
+            channels.append({"name": name, "url": url})
+            channel_topics[name] = topic
+
+    return channels, channel_topics, topic_weights
 
 
 def main() -> None:
@@ -58,12 +80,12 @@ def main() -> None:
 
     now_utc = datetime.now(timezone.utc)
     cutoff = now_utc - timedelta(hours=args.hours)
-    # cutoff wird aktuell nur zu Dokumentationszwecken gehalten;
-    # die eigentliche Filterung passiert in list_recent_videos.
+    # cutoff aktuell nur informativ; Filterung passiert in list_recent_videos
 
-    channels = load_channels(args.channels)
+    channels, channel_topics, topic_weights = load_channels(args.channels)
     items: List[Dict] = []
 
+    # Sammeln aller Items aus allen Kanälen
     for ch in channels:
         vids = list_recent_videos(
             ch["url"],
@@ -75,7 +97,7 @@ def main() -> None:
             text = fetch_transcript(v["id"])
             desc = v.get("description") or ""
 
-            # Skip, falls wirklich weder Transkript noch Beschreibung verfügbar
+            # Skip, falls weder Transkript noch Beschreibung verfügbar
             if not text and not desc:
                 continue
 
@@ -83,7 +105,9 @@ def main() -> None:
                 {
                     "id": v["id"],
                     "title": v["title"],
-                    "channel": v["channel"],
+                    # Im Report verwenden wir den konfigurierten Kanalnamen
+                    "channel": ch["name"],
+                    "topic": channel_topics.get(ch["name"], "Allgemein"),
                     "url": v["url"],
                     "published_at": v["published_at"].astimezone(sto),
                     "text": text,
@@ -95,7 +119,7 @@ def main() -> None:
         overview = "Keine neuen Inhalte in den letzten 24 Stunden."
         details_by_id: Dict[str, str] = {}
     else:
-        # Harte Deduplikation anhand (titel, kanal) – doppelte Items im selben Lauf entfernen
+        # Deduplikation innerhalb eines Laufs anhand (Titel, Kanal)
         seen = set()
         unique: List[Dict] = []
         for it in items:
@@ -109,59 +133,127 @@ def main() -> None:
         # Gesamt-Overview mit allen Items
         overview = summarize(items)
 
-        # Detail-Zusammenfassungen für eine begrenzte Anzahl Videos
+        # Detail-Zusammenfassungen
         max_detail = int(os.getenv("DETAIL_ITEMS_PER_DAY", "8"))
         max_per_channel_detail = int(os.getenv("DETAIL_ITEMS_PER_CHANNEL_MAX", "3"))
         details_by_id: Dict[str, str] = {}
 
         if max_detail > 0 and max_per_channel_detail > 0:
-            # Gruppiere Items pro Kanal
-            items_by_channel: Dict[str, List[Dict]] = {}
+            # Items nach Topic und Kanal gruppieren
+            items_by_topic: Dict[str, Dict[str, List[Dict]]] = {}
             for it in items:
+                topic = it.get("topic", "Allgemein")
                 ch_name = it["channel"]
-                items_by_channel.setdefault(ch_name, []).append(it)
+                items_by_topic.setdefault(topic, {}).setdefault(ch_name, []).append(it)
 
-            # Sortiere pro Kanal nach Veröffentlichungszeit (neueste zuerst)
-            for ch_items in items_by_channel.values():
-                ch_items.sort(key=lambda it: it["published_at"], reverse=True)
+            # Innerhalb jedes Kanals nach Zeit sortieren (neueste zuerst)
+            for topic_map in items_by_topic.values():
+                for ch_name, ch_items in topic_map.items():
+                    ch_items.sort(key=lambda it: it["published_at"], reverse=True)
 
-            # Round-Robin-Auswahl über Kanäle, mit Limit pro Kanal
-            channel_order = sorted(items_by_channel.keys())
-            per_channel_count: Dict[str, int] = {
-                ch: 0 for ch in channel_order
-            }
+            # Aktive Topics (nur solche mit Items)
+            active_topics = sorted(items_by_topic.keys())
+
+            # Gewichte für aktive Topics (Default 1.0)
+            weights: Dict[str, float] = {}
+            for t in active_topics:
+                w = topic_weights.get(t, 1.0)
+                try:
+                    w = float(w)
+                except (TypeError, ValueError):
+                    w = 1.0
+                weights[t] = max(w, 0.0) or 1.0
+
+            total_weight = sum(weights.values())
+
+            # Grobe Slotverteilung pro Topic
+            slots_by_topic: Dict[str, int] = {}
+            if total_weight > 0:
+                for t in active_topics:
+                    proportion = weights[t] / total_weight
+                    est = int(round(max_detail * proportion))
+                    slots_by_topic[t] = max(est, 1)
+            else:
+                base = max_detail // max(1, len(active_topics))
+                extra = max_detail % max(1, len(active_topics))
+                for i, t in enumerate(active_topics):
+                    slots_by_topic[t] = base + (1 if i < extra else 0)
+
+            def total_slots() -> int:
+                return sum(slots_by_topic.values())
+
+            # Falls Summe der Slots > max_detail: etwas zurückschneiden
+            while total_slots() > max_detail and len(slots_by_topic) > 0:
+                t_max = max(slots_by_topic, key=slots_by_topic.get)
+                if slots_by_topic[t_max] > 1:
+                    slots_by_topic[t_max] -= 1
+                else:
+                    # Alle stehen schon auf 1 – Rest regeln wir über max_detail
+                    break
+
+            # Falls Summe < max_detail: Restslots in Round-Robin auffüllen
+            while total_slots() < max_detail and active_topics:
+                for t in active_topics:
+                    if total_slots() >= max_detail:
+                        break
+                    slots_by_topic[t] = slots_by_topic.get(t, 0) + 1
+
+            # Topics nach Gewicht sortieren (wichtigere zuerst)
+            topics_by_priority = sorted(
+                active_topics,
+                key=lambda t: weights.get(t, 1.0),
+                reverse=True,
+            )
 
             selected_count = 0
-            while selected_count < max_detail:
-                made_progress = False
-                for ch in channel_order:
-                    if selected_count >= max_detail:
-                        break
-                    if per_channel_count[ch] >= max_per_channel_detail:
-                        continue
 
-                    ch_items = items_by_channel[ch]
-                    if not ch_items:
-                        continue
-
-                    candidate = ch_items.pop(0)
-                    if candidate["id"] in details_by_id:
-                        continue
-
-                    try:
-                        details_by_id[candidate["id"]] = summarize_item_detail(candidate)
-                    except Exception as e:
-                        details_by_id[candidate["id"]] = (
-                            f"[Fehler bei Detailzusammenfassung: {e!r}]"
-                        )
-
-                    per_channel_count[ch] += 1
-                    selected_count += 1
-                    made_progress = True
-
-                if not made_progress:
-                    # Keine weiteren Items mehr verfügbar, die Bedingungen erfüllen
+            # Pro Topic Slots vergeben, innerhalb Topic Round-Robin über Kanäle
+            for topic in topics_by_priority:
+                if selected_count >= max_detail:
                     break
+
+                topic_quota = slots_by_topic.get(topic, 0)
+                if topic_quota <= 0:
+                    continue
+
+                channel_map = items_by_topic[topic]
+                channel_order = sorted(channel_map.keys())
+                per_channel_count: Dict[str, int] = {
+                    ch_name: 0 for ch_name in channel_order
+                }
+
+                topic_selected = 0
+                while topic_selected < topic_quota and selected_count < max_detail:
+                    made_progress = False
+                    for ch_name in channel_order:
+                        if topic_selected >= topic_quota or selected_count >= max_detail:
+                            break
+                        if per_channel_count[ch_name] >= max_per_channel_detail:
+                            continue
+
+                        ch_items = channel_map[ch_name]
+                        if not ch_items:
+                            continue
+
+                        candidate = ch_items.pop(0)
+                        if candidate["id"] in details_by_id:
+                            continue
+
+                        try:
+                            details_by_id[candidate["id"]] = summarize_item_detail(candidate)
+                        except Exception as e:
+                            details_by_id[candidate["id"]] = (
+                                f"[Fehler bei Detailzusammenfassung: {e!r}]"
+                            )
+
+                        per_channel_count[ch_name] += 1
+                        topic_selected += 1
+                        selected_count += 1
+                        made_progress = True
+
+                    if not made_progress:
+                        # In diesem Topic sind keine weiteren Items mehr verfügbar
+                        break
 
     # Report als Markdown erzeugen
     os.makedirs("reports", exist_ok=True)
@@ -171,7 +263,7 @@ def main() -> None:
         f.write(md)
 
     # E-Mail mit dem gesamten Markdown-Inhalt
-    subject = "Daily Summary – NewsAgent2"
+    subject = "The Cyberlurch Report"
     send_markdown(subject, md)
 
 
