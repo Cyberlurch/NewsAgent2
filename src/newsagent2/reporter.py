@@ -11,44 +11,48 @@ def to_markdown(
     details_by_id: Dict[str, str],
 ) -> str:
     """
-    Erzeugt den finalen Markdown-Report mit:
-      - Header + Zeitstempel,
-      - Kurzüberblick (Overview),
-      - optional: Vertiefungen pro Video,
-      - Quellenliste.
+    Baut den finalen Markdown-Report:
+
+    - Kopf: Titel + Zeitstempel
+    - Overview: kompletter Text aus dem Summarizer (inkl. eigener Überschriften)
+    - Vertiefungen: Detailblöcke pro ausgewähltem Video
+    - Quellen: Liste aller verarbeiteten Videos
     """
     sto = ZoneInfo("Europe/Stockholm")
     now_sto = datetime.now(tz=sto)
-    date_str = now_sto.strftime("%Y-%m-%d %H:%M")
+    date_str = now_sto.strftime("%Y-%m-%d %H:%M Uhr")
 
     md: List[str] = []
-    md.append(f"# Daily Summary – {date_str} (Stockholm)")
+
+    # Kopf
+    md.append("# The Cyberlurch Report")
+    md.append("")
+    md.append(f"#### {date_str}")
     md.append("")
 
-    # Kurzüberblick
-    md.append("## Kurzüberblick")
-    md.append("")
+    # Overview – bereits vom Summarizer mit Überschrift(en) versehen
     md.append((overview or "").strip())
     md.append("")
 
-    # Vertiefungen (falls vorhanden)
+    # Vertiefungen (Detail-Summaries)
     if details_by_id:
         md.append("---")
         md.append("## Vertiefungen")
         md.append("")
 
-        # Reihenfolge: neueste Videos zuerst, aber nur die mit Detailtext
+        # Nur Items mit Detailtext, sortiert nach Veröffentlichungszeit (neueste zuerst)
         ordered_items = sorted(
             [it for it in items if it.get("id") in details_by_id],
             key=lambda it: it["published_at"],
             reverse=True,
         )
-
         for it in ordered_items:
             detail = (details_by_id.get(it["id"]) or "").strip()
             if not detail:
                 continue
-            md.append(f"### {it['channel']}: {it['title']}")
+
+            # Kanal: [Titel](URL) – Titel klickbar
+            md.append(f"### {it['channel']}: [{it['title']}]({it['url']})")
             md.append("")
             md.append(detail)
             md.append("")
