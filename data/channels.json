@@ -1,18 +1,96 @@
 {
   "topic_buckets": [
     {
-      "topic": "mixed",
+      "topic": "Europa & Geo-Politik / Krieg",
+      "weight": 2.2,
       "channels": [
-        {"name": "Prepper News Flash", "url": "https://www.youtube.com/@preppernewsflash"},
-        {"name": "Behold Israel", "url": "https://www.youtube.com/@beholdisrael"},
-        {"name": "Vermietertagebuch", "url": "https://www.youtube.com/@Vermietertagebuch"},
-        {"name": "BlackScoutSurvival", "url": "https://www.youtube.com/@BlackScoutSurvival"},
-        {"name": "Klartext Winkler", "url": "https://www.youtube.com/@klartextwinkler"},
-        {"name": "Redacted", "url": "https://www.youtube.com/@RedactedNews"},
-        {"name": "The Poplar Report", "url": "https://www.youtube.com/@ThePoplarReport"},
-        {"name": "Israel English News", "url": "https://www.youtube.com/@IsraelEnglishNews"}
+        {
+          "name": "preppernewsflash",
+          "url": "https://www.youtube.com/@preppernewsflash"
+        },
+        {
+          "name": "klartextwinkler",
+          "url": "https://www.youtube.com/@klartextwinkler"
+        },
+        {
+          "name": "ThePoplarReport",
+          "url": "https://www.youtube.com/@ThePoplarReport"
+        },
+        {
+          "name": "Riks",
+          "url": "https://www.youtube.com/@Riks"
+        },
+        {
+          "name": "russianmediamonitor",
+          "url": "https://www.youtube.com/@russianmediamonitor"
+        },
+        {
+          "name": "LIONMediaNews",
+          "url": "https://www.youtube.com/@LIONMediaNews"
+        }
+      ]
+    },
+    {
+      "topic": "Israel, Nahost & Prophetie",
+      "weight": 2.0,
+      "channels": [
+        {
+          "name": "IsraelEnglishNews",
+          "url": "https://www.youtube.com/@IsraelEnglishNews"
+        },
+        {
+          "name": "beholdisrael",
+          "url": "https://www.youtube.com/@beholdisrael"
+        },
+        {
+          "name": "EndtimeheadlinesOrg",
+          "url": "https://www.youtube.com/@EndtimeheadlinesOrg"
+        },
+        {
+          "name": "EndTimesProductions",
+          "url": "https://www.youtube.com/@EndTimesProductions"
+        },
+        {
+          "name": "jamiewalden756",
+          "url": "https://www.youtube.com/@jamiewalden756"
+        }
+      ]
+    },
+    {
+      "topic": "USA & Sicherheit / Gesellschaft",
+      "weight": 1.7,
+      "channels": [
+        {
+          "name": "BlackScoutSurvival",
+          "url": "https://www.youtube.com/@BlackScoutSurvival"
+        },
+        {
+          "name": "RedactedNews",
+          "url": "https://www.youtube.com/@RedactedNews"
+        },
+        {
+          "name": "3of7Project",
+          "url": "https://www.youtube.com/@3of7Project"
+        },
+        {
+          "name": "CanadianPrepper",
+          "url": "https://www.youtube.com/@CanadianPrepper"
+        }
+      ]
+    },
+    {
+      "topic": "Finanzen & Krypto",
+      "weight": 1.3,
+      "channels": [
+        {
+          "name": "Vermietertagebuch",
+          "url": "https://www.youtube.com/@Vermietertagebuch"
+        },
+        {
+          "name": "Blocktrainer",
+          "url": "https://www.youtube.com/@Blocktrainer"
+        }
       ]
     }
   ]
 }
-
