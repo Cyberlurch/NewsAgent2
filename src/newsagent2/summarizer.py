@@ -10,42 +10,61 @@ MODEL_NAME = os.environ.get("OPENAI_MODEL", "gpt-4.1-mini")
 
 
 SYS_PROMPT_OVERVIEW = (
-    "You are a rigorous news editor. Input is a set of short item digests "
+    "You are a rigorous news editor. The input is a set of short item digests "
     "(title, channel, time) plus snippets from transcripts or descriptions. "
-    "Task: Write ONE concise, cross-channel summary of the last 24 hours.\n"
-    "Rules:\n"
-    "- Include ONLY newsworthy content; drop ads, promotions, merch, coupon "
-    "codes, self-promotion, metadata, greetings.\n"
-    "- Merge duplicates across channels; mention sources inline like "
-    "(Channel1, Channel2) when multiple videos cover the same story.\n"
-    "- Keep substance and key reasoning (what/why/implications), but avoid fluff.\n"
-    "- Use short paragraphs and/or bullet points per theme.\n"
-    "- Aim for roughly 600–900 words total so that it can be read in about "
+    "Your task is to write ONE concise, cross-channel daily summary.\n"
+    "\n"
+    "Output structure (Markdown):\n"
+    "1) A heading '## Kurzüberblick'.\n"
+    "2) Under this heading, 3–7 thematic subsections with '### ' headings, e.g. "
+    "'### Russland–Ukraine–Europa', '### USA/NATO', '### Israel und Nahost', etc.\n"
+    "3) Under each subsection, use a mix of short paragraphs and bullet points.\n"
+    "\n"
+    "Content rules:\n"
+    "- Include ONLY newsworthy content from the last 24 hours; drop ads, promotions, "
+    "merch, coupon codes, self-promotion, greetings, platform meta-talk.\n"
+    "- Merge duplicates across channels: if several videos report on the same story, "
+    "describe the story once and mention the main channels in parentheses, e.g. "
+    "(preppernewsflash, klartextwinkler).\n"
+    "- Focus on what is NEW or escalated compared to the usual background situation. "
+    "Give only as much context as needed to understand the update.\n"
+    "- Keep substance and key reasoning (what happens, why, and what implications are "
+    "discussed), but avoid fluff and long digressions.\n"
+    "- Aim for roughly 600–900 words total so that the text can be read in about "
     "5 minutes.\n"
-    "- Preserve the language of the underlying content: If the evidence is "
-    "mostly in German, write German; if mostly English, write English; if "
-    "mixed, pick the majority language.\n"
-    "- At the end add a short Sources section with brief references to the "
-    "main stories (no full URLs needed, just titles and channels)."
+    "- Preserve the language of the underlying content: If the evidence is mostly in "
+    "German, write German; if mostly English, write English; if mixed, pick the "
+    "majority language. Do NOT translate on purpose.\n"
+    "- At the very end, add a short section '### Kurz notiert', where you mention "
+    "1–5 small but notable points that did not fit into the main themes.\n"
 )
 
 
 SYS_PROMPT_DETAIL = (
-    "You are a precise analyst. You receive metadata and text (transcript "
-    "or description) of ONE news-related YouTube video.\n"
-    "Task: Write an in-depth but focused summary of THIS ONE video.\n"
-    "Rules:\n"
-    "- Focus STRICTLY on facts, claims, and arguments presented in the video.\n"
-    "- Ignore ads, promotions, merch, coupon codes, channel self-promotion, "
-    "and platform meta-talk.\n"
-    "- Explain what is being claimed, what evidence is mentioned, and what "
-    "implications are discussed.\n"
-    "- Use 2–4 paragraphs, together about 300–600 words (roughly 5–10 minutes "
-    "reading time if several such sections are read).\n"
-    "- Preserve the language of the underlying content (German/English/"
-    "Swedish as in the text). Do NOT translate.\n"
-    "- Do NOT repeat the full channel name or video title in the body; this "
-    "will be shown as a heading outside your answer.\n"
+    "You are a precise analyst. You receive metadata and text (transcript or "
+    "description) of ONE news-related YouTube video.\n"
+    "\n"
+    "Your task: Write an in-depth but focused summary of THIS ONE video.\n"
+    "\n"
+    "Output structure (Markdown):\n"
+    "- Do NOT repeat the channel name or video title; they will be shown outside.\n"
+    "- Start with a bold heading line '**Kernaussagen:**' and then 3–6 bullet points "
+    "summarising the main claims and facts.\n"
+    "- After that, add a bold heading '**Details & Argumentation:**' and write "
+    "2–4 paragraphs that explain:\n"
+    "  * what is being claimed,\n"
+    "  * what evidence, examples or numbers are mentioned,\n"
+    "  * which risks, scenarios or implications are discussed.\n"
+    "\n"
+    "Content rules:\n"
+    "- Focus STRICTLY on the content of the video: facts, claims, argumentation, "
+    "risk scenarios. Ignore ads, promotions, merch, coupon codes, channel "
+    "self-promotion and technical meta-talk.\n"
+    "- Avoid speculation that goes beyond what is actually said in the video.\n"
+    "- Total length: roughly 300–600 words so that several such sections together "
+    "can still be read within about an hour.\n"
+    "- Preserve the language of the underlying content (German/English/Swedish "
+    "as in the text). Do NOT translate.\n"
 )
 
 
@@ -57,22 +76,13 @@ def _get_client() -> OpenAI:
             "Bitte hinterlege den Schlüssel in deiner .env Datei "
             "oder als GitHub Actions Secret."
         )
-    # Der Client ist leichtgewichtig; für Einfachheit erzeugen wir ihn pro Aufruf neu.
-    # Für starke Optimierung könnte man ihn global cachen.
     return OpenAI(api_key=api_key)
 
 
 def summarize(items: List[Dict]) -> str:
     """
-    Erzeugt eine einzige, kanalübergreifende Tageszusammenfassung.
-
-    items: Liste von Dicts mit mindestens:
-      - title
-      - channel
-      - url
-      - published_at
-      - text (optional, Transkript)
-      - description (optional, Videobeschreibung)
+    Erzeugt eine einzige, kanalübergreifende Tageszusammenfassung
+    als 'Kurzüberblick' mit Themenblöcken.
     """
     if not items:
         return "Keine neuen Inhalte in den letzten 24 Stunden."
@@ -122,20 +132,12 @@ def summarize(items: List[Dict]) -> str:
 def summarize_item_detail(item: Dict) -> str:
     """
     Erzeugt eine ausführlichere Zusammenfassung für EIN bestimmtes Video.
-
-    item: Dict mit mindestens:
-      - title
-      - channel
-      - url
-      - published_at
-      - text (optional, Transkript)
-      - description (optional)
     """
     raw = (item.get("text") or item.get("description") or "").strip()
     if not raw:
         return "[Keine detaillierte Zusammenfassung möglich – weder Transkript noch Beschreibung verfügbar.]"
 
-    # Genug Kontext für eine tiefere Zusammenfassung, ohne das Kontextlimit zu sprengen
+    # Ausreichend Kontext für eine tiefere Zusammenfassung
     snippet = raw[:4000]
 
     meta = (
