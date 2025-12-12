@@ -1,13 +1,11 @@
-from __future__ import annotations
-
 import argparse
-import json
 import os
-from datetime import datetime
-from zoneinfo import ZoneInfo
-from typing import Any, Dict, List, Tuple
+import re
+from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Optional, Tuple
 
-from dotenv import load_dotenv
+from zoneinfo import ZoneInfo
 
 from .collectors_youtube import list_recent_videos, fetch_transcript
 from .summarizer import summarize, summarize_item_detail
@@ -50,29 +48,30 @@ def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, Lis
         }
       ]
     }
-
-    Rückgabe:
-      channels: List[{"name","url"}]
-      channel_topics: {channel_name: [topic_name,...]}
-      topic_weights: {topic_name: weight}
+...
     """
-    with open(path, "r", encoding="utf-8") as f:
-        cfg = json.load(f)
+    import json
 
-    buckets = cfg.get("topic_buckets") or []
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    buckets = data.get("topic_buckets") or []
+    if not isinstance(buckets, list):
+        raise ValueError("channels.json: topic_buckets must be a list")
+
     channels: List[Dict[str, Any]] = []
     channel_topics: Dict[str, List[str]] = {}
     topic_weights: Dict[str, float] = {}
 
-    if not isinstance(buckets, list):
-        raise ValueError("topic_buckets must be a list")
-
     for b in buckets:
         if not isinstance(b, dict):
             continue
-        tname = (b.get("name") or "").strip()
+
+        # FIX: allow both legacy 'topic' and new 'name'
+        tname = (b.get("name") or b.get("topic") or "").strip()
         if not tname:
             continue
+
         w = b.get("weight", 1.0)
         try:
             w = float(w)
@@ -120,11 +119,12 @@ def choose_detail_items(
     detail_items_per_channel_max: int,
 ) -> List[Dict[str, Any]]:
     """
-    Themengewichtete Verteilung der Detail-Slots + Round-Robin über Kanäle.
+    Round-Robin über Kanäle, aber Budgetverteilung über Topics via weights.
 
-    - Pro Topic wird ein Slotbudget anhand weight verteilt.
-    - Innerhalb eines Topics werden Kanäle Round-Robin ausgewählt.
-    - Zusätzlich: per-channel cap (DETAIL_ITEMS_PER_CHANNEL_MAX)
+    - Items werden nach Topic gruppiert (Topic = erster Bucket des Channels)
+    - Pro Topic wird ein Slotbudget vergeben, proportional zum Weight
+    - Innerhalb eines Topics werden Kanäle round-robin ausgewählt
+    - Pro Kanal gilt detail_items_per_channel_max
     """
     if detail_items_per_day <= 0 or not items:
         return []
@@ -154,248 +154,338 @@ def choose_detail_items(
         allocated += b
 
     # Budget-Korrektur (auf exakt detail_items_per_day)
-    # Falls zu viele: schneide ab. Falls zu wenig: verteile Rest auf Topics mit Items.
-    if allocated > detail_items_per_day:
-        overflow = allocated - detail_items_per_day
-        for t in sorted(topic_budget.keys(), key=lambda x: topic_budget[x], reverse=True):
-            if overflow <= 0:
-                break
-            if topic_budget[t] > 0:
-                take = min(topic_budget[t], overflow)
-                topic_budget[t] -= take
-                overflow -= take
-    elif allocated < detail_items_per_day:
-        missing = detail_items_per_day - allocated
-        # verteile Rest auf Topics mit den meisten Items
-        for t in sorted(active_topics, key=lambda x: len(by_topic[x]), reverse=True):
-            if missing <= 0:
-                break
-            topic_budget[t] += 1
-            missing -= 1
+    # Erst: zu viele -> reduziere bei größten Budgets
+    while allocated > detail_items_per_day:
+        t = max(topic_budget.keys(), key=lambda x: topic_budget[x])
+        if topic_budget[t] <= 0:
+            break
+        topic_budget[t] -= 1
+        allocated -= 1
 
-    # Round-robin pro Topic über Kanäle
-    picked: List[Dict[str, Any]] = []
-    picked_per_channel: Dict[str, int] = {}
+    # Dann: zu wenige -> fülle bei höchsten Weights nach
+    while allocated < detail_items_per_day:
+        t = max(weights.keys(), key=lambda x: weights[x])
+        topic_budget[t] += 1
+        allocated += 1
 
-    for topic in sorted(active_topics, key=lambda x: topic_budget[x], reverse=True):
-        budget = topic_budget.get(topic, 0)
+    selected: List[Dict[str, Any]] = []
+    per_channel_count: Dict[str, int] = {}
+
+    # Round robin innerhalb jedes Topics: Kanäle -> Items
+    for topic, budget in topic_budget.items():
         if budget <= 0:
             continue
 
-        # gruppiere Items dieses Topics pro Kanal
-        per_channel: Dict[str, List[Dict[str, Any]]] = {}
-        for it in sorted(by_topic[topic], key=lambda x: x["published_at"], reverse=True):
-            per_channel.setdefault(it["channel"], []).append(it)
+        topic_items = by_topic.get(topic, [])
+        if not topic_items:
+            continue
 
-        channels_rr = list(per_channel.keys())
+        # Items pro Kanal sammeln
+        by_channel: Dict[str, List[Dict[str, Any]]] = {}
+        for it in topic_items:
+            by_channel.setdefault(it["channel"], []).append(it)
+
+        channels_rr = list(by_channel.keys())
         idx = 0
-        guard = 0
-        while budget > 0 and channels_rr and guard < 10_000:
-            guard += 1
+        loops = 0
+
+        while budget > 0 and channels_rr and loops < 10_000:
+            loops += 1
             ch = channels_rr[idx % len(channels_rr)]
             idx += 1
 
-            if picked_per_channel.get(ch, 0) >= detail_items_per_channel_max:
+            # Kanal-Limit
+            if per_channel_count.get(ch, 0) >= detail_items_per_channel_max:
+                # Kanal rausnehmen, wenn nichts mehr möglich
+                channels_rr = [c for c in channels_rr if c != ch]
                 continue
 
-            if not per_channel.get(ch):
+            lst = by_channel.get(ch) or []
+            if not lst:
+                channels_rr = [c for c in channels_rr if c != ch]
                 continue
 
-            it = per_channel[ch].pop(0)
-            if it in picked:
-                continue
-
-            picked.append(it)
-            picked_per_channel[ch] = picked_per_channel.get(ch, 0) + 1
+            # Nimm nächstes Item des Kanals
+            it = lst.pop(0)
+            selected.append(it)
+            per_channel_count[ch] = per_channel_count.get(ch, 0) + 1
             budget -= 1
 
-    # Falls noch Slots übrig (z.B. wegen channel caps): fülle global mit neuesten Items
-    if len(picked) < detail_items_per_day:
-        remaining = [it for it in sorted(items, key=lambda x: x["published_at"], reverse=True) if it not in picked]
+        if loops >= 10_000:
+            print(f"[warn] Round-robin loop guard triggered for topic={topic!r}")
+
+    # Falls wegen Limits nicht voll: global auffüllen (ohne Topic-Budget)
+    if len(selected) < detail_items_per_day:
+        remaining = [it for it in items if it not in selected]
         for it in remaining:
-            if len(picked) >= detail_items_per_day:
+            if len(selected) >= detail_items_per_day:
                 break
             ch = it["channel"]
-            if picked_per_channel.get(ch, 0) >= detail_items_per_channel_max:
+            if per_channel_count.get(ch, 0) >= detail_items_per_channel_max:
                 continue
-            picked.append(it)
-            picked_per_channel[ch] = picked_per_channel.get(ch, 0) + 1
+            selected.append(it)
+            per_channel_count[ch] = per_channel_count.get(ch, 0) + 1
 
-    return picked[:detail_items_per_day]
+    return selected[:detail_items_per_day]
 
 
-def main() -> None:
-    load_dotenv()
+def _clean_title(s: str) -> str:
+    s = (s or "").strip()
+    s = re.sub(r"\s+", " ", s)
+    return s
 
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--channels", default="data/channels.json")
-    ap.add_argument("--hours", type=int, default=24)
-    args = ap.parse_args()
 
-    # Report-Parametrisierung (für Multi-Report-Läufe)
-    report_key = (os.getenv("REPORT_KEY", "cyberlurch") or "cyberlurch").strip()
-    report_title = (os.getenv("REPORT_TITLE", "The Cyberlurch Report") or "The Cyberlurch Report").strip()
-    report_subject = (os.getenv("REPORT_SUBJECT", report_title) or report_title).strip()
+@dataclass
+class RunConfig:
+    report_key: str
+    report_title: str
+    report_subject: str
+    channels_file: str
+    hours: int
+    report_dir: str
+    send_email: bool
+    email_to: str
+    email_from: str
+    smtp_host: str
+    smtp_port: int
+    smtp_user: str
+    smtp_pass: str
+    state_path: str
+    retention_days: int
+    max_items_per_channel: int
+    detail_items_per_day: int
+    detail_items_per_channel_max: int
 
-    report_dir = (os.getenv("REPORT_DIR", "reports") or "reports").strip()
-    send_empty_email = (os.getenv("SEND_EMPTY_REPORT_EMAIL", "1") or "1").strip()
 
-    # Memory/State
-    state_path = (os.getenv("STATE_PATH", "state/processed_items.json") or "state/processed_items.json").strip()
+def build_config(args: argparse.Namespace) -> RunConfig:
+    report_key = os.getenv("REPORT_KEY", "cyberlurch").strip() or "cyberlurch"
+    report_title = os.getenv("REPORT_TITLE", "The Cyberlurch Report").strip() or "The Cyberlurch Report"
+    report_subject = os.getenv("REPORT_SUBJECT", report_title).strip() or report_title
+
+    send_email = (os.getenv("SEND_EMAIL", "1").strip() != "0")
+    email_to = os.getenv("EMAIL_TO", "").strip()
+    email_from = os.getenv("EMAIL_FROM", "").strip()
+    smtp_host = os.getenv("SMTP_HOST", "").strip()
+    smtp_port = _safe_int("SMTP_PORT", 587)
+    smtp_user = os.getenv("SMTP_USER", "").strip()
+    smtp_pass = os.getenv("SMTP_PASS", "").strip()
+
+    state_path = os.getenv("STATE_PATH", "state/processed_items.json").strip() or "state/processed_items.json"
     retention_days = _safe_int("STATE_RETENTION_DAYS", 20)
 
-    # Limits
     max_items_per_channel = _safe_int("MAX_ITEMS_PER_CHANNEL", 5)
     detail_items_per_day = _safe_int("DETAIL_ITEMS_PER_DAY", 8)
     detail_items_per_channel_max = _safe_int("DETAIL_ITEMS_PER_CHANNEL_MAX", 3)
 
+    return RunConfig(
+        report_key=report_key,
+        report_title=report_title,
+        report_subject=report_subject,
+        channels_file=args.channels,
+        hours=args.hours,
+        report_dir=args.report_dir,
+        send_email=send_email,
+        email_to=email_to,
+        email_from=email_from,
+        smtp_host=smtp_host,
+        smtp_port=smtp_port,
+        smtp_user=smtp_user,
+        smtp_pass=smtp_pass,
+        state_path=state_path,
+        retention_days=retention_days,
+        max_items_per_channel=max_items_per_channel,
+        detail_items_per_day=detail_items_per_day,
+        detail_items_per_channel_max=detail_items_per_channel_max,
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--channels", default="data/channels.json")
+    parser.add_argument("--hours", type=int, default=24)
+    parser.add_argument("--report-dir", default="reports")
+    args = parser.parse_args()
+
+    cfg = build_config(args)
+
     print("=== NewsAgent2 run ===")
-    print(f"[config] report_key={report_key!r}")
-    print(f"[config] report_title={report_title!r}")
-    print(f"[config] report_subject={report_subject!r}")
-    print(f"[config] channels_file={args.channels!r} hours={args.hours}")
-    print(f"[config] report_dir={report_dir!r}")
-    print(f"[config] limits: MAX_ITEMS_PER_CHANNEL={max_items_per_channel}, DETAIL_ITEMS_PER_DAY={detail_items_per_day}, DETAIL_ITEMS_PER_CHANNEL_MAX={detail_items_per_channel_max}")
-    print(f"[state] path={state_path!r} retention_days={retention_days}")
+    print(f"[config] report_key={cfg.report_key!r}")
+    print(f"[config] report_title={cfg.report_title!r}")
+    print(f"[config] report_subject={cfg.report_subject!r}")
+    print(f"[config] channels_file={cfg.channels_file!r} hours={cfg.hours}")
+    print(f"[config] report_dir={cfg.report_dir!r}")
+    print(
+        "[config] limits: "
+        f"MAX_ITEMS_PER_CHANNEL={cfg.max_items_per_channel}, "
+        f"DETAIL_ITEMS_PER_DAY={cfg.detail_items_per_day}, "
+        f"DETAIL_ITEMS_PER_CHANNEL_MAX={cfg.detail_items_per_channel_max}"
+    )
+    print(f"[state] path={cfg.state_path!r} retention_days={cfg.retention_days}")
 
     # Load/prune state
-    state = load_state(state_path)
-    state = prune_state(state, retention_days=retention_days)
+    state = load_state(cfg.state_path)
+    state = prune_state(state, retention_days=cfg.retention_days)
 
     # Load channels
     try:
-        channels, channel_topics, topic_weights = load_channels_config(args.channels)
+        channels, channel_topics, topic_weights = load_channels_config(cfg.channels_file)
     except Exception as e:
         print(f"[error] Failed to load channels config: {e!r}")
-        overview = f"## Kurzüberblick\n\n**Fehler:** Konnte Channels-Konfiguration nicht laden: `{e!r}`\n"
-        items: List[Dict[str, Any]] = []
-        details_by_id: Dict[str, str] = {}
-        os.makedirs(report_dir, exist_ok=True)
-        out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
-        md = to_markdown(items, overview, details_by_id, report_title=report_title)
-        with open(out_path, "w", encoding="utf-8") as f:
-            f.write(md)
-        print(f"[report] Wrote {out_path}")
-
-        if send_empty_email == "1":
-            send_markdown(report_subject, md)
-        else:
-            print("[email] SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
-        return
+        raise
 
     print(f"[channels] Loaded channels: {len(channels)}")
 
-    # Collect items (YouTube)
-    items: List[Dict[str, Any]] = []
-    skipped_by_state = 0
-
+    # Collect
+    collected: List[Dict[str, Any]] = []
     for ch in channels:
         cname = ch["name"]
-        curl = ch["url"]
+        url = ch["url"]
 
         try:
-            vids = list_recent_videos(curl, hours=args.hours, max_items=max_items_per_channel)
+            vids = list_recent_videos(url=url, hours=cfg.hours, limit=cfg.max_items_per_channel)
         except Exception as e:
-            print(f"[warn] list_recent_videos failed for {cname}: {e!r}")
+            print(f"[collect] ERROR channel={cname!r}: list_recent_videos failed: {e!r}")
             continue
 
         for v in vids:
-            vid = v["id"]
-            vurl = v["url"]
-            vtitle = v.get("title") or ""
+            item_id = v.get("id") or ""
+            title = _clean_title(v.get("title") or "")
+            vurl = v.get("url") or ""
+
             item_state_key = make_item_key(
-                report_key=report_key,
+                report_key=cfg.report_key,
                 source="youtube",
-                item_id=vid,
+                item_id=item_id,
                 url=vurl,
-                title=vtitle,
+                title=title,
                 channel=cname,
             )
 
             if is_processed(state, item_state_key):
-                skipped_by_state += 1
                 continue
 
-            transcript = None
-            try:
-                transcript = fetch_transcript(vid)
-            except Exception:
-                transcript = None
-
-            desc = (v.get("description") or "").strip()
-            text = (transcript or desc).strip()
-
-            if not text:
-                print(f"[warn] No transcript/description -> skipping video {vid} ({cname})")
-                continue
-
-            published_at_sto = v["published_at"].astimezone(STO)
-
-            items.append(
+            collected.append(
                 {
-                    "id": vid,
-                    "title": vtitle,
+                    "source": "youtube",
                     "channel": cname,
-                    "published_at": published_at_sto,
+                    "title": title,
                     "url": vurl,
-                    "text": text,
+                    "id": item_id,
                     "_state_key": item_state_key,
                 }
             )
 
-    items = dedupe_items(items)
+    collected = dedupe_items(collected)
+    print(f"[collect] Collected {len(collected)} item(s).")
 
-    print(f"[collect] Collected {len(items)} item(s).")
-    if skipped_by_state:
-        print(f"[memory] Skipped {skipped_by_state} already-processed item(s) for report_key={report_key!r}.")
+    if not collected:
+        # Write minimal report
+        now_local = datetime.now(STO)
+        header_ts = now_local.strftime("%Y-%m-%d %H:%M Uhr")
+        report_md = f"{cfg.report_title}\n{header_ts}\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n\nQuellen\n"
+        os.makedirs(cfg.report_dir, exist_ok=True)
+        out_path = os.path.join(cfg.report_dir, f"{cfg.report_key}_daily_summary_{now_local.strftime('%Y-%m-%d_%H-%M-%S')}.md")
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write(report_md)
+        print(f"[report] Wrote {out_path}")
 
-    # Summarize
-    if not items:
-        overview = "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden."
-        details_by_id = {}
-    else:
-        overview = summarize(items)
+        # Save state (still prune timestamp)
+        save_state(cfg.state_path, state)
 
-        # Details (themengewichtet)
-        detail_candidates = choose_detail_items(
-            items=items,
-            channel_topics=channel_topics,
-            topic_weights=topic_weights,
-            detail_items_per_day=detail_items_per_day,
-            detail_items_per_channel_max=detail_items_per_channel_max,
-        )
-        print(f"[details] Selected {len(detail_candidates)} item(s) for details.")
-
-        details_by_id: Dict[str, str] = {}
-        for it in detail_candidates:
+        if cfg.send_email and cfg.email_to and cfg.email_from:
             try:
-                details_by_id[it["id"]] = summarize_item_detail(it)
+                send_markdown(
+                    subject=cfg.report_subject,
+                    md=report_md,
+                    email_to=cfg.email_to,
+                    email_from=cfg.email_from,
+                    smtp_host=cfg.smtp_host,
+                    smtp_port=cfg.smtp_port,
+                    smtp_user=cfg.smtp_user,
+                    smtp_pass=cfg.smtp_pass,
+                )
+                print("[email] Sent empty report email.")
             except Exception as e:
-                print(f"[warn] Detail summarization failed for {it['id']}: {e!r}")
+                print(f"[email] ERROR: failed to send email: {e!r}")
+                raise
+        return
+
+    # Summarize overview + details selection
+    # 1) Lightweight summary per item for overview building
+    for it in collected:
+        try:
+            transcript = fetch_transcript(it["url"])
+        except Exception as e:
+            print(f"[collect] WARN: transcript fetch failed: {it['url']!r}: {e!r}")
+            transcript = ""
+
+        try:
+            it["summary"] = summarize(transcript or it["title"])
+        except Exception as e:
+            print(f"[summarize] ERROR: summarize failed for {it['url']!r}: {e!r}")
+            it["summary"] = ""
+
+        it["transcript"] = transcript
+
+    # 2) Detail items selection (topic-weighted, round-robin, channel caps)
+    detail_items = choose_detail_items(
+        items=collected,
+        channel_topics=channel_topics,
+        topic_weights=topic_weights,
+        detail_items_per_day=cfg.detail_items_per_day,
+        detail_items_per_channel_max=cfg.detail_items_per_channel_max,
+    )
+
+    # 3) Enrich detail items with a bigger summary
+    for it in detail_items:
+        try:
+            it["detail"] = summarize_item_detail(it.get("transcript") or it.get("summary") or it.get("title") or "")
+        except Exception as e:
+            print(f"[summarize] ERROR: detail summarize failed for {it.get('url')!r}: {e!r}")
+            it["detail"] = ""
 
     # Build report markdown
-    os.makedirs(report_dir, exist_ok=True)
-    out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
-    md = to_markdown(items, overview, details_by_id, report_title=report_title)
+    now_local = datetime.now(STO)
+    report_md = to_markdown(
+        title=cfg.report_title,
+        timestamp_local=now_local.strftime("%Y-%m-%d %H:%M Uhr"),
+        items=collected,
+        detail_items=detail_items,
+    )
 
+    # Write report
+    os.makedirs(cfg.report_dir, exist_ok=True)
+    out_path = os.path.join(cfg.report_dir, f"{cfg.report_key}_daily_summary_{now_local.strftime('%Y-%m-%d_%H-%M-%S')}.md")
     with open(out_path, "w", encoding="utf-8") as f:
-        f.write(md)
+        f.write(report_md)
     print(f"[report] Wrote {out_path}")
 
-    # Mark processed (only items we actually handled)
-    now_utc_iso = datetime.now(tz=ZoneInfo("UTC")).isoformat()
-    for it in items:
+    # Update state for collected items (not just detail items)
+    now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    for it in collected:
         k = it.get("_state_key")
         if k:
             mark_processed(state, k, now_utc_iso)
 
-    save_state(state_path, state)
+    save_state(cfg.state_path, state)
 
     # Email
-    if not items and send_empty_email != "1":
-        print("[email] No new items and SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
-    else:
-        send_markdown(report_subject, md)
+    if cfg.send_email and cfg.email_to and cfg.email_from:
+        try:
+            send_markdown(
+                subject=cfg.report_subject,
+                md=report_md,
+                email_to=cfg.email_to,
+                email_from=cfg.email_from,
+                smtp_host=cfg.smtp_host,
+                smtp_port=cfg.smtp_port,
+                smtp_user=cfg.smtp_user,
+                smtp_pass=cfg.smtp_pass,
+            )
+            print("[email] Sent report email.")
+        except Exception as e:
+            print(f"[email] ERROR: failed to send email: {e!r}")
+            raise
 
 
 if __name__ == "__main__":
