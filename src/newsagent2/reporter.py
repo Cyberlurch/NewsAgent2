@@ -9,6 +9,7 @@ def to_markdown(
     items: List[Dict],
     overview: str,
     details_by_id: Dict[str, str],
+    report_title: str = "The Cyberlurch Report",
 ) -> str:
     """
     Baut den finalen Markdown-Report:
@@ -22,10 +23,12 @@ def to_markdown(
     now_sto = datetime.now(tz=sto)
     date_str = now_sto.strftime("%Y-%m-%d %H:%M Uhr")
 
+    title = (report_title or "").strip() or "The Cyberlurch Report"
+
     md: List[str] = []
 
     # Kopf
-    md.append("# The Cyberlurch Report")
+    md.append(f"# {title}")
     md.append("")
     md.append(f"#### {date_str}")
     md.append("")
