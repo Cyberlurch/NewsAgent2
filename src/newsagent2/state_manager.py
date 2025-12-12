@@ -74,11 +74,14 @@ def save_state(path: str, state: Dict[str, Any]) -> None:
         print("[state] WARN: empty state path -> not saving")
         return
 
+    if not isinstance(state, dict):
+        raise TypeError(f"save_state expects dict state, got {type(state)!r}")
+
     try:
         os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     except Exception as e:
         print(f"[state] ERROR: cannot create state directory for {path!r}: {e!r}")
-        return
+        raise
 
     try:
         state["updated_at_utc"] = _utc_now_iso()
@@ -175,6 +178,10 @@ def is_processed(
       - is_processed(state, report_key, source, item_id)  [legacy]
       - is_processed(state, item_key)                     [new]
     """
+    if not isinstance(state, dict):
+        print(f"[state] WARN: is_processed got non-dict state={type(state)!r}")
+        return False
+
     if source is None and item_id is None:
         parsed = _parse_item_key(report_key_or_item_key)
         if not parsed:
@@ -215,10 +222,12 @@ def mark_processed(
       - mark_processed(state, report_key, source, item_id, meta=?, processed_at_utc=?)  [legacy]
       - mark_processed(state, item_key, processed_at_utc, meta=?)                       [new]
     """
+    if not isinstance(state, dict):
+        raise TypeError(f"mark_processed expects dict state, got {type(state)!r}")
+
     # New-style positional call: (state, item_key, processed_at_utc)
     if item_id is None and source_or_processed_at is not None and processed_at_utc is None:
-        # Heuristic: timestamp contains 'T' and '+' (e.g. 2025-12-12T13:22:38+00:00)
-        if "T" in source_or_processed_at and "+" in source_or_processed_at:
+        if "T" in source_or_processed_at:
             processed_at_utc = source_or_processed_at
             source_or_processed_at = None
 
@@ -246,24 +255,28 @@ def prune_state(
     state: Dict[str, Any],
     retention_days: int = 120,
     max_entries_per_bucket: int = 0,
-) -> Tuple[int, int]:
+) -> Dict[str, Any]:
     """
     Prune old entries and optionally cap the size per bucket.
 
-    Returns:
-      (removed_by_age, removed_by_cap)
+    IMPORTANT: Must return the (possibly modified) state dict for compatibility with main.py:
+        state = prune_state(state, ...)
     """
+    if not isinstance(state, dict):
+        print(f"[state] WARN: prune_state got non-dict state={type(state)!r} -> resetting")
+        return _new_state()
+
     removed_age = 0
     removed_cap = 0
 
     if retention_days <= 0 and (max_entries_per_bucket or 0) <= 0:
-        return (0, 0)
+        return state
 
     cutoff = datetime.now(timezone.utc) - timedelta(days=max(retention_days, 0))
 
     reports = state.get("reports")
     if not isinstance(reports, dict):
-        return (0, 0)
+        return state
 
     for rep_key, rep_val in list(reports.items()):
         if not isinstance(rep_val, dict):
@@ -293,7 +306,7 @@ def prune_state(
                         processed.pop(iid, None)
                         removed_age += 1
 
-            # Hard cap
+            # Hard cap per bucket
             if max_entries_per_bucket and max_entries_per_bucket > 0:
                 if len(processed) > max_entries_per_bucket:
                     sortable = []
@@ -306,4 +319,7 @@ def prune_state(
                         processed.pop(iid, None)
                         removed_cap += 1
 
-    return (removed_age, removed_cap)
+    if removed_age or removed_cap:
+        print(f"[state] Pruned state: removed_by_age={removed_age}, removed_by_cap={removed_cap}")
+
+    return state
