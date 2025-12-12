@@ -2,7 +2,7 @@ name: NewsAgent2 daily
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # 07:00 Europe/Stockholm (UTC+2 im Sommer)
+    - cron: "0 5 * * *"   # Hinweis: GitHub cron ist UTC (Winter ~06:00 Stockholm, Sommer ~07:00 Stockholm)
   workflow_dispatch:
 
 permissions:
@@ -13,18 +13,21 @@ jobs:
     runs-on: ubuntu-24.04
 
     env:
-      # OpenAI (ChatGPT mini)
+      # OpenAI
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
 
-      # E-Mail (optional)
+      # E-Mail (SMTP)
       SEND_EMAIL: ${{ secrets.SEND_EMAIL }}          # "1" oder "0"
       EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-      EMAIL_TO: ${{ secrets.EMAIL_TO }}
+      EMAIL_TO: ${{ secrets.EMAIL_TO }}              # Fallback, wenn report-spezifische Secrets fehlen
       SMTP_HOST: ${{ secrets.SMTP_HOST }}
       SMTP_PORT: ${{ secrets.SMTP_PORT }}
       SMTP_USER: ${{ secrets.SMTP_USER }}
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
+
+      # Memory/State
+      STATE_RETENTION_DAYS: ${{ secrets.STATE_RETENTION_DAYS }}
 
     steps:
       - name: Checkout
@@ -45,7 +48,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run NewsAgent2 (YouTube-only set, falls vorhanden)
+      - name: Run Cyberlurch Report (YouTube-only set, falls vorhanden)
+        env:
+          REPORT_KEY: cyberlurch
+          REPORT_TITLE: The Cyberlurch Report
+          REPORT_SUBJECT: The Cyberlurch Report
+          SEND_EMPTY_REPORT_EMAIL: "1"
+          EMAIL_TO: ${{ secrets.EMAIL_TO_CYBERLURCH || secrets.EMAIL_TO }}
         run: |
           if [ -f data/youtube_only.json ]; then
             CHFILE="data/youtube_only.json"
@@ -57,25 +66,24 @@ jobs:
             --channels "$CHFILE" \
             --hours 24
 
-      - name: Find newest report
-        id: find
+      - name: Run Cybermed Report (placeholder, currently empty sources)
+        env:
+          REPORT_KEY: cybermed
+          REPORT_TITLE: Cybermed Report
+          REPORT_SUBJECT: Cybermed Report
+          SEND_EMPTY_REPORT_EMAIL: "0"
+          EMAIL_TO: ${{ secrets.EMAIL_TO_CYBERMED || secrets.EMAIL_TO }}
         run: |
-          LATEST=$(ls -t reports/daily_summary_*.md 2>/dev/null | head -n1 || true)
-          if [ -z "$LATEST" ]; then
-            echo "HAS_REPORT=0" >> "$GITHUB_ENV"
-            echo "No report found."
-          else
-            echo "HAS_REPORT=1" >> "$GITHUB_ENV"
-            echo "LATEST=$LATEST" >> "$GITHUB_ENV"
-            echo "Latest report: $LATEST"
-          fi
+          python -m src.newsagent2.main \
+            --channels "data/cybermed_channels.json" \
+            --hours 24
 
-      - name: Upload report as artifact
-        if: env.HAS_REPORT == '1'
+      - name: Upload reports as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: newsagent2-report
-          path: ${{ env.LATEST }}
+          name: newsagent2-reports
+          path: reports/*.md
+          if-no-files-found: warn
 
       - name: Commit updated state (memory)
         run: |
