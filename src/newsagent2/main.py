@@ -260,6 +260,51 @@ def _choose_detail_items(
     return chosen[:detail_items_per_day]
 
 
+def _apply_prune_state_compat(state: Dict[str, Any], retention_days: int) -> Dict[str, Any]:
+    """
+    prune_state() compatibility shim.
+    Different repo versions return different types:
+      - dict (state)
+      - (removed_age, removed_cap)
+      - (state, removed_age, removed_cap)
+    We accept all and keep the run stable.
+    """
+    try:
+        res = prune_state(state, retention_days=retention_days)
+
+        # Variant A: returns state dict
+        if isinstance(res, dict):
+            return res
+
+        # Variant B/C: returns tuple
+        if isinstance(res, tuple):
+            # (removed_age, removed_cap)
+            if len(res) == 2 and all(isinstance(x, int) for x in res):
+                removed_age, removed_cap = res
+                if removed_age or removed_cap:
+                    print(f"[state] pruned: removed_by_age={removed_age} removed_by_cap={removed_cap}")
+                return state
+
+            # (state, removed_age, removed_cap)
+            if len(res) == 3 and isinstance(res[0], dict):
+                new_state = res[0]
+                removed_age = res[1] if isinstance(res[1], int) else 0
+                removed_cap = res[2] if isinstance(res[2], int) else 0
+                if removed_age or removed_cap:
+                    print(f"[state] pruned: removed_by_age={removed_age} removed_by_cap={removed_cap}")
+                return new_state
+
+            print(f"[state] WARN: prune_state returned unexpected tuple: len={len(res)} types={[type(x).__name__ for x in res]}")
+            return state
+
+        print(f"[state] WARN: prune_state returned unexpected type: {type(res)!r}")
+        return state
+
+    except Exception as e:
+        print(f"[state] WARN: prune_state failed (continuing): {e!r}")
+        return state
+
+
 def main() -> None:
     load_dotenv()
 
@@ -297,12 +342,7 @@ def main() -> None:
     print(f"[state] path={state_path!r} retention_days={retention_days}")
 
     state = load_state(state_path)
-    try:
-        removed_age, removed_cap = prune_state(state, retention_days=retention_days)
-        if removed_age or removed_cap:
-            print(f"[state] pruned: removed_by_age={removed_age} removed_by_cap={removed_cap}")
-    except Exception as e:
-        print(f"[state] WARN: prune_state failed (continuing): {e!r}")
+    state = _apply_prune_state_compat(state, retention_days=retention_days)
 
     try:
         channels, channel_topics, topic_weights = load_channels_config(args.channels)
@@ -392,7 +432,6 @@ def main() -> None:
 
         try:
             save_state(state_path, state)
-            print(f"[state] Saved state to {state_path!r}")
         except Exception as e:
             print(f"[state] WARN: failed to save state: {e!r}")
 
@@ -456,7 +495,6 @@ def main() -> None:
 
     try:
         save_state(state_path, state)
-        print(f"[state] Saved state to {state_path!r}")
     except Exception as e:
         print(f"[state] WARN: failed to save state: {e!r}")
 
