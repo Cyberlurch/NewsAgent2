@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   run:
@@ -76,3 +76,35 @@ jobs:
         with:
           name: newsagent2-report
           path: ${{ env.LATEST }}
+
+      - name: Commit updated state (memory)
+        run: |
+          set -euo pipefail
+
+          if [ ! -f state/processed_items.json ]; then
+            echo "No state file to commit (state/processed_items.json not found)."
+            exit 0
+          fi
+
+          echo "Git status (before):"
+          git status --porcelain
+
+          # Robust: only check the one file
+          if [ -z "$(git status --porcelain state/processed_items.json)" ]; then
+            echo "State file unchanged -> nothing to commit."
+            exit 0
+          fi
+
+          echo "State file changed -> committing."
+
+          git config user.name "newsagent-bot"
+          git config user.email "newsagent-bot@users.noreply.github.com"
+
+          git add state/processed_items.json
+          git commit -m "Update processed items state [skip ci]" || {
+            echo "Nothing to commit (commit returned non-zero).";
+            exit 0;
+          }
+
+          echo "Pushing commit to branch: ${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
