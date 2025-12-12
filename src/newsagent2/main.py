@@ -4,29 +4,29 @@ import argparse
 import json
 import os
 from datetime import datetime, timezone
-from zoneinfo import ZoneInfo
 from typing import Any, Dict, List, Tuple
+from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
 
-from .collectors_youtube import list_recent_videos, fetch_transcript
-from .summarizer import summarize, summarize_item_detail
-from .reporter import to_markdown
+from .collectors_youtube import fetch_transcript, list_recent_videos
+from .collectors_pubmed import search_recent_pubmed
 from .emailer import send_markdown
+from .reporter import to_markdown
 from .state_manager import (
-    load_state,
-    save_state,
-    prune_state,
     is_processed,
+    load_state,
     mark_processed,
+    prune_state,
+    save_state,
 )
+from .summarizer import summarize, summarize_item_detail
 
 STO = ZoneInfo("Europe/Stockholm")
 
 
 def _safe_int(env_name: str, default: int) -> int:
-    raw = os.getenv(env_name, "")
-    raw = (raw or "").strip()
+    raw = (os.getenv(env_name, "") or "").strip()
     if raw == "":
         return default
     try:
@@ -38,16 +38,18 @@ def _safe_int(env_name: str, default: int) -> int:
 
 def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, List[str]], Dict[str, float]]:
     """
-    Liest data/channels.json (oder youtube_only.json) und flacht die Kanäle aus.
+    Reads channels JSON and flattens the channels list.
 
-    Erwartet (tolerant):
+    Tolerant format:
+
     {
       "topic_buckets": [
         {
-          "name": "..."   # oder: "topic": "...",
+          "name": "..."   # or "topic": "..."
           "weight": 1.0,  # optional
           "channels": [
-            {"name": "...", "url": "..."}
+            {"name": "...", "url": "..."}                       # default: youtube
+            {"name": "...", "source": "pubmed", "query": "..."} # pubmed
           ]
         }
       ]
@@ -61,14 +63,13 @@ def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, Lis
         raise ValueError("topic_buckets must be a list")
 
     channels: List[Dict[str, Any]] = []
-    channel_topics: Dict[str, List[str]] = {}  # channel_name -> [topic_name,...]
+    channel_topics: Dict[str, List[str]] = {}
     topic_weights: Dict[str, float] = {}
 
     for b in buckets:
         if not isinstance(b, dict):
             continue
 
-        # Support both 'name' and 'topic' (youtube_only.json uses 'topic')
         tname = (b.get("name") or b.get("topic") or "").strip()
         if not tname:
             continue
@@ -80,7 +81,6 @@ def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, Lis
             w = 1.0
         if w <= 0:
             w = 1.0
-
         topic_weights[tname] = w
 
         chs = b.get("channels") or []
@@ -90,31 +90,54 @@ def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, Lis
         for c in chs:
             if not isinstance(c, dict):
                 continue
+
             cname = (c.get("name") or "").strip()
+            source = (c.get("source") or "").strip().lower() or None
             curl = (c.get("url") or "").strip()
-            if not cname or not curl:
+            query = (c.get("query") or "").strip()
+
+            if not cname:
                 continue
 
-            channels.append({"name": cname, "url": curl})
+            if not source:
+                if "pubmed.ncbi.nlm.nih.gov" in curl or "eutils.ncbi.nlm.nih.gov" in curl:
+                    source = "pubmed"
+                else:
+                    source = "youtube"
+
+            if source == "youtube":
+                if not curl:
+                    continue
+                channels.append({"name": cname, "source": "youtube", "url": curl})
+
+            elif source == "pubmed":
+                if not query and curl:
+                    query = curl
+                if not query:
+                    continue
+                channels.append({"name": cname, "source": "pubmed", "query": query, "url": curl})
+
+            else:
+                continue
+
             channel_topics.setdefault(cname, []).append(tname)
 
-    # defensive: stable ordering for deterministic runs
-    channels.sort(key=lambda x: (x.get("name") or "", x.get("url") or ""))
-
+    channels.sort(key=lambda x: (x.get("source") or "", x.get("name") or "", x.get("url") or "", x.get("query") or ""))
     return channels, channel_topics, topic_weights
 
 
 def _dedupe_items(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Remove duplicates within the same run by video id."""
     seen: set[str] = set()
     out: List[Dict[str, Any]] = []
     for it in items:
-        vid = str(it.get("id") or "").strip()
-        if not vid:
+        src = (it.get("source") or "").strip().lower() or "youtube"
+        iid = str(it.get("id") or "").strip()
+        if not iid:
             continue
-        if vid in seen:
+        key = f"{src}:{iid}"
+        if key in seen:
             continue
-        seen.add(vid)
+        seen.add(key)
         out.append(it)
     return out
 
@@ -125,7 +148,6 @@ def _allocate_detail_slots_by_topic(
     topic_weights: Dict[str, float],
     total_slots: int,
 ) -> Dict[str, int]:
-    """Allocate total detail slots across topics based on weights, only for active topics."""
     if total_slots <= 0:
         return {}
 
@@ -166,12 +188,6 @@ def _choose_detail_items(
     detail_items_per_day: int,
     detail_items_per_channel_max: int,
 ) -> List[Dict[str, Any]]:
-    """
-    Pick items for detail sections:
-      - Allocate slots per topic (weight-based).
-      - Round-robin across channels within each topic.
-      - Enforce per-channel cap.
-    """
     if detail_items_per_day <= 0:
         return []
 
@@ -220,27 +236,30 @@ def _choose_detail_items(
             by_channel.setdefault(ch, []).append(it)
 
         channels_order = sorted(by_channel.keys())
-
         picked_here = 0
         guard = 0
+
         while picked_here < need and guard < 10000:
             guard += 1
             progress = False
+
             for ch in channels_order:
                 if picked_here >= need:
                     break
                 if per_ch.get(ch, 0) >= detail_items_per_channel_max:
                     continue
+
                 lst = by_channel.get(ch) or []
                 while lst:
                     it = lst.pop(0)
-                    if any(x.get("id") == it.get("id") for x in chosen):
+                    if any((x.get("source"), x.get("id")) == (it.get("source"), it.get("id")) for x in chosen):
                         continue
                     chosen.append(it)
                     per_ch[ch] = per_ch.get(ch, 0) + 1
                     picked_here += 1
                     progress = True
                     break
+
             if not progress:
                 break
 
@@ -248,8 +267,7 @@ def _choose_detail_items(
         for it in items_sorted:
             if len(chosen) >= detail_items_per_day:
                 break
-            vid = it.get("id")
-            if any(x.get("id") == vid for x in chosen):
+            if any((x.get("source"), x.get("id")) == (it.get("source"), it.get("id")) for x in chosen):
                 continue
             ch = (it.get("channel") or "").strip()
             if per_ch.get(ch, 0) >= detail_items_per_channel_max:
@@ -261,31 +279,19 @@ def _choose_detail_items(
 
 
 def _apply_prune_state_compat(state: Dict[str, Any], retention_days: int) -> Dict[str, Any]:
-    """
-    prune_state() compatibility shim.
-    Different repo versions return different types:
-      - dict (state)
-      - (removed_age, removed_cap)
-      - (state, removed_age, removed_cap)
-    We accept all and keep the run stable.
-    """
     try:
         res = prune_state(state, retention_days=retention_days)
 
-        # Variant A: returns state dict
         if isinstance(res, dict):
             return res
 
-        # Variant B/C: returns tuple
         if isinstance(res, tuple):
-            # (removed_age, removed_cap)
             if len(res) == 2 and all(isinstance(x, int) for x in res):
                 removed_age, removed_cap = res
                 if removed_age or removed_cap:
                     print(f"[state] pruned: removed_by_age={removed_age} removed_by_cap={removed_cap}")
                 return state
 
-            # (state, removed_age, removed_cap)
             if len(res) == 3 and isinstance(res[0], dict):
                 new_state = res[0]
                 removed_age = res[1] if isinstance(res[1], int) else 0
@@ -316,7 +322,6 @@ def main() -> None:
     report_key = (os.getenv("REPORT_KEY", "cyberlurch") or "cyberlurch").strip()
     report_title = (os.getenv("REPORT_TITLE", "The Cyberlurch Report") or "The Cyberlurch Report").strip()
     report_subject = (os.getenv("REPORT_SUBJECT", report_title) or report_title).strip()
-
     report_dir = (os.getenv("REPORT_DIR", "reports") or "reports").strip()
     os.makedirs(report_dir, exist_ok=True)
 
@@ -325,6 +330,9 @@ def main() -> None:
     max_items_per_channel = _safe_int("MAX_ITEMS_PER_CHANNEL", 5)
     detail_items_per_day = _safe_int("DETAIL_ITEMS_PER_DAY", 8)
     detail_items_per_channel_max = _safe_int("DETAIL_ITEMS_PER_CHANNEL_MAX", 3)
+
+    overview_items_max = _safe_int("OVERVIEW_ITEMS_MAX", 25)
+    max_text_chars_per_item = _safe_int("MAX_TEXT_CHARS_PER_ITEM", 12000)
 
     state_path = (os.getenv("STATE_PATH", "state/processed_items.json") or "state/processed_items.json").strip()
     retention_days = _safe_int("STATE_RETENTION_DAYS", 20)
@@ -335,10 +343,8 @@ def main() -> None:
     print(f"[config] report_subject={report_subject!r}")
     print(f"[config] channels_file={args.channels!r} hours={args.hours}")
     print(f"[config] report_dir={report_dir!r}")
-    print(
-        f"[config] limits: MAX_ITEMS_PER_CHANNEL={max_items_per_channel}, "
-        f"DETAIL_ITEMS_PER_DAY={detail_items_per_day}, DETAIL_ITEMS_PER_CHANNEL_MAX={detail_items_per_channel_max}"
-    )
+    print(f"[config] limits: MAX_ITEMS_PER_CHANNEL={max_items_per_channel}, DETAIL_ITEMS_PER_DAY={detail_items_per_day}, DETAIL_ITEMS_PER_CHANNEL_MAX={detail_items_per_channel_max}")
+    print(f"[config] overview_items_max={overview_items_max}, max_text_chars_per_item={max_text_chars_per_item}")
     print(f"[state] path={state_path!r} retention_days={retention_days}")
 
     state = load_state(state_path)
@@ -375,48 +381,94 @@ def main() -> None:
 
     for ch in channels:
         cname = ch["name"]
-        curl = ch["url"]
+        source = (ch.get("source") or "youtube").strip().lower()
+        curl = (ch.get("url") or "").strip()
+        query = (ch.get("query") or "").strip()
 
-        try:
-            vids = list_recent_videos(curl, hours=args.hours, max_items=max_items_per_channel)
-        except Exception as e:
-            print(f"[collect] ERROR channel={cname!r}: list_recent_videos failed: {e!r}")
-            continue
-
-        for v in vids:
-            vid = str(v.get("id") or "").strip()
-            if not vid:
-                continue
-
-            if is_processed(state, report_key, "youtube", vid):
-                skipped_by_state += 1
-                continue
-
-            desc = (v.get("description") or "").strip()
-
-            transcript = None
+        if source == "youtube":
             try:
-                transcript = fetch_transcript(vid)
+                vids = list_recent_videos(curl, hours=args.hours, max_items=max_items_per_channel)
             except Exception as e:
-                print(f"[collect] WARN channel={cname!r} video={vid!r}: fetch_transcript failed: {e!r}")
-                transcript = None
-
-            text = (transcript or desc).strip()
-            if not text:
-                print(f"[collect] WARN channel={cname!r} video={vid!r}: no transcript/description -> skipping")
+                print(f"[collect] ERROR source=youtube channel={cname!r}: list_recent_videos failed: {e!r}")
                 continue
 
-            items.append(
-                {
-                    "id": vid,
-                    "channel": cname,
-                    "title": (v.get("title") or "").strip(),
-                    "url": (v.get("url") or "").strip(),
-                    "published_at": v.get("published_at"),
-                    "description": desc,
-                    "text": text,
-                }
-            )
+            for v in vids:
+                vid = str(v.get("id") or "").strip()
+                if not vid:
+                    continue
+
+                if is_processed(state, report_key, "youtube", vid):
+                    skipped_by_state += 1
+                    continue
+
+                desc = (v.get("description") or "").strip()
+                transcript = None
+                try:
+                    transcript = fetch_transcript(vid)
+                except Exception as e:
+                    print(f"[collect] WARN source=youtube channel={cname!r} video={vid!r}: fetch_transcript failed: {e!r}")
+                    transcript = None
+
+                text = (transcript or desc).strip()
+                if not text:
+                    print(f"[collect] WARN source=youtube channel={cname!r} video={vid!r}: no transcript/description -> skipping")
+                    continue
+
+                if len(text) > max_text_chars_per_item:
+                    text = text[:max_text_chars_per_item].rstrip()
+
+                items.append(
+                    {
+                        "source": "youtube",
+                        "id": vid,
+                        "channel": cname,
+                        "title": (v.get("title") or "").strip(),
+                        "url": (v.get("url") or "").strip(),
+                        "published_at": v.get("published_at"),
+                        "description": desc,
+                        "text": text,
+                    }
+                )
+
+        elif source == "pubmed":
+            try:
+                arts = search_recent_pubmed(term=query, hours=args.hours, max_items=max_items_per_channel)
+            except Exception as e:
+                print(f"[collect] ERROR source=pubmed channel={cname!r}: search_recent_pubmed failed: {e!r}")
+                continue
+
+            for a in arts:
+                pmid = str(a.get("id") or "").strip()
+                if not pmid:
+                    continue
+
+                if is_processed(state, report_key, "pubmed", pmid):
+                    skipped_by_state += 1
+                    continue
+
+                text = (a.get("text") or "").strip()
+                if not text:
+                    continue
+
+                if len(text) > max_text_chars_per_item:
+                    text = text[:max_text_chars_per_item].rstrip()
+
+                items.append(
+                    {
+                        "source": "pubmed",
+                        "id": pmid,
+                        "channel": cname,
+                        "title": (a.get("title") or "").strip(),
+                        "url": (a.get("url") or "").strip() or curl,
+                        "published_at": a.get("published_at"),
+                        "description": (a.get("journal") or "").strip(),
+                        "text": text,
+                    }
+                )
+
+        else:
+            print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
+            continue
 
     items = _dedupe_items(items)
     print(f"[collect] Collected {len(items)} item(s). (skipped_by_state={skipped_by_state})")
@@ -444,14 +496,21 @@ def main() -> None:
             print("[email] No new items and SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
         return
 
+    items_sorted = sorted(
+        items,
+        key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
+        reverse=True,
+    )
+    overview_items = items_sorted[: max(1, overview_items_max)]
+
     try:
-        overview_body = summarize(items).strip()
+        overview_body = summarize(overview_items).strip()
     except Exception as e:
         print(f"[summarize] ERROR: summarize() failed: {e!r}")
         overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
 
     detail_items = _choose_detail_items(
-        items=items,
+        items=items_sorted,
         channel_topics=channel_topics,
         topic_weights=topic_weights,
         detail_items_per_day=detail_items_per_day,
@@ -460,27 +519,38 @@ def main() -> None:
 
     details_by_id: Dict[str, str] = {}
     for it in detail_items:
-        vid = str(it.get("id") or "").strip()
-        if not vid:
+        src = (it.get("source") or "").strip().lower() or "youtube"
+        iid = str(it.get("id") or "").strip()
+        if not iid:
             continue
+        key = f"{src}:{iid}"
         try:
-            details_by_id[vid] = summarize_item_detail(it).strip()
+            details_by_id[key] = summarize_item_detail(it).strip()
         except Exception as e:
-            print(f"[summarize] WARN: summarize_item_detail failed for {vid!r}: {e!r}")
-            details_by_id[vid] = "Kernaussagen:\n- (Fehler beim Erzeugen der Detail-Zusammenfassung)\n"
+            print(f"[summarize] WARN: summarize_item_detail failed for {key!r}: {e!r}")
+            details_by_id[key] = "Kernaussagen:\n- (Fehler beim Erzeugen der Detail-Zusammenfassung)\n"
 
     out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
-    md = to_markdown(items, overview_body, details_by_id, report_title=report_title)
+
+    details_for_report: Dict[str, str] = {}
+    for it in detail_items:
+        src = (it.get("source") or "").strip().lower() or "youtube"
+        iid = str(it.get("id") or "").strip()
+        key = f"{src}:{iid}"
+        if iid and key in details_by_id:
+            details_for_report[iid] = details_by_id[key]
+
+    md = to_markdown(items_sorted, overview_body, details_for_report, report_title=report_title)
 
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
     print(f"[report] Wrote {out_path}")
 
-    # Memory: mark processed BEFORE email to avoid duplicates on SMTP failures
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    for it in items:
-        vid = str(it.get("id") or "").strip()
-        if not vid:
+    for it in items_sorted:
+        src = (it.get("source") or "").strip().lower() or "youtube"
+        iid = str(it.get("id") or "").strip()
+        if not iid:
             continue
         try:
             meta = {
@@ -489,9 +559,9 @@ def main() -> None:
                 "url": it.get("url"),
                 "processed_at_utc": now_utc_iso,
             }
-            mark_processed(state, report_key, "youtube", vid, meta=meta)
+            mark_processed(state, report_key, src, iid, meta=meta)
         except Exception as e:
-            print(f"[state] WARN: mark_processed failed for {vid!r}: {e!r}")
+            print(f"[state] WARN: mark_processed failed for {src}:{iid!r}: {e!r}")
 
     try:
         save_state(state_path, state)
