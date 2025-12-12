@@ -13,6 +13,7 @@ from .collectors_youtube import list_recent_videos, fetch_transcript
 from .summarizer import summarize, summarize_item_detail
 from .reporter import to_markdown
 from .emailer import send_markdown
+from .state_manager import load_state, save_state, is_processed, mark_processed, prune_state
 
 
 def load_channels(path: str):
@@ -78,12 +79,37 @@ def main() -> None:
 
     sto = ZoneInfo("Europe/Stockholm")
 
+    # Memory/State gegen doppelte Verarbeitung (persistentes JSON im Repo)
+    report_key = os.getenv("REPORT_KEY", "cyberlurch").strip() or "cyberlurch"
+    state_path = os.getenv("STATE_PATH", "state/processed_items.json").strip() or "state/processed_items.json"
+    try:
+        retention_days = int(os.getenv("STATE_RETENTION_DAYS", "120"))
+    except ValueError:
+        retention_days = 120
+    try:
+        max_entries = int(os.getenv("STATE_MAX_ENTRIES_PER_BUCKET", "0"))
+    except ValueError:
+        max_entries = 0
+
+    print(f"[NewsAgent2] report_key={report_key!r}")
+    print(f"[NewsAgent2] state_path={state_path!r}")
+    print(f"[NewsAgent2] retention_days={retention_days}")
+    if max_entries > 0:
+        print(f"[NewsAgent2] max_entries_per_bucket={max_entries}")
+
+    state = load_state(state_path)
+    removed_age, removed_cap = prune_state(state, retention_days=retention_days, max_entries_per_bucket=max_entries)
+    if removed_age or removed_cap:
+        print(f"[NewsAgent2] State prune: removed_by_age={removed_age}, removed_by_cap={removed_cap}")
+
     now_utc = datetime.now(timezone.utc)
     cutoff = now_utc - timedelta(hours=args.hours)
     # cutoff aktuell nur informativ; Filterung passiert in list_recent_videos
 
     channels, channel_topics, topic_weights = load_channels(args.channels)
     items: List[Dict] = []
+
+    skipped_by_state = 0
 
     # Sammeln aller Items aus allen Kanälen
     for ch in channels:
@@ -94,6 +120,11 @@ def main() -> None:
         )
 
         for v in vids:
+            # Persistenter Memory-Check (YouTube Video-ID)
+            if is_processed(state, report_key, "youtube", v.get("id") or ""):
+                skipped_by_state += 1
+                continue
+
             text = fetch_transcript(v["id"])
             desc = v.get("description") or ""
 
@@ -115,7 +146,11 @@ def main() -> None:
                 }
             )
 
+    print(f"[NewsAgent2] Collected {len(items)} item(s) after filtering (state + availability)")
+
     if not items:
+        if skipped_by_state:
+            print(f"[NewsAgent2] Skipped {skipped_by_state} item(s) due to state/memory")
         overview = "Keine neuen Inhalte in den letzten 24 Stunden."
         details_by_id: Dict[str, str] = {}
     else:
@@ -129,6 +164,11 @@ def main() -> None:
             seen.add(key)
             unique.append(it)
         items = unique
+
+        print(f"[NewsAgent2] Items after in-run dedup (title+channel): {len(items)}")
+
+        if skipped_by_state:
+            print(f"[NewsAgent2] Skipped {skipped_by_state} item(s) due to state/memory")
 
         # Gesamt-Overview mit allen Items
         overview = summarize(items)
@@ -261,6 +301,33 @@ def main() -> None:
     md = to_markdown(items, overview, details_by_id)
     with open(fn, "w", encoding="utf-8") as f:
         f.write(md)
+
+    # State aktualisieren (nur für Items, die im Report verarbeitet wurden)
+    if items:
+        for it in items:
+            try:
+                mark_processed(
+                    state,
+                    report_key=report_key,
+                    source="youtube",
+                    item_id=str(it.get("id") or ""),
+                    meta={
+                        "title": it.get("title") or "",
+                        "channel": it.get("channel") or "",
+                        "url": it.get("url") or "",
+                        "published_at": (
+                            it.get("published_at").isoformat() if it.get("published_at") else ""
+                        ),
+                    },
+                )
+            except Exception as e:
+                print(f"[NewsAgent2] WARN: failed to mark processed for id={it.get('id')!r}: {e!r}")
+
+        save_state(state_path, state)
+    else:
+        # Auch ohne neue Items: nur speichern, falls wir beim Pruning etwas entfernt haben.
+        if removed_age or removed_cap:
+            save_state(state_path, state)
 
     # E-Mail mit dem gesamten Markdown-Inhalt
     subject = "The Cyberlurch Report"
