@@ -53,6 +53,8 @@ jobs:
           REPORT_KEY: cyberlurch
           REPORT_TITLE: The Cyberlurch Report
           REPORT_SUBJECT: The Cyberlurch Report
+          REPORT_LANGUAGE: de
+          REPORT_PROFILE: general
           SEND_EMPTY_REPORT_EMAIL: "1"
           EMAIL_TO: ${{ secrets.EMAIL_TO_CYBERLURCH || secrets.EMAIL_TO }}
         run: |
@@ -71,6 +73,8 @@ jobs:
           REPORT_KEY: cybermed
           REPORT_TITLE: Cybermed Report
           REPORT_SUBJECT: Cybermed Report
+          REPORT_LANGUAGE: en
+          REPORT_PROFILE: medical
           SEND_EMPTY_REPORT_EMAIL: "0"
           EMAIL_TO: ${{ secrets.EMAIL_TO_CYBERMED || secrets.EMAIL_TO }}
         run: |
