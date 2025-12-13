@@ -2,7 +2,7 @@ name: NewsAgent2 daily
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # Hinweis: GitHub cron ist UTC (Winter ~06:00 Stockholm, Sommer ~07:00 Stockholm)
+    - cron: "0 5 * * *"   # GitHub cron ist UTC (Winter ~06:00 Stockholm, Sommer ~07:00 Stockholm)
   workflow_dispatch:
 
 permissions:
@@ -28,6 +28,20 @@ jobs:
 
       # Memory/State
       STATE_RETENTION_DAYS: ${{ secrets.STATE_RETENTION_DAYS }}
+
+      # PubMed / NCBI (optional, aber stark empfohlen)
+      # Wenn Secret nicht existiert, ist es leer -> Workflow läuft trotzdem.
+      NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
+
+      # Nicht-secret Parameter (kannst du auch als Secrets setzen, wenn du willst)
+      NCBI_TOOL: NewsAgent2
+      NCBI_EMAIL: your.name@uu.se
+
+      # PubMed Stabilität / Rate-Limit Handling (wirkt auch ohne API Key)
+      PUBMED_MIN_INTERVAL_S: "0.40"
+      PUBMED_MAX_RETRIES: "4"
+      PUBMED_BACKOFF_BASE_S: "1.0"
+      PUBMED_DATE_TYPE: "edat"
 
     steps:
       - name: Checkout
@@ -68,14 +82,19 @@ jobs:
             --channels "$CHFILE" \
             --hours 24
 
-      - name: Run Cybermed Report (placeholder, currently empty sources)
+      - name: Run Cybermed Report
         env:
           REPORT_KEY: cybermed
           REPORT_TITLE: Cybermed Report
           REPORT_SUBJECT: Cybermed Report
           REPORT_LANGUAGE: en
           REPORT_PROFILE: medical
-          SEND_EMPTY_REPORT_EMAIL: "0"
+
+          # Für Debug/Einführung empfehle ich kurzfristig "1",
+          # damit du immer eine Mail bekommst, auch wenn 0 Items gesammelt werden.
+          # Sobald stabil: wieder auf "0" setzen.
+          SEND_EMPTY_REPORT_EMAIL: "1"
+
           EMAIL_TO: ${{ secrets.EMAIL_TO_CYBERMED || secrets.EMAIL_TO }}
         run: |
           python -m src.newsagent2.main \
