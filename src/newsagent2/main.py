@@ -323,6 +323,9 @@ def main() -> None:
     report_title = (os.getenv("REPORT_TITLE", "The Cyberlurch Report") or "The Cyberlurch Report").strip()
     report_subject = (os.getenv("REPORT_SUBJECT", report_title) or report_title).strip()
     report_dir = (os.getenv("REPORT_DIR", "reports") or "reports").strip()
+
+    report_language = (os.getenv("REPORT_LANGUAGE", "de") or "de").strip()
+    report_profile = (os.getenv("REPORT_PROFILE", "general") or "general").strip()
     os.makedirs(report_dir, exist_ok=True)
 
     send_empty_email = (os.getenv("SEND_EMPTY_REPORT_EMAIL", "1") or "1").strip()
@@ -343,6 +346,7 @@ def main() -> None:
     print(f"[config] report_subject={report_subject!r}")
     print(f"[config] channels_file={args.channels!r} hours={args.hours}")
     print(f"[config] report_dir={report_dir!r}")
+    print(f"[config] report_language={report_language!r} report_profile={report_profile!r}")
     print(f"[config] limits: MAX_ITEMS_PER_CHANNEL={max_items_per_channel}, DETAIL_ITEMS_PER_DAY={detail_items_per_day}, DETAIL_ITEMS_PER_CHANNEL_MAX={detail_items_per_channel_max}")
     print(f"[config] overview_items_max={overview_items_max}, max_text_chars_per_item={max_text_chars_per_item}")
     print(f"[state] path={state_path!r} retention_days={retention_days}")
@@ -353,9 +357,12 @@ def main() -> None:
     try:
         channels, channel_topics, topic_weights = load_channels_config(args.channels)
     except Exception as e:
-        overview = f"## Kurzüberblick\n\n**Fehler:** Konnte Channels-Konfiguration nicht laden: `{e!r}`\n"
+        if report_language.lower().startswith('en'):
+            overview = f"## Executive Summary\n\n**Error:** Failed to load channels configuration: `{e!r}`\n"
+        else:
+            overview = f"## Kurzüberblick\n\n**Fehler:** Konnte Channels-Konfiguration nicht laden: `{e!r}`\n"
         out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
-        md = to_markdown([], overview, {}, report_title=report_title)
+        md = to_markdown([], overview, {}, report_title=report_title, report_language=report_language)
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(md)
         print(f"[report] Wrote {out_path}")
@@ -474,9 +481,12 @@ def main() -> None:
     print(f"[collect] Collected {len(items)} item(s). (skipped_by_state={skipped_by_state})")
 
     if not items:
-        overview = "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n"
+        if report_language.lower().startswith('en'):
+            overview = "## Executive Summary\n\nNo new content in the last 24 hours.\n"
+        else:
+            overview = "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n"
         out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
-        md = to_markdown([], overview, {}, report_title=report_title)
+        md = to_markdown([], overview, {}, report_title=report_title, report_language=report_language)
 
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(md)
@@ -504,10 +514,13 @@ def main() -> None:
     overview_items = items_sorted[: max(1, overview_items_max)]
 
     try:
-        overview_body = summarize(overview_items).strip()
+        overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
     except Exception as e:
         print(f"[summarize] ERROR: summarize() failed: {e!r}")
-        overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
+        if report_language.lower().startswith('en'):
+            overview_body = "## Executive Summary\n\n**Error:** Failed to generate overview.\n"
+        else:
+            overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
 
     detail_items = _choose_detail_items(
         items=items_sorted,
@@ -525,10 +538,13 @@ def main() -> None:
             continue
         key = f"{src}:{iid}"
         try:
-            details_by_id[key] = summarize_item_detail(it).strip()
+            details_by_id[key] = summarize_item_detail(it, language=report_language, profile=report_profile).strip()
         except Exception as e:
             print(f"[summarize] WARN: summarize_item_detail failed for {key!r}: {e!r}")
-            details_by_id[key] = "Kernaussagen:\n- (Fehler beim Erzeugen der Detail-Zusammenfassung)\n"
+            if report_language.lower().startswith('en'):
+                details_by_id[key] = "Key takeaways:\n- (Failed to generate deep dive.)\n"
+            else:
+                details_by_id[key] = "Kernaussagen:\n- (Fehler beim Erzeugen der Detail-Zusammenfassung)\n"
 
     out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
 
@@ -540,7 +556,7 @@ def main() -> None:
         if iid and key in details_by_id:
             details_for_report[iid] = details_by_id[key]
 
-    md = to_markdown(items_sorted, overview_body, details_for_report, report_title=report_title)
+    md = to_markdown(items_sorted, overview_body, details_for_report, report_title=report_title, report_language=report_language)
 
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
