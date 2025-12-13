@@ -1,3 +1,99 @@
 {
-  "topic_buckets": []
+  "topic_buckets": [
+    {
+      "name": "Anästhesie",
+      "weight": 4,
+      "channels": [
+        {
+          "name": "PubMed: British Journal of Anaesthesia",
+          "source": "pubmed",
+          "query": "\"Br J Anaesth\"[jour]"
+        },
+        {
+          "name": "PubMed: Anesthesia & Analgesia",
+          "source": "pubmed",
+          "query": "\"Anesth Analg\"[jour]"
+        },
+        {
+          "name": "PubMed: Anaesthesia",
+          "source": "pubmed",
+          "query": "\"Anaesthesia\"[jour]"
+        },
+        {
+          "name": "PubMed: Acta Anaesthesiologica Scandinavica",
+          "source": "pubmed",
+          "query": "\"Acta Anaesthesiol Scand\"[jour]"
+        }
+      ]
+    },
+    {
+      "name": "Intensivmedizin",
+      "weight": 4,
+      "channels": [
+        {
+          "name": "PubMed: Intensive Care Medicine",
+          "source": "pubmed",
+          "query": "\"Intensive Care Med\"[jour]"
+        },
+        {
+          "name": "PubMed: Critical Care",
+          "source": "pubmed",
+          "query": "\"Crit Care\"[jour]"
+        },
+        {
+          "name": "PubMed: Resuscitation",
+          "source": "pubmed",
+          "query": "\"Resuscitation\"[jour]"
+        }
+      ]
+    },
+    {
+      "name": "Schmerztherapie",
+      "weight": 2,
+      "channels": [
+        {
+          "name": "PubMed: Pain",
+          "source": "pubmed",
+          "query": "\"Pain\"[jour]"
+        },
+        {
+          "name": "PubMed: Regional Anesthesia & Pain Medicine",
+          "source": "pubmed",
+          "query": "\"Reg Anesth Pain Med\"[jour]"
+        }
+      ]
+    },
+    {
+      "name": "KI",
+      "weight": 2,
+      "channels": [
+        {
+          "name": "PubMed: KI in Anästhesie/ICU (breit)",
+          "source": "pubmed",
+          "query": "(\"artificial intelligence\"[tiab] OR \"machine learning\"[tiab] OR \"deep learning\"[tiab]) AND (\"Br J Anaesth\"[jour] OR \"Anesth Analg\"[jour] OR \"Intensive Care Med\"[jour] OR \"Crit Care\"[jour] OR \"Resuscitation\"[jour])"
+        }
+      ]
+    },
+    {
+      "name": "Sonstige",
+      "weight": 1,
+      "channels": [
+        {
+          "name": "PubMed: New England Journal of Medicine (medizin breit)",
+          "source": "pubmed",
+          "query": "\"N Engl J Med\"[jour]"
+        },
+        {
+          "name": "PubMed: Nature (medizin/biomed breit)",
+          "source": "pubmed",
+          "query": "\"Nature\"[jour] AND (clinical[tiab] OR trial[tiab] OR cohort[tiab] OR ICU[tiab] OR anesthesia[tiab])"
+        },
+        {
+          "name": "PubMed: Science (medizin/biomed breit)",
+          "source": "pubmed",
+          "query": "\"Science\"[jour] AND (clinical[tiab] OR trial[tiab] OR cohort[tiab] OR ICU[tiab] OR anesthesia[tiab])"
+        }
+      ]
+    }
+  ]
 }
