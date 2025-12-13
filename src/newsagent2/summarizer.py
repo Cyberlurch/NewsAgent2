@@ -1,176 +1,255 @@
 from __future__ import annotations
 
+import json
 import os
-from typing import List, Dict
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 from openai import OpenAI
 
-# Standardmodell: kann über OPENAI_MODEL überschrieben werden
-MODEL_NAME = os.environ.get("OPENAI_MODEL", "gpt-4.1-mini")
+# Default model used for all summaries (override via OPENAI_MODEL env var)
+OPENAI_MODEL = (os.getenv("OPENAI_MODEL") or "gpt-4.1-mini").strip()
 
 
-SYS_PROMPT_OVERVIEW = (
-    "You are a rigorous news editor. The input is a set of short item digests "
-    "(title, channel, time) plus snippets from transcripts or descriptions. "
-    "Your task is to write ONE concise, cross-channel daily summary.\n"
-    "\n"
-    "Output structure (Markdown):\n"
-    "1) A heading '## Kurzüberblick'.\n"
-    "2) Under this heading, 3–7 thematic subsections with '### ' headings, e.g. "
-    "'### Russland–Ukraine–Europa', '### USA/NATO', '### Israel und Nahost', etc.\n"
-    "3) Under each subsection, use a mix of short paragraphs and bullet points.\n"
-    "\n"
-    "Content rules:\n"
-    "- Include ONLY newsworthy content from the last 24 hours; drop ads, promotions, "
-    "merch, coupon codes, self-promotion, greetings, platform meta-talk.\n"
-    "- Merge duplicates across channels: if several videos report on the same story, "
-    "describe the story once and mention the main channels in parentheses, e.g. "
-    "(preppernewsflash, klartextwinkler).\n"
-    "- Focus on what is NEW or escalated compared to the usual background situation. "
-    "Give only as much context as needed to understand the update.\n"
-    "- Keep substance and key reasoning (what happens, why, and what implications are "
-    "discussed), but avoid fluff and long digressions.\n"
-    "- Aim for roughly 600–900 words total so that the text can be read in about "
-    "5 minutes.\n"
-    "- Preserve the language of the underlying content: If the evidence is mostly in "
-    "German, write German; if mostly English, write English; if mixed, pick the "
-    "majority language. Do NOT translate on purpose.\n"
-    "- At the very end, add a short section '### Kurz notiert', where you mention "
-    "1–5 small but notable points that did not fit into the main themes.\n"
+def _norm_language(lang: Optional[str]) -> str:
+    l = (lang or "").strip().lower()
+    if l in ("en", "eng", "english"):
+        return "en"
+    if l in ("de", "deu", "german", "deutsch"):
+        return "de"
+    return "de"
+
+
+def _norm_profile(profile: Optional[str]) -> str:
+    p = (profile or "").strip().lower()
+    if p in ("medical", "med", "medicine", "health"):
+        return "medical"
+    return "general"
+
+
+# ----------------------------
+# Prompts
+# ----------------------------
+
+_SYS_OVERVIEW_DE = (
+    "You are a careful, neutral summarizer. Write the output strictly in German.\n"
+    "You will receive multiple items (YouTube videos, articles, PubMed abstracts) with title, date, and text.\n"
+    "Goal: Create a compact daily overview for a newsletter reader.\n\n"
+    "Output rules:\n"
+    "- Output must be valid Markdown.\n"
+    "- Start with exactly this section header: '## Kurzüberblick'.\n"
+    "- Summarize only what is supported by the provided text; do not invent facts.\n"
+    "- If claims are speculative/uncertain, say so explicitly.\n"
+    "- Prefer concrete statements (who/what/where/when) if present.\n"
+    "- Keep it readable: short paragraphs or short bullet lists.\n"
+    "- After the overview, optionally add a subsection '### Kurz notiert' with 2–6 short bullets.\n"
 )
 
+_SYS_OVERVIEW_EN = (
+    "You are a careful, neutral summarizer. Write the output strictly in English.\n"
+    "You will receive multiple items (YouTube videos, articles, PubMed abstracts) with title, date, and text.\n"
+    "Goal: Create a compact daily overview for a newsletter reader.\n\n"
+    "Output rules:\n"
+    "- Output must be valid Markdown.\n"
+    "- Start with exactly this section header: '## Executive Summary'.\n"
+    "- Summarize only what is supported by the provided text; do not invent facts.\n"
+    "- If claims are speculative/uncertain, say so explicitly.\n"
+    "- Prefer concrete statements (who/what/where/when) if present.\n"
+    "- Keep it readable: short paragraphs or short bullet lists.\n"
+    "- After the overview, optionally add a subsection '### In brief' with 2–6 short bullets.\n"
+)
 
-SYS_PROMPT_DETAIL = (
-    "You are a precise analyst. You receive metadata and text (transcript or "
-    "description) of ONE news-related YouTube video.\n"
-    "\n"
-    "Your task: Write an in-depth but focused summary of THIS ONE video.\n"
-    "\n"
-    "Output structure (Markdown):\n"
-    "- Do NOT repeat the channel name or video title; they will be shown outside.\n"
-    "- Start with a bold heading line '**Kernaussagen:**' and then 3–6 bullet points "
-    "summarising the main claims and facts.\n"
-    "- After that, add a bold heading '**Details & Argumentation:**' and write "
-    "2–4 paragraphs that explain:\n"
-    "  * what is being claimed,\n"
-    "  * what evidence, examples or numbers are mentioned,\n"
-    "  * which risks, scenarios or implications are discussed.\n"
-    "\n"
-    "Content rules:\n"
-    "- Focus STRICTLY on the content of the video: facts, claims, argumentation, "
-    "risk scenarios. Ignore ads, promotions, merch, coupon codes, channel "
-    "self-promotion and technical meta-talk.\n"
-    "- Avoid speculation that goes beyond what is actually said in the video.\n"
-    "- Total length: roughly 300–600 words so that several such sections together "
-    "can still be read within about an hour.\n"
-    "- Preserve the language of the underlying content (German/English/Swedish "
-    "as in the text). Do NOT translate.\n"
+_MEDICAL_OVERVIEW_APPEND_DE = (
+    "\nMedizinischer Fokus:\n"
+    "- Fokussiere auf klinisch/praktisch relevante Inhalte (Anästhesie, Intensivmedizin, Schmerztherapie, Akut-/Notfallmedizin, Reanimation, KI im Gesundheitswesen).\n"
+    "- Gruppiere, wenn sinnvoll, nach: Anästhesie, Intensivmedizin, Schmerztherapie, KI, Sonstige.\n"
+    "- Wenn Studienlage schwach ist (kleine Stichprobe, rein beobachtend, nur Hypothese), benenne das klar.\n"
+)
+
+_MEDICAL_OVERVIEW_APPEND_EN = (
+    "\nMedical focus:\n"
+    "- Prioritize clinically/practically relevant information (anesthesia, intensive care, acute/emergency medicine, resuscitation, pain medicine, AI in healthcare).\n"
+    "- If useful, group by: Anesthesia, Intensive Care, Pain, AI, Other.\n"
+    "- If evidence is weak (small sample, observational only, hypothesis), state that clearly.\n"
+)
+
+_SYS_DETAIL_YOUTUBE_DE = (
+    "You are a careful summarizer. Write strictly in German.\n"
+    "You will receive one YouTube item with title, channel, date, URL and transcript/description text.\n\n"
+    "Return Markdown with this structure:\n"
+    "Kernaussagen:\n"
+    "- 3–6 bullets (präzise, keine Spekulation)\n\n"
+    "Details & Argumentation:\n"
+    "- 1–3 kurze Absätze.\n"
+)
+
+_SYS_DETAIL_YOUTUBE_EN = (
+    "You are a careful summarizer. Write strictly in English.\n"
+    "You will receive one YouTube item with title, channel, date, URL and transcript/description text.\n\n"
+    "Return Markdown with this structure:\n"
+    "Key takeaways:\n"
+    "- 3–6 bullets (precise, no speculation)\n\n"
+    "Details & reasoning:\n"
+    "- 1–3 short paragraphs.\n"
+)
+
+_SYS_DETAIL_PUBMED_DE = (
+    "You are a careful clinical summarizer. Write strictly in German.\n"
+    "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract text when available).\n"
+    "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'nicht berichtet'.\n\n"
+    "Return Markdown with this structure:\n"
+    "**BOTTOM LINE:** 1–2 Sätze: Was ist neu, wie belastbar, und mögliche Relevanz für Praxis.\n\n"
+    "**Studientyp:** (RCT / Kohorte / Fall-Kontrolle / Querschnitt / Systematic Review / Guideline / Sonstiges / nicht berichtet)\n"
+    "**Population/Setting:** (kurz)\n"
+    "**Intervention/Exposure & Vergleich:** (wenn vorhanden)\n"
+    "**Primäre Endpunkte:** (wenn vorhanden)\n"
+    "**Wichtigste Ergebnisse:** (konkret, Zahlen wenn vorhanden)\n"
+    "**Limitationen:** 1–3 Punkte\n"
+    "**Warum das wichtig ist:** 1 kurzer Absatz.\n"
+)
+
+_SYS_DETAIL_PUBMED_EN = (
+    "You are a careful clinical summarizer. Write strictly in English.\n"
+    "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract text when available).\n"
+    "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'not reported'.\n\n"
+    "Return Markdown with this structure:\n"
+    "**BOTTOM LINE:** 1–2 sentences: what is new, how strong the evidence is, and the possible practice impact.\n\n"
+    "**Study type:** (RCT / cohort / case-control / cross-sectional / systematic review / guideline / other / not reported)\n"
+    "**Population/setting:** (short)\n"
+    "**Intervention/exposure & comparator:** (if stated)\n"
+    "**Primary endpoints:** (if stated)\n"
+    "**Key results:** (concrete; include numbers if present)\n"
+    "**Limitations:** 1–3 bullets\n"
+    "**Why this matters:** 1 short paragraph.\n"
 )
 
 
 def _get_client() -> OpenAI:
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        raise RuntimeError(
-            "OPENAI_API_KEY ist nicht gesetzt. "
-            "Bitte hinterlege den Schlüssel in deiner .env Datei "
-            "oder als GitHub Actions Secret."
-        )
-    return OpenAI(api_key=api_key)
+    # OPENAI_API_KEY is expected to be available via env (GitHub Actions Secret or local .env)
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
-def summarize(items: List[Dict]) -> str:
-    """
-    Erzeugt eine einzige, kanalübergreifende Tageszusammenfassung
-    als 'Kurzüberblick' mit Themenblöcken.
-    """
-    if not items:
-        return "Keine neuen Inhalte in den letzten 24 Stunden."
-
-    lines: List[str] = []
+def _slim_items(items: List[Dict[str, Any]], max_text_chars: int = 2000) -> List[Dict[str, Any]]:
+    out: List[Dict[str, Any]] = []
     for it in items:
-        head = f"- {it['title']} — {it['channel']} ({it['url']})"
-        raw = (it.get("text") or it.get("description") or "").strip()
-        # Mehr Kontext: bis zu ca. 2500 Zeichen pro Item
-        snippet = raw[:2500]
-        if snippet:
-            lines.append(head + "\n  " + snippet)
+        text = (it.get("text") or "").strip()
+        if len(text) > max_text_chars:
+            text = text[:max_text_chars].rstrip()
+
+        published = it.get("published_at")
+        if isinstance(published, datetime):
+            published_str = published.replace(microsecond=0).isoformat()
         else:
-            lines.append(head)
+            published_str = str(published) if published else ""
 
-    digest = "\n".join(lines)
-
-    messages = [
-        {"role": "system", "content": SYS_PROMPT_OVERVIEW},
-        {
-            "role": "user",
-            "content": "Items (titles, channels, links, and snippets):\n" + digest,
-        },
-    ]
-
-    client = _get_client()
-
-    try:
-        completion = client.chat.completions.create(
-            model=MODEL_NAME,
-            messages=messages,
-            max_completion_tokens=900,
+        out.append(
+            {
+                "source": (it.get("source") or "").strip(),
+                "channel": (it.get("channel") or "").strip(),
+                "title": (it.get("title") or "").strip(),
+                "url": (it.get("url") or "").strip(),
+                "published_at": published_str,
+                "text": text,
+            }
         )
-    except Exception as e:
-        return f"[Fehler beim Aufruf der OpenAI-API (Overview): {e!r}]"
-
-    try:
-        content = completion.choices[0].message.content
-        return content.strip() if content else ""
-    except Exception as e:
-        return (
-            f"[Fehler beim Auslesen der Overview-Zusammenfassung: {e!r}]\n"
-            f"Roh-Response:\n{completion}"
-        )
+    return out
 
 
-def summarize_item_detail(item: Dict) -> str:
+def summarize(items: List[Dict[str, Any]], *, language: str = "de", profile: str = "general") -> str:
     """
-    Erzeugt eine ausführlichere Zusammenfassung für EIN bestimmtes Video.
+    Create the overview section (Markdown), using multiple items.
     """
-    raw = (item.get("text") or item.get("description") or "").strip()
-    if not raw:
-        return "[Keine detaillierte Zusammenfassung möglich – weder Transkript noch Beschreibung verfügbar.]"
+    lang = _norm_language(language)
+    prof = _norm_profile(profile)
 
-    # Ausreichend Kontext für eine tiefere Zusammenfassung
-    snippet = raw[:4000]
+    sys_prompt = _SYS_OVERVIEW_EN if lang == "en" else _SYS_OVERVIEW_DE
+    if prof == "medical":
+        sys_prompt += _MEDICAL_OVERVIEW_APPEND_EN if lang == "en" else _MEDICAL_OVERVIEW_APPEND_DE
 
-    meta = (
-        f"Title: {item['title']}\n"
-        f"Channel: {item['channel']}\n"
-        f"URL: {item['url']}\n"
-        f"Published: {item.get('published_at')}\n"
+    items_json = json.dumps(_slim_items(items), ensure_ascii=False, indent=2)
+
+    user_prompt = (
+        "Items (JSON):\n"
+        f"{items_json}\n\n"
+        "Now write the requested overview."
     )
 
-    messages = [
-        {"role": "system", "content": SYS_PROMPT_DETAIL},
-        {
-            "role": "user",
-            "content": meta + "\n\nVideo text (transcript/description snippet):\n" + snippet,
-        },
-    ]
+    try:
+        client = _get_client()
+        r = client.chat.completions.create(
+            model=OPENAI_MODEL,
+            messages=[
+                {"role": "system", "content": sys_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            temperature=0.2,
+        )
+        return (r.choices[0].message.content or "").strip()
+    except Exception as e:
+        if lang == "en":
+            return f"## Executive Summary\n\n**Error:** Failed to create overview: `{e!r}`\n"
+        return f"## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen: `{e!r}`\n"
 
-    client = _get_client()
+
+def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile: str = "general") -> str:
+    """
+    Create a single-item deep dive (Markdown). Prompt varies by source.
+    """
+    lang = _norm_language(language)
+    prof = _norm_profile(profile)
+
+    src = (item.get("source") or "youtube").strip().lower()
+
+    if src == "pubmed":
+        sys_prompt = _SYS_DETAIL_PUBMED_EN if lang == "en" else _SYS_DETAIL_PUBMED_DE
+    else:
+        sys_prompt = _SYS_DETAIL_YOUTUBE_EN if lang == "en" else _SYS_DETAIL_YOUTUBE_DE
+
+    # Small additional guidance for medical profile even for YouTube content
+    if prof == "medical" and src != "pubmed":
+        if lang == "en":
+            sys_prompt += "\nMedical focus: emphasize evidence, study design if mentioned, and practical implications; avoid speculation.\n"
+        else:
+            sys_prompt += "\nMedizinischer Fokus: betone Evidenz, Studiendesign (falls genannt) und praktische Implikationen; keine Spekulation.\n"
+
+    text = (item.get("text") or "").strip()
+    if len(text) > 6000:
+        text = text[:6000].rstrip()
+
+    published = item.get("published_at")
+    if isinstance(published, datetime):
+        published_str = published.replace(microsecond=0).isoformat()
+    else:
+        published_str = str(published) if published else ""
+
+    meta = {
+        "source": src,
+        "channel": (item.get("channel") or "").strip(),
+        "title": (item.get("title") or "").strip(),
+        "url": (item.get("url") or "").strip(),
+        "published_at": published_str,
+        "text": text,
+    }
+    payload = json.dumps(meta, ensure_ascii=False, indent=2)
+
+    user_prompt = (
+        "Item (JSON):\n"
+        f"{payload}\n\n"
+        "Now write the requested deep dive."
+    )
 
     try:
-        completion = client.chat.completions.create(
-            model=MODEL_NAME,
-            messages=messages,
-            max_completion_tokens=800,
+        client = _get_client()
+        r = client.chat.completions.create(
+            model=OPENAI_MODEL,
+            messages=[
+                {"role": "system", "content": sys_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            temperature=0.2,
         )
+        return (r.choices[0].message.content or "").strip()
     except Exception as e:
-        return f"[Fehler beim Aufruf der OpenAI-API (Detail): {e!r}]"
-
-    try:
-        content = completion.choices[0].message.content
-        return content.strip() if content else ""
-    except Exception as e:
-        return (
-            f"[Fehler beim Auslesen der Detail-Zusammenfassung: {e!r}]\n"
-            f"Roh-Response:\n{completion}"
-        )
+        if lang == "en":
+            return f"**Error:** Failed to create deep dive: `{e!r}`\n"
+        return f"**Fehler:** Konnte Vertiefung nicht erzeugen: `{e!r}`\n"
