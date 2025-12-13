@@ -1,16 +1,30 @@
 from __future__ import annotations
 
 import json
+import os
+import time
 import urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import requests
 
 
 PUBMED_ESEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
 PUBMED_EFETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+
+# NCBI rate limits (rough guidance):
+# - Without api_key: ~3 requests/second.
+# - With api_key: higher, but still subject to throttling on bursts.
+#
+# We enforce a minimum interval between *all* PubMed requests in this module.
+_DEFAULT_MIN_INTERVAL_NO_KEY_S = 0.40
+_DEFAULT_MIN_INTERVAL_WITH_KEY_S = 0.12
+
+# Global session to reuse TCP connections
+_SESSION = requests.Session()
+_LAST_REQUEST_TS = 0.0
 
 
 def _utc_now() -> datetime:
@@ -40,27 +54,178 @@ def _parse_month(mon: str) -> Optional[int]:
     return months.get(mon3)
 
 
+def _get_ncbi_params() -> Tuple[Optional[str], Optional[str], Optional[str]]:
+    """
+    Optional NCBI identifiers.
+    - NCBI_API_KEY: increases rate limit and reduces 429 probability.
+    - NCBI_TOOL: name of your application (recommended by NCBI).
+    - NCBI_EMAIL: contact email (recommended by NCBI).
+    """
+    api_key = (os.getenv("NCBI_API_KEY", "") or "").strip() or None
+    tool = (os.getenv("NCBI_TOOL", "") or "").strip() or None
+    email = (os.getenv("NCBI_EMAIL", "") or "").strip() or None
+    return api_key, tool, email
+
+
+def _min_interval_s(api_key: Optional[str]) -> float:
+    raw = (os.getenv("PUBMED_MIN_INTERVAL_S", "") or "").strip()
+    if raw:
+        try:
+            v = float(raw)
+            return max(0.0, v)
+        except Exception:
+            print(f"[pubmed] WARN: invalid PUBMED_MIN_INTERVAL_S={raw!r} -> ignoring")
+    return _DEFAULT_MIN_INTERVAL_WITH_KEY_S if api_key else _DEFAULT_MIN_INTERVAL_NO_KEY_S
+
+
+def _date_type() -> str:
+    """
+    PubMed date field used for filtering.
+    - pdat: publication date
+    - edat: Entrez date (when record was added/updated in PubMed)
+    """
+    dt = (os.getenv("PUBMED_DATE_TYPE", "pdat") or "pdat").strip().lower()
+    return dt if dt in ("pdat", "edat") else "pdat"
+
+
+def _rate_limit_sleep(api_key: Optional[str]) -> None:
+    """
+    Enforce a minimum interval between requests to avoid 429s.
+    """
+    global _LAST_REQUEST_TS
+
+    interval = _min_interval_s(api_key)
+    if interval <= 0:
+        return
+
+    now = time.monotonic()
+    delta = now - _LAST_REQUEST_TS
+    if delta < interval:
+        time.sleep(interval - delta)
+
+    _LAST_REQUEST_TS = time.monotonic()
+
+
+def _build_headers(email: Optional[str]) -> Dict[str, str]:
+    # A clear UA string helps upstream debugging/throttling.
+    ua = "NewsAgent2/1.0"
+    if email:
+        ua += f" (mailto:{email})"
+    return {"User-Agent": ua}
+
+
+def _request_with_retries(
+    *,
+    url: str,
+    params: Dict[str, Any],
+    timeout_s: int,
+    expect: str,
+) -> Any:
+    """
+    expect: "json" or "text"
+    """
+    api_key, tool, email = _get_ncbi_params()
+
+    # Inject optional NCBI parameters.
+    if api_key and "api_key" not in params:
+        params["api_key"] = api_key
+    if tool and "tool" not in params:
+        params["tool"] = tool
+    if email and "email" not in params:
+        params["email"] = email
+
+    headers = _build_headers(email)
+
+    raw_retries = (os.getenv("PUBMED_MAX_RETRIES", "") or "").strip()
+    max_retries = 4
+    if raw_retries:
+        try:
+            max_retries = int(raw_retries)
+        except Exception:
+            print(f"[pubmed] WARN: invalid PUBMED_MAX_RETRIES={raw_retries!r} -> using default {max_retries}")
+    max_retries = max(1, min(max_retries, 10))
+
+    raw_backoff = (os.getenv("PUBMED_BACKOFF_BASE_S", "") or "").strip()
+    backoff_base = 1.0
+    if raw_backoff:
+        try:
+            backoff_base = float(raw_backoff)
+        except Exception:
+            print(f"[pubmed] WARN: invalid PUBMED_BACKOFF_BASE_S={raw_backoff!r} -> using default {backoff_base}")
+
+    last_err: Optional[str] = None
+
+    for attempt in range(1, max_retries + 1):
+        _rate_limit_sleep(api_key)
+
+        try:
+            r = _SESSION.get(url, params=params, headers=headers, timeout=timeout_s)
+        except requests.RequestException as e:
+            last_err = f"request error: {e!r}"
+            print(f"[pubmed] WARN: {last_err} (attempt {attempt}/{max_retries}, url={url})")
+            if attempt < max_retries:
+                time.sleep(backoff_base * (2 ** (attempt - 1)))
+            continue
+
+        if r.status_code == 429:
+            retry_after = (r.headers.get("Retry-After") or "").strip()
+            sleep_s = None
+            if retry_after:
+                try:
+                    sleep_s = float(retry_after)
+                except Exception:
+                    sleep_s = None
+
+            if sleep_s is None:
+                sleep_s = backoff_base * (2 ** (attempt - 1))
+
+            print(f"[pubmed] WARN: 429 Too Many Requests -> sleeping {sleep_s:.1f}s (attempt {attempt}/{max_retries})")
+            if attempt < max_retries:
+                time.sleep(max(0.5, sleep_s))
+                continue
+
+            last_err = "429 Too Many Requests (exhausted retries)"
+            print(f"[pubmed] ERROR: {last_err} (url={url})")
+            return {} if expect == "json" else ""
+
+        if 500 <= r.status_code <= 599:
+            last_err = f"server error {r.status_code}"
+            print(f"[pubmed] WARN: {last_err} (attempt {attempt}/{max_retries})")
+            if attempt < max_retries:
+                time.sleep(backoff_base * (2 ** (attempt - 1)))
+                continue
+            print(f"[pubmed] ERROR: {last_err} (url={url})")
+            return {} if expect == "json" else ""
+
+        try:
+            r.raise_for_status()
+        except requests.RequestException as e:
+            last_err = f"http error: {e} (status={r.status_code})"
+            print(f"[pubmed] ERROR: {last_err} (url={url})")
+            return {} if expect == "json" else ""
+
+        if expect == "json":
+            try:
+                return r.json()
+            except json.JSONDecodeError as e:
+                last_err = f"invalid JSON: {e!r}"
+                print(f"[pubmed] ERROR: {last_err} (url={url})")
+                return {}
+        else:
+            return r.text
+
+    print(f"[pubmed] ERROR: request failed after retries: {last_err or 'unknown error'} (url={url})")
+    return {} if expect == "json" else ""
+
+
 def _request_json(url: str, params: Dict[str, Any], timeout_s: int = 25) -> Dict[str, Any]:
-    try:
-        r = requests.get(url, params=params, timeout=timeout_s)
-        r.raise_for_status()
-        return r.json()
-    except requests.RequestException as e:
-        print(f"[pubmed] ERROR: request failed: {e} (url={url})")
-        return {}
-    except json.JSONDecodeError as e:
-        print(f"[pubmed] ERROR: invalid JSON response: {e} (url={url})")
-        return {}
+    data = _request_with_retries(url=url, params=dict(params), timeout_s=timeout_s, expect="json")
+    return data if isinstance(data, dict) else {}
 
 
 def _request_text(url: str, params: Dict[str, Any], timeout_s: int = 35) -> str:
-    try:
-        r = requests.get(url, params=params, timeout=timeout_s)
-        r.raise_for_status()
-        return r.text
-    except requests.RequestException as e:
-        print(f"[pubmed] ERROR: request failed: {e} (url={url})")
-        return ""
+    text = _request_with_retries(url=url, params=dict(params), timeout_s=timeout_s, expect="text")
+    return text if isinstance(text, str) else ""
 
 
 def _pubmed_search_url(term: str) -> str:
@@ -74,7 +239,6 @@ def _extract_text(elem: Optional[ET.Element]) -> str:
 
 
 def _parse_pub_date(article: ET.Element) -> datetime:
-    # Try ArticleDate (electronic) first, then Journal PubDate, then fallback now.
     now = _utc_now()
 
     def _try_date(parent_xpath: str) -> Optional[datetime]:
@@ -202,13 +366,6 @@ def search_recent_pubmed(
     max_items: int = 5,
     timeout_s: int = 25,
 ) -> List[Dict[str, Any]]:
-    """
-    Search PubMed for recent items by publication date.
-
-    - term: PubMed search term (e.g. '"Intensive Care Med"[jour]' or a boolean query).
-    - hours: look-back window; applied as date-range filter (day-granularity).
-    - max_items: maximum number of results to return.
-    """
     term = (term or "").strip()
     if not term:
         print("[pubmed] WARN: empty term -> returning 0 items")
@@ -223,12 +380,15 @@ def search_recent_pubmed(
         "retmode": "json",
         "retmax": str(max_items),
         "sort": "date",
-        "datetype": "pdat",
+        "datetype": _date_type(),
         "mindate": _date_yyyymmdd(since),
         "maxdate": _date_yyyymmdd(now),
     }
 
-    print(f"[pubmed] Searching term={term!r} mindate={params['mindate']} maxdate={params['maxdate']} retmax={max_items}")
+    print(
+        f"[pubmed] Searching term={term!r} datetype={params['datetype']} "
+        f"mindate={params['mindate']} maxdate={params['maxdate']} retmax={max_items}"
+    )
 
     data = _request_json(PUBMED_ESEARCH_URL, params, timeout_s=timeout_s)
     idlist = data.get("esearchresult", {}).get("idlist", []) if isinstance(data, dict) else []
