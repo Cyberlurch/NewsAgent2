@@ -1,3 +1,4 @@
+# src/newsagent2/summarizer.py
 from __future__ import annotations
 
 import json
@@ -59,6 +60,10 @@ _SYS_OVERVIEW_EN = (
     "- After the overview, optionally add a subsection '### In brief' with 2–6 short bullets.\n"
 )
 
+# NOTE:
+# Reporter now renders a Cybermed "paper-first" list per category.
+# This overview prompt additionally asks for a small clickable paper list inside the summary.
+# Keep it for now (safe/minimal). If you later feel it is redundant, we can remove it.
 _MEDICAL_OVERVIEW_APPEND_DE = (
     "\nMedizinischer Fokus:\n"
     "- Fokussiere auf klinisch/praktisch relevante Inhalte (Anästhesie, Intensivmedizin, Schmerztherapie, Akut-/Notfallmedizin, Reanimation, KI im Gesundheitswesen).\n"
