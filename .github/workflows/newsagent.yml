@@ -1,9 +1,15 @@
+# .github/workflows/newsagent.yml
 name: NewsAgent2 daily
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # GitHub cron ist UTC (Winter ~06:00 Stockholm, Sommer ~07:00 Stockholm)
+    # GitHub cron runs in UTC. 05:00 UTC ≈ 07:00 Stockholm in summer (DST) and ≈ 06:00 in winter.
+    - cron: "0 5 * * *"
   workflow_dispatch:
+
+concurrency:
+  group: newsagent2-daily
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -12,57 +18,50 @@ jobs:
   run:
     runs-on: ubuntu-24.04
 
+    # IMPORTANT (log safety):
+    # - Do NOT pass recipient email addresses via env/vars here (GitHub logs env values unless they are Secrets).
+    # - Use data/recipients.json (preferred for private repos) or keep EMAIL_TO as a Secret only if still needed.
     env:
       # OpenAI
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || secrets.OPENAI_MODEL }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
 
-      # E-Mail (SMTP)
-      SEND_EMAIL: ${{ vars.SEND_EMAIL || secrets.SEND_EMAIL }}          # "1" or "0"
-      EMAIL_FROM: ${{ vars.EMAIL_FROM || secrets.EMAIL_FROM }}
-      EMAIL_TO: ${{ vars.EMAIL_TO || secrets.EMAIL_TO }}  # optional fallback (prefer per-report vars)
+      # E-Mail (SMTP) - true secrets stay secrets
+      SEND_EMAIL: ${{ vars.SEND_EMAIL || '1' }}
+      EMAIL_FROM: ${{ vars.EMAIL_FROM || secrets.EMAIL_FROM || '' }}
       SMTP_HOST: ${{ secrets.SMTP_HOST }}
       SMTP_PORT: ${{ secrets.SMTP_PORT }}
       SMTP_USER: ${{ secrets.SMTP_USER }}
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
 
-      # Memory/State
-      STATE_RETENTION_DAYS: ${{ vars.STATE_RETENTION_DAYS || secrets.STATE_RETENTION_DAYS }}
-
-      # PubMed / NCBI (optional, aber stark empfohlen)
-      # Wenn Secret nicht existiert, ist es leer -> Workflow läuft trotzdem.
+      # PubMed / NCBI (optional)
       NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
-
-      # Nicht-secret Parameter (kannst du auch als Secrets setzen, wenn du willst)
       NCBI_TOOL: ${{ vars.NCBI_TOOL || 'NewsAgent2' }}
-      NCBI_EMAIL: ${{ vars.NCBI_EMAIL || 'your.name@uu.se' }}
+      NCBI_EMAIL: ${{ vars.NCBI_EMAIL || '' }}
 
-      # PubMed Stabilität / Rate-Limit Handling (wirkt auch ohne API Key)
-      PUBMED_MIN_INTERVAL_S: "0.40"
-      PUBMED_MAX_RETRIES: "4"
-      PUBMED_BACKOFF_BASE_S: "1.0"
-      PUBMED_DATE_TYPE: "edat"
+      # PubMed Rate-Limit robustness (non-secret)
+      PUBMED_MIN_INTERVAL_S: ${{ vars.PUBMED_MIN_INTERVAL_S || '0.40' }}
+      PUBMED_MAX_RETRIES: ${{ vars.PUBMED_MAX_RETRIES || '4' }}
+      PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
+      PUBMED_DATE_TYPE: ${{ vars.PUBMED_DATE_TYPE || 'edat' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install system packages (yt-dlp helpers)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Cyberlurch Report (YouTube-only set, falls vorhanden)
+      - name: Run Cyberlurch Report (YouTube)
         env:
           REPORT_KEY: cyberlurch
           REPORT_TITLE: The Cyberlurch Report
@@ -70,7 +69,6 @@ jobs:
           REPORT_LANGUAGE: de
           REPORT_PROFILE: general
           SEND_EMPTY_REPORT_EMAIL: "1"
-          EMAIL_TO: ${{ vars.EMAIL_TO_CYBERLURCH || vars.EMAIL_TO || secrets.EMAIL_TO_CYBERLURCH || secrets.EMAIL_TO }}
         run: |
           if [ -f data/youtube_only.json ]; then
             CHFILE="data/youtube_only.json"
@@ -79,8 +77,8 @@ jobs:
           fi
 
           python -m src.newsagent2.main \
-            --config "$CHFILE" \
-            --days 1
+            --channels "$CHFILE" \
+            --hours 24
 
       - name: Run Cybermed Report (PubMed/Journals)
         env:
@@ -90,17 +88,10 @@ jobs:
           REPORT_LANGUAGE: en
           REPORT_PROFILE: medical
           SEND_EMPTY_REPORT_EMAIL: "1"
-          EMAIL_TO: ${{ vars.EMAIL_TO_CYBERMED || vars.EMAIL_TO || secrets.EMAIL_TO_CYBERMED || secrets.EMAIL_TO }}
         run: |
-          if [ -f data/medical_sources.json ]; then
-            SRCFILE="data/medical_sources.json"
-          else
-            SRCFILE="data/sources.json"
-          fi
-
           python -m src.newsagent2.main \
-            --config "$SRCFILE" \
-            --days 1
+            --channels "data/cybermed_channels.json" \
+            --hours 24
 
       - name: Commit updated state (processed_items.json) if changed
         run: |
@@ -116,9 +107,12 @@ jobs:
 
           git add state/processed_items.json
           git commit -m "Update processed items state [skip ci]" || {
-            echo "Nothing to commit (commit returned non-zero).";
-            exit 0;
+            echo "Nothing to commit (commit returned non-zero)."
+            exit 0
           }
+
+          # Reduce chance of non-fast-forward if a manual run overlaps with schedule.
+          git pull --rebase origin "${GITHUB_REF_NAME}"
 
           echo "Pushing commit to branch: ${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
