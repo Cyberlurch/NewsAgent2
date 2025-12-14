@@ -64,6 +64,10 @@ _MEDICAL_OVERVIEW_APPEND_DE = (
     "- Fokussiere auf klinisch/praktisch relevante Inhalte (Anästhesie, Intensivmedizin, Schmerztherapie, Akut-/Notfallmedizin, Reanimation, KI im Gesundheitswesen).\n"
     "- Gruppiere, wenn sinnvoll, nach: Anästhesie, Intensivmedizin, Schmerztherapie, KI, Sonstige.\n"
     "- Wenn Studienlage schwach ist (kleine Stichprobe, rein beobachtend, nur Hypothese), benenne das klar.\n"
+    "- Füge einen Abschnitt mit exakt diesem Titel hinzu: \"### Papers (klickbare Quellen)\".\n"
+    "  - Darunter 5–12 der relevantesten Items als Bulletpoints listen.\n"
+    "  - Jedes Bullet MUSS genau einen Markdown-Link mit der URL aus dem JSON enthalten (keine neuen Links).\n"
+    "  - Empfohlenes Format: - [Kurztitel](URL) — Journal/Jahr falls vorhanden — 1 kurzer klinischer Takeaway.\n"
 )
 
 _MEDICAL_OVERVIEW_APPEND_EN = (
@@ -71,6 +75,10 @@ _MEDICAL_OVERVIEW_APPEND_EN = (
     "- Prioritize clinically/practically relevant information (anesthesia, intensive care, acute/emergency medicine, resuscitation, pain medicine, AI in healthcare).\n"
     "- If useful, group by: Anesthesia, Intensive Care, Pain, AI, Other.\n"
     "- If evidence is weak (small sample, observational only, hypothesis), state that clearly.\n"
+    "- Add a section titled exactly: \"### Papers (clickable sources)\".\n"
+    "  - Under that, list 5–12 of the most relevant items as bullet points.\n"
+    "  - Each bullet MUST include exactly one Markdown link using the item URL from the JSON (no new links).\n"
+    "  - Recommended format: - [Short title](URL) — Journal/Year if available — 1 short clinical takeaway.\n"
 )
 
 _SYS_DETAIL_YOUTUBE_DE = (
