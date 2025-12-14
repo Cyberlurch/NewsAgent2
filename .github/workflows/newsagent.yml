@@ -15,27 +15,27 @@ jobs:
     env:
       # OpenAI
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || secrets.OPENAI_MODEL }}
 
       # E-Mail (SMTP)
-      SEND_EMAIL: ${{ secrets.SEND_EMAIL }}          # "1" oder "0"
-      EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-      EMAIL_TO: ${{ secrets.EMAIL_TO }}              # Fallback, wenn report-spezifische Secrets fehlen
+      SEND_EMAIL: ${{ vars.SEND_EMAIL || secrets.SEND_EMAIL }}          # "1" or "0"
+      EMAIL_FROM: ${{ vars.EMAIL_FROM || secrets.EMAIL_FROM }}
+      EMAIL_TO: ${{ vars.EMAIL_TO || secrets.EMAIL_TO }}  # optional fallback (prefer per-report vars)
       SMTP_HOST: ${{ secrets.SMTP_HOST }}
       SMTP_PORT: ${{ secrets.SMTP_PORT }}
       SMTP_USER: ${{ secrets.SMTP_USER }}
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
 
       # Memory/State
-      STATE_RETENTION_DAYS: ${{ secrets.STATE_RETENTION_DAYS }}
+      STATE_RETENTION_DAYS: ${{ vars.STATE_RETENTION_DAYS || secrets.STATE_RETENTION_DAYS }}
 
       # PubMed / NCBI (optional, aber stark empfohlen)
       # Wenn Secret nicht existiert, ist es leer -> Workflow läuft trotzdem.
       NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
 
       # Nicht-secret Parameter (kannst du auch als Secrets setzen, wenn du willst)
-      NCBI_TOOL: NewsAgent2
-      NCBI_EMAIL: your.name@uu.se
+      NCBI_TOOL: ${{ vars.NCBI_TOOL || 'NewsAgent2' }}
+      NCBI_EMAIL: ${{ vars.NCBI_EMAIL || 'your.name@uu.se' }}
 
       # PubMed Stabilität / Rate-Limit Handling (wirkt auch ohne API Key)
       PUBMED_MIN_INTERVAL_S: "0.40"
@@ -70,7 +70,7 @@ jobs:
           REPORT_LANGUAGE: de
           REPORT_PROFILE: general
           SEND_EMPTY_REPORT_EMAIL: "1"
-          EMAIL_TO: ${{ secrets.EMAIL_TO_CYBERLURCH || secrets.EMAIL_TO }}
+          EMAIL_TO: ${{ vars.EMAIL_TO_CYBERLURCH || vars.EMAIL_TO || secrets.EMAIL_TO_CYBERLURCH || secrets.EMAIL_TO }}
         run: |
           if [ -f data/youtube_only.json ]; then
             CHFILE="data/youtube_only.json"
@@ -79,50 +79,33 @@ jobs:
           fi
 
           python -m src.newsagent2.main \
-            --channels "$CHFILE" \
-            --hours 24
+            --config "$CHFILE" \
+            --days 1
 
-      - name: Run Cybermed Report
+      - name: Run Cybermed Report (PubMed/Journals)
         env:
           REPORT_KEY: cybermed
           REPORT_TITLE: Cybermed Report
           REPORT_SUBJECT: Cybermed Report
           REPORT_LANGUAGE: en
           REPORT_PROFILE: medical
-
-          # Für Debug/Einführung empfehle ich kurzfristig "1",
-          # damit du immer eine Mail bekommst, auch wenn 0 Items gesammelt werden.
-          # Sobald stabil: wieder auf "0" setzen.
           SEND_EMPTY_REPORT_EMAIL: "1"
-
-          EMAIL_TO: ${{ secrets.EMAIL_TO_CYBERMED || secrets.EMAIL_TO }}
+          EMAIL_TO: ${{ vars.EMAIL_TO_CYBERMED || vars.EMAIL_TO || secrets.EMAIL_TO_CYBERMED || secrets.EMAIL_TO }}
         run: |
-          python -m src.newsagent2.main \
-            --channels "data/cybermed_channels.json" \
-            --hours 24
-
-      - name: Upload reports as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: newsagent2-reports
-          path: reports/*.md
-          if-no-files-found: warn
-
-      - name: Commit updated state (memory)
-        run: |
-          set -euo pipefail
-
-          if [ ! -f state/processed_items.json ]; then
-            echo "No state file to commit (state/processed_items.json not found)."
-            exit 0
+          if [ -f data/medical_sources.json ]; then
+            SRCFILE="data/medical_sources.json"
+          else
+            SRCFILE="data/sources.json"
           fi
 
-          echo "Git status (before):"
-          git status --porcelain
+          python -m src.newsagent2.main \
+            --config "$SRCFILE" \
+            --days 1
 
-          # Robust: only check the one file
-          if [ -z "$(git status --porcelain state/processed_items.json)" ]; then
-            echo "State file unchanged -> nothing to commit."
+      - name: Commit updated state (processed_items.json) if changed
+        run: |
+          if git diff --quiet -- state/processed_items.json; then
+            echo "No changes in state/processed_items.json."
             exit 0
           fi
 
