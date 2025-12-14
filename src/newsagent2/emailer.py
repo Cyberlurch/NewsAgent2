@@ -1,3 +1,4 @@
+# src/newsagent2/emailer.py
 from __future__ import annotations
 
 import json
@@ -28,7 +29,9 @@ def _load_recipients_from_file(report_key: str) -> List[str]:
         "cybermed": ["..."]
       }
 
-    The file is intended to be git-ignored (public repo safety).
+    NOTE:
+    - This file is intended to be git-ignored for public repos.
+    - For private repos you may keep it tracked (or manage it outside git).
     """
     path = Path("data") / "recipients.json"
     if not path.exists():
@@ -51,21 +54,22 @@ def _load_recipients_from_file(report_key: str) -> List[str]:
 
 
 def _get_recipients(report_key: str) -> List[str]:
-    # 1) Explicit env var (compat with current GitHub Actions secrets/workflow)
+    # 1) Explicit env var (backward compatible; values will appear in logs unless passed as Secrets)
     env_list = _parse_recipients_from_env()
     if env_list:
         return env_list
 
-    # 2) Fallback: local file (git-ignored)
+    # 2) Preferred: file-based recipients
     return _load_recipients_from_file(report_key)
 
 
 def send_markdown(subject: str, md_body: str) -> None:
     """Send the Markdown report as email (plain + HTML).
 
-    Controlled via environment variables:
-      SEND_EMAIL = "1"  -> send
-                   anything else -> do not send
+    Env vars:
+      SEND_EMAIL = "1" -> send
+                  "0" -> disable
+                  empty/unset -> defaults to "1" (robust to deleted/empty vars)
 
       SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS,
       EMAIL_FROM, EMAIL_TO (optional; overrides recipients.json)
@@ -73,7 +77,8 @@ def send_markdown(subject: str, md_body: str) -> None:
     Recipients fallback (if EMAIL_TO is empty):
       data/recipients.json  (keyed by REPORT_KEY, with optional "default")
     """
-    send_flag = os.getenv("SEND_EMAIL", "1")
+    # Robust default even if an env var exists but is empty.
+    send_flag = (os.getenv("SEND_EMAIL") or "1").strip()
     print(f"[email] SEND_EMAIL={send_flag!r}")
     if send_flag != "1":
         print("[email] SEND_EMAIL != '1' -> email sending disabled.")
@@ -119,7 +124,7 @@ def send_markdown(subject: str, md_body: str) -> None:
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"] = from_addr
-    # Header must contain recipients; this is not logged by us.
+    # Header must contain recipients; we do not log it.
     msg["To"] = ", ".join(to_list)
     msg.attach(MIMEText(plain, "plain", "utf-8"))
     msg.attach(MIMEText(html, "html", "utf-8"))
