@@ -13,3 +13,5 @@ reports/
 .DS_Store
 *.swp
 
+# Recipients (keep real addresses out of repo)
+data/recipients.json
