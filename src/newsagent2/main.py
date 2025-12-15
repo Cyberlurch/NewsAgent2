@@ -3,7 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 import os
-from datetime import datetime, timezone
+import re
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Tuple
 from zoneinfo import ZoneInfo
 
@@ -23,6 +24,18 @@ from .state_manager import (
 from .summarizer import summarize, summarize_item_detail
 
 STO = ZoneInfo("Europe/Stockholm")
+
+
+def _is_cybermed(report_key: str, report_profile: str) -> bool:
+    """Cybermed detection must be stable and avoid touching Cyberlurch logic."""
+    rk = (report_key or "").strip().lower()
+    rp = (report_profile or "").strip().lower()
+    return rk == "cybermed" or rp == "medical"
+
+
+def _date_yyyymmdd_utc(dt: datetime) -> str:
+    """PubMed accepts YYYY/MM/DD; current collector uses UTC date boundaries."""
+    return dt.astimezone(timezone.utc).strftime("%Y/%m/%d")
 
 
 def _safe_int(env_name: str, default: int) -> int:
@@ -386,6 +399,14 @@ def main() -> None:
     items: List[Dict[str, Any]] = []
     skipped_by_state = 0
 
+    # Cybermed observability (used to build an in-report transparency header).
+    is_cybermed_run = _is_cybermed(report_key, report_profile)
+    pubmed_candidates_total = 0
+    pubmed_skipped_by_state = 0
+    pubmed_query_failures = 0
+    pubmed_candidates_by_channel: Dict[str, int] = {}
+    pubmed_queries_used: List[Tuple[str, str]] = []  # (channel_name, term)
+
     for ch in channels:
         cname = ch["name"]
         source = (ch.get("source") or "youtube").strip().lower()
@@ -438,11 +459,19 @@ def main() -> None:
                 )
 
         elif source == "pubmed":
+            if is_cybermed_run:
+                pubmed_queries_used.append((cname, query))
             try:
                 arts = search_recent_pubmed(term=query, hours=args.hours, max_items=max_items_per_channel)
             except Exception as e:
                 print(f"[collect] ERROR source=pubmed channel={cname!r}: search_recent_pubmed failed: {e!r}")
+                if is_cybermed_run:
+                    pubmed_query_failures += 1
                 continue
+
+            if is_cybermed_run:
+                pubmed_candidates_total += len(arts)
+                pubmed_candidates_by_channel[cname] = len(arts)
 
             for a in arts:
                 pmid = str(a.get("id") or "").strip()
@@ -451,6 +480,8 @@ def main() -> None:
 
                 if is_processed(state, report_key, "pubmed", pmid):
                     skipped_by_state += 1
+                    if is_cybermed_run:
+                        pubmed_skipped_by_state += 1
                     continue
 
                 text = (a.get("text") or "").strip()
@@ -468,6 +499,9 @@ def main() -> None:
                         "title": (a.get("title") or "").strip(),
                         "url": (a.get("url") or "").strip() or curl,
                         "published_at": a.get("published_at"),
+                        "year": (a.get("published_at").year if a.get("published_at") else ""),
+                        "journal": (a.get("journal") or "").strip(),
+                        "doi": (a.get("doi") or "").strip(),
                         "description": (a.get("journal") or "").strip(),
                         "text": text,
                     }
@@ -480,11 +514,63 @@ def main() -> None:
     items = _dedupe_items(items)
     print(f"[collect] Collected {len(items)} item(s). (skipped_by_state={skipped_by_state})")
 
+    # Cybermed in-report transparency header (MUST be based on the real pipeline).
+    cybermed_meta_block = ""
+    if is_cybermed_run:
+        pubmed_selected = len([it for it in items if (it.get("source") or "").strip().lower() == "pubmed"])
+        # PubMed date filtering is applied using UTC date boundaries (YYYY/MM/DD), not hour-resolution.
+        now_utc = datetime.now(timezone.utc)
+        since_utc = now_utc - timedelta(hours=args.hours)
+        pubmed_datetype = (os.getenv("PUBMED_DATE_TYPE", "pdat") or "pdat").strip().lower()
+        mindate = _date_yyyymmdd_utc(since_utc)
+        maxdate = _date_yyyymmdd_utc(now_utc)
+
+        # Derive journals list from the actual configured PubMed queries (best-effort).
+        journals: List[str] = []
+        seen_journals: set[str] = set()
+        for _, term in pubmed_queries_used:
+            for m in re.finditer(r'"([^\"]+)"\s*\[jour\]', term or ""):
+                j = (m.group(1) or "").strip()
+                if not j or j in seen_journals:
+                    continue
+                seen_journals.add(j)
+                journals.append(j)
+
+        if not journals:
+            # Fallback: use channel names (strip the common prefix).
+            seen_lbls: set[str] = set()
+            for cname, _ in pubmed_queries_used:
+                lbl = (cname or "").strip()
+                if lbl.lower().startswith("pubmed:"):
+                    lbl = lbl.split(":", 1)[1].strip()
+                if not lbl or lbl in seen_lbls:
+                    continue
+                seen_lbls.add(lbl)
+                journals.append(lbl)
+
+        journal_list = ", ".join(journals) if journals else "(none)"
+        q_count = len(pubmed_queries_used)
+
+        lines: List[str] = []
+        lines.append("**Cybermed report metadata**")
+        lines.append(f"- {pubmed_candidates_total} papers screened from the following journals during the last {args.hours}h: {journal_list}")
+        lines.append(f"- Search criteria were (PubMed E-Utilities): datetype={pubmed_datetype.upper()} mindate={mindate} maxdate={maxdate} (UTC date boundaries), sort=date, retmax={max_items_per_channel}/query")
+        lines.append(f"- PubMed queries executed: {q_count} (failed: {pubmed_query_failures})")
+        lines.append(f"- Number of selected papers: {pubmed_selected}")
+        lines.append("")
+        lines.append("**PubMed queries (exact terms)**")
+        for cname, term in pubmed_queries_used:
+            if not (cname or "").strip() or not (term or "").strip():
+                continue
+            lines.append(f"- {cname}: `{term}`")
+
+        cybermed_meta_block = "\n".join(lines).strip() + "\n\n"
+
     if not items:
         if report_language.lower().startswith('en'):
-            overview = "## Executive Summary\n\nNo new content in the last 24 hours.\n"
+            overview = cybermed_meta_block + "## Executive Summary\n\nNo new content in the last 24 hours.\n"
         else:
-            overview = "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n"
+            overview = cybermed_meta_block + "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n"
         out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
         md = to_markdown([], overview, {}, report_title=report_title, report_language=report_language)
 
@@ -521,6 +607,9 @@ def main() -> None:
             overview_body = "## Executive Summary\n\n**Error:** Failed to generate overview.\n"
         else:
             overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
+
+    if cybermed_meta_block:
+        overview_body = cybermed_meta_block + overview_body
 
     detail_items = _choose_detail_items(
         items=items_sorted,
