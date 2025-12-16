@@ -370,7 +370,7 @@ def main() -> None:
     try:
         channels, channel_topics, topic_weights = load_channels_config(args.channels)
     except Exception as e:
-        if report_language.lower().startswith('en'):
+        if report_language.lower().startswith("en"):
             overview = f"## Executive Summary\n\n**Error:** Failed to load channels configuration: `{e!r}`\n"
         else:
             overview = f"## Kurzüberblick\n\n**Fehler:** Konnte Channels-Konfiguration nicht laden: `{e!r}`\n"
@@ -512,12 +512,40 @@ def main() -> None:
             continue
 
     items = _dedupe_items(items)
-    print(f"[collect] Collected {len(items)} item(s). (skipped_by_state={skipped_by_state})")
+    items_all_new = list(items)
+    print(f"[collect] Collected {len(items_all_new)} new unique item(s). (skipped_by_state={skipped_by_state})")
+
+    # Cybermed selection policy (PubMed only): select a subset for inclusion in the report,
+    # while still marking all newly screened items as processed for memory.
+    selection_stats: Dict[str, Any] = {}
+    pubmed_new_items: List[Dict[str, Any]] = []
+    pubmed_selected_items: List[Dict[str, Any]] = []
+
+    if is_cybermed_run:
+        pubmed_new_items = [it for it in items_all_new if (it.get("source") or "").strip().lower() == "pubmed"]
+        pubmed_selected_items = list(pubmed_new_items)
+
+        try:
+            from .selector_medical import select_cybermed_pubmed_items  # optional module
+
+            sel_res = select_cybermed_pubmed_items(pubmed_new_items)
+            pubmed_selected_items = list(getattr(sel_res, "selected", pubmed_new_items))
+            selection_stats = dict(getattr(sel_res, "stats", {}) or {})
+        except Exception as e:
+            print(f"[select] WARN: Cybermed selector unavailable/failed; using pass-through selection. err={e!r}")
+            selection_stats = {"enabled": False, "error": "selector_failed"}
+
+        items = [it for it in items_all_new if (it.get("source") or "").strip().lower() != "pubmed"] + pubmed_selected_items
+        print(f"[select] Cybermed selected {len(pubmed_selected_items)} of {len(pubmed_new_items)} new PubMed item(s) for the report.")
+    else:
+        items = items_all_new
 
     # Cybermed in-report transparency header (MUST be based on the real pipeline).
     cybermed_meta_block = ""
     if is_cybermed_run:
-        pubmed_selected = len([it for it in items if (it.get("source") or "").strip().lower() == "pubmed"])
+        pubmed_selected = len(pubmed_selected_items)
+        pubmed_new_unique = len(pubmed_new_items)
+
         # PubMed date filtering is applied using UTC date boundaries (YYYY/MM/DD), not hour-resolution.
         now_utc = datetime.now(timezone.utc)
         since_utc = now_utc - timedelta(hours=args.hours)
@@ -551,12 +579,35 @@ def main() -> None:
         journal_list = ", ".join(journals) if journals else "(none)"
         q_count = len(pubmed_queries_used)
 
+        # Selection policy summary (non-sensitive diagnostics only).
+        sel_enabled = False
+        sel_mode = ""
+        sel_min_score = None
+        sel_max_selected = None
+        sel_below_threshold = None
+        sel_excluded_by_allowlist = None
+        if isinstance(selection_stats, dict) and selection_stats:
+            sel_enabled = bool(selection_stats.get("enabled", False))
+            sel_mode = str(selection_stats.get("journal_allowlist_mode", "") or "").strip()
+            sel_min_score = selection_stats.get("min_score", None)
+            sel_max_selected = selection_stats.get("max_selected_per_run", None)
+            sel_below_threshold = selection_stats.get("below_threshold", None)
+            sel_excluded_by_allowlist = selection_stats.get("excluded_by_allowlist", None)
+
         lines: List[str] = []
         lines.append("**Cybermed report metadata**")
         lines.append(f"- {pubmed_candidates_total} papers screened from the following journals during the last {args.hours}h: {journal_list}")
+        lines.append(f"- New (not previously processed): {pubmed_new_unique} (skipped_by_state: {pubmed_skipped_by_state})")
         lines.append(f"- Search criteria were (PubMed E-Utilities): datetype={pubmed_datetype.upper()} mindate={mindate} maxdate={maxdate} (UTC date boundaries), sort=date, retmax={max_items_per_channel}/query")
         lines.append(f"- PubMed queries executed: {q_count} (failed: {pubmed_query_failures})")
-        lines.append(f"- Number of selected papers: {pubmed_selected}")
+        if sel_enabled:
+            lines.append(
+                f"- Number of selected papers: {pubmed_selected} (after state + selection policy; "
+                f"min_score={sel_min_score}, max_selected={sel_max_selected}, allowlist_mode={sel_mode or 'n/a'}, "
+                f"below_threshold={sel_below_threshold}, excluded_by_allowlist={sel_excluded_by_allowlist})"
+            )
+        else:
+            lines.append(f"- Number of selected papers: {pubmed_selected} (after state; selection policy disabled/unavailable)")
         lines.append("")
         lines.append("**PubMed queries (exact terms)**")
         for cname, term in pubmed_queries_used:
@@ -567,7 +618,7 @@ def main() -> None:
         cybermed_meta_block = "\n".join(lines).strip() + "\n\n"
 
     if not items:
-        if report_language.lower().startswith('en'):
+        if report_language.lower().startswith("en"):
             overview = cybermed_meta_block + "## Executive Summary\n\nNo new content in the last 24 hours.\n"
         else:
             overview = cybermed_meta_block + "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n"
@@ -577,6 +628,24 @@ def main() -> None:
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(md)
         print(f"[report] Wrote {out_path}")
+
+        # Mark all newly screened items as processed (memory), even if none were selected for the report.
+        now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+        for it in items_all_new:
+            src = (it.get("source") or "").strip().lower() or "youtube"
+            iid = str(it.get("id") or "").strip()
+            if not iid:
+                continue
+            try:
+                meta = {
+                    "title": it.get("title"),
+                    "channel": it.get("channel"),
+                    "url": it.get("url"),
+                    "processed_at_utc": now_utc_iso,
+                }
+                mark_processed(state, report_key, src, iid, meta=meta)
+            except Exception as e:
+                print(f"[state] WARN: mark_processed failed for {src}:{iid!r}: {e!r}")
 
         try:
             save_state(state_path, state)
@@ -603,7 +672,7 @@ def main() -> None:
         overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
     except Exception as e:
         print(f"[summarize] ERROR: summarize() failed: {e!r}")
-        if report_language.lower().startswith('en'):
+        if report_language.lower().startswith("en"):
             overview_body = "## Executive Summary\n\n**Error:** Failed to generate overview.\n"
         else:
             overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
@@ -630,7 +699,7 @@ def main() -> None:
             details_by_id[key] = summarize_item_detail(it, language=report_language, profile=report_profile).strip()
         except Exception as e:
             print(f"[summarize] WARN: summarize_item_detail failed for {key!r}: {e!r}")
-            if report_language.lower().startswith('en'):
+            if report_language.lower().startswith("en"):
                 details_by_id[key] = "Key takeaways:\n- (Failed to generate deep dive.)\n"
             else:
                 details_by_id[key] = "Kernaussagen:\n- (Fehler beim Erzeugen der Detail-Zusammenfassung)\n"
@@ -652,7 +721,7 @@ def main() -> None:
     print(f"[report] Wrote {out_path}")
 
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    for it in items_sorted:
+    for it in items_all_new:
         src = (it.get("source") or "").strip().lower() or "youtube"
         iid = str(it.get("id") or "").strip()
         if not iid:
