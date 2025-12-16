@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "enabled": true,
+
+  "selection": {
+    "max_selected_per_run": 12,
+    "min_score_to_select": 2.0,
+
+    "min_abstract_chars": 400,
+
+    "exclude_title_regex": [
+      "\\breply\\b",
+      "\\bcorrespondence\\b",
+      "\\bletter\\b",
+      "\\bcommentary\\b",
+      "\\beditorial\\b",
+      "\\bprotocol\\b"
+    ],
+
+    "journal_allowlist_mode": "prefer",
+    "core_journals": [
+      "Acta Anaesthesiol Scand",
+      "Anaesthesia",
+      "Anesth Analg",
+      "Br J Anaesth",
+      "Crit Care",
+      "Intensive Care Med",
+      "Resuscitation",
+      "Pain",
+      "Reg Anesth Pain Med",
+      "N Engl J Med",
+      "Nature",
+      "Science"
+    ],
+
+    "high_impact_journals": [
+      "N Engl J Med",
+      "Nature",
+      "Science"
+    ]
+  },
+
+  "scoring": {
+    "journal_core_bonus": 2.0,
+    "journal_high_impact_bonus": 2.0,
+    "has_reasonable_abstract_bonus": 1.0,
+
+    "critical_care_bonus": 0.5,
+    "anaesthesiology_bonus": 0.5,
+
+    "exclude_title_penalty": -5.0
+  },
+
+  "classification_keywords": {
+    "critical_care": [
+      "icu",
+      "intensive care",
+      "critical care",
+      "sepsis",
+      "septic",
+      "shock",
+      "vasopressor",
+      "norepinephrine",
+      "noradrenaline",
+      "ards",
+      "ventilat",
+      "ecmo",
+      "resuscitation",
+      "cardiac arrest",
+      "crrt",
+      "dialysis",
+      "renal replacement"
+    ],
+    "anaesthesiology": [
+      "anaesth",
+      "anesth",
+      "anesthesia",
+      "perioper",
+      "postoperative",
+      "surgery",
+      "regional",
+      "neuraxial",
+      "epidural",
+      "spinal",
+      "nerve block",
+      "analges",
+      "pain"
+    ]
+  }
+}
