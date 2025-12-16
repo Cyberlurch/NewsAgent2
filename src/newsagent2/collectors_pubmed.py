@@ -305,6 +305,8 @@ def _parse_pubmed_xml(xml_text: str, max_items: int) -> List[Dict[str, Any]]:
             title = f"PubMed Article {pmid}"
 
         journal = _extract_text(art.find(".//Journal/Title"))
+        journal_iso_abbrev = _extract_text(art.find(".//Journal/ISOAbbreviation"))
+        journal_medline_ta = _extract_text(art.find(".//MedlineJournalInfo/MedlineTA"))
         abstract_parts = []
         for ab in art.findall(".//Abstract/AbstractText"):
             part = _extract_text(ab)
@@ -347,6 +349,8 @@ def _parse_pubmed_xml(xml_text: str, max_items: int) -> List[Dict[str, Any]]:
                 "url": url,
                 "published_at": pub_dt,
                 "journal": journal.strip() if journal else "",
+                "journal_iso_abbrev": journal_iso_abbrev.strip() if journal_iso_abbrev else "",
+                "journal_medline_ta": journal_medline_ta.strip() if journal_medline_ta else "",
                 "doi": doi,
                 "text": "\n".join(text_chunks).strip(),
             }
