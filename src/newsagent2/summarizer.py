@@ -60,6 +60,25 @@ _SYS_OVERVIEW_EN = (
     "- After the overview, optionally add a subsection '### In brief' with 2–6 short bullets.\n"
 )
 
+_SYS_OVERVIEW_CYBERLURCH_EN = (
+    "You are a careful, neutral summarizer. Section headers must be in English.\n"
+    "You will receive multiple items (YouTube videos, articles, PubMed abstracts) with title, date, and text.\n"
+    "Goal: Create a compact daily overview for a newsletter reader.\n\n"
+    "Language policy (per item):\n"
+    "- Detect the dominant language using the item's title and text.\n"
+    "- If the item language is English, German, or Swedish, write that item's summary in that language.\n"
+    "- Otherwise, translate/summarize that item into English.\n"
+    "- Keep report-level section headers in English.\n\n"
+    "Output rules:\n"
+    "- Output must be valid Markdown.\n"
+    "- Start with exactly this section header: '## Executive Summary'.\n"
+    "- Summarize only what is supported by the provided text; do not invent facts.\n"
+    "- If claims are speculative/uncertain, say so explicitly.\n"
+    "- Prefer concrete statements (who/what/where/when) if present.\n"
+    "- Keep it readable: short paragraphs or short bullet lists.\n"
+    "- After the overview, optionally add a subsection '### In brief' with 2–6 short bullets.\n"
+)
+
 # NOTE:
 # Reporter now renders a Cybermed "paper-first" list per category.
 # This overview prompt additionally asks for a small clickable paper list inside the summary.
@@ -106,6 +125,21 @@ _SYS_DETAIL_YOUTUBE_EN = (
     "- 1–3 short paragraphs.\n"
 )
 
+_SYS_DETAIL_YOUTUBE_CYBERLURCH_EN = (
+    "You are a careful summarizer. Section headers must be in English.\n"
+    "You will receive one YouTube item with title, channel, date, URL and transcript/description text.\n\n"
+    "Language policy:\n"
+    "- Detect the dominant language using the title and text provided.\n"
+    "- If the item language is English, German, or Swedish, write the summary in that language.\n"
+    "- Otherwise, translate/summarize the item into English.\n"
+    "- Keep the structural labels in English.\n\n"
+    "Return Markdown with this structure:\n"
+    "Key takeaways:\n"
+    "- 3–6 bullets (precise, no speculation)\n\n"
+    "Details & reasoning:\n"
+    "- 1–3 short paragraphs.\n"
+)
+
 _SYS_DETAIL_PUBMED_DE = (
     "You are a careful clinical summarizer. Write strictly in German.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract text when available).\n"
@@ -125,6 +159,26 @@ _SYS_DETAIL_PUBMED_EN = (
     "You are a careful clinical summarizer. Write strictly in English.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract text when available).\n"
     "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'not reported'.\n\n"
+    "Return Markdown with this structure:\n"
+    "**BOTTOM LINE:** 1–2 sentences: what is new, how strong the evidence is, and the possible practice impact.\n\n"
+    "**Study type:** (RCT / cohort / case-control / cross-sectional / systematic review / guideline / other / not reported)\n"
+    "**Population/setting:** (short)\n"
+    "**Intervention/exposure & comparator:** (if stated)\n"
+    "**Primary endpoints:** (if stated)\n"
+    "**Key results:** (concrete; include numbers if present)\n"
+    "**Limitations:** 1–3 bullets\n"
+    "**Why this matters:** 1 short paragraph.\n"
+)
+
+_SYS_DETAIL_PUBMED_CYBERLURCH_EN = (
+    "You are a careful clinical summarizer. Section headers must be in English.\n"
+    "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract text when available).\n"
+    "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'not reported'.\n\n"
+    "Language policy:\n"
+    "- Detect the dominant language using the title and abstract text.\n"
+    "- If the item language is English, German, or Swedish, write the summary in that language.\n"
+    "- Otherwise, translate/summarize the item into English.\n"
+    "- Keep the structural labels in English.\n\n"
     "Return Markdown with this structure:\n"
     "**BOTTOM LINE:** 1–2 sentences: what is new, how strong the evidence is, and the possible practice impact.\n\n"
     "**Study type:** (RCT / cohort / case-control / cross-sectional / systematic review / guideline / other / not reported)\n"
@@ -174,10 +228,15 @@ def summarize(items: List[Dict[str, Any]], *, language: str = "de", profile: str
     """
     lang = _norm_language(language)
     prof = _norm_profile(profile)
+    report_key = (os.getenv("REPORT_KEY") or "").strip().lower()
+    is_cyberlurch = report_key == "cyberlurch"
 
-    sys_prompt = _SYS_OVERVIEW_EN if lang == "en" else _SYS_OVERVIEW_DE
-    if prof == "medical":
-        sys_prompt += _MEDICAL_OVERVIEW_APPEND_EN if lang == "en" else _MEDICAL_OVERVIEW_APPEND_DE
+    if is_cyberlurch:
+        sys_prompt = _SYS_OVERVIEW_CYBERLURCH_EN
+    else:
+        sys_prompt = _SYS_OVERVIEW_EN if lang == "en" else _SYS_OVERVIEW_DE
+        if prof == "medical":
+            sys_prompt += _MEDICAL_OVERVIEW_APPEND_EN if lang == "en" else _MEDICAL_OVERVIEW_APPEND_DE
 
     items_json = json.dumps(_slim_items(items), ensure_ascii=False, indent=2)
 
@@ -210,13 +269,21 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     """
     lang = _norm_language(language)
     prof = _norm_profile(profile)
+    report_key = (os.getenv("REPORT_KEY") or "").strip().lower()
+    is_cyberlurch = report_key == "cyberlurch"
 
     src = (item.get("source") or "youtube").strip().lower()
 
     if src == "pubmed":
-        sys_prompt = _SYS_DETAIL_PUBMED_EN if lang == "en" else _SYS_DETAIL_PUBMED_DE
+        if is_cyberlurch:
+            sys_prompt = _SYS_DETAIL_PUBMED_CYBERLURCH_EN
+        else:
+            sys_prompt = _SYS_DETAIL_PUBMED_EN if lang == "en" else _SYS_DETAIL_PUBMED_DE
     else:
-        sys_prompt = _SYS_DETAIL_YOUTUBE_EN if lang == "en" else _SYS_DETAIL_YOUTUBE_DE
+        if is_cyberlurch:
+            sys_prompt = _SYS_DETAIL_YOUTUBE_CYBERLURCH_EN
+        else:
+            sys_prompt = _SYS_DETAIL_YOUTUBE_EN if lang == "en" else _SYS_DETAIL_YOUTUBE_DE
 
     # Small additional guidance for medical profile even for YouTube content
     if prof == "medical" and src != "pubmed":
