@@ -19,16 +19,16 @@ jobs:
     runs-on: ubuntu-24.04
 
     # IMPORTANT (log safety):
-    # - Do NOT pass recipient email addresses via env/vars here (GitHub logs env values unless they are Secrets).
-    # - Use data/recipients.json (preferred for private repos) or keep EMAIL_TO as a Secret only if still needed.
+    # - Do NOT pass recipient email addresses via env/vars (they can leak in logs).
+    # - Recipients must be passed only as JSON via GitHub Secrets.
     env:
       # OpenAI
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
 
-      # E-Mail (SMTP) - true secrets stay secrets
+      # E-Mail (SMTP)
       SEND_EMAIL: ${{ vars.SEND_EMAIL || '1' }}
-      EMAIL_FROM: ${{ vars.EMAIL_FROM || secrets.EMAIL_FROM || '' }}
+      EMAIL_FROM: ${{ secrets.EMAIL_FROM || '' }}
       SMTP_HOST: ${{ secrets.SMTP_HOST }}
       SMTP_PORT: ${{ secrets.SMTP_PORT }}
       SMTP_USER: ${{ secrets.SMTP_USER }}
@@ -69,6 +69,8 @@ jobs:
           REPORT_LANGUAGE: de
           REPORT_PROFILE: general
           SEND_EMPTY_REPORT_EMAIL: "1"
+          # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.
+          RECIPIENTS_JSON_CYBERLURCH: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH }}
         run: |
           if [ -f data/youtube_only.json ]; then
             CHFILE="data/youtube_only.json"
@@ -88,6 +90,8 @@ jobs:
           REPORT_LANGUAGE: en
           REPORT_PROFILE: medical
           SEND_EMPTY_REPORT_EMAIL: "1"
+          # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.
+          RECIPIENTS_JSON_CYBERMED: ${{ secrets.RECIPIENTS_JSON_CYBERMED }}
         run: |
           python -m src.newsagent2.main \
             --channels "data/cybermed_channels.json" \
