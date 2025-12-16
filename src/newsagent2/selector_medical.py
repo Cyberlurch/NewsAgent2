@@ -39,6 +39,44 @@ def _norm(s: str) -> str:
     return (s or "").strip().lower()
 
 
+def _normalize_journal_token(s: str) -> str:
+    base = (s or "").strip().lower()
+    if not base:
+        return ""
+    return re.sub(r"[^a-z0-9]+", "", base)
+
+
+def _journal_candidates(item: Dict[str, Any]) -> List[str]:
+    candidates: List[str] = []
+    for key in ("journal", "journal_iso_abbrev", "journal_medline_ta"):
+        val = str(item.get(key) or "").strip()
+        if val:
+            candidates.append(val)
+
+    ch = str(item.get("channel") or "").strip()
+    if ch:
+        if ch.lower().startswith("pubmed:"):
+            ch = ch.split(":", 1)[1].strip()
+        if ch:
+            candidates.append(ch)
+
+    return candidates
+
+
+def _journal_matches(item: Dict[str, Any], names: List[str] | set[str]) -> bool:
+    normalized_targets = {
+        _normalize_journal_token(str(x)) for x in names if _normalize_journal_token(str(x))
+    }
+    if not normalized_targets:
+        return False
+
+    for cand in _journal_candidates(item):
+        if _normalize_journal_token(cand) in normalized_targets:
+            return True
+
+    return False
+
+
 def _text_haystack(item: Dict[str, Any]) -> str:
     # Keep bounded to avoid large prompts/logging overhead; selector only needs signals.
     title = str(item.get("title") or "")
@@ -70,13 +108,8 @@ def _contains_any_keyword(text: str, keywords: List[str]) -> bool:
 
 
 def _journal_name(item: Dict[str, Any]) -> str:
-    j = str(item.get("journal") or "").strip()
-    if j:
-        return j
-    ch = str(item.get("channel") or "").strip()
-    if ch.lower().startswith("pubmed:"):
-        return ch.split(":", 1)[1].strip()
-    return ch
+    candidates = _journal_candidates(item)
+    return candidates[0] if candidates else ""
 
 
 def _score_item(item: Dict[str, Any], cfg: Dict[str, Any]) -> Tuple[float, List[str]]:
@@ -105,18 +138,17 @@ def _score_item(item: Dict[str, Any], cfg: Dict[str, Any]) -> Tuple[float, List[
         reasons.append(f"abstract_len_bonus(+{bonus})")
 
     # Journal bonuses (safe, offline)
-    j = _journal_name(item)
     core = sel.get("core_journals", [])
     high = sel.get("high_impact_journals", [])
     core_set = {str(x).strip() for x in core} if isinstance(core, list) else set()
     high_set = {str(x).strip() for x in high} if isinstance(high, list) else set()
 
-    if j in core_set:
+    if _journal_matches(item, core_set):
         bonus = float(sc.get("journal_core_bonus", 2.0))
         score += bonus
         reasons.append(f"core_journal(+{bonus})")
 
-    if j in high_set:
+    if _journal_matches(item, high_set):
         bonus = float(sc.get("journal_high_impact_bonus", 2.0))
         score += bonus
         reasons.append(f"high_impact_journal(+{bonus})")
@@ -186,8 +218,7 @@ def select_cybermed_pubmed_items(
 
         # Optional strict allowlist mode (not recommended by default)
         if journal_mode == "strict":
-            j = _journal_name(it)
-            if core_set and j not in core_set:
+            if core_set and not _journal_matches(it, core_set):
                 excluded_by_allowlist += 1
                 continue
 
