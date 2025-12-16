@@ -20,6 +20,21 @@
           "query": "\"Anaesthesia\"[jour]"
         },
         {
+          "name": "PubMed: Anesthesiology",
+          "source": "pubmed",
+          "query": "\"Anesthesiology\"[jour]"
+        },
+        {
+          "name": "PubMed: European Journal of Anaesthesiology",
+          "source": "pubmed",
+          "query": "\"Eur J Anaesthesiol\"[jour]"
+        },
+        {
+          "name": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+          "source": "pubmed",
+          "query": "\"Anaesth Crit Care Pain Med\"[jour]"
+        },
+        {
           "name": "PubMed: Acta Anaesthesiologica Scandinavica",
           "source": "pubmed",
           "query": "\"Acta Anaesthesiol Scand\"[jour]"
@@ -44,6 +59,47 @@
           "name": "PubMed: Resuscitation",
           "source": "pubmed",
           "query": "\"Resuscitation\"[jour]"
+        },
+        {
+          "name": "PubMed: The Lancet Respiratory Medicine",
+          "source": "pubmed",
+          "query": "\"Lancet Respir Med\"[jour]"
+        },
+        {
+          "name": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+          "source": "pubmed",
+          "query": "\"Am J Respir Crit Care Med\"[jour]"
+        },
+        {
+          "name": "PubMed: CHEST",
+          "source": "pubmed",
+          "query": "\"Chest\"[jour]"
+        },
+        {
+          "name": "PubMed: Critical Care Medicine",
+          "source": "pubmed",
+          "query": "\"Crit Care Med\"[jour]"
+        },
+        {
+          "name": "PubMed: Annals of Intensive Care",
+          "source": "pubmed",
+          "query": "\"Ann Intensive Care\"[jour]"
+        },
+        {
+          "name": "PubMed: Journal of Intensive Care",
+          "source": "pubmed",
+          "query": "\"J Intensive Care\"[jour]"
+        }
+      ]
+    },
+    {
+      "name": "Notfallmedizin",
+      "weight": 2,
+      "channels": [
+        {
+          "name": "PubMed: Annals of Emergency Medicine",
+          "source": "pubmed",
+          "query": "\"Ann Emerg Med\"[jour]"
         }
       ]
     },
@@ -92,6 +148,21 @@
           "name": "PubMed: Science (medizin/biomed breit)",
           "source": "pubmed",
           "query": "\"Science\"[jour] AND (clinical[tiab] OR trial[tiab] OR cohort[tiab] OR ICU[tiab] OR anesthesia[tiab])"
+        },
+        {
+          "name": "PubMed: The Lancet (intensiv/akut Filter)",
+          "source": "pubmed",
+          "query": "\"Lancet\"[jour] AND (ICU[tiab] OR \"intensive care\"[tiab] OR \"critical care\"[tiab] OR sepsis[tiab] OR shock[tiab] OR ventilat*[tiab] OR perioperat*[tiab] OR anesthe*[tiab] OR anaesthe*[tiab] OR emergency[tiab] OR resuscitat*[tiab] OR \"cardiac arrest\"[tiab])"
+        },
+        {
+          "name": "PubMed: JAMA (intensiv/akut Filter)",
+          "source": "pubmed",
+          "query": "\"JAMA\"[jour] AND (ICU[tiab] OR \"intensive care\"[tiab] OR \"critical care\"[tiab] OR sepsis[tiab] OR shock[tiab] OR ventilat*[tiab] OR perioperat*[tiab] OR anesthe*[tiab] OR anaesthe*[tiab] OR emergency[tiab] OR resuscitat*[tiab] OR \"cardiac arrest\"[tiab])"
+        },
+        {
+          "name": "PubMed: The BMJ (intensiv/akut Filter)",
+          "source": "pubmed",
+          "query": "\"BMJ\"[jour] AND (ICU[tiab] OR \"intensive care\"[tiab] OR \"critical care\"[tiab] OR sepsis[tiab] OR shock[tiab] OR ventilat*[tiab] OR perioperat*[tiab] OR anesthe*[tiab] OR anaesthe*[tiab] OR emergency[tiab] OR resuscitat*[tiab] OR \"cardiac arrest\"[tiab])"
         }
       ]
     }
