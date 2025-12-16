@@ -5,7 +5,53 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
 
+CYBERMED_JOURNAL_CATEGORY_MAP = {
+    # Anesthesia / Perioperative
+    "anesthesiology": "anesthesia",
+    "br j anaesth": "anesthesia",
+    "anaesthesia": "anesthesia",
+    "eur j anaesthesiol": "anesthesia",
+    "anaesth crit care pain med": "anesthesia",
+
+    # Intensive Care
+    "intensive care med": "intensive",
+    "crit care": "intensive",
+    "crit care med": "intensive",
+    "ann intensive care": "intensive",
+    "j intensive care": "intensive",
+    "am j respir crit care med": "intensive",
+    "chest": "intensive",
+    "lancet respir med": "intensive",
+
+    # Emergency / Resuscitation
+    "ann emerg med": "emergency",
+    "resuscitation": "emergency",
+
+    # Pain / Regional
+    "reg anesth pain med": "pain",
+    "pain": "pain",
+
+    # General / High-impact
+    "lancet": "general",
+    "n engl j med": "general",
+    "jama": "general",
+    "bmj": "general",
+}
+
 STO = ZoneInfo("Europe/Stockholm")
+
+def _normalize_journal_name(name: str) -> str:
+    return (name or "").strip().lower().rstrip(".")
+
+def _journal_category(item: Dict[str, Any]) -> Optional[str]:
+    for key in ("journal_iso_abbrev", "journal_medline_ta", "journal"):
+        jn = _normalize_journal_name(str(item.get(key) or ""))
+        if not jn:
+            continue
+        cat = CYBERMED_JOURNAL_CATEGORY_MAP.get(jn)
+        if cat:
+            return cat
+    return None
 
 def _norm_language(lang: str) -> str:
     l = (lang or "").strip().lower()
@@ -94,42 +140,102 @@ def _fallback_bottom_line(item: Dict[str, Any]) -> str:
 def _infer_track_and_subcategory(item: Dict[str, Any]) -> Tuple[str, str]:
     hay = " ".join((str(item.get(k) or "") for k in ("title", "journal", "channel"))).lower()
 
-    if any(k in hay for k in ("acta anaesthesiol scand", "anaesthesia", "br j anaesth", "anesth analg", "reg anesth pain med", "pain")):
-        track = "Anaesthesiology"
-    elif any(k in hay for k in ("intensive care med", "crit care", "resuscitation")):
+    journal_category = _journal_category(item)
+    track: Optional[str] = None
+    sub: Optional[str] = None
+
+    if journal_category == "emergency":
+        track, sub = "Critical Care", "Other Critical Care"
+    elif journal_category == "intensive":
         track = "Critical Care"
-    else:
-        ana_hits = any(k in hay for k in ("anaesth", "anesth", "anesthesia", "perioper", "postoperative", "regional", "neuraxial", "epidural", "spinal", "nerve block", "pain", "analges"))
-        cc_hits = any(k in hay for k in ("icu", "intensive care", "critical care", "sepsis", "shock", "ventilat", "ards", "ecmo", "resuscitation", "cardiac arrest", "crrt", "dialysis", "vasopressor", "norepinephrine"))
-        if ana_hits and not cc_hits:
+    elif journal_category == "anesthesia":
+        track = "Anaesthesiology"
+    elif journal_category == "pain":
+        track, sub = "Anaesthesiology", "Pain/Regional Anesthesia"
+
+    ana_hits = any(
+        k in hay
+        for k in (
+            "anaesth",
+            "anesth",
+            "anesthesia",
+            "perioper",
+            "postoperative",
+            "regional",
+            "neuraxial",
+            "epidural",
+            "spinal",
+            "nerve block",
+            "pain",
+            "analges",
+        )
+    )
+    cc_hits = any(
+        k in hay
+        for k in (
+            "icu",
+            "intensive care",
+            "critical care",
+            "sepsis",
+            "shock",
+            "ventilat",
+            "ards",
+            "ecmo",
+            "resuscitation",
+            "cardiac arrest",
+            "crrt",
+            "dialysis",
+            "vasopressor",
+            "norepinephrine",
+        )
+    )
+
+    if journal_category == "general" and track is None:
+        if cc_hits and not ana_hits:
+            track = "Critical Care"
+        elif ana_hits and not cc_hits:
             track = "Anaesthesiology"
-        elif cc_hits and not ana_hits:
+        elif cc_hits and ana_hits:
             track = "Critical Care"
         else:
-            track = "Anaesthesiology" if any(k in hay for k in ("perioper", "postoperative", "regional", "pain")) else "Critical Care"
+            track, sub = "Critical Care", "Other Critical Care"
 
-    if track == "Critical Care":
-        if any(k in hay for k in ("shock", "vasopressor", "norepinephrine", "hemodynamic", "haemodynamic", "circulat", "cardiac", "arrest", "ecpr")):
-            sub = "Circulation"
-        elif any(k in hay for k in ("ventilat", "ards", "oxygen", "respir", "intubat", "airway", "ecmo", "pneumonia")):
-            sub = "Respiration"
-        elif any(k in hay for k in ("sepsis", "septic", "infection", "bacter", "antibiotic", "fungal", "pneumonia")):
-            sub = "Infection/Sepsis"
-        elif any(k in hay for k in ("renal", "kidney", "crrt", "dialysis", "hemofiltration", "haemofiltration")):
-            sub = "Renal/CRRT"
-        elif any(k in hay for k in ("neuro", "brain", "stroke", "delirium", "seizure", "intracran", "cerebral")):
-            sub = "Neuro"
+    if track is None:
+        if any(k in hay for k in ("acta anaesthesiol scand", "anaesthesia", "br j anaesth", "anesth analg", "reg anesth pain med", "pain")):
+            track = "Anaesthesiology"
+        elif any(k in hay for k in ("intensive care med", "crit care", "resuscitation")):
+            track = "Critical Care"
         else:
-            sub = "Other Critical Care"
-    else:
-        if any(k in hay for k in ("regional", "nerve block", "block", "neuraxial", "epidural", "spinal", "analges", "pain")):
-            sub = "Pain/Regional Anesthesia"
-        elif any(k in hay for k in ("perioper", "postoperative", "post-operative", "surgery", "surgical", "anemia", "anaemia")):
-            sub = "Perioperative Medicine"
-        elif any(k in hay for k in ("induction", "maintenance", "airway", "volatile", "propofol", "ketamine", "anesthetic", "anaesthetic")):
-            sub = "General Anesthesia"
+            if ana_hits and not cc_hits:
+                track = "Anaesthesiology"
+            elif cc_hits and not ana_hits:
+                track = "Critical Care"
+            else:
+                track = "Critical Care" if cc_hits else "Anaesthesiology"
+
+    if sub is None:
+        if track == "Critical Care":
+            if any(k in hay for k in ("shock", "vasopressor", "norepinephrine", "hemodynamic", "haemodynamic", "circulat", "cardiac", "arrest", "ecpr")):
+                sub = "Circulation"
+            elif any(k in hay for k in ("ventilat", "ards", "oxygen", "respir", "intubat", "airway", "ecmo", "pneumonia")):
+                sub = "Respiration"
+            elif any(k in hay for k in ("sepsis", "septic", "infection", "bacter", "antibiotic", "fungal", "pneumonia")):
+                sub = "Infection/Sepsis"
+            elif any(k in hay for k in ("renal", "kidney", "crrt", "dialysis", "hemofiltration", "haemofiltration")):
+                sub = "Renal/CRRT"
+            elif any(k in hay for k in ("neuro", "brain", "stroke", "delirium", "seizure", "intracran", "cerebral")):
+                sub = "Neuro"
+            else:
+                sub = "Other Critical Care"
         else:
-            sub = "Other Anaesthesiology"
+            if any(k in hay for k in ("regional", "nerve block", "block", "neuraxial", "epidural", "spinal", "analges", "pain")):
+                sub = "Pain/Regional Anesthesia"
+            elif any(k in hay for k in ("perioper", "postoperative", "post-operative", "surgery", "surgical", "anemia", "anaemia")):
+                sub = "Perioperative Medicine"
+            elif any(k in hay for k in ("induction", "maintenance", "airway", "volatile", "propofol", "ketamine", "anesthetic", "anaesthetic")):
+                sub = "General Anesthesia"
+            else:
+                sub = "Other Anaesthesiology"
 
     return track, sub
 
