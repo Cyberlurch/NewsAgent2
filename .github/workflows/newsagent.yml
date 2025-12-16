@@ -66,7 +66,7 @@ jobs:
           REPORT_KEY: cyberlurch
           REPORT_TITLE: The Cyberlurch Report
           REPORT_SUBJECT: The Cyberlurch Report
-          REPORT_LANGUAGE: de
+          REPORT_LANGUAGE: en
           REPORT_PROFILE: general
           SEND_EMPTY_REPORT_EMAIL: "1"
           # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.

@@ -141,18 +141,17 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
     is_cybermed = _is_cybermed_report(title, report_language)
 
     overview_markdown = (overview_markdown or "").strip()
+    meta_only = ""
     if overview_markdown:
         if is_cybermed:
             meta_only = _extract_cybermed_meta_block(overview_markdown)
-            if meta_only:
-                md.extend([meta_only, ""])
         else:
             md.extend([overview_markdown, ""])
 
     if is_cybermed:
         pubmed_items = [it for it in items if str(it.get("source") or "").strip().lower() == "pubmed"]
+        md.extend(["## Papers", ""])
         if pubmed_items:
-            md.extend(["## Papers", ""])
             grouped: Dict[str, Dict[str, List[Dict[str, Any]]]] = {}
             for it in pubmed_items:
                 track, sub = _infer_track_and_subcategory(it)
@@ -184,6 +183,8 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
                         md.append(f"- [{title_lbl}]({url}) — *{label}*" if url else f"- {title_lbl} — *{label}*")
                         md.append(f"  - **BOTTOM LINE:** {bottom}" if bottom else f"  - **BOTTOM LINE:** {_fallback_bottom_line(it)}")
                     md.append("")
+        else:
+            md.append("No new papers selected (all screened items were already processed or filtered by policy).")
 
     deep_dives_heading = "## Vertiefungen" if lang == "de" else "## Deep Dives"
     sources_heading = "## Quellen" if lang == "de" else "## Sources"
@@ -214,5 +215,10 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
         md.extend([sources_heading, ""])
         md.extend(src_lines if src_lines else ["- (keine)" if lang == "de" else "- (none)"])
         md.append("")
+
+    if is_cybermed and meta_only:
+        if md and md[-1] != "":
+            md.append("")
+        md.extend(["## Run Metadata", "", meta_only])
 
     return "\n".join(md)
