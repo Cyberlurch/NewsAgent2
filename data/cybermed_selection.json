@@ -7,6 +7,7 @@
     "max_overview_items": 24,
     "max_deep_dives": 8,
     "min_score_to_select": 2.0,
+    "min_score_overview": 0.5,
 
     "min_abstract_chars": 400,
 
@@ -19,7 +20,193 @@
       "\\bprotocol\\b"
     ],
 
+    "hard_exclusion_patterns": [
+      "\\bveterinar",
+      "\\bcanine\\b",
+      "\\bporcine\\b",
+      "\\bovine\\b",
+      "\\bequine\\b",
+      "\\bswine\\b",
+      "\\bmouse\\b",
+      "\\bmice\\b",
+      "\\brat\\b",
+      "\\bmurine\\b",
+      "\\bin vitro\\b",
+      "cell line",
+      "\\bdental\\b",
+      "odontology",
+      "oral surgery",
+      "\\btooth\\b",
+      "\\bathlete",
+      "\\bathletes",
+      "\\bsports medicine\\b"
+    ],
+
     "journal_allowlist_mode": "prefer",
+    "tiers": {
+      "tier1_core_clinical": [
+        "Acta Anaesthesiol Scand",
+        "Am J Respir Crit Care Med",
+        "Anaesth Crit Care Pain Med",
+        "Anaesthesia",
+        "Anesth Analg",
+        "Anesthesiology",
+        "Ann Emerg Med",
+        "Ann Intensive Care",
+        "Br J Anaesth",
+        "Chest",
+        "Crit Care",
+        "Crit Care Med",
+        "Eur J Anaesthesiol",
+        "Intensive Care Med",
+        "J Intensive Care",
+        "Lancet Respir Med",
+        "Resuscitation"
+      ],
+      "tier2_general_high_impact": [
+        "Lancet",
+        "N Engl J Med",
+        "JAMA",
+        "BMJ",
+        "Nature",
+        "Science"
+      ],
+      "tier3_pain_strict": [
+        "Pain",
+        "Reg Anesth Pain Med"
+      ]
+    },
+
+    "domain_keywords": {
+      "anesthesia_periop": [
+        "anaesth",
+        "anesth",
+        "anesthesia",
+        "perioper",
+        "postoperative",
+        "surgery",
+        "operative",
+        "airway",
+        "intubation",
+        "extubation",
+        "anesthesiologist",
+        "regional anesthesia",
+        "nerve block",
+        "neuraxial",
+        "epidural",
+        "spinal anesthesia"
+      ],
+      "icu_ccm": [
+        "icu",
+        "intensive care",
+        "critical care",
+        "sepsis",
+        "septic",
+        "shock",
+        "vasopressor",
+        "norepinephrine",
+        "noradrenaline",
+        "ards",
+        "ventilat",
+        "ecmo",
+        "resuscitation",
+        "cardiac arrest",
+        "crrt",
+        "dialysis",
+        "renal replacement"
+      ],
+      "emergency_resus": [
+        "emergency department",
+        "emergency medicine",
+        "prehospital",
+        "out-of-hospital",
+        "ems",
+        "paramedic",
+        "trauma",
+        "mass casualty",
+        "resuscitation"
+      ],
+      "ai_medicine": [
+        "machine learning",
+        "artificial intelligence",
+        "deep learning",
+        "neural network",
+        "predictive model",
+        "clinical decision support",
+        "natural language processing"
+      ]
+    },
+
+    "clinical_intent_keywords": {
+      "design": [
+        "randomized",
+        "randomised",
+        "trial",
+        "cohort",
+        "registry",
+        "guideline",
+        "meta-analysis",
+        "systematic review",
+        "consensus",
+        "phase",
+        "double-blind",
+        "prospective",
+        "retrospective",
+        "case-control",
+        "multicenter",
+        "multicentre"
+      ],
+      "clinical": [
+        "mortality",
+        "morbidity",
+        "complication",
+        "length of stay",
+        "ventilator",
+        "delirium",
+        "sedation",
+        "analgesia",
+        "postoperative pain",
+        "acute pain",
+        "perioperative pain",
+        "patient-reported",
+        "quality of recovery"
+      ]
+    },
+
+    "pain_strict_keywords": [
+      "regional anesthesia",
+      "nerve block",
+      "brachial plexus",
+      "femoral nerve",
+      "sciatic nerve",
+      "adductor canal",
+      "fascia iliaca",
+      "paravertebral",
+      "neuraxial",
+      "epidural",
+      "spinal anesthesia",
+      "perioperative pain",
+      "acute pain",
+      "postoperative pain",
+      "delirium",
+      "analgosedation",
+      "sedation",
+      "icu pain"
+    ],
+
+    "pain_strict_context_keywords": [
+      "anesthesia",
+      "anaesthesia",
+      "perioperative",
+      "postoperative",
+      "icu",
+      "intensive care",
+      "critical care",
+      "emergency",
+      "resuscitation",
+      "regional"
+    ],
+
     "core_journals": [
       "Acta Anaesthesiol Scand",
       "Am J Respir Crit Care Med",
@@ -29,23 +216,15 @@
       "Anesthesiology",
       "Ann Emerg Med",
       "Ann Intensive Care",
-      "BMJ",
       "Br J Anaesth",
       "Chest",
       "Crit Care",
       "Crit Care Med",
       "Eur J Anaesthesiol",
       "Intensive Care Med",
-      "JAMA",
       "J Intensive Care",
-      "Lancet",
       "Lancet Respir Med",
-      "N Engl J Med",
-      "Nature",
-      "Science",
-      "Resuscitation",
-      "Reg Anesth Pain Med",
-      "Pain"
+      "Resuscitation"
     ],
 
     "high_impact_journals": [
@@ -53,9 +232,6 @@
       "N Engl J Med",
       "JAMA",
       "BMJ",
-      "Lancet Respir Med",
-      "Intensive Care Med",
-      "Am J Respir Crit Care Med",
       "Nature",
       "Science"
     ]
