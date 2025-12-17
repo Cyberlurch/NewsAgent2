@@ -9,8 +9,14 @@ from typing import Any, Dict, List, Tuple
 
 @dataclass(frozen=True)
 class SelectionResult:
-    selected: List[Dict[str, Any]]
+    included: List[Dict[str, Any]]
+    deep_dives: List[Dict[str, Any]]
     stats: Dict[str, Any]
+
+    # Backward-compat convenience (legacy attribute name).
+    @property
+    def selected(self) -> List[Dict[str, Any]]:  # pragma: no cover - compatibility shim
+        return self.included
 
 
 def load_cybermed_selection_config(path: str = "data/cybermed_selection.json") -> Dict[str, Any]:
@@ -192,18 +198,21 @@ def select_cybermed_pubmed_items(
     # If disabled, pass-through to preserve current behavior.
     if not bool(cfg.get("enabled", False)):
         return SelectionResult(
-            selected=list(pubmed_items),
+            included=list(pubmed_items),
+            deep_dives=list(pubmed_items),
             stats={
                 "enabled": False,
                 "candidates": len(pubmed_items),
-                "selected": len(pubmed_items),
+                "included": len(pubmed_items),
+                "deep_dives": len(pubmed_items),
                 "config_path": path,
             },
         )
 
     sel = cfg.get("selection", {}) if isinstance(cfg.get("selection"), dict) else {}
 
-    max_sel = int(sel.get("max_selected_per_run", 12) or 12)
+    max_overview = int(sel.get("max_overview_items", sel.get("max_selected_per_run", 12)) or 12)
+    max_deep_dives = int(sel.get("max_deep_dives", 8) or 8)
     min_score = float(sel.get("min_score_to_select", 2.0))
 
     journal_mode = str(sel.get("journal_allowlist_mode", "prefer") or "prefer").strip().lower()
@@ -226,16 +235,29 @@ def select_cybermed_pubmed_items(
 
     scored.sort(key=lambda x: x[0], reverse=True)
 
-    selected: List[Dict[str, Any]] = []
+    included: List[Dict[str, Any]] = []
+    deep_dives: List[Dict[str, Any]] = []
     below_threshold = 0
 
-    for score, it, _reasons in scored:
+    for score, it, reasons in scored:
         if score < min_score:
             below_threshold += 1
             continue
-        selected.append(it)
-        if len(selected) >= max_sel:
+
+        if len(included) >= max_overview:
             break
+
+        enriched = dict(it)
+        rank = len(included) + 1
+        enriched["cybermed_score"] = score
+        enriched["cybermed_rank"] = rank
+        enriched["cybermed_included"] = True
+        enriched["cybermed_deep_dive"] = len(deep_dives) < max_deep_dives
+        enriched["cybermed_selection_reasons"] = list(reasons)
+
+        included.append(enriched)
+        if enriched["cybermed_deep_dive"]:
+            deep_dives.append(enriched)
 
     # Non-sensitive stats only (no titles, no URLs, no recipients).
     stats = {
@@ -245,11 +267,14 @@ def select_cybermed_pubmed_items(
         "candidates": len(pubmed_items),
         "excluded_by_allowlist": excluded_by_allowlist,
         "below_threshold": below_threshold,
-        "selected": len(selected),
+        "included": len(included),
+        "deep_dives": len(deep_dives),
+        "selected": len(included),
         "min_score": min_score,
-        "max_selected_per_run": max_sel,
+        "max_overview_items": max_overview,
+        "max_deep_dives": max_deep_dives,
         "top_scores": [round(s[0], 2) for s in scored[: min(5, len(scored))]],
     }
 
-    return SelectionResult(selected=selected, stats=stats)
+    return SelectionResult(included=included, deep_dives=deep_dives, stats=stats)
 
