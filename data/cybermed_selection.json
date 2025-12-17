@@ -43,6 +43,7 @@
     ],
 
     "journal_allowlist_mode": "prefer",
+    "max_per_domain_deep_dive": 3,
     "tiers": {
       "tier1_core_clinical": [
         "Acta Anaesthesiol Scand",
@@ -246,6 +247,79 @@
     "anaesthesiology_bonus": 0.5,
 
     "exclude_title_penalty": -5.0
+  },
+
+  "deep_dive_scoring": {
+    "weights": {
+      "study_design": 4.0,
+      "publication_type": 2.5,
+      "power": 1.5,
+      "sample_size": 1.2,
+      "predictive": 1.8,
+      "clinical_relevance": 1.0,
+      "downrank": -1.5
+    },
+    "max_per_domain": 3,
+    "study_design_signals": [
+      "randomized",
+      "randomised",
+      "placebo",
+      "double-blind",
+      "multicenter",
+      "multicentre",
+      "pragmatic trial"
+    ],
+    "publication_type_signals": [
+      "Clinical Trial",
+      "Randomized Controlled Trial",
+      "Meta-Analysis",
+      "Practice Guideline"
+    ],
+    "power_signals": [
+      "n=",
+      "patients",
+      "participants",
+      "registry",
+      "nationwide",
+      "database",
+      "cohort",
+      "prospective"
+    ],
+    "predictive_value_signals": [
+      "prediction model",
+      "risk score",
+      "prognostic",
+      "validation",
+      "auroc",
+      "auc",
+      "calibration",
+      "decision curve"
+    ],
+    "clinical_relevance_keywords": [
+      "ventilation",
+      "vasopressor",
+      "sepsis",
+      "shock",
+      "ecmo",
+      "airway",
+      "neuraxial",
+      "regional block",
+      "transfusion",
+      "anticoagulation",
+      "postoperative",
+      "complication",
+      "delirium"
+    ],
+    "downrank_signals": [
+      "protocol",
+      "pilot",
+      "feasibility",
+      "animal",
+      "in vitro",
+      "mechanistic",
+      "narrative review",
+      "opinion"
+    ]
   },
 
   "classification_keywords": {
