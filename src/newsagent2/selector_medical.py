@@ -176,6 +176,107 @@ def _journal_name(item: Dict[str, Any]) -> str:
     return candidates[0] if candidates else ""
 
 
+def _extract_sample_size(hay: str) -> int:
+    # Try structured patterns first (e.g., "n=1234")
+    direct_match = re.search(r"\bn\s*[=:]\s*(\d{2,5})", hay, flags=re.IGNORECASE)
+    if direct_match:
+        return int(direct_match.group(1))
+
+    # Heuristic: number followed by population noun
+    noun_match = re.search(
+        r"(\d{2,5})\s+(patients|participants|subjects|cases|adults|children|neonates|infants)",
+        hay,
+        flags=re.IGNORECASE,
+    )
+    if noun_match:
+        return int(noun_match.group(1))
+
+    return 0
+
+
+def _deep_dive_score(
+    item: Dict[str, Any],
+    hay: str,
+    cfg: Dict[str, Any],
+    *,
+    domain_flags: Dict[str, bool],
+) -> Tuple[float, List[str]]:
+    dd_cfg = cfg.get("deep_dive_scoring", {}) if isinstance(cfg.get("deep_dive_scoring"), dict) else {}
+    weights = dd_cfg.get("weights", {}) if isinstance(dd_cfg.get("weights"), dict) else {}
+
+    w_study = float(weights.get("study_design", 3.0))
+    w_pubtype = float(weights.get("publication_type", 2.5))
+    w_power = float(weights.get("power", 1.5))
+    w_sample = float(weights.get("sample_size", 1.2))
+    w_predictive = float(weights.get("predictive", 1.5))
+    w_clinical = float(weights.get("clinical_relevance", 1.0))
+    w_downrank = float(weights.get("downrank", -1.5))
+
+    def _kw_list(key: str) -> List[str]:
+        val = dd_cfg.get(key, [])
+        return [str(x) for x in val] if isinstance(val, list) else []
+
+    study_design_kw = _kw_list("study_design_signals")
+    publication_types_kw = [s.lower() for s in _kw_list("publication_type_signals")]
+    power_kw = _kw_list("power_signals")
+    predictive_kw = _kw_list("predictive_value_signals")
+    clinical_kw = _kw_list("clinical_relevance_keywords")
+    downrank_kw = _kw_list("downrank_signals")
+
+    reasons: List[str] = []
+    score = 0.0
+
+    if _contains_any_keyword(hay, study_design_kw):
+        score += w_study
+        reasons.append("design_signal")
+
+    pub_types = item.get("publication_types")
+    if isinstance(pub_types, list):
+        normalized_pub_types = {str(x).strip().lower() for x in pub_types}
+        for pt in publication_types_kw:
+            if pt.lower() in normalized_pub_types:
+                score += w_pubtype
+                reasons.append(f"pubtype:{pt}")
+                break
+
+    n = _extract_sample_size(hay)
+    power_hit = _contains_any_keyword(hay, power_kw)
+    if n > 0:
+        size_score = min(3.0, n / 500.0) * w_sample
+        score += size_score
+        reasons.append(f"n={n}")
+    elif power_hit:
+        score += w_power * 0.5
+        reasons.append("power_hint")
+
+    if power_hit:
+        score += w_power
+        reasons.append("power_kw")
+
+    if _contains_any_keyword(hay, predictive_kw):
+        score += w_predictive
+        reasons.append("predictive_signal")
+
+    if _contains_any_keyword(hay, clinical_kw):
+        score += w_clinical
+        reasons.append("clinical_relevance")
+
+    if _contains_any_keyword(hay, downrank_kw):
+        score += w_downrank
+        reasons.append("downrank_signal")
+
+    for domain_name, flag in domain_flags.items():
+        if flag:
+            reasons.append(f"domain:{domain_name}")
+
+    return score, reasons
+
+
+def _domain_key_for_quota(flags: Dict[str, bool]) -> str:
+    active = [k for k, v in flags.items() if v]
+    return active[0] if active else "general"
+
+
 def _score_item(
     item: Dict[str, Any], cfg: Dict[str, Any], *, haystack: str | None = None
 ) -> Tuple[float, List[str]]:
@@ -299,6 +400,8 @@ def select_cybermed_pubmed_items(
             Dict[str, bool],
             Dict[str, bool],
             Dict[str, bool],
+            float,
+            List[str],
         ]
     ] = []
     excluded_by_allowlist = 0
@@ -312,8 +415,6 @@ def select_cybermed_pubmed_items(
             hard_excluded += 1
             continue
 
-        score, reasons = _score_item(it, cfg, haystack=hay)
-
         # Optional strict allowlist mode (not recommended by default)
         if journal_mode == "strict":
             if core_set and not _journal_matches(it, core_set):
@@ -324,6 +425,9 @@ def select_cybermed_pubmed_items(
         domain_any, domain_flags = _domain_signals(hay, domain_cfg)
         clinical_intent, intent_flags = _clinical_intent(hay, intent_cfg)
         pain_ok, pain_flags = _pain_scope(hay, sel, domain_flags, clinical_intent)
+
+        score, reasons = _score_item(it, cfg, haystack=hay)
+        deep_score, deep_reasons = _deep_dive_score(it, hay, cfg, domain_flags=domain_flags)
 
         include_by_tier = False
         tier_reason = ""
@@ -352,6 +456,8 @@ def select_cybermed_pubmed_items(
                 domain_flags,
                 intent_flags,
                 pain_flags,
+                deep_score,
+                deep_reasons,
             )
         )
 
@@ -361,7 +467,19 @@ def select_cybermed_pubmed_items(
     deep_dives: List[Dict[str, Any]] = []
     below_threshold = 0
 
-    for score, it, reasons, tier, include_by_tier, tier_reason, domain_flags, intent_flags, pain_flags in scored:
+    for (
+        score,
+        it,
+        reasons,
+        tier,
+        include_by_tier,
+        tier_reason,
+        domain_flags,
+        intent_flags,
+        pain_flags,
+        deep_score,
+        deep_reasons,
+    ) in scored:
         if not include_by_tier:
             excluded_by_tier_rules += 1
             continue
@@ -389,7 +507,9 @@ def select_cybermed_pubmed_items(
         enriched["cybermed_score"] = score
         enriched["cybermed_rank"] = rank
         enriched["cybermed_included"] = True
-        enriched["cybermed_deep_dive"] = len(deep_dives) < max_deep_dives
+        enriched["cybermed_deep_dive"] = False
+        enriched["cybermed_deep_dive_score"] = deep_score
+        enriched["cybermed_deep_dive_reasons"] = selection_reasons + deep_reasons
         enriched["cybermed_selection_reasons"] = selection_reasons
         enriched["cybermed_tier"] = tier or "unclassified"
         enriched["cybermed_domain_flags"] = domain_flags
@@ -397,8 +517,34 @@ def select_cybermed_pubmed_items(
         enriched["cybermed_pain_flags"] = pain_flags
 
         included.append(enriched)
-        if enriched["cybermed_deep_dive"]:
-            deep_dives.append(enriched)
+
+    # Deep dive diversification and ranking
+    deep_dives = []
+    dd_cfg = cfg.get("deep_dive_scoring", {}) if isinstance(cfg.get("deep_dive_scoring"), dict) else {}
+    max_per_domain_dd = int(sel.get("max_per_domain_deep_dive", dd_cfg.get("max_per_domain", 3)) or 3)
+
+    deep_candidates = sorted(
+        included,
+        key=lambda x: (
+            float(x.get("cybermed_deep_dive_score", 0.0)),
+            float(x.get("cybermed_score", 0.0)),
+        ),
+        reverse=True,
+    )
+
+    domain_counts: Dict[str, int] = {}
+    for cand in deep_candidates:
+        if len(deep_dives) >= max_deep_dives:
+            break
+
+        domain_key = _domain_key_for_quota(cand.get("cybermed_domain_flags", {}))
+        if domain_counts.get(domain_key, 0) >= max_per_domain_dd:
+            continue
+
+        domain_counts[domain_key] = domain_counts.get(domain_key, 0) + 1
+        cand["cybermed_deep_dive"] = True
+        cand["cybermed_deep_dive_rank"] = len(deep_dives) + 1
+        deep_dives.append(cand)
 
     # Non-sensitive stats only (no titles, no URLs, no recipients).
     stats = {
