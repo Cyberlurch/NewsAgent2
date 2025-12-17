@@ -110,7 +110,7 @@
         {
           "name": "PubMed: Pain",
           "source": "pubmed",
-          "query": "\"Pain\"[jour]"
+          "query": "\"Pain\"[jour] AND (postoperat*[tiab] OR perioperat*[tiab] OR regional[tiab] OR neuraxial[tiab] OR block[tiab] OR anesthesia[tiab] OR anaesthesia[tiab] OR ICU[tiab] OR \"intensive care\"[tiab] OR critical[tiab] OR emergency[tiab])"
         },
         {
           "name": "PubMed: Regional Anesthesia & Pain Medicine",
