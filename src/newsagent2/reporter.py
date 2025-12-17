@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os, re
+from collections import Counter
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
@@ -130,6 +131,82 @@ def _build_source_label(item: Dict[str, Any]) -> str:
     first_author = str(item.get("first_author") or item.get("author_first") or "").strip()
     parts = [p for p in (year, journal, first_author) if p]
     return " · ".join(parts) if parts else "PubMed"
+
+
+def _parse_cybermed_counts(meta_block: str) -> Tuple[Optional[int], Optional[int]]:
+    screened = None
+    after_state = None
+
+    try:
+        m_screened = re.search(r"-\s*(\d+)\s+papers\s+screened", meta_block)
+        if m_screened:
+            screened = int(m_screened.group(1))
+
+        m_after_state = re.search(r"New \(not previously processed\):\s*(\d+)", meta_block)
+        if m_after_state:
+            after_state = int(m_after_state.group(1))
+    except Exception:
+        pass
+
+    return screened, after_state
+
+
+def _format_cybermed_metadata(items: List[Dict[str, Any]], meta_block: str) -> str:
+    if not items:
+        return ""
+
+    screened, after_state = _parse_cybermed_counts(meta_block or "")
+    included_overview = sum(1 for it in items if it.get("cybermed_included"))
+    selected_deep_dives = sum(1 for it in items if it.get("cybermed_deep_dive"))
+
+    domain_counts: Counter[str] = Counter()
+    tier_counts: Counter[str] = Counter()
+    deep_dive_reason_counts: Counter[str] = Counter()
+
+    for it in items:
+        if it.get("cybermed_included"):
+            flags = it.get("cybermed_domain_flags") or {}
+            for name, flag in flags.items():
+                if flag:
+                    domain_counts[name] += 1
+
+            tier = str(it.get("cybermed_tier") or "").strip().lower()
+            if tier.startswith("tier1"):
+                tier_counts["tier1"] += 1
+            elif tier.startswith("tier2"):
+                tier_counts["tier2"] += 1
+            elif tier.startswith("tier3"):
+                tier_counts["tier3"] += 1
+
+        if it.get("cybermed_deep_dive"):
+            reasons = it.get("cybermed_deep_dive_reasons") or []
+            for r in reasons:
+                if r:
+                    deep_dive_reason_counts[str(r)] += 1
+
+    lines: List[str] = []
+    lines.append("**Run diagnostics**")
+    lines.append(
+        f"- stepcounts: screened={screened if screened is not None else 'n/a'}, "
+        f"after_state={after_state if after_state is not None else 'n/a'}, "
+        f"included_overview={included_overview}, selected_deep_dives={selected_deep_dives}"
+    )
+
+    if domain_counts:
+        lines.append("- domain_counts:")
+        for name, count in sorted(domain_counts.items()):
+            lines.append(f"  - {name}: {count}")
+
+    lines.append("- journal_tiers:")
+    for tier_key in ("tier1", "tier2", "tier3"):
+        lines.append(f"  - {tier_key}: {tier_counts.get(tier_key, 0)}")
+
+    if deep_dive_reason_counts:
+        lines.append("- deep_dive_top_reason_codes:")
+        for reason, count in deep_dive_reason_counts.most_common():
+            lines.append(f"  - {reason}: {count}")
+
+    return "\n".join(lines).strip()
 
 def _study_strength_from_text(text: str) -> str:
     t = (text or "").lower()
@@ -359,9 +436,12 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
         md.extend(src_lines if src_lines else ["- (keine)" if lang == "de" else "- (none)"])
         md.append("")
 
-    if is_cybermed and meta_only:
-        if md and md[-1] != "":
-            md.append("")
-        md.extend(["## Run Metadata", "", meta_only])
+    if is_cybermed:
+        extra_meta = _format_cybermed_metadata(items, meta_only)
+        meta_blocks = [block.strip() for block in (meta_only, extra_meta) if block.strip()]
+        if meta_blocks:
+            if md and md[-1] != "":
+                md.append("")
+            md.extend(["## Run Metadata", "", "\n\n".join(meta_blocks)])
 
     return "\n".join(md)
