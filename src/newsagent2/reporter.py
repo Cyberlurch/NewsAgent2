@@ -5,6 +5,11 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
 
+try:  # Optional import; keep reporter usable without selector
+    from .selector_medical import load_cybermed_selection_config
+except Exception:  # pragma: no cover - fallback for non-cybermed runs
+    load_cybermed_selection_config = None
+
 CYBERMED_JOURNAL_CATEGORY_MAP = {
     # Anesthesia / Perioperative
     "anesthesiology": "anesthesia",
@@ -102,6 +107,18 @@ def _extract_cybermed_meta_block(overview_markdown: str) -> str:
             break
         kept.append(ln.rstrip())
     return "\n".join(kept).strip()
+
+
+def _cybermed_deep_dive_limit() -> int:
+    if not load_cybermed_selection_config:
+        return 8
+
+    try:
+        cfg = load_cybermed_selection_config()
+        sel = cfg.get("selection", {}) if isinstance(cfg.get("selection"), dict) else {}
+        return int(sel.get("max_deep_dives", 8) or 8)
+    except Exception:
+        return 8
 
 def _build_source_label(item: Dict[str, Any]) -> str:
     year = str(item.get("year") or "").strip()
@@ -295,7 +312,24 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
     deep_dives_heading = "## Vertiefungen" if lang == "de" else "## Deep Dives"
     sources_heading = "## Quellen" if lang == "de" else "## Sources"
 
-    detail_items = [it for it in items if str(it.get("id") or "") in details_by_id]
+    def _deep_dive_sort_key(it: Dict[str, Any]) -> Tuple[int, float, datetime]:
+        rank = int(it.get("cybermed_rank") or 10**9)
+        score = float(it.get("cybermed_score") or 0.0)
+        ts = it.get("published_at") or datetime.min.replace(tzinfo=STO)
+        return (rank, -score, ts)
+
+    detail_items: List[Dict[str, Any]]
+    if is_cybermed:
+        detail_items = [it for it in items if it.get("cybermed_deep_dive")]
+        if not detail_items:
+            detail_items = [it for it in items if str(it.get("id") or "") in details_by_id]
+        detail_items = sorted(detail_items, key=_deep_dive_sort_key)
+        deep_dive_cap = max(0, _cybermed_deep_dive_limit())
+        if deep_dive_cap:
+            detail_items = detail_items[:deep_dive_cap]
+    else:
+        detail_items = [it for it in items if str(it.get("id") or "") in details_by_id]
+
     if detail_items:
         md.extend([deep_dives_heading, ""])
         for it in detail_items:
@@ -305,7 +339,10 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
             url = str(it.get("url") or "").strip()
             md.append(f"### {ch}: [{title_lbl}]({url})" if url else f"### {ch}: {title_lbl}")
             md.append("")
-            md.append((details_by_id.get(iid) or "").rstrip())
+            detail_block = (details_by_id.get(iid) or "").rstrip()
+            if not detail_block and is_cybermed:
+                detail_block = f"**BOTTOM LINE:** {_fallback_bottom_line(it)}"
+            md.append(detail_block)
             md.append("")
 
     if not is_cybermed:

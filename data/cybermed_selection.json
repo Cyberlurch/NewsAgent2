@@ -4,6 +4,8 @@
 
   "selection": {
     "max_selected_per_run": 12,
+    "max_overview_items": 24,
+    "max_deep_dives": 8,
     "min_score_to_select": 2.0,
 
     "min_abstract_chars": 400,
