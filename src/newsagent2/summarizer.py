@@ -333,3 +333,66 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         if lang == "en":
             return f"**Error:** Failed to create deep dive: `{e!r}`\n"
         return f"**Fehler:** Konnte Vertiefung nicht erzeugen: `{e!r}`\n"
+
+
+def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") -> str:
+    """
+    Produce a short (1–2 sentences) bottom-line summary for a PubMed item.
+
+    This deliberately uses a lightweight prompt and low max tokens to conserve API usage.
+    """
+
+    lang = _norm_language(language)
+    text = (item.get("text") or "").strip()
+    if len(text) > 2000:
+        text = text[:2000].rstrip()
+
+    published = item.get("published_at")
+    if isinstance(published, datetime):
+        published_str = published.replace(microsecond=0).isoformat()
+    else:
+        published_str = str(published) if published else ""
+
+    meta = {
+        "title": (item.get("title") or "").strip(),
+        "journal": (item.get("journal") or "").strip(),
+        "year": item.get("year"),
+        "pmid": (item.get("pmid") or item.get("id") or "").strip(),
+        "published_at": published_str,
+        "text": text,
+    }
+
+    sys_prompt = (
+        "You are a concise clinical summarizer. Write strictly in English.\n"
+        "You will receive one PubMed abstract (title + journal + PMID/DOI + date + abstract text).\n"
+        "Return only a 1–2 sentence BOTTOM LINE capturing what is new, evidence strength (if stated), and practical relevance."
+    )
+    if lang != "en":
+        sys_prompt = (
+            "You are a concise clinical summarizer. Write strictly in German.\n"
+            "You will receive one PubMed abstract (title + journal + PMID/DOI + date + abstract text).\n"
+            "Return only a 1–2 sentence BOTTOM LINE capturing what is new, evidence strength (if stated), and practical relevance."
+        )
+
+    payload = json.dumps(meta, ensure_ascii=False, indent=2)
+    user_prompt = (
+        "Item (JSON):\n"
+        f"{payload}\n\n"
+        "Now write the requested bottom line."
+    )
+
+    try:
+        client = _get_client()
+        r = client.chat.completions.create(
+            model=OPENAI_MODEL,
+            messages=[
+                {"role": "system", "content": sys_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            temperature=0.2,
+            max_tokens=120,
+        )
+        return (r.choices[0].message.content or "").strip()
+    except Exception as e:
+        fallback = "(Failed to generate bottom line)" if lang == "en" else "(Konnte Bottom Line nicht erzeugen)"
+        return f"{fallback} — {e!r}"

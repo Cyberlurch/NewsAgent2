@@ -21,7 +21,7 @@ from .state_manager import (
     prune_state,
     save_state,
 )
-from .summarizer import summarize, summarize_item_detail
+from .summarizer import summarize, summarize_item_detail, summarize_pubmed_bottom_line
 
 STO = ZoneInfo("Europe/Stockholm")
 
@@ -524,6 +524,8 @@ def main() -> None:
     pubmed_new_items: List[Dict[str, Any]] = []
     pubmed_selected_items: List[Dict[str, Any]] = []
 
+    selection_result = None
+
     if is_cybermed_run:
         pubmed_new_items = [it for it in items_all_new if (it.get("source") or "").strip().lower() == "pubmed"]
         pubmed_selected_items = list(pubmed_new_items)
@@ -533,6 +535,7 @@ def main() -> None:
 
             sel_res = select_cybermed_pubmed_items(pubmed_new_items)
             pubmed_selected_items = list(getattr(sel_res, "selected", pubmed_new_items))
+            selection_result = sel_res
             selection_stats = dict(getattr(sel_res, "stats", {}) or {})
         except Exception as e:
             print(f"[select] WARN: Cybermed selector unavailable/failed; using pass-through selection. err={e!r}")
@@ -671,6 +674,17 @@ def main() -> None:
     )
     overview_items = items_sorted[: max(1, overview_items_max)]
 
+    for it in overview_items:
+        src = (it.get("source") or "").strip().lower()
+        iid = str(it.get("id") or "").strip()
+        if src != "pubmed" or not iid:
+            continue
+        try:
+            bl = summarize_pubmed_bottom_line(it, language=report_language)
+            it["bottom_line"] = bl
+        except Exception as e:
+            print(f"[summarize] WARN: summarize_pubmed_bottom_line failed for pubmed:{iid!r}: {e!r}")
+
     try:
         overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
     except Exception as e:
@@ -683,13 +697,16 @@ def main() -> None:
     if cybermed_meta_block:
         overview_body = cybermed_meta_block + overview_body
 
-    detail_items = _choose_detail_items(
-        items=items_sorted,
-        channel_topics=channel_topics,
-        topic_weights=topic_weights,
-        detail_items_per_day=detail_items_per_day,
-        detail_items_per_channel_max=detail_items_per_channel_max,
-    )
+    if is_cybermed_run and selection_result is not None:
+        detail_items = list(getattr(selection_result, "deep_dives", []))[: max(0, detail_items_per_day)]
+    else:
+        detail_items = _choose_detail_items(
+            items=items_sorted,
+            channel_topics=channel_topics,
+            topic_weights=topic_weights,
+            detail_items_per_day=detail_items_per_day,
+            detail_items_per_channel_max=detail_items_per_channel_max,
+        )
 
     details_by_id: Dict[str, str] = {}
     for it in detail_items:
@@ -716,6 +733,14 @@ def main() -> None:
         key = f"{src}:{iid}"
         if iid and key in details_by_id:
             details_for_report[iid] = details_by_id[key]
+
+    for it in overview_items:
+        iid = str(it.get("id") or "").strip()
+        if not iid or iid in details_for_report:
+            continue
+        bl = (it.get("bottom_line") or "").strip()
+        if bl:
+            details_for_report[iid] = f"**BOTTOM LINE:** {bl}"
 
     md = to_markdown(items_sorted, overview_body, details_for_report, report_title=report_title, report_language=report_language)
 
