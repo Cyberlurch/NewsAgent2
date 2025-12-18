@@ -563,9 +563,9 @@ def to_markdown(
                     "",
                     "<details>",
                     "<summary>Run Metadata (click to expand)</summary>",
-                    "",
+                    "<pre>",
                     meta_content,
-                    "",
+                    "</pre>",
                     "</details>",
                 ]
             )
