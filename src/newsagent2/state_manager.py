@@ -133,6 +133,16 @@ def _sanitize_key_part(value: str) -> str:
     return value
 
 
+def _parse_iso_utc(value: Optional[str]) -> Optional[datetime]:
+    if not value:
+        return None
+    try:
+        dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+    except Exception:
+        return None
+
+
 def make_item_key(
     report_key: str,
     source: str,
@@ -245,10 +255,104 @@ def mark_processed(
         return
 
     processed = _ensure_bucket(state, str(report_key), str(source))
-    processed[str(item_id)] = {
-        "processed_at_utc": processed_at_utc or _utc_now_iso(),
+    existing = processed.get(str(item_id)) if isinstance(processed, dict) else {}
+    base = existing if isinstance(existing, dict) else {}
+    merged = {
+        **base,
+        "processed_at_utc": processed_at_utc or base.get("processed_at_utc") or _utc_now_iso(),
         **(meta or {}),
     }
+    processed[str(item_id)] = merged
+
+
+def get_processed_meta(state: Dict[str, Any], report_key: str, source: str, item_id: str) -> Dict[str, Any]:
+    """
+    Safe metadata accessor; returns an empty dict when missing.
+    """
+    try:
+        processed = (
+            state.get("reports", {})
+            .get(report_key, {})
+            .get(source or "", {})
+            .get("processed", {})
+        )
+        if isinstance(processed, dict):
+            meta = processed.get(str(item_id))
+            return meta if isinstance(meta, dict) else {}
+    except Exception as e:
+        print(f"[state] WARN: get_processed_meta failed: {e!r}")
+    return {}
+
+
+def mark_screened(state: Dict[str, Any], report_key: str, source: str, item_id: str, meta: Optional[Dict[str, Any]] = None) -> None:
+    """
+    Record that an item was screened (but not necessarily sent).
+    """
+    meta = meta or {}
+    meta.setdefault("screened_at_utc", _utc_now_iso())
+    mark_processed(state, report_key, source, item_id, meta=meta)
+
+
+def mark_sent(
+    state: Dict[str, Any],
+    report_key: str,
+    source: str,
+    item_id: str,
+    *,
+    sent_overview: bool = False,
+    sent_deep_dive: bool = False,
+    meta: Optional[Dict[str, Any]] = None,
+    when_utc: Optional[str] = None,
+) -> None:
+    """
+    Record that an item was included in the overview and/or deep dive output.
+    """
+    ts = when_utc or _utc_now_iso()
+    meta = meta or {}
+    meta.setdefault("screened_at_utc", meta.get("screened_at_utc") or ts)
+    if sent_overview:
+        meta["sent_overview_at_utc"] = ts
+    if sent_deep_dive:
+        meta["sent_deep_dive_at_utc"] = ts
+    mark_processed(state, report_key, source, item_id, meta=meta)
+
+
+def should_skip_pubmed_item(
+    state: Dict[str, Any],
+    report_key: str,
+    item_id: str,
+    *,
+    overview_cooldown_hours: int = 48,
+    reconsider_unsent_hours: int = 36,
+) -> Tuple[bool, str]:
+    """
+    Cybermed-specific skip helper: only skip when an item was already sent recently.
+
+    If an item was previously screened but never sent, it will be reconsidered (no skip).
+    """
+    meta = get_processed_meta(state, report_key, "pubmed", item_id)
+    if not meta:
+        return False, "new"
+
+    now = datetime.now(timezone.utc)
+
+    sent_overview = _parse_iso_utc(meta.get("sent_overview_at_utc"))
+    if sent_overview:
+        if overview_cooldown_hours > 0:
+            delta = now - sent_overview
+            if delta < timedelta(hours=overview_cooldown_hours):
+                return True, "sent_overview_recent"
+        return False, "sent_overview_stale"
+
+    screened = _parse_iso_utc(meta.get("screened_at_utc") or meta.get("processed_at_utc"))
+    if screened:
+        age_hours = (now - screened).total_seconds() / 3600.0
+        if reconsider_unsent_hours > 0 and age_hours < reconsider_unsent_hours:
+            # Considered "freshly screened"; allow reconsideration instead of skipping.
+            return False, "screened_only_recent"
+        return False, "screened_only_stale"
+
+    return False, "no_meta"
 
 
 def prune_state(

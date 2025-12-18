@@ -3,21 +3,31 @@ from __future__ import annotations
 import json
 import os
 import re
+from collections import Counter
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple
 
 
 @dataclass(frozen=True)
 class SelectionResult:
-    included: List[Dict[str, Any]]
-    deep_dives: List[Dict[str, Any]]
+    overview_items: List[Dict[str, Any]]
+    deep_dive_items: List[Dict[str, Any]]
     stats: Dict[str, Any]
     deep_dive_candidates: List[Any] | None = None
 
     # Backward-compat convenience (legacy attribute name).
     @property
     def selected(self) -> List[Dict[str, Any]]:  # pragma: no cover - compatibility shim
-        return self.included
+        return self.overview_items
+
+    # Backward-compat for callers still using .included/.deep_dives
+    @property
+    def included(self) -> List[Dict[str, Any]]:  # pragma: no cover - compatibility shim
+        return self.overview_items
+
+    @property
+    def deep_dives(self) -> List[Dict[str, Any]]:  # pragma: no cover - compatibility shim
+        return self.deep_dive_items
 
 
 def load_cybermed_selection_config(path: str = "data/cybermed_selection.json") -> Dict[str, Any]:
@@ -211,6 +221,7 @@ def _deep_dive_score(
     *,
     domain_flags: Dict[str, bool],
     high_journals: set[str] | None = None,
+    additional_penalty: float = 0.0,
 ) -> Tuple[float, List[str]]:
     dd_cfg = cfg.get("deep_dive_scoring", {}) if isinstance(cfg.get("deep_dive_scoring"), dict) else {}
     weights = dd_cfg.get("weights", {}) if isinstance(dd_cfg.get("weights"), dict) else {}
@@ -294,6 +305,10 @@ def _deep_dive_score(
     for domain_name, flag in domain_flags.items():
         if flag:
             reasons.append(f"domain:{domain_name}")
+
+    if additional_penalty:
+        score += additional_penalty
+        reasons.append(f"manual_penalty({additional_penalty})")
 
     return score, reasons
 
@@ -389,13 +404,15 @@ def select_cybermed_pubmed_items(
     # If disabled, pass-through to preserve current behavior.
     if not bool(cfg.get("enabled", False)):
         return SelectionResult(
-            included=list(pubmed_items),
-            deep_dives=list(pubmed_items),
+            overview_items=list(pubmed_items),
+            deep_dive_items=list(pubmed_items),
             stats={
                 "enabled": False,
                 "candidates": len(pubmed_items),
                 "included": len(pubmed_items),
+                "included_overview": len(pubmed_items),
                 "deep_dives": len(pubmed_items),
+                "selected_deep_dives": len(pubmed_items),
                 "config_path": path,
                 "max_selected_per_run": len(pubmed_items),
                 "max_selected": len(pubmed_items),
@@ -414,7 +431,9 @@ def select_cybermed_pubmed_items(
     max_deep_dives = int(sel.get("deep_dive_max_per_run", sel.get("max_deep_dives", 8)) or 8)
     min_score = float(sel.get("min_score_to_select", 2.0))
     min_score_overview = float(sel.get("min_score_overview", min_score))
+    min_score_deep_dive = float(sel.get("min_score_deep_dive", min_score))
     pain_requires_keywords = bool(sel.get("pain_requires_keywords", True))
+    reconsider_unsent_hours = int(sel.get("reconsider_unsent_hours", 36) or 36)
 
     journal_mode = str(sel.get("journal_allowlist_mode", "prefer") or "prefer").strip().lower()
     core = sel.get("core_journals", [])
@@ -422,68 +441,60 @@ def select_cybermed_pubmed_items(
     high = sel.get("high_impact_journals", [])
     high_set = {str(x).strip() for x in high} if isinstance(high, list) else set()
     tiers_cfg = sel.get("tiers", {}) if isinstance(sel.get("tiers"), dict) else {}
+    # Support both legacy and new tier labels for compatibility.
+    tier1_list = tiers_cfg.get("tier1_core") or tiers_cfg.get("tier1_core_clinical") or []
+    tier2_list = tiers_cfg.get("tier2_high_impact") or tiers_cfg.get("tier2_general_high_impact") or []
+    tier3_list = tiers_cfg.get("tier3_pain_strict") or []
     domain_cfg = sel.get("domain_keywords", {}) if isinstance(sel.get("domain_keywords"), dict) else {}
     intent_cfg = sel.get("clinical_intent_keywords", {}) if isinstance(sel.get("clinical_intent_keywords"), dict) else {}
     hard_exclusion_patterns = sel.get("hard_exclusion_patterns", []) if isinstance(sel.get("hard_exclusion_patterns"), list) else []
+    hard_exclude_overview_raw = sel.get("hard_exclude_overview_regex", hard_exclusion_patterns)
+    hard_exclude_overview = [str(x) for x in hard_exclude_overview_raw] if isinstance(hard_exclude_overview_raw, list) else []
+    hard_exclude_deep_raw = sel.get("hard_exclude_deep_dive_regex", [])
+    hard_exclude_deep = [str(x) for x in hard_exclude_deep_raw] if isinstance(hard_exclude_deep_raw, list) else []
+    deprioritize_title_patterns = sel.get("exclude_title_regex", []) if isinstance(sel.get("exclude_title_regex"), list) else []
+    pubtype_exclusions = (
+        sel.get("publication_type_exclusions", [])
+        if isinstance(sel.get("publication_type_exclusions"), list)
+        else []
+    )
 
-    scored: List[
-        Tuple[
-            float,
-            Dict[str, Any],
-            List[str],
-            str,
-            bool,
-            str,
-            Dict[str, bool],
-            Dict[str, bool],
-            Dict[str, bool],
-            float,
-            List[str],
-        ]
-    ] = []
+    overview_pool: List[Dict[str, Any]] = []
     excluded_by_allowlist = 0
-    excluded_by_tier_rules = 0
-    hard_excluded = 0
-    excluded_by_title = 0
-    excluded_by_pubtype_or_title = 0
-    excluded_off_topic = 0
+    excluded_overview_offtopic = 0
+    below_threshold_overview = 0
+    deep_dive_hard_excluded = 0
+    excluded_deep_dive_low_score = 0
     included_core = 0
     included_high_impact = 0
+    screened_candidates = len(pubmed_items)
+
+    def _tier_priority(tier: str) -> int:
+        if tier.startswith("tier1"):
+            return 0
+        if tier.startswith("tier2"):
+            return 1
+        if tier.startswith("tier3"):
+            return 2
+        return 3
 
     for it in pubmed_items:
         hay = _text_haystack(it)
 
-        title = str(it.get("title") or "")
-        exclude_patterns = sel.get("exclude_title_regex", []) if isinstance(sel.get("exclude_title_regex"), list) else []
-        if _matches_any_regex(title, [str(x) for x in exclude_patterns]):
-            excluded_by_title += 1
-            excluded_by_pubtype_or_title += 1
+        if _matches_any_regex(hay, [str(x) for x in hard_exclude_overview]):
+            excluded_overview_offtopic += 1
             continue
 
+        title = str(it.get("title") or "")
         pub_types_raw = it.get("publication_types")
-        pubtype_exclusions = (
-            sel.get("publication_type_exclusions", [])
-            if isinstance(sel.get("publication_type_exclusions"), list)
-            else []
-        )
+        pubtype_penalty_hit = False
         if isinstance(pub_types_raw, list):
             normalized_pub_types = {str(x).strip().lower() for x in pub_types_raw}
-            exclude_pubtype_hit = any(pt.lower() in normalized_pub_types for pt in pubtype_exclusions)
-            if exclude_pubtype_hit:
-                excluded_by_pubtype_or_title += 1
-                continue
+            pubtype_penalty_hit = any(pt.lower() in normalized_pub_types for pt in pubtype_exclusions)
 
-        if _matches_any_regex(hay, [str(x) for x in hard_exclusion_patterns]):
-            hard_excluded += 1
-            continue
+        title_penalty_hit = _matches_any_regex(title, [str(x) for x in deprioritize_title_patterns])
 
-        # Optional strict allowlist mode (not recommended by default)
-        if journal_mode == "strict":
-            if core_set and not _journal_matches(it, core_set):
-                excluded_by_allowlist += 1
-                continue
-
-        tier = _journal_tier(it, tiers_cfg)
+        tier = _journal_tier(it, {"tier1_core": tier1_list, "tier2_high_impact": tier2_list, "tier3_pain_strict": tier3_list})
         domain_any, domain_flags = _domain_signals(hay, domain_cfg)
         clinical_intent, intent_flags = _clinical_intent(hay, intent_cfg)
         pain_ok, pain_flags = _pain_scope(
@@ -495,21 +506,35 @@ def select_cybermed_pubmed_items(
         )
 
         score, reasons = _score_item(it, cfg, haystack=hay)
+        sc = cfg.get("scoring", {}) if isinstance(cfg.get("scoring"), dict) else {}
+        if pubtype_penalty_hit:
+            penalty = float(sc.get("publication_type_penalty", -1.5))
+            score += penalty
+            reasons.append(f"pubtype_penalty({penalty})")
         deep_score, deep_reasons = _deep_dive_score(
             it,
             hay,
             cfg,
             domain_flags=domain_flags,
             high_journals=high_set,
+            additional_penalty=(
+                float(sc.get("deep_dive_pubtype_penalty", -1.5)) if pubtype_penalty_hit else 0.0
+            )
+            + (float(sc.get("deep_dive_title_penalty", -1.0)) if title_penalty_hit else 0.0),
         )
 
         include_by_tier = False
         tier_reason = ""
 
-        if tier == "tier1_core_clinical":
+        if journal_mode == "strict" and core_set and not _journal_matches(it, core_set):
+            excluded_by_allowlist += 1
+            excluded_overview_offtopic += 1
+            continue
+
+        if tier in ("tier1_core", "tier1_core_clinical"):
             include_by_tier = True
             tier_reason = "tier1_core_default"
-        elif tier == "tier2_general_high_impact":
+        elif tier in ("tier2_general_high_impact", "tier2_high_impact"):
             high_domain = (
                 domain_flags.get("anesthesia_periop", False)
                 or domain_flags.get("icu_ccm", False)
@@ -524,53 +549,14 @@ def select_cybermed_pubmed_items(
             include_by_tier = domain_any or clinical_intent
             tier_reason = "untiered_domain" if include_by_tier else "untiered_filtered"
 
-        scored.append(
-            (
-                score,
-                it,
-                reasons,
-                tier,
-                include_by_tier,
-                tier_reason,
-                domain_flags,
-                intent_flags,
-                pain_flags,
-                deep_score,
-                deep_reasons,
-            )
-        )
-
-    scored.sort(key=lambda x: x[0], reverse=True)
-
-    included: List[Dict[str, Any]] = []
-    deep_dives: List[Dict[str, Any]] = []
-    below_threshold = 0
-
-    for (
-        score,
-        it,
-        reasons,
-        tier,
-        include_by_tier,
-        tier_reason,
-        domain_flags,
-        intent_flags,
-        pain_flags,
-        deep_score,
-        deep_reasons,
-    ) in scored:
         if not include_by_tier:
-            excluded_by_tier_rules += 1
-            excluded_off_topic += 1
+            excluded_overview_offtopic += 1
             continue
 
-        threshold = None if tier == "tier1_core_clinical" else min_score
+        threshold = None if tier in ("tier1_core", "tier1_core_clinical") else min_score_overview
         if threshold is not None and score < threshold:
-            below_threshold += 1
+            below_threshold_overview += 1
             continue
-
-        if len(included) >= max_overview:
-            break
 
         selection_reasons = list(reasons)
         if tier_reason:
@@ -583,9 +569,8 @@ def select_cybermed_pubmed_items(
             selection_reasons.append("pain_scope")
 
         enriched = dict(it)
-        rank = len(included) + 1
         enriched["cybermed_score"] = score
-        enriched["cybermed_rank"] = rank
+        enriched["cybermed_rank"] = len(overview_pool) + 1
         enriched["cybermed_included"] = True
         enriched["cybermed_deep_dive"] = False
         enriched["cybermed_deep_dive_score"] = deep_score
@@ -596,20 +581,44 @@ def select_cybermed_pubmed_items(
         enriched["cybermed_clinical_intent"] = intent_flags
         enriched["cybermed_pain_flags"] = pain_flags
 
-        if tier == "tier1_core_clinical":
+        enriched["cybermed_deep_dive_hard_excluded"] = _matches_any_regex(
+            hay, [str(x) for x in hard_exclude_deep]
+        )
+        if enriched["cybermed_deep_dive_hard_excluded"]:
+            deep_dive_hard_excluded += 1
+            enriched["cybermed_deep_dive_reasons"].append("hard_exclude_deep_dive")
+
+        if tier in ("tier1_core", "tier1_core_clinical"):
             included_core += 1
-        if tier == "tier2_general_high_impact":
+        if tier in ("tier2_general_high_impact", "tier2_high_impact"):
             included_high_impact += 1
 
-        included.append(enriched)
+        overview_pool.append(enriched)
 
     # Deep dive diversification and ranking
-    deep_dives = []
+    overview_sorted = sorted(
+        overview_pool,
+        key=lambda x: (
+            _tier_priority(str(x.get("cybermed_tier") or "")),
+            -float(x.get("cybermed_score", 0.0)),
+            -float(x.get("cybermed_deep_dive_score", 0.0)),
+        ),
+    )
+
+    overview_items: List[Dict[str, Any]] = []
+    for idx, cand in enumerate(overview_sorted, start=1):
+        if len(overview_items) >= max_overview:
+            break
+        cand["cybermed_rank"] = idx
+        overview_items.append(cand)
+
+    deep_dive_items: List[Dict[str, Any]] = []
+    reason_counter: Counter[str] = Counter()
     dd_cfg = cfg.get("deep_dive_scoring", {}) if isinstance(cfg.get("deep_dive_scoring"), dict) else {}
     max_per_domain_dd = int(sel.get("max_per_domain_deep_dive", dd_cfg.get("max_per_domain", 3)) or 3)
 
     deep_candidates = sorted(
-        included,
+        overview_items,
         key=lambda x: (
             float(x.get("cybermed_deep_dive_score", 0.0)),
             float(x.get("cybermed_score", 0.0)),
@@ -619,8 +628,15 @@ def select_cybermed_pubmed_items(
 
     domain_counts: Dict[str, int] = {}
     for cand in deep_candidates:
-        if len(deep_dives) >= max_deep_dives:
+        if len(deep_dive_items) >= max_deep_dives:
             break
+
+        if cand.get("cybermed_deep_dive_hard_excluded"):
+            continue
+
+        if float(cand.get("cybermed_deep_dive_score", 0.0)) < min_score_deep_dive:
+            excluded_deep_dive_low_score += 1
+            continue
 
         domain_key = _domain_key_for_quota(cand.get("cybermed_domain_flags", {}))
         if domain_counts.get(domain_key, 0) >= max_per_domain_dd:
@@ -628,8 +644,10 @@ def select_cybermed_pubmed_items(
 
         domain_counts[domain_key] = domain_counts.get(domain_key, 0) + 1
         cand["cybermed_deep_dive"] = True
-        cand["cybermed_deep_dive_rank"] = len(deep_dives) + 1
-        deep_dives.append(cand)
+        cand["cybermed_deep_dive_rank"] = len(deep_dive_items) + 1
+        deep_dive_items.append(cand)
+        for r in cand.get("cybermed_deep_dive_reasons", []):
+            reason_counter[str(r)] += 1
 
     deep_dive_candidates = [
         str(
@@ -644,8 +662,6 @@ def select_cybermed_pubmed_items(
         for idx, cand in enumerate(deep_candidates, start=1)
     ][:max_deep_dives]
 
-    below_threshold_deep_dive = max(0, len(deep_candidates) - len(deep_dives))
-
     # Non-sensitive stats only (no titles, no URLs, no recipients).
     stats = {
         "enabled": True,
@@ -653,30 +669,34 @@ def select_cybermed_pubmed_items(
         "journal_allowlist_mode": journal_mode,
         "candidates": len(pubmed_items),
         "excluded_by_allowlist": excluded_by_allowlist,
-        "excluded_by_tier_rules": excluded_by_tier_rules,
-        "hard_excluded": hard_excluded,
-        "excluded_by_title": excluded_by_title,
-        "excluded_by_pubtype_or_title": excluded_by_pubtype_or_title,
-        "excluded_off_topic": excluded_off_topic,
-        "below_threshold": below_threshold,
-        "included": len(included),
-        "deep_dives": len(deep_dives),
+        "excluded_overview_offtopic": excluded_overview_offtopic,
+        "below_threshold_overview": below_threshold_overview,
+        "included": len(overview_items),
+        "included_overview": len(overview_items),
+        "deep_dives": len(deep_dive_items),
+        "selected_deep_dives": len(deep_dive_items),
         "included_core": included_core,
         "included_high_impact": included_high_impact,
-        "selected": len(included),
-        "below_threshold_deep_dive": below_threshold_deep_dive,
+        "selected": len(overview_items),
+        "below_threshold_deep_dive": excluded_deep_dive_low_score,
+        "excluded_deep_dive_low_score": excluded_deep_dive_low_score,
+        "deep_dive_hard_excluded": deep_dive_hard_excluded,
+        "screened_candidates": screened_candidates,
         "min_score": min_score,
         "min_score_overview": min_score_overview,
+        "min_score_deep_dive": min_score_deep_dive,
+        "reconsider_unsent_hours": reconsider_unsent_hours,
         "max_overview_items": max_overview,
         "max_deep_dives": max_deep_dives,
         "max_selected_per_run": max_overview,
         "max_selected": max_overview,
-        "top_scores": [round(s[0], 2) for s in scored[: min(5, len(scored))]],
+        "top_scores": [round(float(it.get("cybermed_score", 0.0)), 2) for it in overview_sorted[: min(5, len(overview_sorted))]],
+        "deep_dive_reason_counts": dict(reason_counter.most_common(8)),
     }
 
     return SelectionResult(
-        included=included,
-        deep_dives=deep_dives,
+        overview_items=overview_items,
+        deep_dive_items=deep_dive_items,
         stats=stats,
         deep_dive_candidates=deep_dive_candidates,
     )
