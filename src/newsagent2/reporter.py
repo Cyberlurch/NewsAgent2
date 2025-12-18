@@ -167,10 +167,12 @@ def _parse_cybermed_counts(meta_block: str) -> Tuple[Optional[int], Optional[int
     return screened, after_state
 
 
-def _format_cybermed_metadata(items: List[Dict[str, Any]], meta_block: str, foamed_stats: Optional[Dict[str, Any]] = None) -> str:
-    if not items:
-        return ""
-
+def _format_cybermed_metadata(
+    items: List[Dict[str, Any]],
+    meta_block: str,
+    foamed_stats: Optional[Dict[str, Any]] = None,
+    cybermed_stats: Optional[Dict[str, Any]] = None,
+) -> str:
     screened, after_state = _parse_cybermed_counts(meta_block or "")
     included_overview = sum(1 for it in items if it.get("cybermed_included"))
     selected_deep_dives = sum(1 for it in items if it.get("cybermed_deep_dive"))
@@ -214,7 +216,33 @@ def _format_cybermed_metadata(items: List[Dict[str, Any]], meta_block: str, foam
             f"screened={foamed_stats.get('screened', 0)}, "
             f"after_state={foamed_stats.get('after_state', 0)}, "
             f"included_overview={foamed_stats.get('included_overview', 0)}, "
-            f"top_picks={foamed_stats.get('top_picks', 0)}"
+            f"top_picks={foamed_stats.get('top_picks', 0)}, "
+            f"sources_total={foamed_stats.get('sources_total', 0)}, "
+            f"sources_ok={foamed_stats.get('sources_ok', 0)}, "
+            f"sources_failed={foamed_stats.get('sources_failed', 0)}, "
+            f"items_raw={foamed_stats.get('items_raw', 0)}, "
+            f"items_with_date={foamed_stats.get('items_with_date', 0)}, "
+            f"items_date_unknown={foamed_stats.get('items_date_unknown', 0)}, "
+            f"kept_last24h={foamed_stats.get('kept_last24h', 0)}"
+        )
+        per_source = foamed_stats.get("per_source") or {}
+        if isinstance(per_source, dict) and per_source:
+            lines.append("  - per_source_errors: " + ", ".join(f"{k}:{v.get('errors', 0)}" for k, v in per_source.items()))
+
+    if isinstance(cybermed_stats, dict) and cybermed_stats.get("pubmed"):
+        pub = cybermed_stats.get("pubmed", {})
+        sel = pub.get("selection", {}) if isinstance(pub.get("selection"), dict) else {}
+        lines.append(
+            "- pubmed_selection: "
+            f"candidates={pub.get('candidates_total', 'n/a')}, "
+            f"new_unique={pub.get('new_unique', 'n/a')}, "
+            f"included_overview={pub.get('selected_overview', 'n/a')}, "
+            f"deep_dives={pub.get('selected_deep_dives', 'n/a')}, "
+            f"excluded_offtopic={sel.get('excluded_overview_offtopic', 'n/a')}, "
+            f"below_threshold={sel.get('below_threshold_overview', sel.get('below_threshold', 'n/a'))}, "
+            f"excluded_by_allowlist={sel.get('excluded_by_allowlist', 'n/a')}, "
+            f"deep_dive_low_score={sel.get('excluded_deep_dive_low_score', 'n/a')}, "
+            f"deep_dive_hard_excluded={sel.get('deep_dive_hard_excluded', 'n/a')}"
         )
 
     if domain_counts:
@@ -370,7 +398,16 @@ def _infer_track_and_subcategory(item: Dict[str, Any]) -> Tuple[str, str]:
 
     return track, sub
 
-def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_id: Dict[str, str], *, report_title: str = "Daily Report", report_language: str = "de", foamed_stats: Optional[Dict[str, Any]] = None) -> str:
+def to_markdown(
+    items: List[Dict[str, Any]],
+    overview_markdown: str,
+    details_by_id: Dict[str, str],
+    *,
+    report_title: str = "Daily Report",
+    report_language: str = "de",
+    foamed_stats: Optional[Dict[str, Any]] = None,
+    cybermed_stats: Optional[Dict[str, Any]] = None,
+) -> str:
     lang = _norm_language(report_language)
     title = report_title.strip()
     now_str = datetime.now(tz=STO).strftime("%Y-%m-%d %H:%M") + (" Uhr" if lang == "de" else "")
@@ -514,7 +551,7 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
         md.append("")
 
     if is_cybermed:
-        extra_meta = _format_cybermed_metadata(items, meta_only, foamed_stats)
+        extra_meta = _format_cybermed_metadata(items, meta_only, foamed_stats, cybermed_stats)
         meta_blocks = [block.strip() for block in (meta_only, extra_meta) if block.strip()]
         if meta_blocks:
             if md and md[-1] != "":

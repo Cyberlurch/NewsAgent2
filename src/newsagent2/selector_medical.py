@@ -503,6 +503,10 @@ def select_cybermed_pubmed_items(
         title_penalty_hit = _matches_any_regex(title, [str(x) for x in deprioritize_title_patterns])
 
         tier = _journal_tier(it, {"tier1_core": tier1_list, "tier2_high_impact": tier2_list, "tier3_pain_strict": tier3_list})
+        if not tier and _journal_matches(it, core_set):
+            tier = "tier1_core_fallback"
+        elif not tier and _journal_matches(it, high_set):
+            tier = "tier2_high_impact_fallback"
         domain_any, domain_flags = _domain_signals(hay, domain_cfg)
         clinical_intent, intent_flags = _clinical_intent(hay, intent_cfg)
         pain_ok, pain_flags = _pain_scope(
@@ -542,19 +546,19 @@ def select_cybermed_pubmed_items(
         if tier in ("tier1_core", "tier1_core_clinical"):
             include_by_tier = True
             tier_reason = "tier1_core_default"
-        elif tier in ("tier2_general_high_impact", "tier2_high_impact"):
+        elif tier in ("tier2_general_high_impact", "tier2_high_impact", "tier2_high_impact_fallback"):
             high_domain = (
                 domain_flags.get("anesthesia_periop", False)
                 or domain_flags.get("icu_ccm", False)
                 or domain_flags.get("emergency_resus", False)
             )
-            include_by_tier = high_domain and clinical_intent
-            tier_reason = "tier2_domain+intent" if include_by_tier else "tier2_filtered"
+            include_by_tier = high_domain or (domain_any and clinical_intent)
+            tier_reason = "tier2_domain_or_intent" if include_by_tier else "tier2_filtered"
         elif tier == "tier3_pain_strict":
             include_by_tier = pain_ok
             tier_reason = "tier3_pain_signal" if include_by_tier else "tier3_filtered"
         else:
-            include_by_tier = domain_any or clinical_intent
+            include_by_tier = domain_any or clinical_intent or _journal_matches(it, core_set) or _journal_matches(it, high_set)
             tier_reason = "untiered_domain" if include_by_tier else "untiered_filtered"
 
         if not include_by_tier:

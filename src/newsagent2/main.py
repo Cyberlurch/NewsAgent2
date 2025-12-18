@@ -421,6 +421,7 @@ def main() -> None:
     foamed_overview_items: List[Dict[str, Any]] = []
     foamed_top_picks: List[Dict[str, Any]] = []
     foamed_meta_stats: Dict[str, Any] = {}
+    foamed_collection_stats: Dict[str, Any] = {}
 
     try:
         channels, channel_topics, topic_weights = load_channels_config(args.channels)
@@ -588,7 +589,7 @@ def main() -> None:
         foamed_sources = load_foamed_sources_config(foamed_sources_path)
         if foamed_sources:
             now_utc = datetime.now(timezone.utc)
-            foamed_collected = collect_foamed_items(foamed_sources, now_utc, lookback_hours=args.hours)
+            foamed_collected, foamed_collection_stats = collect_foamed_items(foamed_sources, now_utc, lookback_hours=args.hours)
             foamed_screened_total = len(foamed_collected)
 
             for it in foamed_collected:
@@ -691,12 +692,26 @@ def main() -> None:
             "after_state": foamed_after_state,
             "included_overview": len(foamed_overview_items),
             "top_picks": len(foamed_top_picks),
+            "selection": foamed_selection_stats,
+            **foamed_collection_stats,
         }
+        for k in (
+            "sources_total",
+            "sources_ok",
+            "sources_failed",
+            "items_raw",
+            "items_with_date",
+            "items_date_unknown",
+            "kept_last24h",
+        ):
+            foamed_meta_stats.setdefault(k, 0)
+        foamed_meta_stats.setdefault("per_source", {})
     else:
         items = items_all_new
 
     # Cybermed in-report transparency header (MUST be based on the real pipeline).
     cybermed_meta_block = ""
+    cybermed_run_stats: Dict[str, Any] = {}
     if is_cybermed_run:
         pubmed_selected = len(pubmed_overview_items)
         pubmed_new_unique = len(pubmed_new_items)
@@ -741,6 +756,9 @@ def main() -> None:
         sel_max_selected = None
         sel_below_threshold = None
         sel_excluded_by_allowlist = None
+        sel_excluded_offtopic = None
+        sel_excluded_deep_low = None
+        sel_deep_hard = None
         if isinstance(selection_stats, dict) and selection_stats:
             sel_enabled = bool(selection_stats.get("enabled", False))
             sel_mode = str(selection_stats.get("journal_allowlist_mode", "") or "").strip()
@@ -748,6 +766,9 @@ def main() -> None:
             sel_max_selected = selection_stats.get("max_selected_per_run", None)
             sel_below_threshold = selection_stats.get("below_threshold_overview", selection_stats.get("below_threshold", None))
             sel_excluded_by_allowlist = selection_stats.get("excluded_by_allowlist", None)
+            sel_excluded_offtopic = selection_stats.get("excluded_overview_offtopic", None)
+            sel_excluded_deep_low = selection_stats.get("excluded_deep_dive_low_score", None)
+            sel_deep_hard = selection_stats.get("deep_dive_hard_excluded", None)
 
         lines: List[str] = []
         lines.append("**Cybermed report metadata**")
@@ -759,15 +780,28 @@ def main() -> None:
             lines.append(
                 f"- Number of selected papers: {pubmed_selected} (after state + selection policy; "
                 f"min_score={sel_min_score}, max_selected={sel_max_selected}, allowlist_mode={sel_mode or 'n/a'}, "
-                f"below_threshold={sel_below_threshold}, excluded_by_allowlist={sel_excluded_by_allowlist})"
+                f"below_threshold={sel_below_threshold}, excluded_by_allowlist={sel_excluded_by_allowlist}, "
+                f"excluded_offtopic={sel_excluded_offtopic}, excluded_deep_dive_low_score={sel_excluded_deep_low}, "
+                f"deep_dive_hard_excluded={sel_deep_hard})"
             )
         else:
             lines.append(f"- Number of selected papers: {pubmed_selected} (after state; selection policy disabled/unavailable)")
 
+        skip_reasons = []
+        if isinstance(selection_stats, dict):
+            reasons_map = selection_stats.get("state_skip_reasons") or {}
+            if isinstance(reasons_map, dict):
+                skip_reasons = [f"{k}:{v}" for k, v in reasons_map.items()]
+        if skip_reasons:
+            lines.append(f"- PubMed state skip reasons: {', '.join(skip_reasons)}")
+
         lines.append(
             f"- FOAMed/blog posts screened in the last {args.hours}h: {foamed_screened_total} "
             f"(skipped_by_state: {foamed_skipped_by_state}, after_state: {foamed_after_state}, "
-            f"included_overview: {len(foamed_overview_items)}, top_picks: {len(foamed_top_picks)})"
+            f"included_overview: {len(foamed_overview_items)}, top_picks: {len(foamed_top_picks)}, "
+            f"sources_total: {foamed_meta_stats.get('sources_total', 0)}, sources_failed: {foamed_meta_stats.get('sources_failed', 0)}, "
+            f"items_raw: {foamed_meta_stats.get('items_raw', 0)}, items_with_date: {foamed_meta_stats.get('items_with_date', 0)}, "
+            f"items_date_unknown: {foamed_meta_stats.get('items_date_unknown', 0)}, kept_last24h: {foamed_meta_stats.get('kept_last24h', 0)})"
         )
         lines.append("")
         lines.append("**PubMed queries (exact terms)**")
@@ -777,6 +811,22 @@ def main() -> None:
             lines.append(f"- {cname}: `{term}`")
 
         cybermed_meta_block = "\n".join(lines).strip() + "\n\n"
+        cybermed_run_stats = {
+            "pubmed": {
+                "candidates_total": pubmed_candidates_total,
+                "new_unique": pubmed_new_unique,
+                "selected_overview": pubmed_selected,
+                "selected_deep_dives": len(pubmed_deep_dive_items),
+                "skipped_by_state": pubmed_skipped_by_state,
+                "query_failures": pubmed_query_failures,
+                "queries_executed": q_count,
+                "mindate": mindate,
+                "maxdate": maxdate,
+                "datetype": pubmed_datetype,
+                "selection": selection_stats,
+            },
+            "foamed": foamed_meta_stats or {},
+        }
 
     if is_cybermed_run:
         report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
@@ -795,12 +845,14 @@ def main() -> None:
             f.write(md)
         print(f"[report] Wrote {out_path}")
 
-        # Mark all newly screened items as processed (memory), even if none were selected for the report.
+        # Mark newly screened items as processed for memory (except FOAMed, which should be reconsidered on next run if not sent).
         now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
         for it in items_all_new:
             src = (it.get("source") or "").strip().lower() or "youtube"
             iid = str(it.get("id") or "").strip()
             if not iid:
+                continue
+            if src == "foamed" and iid not in {str(x.get("id") or "").strip() for x in foamed_overview_items}:
                 continue
             try:
                 meta = {
@@ -946,7 +998,7 @@ def main() -> None:
                 details_for_report[iid] = f"**BOTTOM LINE:** {bl}"
 
     if is_cybermed_run and deep_dive_ids:
-        for it in report_items:
+        for it in report_items + detail_items:
             iid = str(it.get("id") or "").strip()
             if iid and iid in deep_dive_ids:
                 it["top_pick"] = True
@@ -958,6 +1010,7 @@ def main() -> None:
         report_title=report_title,
         report_language=report_language,
         foamed_stats=foamed_meta_stats,
+        cybermed_stats=cybermed_run_stats if is_cybermed_run else None,
     )
 
     with open(out_path, "w", encoding="utf-8") as f:
@@ -974,6 +1027,10 @@ def main() -> None:
         str(it.get("id") or "").strip()
         for it in detail_items
         if (it.get("source") or "").strip().lower() == "pubmed"
+    }
+    foamed_overview_ids = {
+        str(it.get("id") or "").strip()
+        for it in foamed_overview_items
     }
 
     for it in items_all_new:
@@ -1005,6 +1062,9 @@ def main() -> None:
                     )
                 else:
                     mark_screened(state, report_key, src, iid, meta=meta)
+            elif src == "foamed":
+                if iid in foamed_overview_ids:
+                    mark_processed(state, report_key, src, iid, meta=meta)
             else:
                 mark_processed(state, report_key, src, iid, meta=meta)
         except Exception as e:
