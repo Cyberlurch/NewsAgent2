@@ -834,6 +834,18 @@ def _foamed_domain_score(hay: str) -> Tuple[float, Dict[str, bool], bool]:
     return float(score), flags, pain_blocked
 
 
+def _load_curated_foamed_sources(path: str = "data/cybermed_foamed_sources.json") -> set[str]:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if not isinstance(data, list):
+            return set()
+        names = [str(entry.get("name") or "") for entry in data if isinstance(entry, dict)]
+        return {n.strip().lower() for n in names if n.strip()}
+    except Exception:
+        return set()
+
+
 def select_cybermed_foamed_items(
     foamed_items: List[Dict[str, Any]],
     *,
@@ -852,6 +864,8 @@ def select_cybermed_foamed_items(
     now = datetime.now(timezone.utc)
     screened_candidates = len(foamed_items)
     excluded_offdomain = 0
+    foamed_excluded_offtopic = 0
+    foamed_excluded_no_signal = 0
     excluded_pain_context = 0
 
     scored: List[Dict[str, Any]] = []
@@ -860,27 +874,68 @@ def select_cybermed_foamed_items(
         r"sponsor",
         r"advertisement",
         r"promo",
+        r"\b(ad|ads)\b",
+        r"\bsponsor",
+        r"site update",
         r"tickets?",
         r"conference",
         r"course",
         r"webinar registration",
         r"merch",
         r"store",
+        r"shop",
+        r"newsletter",
     ]
+    weak_medical_cues = [
+        "icu",
+        "intensive care",
+        "ventilation",
+        "ventilator",
+        "airway",
+        "sepsis",
+        "shock",
+        "anesthesia",
+        "anaesthesia",
+        "analgesia",
+        "block",
+        "resuscitation",
+        "ecmo",
+        "sedation",
+        "vasopressor",
+        "vasopressors",
+        "perioperative",
+        "trauma",
+    ]
+    curated_sources = _load_curated_foamed_sources()
+    if not curated_sources:
+        curated_sources = {str(it.get("foamed_source") or it.get("channel") or "").strip().lower() for it in foamed_items if (it.get("foamed_source") or it.get("channel"))}
 
     for it in foamed_items:
         hay = _text_haystack(it)
+        title = str(it.get("title") or "")
+        excerpt = str(it.get("text") or "")
+        if not excerpt.strip():
+            hay = (title or "").lower()
+        source_name = str(it.get("foamed_source") or it.get("channel") or "").strip().lower()
+        is_curated_source = source_name in curated_sources
 
         if _matches_any_regex(hay, off_domain_patterns):
             excluded_offdomain += 1
+            foamed_excluded_offtopic += 1
             continue
 
         score, flags, pain_blocked = _foamed_domain_score(hay)
-        if pain_blocked and score <= 0:
+        weak_signal = _contains_any_keyword(hay, weak_medical_cues)
+        has_signal = score > 0 or weak_signal
+        default_include = is_curated_source and weak_signal
+
+        if pain_blocked and not default_include:
             excluded_pain_context += 1
+            foamed_excluded_no_signal += 1
             continue
 
-        if score <= 0:
+        if not has_signal:
+            foamed_excluded_no_signal += 1
             continue
 
         published = it.get("published_at")
@@ -898,11 +953,13 @@ def select_cybermed_foamed_items(
             elif age_hours < 24:
                 recency_bonus = 0.2
 
-        total_score = score + recency_bonus
+        base_score = score if score > 0 else 0.3 if default_include else 0.0
+        total_score = base_score + recency_bonus
         enriched = dict(it)
         enriched["foamed_score"] = round(total_score, 3)
         enriched["foamed_flags"] = flags
         enriched["foamed_age_hours"] = age_hours
+        enriched["foamed_default_include"] = default_include
         scored.append(enriched)
 
     overview_sorted = sorted(
@@ -932,6 +989,9 @@ def select_cybermed_foamed_items(
         "top_picks": len(top_picks),
         "max_overview_items": max_overview,
         "max_top_picks": max_top_picks,
+        "foamed_included": len(overview_items),
+        "foamed_excluded_offtopic": foamed_excluded_offtopic,
+        "foamed_excluded_no_signal": foamed_excluded_no_signal,
     }
 
     return FoamedSelection(overview_items=overview_items, top_picks=top_picks, stats=stats)

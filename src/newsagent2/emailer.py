@@ -139,8 +139,10 @@ def _strip_details_tags(md_text: str) -> str:
         return ""
 
     def _summary_repl(match: re.Match[str]) -> str:
-        inner = (match.group(1) or "").strip() or "Run Metadata"
-        return f"{inner}:\n"
+        inner = (match.group(1) or "").strip()
+        label = inner or "Run Metadata"
+        label = re.sub(r"\s*\(.*?\)\s*$", "", label).strip() or "Run Metadata"
+        return f"{label}:\n"
 
     text = re.sub(r"<summary[^>]*>(.*?)</summary>", _summary_repl, md_text, flags=re.IGNORECASE | re.DOTALL)
     text = re.sub(r"</?details[^>]*>", "", text, flags=re.IGNORECASE)
@@ -206,7 +208,7 @@ def send_markdown(subject: str, md_body: str) -> None:
         )
         return
 
-    html = markdown(md_body, extensions=["extra", "tables", "fenced_code", "md_in_html"])
+    html = markdown(md_body, extensions=["extra", "tables", "fenced_code", "md_in_html"], output_format="html5")
     plain = _strip_details_tags(md_body)
 
     msg = MIMEMultipart("alternative")
