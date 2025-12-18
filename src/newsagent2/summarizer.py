@@ -398,3 +398,63 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
     except Exception as e:
         fallback = "(Failed to generate bottom line)" if lang == "en" else "(Konnte Bottom Line nicht erzeugen)"
         return f"{fallback} — {e!r}"
+
+
+def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") -> str:
+    """
+    Create a cautious, single-sentence bottom line for FOAMed/blog content.
+    """
+
+    lang = _norm_language(language)
+    text = (item.get("text") or "").strip()
+    if len(text) > 1500:
+        text = text[:1500].rstrip()
+
+    published = item.get("published_at")
+    if isinstance(published, datetime):
+        published_str = published.replace(microsecond=0).isoformat()
+    else:
+        published_str = str(published) if published else ""
+
+    meta = {
+        "title": (item.get("title") or "").strip(),
+        "source": (item.get("foamed_source") or item.get("channel") or "").strip(),
+        "url": (item.get("url") or "").strip(),
+        "published_at": published_str,
+        "text": text,
+    }
+
+    sys_prompt = (
+        "You are a concise clinical summarizer. Write one sentence, 40–55 words, starting with 'BOTTOM LINE:'. "
+        "Base your statement strictly on the provided title/excerpt. If the content is commentary or education without new data, state that plainly. "
+        "Avoid speculation and do not invent study results."
+    )
+    if lang != "en":
+        sys_prompt = (
+            "Du bist ein prägnanter klinischer Zusammenfasser. Schreibe einen Satz (40–55 Wörter), beginnend mit 'BOTTOM LINE:'. "
+            "Nutze nur den bereitgestellten Titel/Excerpt. Wenn es sich um Kommentar oder Lehrinhalt ohne neue Daten handelt, formuliere das klar. "
+            "Keine Spekulation, keine erfundenen Studienergebnisse."
+        )
+
+    payload = json.dumps(meta, ensure_ascii=False, indent=2)
+    user_prompt = (
+        "Item (JSON):\n"
+        f"{payload}\n\n"
+        "Now write the requested bottom line."
+    )
+
+    try:
+        client = _get_client()
+        r = client.chat.completions.create(
+            model=OPENAI_MODEL,
+            messages=[
+                {"role": "system", "content": sys_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            temperature=0.3,
+            max_tokens=120,
+        )
+        return (r.choices[0].message.content or "").strip()
+    except Exception as e:
+        fallback = "BOTTOM LINE: Unable to summarize this FOAMed item reliably." if lang == "en" else "BOTTOM LINE: Zusammenfassung für diesen FOAMed-Beitrag nicht möglich."
+        return f"{fallback} ({e!r})"

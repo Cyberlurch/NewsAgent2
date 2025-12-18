@@ -167,7 +167,7 @@ def _parse_cybermed_counts(meta_block: str) -> Tuple[Optional[int], Optional[int
     return screened, after_state
 
 
-def _format_cybermed_metadata(items: List[Dict[str, Any]], meta_block: str) -> str:
+def _format_cybermed_metadata(items: List[Dict[str, Any]], meta_block: str, foamed_stats: Optional[Dict[str, Any]] = None) -> str:
     if not items:
         return ""
 
@@ -207,6 +207,15 @@ def _format_cybermed_metadata(items: List[Dict[str, Any]], meta_block: str) -> s
         f"after_state={after_state if after_state is not None else 'n/a'}, "
         f"included_overview={included_overview}, selected_deep_dives={selected_deep_dives}"
     )
+
+    if isinstance(foamed_stats, dict) and foamed_stats:
+        lines.append(
+            "- foamed: "
+            f"screened={foamed_stats.get('screened', 0)}, "
+            f"after_state={foamed_stats.get('after_state', 0)}, "
+            f"included_overview={foamed_stats.get('included_overview', 0)}, "
+            f"top_picks={foamed_stats.get('top_picks', 0)}"
+        )
 
     if domain_counts:
         lines.append("- domain_counts:")
@@ -361,7 +370,7 @@ def _infer_track_and_subcategory(item: Dict[str, Any]) -> Tuple[str, str]:
 
     return track, sub
 
-def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_id: Dict[str, str], *, report_title: str = "Daily Report", report_language: str = "de") -> str:
+def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_id: Dict[str, str], *, report_title: str = "Daily Report", report_language: str = "de", foamed_stats: Optional[Dict[str, Any]] = None) -> str:
     lang = _norm_language(report_language)
     title = report_title.strip()
     now_str = datetime.now(tz=STO).strftime("%Y-%m-%d %H:%M") + (" Uhr" if lang == "de" else "")
@@ -424,6 +433,33 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
             else:
                 md.append("No new papers selected (all screened items were already processed or filtered by policy).")
 
+        # FOAMed overview sits between Papers and Deep Dives.
+        foamed_items = [it for it in items if str(it.get("source") or "").strip().lower() == "foamed"]
+        md.extend(["", "## FOAMed & Commentary", ""])
+        if foamed_items:
+            foamed_sorted = sorted(
+                foamed_items,
+                key=lambda it: it.get("published_at") or datetime.min.replace(tz=STO),
+                reverse=True,
+            )
+            for it in foamed_sorted:
+                title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
+                url = str(it.get("url") or "").strip()
+                source_name = _md_escape_label(str(it.get("foamed_source") or it.get("channel") or "FOAMed"))
+                display_title = _prefix_star(title_lbl) if it.get("top_pick") else title_lbl
+                line = f"- [{display_title}]({url}) — {source_name}" if url else f"- {display_title} — {source_name}"
+                md.append(line)
+                bottom_line = (it.get("bottom_line") or "").strip()
+                if bottom_line and not bottom_line.lower().startswith("bottom line"):
+                    bottom_line = f"BOTTOM LINE: {bottom_line}"
+                if not bottom_line:
+                    bottom_line = "BOTTOM LINE: No summary available."
+                md.append(f"  - {bottom_line}")
+            md.append("")
+        else:
+            md.append("- No new FOAMed posts in the last 24 hours.")
+            md.append("")
+
     deep_dives_heading = "## Vertiefungen" if lang == "de" else "## Deep Dives"
     sources_heading = "## Quellen" if lang == "de" else "## Sources"
 
@@ -478,7 +514,7 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
         md.append("")
 
     if is_cybermed:
-        extra_meta = _format_cybermed_metadata(items, meta_only)
+        extra_meta = _format_cybermed_metadata(items, meta_only, foamed_stats)
         meta_blocks = [block.strip() for block in (meta_only, extra_meta) if block.strip()]
         if meta_blocks:
             if md and md[-1] != "":

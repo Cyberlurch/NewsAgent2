@@ -10,6 +10,7 @@ from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
 
+from .collector_foamed import collect_foamed_items
 from .collectors_youtube import fetch_transcript, list_recent_videos
 from .collectors_pubmed import search_recent_pubmed
 from .emailer import send_markdown
@@ -24,7 +25,12 @@ from .state_manager import (
     save_state,
     should_skip_pubmed_item,
 )
-from .summarizer import summarize, summarize_item_detail, summarize_pubmed_bottom_line
+from .summarizer import (
+    summarize,
+    summarize_item_detail,
+    summarize_pubmed_bottom_line,
+    summarize_foamed_bottom_line,
+)
 
 STO = ZoneInfo("Europe/Stockholm")
 
@@ -140,6 +146,23 @@ def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, Lis
 
     channels.sort(key=lambda x: (x.get("source") or "", x.get("name") or "", x.get("url") or "", x.get("query") or ""))
     return channels, channel_topics, topic_weights
+
+
+def load_foamed_sources_config(path: str) -> List[Dict[str, Any]]:
+    """
+    Load FOAMed/blog sources from JSON. Returns an empty list on errors for safety.
+    """
+
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, list):
+            return [x for x in data if isinstance(x, dict)]
+    except FileNotFoundError:
+        print(f"[foamed] WARN: sources config not found at {path!r}")
+    except Exception as e:
+        print(f"[foamed] WARN: failed to load sources config {path!r}: {e!r}")
+    return []
 
 
 def _dedupe_items(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -357,6 +380,7 @@ def main() -> None:
 
     state_path = (os.getenv("STATE_PATH", "state/processed_items.json") or "state/processed_items.json").strip()
     retention_days = _safe_int("STATE_RETENTION_DAYS", 20)
+    foamed_sources_path = (os.getenv("CYBERMED_FOAMED_SOURCES", "data/cybermed_foamed_sources.json") or "data/cybermed_foamed_sources.json").strip()
 
     print("=== NewsAgent2 run ===")
     print(f"[config] report_key={report_key!r}")
@@ -369,6 +393,8 @@ def main() -> None:
     print(f"[config] overview_items_max={overview_items_max}, max_text_chars_per_item={max_text_chars_per_item}")
     print(f"[config] pubmed_sent_cooldown_hours={sent_cooldown_hours}, reconsider_unsent_hours={reconsider_unsent_hours}")
     print(f"[state] path={state_path!r} retention_days={retention_days}")
+    if _is_cybermed(report_key, report_profile):
+        print(f"[foamed] sources_config={foamed_sources_path!r}")
 
     state = load_state(state_path)
     state = _apply_prune_state_compat(state, retention_days=retention_days)
@@ -385,6 +411,16 @@ def main() -> None:
             detail_items_per_day = int(sel_section.get("deep_dive_max_per_run", detail_items_per_day) or detail_items_per_day)
         except Exception as e:
             print(f"[config] WARN: failed to load Cybermed selection config for run-time tuning: {e!r}")
+
+    foamed_sources: List[Dict[str, Any]] = []
+    foamed_candidates: List[Dict[str, Any]] = []
+    foamed_screened_total = 0
+    foamed_after_state = 0
+    foamed_skipped_by_state = 0
+    foamed_selection_stats: Dict[str, Any] = {}
+    foamed_overview_items: List[Dict[str, Any]] = []
+    foamed_top_picks: List[Dict[str, Any]] = []
+    foamed_meta_stats: Dict[str, Any] = {}
 
     try:
         channels, channel_topics, topic_weights = load_channels_config(args.channels)
@@ -548,6 +584,33 @@ def main() -> None:
             print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
             continue
 
+    if is_cybermed_run:
+        foamed_sources = load_foamed_sources_config(foamed_sources_path)
+        if foamed_sources:
+            now_utc = datetime.now(timezone.utc)
+            foamed_collected = collect_foamed_items(foamed_sources, now_utc, lookback_hours=args.hours)
+            foamed_screened_total = len(foamed_collected)
+
+            for it in foamed_collected:
+                iid = str(it.get("id") or it.get("url") or "").strip()
+                if not iid:
+                    continue
+                if is_processed(state, report_key, "foamed", iid):
+                    foamed_skipped_by_state += 1
+                    continue
+
+                text_val = (it.get("text") or "").strip()
+                if len(text_val) > max_text_chars_per_item:
+                    text_val = text_val[:max_text_chars_per_item].rstrip()
+                    it["text"] = text_val
+
+                foamed_candidates.append(it)
+
+            foamed_after_state = len(foamed_candidates)
+            items.extend(foamed_candidates)
+        else:
+            print("[foamed] WARN: no FOAMed sources configured; skipping FOAMed collection.")
+
     items = _dedupe_items(items)
     items_all_new = list(items)
     print(f"[collect] Collected {len(items_all_new)} new unique item(s). (skipped_by_state={skipped_by_state})")
@@ -565,6 +628,8 @@ def main() -> None:
         non_pubmed_items: List[Dict[str, Any]] = [
             it for it in items_all_new if (it.get("source") or "").strip().lower() != "pubmed"
         ]
+        foamed_new_items = [it for it in items_all_new if (it.get("source") or "").strip().lower() == "foamed"]
+        non_pubmed_nonfoamed = [it for it in non_pubmed_items if (it.get("source") or "").strip().lower() != "foamed"]
         pubmed_new_items = [it for it in items_all_new if (it.get("source") or "").strip().lower() == "pubmed"]
         pubmed_overview_items = list(pubmed_new_items)
         pubmed_deep_dive_items = list(pubmed_new_items)
@@ -587,8 +652,46 @@ def main() -> None:
             selection_stats["state_skip_reasons"] = dict(pubmed_state_skip_reasons)
             selection_stats["state_skip_total"] = skipped_by_state
 
-        items = list(non_pubmed_items) + pubmed_overview_items
+        try:
+            from .selector_medical import select_cybermed_foamed_items
+
+            if foamed_new_items:
+                foamed_sel = select_cybermed_foamed_items(foamed_new_items)
+                foamed_overview_items = list(getattr(foamed_sel, "overview_items", foamed_new_items))
+                foamed_top_picks = list(getattr(foamed_sel, "top_picks", []))
+                foamed_selection_stats = dict(getattr(foamed_sel, "stats", {}) or {})
+            else:
+                foamed_selection_stats = {"screened_candidates": 0, "included_overview": 0, "top_picks": 0}
+        except Exception as e:
+            print(f"[select] WARN: FOAMed selector failed; using pass-through selection. err={e!r}")
+            foamed_overview_items = list(foamed_new_items)
+            foamed_selection_stats = {"enabled": False, "error": "foamed_selector_failed", "screened_candidates": len(foamed_new_items), "included_overview": len(foamed_new_items), "top_picks": len([it for it in foamed_new_items if it.get("top_pick")])}
+
+        if foamed_selection_stats is not None:
+            foamed_selection_stats.setdefault("screened_candidates", len(foamed_new_items))
+            foamed_selection_stats.setdefault("included_overview", len(foamed_overview_items))
+            foamed_selection_stats.setdefault("top_picks", len([it for it in foamed_overview_items if it.get("top_pick")]))
+
+        if foamed_overview_items and not any(it.get("top_pick") for it in foamed_overview_items):
+            for it in foamed_overview_items[:2]:
+                it["top_pick"] = True
+                foamed_top_picks.append(it)
+        else:
+            foamed_top_picks = [it for it in foamed_overview_items if it.get("top_pick")]
+
+        if isinstance(foamed_selection_stats, dict):
+            foamed_selection_stats["top_picks"] = len(foamed_top_picks)
+
+        items = list(non_pubmed_nonfoamed) + foamed_overview_items + pubmed_overview_items
         print(f"[select] Cybermed selected {len(pubmed_overview_items)} of {len(pubmed_new_items)} new PubMed item(s) for the report.")
+        print(f"[select] Cybermed included {len(foamed_overview_items)} FOAMed item(s) ({len(foamed_top_picks)} top picks).")
+
+        foamed_meta_stats = {
+            "screened": foamed_screened_total,
+            "after_state": foamed_after_state,
+            "included_overview": len(foamed_overview_items),
+            "top_picks": len(foamed_top_picks),
+        }
     else:
         items = items_all_new
 
@@ -660,6 +763,12 @@ def main() -> None:
             )
         else:
             lines.append(f"- Number of selected papers: {pubmed_selected} (after state; selection policy disabled/unavailable)")
+
+        lines.append(
+            f"- FOAMed/blog posts screened in the last {args.hours}h: {foamed_screened_total} "
+            f"(skipped_by_state: {foamed_skipped_by_state}, after_state: {foamed_after_state}, "
+            f"included_overview: {len(foamed_overview_items)}, top_picks: {len(foamed_top_picks)})"
+        )
         lines.append("")
         lines.append("**PubMed queries (exact terms)**")
         for cname, term in pubmed_queries_used:
@@ -670,7 +779,7 @@ def main() -> None:
         cybermed_meta_block = "\n".join(lines).strip() + "\n\n"
 
     if is_cybermed_run:
-        report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items)
+        report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
     else:
         report_items = list(items)
 
@@ -730,7 +839,7 @@ def main() -> None:
             reverse=True,
         )[: max(1, overview_items_max)]
         detail_items = list(pubmed_deep_dive_items)[: max(0, detail_items_per_day)]
-        report_items = _dedupe_items(overview_items + detail_items)
+        report_items = _dedupe_items(overview_items + detail_items + foamed_overview_items)
         deep_dive_ids = {
             str(it.get("id") or "").strip()
             for it in detail_items
@@ -766,14 +875,30 @@ def main() -> None:
         except Exception as e:
             print(f"[summarize] WARN: summarize_pubmed_bottom_line failed for pubmed:{iid!r}: {e!r}")
 
-    try:
-        overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
-    except Exception as e:
-        print(f"[summarize] ERROR: summarize() failed: {e!r}")
+    if foamed_overview_items:
+        for it in foamed_overview_items:
+            url_lbl = (it.get("url") or it.get("id") or "")
+            try:
+                bl = summarize_foamed_bottom_line(it, language=report_language)
+                it["bottom_line"] = bl
+            except Exception as e:
+                print(f"[summarize] WARN: summarize_foamed_bottom_line failed for foamed item {url_lbl!r}: {e!r}")
+
+    overview_body = ""
+    if is_cybermed_run and not overview_items and foamed_overview_items:
         if report_language.lower().startswith("en"):
-            overview_body = "## Executive Summary\n\n**Error:** Failed to generate overview.\n"
+            overview_body = "## Executive Summary\n\nNo new PubMed papers selected in this run. Recent FOAMed posts are listed below.\n"
         else:
-            overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
+            overview_body = "## Kurzüberblick\n\nKeine neuen PubMed-Papers in diesem Lauf; aktuelle FOAMed-Beiträge stehen unten.\n"
+    else:
+        try:
+            overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
+        except Exception as e:
+            print(f"[summarize] ERROR: summarize() failed: {e!r}")
+            if report_language.lower().startswith("en"):
+                overview_body = "## Executive Summary\n\n**Error:** Failed to generate overview.\n"
+            else:
+                overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
 
     if cybermed_meta_block:
         overview_body = cybermed_meta_block + overview_body
@@ -826,7 +951,14 @@ def main() -> None:
             if iid and iid in deep_dive_ids:
                 it["top_pick"] = True
 
-    md = to_markdown(report_items, overview_body, details_for_report, report_title=report_title, report_language=report_language)
+    md = to_markdown(
+        report_items,
+        overview_body,
+        details_for_report,
+        report_title=report_title,
+        report_language=report_language,
+        foamed_stats=foamed_meta_stats,
+    )
 
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)

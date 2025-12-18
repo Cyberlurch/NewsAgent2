@@ -5,6 +5,7 @@ import os
 import re
 from collections import Counter
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Tuple
 
 
@@ -28,6 +29,13 @@ class SelectionResult:
     @property
     def deep_dives(self) -> List[Dict[str, Any]]:  # pragma: no cover - compatibility shim
         return self.deep_dive_items
+
+
+@dataclass(frozen=True)
+class FoamedSelection:
+    overview_items: List[Dict[str, Any]]
+    top_picks: List[Dict[str, Any]]
+    stats: Dict[str, Any]
 
 
 def load_cybermed_selection_config(path: str = "data/cybermed_selection.json") -> Dict[str, Any]:
@@ -700,3 +708,226 @@ def select_cybermed_pubmed_items(
         stats=stats,
         deep_dive_candidates=deep_dive_candidates,
     )
+
+
+def _foamed_domain_score(hay: str) -> Tuple[float, Dict[str, bool], bool]:
+    """
+    Lightweight clinical relevance signals for FOAMed/blog posts.
+
+    Returns (score, flags, pain_blocked_for_context).
+    """
+
+    flags = {
+        "anesthesia_periop": _contains_any_keyword(
+            hay,
+            [
+                "anesthesia",
+                "anaesthesia",
+                "anesthesiology",
+                "perioperative",
+                "operating room",
+                "or theater",
+                "neuraxial",
+                "epidural",
+                "spinal",
+                "block",
+                "regional anesthesia",
+            ],
+        ),
+        "icu_ccm": _contains_any_keyword(
+            hay,
+            [
+                "icu",
+                "intensive care",
+                "critical care",
+                "ventilator",
+                "mechanical ventilation",
+                "ards",
+                "ecmo",
+                "hemodynamic",
+                "haemodynamic",
+                "vasopressor",
+                "norepinephrine",
+                "sedation",
+                "delirium",
+                "crrt",
+            ],
+        ),
+        "emergency_resus": _contains_any_keyword(
+            hay,
+            [
+                "resuscitation",
+                "cardiac arrest",
+                "prehospital",
+                "ems",
+                "emergency department",
+                "ed",
+            ],
+        ),
+        "airway_resp": _contains_any_keyword(
+            hay,
+            [
+                "airway",
+                "intubation",
+                "extubation",
+                "ventilation",
+                "respiratory",
+                "oxygenation",
+            ],
+        ),
+        "infection_sepsis": _contains_any_keyword(
+            hay,
+            [
+                "sepsis",
+                "infection",
+                "antibiotic",
+                "antimicrobial",
+                "pneumonia",
+            ],
+        ),
+        "hemodynamics": _contains_any_keyword(
+            hay,
+            [
+                "shock",
+                "blood pressure",
+                "circulation",
+                "hemodynamic",
+                "haemodynamic",
+                "vasopressor",
+                "inotrope",
+            ],
+        ),
+    }
+
+    pain_hit = _contains_any_keyword(
+        hay,
+        [
+            "pain",
+            "analgesia",
+            "opioid",
+            "opioids",
+            "nerve block",
+            "regional block",
+            "fascial plane",
+        ],
+    )
+    pain_context = flags["anesthesia_periop"] or flags["icu_ccm"] or flags["emergency_resus"] or flags["airway_resp"] or flags["hemodynamics"]
+    pain_context = pain_context or _contains_any_keyword(
+        hay,
+        ["ultrasound-guided", "catheter", "perioperative", "postoperative", "perineural"],
+    )
+
+    pain_blocked = False
+    if pain_hit and pain_context:
+        flags["pain_regional"] = True
+    elif pain_hit:
+        flags["pain_regional"] = False
+        pain_blocked = True
+    else:
+        flags["pain_regional"] = False
+
+    score = sum(1 for v in flags.values() if v)
+    return float(score), flags, pain_blocked
+
+
+def select_cybermed_foamed_items(
+    foamed_items: List[Dict[str, Any]],
+    *,
+    max_overview: int = 40,
+    max_top_picks: int = 2,
+) -> FoamedSelection:
+    """
+    Broad-but-relevant selector for FOAMed/blog content.
+
+    - Includes items with any domain signal (anesthesia/ICU/resus/airway/infection/hemodynamics).
+    - Excludes clearly off-domain or promotional posts.
+    - Applies stricter pain gating (pain topics must have perioperative/regional/ICU context).
+    - Marks up to `max_top_picks` items as top picks by score.
+    """
+
+    now = datetime.now(timezone.utc)
+    screened_candidates = len(foamed_items)
+    excluded_offdomain = 0
+    excluded_pain_context = 0
+
+    scored: List[Dict[str, Any]] = []
+    off_domain_patterns = [
+        r"\b(job|jobs|career|vacancy)\b",
+        r"sponsor",
+        r"advertisement",
+        r"promo",
+        r"tickets?",
+        r"conference",
+        r"course",
+        r"webinar registration",
+        r"merch",
+        r"store",
+    ]
+
+    for it in foamed_items:
+        hay = _text_haystack(it)
+
+        if _matches_any_regex(hay, off_domain_patterns):
+            excluded_offdomain += 1
+            continue
+
+        score, flags, pain_blocked = _foamed_domain_score(hay)
+        if pain_blocked and score <= 0:
+            excluded_pain_context += 1
+            continue
+
+        if score <= 0:
+            continue
+
+        published = it.get("published_at")
+        if isinstance(published, datetime) and published.tzinfo is None:
+            published = published.replace(tzinfo=timezone.utc)
+
+        recency_bonus = 0.0
+        age_hours = None
+        if isinstance(published, datetime):
+            age_hours = (now - published).total_seconds() / 3600.0
+            if age_hours < 6:
+                recency_bonus = 0.6
+            elif age_hours < 12:
+                recency_bonus = 0.4
+            elif age_hours < 24:
+                recency_bonus = 0.2
+
+        total_score = score + recency_bonus
+        enriched = dict(it)
+        enriched["foamed_score"] = round(total_score, 3)
+        enriched["foamed_flags"] = flags
+        enriched["foamed_age_hours"] = age_hours
+        scored.append(enriched)
+
+    overview_sorted = sorted(
+        scored,
+        key=lambda x: (
+            -float(x.get("foamed_score", 0.0)),
+            x.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
+        ),
+    )
+
+    overview_items: List[Dict[str, Any]] = []
+    for cand in overview_sorted:
+        if len(overview_items) >= max_overview:
+            break
+        overview_items.append(cand)
+
+    top_picks: List[Dict[str, Any]] = []
+    for cand in overview_items[:max_top_picks]:
+        cand["top_pick"] = True
+        top_picks.append(cand)
+
+    stats = {
+        "screened_candidates": screened_candidates,
+        "excluded_offdomain": excluded_offdomain,
+        "excluded_pain_context": excluded_pain_context,
+        "included_overview": len(overview_items),
+        "top_picks": len(top_picks),
+        "max_overview_items": max_overview,
+        "max_top_picks": max_top_picks,
+    }
+
+    return FoamedSelection(overview_items=overview_items, top_picks=top_picks, stats=stats)
