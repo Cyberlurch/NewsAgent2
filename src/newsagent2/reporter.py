@@ -76,6 +76,12 @@ def _norm_language(lang: str) -> str:
 def _md_escape_label(text: str) -> str:
     return (text or "").replace("\\", "\\\\").replace("[", "\\[").replace("]", "\\]")
 
+def _prefix_star(text: str) -> str:
+    stripped = (text or "").lstrip()
+    if stripped.startswith("⭐"):
+        return text
+    return f"⭐ {text}" if text else "⭐"
+
 def _is_cybermed_report(report_title: str, report_language: str) -> bool:
     rk = (os.getenv("REPORT_KEY") or "").strip().lower()
     if rk == "cybermed":
@@ -399,10 +405,13 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
                         iid = str(it.get("id") or "").strip()
                         url = str(it.get("url") or "").strip()
                         title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
+                        display_title = _prefix_star(title_lbl) if it.get("top_pick") else title_lbl
                         label = _md_escape_label(_build_source_label(it))
                         detail = (details_by_id.get(iid) or "").strip()
                         bottom = _best_bottom_line(it, detail)
-                        md.append(f"- [{title_lbl}]({url}) — *{label}*" if url else f"- {title_lbl} — *{label}*")
+                        md.append(
+                            f"- [{display_title}]({url}) — *{label}*" if url else f"- {display_title} — *{label}*"
+                        )
                         md.append(f"  - **BOTTOM LINE:** {bottom}" if bottom else f"  - **BOTTOM LINE:** {_fallback_bottom_line(it)}")
                     md.append("")
         else:
@@ -443,7 +452,10 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
             ch = _md_escape_label(str(it.get("channel") or "").strip())
             title_lbl = _md_escape_label(str(it.get("title") or "").strip())
             url = str(it.get("url") or "").strip()
-            md.append(f"### {ch}: [{title_lbl}]({url})" if url else f"### {ch}: {title_lbl}")
+            heading_body = f"{ch}: [{title_lbl}]({url})" if url else f"{ch}: {title_lbl}"
+            if it.get("top_pick"):
+                heading_body = _prefix_star(heading_body)
+            md.append(f"### {heading_body}")
             md.append("")
             detail_block = (details_by_id.get(iid) or "").rstrip()
             if not detail_block and is_cybermed:
@@ -471,6 +483,18 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
         if meta_blocks:
             if md and md[-1] != "":
                 md.append("")
-            md.extend(["## Run Metadata", "", "\n\n".join(meta_blocks)])
+            meta_content = "\n\n".join(meta_blocks)
+            md.extend(
+                [
+                    "## Run Metadata",
+                    "",
+                    "<details>",
+                    "<summary>Run Metadata (click to expand)</summary>",
+                    "",
+                    meta_content,
+                    "",
+                    "</details>",
+                ]
+            )
 
     return "\n".join(md)
