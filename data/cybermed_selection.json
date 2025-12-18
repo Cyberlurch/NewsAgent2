@@ -3,11 +3,15 @@
   "enabled": true,
 
   "selection": {
-    "max_selected_per_run": 12,
-    "max_overview_items": 24,
+    "max_selected_per_run": 25,
+    "overview_max_per_run": 25,
+    "max_overview_items": 25,
+    "deep_dive_max_per_run": 8,
     "max_deep_dives": 8,
     "min_score_to_select": 2.0,
     "min_score_overview": 0.5,
+
+    "pain_requires_keywords": true,
 
     "min_abstract_chars": 400,
 
@@ -18,6 +22,17 @@
       "\\bcommentary\\b",
       "\\beditorial\\b",
       "\\bprotocol\\b"
+    ],
+
+    "publication_type_exclusions": [
+      "editorial",
+      "comment",
+      "commentary",
+      "correspondence",
+      "letter",
+      "reply",
+      "news",
+      "protocol"
     ],
 
     "hard_exclusion_patterns": [
@@ -319,6 +334,23 @@
       "mechanistic",
       "narrative review",
       "opinion"
+    ],
+    "preclinical_penalty_signals": [
+      "mouse",
+      "mice",
+      "murine",
+      "rat",
+      "porcine",
+      "canine",
+      "in vitro",
+      "cell line"
+    ],
+    "editorial_penalty_signals": [
+      "editorial",
+      "commentary",
+      "correspondence",
+      "reply",
+      "letter"
     ]
   },
 
