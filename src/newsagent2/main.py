@@ -16,10 +16,13 @@ from .emailer import send_markdown
 from .reporter import to_markdown
 from .state_manager import (
     is_processed,
+    mark_screened,
+    mark_sent,
     load_state,
     mark_processed,
     prune_state,
     save_state,
+    should_skip_pubmed_item,
 )
 from .summarizer import summarize, summarize_item_detail, summarize_pubmed_bottom_line
 
@@ -348,6 +351,8 @@ def main() -> None:
     detail_items_per_channel_max = _safe_int("DETAIL_ITEMS_PER_CHANNEL_MAX", 3)
 
     overview_items_max = _safe_int("OVERVIEW_ITEMS_MAX", 25)
+    sent_cooldown_hours = _safe_int("PUBMED_SENT_COOLDOWN_HOURS", 48)
+    reconsider_unsent_hours = _safe_int("RECONSIDER_UNSENT_HOURS", 36)
     max_text_chars_per_item = _safe_int("MAX_TEXT_CHARS_PER_ITEM", 12000)
 
     state_path = (os.getenv("STATE_PATH", "state/processed_items.json") or "state/processed_items.json").strip()
@@ -362,10 +367,24 @@ def main() -> None:
     print(f"[config] report_language={report_language!r} report_profile={report_profile!r}")
     print(f"[config] limits: MAX_ITEMS_PER_CHANNEL={max_items_per_channel}, DETAIL_ITEMS_PER_DAY={detail_items_per_day}, DETAIL_ITEMS_PER_CHANNEL_MAX={detail_items_per_channel_max}")
     print(f"[config] overview_items_max={overview_items_max}, max_text_chars_per_item={max_text_chars_per_item}")
+    print(f"[config] pubmed_sent_cooldown_hours={sent_cooldown_hours}, reconsider_unsent_hours={reconsider_unsent_hours}")
     print(f"[state] path={state_path!r} retention_days={retention_days}")
 
     state = load_state(state_path)
     state = _apply_prune_state_compat(state, retention_days=retention_days)
+
+    selection_cfg: Dict[str, Any] = {}
+    if _is_cybermed(report_key, report_profile):
+        try:
+            from .selector_medical import load_cybermed_selection_config
+
+            selection_cfg = load_cybermed_selection_config()
+            sel_section = selection_cfg.get("selection", {}) if isinstance(selection_cfg.get("selection"), dict) else {}
+            reconsider_unsent_hours = int(sel_section.get("reconsider_unsent_hours", reconsider_unsent_hours) or reconsider_unsent_hours)
+            overview_items_max = int(sel_section.get("overview_max_per_run", overview_items_max) or overview_items_max)
+            detail_items_per_day = int(sel_section.get("deep_dive_max_per_run", detail_items_per_day) or detail_items_per_day)
+        except Exception as e:
+            print(f"[config] WARN: failed to load Cybermed selection config for run-time tuning: {e!r}")
 
     try:
         channels, channel_topics, topic_weights = load_channels_config(args.channels)
@@ -406,6 +425,7 @@ def main() -> None:
     pubmed_query_failures = 0
     pubmed_candidates_by_channel: Dict[str, int] = {}
     pubmed_queries_used: List[Tuple[str, str]] = []  # (channel_name, term)
+    pubmed_state_skip_reasons: Dict[str, int] = {}
 
     for ch in channels:
         cname = ch["name"]
@@ -478,7 +498,21 @@ def main() -> None:
                 if not pmid:
                     continue
 
-                if is_processed(state, report_key, "pubmed", pmid):
+                skip_by_state = False
+                if is_cybermed_run:
+                    skip_by_state, skip_reason = should_skip_pubmed_item(
+                        state,
+                        report_key,
+                        pmid,
+                        overview_cooldown_hours=sent_cooldown_hours,
+                        reconsider_unsent_hours=reconsider_unsent_hours,
+                    )
+                    if skip_by_state:
+                        pubmed_state_skip_reasons[skip_reason] = pubmed_state_skip_reasons.get(skip_reason, 0) + 1
+                else:
+                    skip_by_state = is_processed(state, report_key, "pubmed", pmid)
+
+                if skip_by_state:
                     skipped_by_state += 1
                     if is_cybermed_run:
                         pubmed_skipped_by_state += 1
@@ -522,34 +556,46 @@ def main() -> None:
     # while still marking all newly screened items as processed for memory.
     selection_stats: Dict[str, Any] = {}
     pubmed_new_items: List[Dict[str, Any]] = []
-    pubmed_selected_items: List[Dict[str, Any]] = []
+    pubmed_overview_items: List[Dict[str, Any]] = []
+    pubmed_deep_dive_items: List[Dict[str, Any]] = []
 
     selection_result = None
 
     if is_cybermed_run:
+        non_pubmed_items: List[Dict[str, Any]] = [
+            it for it in items_all_new if (it.get("source") or "").strip().lower() != "pubmed"
+        ]
         pubmed_new_items = [it for it in items_all_new if (it.get("source") or "").strip().lower() == "pubmed"]
-        pubmed_selected_items = list(pubmed_new_items)
+        pubmed_overview_items = list(pubmed_new_items)
+        pubmed_deep_dive_items = list(pubmed_new_items)
 
         try:
             from .selector_medical import select_cybermed_pubmed_items  # optional module
 
             sel_res = select_cybermed_pubmed_items(pubmed_new_items)
-            pubmed_selected_items = list(getattr(sel_res, "selected", pubmed_new_items))
+            pubmed_overview_items = list(getattr(sel_res, "overview_items", getattr(sel_res, "selected", pubmed_new_items)))
+            pubmed_deep_dive_items = list(
+                getattr(sel_res, "deep_dive_items", getattr(sel_res, "deep_dives", pubmed_new_items))
+            )
             selection_result = sel_res
             selection_stats = dict(getattr(sel_res, "stats", {}) or {})
         except Exception as e:
             print(f"[select] WARN: Cybermed selector unavailable/failed; using pass-through selection. err={e!r}")
             selection_stats = {"enabled": False, "error": "selector_failed"}
 
-        items = [it for it in items_all_new if (it.get("source") or "").strip().lower() != "pubmed"] + pubmed_selected_items
-        print(f"[select] Cybermed selected {len(pubmed_selected_items)} of {len(pubmed_new_items)} new PubMed item(s) for the report.")
+        if pubmed_state_skip_reasons:
+            selection_stats["state_skip_reasons"] = dict(pubmed_state_skip_reasons)
+            selection_stats["state_skip_total"] = skipped_by_state
+
+        items = list(non_pubmed_items) + pubmed_overview_items
+        print(f"[select] Cybermed selected {len(pubmed_overview_items)} of {len(pubmed_new_items)} new PubMed item(s) for the report.")
     else:
         items = items_all_new
 
     # Cybermed in-report transparency header (MUST be based on the real pipeline).
     cybermed_meta_block = ""
     if is_cybermed_run:
-        pubmed_selected = len(pubmed_selected_items)
+        pubmed_selected = len(pubmed_overview_items)
         pubmed_new_unique = len(pubmed_new_items)
 
         # PubMed date filtering is applied using UTC date boundaries (YYYY/MM/DD), not hour-resolution.
@@ -597,7 +643,7 @@ def main() -> None:
             sel_mode = str(selection_stats.get("journal_allowlist_mode", "") or "").strip()
             sel_min_score = selection_stats.get("min_score", None)
             sel_max_selected = selection_stats.get("max_selected_per_run", None)
-            sel_below_threshold = selection_stats.get("below_threshold", None)
+            sel_below_threshold = selection_stats.get("below_threshold_overview", selection_stats.get("below_threshold", None))
             sel_excluded_by_allowlist = selection_stats.get("excluded_by_allowlist", None)
 
         lines: List[str] = []
@@ -623,7 +669,12 @@ def main() -> None:
 
         cybermed_meta_block = "\n".join(lines).strip() + "\n\n"
 
-    if not items:
+    if is_cybermed_run:
+        report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items)
+    else:
+        report_items = list(items)
+
+    if not report_items:
         if report_language.lower().startswith("en"):
             overview = cybermed_meta_block + "## Executive Summary\n\nNo new content in the last 24 hours.\n"
         else:
@@ -649,7 +700,10 @@ def main() -> None:
                     "url": it.get("url"),
                     "processed_at_utc": now_utc_iso,
                 }
-                mark_processed(state, report_key, src, iid, meta=meta)
+                if src == "pubmed":
+                    mark_screened(state, report_key, src, iid, meta=meta)
+                else:
+                    mark_processed(state, report_key, src, iid, meta=meta)
             except Exception as e:
                 print(f"[state] WARN: mark_processed failed for {src}:{iid!r}: {e!r}")
 
@@ -667,12 +721,33 @@ def main() -> None:
             print("[email] No new items and SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
         return
 
-    items_sorted = sorted(
-        items,
-        key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
-        reverse=True,
-    )
-    overview_items = items_sorted[: max(1, overview_items_max)]
+    detail_items: List[Dict[str, Any]] = []
+    if is_cybermed_run:
+        overview_items = sorted(
+            pubmed_overview_items,
+            key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
+            reverse=True,
+        )[: max(1, overview_items_max)]
+        detail_items = list(pubmed_deep_dive_items)[: max(0, detail_items_per_day)]
+        report_items = _dedupe_items(overview_items + detail_items)
+    else:
+        items_sorted = sorted(
+            report_items,
+            key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
+            reverse=True,
+        )
+        report_items = items_sorted
+        overview_items = items_sorted[: max(1, overview_items_max)]
+        detail_items = _choose_detail_items(
+            items=items_sorted,
+            channel_topics=channel_topics,
+            topic_weights=topic_weights,
+            detail_items_per_day=detail_items_per_day,
+            detail_items_per_channel_max=detail_items_per_channel_max,
+        )
+
+    if not overview_items and detail_items:
+        overview_items = list(detail_items)
 
     for it in overview_items:
         src = (it.get("source") or "").strip().lower()
@@ -696,17 +771,6 @@ def main() -> None:
 
     if cybermed_meta_block:
         overview_body = cybermed_meta_block + overview_body
-
-    if is_cybermed_run and selection_result is not None:
-        detail_items = list(getattr(selection_result, "deep_dives", []))[: max(0, detail_items_per_day)]
-    else:
-        detail_items = _choose_detail_items(
-            items=items_sorted,
-            channel_topics=channel_topics,
-            topic_weights=topic_weights,
-            detail_items_per_day=detail_items_per_day,
-            detail_items_per_channel_max=detail_items_per_channel_max,
-        )
 
     details_by_id: Dict[str, str] = {}
     for it in detail_items:
@@ -734,21 +798,33 @@ def main() -> None:
         if iid and key in details_by_id:
             details_for_report[iid] = details_by_id[key]
 
-    for it in overview_items:
-        iid = str(it.get("id") or "").strip()
-        if not iid or iid in details_for_report:
-            continue
-        bl = (it.get("bottom_line") or "").strip()
-        if bl:
-            details_for_report[iid] = f"**BOTTOM LINE:** {bl}"
+    if not is_cybermed_run:
+        for it in overview_items:
+            iid = str(it.get("id") or "").strip()
+            if not iid or iid in details_for_report:
+                continue
+            bl = (it.get("bottom_line") or "").strip()
+            if bl:
+                details_for_report[iid] = f"**BOTTOM LINE:** {bl}"
 
-    md = to_markdown(items_sorted, overview_body, details_for_report, report_title=report_title, report_language=report_language)
+    md = to_markdown(report_items, overview_body, details_for_report, report_title=report_title, report_language=report_language)
 
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
     print(f"[report] Wrote {out_path}")
 
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    overview_pubmed_ids = {
+        str(it.get("id") or "").strip()
+        for it in overview_items
+        if (it.get("source") or "").strip().lower() == "pubmed"
+    }
+    deep_dive_pubmed_ids = {
+        str(it.get("id") or "").strip()
+        for it in detail_items
+        if (it.get("source") or "").strip().lower() == "pubmed"
+    }
+
     for it in items_all_new:
         src = (it.get("source") or "").strip().lower() or "youtube"
         iid = str(it.get("id") or "").strip()
@@ -761,7 +837,25 @@ def main() -> None:
                 "url": it.get("url"),
                 "processed_at_utc": now_utc_iso,
             }
-            mark_processed(state, report_key, src, iid, meta=meta)
+            if src == "pubmed":
+                meta["screened_at_utc"] = meta.get("screened_at_utc") or now_utc_iso
+                sent_overview = iid in overview_pubmed_ids
+                sent_deep = iid in deep_dive_pubmed_ids
+                if sent_overview or sent_deep:
+                    mark_sent(
+                        state,
+                        report_key,
+                        src,
+                        iid,
+                        sent_overview=sent_overview,
+                        sent_deep_dive=sent_deep,
+                        meta=meta,
+                        when_utc=now_utc_iso,
+                    )
+                else:
+                    mark_screened(state, report_key, src, iid, meta=meta)
+            else:
+                mark_processed(state, report_key, src, iid, meta=meta)
         except Exception as e:
             print(f"[state] WARN: mark_processed failed for {src}:{iid!r}: {e!r}")
 

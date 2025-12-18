@@ -10,8 +10,10 @@
     "max_deep_dives": 8,
     "min_score_to_select": 2.0,
     "min_score_overview": 0.5,
+    "min_score_deep_dive": 2.0,
 
     "pain_requires_keywords": true,
+    "reconsider_unsent_hours": 36,
 
     "min_abstract_chars": 400,
 
@@ -57,9 +59,76 @@
       "\\bsports medicine\\b"
     ],
 
+    "hard_exclude_overview_regex": [
+      "\\bveterinar",
+      "\\bcanine\\b",
+      "\\bporcine\\b",
+      "\\bovine\\b",
+      "\\bequine\\b",
+      "\\bswine\\b",
+      "\\bmouse\\b",
+      "\\bmice\\b",
+      "\\brat\\b",
+      "\\bmurine\\b",
+      "\\bin vitro\\b",
+      "cell line",
+      "\\bdental\\b",
+      "odontology",
+      "oral surgery",
+      "\\btooth\\b",
+      "\\bathlete",
+      "\\bathletes",
+      "\\bsports medicine\\b"
+    ],
+
+    "hard_exclude_deep_dive_regex": [
+      "\\bprotocol\\b",
+      "\\breply\\b",
+      "\\bcorrespondence\\b",
+      "\\bletter\\b",
+      "\\bcommentary\\b",
+      "\\bopinion\\b",
+      "\\bnarrative review\\b",
+      "\\bcase report\\b",
+      "\\bmechanistic\\b",
+      "\\banimal\\b",
+      "\\bin vitro\\b"
+    ],
+
     "journal_allowlist_mode": "prefer",
     "max_per_domain_deep_dive": 3,
     "tiers": {
+      "tier1_core": [
+        "Acta Anaesthesiol Scand",
+        "Am J Respir Crit Care Med",
+        "Anaesth Crit Care Pain Med",
+        "Anaesthesia",
+        "Anesth Analg",
+        "Anesthesiology",
+        "Ann Emerg Med",
+        "Ann Intensive Care",
+        "Br J Anaesth",
+        "Chest",
+        "Crit Care",
+        "Crit Care Med",
+        "Eur J Anaesthesiol",
+        "Intensive Care Med",
+        "J Intensive Care",
+        "Lancet Respir Med",
+        "Resuscitation"
+      ],
+      "tier2_high_impact": [
+        "Lancet",
+        "N Engl J Med",
+        "JAMA",
+        "BMJ",
+        "Nature",
+        "Science"
+      ],
+      "tier3_pain_strict": [
+        "Pain",
+        "Reg Anesth Pain Med"
+      ],
       "tier1_core_clinical": [
         "Acta Anaesthesiol Scand",
         "Am J Respir Crit Care Med",

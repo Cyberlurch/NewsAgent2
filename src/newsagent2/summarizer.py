@@ -365,13 +365,15 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
     sys_prompt = (
         "You are a concise clinical summarizer. Write strictly in English.\n"
         "You will receive one PubMed abstract (title + journal + PMID/DOI + date + abstract text).\n"
-        "Return only a 1–2 sentence BOTTOM LINE capturing what is new, evidence strength (if stated), and practical relevance."
+        "Return only a 1–2 sentence BOTTOM LINE capturing what is new, how strong the evidence is (if stated), and why it matters clinically.\n"
+        "Do not add section headers or bullets."
     )
     if lang != "en":
         sys_prompt = (
             "You are a concise clinical summarizer. Write strictly in German.\n"
             "You will receive one PubMed abstract (title + journal + PMID/DOI + date + abstract text).\n"
-            "Return only a 1–2 sentence BOTTOM LINE capturing what is new, evidence strength (if stated), and practical relevance."
+            "Return only a 1–2 sentence BOTTOM LINE capturing what is new, how strong the evidence is (if stated), and why it matters clinically.\n"
+            "Keine Überschriften oder Aufzählungen."
         )
 
     payload = json.dumps(meta, ensure_ascii=False, indent=2)
@@ -390,7 +392,7 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.2,
-            max_tokens=120,
+            max_tokens=90,
         )
         return (r.choices[0].message.content or "").strip()
     except Exception as e:
