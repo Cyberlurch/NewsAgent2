@@ -501,8 +501,11 @@ def main() -> None:
                         "published_at": a.get("published_at"),
                         "year": (a.get("published_at").year if a.get("published_at") else ""),
                         "journal": (a.get("journal") or "").strip(),
+                        "journal_iso_abbrev": (a.get("journal_iso_abbrev") or "").strip(),
+                        "journal_medline_ta": (a.get("journal_medline_ta") or "").strip(),
                         "doi": (a.get("doi") or "").strip(),
                         "description": (a.get("journal") or "").strip(),
+                        "pmid": pmid,
                         "text": text,
                     }
                 )
