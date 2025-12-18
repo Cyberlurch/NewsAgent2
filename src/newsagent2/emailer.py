@@ -145,6 +145,7 @@ def _strip_details_tags(md_text: str) -> str:
     text = re.sub(r"<summary[^>]*>(.*?)</summary>", _summary_repl, md_text, flags=re.IGNORECASE | re.DOTALL)
     text = re.sub(r"</?details[^>]*>", "", text, flags=re.IGNORECASE)
     text = text.replace("</summary>", "")
+    text = re.sub(r"<[^>]+>", "", text)
     return text
 
 
@@ -205,7 +206,7 @@ def send_markdown(subject: str, md_body: str) -> None:
         )
         return
 
-    html = markdown(md_body, extensions=["extra", "tables", "fenced_code"])
+    html = markdown(md_body, extensions=["extra", "tables", "fenced_code", "md_in_html"])
     plain = _strip_details_tags(md_body)
 
     msg = MIMEMultipart("alternative")
