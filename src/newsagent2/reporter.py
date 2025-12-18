@@ -16,8 +16,11 @@ CYBERMED_JOURNAL_CATEGORY_MAP = {
     "anesthesiology": "anesthesia",
     "br j anaesth": "anesthesia",
     "anaesthesia": "anesthesia",
+    "anesth analg": "anesthesia",
+    "acta anaesthesiol scand": "anesthesia",
     "eur j anaesthesiol": "anesthesia",
     "anaesth crit care pain med": "anesthesia",
+    "curr opin anaesthesiol": "anesthesia",
 
     # Intensive Care
     "intensive care med": "intensive",
@@ -25,9 +28,13 @@ CYBERMED_JOURNAL_CATEGORY_MAP = {
     "crit care med": "intensive",
     "ann intensive care": "intensive",
     "j intensive care": "intensive",
+    "j crit care": "intensive",
+    "crit care nurse": "intensive",
+    "intensive crit care nurs": "intensive",
     "am j respir crit care med": "intensive",
     "chest": "intensive",
     "lancet respir med": "intensive",
+    "ann am thorac soc": "intensive",
 
     # Emergency / Resuscitation
     "ann emerg med": "emergency",
@@ -47,7 +54,10 @@ CYBERMED_JOURNAL_CATEGORY_MAP = {
 STO = ZoneInfo("Europe/Stockholm")
 
 def _normalize_journal_name(name: str) -> str:
-    return (name or "").strip().lower().rstrip(".")
+    normalized = (name or "").strip().lower()
+    normalized = normalized.replace(".", " ").replace("-", " ").rstrip(":")
+    normalized = re.sub(r"\s+", " ", normalized)
+    return normalized.rstrip(". ")
 
 def _journal_category(item: Dict[str, Any]) -> Optional[str]:
     for key in ("journal_iso_abbrev", "journal_medline_ta", "journal"):
@@ -231,6 +241,18 @@ def _fallback_bottom_line(item: Dict[str, Any]) -> str:
         f"Evidence strength (best-effort from abstract keywords): {strength}."
     )
 
+
+def _best_bottom_line(item: Dict[str, Any], detail_md: str) -> str:
+    explicit = (item.get("bottom_line") or "").strip()
+    if explicit:
+        return explicit
+
+    extracted = _extract_bottom_line(detail_md)
+    if extracted:
+        return extracted
+
+    return _fallback_bottom_line(item)
+
 def _infer_track_and_subcategory(item: Dict[str, Any]) -> Tuple[str, str]:
     hay = " ".join((str(item.get(k) or "") for k in ("title", "journal", "channel"))).lower()
 
@@ -379,12 +401,19 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
                         title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
                         label = _md_escape_label(_build_source_label(it))
                         detail = (details_by_id.get(iid) or "").strip()
-                        bottom = _extract_bottom_line(detail)
+                        bottom = _best_bottom_line(it, detail)
                         md.append(f"- [{title_lbl}]({url}) — *{label}*" if url else f"- {title_lbl} — *{label}*")
                         md.append(f"  - **BOTTOM LINE:** {bottom}" if bottom else f"  - **BOTTOM LINE:** {_fallback_bottom_line(it)}")
                     md.append("")
         else:
-            md.append("No new papers selected (all screened items were already processed or filtered by policy).")
+            _, after_state = _parse_cybermed_counts(meta_only or "")
+            if after_state is not None:
+                if after_state <= 0:
+                    md.append("No new papers selected (all screened items were already processed).")
+                else:
+                    md.append("No new papers selected (new papers were filtered by policy).")
+            else:
+                md.append("No new papers selected (all screened items were already processed or filtered by policy).")
 
     deep_dives_heading = "## Vertiefungen" if lang == "de" else "## Deep Dives"
     sources_heading = "## Quellen" if lang == "de" else "## Sources"
@@ -418,7 +447,7 @@ def to_markdown(items: List[Dict[str, Any]], overview_markdown: str, details_by_
             md.append("")
             detail_block = (details_by_id.get(iid) or "").rstrip()
             if not detail_block and is_cybermed:
-                detail_block = f"**BOTTOM LINE:** {_fallback_bottom_line(it)}"
+                detail_block = f"**BOTTOM LINE:** {_best_bottom_line(it, detail_block)}"
             md.append(detail_block)
             md.append("")
 
