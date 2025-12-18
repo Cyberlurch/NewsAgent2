@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -132,6 +133,20 @@ def _get_recipients(report_key: str) -> Tuple[List[str], str]:
     rec, src3 = _load_recipients_from_file(report_key)
     return rec, (src or src2 or src3)
 
+def _strip_details_tags(md_text: str) -> str:
+    """Remove HTML <details>/<summary> tags while keeping readable text."""
+    if not md_text:
+        return ""
+
+    def _summary_repl(match: re.Match[str]) -> str:
+        inner = (match.group(1) or "").strip() or "Run Metadata"
+        return f"{inner}:\n"
+
+    text = re.sub(r"<summary[^>]*>(.*?)</summary>", _summary_repl, md_text, flags=re.IGNORECASE | re.DOTALL)
+    text = re.sub(r"</?details[^>]*>", "", text, flags=re.IGNORECASE)
+    text = text.replace("</summary>", "")
+    return text
+
 
 def send_markdown(subject: str, md_body: str) -> None:
     """Send the Markdown report as email (plain + HTML).
@@ -191,7 +206,7 @@ def send_markdown(subject: str, md_body: str) -> None:
         return
 
     html = markdown(md_body, extensions=["extra", "tables", "fenced_code"])
-    plain = md_body
+    plain = _strip_details_tags(md_body)
 
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject

@@ -5,7 +5,7 @@ import json
 import os
 import re
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Set, Tuple
 from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
@@ -722,6 +722,7 @@ def main() -> None:
         return
 
     detail_items: List[Dict[str, Any]] = []
+    deep_dive_ids: Set[str] = set()
     if is_cybermed_run:
         overview_items = sorted(
             pubmed_overview_items,
@@ -730,6 +731,11 @@ def main() -> None:
         )[: max(1, overview_items_max)]
         detail_items = list(pubmed_deep_dive_items)[: max(0, detail_items_per_day)]
         report_items = _dedupe_items(overview_items + detail_items)
+        deep_dive_ids = {
+            str(it.get("id") or "").strip()
+            for it in detail_items
+            if str(it.get("id") or "").strip()
+        }
     else:
         items_sorted = sorted(
             report_items,
@@ -788,6 +794,13 @@ def main() -> None:
             else:
                 details_by_id[key] = "Kernaussagen:\n- (Fehler beim Erzeugen der Detail-Zusammenfassung)\n"
 
+    if is_cybermed_run and not deep_dive_ids and details_by_id:
+        for key in details_by_id.keys():
+            iid = key.split(":", 1)[1] if ":" in key else key
+            iid = (iid or "").strip()
+            if iid:
+                deep_dive_ids.add(iid)
+
     out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
 
     details_for_report: Dict[str, str] = {}
@@ -806,6 +819,12 @@ def main() -> None:
             bl = (it.get("bottom_line") or "").strip()
             if bl:
                 details_for_report[iid] = f"**BOTTOM LINE:** {bl}"
+
+    if is_cybermed_run and deep_dive_ids:
+        for it in report_items:
+            iid = str(it.get("id") or "").strip()
+            if iid and iid in deep_dive_ids:
+                it["top_pick"] = True
 
     md = to_markdown(report_items, overview_body, details_for_report, report_title=report_title, report_language=report_language)
 
