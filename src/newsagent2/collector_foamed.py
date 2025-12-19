@@ -434,15 +434,11 @@ def collect_foamed_items(
 
         stats["per_source"][name] = per_source
         print(
-            "[foamed] source={name!r}: feed_ok={} discovered_feed_used={} html_fallback={} candidates={} pages={} with_date={} kept_last24h={}".format(
-                per_source["feed_ok"],
-                per_source["discovered_feed_used"],
-                per_source["html_fallback_used"],
-                per_source["candidates_found"],
-                per_source["pages_fetched"],
-                per_source["pages_with_date"],
-                per_source["kept_last24h"],
-            )
+            f"[foamed] source={name!r}: feed_ok={per_source['feed_ok']} "
+            f"discovered_feed_used={per_source['discovered_feed_used']} "
+            f"html_fallback={per_source['html_fallback_used']} candidates={per_source['candidates_found']} "
+            f"pages={per_source['pages_fetched']} with_date={per_source['pages_with_date']} "
+            f"kept_last24h={per_source['kept_last24h']}"
         )
 
     return items, stats
