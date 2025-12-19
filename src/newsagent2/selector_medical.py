@@ -117,7 +117,7 @@ def _text_haystack(item: Dict[str, Any]) -> str:
     # Keep bounded to avoid large prompts/logging overhead; selector only needs signals.
     title = str(item.get("title") or "")
     journal = str(item.get("journal") or item.get("channel") or "")
-    text = str(item.get("text") or "")
+    text = str(item.get("text") or item.get("summary") or "")
     return f"{title}\n{journal}\n{text[:2000]}".lower()
 
 
@@ -908,7 +908,11 @@ def select_cybermed_foamed_items(
     ]
     curated_sources = _load_curated_foamed_sources()
     if not curated_sources:
-        curated_sources = {str(it.get("foamed_source") or it.get("channel") or "").strip().lower() for it in foamed_items if (it.get("foamed_source") or it.get("channel"))}
+        curated_sources = {
+            str(it.get("foamed_source") or it.get("channel") or it.get("source") or "").strip().lower()
+            for it in foamed_items
+            if (it.get("foamed_source") or it.get("channel") or it.get("source"))
+        }
 
     for it in foamed_items:
         hay = _text_haystack(it)
@@ -916,7 +920,7 @@ def select_cybermed_foamed_items(
         excerpt = str(it.get("text") or "")
         if not excerpt.strip():
             hay = (title or "").lower()
-        source_name = str(it.get("foamed_source") or it.get("channel") or "").strip().lower()
+        source_name = str(it.get("foamed_source") or it.get("channel") or it.get("source") or "").strip().lower()
         is_curated_source = source_name in curated_sources
 
         if _matches_any_regex(hay, off_domain_patterns):

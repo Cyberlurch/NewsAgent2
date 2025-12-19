@@ -5,3 +5,5 @@ python-dotenv>=1.0.1
 markdown>=3.6
 openai>=1.0.0
 feedparser>=6.0.11
+beautifulsoup4>=4.12.0
+python-dateutil>=2.9.0
