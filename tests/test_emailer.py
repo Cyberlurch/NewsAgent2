@@ -24,5 +24,33 @@ class MarkdownConversionTests(unittest.TestCase):
         self.assertIn("````", html)
 
 
+class RunMetadataExtractionTests(unittest.TestCase):
+    def test_metadata_block_becomes_attachment_placeholder(self):
+        md = (
+            "# Report\n\n"
+            "## Run Metadata\n"
+            "<details markdown=\"1\">\n"
+            "  <summary>Run Metadata (click to expand)</summary>\n\n"
+            "  <pre>\n"
+            "first line\nsecond line\n"
+            "  </pre>\n"
+            "</details>\n\n"
+            "## Next\nContent\n"
+        )
+
+        new_md, meta = emailer._extract_run_metadata_for_email(md)
+
+        self.assertIn("Run metadata is attached as a text file.", new_md)
+        self.assertNotIn("<details", new_md)
+        self.assertEqual("first line\nsecond line", meta)
+
+    def test_no_metadata_block_returns_original(self):
+        md = "# Report\n\nNothing to see here.\n"
+        new_md, meta = emailer._extract_run_metadata_for_email(md)
+
+        self.assertEqual(md, new_md)
+        self.assertEqual("", meta)
+
+
 if __name__ == "__main__":
     unittest.main()
