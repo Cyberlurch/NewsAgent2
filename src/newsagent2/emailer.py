@@ -1,10 +1,12 @@
 # src/newsagent2/emailer.py
 from __future__ import annotations
 
+import html as html_module
 import json
 import os
 import re
 import smtplib
+import traceback
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
@@ -166,6 +168,39 @@ def _strip_details_tags(md_text: str) -> str:
     return text
 
 
+def _safe_markdown_to_html(md_body: str) -> str:
+    """Convert Markdown to HTML safely, falling back to a preformatted block.
+
+    - Tries minimal extension sets that work with current Markdown versions.
+    - Logs concise stack traces on failures (without dumping the whole report).
+    - Never raises; always returns HTML (escaped as <pre> if conversion fails).
+    """
+
+    attempts = [
+        {"extensions": ["extra", "sane_lists", "md_in_html"]},
+        {"extensions": ["extra", "sane_lists"]},
+        {"extensions": ["extra"]},
+    ]
+
+    for attempt in attempts:
+        try:
+            return markdown(
+                md_body,
+                extensions=attempt["extensions"],
+                output_format="html5",
+            )
+        except Exception as exc:
+            print(
+                f"[email] WARN: markdown conversion failed "
+                f"(extensions={attempt['extensions']}): {exc!r}"
+            )
+            print(traceback.format_exc())
+
+    escaped = html_module.escape(md_body or "")
+    print("[email] WARN: falling back to <pre> HTML rendering for email body.")
+    return f"<pre>{escaped}</pre>"
+
+
 def send_markdown(subject: str, md_body: str) -> None:
     """Send the Markdown report as email (plain + HTML).
 
@@ -223,12 +258,13 @@ def send_markdown(subject: str, md_body: str) -> None:
         )
         return
 
-    html = markdown(
-        md_body,
-        extensions=["extra", "tables", "fenced_code", "md_in_html"],
-        extension_configs={"md_in_html": {"strip": False}},
-        output_format="html5",
-    )
+    try:
+        html = _safe_markdown_to_html(md_body)
+    except Exception as exc:  # pragma: no cover - ultra-safety guard
+        print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")
+        print(traceback.format_exc())
+        html = f"<pre>{html_module.escape(md_body or '')}</pre>"
+
     plain = _strip_details_tags(md_body)
 
     msg = MIMEMultipart("alternative")

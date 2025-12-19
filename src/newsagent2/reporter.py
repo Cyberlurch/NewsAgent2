@@ -228,6 +228,23 @@ def _format_cybermed_metadata(
         per_source = foamed_stats.get("per_source") or {}
         if isinstance(per_source, dict) and per_source:
             lines.append("  - per_source_errors: " + ", ".join(f"{k}:{v.get('errors', 0)}" for k, v in per_source.items()))
+            lines.append("  - per_source_diagnostics:")
+            for name, st in sorted(per_source.items()):
+                if not isinstance(st, dict):
+                    continue
+                method = st.get("method") or "rss"
+                newest = st.get("newest_entry_datetime") or "n/a"
+                entries_total = st.get("entries_total", st.get("items_raw", 0))
+                entries_with_date = st.get("entries_with_date", st.get("items_with_date", 0))
+                kept = st.get("kept_last24h", 0)
+                err = st.get("error")
+                diag = (
+                    f"{name}: method={method}, entries_total={entries_total}, "
+                    f"entries_with_date={entries_with_date}, newest={newest}, kept_last24h={kept}"
+                )
+                if err:
+                    diag += f", error={err}"
+                lines.append(f"    - {diag}")
 
     if isinstance(cybermed_stats, dict) and cybermed_stats.get("pubmed"):
         pub = cybermed_stats.get("pubmed", {})
@@ -559,8 +576,9 @@ def to_markdown(
             meta_content = "\n\n".join(meta_blocks)
             md.extend(
                 [
-                    "<details>",
+                    '<details markdown="1">',
                     "  <summary>Run Metadata (click to expand)</summary>",
+                    "",
                     "  <pre>",
                     meta_content,
                     "  </pre>",
