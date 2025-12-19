@@ -138,16 +138,31 @@ def _strip_details_tags(md_text: str) -> str:
     if not md_text:
         return ""
 
-    def _summary_repl(match: re.Match[str]) -> str:
-        inner = (match.group(1) or "").strip()
-        label = inner or "Run Metadata"
-        label = re.sub(r"\s*\(.*?\)\s*$", "", label).strip() or "Run Metadata"
-        return f"{label}:\n"
+    def _strip_html_tags(text: str) -> str:
+        return re.sub(r"<[^>]+>", "", text or "")
 
-    text = re.sub(r"<summary[^>]*>(.*?)</summary>", _summary_repl, md_text, flags=re.IGNORECASE | re.DOTALL)
+    def _details_repl(match: re.Match[str]) -> str:
+        inner = match.group(1) or ""
+        summary_match = re.search(r"<summary[^>]*>(.*?)</summary>", inner, flags=re.IGNORECASE | re.DOTALL)
+        summary_text = _strip_html_tags(summary_match.group(1) if summary_match else "").strip() or "Run Metadata"
+        heading = f"{summary_text} (collapsed in HTML email):"
+
+        body = re.sub(r"<summary[^>]*>.*?</summary>", "", inner, flags=re.IGNORECASE | re.DOTALL)
+        body = re.sub(r"</?pre[^>]*>", "", body, flags=re.IGNORECASE)
+        body = _strip_html_tags(body).strip()
+
+        return f"{heading}\n{body}\n" if body else f"{heading}\n"
+
+    text = re.sub(r"<details[^>]*>(.*?)</details>", _details_repl, md_text, flags=re.IGNORECASE | re.DOTALL)
+    text = re.sub(
+        r"<summary[^>]*>(.*?)</summary>",
+        lambda m: f"{_strip_html_tags(m.group(1)).strip() or 'Run Metadata'}:\n",
+        text,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
     text = re.sub(r"</?details[^>]*>", "", text, flags=re.IGNORECASE)
-    text = text.replace("</summary>", "")
-    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"</?pre[^>]*>", "", text, flags=re.IGNORECASE)
+    text = _strip_html_tags(text)
     return text
 
 
@@ -208,7 +223,12 @@ def send_markdown(subject: str, md_body: str) -> None:
         )
         return
 
-    html = markdown(md_body, extensions=["extra", "tables", "fenced_code", "md_in_html"], output_format="html5")
+    html = markdown(
+        md_body,
+        extensions=["extra", "tables", "fenced_code", "md_in_html"],
+        extension_configs={"md_in_html": {"strip": False}},
+        output_format="html5",
+    )
     plain = _strip_details_tags(md_body)
 
     msg = MIMEMultipart("alternative")

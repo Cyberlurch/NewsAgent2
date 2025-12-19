@@ -559,13 +559,11 @@ def to_markdown(
             meta_content = "\n\n".join(meta_blocks)
             md.extend(
                 [
-                    "## Run Metadata",
-                    "",
                     "<details>",
-                    "<summary>Run Metadata (click to expand)</summary>",
-                    "<pre>",
+                    "  <summary>Run Metadata (click to expand)</summary>",
+                    "  <pre>",
                     meta_content,
-                    "</pre>",
+                    "  </pre>",
                     "</details>",
                 ]
             )
