@@ -7,6 +7,7 @@ import os
 import re
 import smtplib
 import traceback
+from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
@@ -168,6 +169,81 @@ def _strip_details_tags(md_text: str) -> str:
     return text
 
 
+def _extract_metadata_text(block: str) -> str:
+    if not block:
+        return ""
+
+    pre_match = re.search(r"<pre[^>]*>(.*?)</pre>", block, flags=re.IGNORECASE | re.DOTALL)
+    if pre_match:
+        return html_module.unescape((pre_match.group(1) or "").strip())
+
+    cleaned = re.sub(r"<[^>]+>", "", block)
+    return html_module.unescape(cleaned.strip())
+
+
+def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str]:
+    """Split out the Run Metadata block for attachment use in emails.
+
+    Returns (markdown_without_metadata_block, metadata_text).
+    If no metadata block exists, returns the original markdown and empty text.
+    """
+
+    if not md_body:
+        return md_body, ""
+
+    placeholder_lines = [
+        "## Run Metadata",
+        "",
+        "Run metadata is attached as a text file.",
+        "",
+    ]
+
+    original_trailing_newline = md_body.endswith("\n")
+
+    lines = md_body.splitlines()
+    start_idx = None
+    for idx, line in enumerate(lines):
+        if re.match(r"^##\s*Run Metadata\s*$", line.strip(), flags=re.IGNORECASE):
+            start_idx = idx
+            break
+
+    if start_idx is not None:
+        end_idx = len(lines)
+        for j in range(start_idx + 1, len(lines)):
+            if re.match(r"^##\s+", lines[j]):
+                end_idx = j
+                break
+
+        metadata_block = "\n".join(lines[start_idx:end_idx])
+        new_lines = lines[:start_idx] + placeholder_lines + lines[end_idx:]
+        new_body = "\n".join(new_lines)
+        if original_trailing_newline:
+            new_body += "\n"
+        return new_body, _extract_metadata_text(metadata_block)
+
+    details_match = re.search(
+        r"<details[^>]*>.*?Run Metadata.*?</details>", md_body, flags=re.IGNORECASE | re.DOTALL
+    )
+    if not details_match:
+        return md_body, ""
+
+    metadata_block = details_match.group(0)
+
+    before = md_body[: details_match.start()]
+    after = md_body[details_match.end() :]
+
+    placeholder_block = "\n".join(placeholder_lines)
+
+    if before and not before.endswith("\n"):
+        before += "\n"
+
+    new_body = f"{before}{placeholder_block}\n{after.lstrip(' \n')}"
+    if original_trailing_newline and not new_body.endswith("\n"):
+        new_body += "\n"
+
+    return new_body, _extract_metadata_text(metadata_block)
+
+
 def _safe_markdown_to_html(md_body: str) -> str:
     """Convert Markdown to HTML safely, falling back to a preformatted block.
 
@@ -258,21 +334,32 @@ def send_markdown(subject: str, md_body: str) -> None:
         )
         return
 
+    md_for_email, metadata_text = _extract_run_metadata_for_email(md_body)
+
     try:
-        html = _safe_markdown_to_html(md_body)
+        html = _safe_markdown_to_html(md_for_email)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
         print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")
         print(traceback.format_exc())
-        html = f"<pre>{html_module.escape(md_body or '')}</pre>"
+        html = f"<pre>{html_module.escape(md_for_email or '')}</pre>"
 
-    plain = _strip_details_tags(md_body)
+    plain = _strip_details_tags(md_for_email)
 
-    msg = MIMEMultipart("alternative")
+    msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
     msg["From"] = from_addr
     msg["To"] = ", ".join(to_list)
-    msg.attach(MIMEText(plain, "plain", "utf-8"))
-    msg.attach(MIMEText(html, "html", "utf-8"))
+
+    alternative = MIMEMultipart("alternative")
+    alternative.attach(MIMEText(plain, "plain", "utf-8"))
+    alternative.attach(MIMEText(html, "html", "utf-8"))
+    msg.attach(alternative)
+
+    if metadata_text:
+        filename = f"cybermed_run_metadata_{datetime.now().strftime('%Y-%m-%d_%H-%M')}.txt"
+        attachment = MIMEText(metadata_text, "plain", "utf-8")
+        attachment.add_header("Content-Disposition", "attachment", filename=filename)
+        msg.attach(attachment)
 
     try:
         # Do not log host/from/to addresses.

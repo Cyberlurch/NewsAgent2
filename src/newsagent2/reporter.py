@@ -428,7 +428,7 @@ def to_markdown(
     lang = _norm_language(report_language)
     title = report_title.strip()
     now_str = datetime.now(tz=STO).strftime("%Y-%m-%d %H:%M") + (" Uhr" if lang == "de" else "")
-    md: List[str] = [title, now_str, ""]
+    md: List[str] = [f"# {title}", f"*{now_str}*", ""]
     is_cybermed = _is_cybermed_report(title, report_language)
 
     overview_markdown = (overview_markdown or "").strip()
@@ -576,6 +576,8 @@ def to_markdown(
             meta_content = "\n\n".join(meta_blocks)
             md.extend(
                 [
+                    "## Run Metadata",
+                    "",
                     '<details markdown="1">',
                     "  <summary>Run Metadata (click to expand)</summary>",
                     "",
