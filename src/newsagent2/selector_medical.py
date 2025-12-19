@@ -869,6 +869,7 @@ def select_cybermed_foamed_items(
     excluded_pain_context = 0
 
     scored: List[Dict[str, Any]] = []
+    fallback_candidates: List[Dict[str, Any]] = []
     off_domain_patterns = [
         r"\b(job|jobs|career|vacancy)\b",
         r"sponsor",
@@ -940,6 +941,7 @@ def select_cybermed_foamed_items(
 
         if not has_signal:
             foamed_excluded_no_signal += 1
+            fallback_candidates.append(dict(it))
             continue
 
         published = it.get("published_at")
@@ -980,6 +982,16 @@ def select_cybermed_foamed_items(
             break
         overview_items.append(cand)
 
+    fallback_used = False
+    if not overview_items and fallback_candidates:
+        fallback_used = True
+        fallback_sorted = sorted(
+            fallback_candidates,
+            key=lambda x: x.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
+            reverse=True,
+        )
+        overview_items.extend(fallback_sorted[:max_overview])
+
     top_picks: List[Dict[str, Any]] = []
     for cand in overview_items[:max_top_picks]:
         cand["top_pick"] = True
@@ -996,6 +1008,8 @@ def select_cybermed_foamed_items(
         "foamed_included": len(overview_items),
         "foamed_excluded_offtopic": foamed_excluded_offtopic,
         "foamed_excluded_no_signal": foamed_excluded_no_signal,
+        "fallback_used": fallback_used,
+        "fallback_candidates": len(fallback_candidates),
     }
 
     return FoamedSelection(overview_items=overview_items, top_picks=top_picks, stats=stats)

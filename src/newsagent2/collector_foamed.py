@@ -220,6 +220,11 @@ def collect_foamed_items(
             "feed_failed": False,
             "discovered_feed_used": False,
             "html_fallback_used": False,
+            "method": "rss",
+            "entries_total": 0,
+            "entries_with_date": 0,
+            "newest_entry_datetime": None,
+            "error": None,
             "candidates_found": 0,
             "pages_fetched": 0,
             "pages_with_date": 0,
@@ -275,12 +280,21 @@ def collect_foamed_items(
                             parsed = feedparser.parse(feed_response.content)
 
         entries = parsed.entries if parsed and hasattr(parsed, "entries") else []
+        newest_entry_dt = None
+        entries_with_date = 0
+        per_source["entries_total"] = len(entries)
         if feed_response and feed_response.ok:
             per_source["feed_ok"] = True
             per_source["feed_failed"] = False
             stats["sources_ok"] += 1
+            if per_source["discovered_feed_used"]:
+                per_source["method"] = "discovered_feed"
         else:
             stats["sources_failed"] += 1
+            if feed_response and not feed_response.ok:
+                per_source["error"] = f"feed_http_{feed_response.status_code}"
+            elif not feed_response:
+                per_source["error"] = "feed_unavailable"
 
         for entry in entries:
             total += 1
@@ -299,6 +313,9 @@ def collect_foamed_items(
             else:
                 per_source["items_with_date"] += 1
                 stats["items_with_date"] += 1
+                if not newest_entry_dt or published_at > newest_entry_dt:
+                    newest_entry_dt = published_at
+                entries_with_date += 1
 
             if published_at and (published_at < cutoff or published_at > now_utc + timedelta(minutes=5)):
                 continue
@@ -341,9 +358,13 @@ def collect_foamed_items(
         if not entries:
             per_source["feed_failed"] = per_source["feed_failed"] or not per_source["feed_ok"]
 
+        per_source["entries_with_date"] = entries_with_date
+
         # HTML fallback when feeds are unavailable or empty.
         if (not entries or not per_source["feed_ok"]) and homepage:
             per_source["html_fallback_used"] = True
+            per_source["method"] = "html_fallback"
+            fallback_newest_dt = None
             try:
                 home_resp = session.get(homepage, timeout=8)
                 home_resp.raise_for_status()
@@ -388,6 +409,9 @@ def collect_foamed_items(
                     if published_dt < cutoff or published_dt > now_utc + timedelta(minutes=5):
                         continue
 
+                    if not fallback_newest_dt or published_dt > fallback_newest_dt:
+                        fallback_newest_dt = published_dt
+
                     stats["items_raw"] += 1
                     per_source["items_raw"] += 1
                     stats["items_with_date"] += 1
@@ -430,7 +454,19 @@ def collect_foamed_items(
 
             except Exception as e:
                 per_source["errors"] += 1
+                per_source["error"] = f"html_fallback_failed: {e!r}"[:200]
                 print(f"[foamed] WARN source={name!r}: html fallback failed: {e!r}")
+
+            if per_source["html_fallback_used"]:
+                per_source["entries_total"] = max(per_source["entries_total"], per_source.get("pages_fetched", 0))
+                per_source["entries_with_date"] = max(
+                    per_source.get("entries_with_date", 0), per_source.get("pages_with_date", 0)
+                )
+                if fallback_newest_dt and (not newest_entry_dt or fallback_newest_dt > newest_entry_dt):
+                    newest_entry_dt = fallback_newest_dt
+
+        if newest_entry_dt:
+            per_source["newest_entry_datetime"] = newest_entry_dt.astimezone(timezone.utc).isoformat()
 
         stats["per_source"][name] = per_source
         print(
