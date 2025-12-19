@@ -931,6 +931,12 @@
             "title": "Weekly Medical Quiz | JournalFeed",
             "url": "https://journalfeed.org/weekly-quiz/"
           },
+          "https://www.nysora.com/education-news/radiofrequency-ablation-boosts-mobility-in-lumbar-spinal-arthritis/": {
+            "channel": "NYSORA",
+            "processed_at_utc": "2025-12-19T10:47:55+00:00",
+            "title": "Radiofrequency ablation boosts mobility in lumbar spinal arthritis",
+            "url": "https://www.nysora.com/education-news/radiofrequency-ablation-boosts-mobility-in-lumbar-spinal-arthritis/"
+          },
           "https://www.openanesthesia.org/sections/pediatric-anesthesia/": {
             "channel": "OpenAnesthesia",
             "processed_at_utc": "2025-12-19T09:16:04+00:00",
@@ -1465,22 +1471,22 @@
           },
           "41407851": {
             "channel": "PubMed: Nature (medizin/biomed breit)",
-            "processed_at_utc": "2025-12-19T09:16:04+00:00",
-            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "processed_at_utc": "2025-12-19T10:47:55+00:00",
+            "screened_at_utc": "2025-12-19T10:47:55+00:00",
             "title": "Transient hepatic reconstitution of trophic factors enhances aged immunity.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41407851/"
           },
           "41407852": {
             "channel": "PubMed: Nature (medizin/biomed breit)",
-            "processed_at_utc": "2025-12-19T09:16:04+00:00",
-            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "processed_at_utc": "2025-12-19T10:47:55+00:00",
+            "screened_at_utc": "2025-12-19T10:47:55+00:00",
             "title": "Prevalence of Alzheimer's disease pathology in the community.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41407852/"
           },
           "41407859": {
             "channel": "PubMed: Nature (medizin/biomed breit)",
-            "processed_at_utc": "2025-12-19T09:16:04+00:00",
-            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "processed_at_utc": "2025-12-19T10:47:55+00:00",
+            "screened_at_utc": "2025-12-19T10:47:55+00:00",
             "title": "Mazdutide versus placebo in Chinese adults with type 2 diabetes.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41407859/"
           },
@@ -1550,8 +1556,8 @@
           },
           "41411425": {
             "channel": "PubMed: Science (medizin/biomed breit)",
-            "processed_at_utc": "2025-12-19T09:16:04+00:00",
-            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "processed_at_utc": "2025-12-19T10:47:55+00:00",
+            "screened_at_utc": "2025-12-19T10:47:55+00:00",
             "title": "Trifluoromethylation of alkyl electrophiles with 11C- or 18F-labeled fluoroform for PET applications.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41411425/"
           },
@@ -1599,10 +1605,19 @@
           },
           "41412603": {
             "channel": "PubMed: The BMJ (intensiv/akut Filter)",
-            "processed_at_utc": "2025-12-19T09:16:04+00:00",
-            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "processed_at_utc": "2025-12-19T10:47:55+00:00",
+            "screened_at_utc": "2025-12-19T10:47:55+00:00",
             "title": "Acute effects of daylight saving time clock changes on mental and physical health in England: population based retrospective cohort study.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41412603/"
+          },
+          "41412897": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2025-12-19T10:47:55+00:00",
+            "screened_at_utc": "2025-12-19T10:47:55+00:00",
+            "sent_deep_dive_at_utc": "2025-12-19T10:47:55+00:00",
+            "sent_overview_at_utc": "2025-12-19T10:47:55+00:00",
+            "title": "Chemical ablation of pericapsular nerve group with 95% ethanol for pain relief and quality of life in patients with hip osteoarthritis. Comment on Br J Anaesth 2025; 135: 382-9.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412897/"
           },
           "41412898": {
             "channel": "PubMed: British Journal of Anaesthesia",
@@ -1650,6 +1665,6 @@
       }
     }
   },
-  "updated_at_utc": "2025-12-19T09:16:04+00:00",
+  "updated_at_utc": "2025-12-19T10:47:55+00:00",
   "version": 1
 }
