@@ -486,6 +486,12 @@
             "title": "We Are NOT Going to WAR For YOU, Zelensky",
             "url": "https://www.youtube.com/watch?v=XvBR3tavT0w"
           },
+          "Y3vrgEu6lN4": {
+            "channel": "Vermietertagebuch",
+            "processed_at_utc": "2025-12-19T09:13:32+00:00",
+            "title": "Selensky rastet aus - Russen-Enteignung gescheitert – Merz gedemütigt!",
+            "url": "https://www.youtube.com/watch?v=Y3vrgEu6lN4"
+          },
           "Z2x1tDMujxA": {
             "channel": "Klartext Winkler",
             "processed_at_utc": "2025-12-17T14:56:06+00:00",
@@ -911,6 +917,28 @@
       }
     },
     "cybermed": {
+      "foamed": {
+        "processed": {
+          "https://journalfeed.org/blog/": {
+            "channel": "JournalFeed (Critical Care)",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "JournalFeed Blog | High-Yield Medical Research Summaries",
+            "url": "https://journalfeed.org/blog/"
+          },
+          "https://journalfeed.org/weekly-quiz/": {
+            "channel": "JournalFeed (Critical Care)",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Weekly Medical Quiz | JournalFeed",
+            "url": "https://journalfeed.org/weekly-quiz/"
+          },
+          "https://www.openanesthesia.org/sections/pediatric-anesthesia/": {
+            "channel": "OpenAnesthesia",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Pediatric Anesthesia - OpenAnesthesia",
+            "url": "https://www.openanesthesia.org/sections/pediatric-anesthesia/"
+          }
+        }
+      },
       "pubmed": {
         "processed": {
           "41380717": {
@@ -1437,22 +1465,22 @@
           },
           "41407851": {
             "channel": "PubMed: Nature (medizin/biomed breit)",
-            "processed_at_utc": "2025-12-19T05:27:48+00:00",
-            "screened_at_utc": "2025-12-19T05:27:48+00:00",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
             "title": "Transient hepatic reconstitution of trophic factors enhances aged immunity.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41407851/"
           },
           "41407852": {
             "channel": "PubMed: Nature (medizin/biomed breit)",
-            "processed_at_utc": "2025-12-19T05:27:48+00:00",
-            "screened_at_utc": "2025-12-19T05:27:48+00:00",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
             "title": "Prevalence of Alzheimer's disease pathology in the community.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41407852/"
           },
           "41407859": {
             "channel": "PubMed: Nature (medizin/biomed breit)",
-            "processed_at_utc": "2025-12-19T05:27:48+00:00",
-            "screened_at_utc": "2025-12-19T05:27:48+00:00",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
             "title": "Mazdutide versus placebo in Chinese adults with type 2 diabetes.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41407859/"
           },
@@ -1522,15 +1550,106 @@
           },
           "41411425": {
             "channel": "PubMed: Science (medizin/biomed breit)",
-            "processed_at_utc": "2025-12-19T05:27:48+00:00",
-            "screened_at_utc": "2025-12-19T05:27:48+00:00",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
             "title": "Trifluoromethylation of alkyl electrophiles with 11C- or 18F-labeled fluoroform for PET applications.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41411425/"
+          },
+          "41412223": {
+            "channel": "PubMed: CHEST",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_deep_dive_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Incidence of new comorbidities after steroid use in patients with sarcoidosis: an international cross-sectional survey.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412223/"
+          },
+          "41412224": {
+            "channel": "PubMed: CHEST",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Sotatercept is Associated with Improved Lung Function in Sarcoidosis-Associated Pulmonary Hypertension.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412224/"
+          },
+          "41412312": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Reply to: When Ground Truth Is Not Static: Rethinking AI Performance in Occlusive MI Detection from Post-MI ECGs.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412312/"
+          },
+          "41412595": {
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Where medicine meets melody-Lullaby Hour brings harmony to the neonatal ICU.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412595/"
+          },
+          "41412600": {
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_deep_dive_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "RETRACTION: Intraosseous versus intravenous vascular access in upper extremity among adults with out-of-hospital cardiac arrest: cluster randomised clinical trial (VICTOR trial).",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412600/"
+          },
+          "41412603": {
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Acute effects of daylight saving time clock changes on mental and physical health in England: population based retrospective cohort study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412603/"
+          },
+          "41412898": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_deep_dive_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Intra-arterial lidocaine improves long-term survival in patients with hepatocellular carcinoma undergoing transcatheter arterial chemoembolisation. Comment on Br J Anaesth 2025; 134: 1628-37.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412898/"
+          },
+          "41412899": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Difficult Airway Society 2025 guidelines for management of unanticipated difficult tracheal intubation in adults. Comment on Br J Anaesth 2025.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412899/"
+          },
+          "41412900": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Difficult Airway Society 2025 guidelines for management of unanticipated difficult tracheal intubation in adults. Comment on Br J Anaesth 2025.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412900/"
+          },
+          "41412901": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_deep_dive_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "The Air-Test score for prediction of postoperative pulmonary complications after general anaesthesia: analysis of harmonised trial data and a prospective observational cohort.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412901/"
+          },
+          "41412902": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2025-12-19T09:16:04+00:00",
+            "screened_at_utc": "2025-12-19T09:16:04+00:00",
+            "sent_overview_at_utc": "2025-12-19T09:16:04+00:00",
+            "title": "Barriers and enablers to sustainable anaesthetic practice: a mixed-methods study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41412902/"
           }
         }
       }
     }
   },
-  "updated_at_utc": "2025-12-19T05:27:48+00:00",
+  "updated_at_utc": "2025-12-19T09:16:04+00:00",
   "version": 1
 }
