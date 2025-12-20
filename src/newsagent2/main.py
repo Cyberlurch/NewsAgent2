@@ -35,6 +35,30 @@ from .summarizer import (
 STO = ZoneInfo("Europe/Stockholm")
 
 
+def _parse_iso_utc(value: str | None) -> datetime | None:
+    text = (value or "").strip()
+    if text == "":
+        return None
+
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+
+    try:
+        dt = datetime.fromisoformat(text)
+    except Exception:
+        return None
+
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    else:
+        try:
+            dt = dt.astimezone(timezone.utc)
+        except Exception:
+            return None
+
+    return dt
+
+
 def _is_cybermed(report_key: str, report_profile: str) -> bool:
     """Cybermed detection must be stable and avoid touching Cyberlurch logic."""
     rk = (report_key or "").strip().lower()
