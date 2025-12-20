@@ -92,6 +92,13 @@ def _is_cybermed_report(report_title: str, report_language: str) -> bool:
     rp = (os.getenv("REPORT_PROFILE") or "").strip().lower()
     return rp == "medical"
 
+
+def _is_cyberlurch_report(report_title: str) -> bool:
+    rk = (os.getenv("REPORT_KEY") or "").strip().lower()
+    if rk == "cyberlurch":
+        return True
+    return "cyberlurch" in (report_title or "").strip().lower()
+
 def _extract_bottom_line(detail_md: str) -> str:
     if not detail_md:
         return ""
@@ -459,6 +466,7 @@ def to_markdown(
         "",
     ]
     is_cybermed = _is_cybermed_report(title, report_language)
+    is_cyberlurch = _is_cyberlurch_report(title)
 
     overview_markdown = (overview_markdown or "").strip()
     normalized_mode = (report_mode or "").strip().lower()
@@ -468,6 +476,7 @@ def to_markdown(
             normalized_mode = "weekly"
         elif "monthly" in title_lower:
             normalized_mode = "monthly"
+    is_cyberlurch_periodic = is_cyberlurch and normalized_mode in {"weekly", "monthly"}
     meta_only = ""
     if overview_markdown:
         if is_cybermed:
@@ -610,25 +619,37 @@ def to_markdown(
                 date_str = ""
                 if isinstance(date_val, datetime):
                     date_str = date_val.strftime("%Y-%m-%d")
-                display_title = _prefix_star(title_lbl) if it.get("top_pick") else title_lbl
-                suffix = f" — {channel_lbl}" if channel_lbl else ""
-                date_suffix = f" ({date_str})" if date_str else ""
-                line = f"- [{display_title}]({url}){suffix}{date_suffix}" if url else f"- {display_title}{suffix}{date_suffix}"
+                if is_cyberlurch_periodic:
+                    star_prefix = "⭐ " if it.get("top_pick") else ""
+                    title_part = f"[{title_lbl}]({url})" if url else title_lbl
+                    suffix = f" — {channel_lbl}" if channel_lbl else ""
+                    date_suffix = f" ({date_str})" if date_str else ""
+                    line = f"- {star_prefix}{title_part}{suffix}{date_suffix}"
+                else:
+                    display_title = _prefix_star(title_lbl) if it.get("top_pick") else title_lbl
+                    suffix = f" — {channel_lbl}" if channel_lbl else ""
+                    date_suffix = f" ({date_str})" if date_str else ""
+                    line = (
+                        f"- [{display_title}]({url}){suffix}{date_suffix}"
+                        if url
+                        else f"- {display_title}{suffix}{date_suffix}"
+                    )
                 md.append(line)
             md.append("")
 
-        seen = set()
-        src_lines: List[str] = []
-        for it in items:
-            url = str(it.get("url") or "").strip()
-            title_lbl = _md_escape_label(str(it.get("title") or "").strip())
-            if not url or url in seen:
-                continue
-            seen.add(url)
-            src_lines.append(f"- {title_lbl}: {url}")
-        md.extend([sources_heading, ""])
-        md.extend(src_lines if src_lines else ["- (keine)" if lang == "de" else "- (none)"])
-        md.append("")
+        if not is_cyberlurch_periodic:
+            seen = set()
+            src_lines: List[str] = []
+            for it in items:
+                url = str(it.get("url") or "").strip()
+                title_lbl = _md_escape_label(str(it.get("title") or "").strip())
+                if not url or url in seen:
+                    continue
+                seen.add(url)
+                src_lines.append(f"- {title_lbl}: {url}")
+            md.extend([sources_heading, ""])
+            md.extend(src_lines if src_lines else ["- (keine)" if lang == "de" else "- (none)"])
+            md.append("")
 
     if is_cybermed:
         extra_meta = _format_cybermed_metadata(items, meta_only, foamed_stats, cybermed_stats)

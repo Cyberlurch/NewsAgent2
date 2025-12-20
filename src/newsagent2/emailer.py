@@ -184,40 +184,33 @@ def _extract_metadata_text(block: str) -> str:
 def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
     """Split out the Run Metadata block for attachment use in emails.
 
-    Returns (markdown_without_metadata_block, metadata_text, markers_found).
+    Returns (markdown_without_metadata_block, metadata_text, metadata_removed).
     If no metadata block exists, returns the original markdown, empty text, and False.
     """
 
     if not md_body:
-        return md_body, ""
-
-    placeholder_lines = [
-        "## Run Metadata",
-        "",
-        "Run metadata is attached as a text file.",
-        "",
-    ]
+        return md_body, "", False
 
     original_trailing_newline = md_body.endswith("\n")
+    working_body = md_body
+    metadata_text = ""
+    metadata_removed = False
 
     marker_pattern = re.compile(
         r"<!--\s*RUN_METADATA_ATTACHMENT_START\s*-->(.*?)<!--\s*RUN_METADATA_ATTACHMENT_END\s*-->",
         flags=re.IGNORECASE | re.DOTALL,
     )
 
-    marker_match = marker_pattern.search(md_body)
+    marker_match = marker_pattern.search(working_body)
     if marker_match:
-        metadata_block = marker_match.group(1) or ""
-        before = md_body[: marker_match.start()] or ""
-        after = md_body[marker_match.end() :] or ""
+        metadata_text = marker_match.group(1) or ""
+        before = working_body[: marker_match.start()] or ""
+        after = working_body[marker_match.end() :] or ""
 
-        replacement = "\n".join(placeholder_lines)
-        new_body = f"{before}{replacement}\n{after.lstrip(' \n')}"
-        if original_trailing_newline and not new_body.endswith("\n"):
-            new_body += "\n"
-        return new_body, metadata_block.strip(), True
+        working_body = f"{before}{after.lstrip(' \n')}"
+        metadata_removed = True
 
-    lines = md_body.splitlines()
+    lines = working_body.splitlines()
     start_idx = None
     for idx, line in enumerate(lines):
         if re.match(r"^##\s*Run Metadata\s*$", line.strip(), flags=re.IGNORECASE):
@@ -232,34 +225,37 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
                 break
 
         metadata_block = "\n".join(lines[start_idx:end_idx])
-        new_lines = lines[:start_idx] + placeholder_lines + lines[end_idx:]
-        new_body = "\n".join(new_lines)
-        if original_trailing_newline:
-            new_body += "\n"
-        return new_body, _extract_metadata_text(metadata_block), False
+        if re.search(r"run metadata", metadata_block, flags=re.IGNORECASE):
+            new_lines = lines[:start_idx] + lines[end_idx:]
+            working_body = "\n".join(new_lines)
+            if not metadata_text:
+                metadata_text = _extract_metadata_text(metadata_block)
+            metadata_removed = True
 
-    details_match = re.search(
-        r"<details[^>]*>.*?Run Metadata.*?</details>", md_body, flags=re.IGNORECASE | re.DOTALL
-    )
-    if not details_match:
-        return md_body, "", False
+    if not metadata_removed:
+        details_match = re.search(
+            r"<details[^>]*>.*?Run Metadata.*?</details>", working_body, flags=re.IGNORECASE | re.DOTALL
+        )
+        if not details_match:
+            return working_body, metadata_text, False
 
-    metadata_block = details_match.group(0)
+        metadata_block = details_match.group(0)
 
-    before = md_body[: details_match.start()]
-    after = md_body[details_match.end() :]
+        before = working_body[: details_match.start()]
+        after = working_body[details_match.end() :]
 
-    placeholder_block = "\n".join(placeholder_lines)
+        if before and not before.endswith("\n"):
+            before += "\n"
 
-    if before and not before.endswith("\n"):
-        before += "\n"
+        working_body = f"{before}{after.lstrip(' \n')}"
+        if not metadata_text:
+            metadata_text = _extract_metadata_text(metadata_block)
+        metadata_removed = True
 
-    after_stripped = after.lstrip(" \n")
-    new_body = f"{before}{placeholder_block}\n{after_stripped}"
-    if original_trailing_newline and not new_body.endswith("\n"):
-        new_body += "\n"
+    if metadata_removed and original_trailing_newline and not working_body.endswith("\n"):
+        working_body += "\n"
 
-    return new_body, _extract_metadata_text(metadata_block)
+    return working_body, metadata_text.strip(), metadata_removed
 
 
 def _safe_markdown_to_html(md_body: str) -> str:
@@ -355,10 +351,10 @@ def send_markdown(subject: str, md_body: str) -> None:
     # Keep the HTML part as close to the original Markdown as possible.
     # We only extract the Run Metadata for (a) a plaintext-friendly replacement
     # and (b) attaching the full metadata as a .txt file.
-    md_without_metadata, metadata_text, markers_found = _extract_run_metadata_for_email(md_body)
+    md_without_metadata, metadata_text, metadata_removed = _extract_run_metadata_for_email(md_body)
 
     try:
-        html_source = md_without_metadata if markers_found else md_body
+        html_source = md_without_metadata if metadata_removed else md_body
         html = _safe_markdown_to_html(html_source)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
         print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")

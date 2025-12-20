@@ -65,9 +65,10 @@ Hello.
 
         md_plain, meta, markers_found = _extract_run_metadata_for_email(md)
         self.assertTrue(meta.strip().startswith("- a:"))
-        self.assertIn("Run metadata is attached", md_plain)
+        self.assertNotIn("Run Metadata", md_plain)
+        self.assertNotIn("Run metadata is attached", md_plain)
         self.assertNotIn("<details", md_plain)
-        self.assertFalse(markers_found)
+        self.assertTrue(markers_found)
 
 
 if __name__ == "__main__":
