@@ -34,6 +34,17 @@ from .summarizer import (
 
 STO = ZoneInfo("Europe/Stockholm")
 
+CYBERMED_WEEKLY_MAX_PUBMED = 10
+CYBERMED_MONTHLY_MAX_PUBMED = 8
+CYBERMED_WEEKLY_MAX_FOAMED = 8
+CYBERMED_MONTHLY_MAX_FOAMED = 6
+CYBERMED_WEEKLY_MAX_FOAMED_CANDIDATES = 15
+CYBERMED_MONTHLY_MAX_FOAMED_CANDIDATES = 12
+CYBERLURCH_WEEKLY_MAX_VIDEOS = 10
+CYBERLURCH_MONTHLY_MAX_VIDEOS = 8
+WEEKLY_MAX_DEEP_DIVES = 3
+MONTHLY_MAX_DEEP_DIVES = 2
+
 
 def _parse_iso_utc(value: str | None) -> datetime | None:
     text = (value or "").strip()
@@ -217,6 +228,69 @@ def _dedupe_items(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         seen.add(key)
         out.append(it)
     return out
+
+
+def _curate_top_items(
+    items: List[Dict[str, Any]],
+    max_n: int,
+    *,
+    score_key: str = "cybermed_score",
+    top_pick_key: str = "top_pick",
+) -> List[Dict[str, Any]]:
+    if max_n <= 0:
+        return []
+
+    def _sort_key(it: Dict[str, Any]) -> tuple[Any, ...]:
+        score_val = float(it.get(score_key) or 0.0)
+        ts = it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc)
+        return (
+            1 if it.get(top_pick_key) else 0,
+            score_val,
+            ts,
+        )
+
+    return sorted(items, key=_sort_key, reverse=True)[:max_n]
+
+
+def _mode_deep_dive_cap(report_mode: str, base_cap: int) -> int:
+    if report_mode == "weekly":
+        return min(base_cap, WEEKLY_MAX_DEEP_DIVES)
+    if report_mode == "monthly":
+        return min(base_cap, MONTHLY_MAX_DEEP_DIVES)
+    return base_cap
+
+
+def _foamed_candidate_cap(report_mode: str) -> int:
+    if report_mode == "weekly":
+        return CYBERMED_WEEKLY_MAX_FOAMED_CANDIDATES
+    if report_mode == "monthly":
+        return CYBERMED_MONTHLY_MAX_FOAMED_CANDIDATES
+    return 40
+
+
+def _trim_foamed_overview(items: List[Dict[str, Any]], report_mode: str) -> List[Dict[str, Any]]:
+    if report_mode == "weekly":
+        return _curate_top_items(items, CYBERMED_WEEKLY_MAX_FOAMED, score_key="foamed_score")
+    if report_mode == "monthly":
+        return _curate_top_items(items, CYBERMED_MONTHLY_MAX_FOAMED, score_key="foamed_score")
+    return items
+
+
+def _curate_cyberlurch_overview(
+    items_sorted: List[Dict[str, Any]],
+    report_mode: str,
+    overview_items_max: int,
+) -> List[Dict[str, Any]]:
+    cap = overview_items_max
+    if report_mode == "weekly":
+        cap = min(cap, CYBERLURCH_WEEKLY_MAX_VIDEOS)
+    elif report_mode == "monthly":
+        cap = min(cap, CYBERLURCH_MONTHLY_MAX_VIDEOS)
+
+    if report_mode not in {"weekly", "monthly"}:
+        return items_sorted[: max(1, cap)]
+
+    return _curate_top_items(items_sorted, max(1, cap), score_key="score")
 
 
 def _allocate_detail_slots_by_topic(
@@ -576,6 +650,8 @@ def main() -> None:
         detail_items_per_day = min(detail_items_per_day, 3)
         detail_items_per_channel_max = min(detail_items_per_channel_max, 2)
 
+    deep_dive_limit = _mode_deep_dive_cap(report_mode, detail_items_per_day)
+
     foamed_sources: List[Dict[str, Any]] = []
     foamed_candidates: List[Dict[str, Any]] = []
     foamed_screened_total = 0
@@ -595,7 +671,9 @@ def main() -> None:
         else:
             overview = f"## Kurzüberblick\n\n**Fehler:** Konnte Channels-Konfiguration nicht laden: `{e!r}`\n"
         out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
-        md = to_markdown([], overview, {}, report_title=report_title, report_language=report_language)
+        md = to_markdown(
+            [], overview, {}, report_title=report_title, report_language=report_language, report_mode=report_mode
+        )
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(md)
         print(f"[report] Wrote {out_path}")
@@ -823,7 +901,9 @@ def main() -> None:
             from .selector_medical import select_cybermed_foamed_items
 
             if foamed_new_items:
-                foamed_sel = select_cybermed_foamed_items(foamed_new_items)
+                foamed_sel = select_cybermed_foamed_items(
+                    foamed_new_items, max_overview=_foamed_candidate_cap(report_mode)
+                )
                 foamed_overview_items = list(getattr(foamed_sel, "overview_items", foamed_new_items))
                 foamed_top_picks = list(getattr(foamed_sel, "top_picks", []))
                 foamed_selection_stats = dict(getattr(foamed_sel, "stats", {}) or {})
@@ -839,6 +919,9 @@ def main() -> None:
             foamed_selection_stats.setdefault("included_overview", len(foamed_overview_items))
             foamed_selection_stats.setdefault("top_picks", len([it for it in foamed_overview_items if it.get("top_pick")]))
 
+        foamed_overview_items = _trim_foamed_overview(foamed_overview_items, report_mode)
+
+        foamed_top_picks = []
         if foamed_overview_items and not any(it.get("top_pick") for it in foamed_overview_items):
             for it in foamed_overview_items[:2]:
                 it["top_pick"] = True
@@ -872,6 +955,32 @@ def main() -> None:
         ):
             foamed_meta_stats.setdefault(k, 0)
         foamed_meta_stats.setdefault("per_source", {})
+
+        if report_mode in {"weekly", "monthly"}:
+            pubmed_cap = (
+                CYBERMED_WEEKLY_MAX_PUBMED if report_mode == "weekly" else CYBERMED_MONTHLY_MAX_PUBMED
+            )
+            pubmed_overview_items = _curate_top_items(
+                pubmed_overview_items, min(pubmed_cap, max(1, overview_items_max))
+            )
+
+            deep_candidates: List[Dict[str, Any]] = []
+            seen_pubmed_ids: Set[str] = set()
+            for it in pubmed_overview_items:
+                iid = str(it.get("id") or "").strip()
+                if not iid or iid in seen_pubmed_ids:
+                    continue
+                deep_candidates.append(it)
+                seen_pubmed_ids.add(iid)
+
+            for it in pubmed_deep_dive_items:
+                iid = str(it.get("id") or "").strip()
+                if not iid or iid in seen_pubmed_ids:
+                    continue
+                deep_candidates.append(it)
+                seen_pubmed_ids.add(iid)
+
+            pubmed_deep_dive_items = _curate_top_items(deep_candidates, deep_dive_limit)
     else:
         items = items_all_new
 
@@ -1005,7 +1114,9 @@ def main() -> None:
         else:
             overview = cybermed_meta_block + "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n"
         out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
-        md = to_markdown([], overview, {}, report_title=report_title, report_language=report_language)
+        md = to_markdown(
+            [], overview, {}, report_title=report_title, report_language=report_language, report_mode=report_mode
+        )
 
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(md)
@@ -1037,12 +1148,16 @@ def main() -> None:
     detail_items: List[Dict[str, Any]] = []
     deep_dive_ids: Set[str] = set()
     if is_cybermed_run:
-        overview_items = sorted(
-            pubmed_overview_items,
-            key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
-            reverse=True,
-        )[: max(1, overview_items_max)]
-        detail_items = list(pubmed_deep_dive_items)[: max(0, detail_items_per_day)]
+        if report_mode in {"weekly", "monthly"}:
+            overview_items = list(pubmed_overview_items)
+        else:
+            overview_items = sorted(
+                pubmed_overview_items,
+                key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
+                reverse=True,
+            )[: max(1, overview_items_max)]
+
+        detail_items = list(pubmed_deep_dive_items)[: max(0, deep_dive_limit)]
         report_items = _dedupe_items(overview_items + detail_items + foamed_overview_items)
         deep_dive_ids = {
             str(it.get("id") or "").strip()
@@ -1055,8 +1170,8 @@ def main() -> None:
             key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
             reverse=True,
         )
-        report_items = items_sorted
-        overview_items = items_sorted[: max(1, overview_items_max)]
+        curated_overview = _curate_cyberlurch_overview(items_sorted, report_mode, overview_items_max)
+        overview_items = curated_overview
         detail_items = _choose_detail_items(
             items=items_sorted,
             channel_topics=channel_topics,
@@ -1064,6 +1179,11 @@ def main() -> None:
             detail_items_per_day=detail_items_per_day,
             detail_items_per_channel_max=detail_items_per_channel_max,
         )
+        detail_items = detail_items[: max(0, deep_dive_limit)]
+        if report_mode in {"weekly", "monthly"} and report_key.strip().lower() == "cyberlurch":
+            report_items = _dedupe_items(overview_items + detail_items)
+        else:
+            report_items = items_sorted
 
     if not overview_items and detail_items:
         overview_items = list(detail_items)
@@ -1168,6 +1288,7 @@ def main() -> None:
         report_language=report_language,
         foamed_stats=foamed_meta_stats,
         cybermed_stats=cybermed_run_stats if is_cybermed_run else None,
+        report_mode=report_mode,
     )
 
     with open(out_path, "w", encoding="utf-8") as f:

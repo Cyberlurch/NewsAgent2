@@ -444,6 +444,7 @@ def to_markdown(
     report_language: str = "de",
     foamed_stats: Optional[Dict[str, Any]] = None,
     cybermed_stats: Optional[Dict[str, Any]] = None,
+    report_mode: Optional[str] = None,
 ) -> str:
     lang = _norm_language(report_language)
     title = report_title.strip()
@@ -460,6 +461,13 @@ def to_markdown(
     is_cybermed = _is_cybermed_report(title, report_language)
 
     overview_markdown = (overview_markdown or "").strip()
+    normalized_mode = (report_mode or "").strip().lower()
+    if not normalized_mode:
+        title_lower = title.lower()
+        if "weekly" in title_lower:
+            normalized_mode = "weekly"
+        elif "monthly" in title_lower:
+            normalized_mode = "monthly"
     meta_only = ""
     if overview_markdown:
         if is_cybermed:
@@ -468,6 +476,12 @@ def to_markdown(
             md.extend([overview_markdown, ""])
 
     if is_cybermed:
+        if normalized_mode in {"weekly", "monthly"}:
+            pubmed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "pubmed")
+            foamed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "foamed")
+            md.append(f"Top picks (⭐) first; total included: {pubmed_count} papers, {foamed_count} FOAMed.")
+            md.append("")
+
         pubmed_items = [it for it in items if str(it.get("source") or "").strip().lower() == "pubmed"]
         md.extend(["## Papers", ""])
         if pubmed_items:
@@ -582,6 +596,27 @@ def to_markdown(
             md.append("")
 
     if not is_cybermed:
+        if normalized_mode in {"weekly", "monthly"} and items:
+            md.extend(["## Top videos (this period)", ""])
+            seen_urls = set()
+            for it in items:
+                url = str(it.get("url") or "").strip()
+                if url in seen_urls:
+                    continue
+                seen_urls.add(url)
+                title_lbl = _md_escape_label(str(it.get("title") or "").strip()) or "Untitled"
+                channel_lbl = _md_escape_label(str(it.get("channel") or "").strip())
+                date_val = it.get("published_at")
+                date_str = ""
+                if isinstance(date_val, datetime):
+                    date_str = date_val.strftime("%Y-%m-%d")
+                display_title = _prefix_star(title_lbl) if it.get("top_pick") else title_lbl
+                suffix = f" — {channel_lbl}" if channel_lbl else ""
+                date_suffix = f" ({date_str})" if date_str else ""
+                line = f"- [{display_title}]({url}){suffix}{date_suffix}" if url else f"- {display_title}{suffix}{date_suffix}"
+                md.append(line)
+            md.append("")
+
         seen = set()
         src_lines: List[str] = []
         for it in items:
