@@ -6,6 +6,27 @@ on:
     # GitHub cron runs in UTC. 05:00 UTC ≈ 07:00 Stockholm in summer (DST) and ≈ 06:00 in winter.
     - cron: "0 5 * * *"
   workflow_dispatch:
+    inputs:
+      report_mode:
+        description: "Report cadence"
+        default: daily
+        type: choice
+        options:
+          - daily
+          - weekly
+          - monthly
+      lookback_hours:
+        description: "Override lookback window in hours (blank = default per mode)"
+        required: false
+        type: string
+      which_report:
+        description: "Which report(s) to run"
+        default: both
+        type: choice
+        options:
+          - both
+          - cybermed
+          - cyberlurch
 
 concurrency:
   group: newsagent2-daily
@@ -44,6 +65,9 @@ jobs:
       PUBMED_MAX_RETRIES: ${{ vars.PUBMED_MAX_RETRIES || '4' }}
       PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
       PUBMED_DATE_TYPE: ${{ vars.PUBMED_DATE_TYPE || 'edat' }}
+      REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
+      LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
+      WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'both') || 'both' }}
 
     steps:
       - name: Checkout
@@ -62,6 +86,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Cyberlurch Report (YouTube)
+        if: env.WHICH_REPORT == 'both' || env.WHICH_REPORT == 'cyberlurch'
         env:
           REPORT_KEY: cyberlurch
           REPORT_TITLE: The Cyberlurch Report
@@ -83,6 +108,7 @@ jobs:
             --hours 24
 
       - name: Run Cybermed Report (PubMed/Journals)
+        if: env.WHICH_REPORT == 'both' || env.WHICH_REPORT == 'cybermed'
         env:
           REPORT_KEY: cybermed
           REPORT_TITLE: Cybermed Report
