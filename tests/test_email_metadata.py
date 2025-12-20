@@ -63,10 +63,11 @@ class TestEmailMetadata(unittest.TestCase):
 Hello.
 """.strip()
 
-        md_plain, meta = _extract_run_metadata_for_email(md)
+        md_plain, meta, markers_found = _extract_run_metadata_for_email(md)
         self.assertTrue(meta.strip().startswith("- a:"))
         self.assertIn("Run metadata is attached", md_plain)
         self.assertNotIn("<details", md_plain)
+        self.assertFalse(markers_found)
 
 
 if __name__ == "__main__":
