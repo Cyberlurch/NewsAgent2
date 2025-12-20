@@ -181,11 +181,11 @@ def _extract_metadata_text(block: str) -> str:
     return html_module.unescape(cleaned.strip())
 
 
-def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str]:
+def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
     """Split out the Run Metadata block for attachment use in emails.
 
-    Returns (markdown_without_metadata_block, metadata_text).
-    If no metadata block exists, returns the original markdown and empty text.
+    Returns (markdown_without_metadata_block, metadata_text, markers_found).
+    If no metadata block exists, returns the original markdown, empty text, and False.
     """
 
     if not md_body:
@@ -199,6 +199,23 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str]:
     ]
 
     original_trailing_newline = md_body.endswith("\n")
+
+    marker_pattern = re.compile(
+        r"<!--\s*RUN_METADATA_ATTACHMENT_START\s*-->(.*?)<!--\s*RUN_METADATA_ATTACHMENT_END\s*-->",
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    marker_match = marker_pattern.search(md_body)
+    if marker_match:
+        metadata_block = marker_match.group(1) or ""
+        before = md_body[: marker_match.start()] or ""
+        after = md_body[marker_match.end() :] or ""
+
+        replacement = "\n".join(placeholder_lines)
+        new_body = f"{before}{replacement}\n{after.lstrip(' \n')}"
+        if original_trailing_newline and not new_body.endswith("\n"):
+            new_body += "\n"
+        return new_body, metadata_block.strip(), True
 
     lines = md_body.splitlines()
     start_idx = None
@@ -219,13 +236,13 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str]:
         new_body = "\n".join(new_lines)
         if original_trailing_newline:
             new_body += "\n"
-        return new_body, _extract_metadata_text(metadata_block)
+        return new_body, _extract_metadata_text(metadata_block), False
 
     details_match = re.search(
         r"<details[^>]*>.*?Run Metadata.*?</details>", md_body, flags=re.IGNORECASE | re.DOTALL
     )
     if not details_match:
-        return md_body, ""
+        return md_body, "", False
 
     metadata_block = details_match.group(0)
 
@@ -338,19 +355,20 @@ def send_markdown(subject: str, md_body: str) -> None:
     # Keep the HTML part as close to the original Markdown as possible.
     # We only extract the Run Metadata for (a) a plaintext-friendly replacement
     # and (b) attaching the full metadata as a .txt file.
-    md_plain, metadata_text = _extract_run_metadata_for_email(md_body)
+    md_without_metadata, metadata_text, markers_found = _extract_run_metadata_for_email(md_body)
 
     try:
-        html = _safe_markdown_to_html(md_body)
+        html_source = md_without_metadata if markers_found else md_body
+        html = _safe_markdown_to_html(html_source)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
         print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")
         print(traceback.format_exc())
-        html = f"<pre>{html_module.escape(md_body or '')}</pre>"
+        html = f"<pre>{html_module.escape((html_source or ''))}</pre>"
 
     if "<details" in (md_body or "") and "<details" not in (html or ""):
         print("[email] WARN: '<details>' did not survive markdown->HTML conversion; metadata may not be collapsible.")
 
-    plain = _strip_details_tags(md_plain)
+    plain = _strip_details_tags(md_without_metadata)
 
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
