@@ -1,4 +1,5 @@
 {
+  "last_successful_daily_run_utc": "2025-12-20T17:07:24+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -761,6 +762,12 @@
             "published_at": "2025-12-12T14:21:06.225999+01:00",
             "title": "Hauptverdächtiger: Selenskys Buchhalter Mindich überlebt Angriff nur knapp",
             "url": "https://www.youtube.com/watch?v=md1cOZNW_LI"
+          },
+          "mq25zDjE2HM": {
+            "channel": "Vermietertagebuch",
+            "processed_at_utc": "2025-12-20T17:06:11+00:00",
+            "title": "Neuen 90 Mrd. Ukraine-Kredit zahlt hauptsächlich Deutschland!",
+            "url": "https://www.youtube.com/watch?v=mq25zDjE2HM"
           },
           "nNF65y-x4gU": {
             "channel": "Israel English News",
@@ -1683,8 +1690,8 @@
           },
           "41412603": {
             "channel": "PubMed: The BMJ (intensiv/akut Filter)",
-            "processed_at_utc": "2025-12-20T14:44:37+00:00",
-            "screened_at_utc": "2025-12-20T14:44:37+00:00",
+            "processed_at_utc": "2025-12-20T17:07:24+00:00",
+            "screened_at_utc": "2025-12-20T17:07:24+00:00",
             "title": "Acute effects of daylight saving time clock changes on mental and physical health in England: population based retrospective cohort study.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41412603/"
           },
@@ -1791,8 +1798,8 @@
           },
           "41417580": {
             "channel": "PubMed: Anesthesiology",
-            "processed_at_utc": "2025-12-20T14:44:37+00:00",
-            "screened_at_utc": "2025-12-20T14:44:37+00:00",
+            "processed_at_utc": "2025-12-20T17:07:24+00:00",
+            "screened_at_utc": "2025-12-20T17:07:24+00:00",
             "title": "The Effects of Isoflurane Inhibition of Mitochondrial Complex I on Calcium Removal in Mouse Neuronal Cultures.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41417580/"
           },
@@ -1859,6 +1866,6 @@
       }
     }
   },
-  "updated_at_utc": "2025-12-20T14:44:37+00:00",
+  "updated_at_utc": "2025-12-20T17:07:24+00:00",
   "version": 1
 }
