@@ -25,33 +25,23 @@ class MarkdownConversionTests(unittest.TestCase):
 
 
 class RunMetadataExtractionTests(unittest.TestCase):
-    def test_marker_based_attachment_and_summary_notice(self):
+    def test_marker_based_attachment_and_summary_removed_from_body(self):
         md = (
             "# Report\n\n"
-            "## Run Metadata\n\n"
-            "### Run Metadata Summary\n"
-            "- Lookback window: 24h\n"
-            "- PubMed items (overview + details): 2\n"
-            "- FOAMed items: 1\n"
-            "- FOAMed source health: ok_rss=1, ok_html=0, blocked_403=0, not_found_404=0, parse_failed=0, other=0\n\n"
             "<!-- RUN_METADATA_ATTACHMENT_START -->\n"
             "first line\nsecond line\n"
             "<!-- RUN_METADATA_ATTACHMENT_END -->\n"
         )
 
         new_md, meta, markers = emailer._extract_run_metadata_for_email(md)
-        html = emailer._safe_markdown_to_html(new_md)
-        plain = emailer._strip_details_tags(new_md)
 
-        self.assertIn("Run Metadata Summary", new_md)
-        self.assertNotIn("<details", html)
-        self.assertIn("Run metadata is attached as a text file.", html)
-        self.assertIn("Lookback window: 24h", html)
-        self.assertIn("Run metadata is attached as a text file.", plain)
         self.assertEqual("first line\nsecond line", meta)
         self.assertTrue(markers)
+        self.assertNotIn("Run Metadata", new_md)
+        self.assertNotIn("RUN_METADATA_ATTACHMENT_START", new_md)
+        self.assertNotIn("Run metadata is attached", new_md)
 
-    def test_metadata_block_becomes_attachment_placeholder(self):
+    def test_metadata_block_removed_and_attached_when_details_used(self):
         md = (
             "# Report\n\n"
             "## Run Metadata\n"
@@ -66,10 +56,11 @@ class RunMetadataExtractionTests(unittest.TestCase):
 
         new_md, meta, markers_found = emailer._extract_run_metadata_for_email(md)
 
-        self.assertIn("Run metadata is attached as a text file.", new_md)
+        self.assertNotIn("Run Metadata", new_md)
+        self.assertNotIn("Run metadata is attached", new_md)
         self.assertNotIn("<details", new_md)
         self.assertEqual("first line\nsecond line", meta)
-        self.assertFalse(markers_found)
+        self.assertTrue(markers_found)
 
     def test_no_metadata_block_returns_original(self):
         md = "# Report\n\nNothing to see here.\n"
