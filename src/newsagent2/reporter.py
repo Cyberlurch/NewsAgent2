@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os, re
+import html as html_module
 from collections import Counter
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
@@ -225,6 +226,19 @@ def _format_cybermed_metadata(
             f"items_date_unknown={foamed_stats.get('items_date_unknown', 0)}, "
             f"kept_last24h={foamed_stats.get('kept_last24h', 0)}"
         )
+
+        sh = foamed_stats.get("source_health") or {}
+        if isinstance(sh, dict) and sh:
+            lines.append(
+                "  - source_health: "
+                f"ok_rss={sh.get('ok_rss', 0)}, "
+                f"ok_html={sh.get('ok_html', 0)}, "
+                f"blocked_403={sh.get('blocked_403', 0)}, "
+                f"not_found_404={sh.get('not_found_404', 0)}, "
+                f"parse_failed={sh.get('parse_failed', 0)}, "
+                f"other={sh.get('other', 0)}"
+            )
+
         per_source = foamed_stats.get("per_source") or {}
         if isinstance(per_source, dict) and per_source:
             lines.append("  - per_source_errors: " + ", ".join(f"{k}:{v.get('errors', 0)}" for k, v in per_source.items()))
@@ -233,14 +247,20 @@ def _format_cybermed_metadata(
                 if not isinstance(st, dict):
                     continue
                 method = st.get("method") or "rss"
+                why = st.get("why") or "n/a"
+                health = st.get("health") or "n/a"
+                feed_status = st.get("feed_status_code") or "n/a"
+                home_status = st.get("homepage_status_code") or "n/a"
                 newest = st.get("newest_entry_datetime") or "n/a"
                 entries_total = st.get("entries_total", st.get("items_raw", 0))
                 entries_with_date = st.get("entries_with_date", st.get("items_with_date", 0))
                 kept = st.get("kept_last24h", 0)
                 err = st.get("error")
                 diag = (
-                    f"{name}: method={method}, entries_total={entries_total}, "
-                    f"entries_with_date={entries_with_date}, newest={newest}, kept_last24h={kept}"
+                    f"{name}: method={method}, why={why}, health={health}, "
+                    f"feed_status={feed_status}, home_status={home_status}, "
+                    f"entries_total={entries_total}, entries_with_date={entries_with_date}, "
+                    f"newest={newest}, kept_last24h={kept}"
                 )
                 if err:
                     diag += f", error={err}"
@@ -428,7 +448,15 @@ def to_markdown(
     lang = _norm_language(report_language)
     title = report_title.strip()
     now_str = datetime.now(tz=STO).strftime("%Y-%m-%d %H:%M") + (" Uhr" if lang == "de" else "")
-    md: List[str] = [f"# {title}", f"*{now_str}*", ""]
+    # Email clients differ in how they render markdown headers.
+    # A simple inline-styled <h1> is more consistent while still producing
+    # usable plaintext (the emailer strips HTML tags for the text part).
+    safe_title = html_module.escape(title or "")
+    md: List[str] = [
+        f"<h1 style=\"margin:0 0 4px 0; font-size:32px; line-height:1.15;\">{safe_title}</h1>",
+        f"*{now_str}*",
+        "",
+    ]
     is_cybermed = _is_cybermed_report(title, report_language)
 
     overview_markdown = (overview_markdown or "").strip()

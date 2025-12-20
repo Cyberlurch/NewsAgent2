@@ -4,9 +4,10 @@ import calendar
 import html
 import json
 import re
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
-from typing import Any, Dict, Iterable, List, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
 
 import feedparser
@@ -26,7 +27,21 @@ TRACKING_KEYS = {
     "ref",
 }
 
-DEFAULT_USER_AGENT = "NewsAgent2/1.0 (+https://github.com/openai)"
+# A browser-like UA reduces the chance of 403 blocks for legitimate FOAMed sites.
+# Keep it stable (avoid rotating) to make diagnostics reproducible.
+DEFAULT_USER_AGENT = (
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/124.0.0.0 Safari/537.36 NewsAgent2/1.0"
+)
+
+
+@dataclass(frozen=True)
+class _FetchResult:
+    ok: bool
+    status_code: Optional[int]
+    content: Optional[bytes]
+    final_url: Optional[str]
+    error: Optional[str]
 
 
 def _clean_url(url: str) -> str:
@@ -157,6 +172,141 @@ def _session_with_retries(user_agent: str | None = None) -> requests.Session:
     return session
 
 
+def _fetch_url(
+    session: requests.Session,
+    url: str,
+    timeout_s: int = 10,
+    headers: Optional[Dict[str, str]] = None,
+) -> _FetchResult:
+    """Fetch a URL and return a normalized result without raising.
+
+    We deliberately return 401/402/403/404 responses (as ok=False but with status_code)
+    so the caller can classify 'blocked' vs 'not_found' vs 'unavailable'.
+    """
+    try:
+        r = session.get(url, timeout=timeout_s, allow_redirects=True, headers=headers)
+        status = int(getattr(r, "status_code", 0) or 0) or None
+        if r.ok:
+            return _FetchResult(ok=True, status_code=status, content=r.content, final_url=str(r.url), error=None)
+        # Keep common 'meaningful failures' for diagnostics.
+        if status in (401, 402, 403, 404, 410, 429):
+            return _FetchResult(ok=False, status_code=status, content=r.content, final_url=str(r.url), error=None)
+        return _FetchResult(ok=False, status_code=status, content=None, final_url=str(r.url), error=None)
+    except requests.exceptions.RequestException as e:
+        return _FetchResult(ok=False, status_code=None, content=None, final_url=None, error=f"request_exception:{type(e).__name__}")
+    except Exception as e:  # pragma: no cover - ultra-safety
+        return _FetchResult(ok=False, status_code=None, content=None, final_url=None, error=f"exception:{type(e).__name__}")
+
+
+def _compile_regex_list(patterns: object) -> List[re.Pattern[str]]:
+    if not patterns:
+        return []
+    if isinstance(patterns, str):
+        patterns = [patterns]
+    if not isinstance(patterns, list):
+        return []
+    out: List[re.Pattern[str]] = []
+    for p in patterns:
+        try:
+            s = str(p).strip()
+            if not s:
+                continue
+            out.append(re.compile(s, flags=re.IGNORECASE))
+        except Exception:
+            continue
+    return out
+
+
+def _matches_any(regexes: List[re.Pattern[str]], text: str) -> bool:
+    for rx in regexes or []:
+        try:
+            if rx.search(text or ""):
+                return True
+        except Exception:
+            continue
+    return False
+
+
+def _is_likely_post_url(url: str) -> bool:
+    """Heuristic to prioritize URLs that look like actual posts."""
+    if not url:
+        return False
+    u = url.lower()
+    # Common date-in-path patterns: /2025/12/... or /2025/12/20/...
+    if re.search(r"/20\d{2}/\d{1,2}(/\d{1,2})?/?", u):
+        return True
+    # Common blog-like segments
+    if any(seg in u for seg in ("/blog/", "/posts/", "/post/", "/article/", "/news/")):
+        return True
+    # WordPress / common CMS patterns
+    if any(seg in u for seg in ("?p=", "/?p=", "/wp-content/", "/wp-json/")):
+        return False
+    return False
+
+
+def _extract_canonical_url(soup: BeautifulSoup, fallback_url: str) -> str:
+    link = soup.find("link", attrs={"rel": "canonical"})
+    href = link.get("href") if link else ""
+    href = str(href or "").strip()
+    if href:
+        return _clean_url(urljoin(fallback_url, href))
+    og = soup.find("meta", attrs={"property": "og:url"})
+    href = (og.get("content") if og else "") or ""
+    href = str(href).strip()
+    if href:
+        return _clean_url(urljoin(fallback_url, href))
+    return _clean_url(fallback_url)
+
+
+def _extract_title(soup: BeautifulSoup, default_title: str) -> str:
+    # Prefer OpenGraph title
+    ogt = soup.find("meta", attrs={"property": "og:title"})
+    if ogt and ogt.get("content"):
+        t = str(ogt.get("content") or "").strip()
+        if t:
+            return t
+    h1 = soup.find("h1")
+    if h1:
+        t = (h1.get_text(" ") or "").strip()
+        if t:
+            return t
+    ttag = soup.find("title")
+    if ttag:
+        t = (ttag.get_text(" ") or "").strip()
+        if t:
+            return t
+    return default_title or "Untitled"
+
+
+def _extract_excerpt(soup: BeautifulSoup) -> str:
+    for meta in (
+        ("meta", {"name": "description"}),
+        ("meta", {"property": "og:description"}),
+        ("meta", {"name": "twitter:description"}),
+    ):
+        tag = soup.find(meta[0], attrs=meta[1])
+        if tag and tag.get("content"):
+            val = _strip_html(str(tag.get("content") or ""))
+            if val:
+                return val
+    # Try to locate an article-ish container
+    for selector in ("article", "main", "div", "section"):
+        container = soup.find(selector)
+        if not container:
+            continue
+        p = container.find("p")
+        if p:
+            val = _strip_html(p.get_text(" "))
+            if val:
+                return val
+    p = soup.find("p")
+    if p:
+        val = _strip_html(p.get_text(" "))
+        if val:
+            return val
+    return ""
+
+
 def collect_foamed_items(
     sources_config: List[Dict[str, Any]],
     now_utc: datetime,
@@ -195,6 +345,14 @@ def collect_foamed_items(
         "items_date_unknown": 0,
         "kept_last24h": 0,
         "per_source": {},
+        "source_health": {
+            "ok_rss": 0,
+            "ok_html": 0,
+            "blocked_403": 0,
+            "not_found_404": 0,
+            "parse_failed": 0,
+            "other": 0,
+        },
     }
 
     for src in sources_config or []:
@@ -206,10 +364,40 @@ def collect_foamed_items(
         homepage = (src.get("homepage") or "").strip()
         feed_type = (src.get("type") or "").strip().lower() or "rss"
 
-        if not name or not feed_url:
+        if not name or (not feed_url and not homepage):
             continue
 
         stats["sources_total"] += 1
+        allow_rx = _compile_regex_list(
+            src.get("candidate_url_allow_regex")
+            or src.get("candidate_allow_regex")
+            or src.get("allow_regex")
+        )
+        deny_rx = _compile_regex_list(
+            src.get("candidate_url_deny_regex")
+            or src.get("candidate_deny_regex")
+            or src.get("deny_regex")
+        )
+
+        max_candidates = int(src.get("max_candidates") or 40)
+        max_pages = int(src.get("max_pages") or 12)
+        timeout_s = int(src.get("timeout_s") or 10)
+        timeout_feed_s = int(src.get("feed_timeout_s") or timeout_s)
+        timeout_html_s = int(src.get("html_timeout_s") or timeout_s)
+
+        # Optional per-source headers (non-secret) to reduce 403 blocks.
+        headers: Dict[str, str] = {}
+        extra_headers = src.get("headers")
+        if isinstance(extra_headers, dict):
+            for k, v in extra_headers.items():
+                ks = str(k).strip()
+                vs = str(v).strip()
+                if ks and vs:
+                    headers[ks] = vs
+        ua = str(src.get("user_agent") or "").strip()
+        if ua:
+            headers["User-Agent"] = ua
+
         per_source = {
             "items_raw": 0,
             "items_with_date": 0,
@@ -220,7 +408,9 @@ def collect_foamed_items(
             "feed_failed": False,
             "discovered_feed_used": False,
             "html_fallback_used": False,
-            "method": "rss",
+            "method": None,
+            "why": None,
+            "health": None,
             "entries_total": 0,
             "entries_with_date": 0,
             "newest_entry_datetime": None,
@@ -229,79 +419,97 @@ def collect_foamed_items(
             "pages_fetched": 0,
             "pages_with_date": 0,
             "blocked": False,
+            "feed_status_code": None,
+            "homepage_status_code": None,
+            "discovered_feed_url": None,
         }
-
-        total = 0
-        kept = 0
 
         def record_item(item: Dict[str, Any]) -> None:
             items.append(item)
             stats["kept_last24h"] += 1
             per_source["kept_last24h"] += 1
 
-        parsed = None
-        feed_response = None
+        # --- RSS stage -----------------------------------------------------
+        entries: List[Dict[str, Any]] = []
+        parse_failed = False
 
-        def _try_fetch(url: str, timeout: int = 10) -> requests.Response | None:
-            try:
-                r = session.get(url, timeout=timeout)
-                if r.status_code in (401, 402, 403, 404):
-                    return r
-                r.raise_for_status()
-                return r
-            except requests.exceptions.HTTPError as e:
-                if hasattr(e, "response") and getattr(e, "response", None):
-                    return getattr(e, "response")
-                return None
-            except Exception:
-                return None
+        if feed_url:
+            fr = _fetch_url(session, feed_url, timeout_s=timeout_feed_s, headers=headers or None)
+            per_source["feed_status_code"] = fr.status_code
+            if fr.status_code == 403:
+                per_source["blocked"] = True
+            if fr.ok and fr.content:
+                parsed = feedparser.parse(fr.content)
+                entries = list(getattr(parsed, "entries", []) or [])
+                per_source["feed_ok"] = True
+                per_source["feed_failed"] = False
+                per_source["method"] = "rss"
+                per_source["why"] = "feed_ok"
+                if getattr(parsed, "bozo", 0) and not entries:
+                    parse_failed = True
+                    be = getattr(parsed, "bozo_exception", None)
+                    per_source["error"] = f"feed_parse_failed:{type(be).__name__}" if be else "feed_parse_failed"
+            else:
+                per_source["feed_failed"] = True
+                if fr.status_code is not None:
+                    per_source["error"] = f"feed_http_{fr.status_code}"
+                elif fr.error:
+                    per_source["error"] = fr.error
+                else:
+                    per_source["error"] = "feed_unavailable"
 
-        feed_response = _try_fetch(feed_url)
-        if feed_response and feed_response.ok:
-            parsed = feedparser.parse(feed_response.content)
-        else:
-            per_source["feed_failed"] = True
-            # Attempt autodiscovery from homepage when feed_url fails.
-            if homepage:
-                discovery_resp = _try_fetch(homepage, timeout=8)
-                if discovery_resp and discovery_resp.ok:
-                    soup = BeautifulSoup(discovery_resp.content, "html.parser")
-                    discovered = None
-                    for link in soup.find_all("link", attrs={"rel": "alternate"}):
-                        ltype = str(link.get("type") or "").lower()
-                        href = link.get("href")
-                        if ltype in {"application/rss+xml", "application/atom+xml"} and href:
-                            discovered = urljoin(homepage, href)
-                            break
-                    if discovered and discovered != feed_url:
-                        per_source["discovered_feed_used"] = True
-                        feed_response = _try_fetch(discovered)
-                        if feed_response and feed_response.ok:
-                            parsed = feedparser.parse(feed_response.content)
+        # --- Feed autodiscovery (homepage) ---------------------------------
+        if (not entries or not per_source["feed_ok"]) and homepage:
+            hr = _fetch_url(session, homepage, timeout_s=timeout_html_s, headers=headers or None)
+            per_source["homepage_status_code"] = hr.status_code
+            if hr.status_code == 403:
+                per_source["blocked"] = True
+            if hr.ok and hr.content:
+                soup = BeautifulSoup(hr.content, "html.parser")
+                discovered = None
+                for link in soup.find_all("link", attrs={"rel": "alternate"}):
+                    ltype = str(link.get("type") or "").lower()
+                    href = link.get("href")
+                    if ltype in {"application/rss+xml", "application/atom+xml"} and href:
+                        discovered = urljoin(homepage, href)
+                        break
 
-        entries = parsed.entries if parsed and hasattr(parsed, "entries") else []
+                if discovered and discovered != feed_url:
+                    per_source["discovered_feed_used"] = True
+                    per_source["discovered_feed_url"] = str(discovered)
+                    fr2 = _fetch_url(session, discovered, timeout_s=timeout_feed_s, headers=headers or None)
+                    if fr2.status_code == 403:
+                        per_source["blocked"] = True
+                    if fr2.ok and fr2.content:
+                        parsed2 = feedparser.parse(fr2.content)
+                        entries2 = list(getattr(parsed2, "entries", []) or [])
+                        if entries2:
+                            entries = entries2
+                            per_source["feed_ok"] = True
+                            per_source["feed_failed"] = False
+                            per_source["method"] = "discovered_feed"
+                            per_source["why"] = "autodiscovered_feed_ok"
+                        elif getattr(parsed2, "bozo", 0):
+                            parse_failed = True
+                            be = getattr(parsed2, "bozo_exception", None)
+                            per_source["error"] = f"feed_parse_failed:{type(be).__name__}" if be else "feed_parse_failed"
+
+        # --- Parse RSS entries --------------------------------------------
         newest_entry_dt = None
         entries_with_date = 0
         per_source["entries_total"] = len(entries)
-        if feed_response and feed_response.ok:
-            per_source["feed_ok"] = True
-            per_source["feed_failed"] = False
-            stats["sources_ok"] += 1
-            if per_source["discovered_feed_used"]:
-                per_source["method"] = "discovered_feed"
-        else:
-            stats["sources_failed"] += 1
-            if feed_response and not feed_response.ok:
-                per_source["error"] = f"feed_http_{feed_response.status_code}"
-            elif not feed_response:
-                per_source["error"] = "feed_unavailable"
 
         for entry in entries:
-            total += 1
             stats["items_raw"] += 1
             per_source["items_raw"] += 1
 
-            link = str(entry.get("link") or "").strip()
+            link = str(entry.get("link") or entry.get("id") or "").strip()
+            if not link and isinstance(entry.get("links"), list) and entry.get("links"):
+                try:
+                    link = str(entry.get("links")[0].get("href") or "").strip()
+                except Exception:
+                    link = ""
+
             title = str(entry.get("title") or "").strip()
             if not link or not title:
                 continue
@@ -317,7 +525,10 @@ def collect_foamed_items(
                     newest_entry_dt = published_at
                 entries_with_date += 1
 
-            if published_at and (published_at < cutoff or published_at > now_utc + timedelta(minutes=5)):
+            if not published_at:
+                # Strict time window: no date -> cannot include.
+                continue
+            if published_at < cutoff or published_at > now_utc + timedelta(minutes=5):
                 continue
 
             url = _clean_url(link)
@@ -333,10 +544,6 @@ def collect_foamed_items(
             if not text:
                 text = "(No excerpt provided)"
 
-            date_unknown_allowed = per_source["items_date_unknown"] <= 2
-            if not published_at and not date_unknown_allowed:
-                continue
-
             record_item(
                 {
                     "source": "foamed",
@@ -349,99 +556,133 @@ def collect_foamed_items(
                     "feed_type": feed_type,
                     "published_at": published_at,
                     "published_field": date_field,
-                    "date_unknown": published_at is None,
+                    "date_unknown": False,
                     "text": text,
                 }
             )
-            kept += 1
-
-        if not entries:
-            per_source["feed_failed"] = per_source["feed_failed"] or not per_source["feed_ok"]
 
         per_source["entries_with_date"] = entries_with_date
 
-        # HTML fallback when feeds are unavailable or empty.
-        if (not entries or not per_source["feed_ok"]) and homepage:
-            per_source["html_fallback_used"] = True
-            per_source["method"] = "html_fallback"
-            fallback_newest_dt = None
-            try:
-                home_resp = session.get(homepage, timeout=8)
-                home_resp.raise_for_status()
-                soup = BeautifulSoup(home_resp.content, "html.parser")
-                candidates: List[str] = []
-                for a in soup.find_all("a", href=True):
-                    href = a.get("href")
-                    if not href:
-                        continue
-                    abs_url = urljoin(homepage, href)
-                    parsed_url = urlsplit(abs_url)
-                    if parsed_url.scheme not in {"http", "https"}:
-                        continue
-                    # Keep to same host when possible to limit noise.
-                    home_host = urlsplit(homepage).netloc
-                    if home_host and parsed_url.netloc and parsed_url.netloc != home_host:
-                        continue
-                    cleaned = _clean_url(abs_url)
-                    if cleaned not in candidates:
-                        candidates.append(cleaned)
-                    if len(candidates) >= 30:
-                        break
+        # --- HTML fallback --------------------------------------------------
+        needs_html = False
+        if homepage:
+            if not entries or not per_source["feed_ok"]:
+                needs_html = True
+            elif entries and entries_with_date == 0:
+                needs_html = True
 
+        fallback_newest_dt = None
+        ok_html = False
+        if needs_html and homepage:
+            per_source["html_fallback_used"] = True
+            if not per_source.get("method"):
+                per_source["method"] = "html_fallback"
+            if not per_source.get("why"):
+                if not feed_url:
+                    per_source["why"] = "feed_missing"
+                elif not per_source.get("feed_ok"):
+                    per_source["why"] = per_source.get("error") or "feed_failed"
+                elif entries and entries_with_date == 0:
+                    per_source["why"] = "feed_no_dates"
+                elif not entries:
+                    per_source["why"] = "feed_empty"
+                else:
+                    per_source["why"] = "html_fallback_needed"
+
+            seed_urls = src.get("fallback_urls")
+            if isinstance(seed_urls, str) and seed_urls.strip():
+                seed_urls = [seed_urls.strip()]
+            if not isinstance(seed_urls, list) or not seed_urls:
+                seed_urls = [homepage]
+
+            home_host = urlsplit(homepage).netloc
+
+            try:
+                # Collect candidates across all seed pages.
+                candidate_scores: Dict[str, int] = {}
+
+                for seed in seed_urls:
+                    seed = str(seed or "").strip()
+                    if not seed:
+                        continue
+                    sr = _fetch_url(session, seed, timeout_s=timeout_html_s, headers=headers or None)
+                    if seed == homepage:
+                        per_source["homepage_status_code"] = sr.status_code
+                    if sr.status_code == 403:
+                        per_source["blocked"] = True
+                    if not sr.ok or not sr.content:
+                        continue
+
+                    soup = BeautifulSoup(sr.content, "html.parser")
+                    for a in soup.find_all("a", href=True):
+                        href = a.get("href")
+                        if not href:
+                            continue
+                        abs_url = urljoin(seed, href)
+                        parsed_url = urlsplit(abs_url)
+                        if parsed_url.scheme not in {"http", "https"}:
+                            continue
+                        # Keep to same host (or subdomain) to limit noise.
+                        if home_host and parsed_url.netloc and not parsed_url.netloc.endswith(home_host):
+                            continue
+                        if any(abs_url.lower().endswith(ext) for ext in (".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf")):
+                            continue
+
+                        cleaned = _clean_url(abs_url)
+                        if deny_rx and _matches_any(deny_rx, cleaned):
+                            continue
+                        if allow_rx and not _matches_any(allow_rx, cleaned):
+                            continue
+
+                        score = 2 if _is_likely_post_url(cleaned) else 1
+                        candidate_scores[cleaned] = max(candidate_scores.get(cleaned, 0), score)
+
+                # Sort: likely-post first, then stable order.
+                candidates = sorted(candidate_scores.items(), key=lambda kv: (-kv[1], kv[0]))
+                candidates = [u for u, _ in candidates][:max(1, max_candidates)]
                 per_source["candidates_found"] = len(candidates)
 
-                for cand in candidates[:15]:
+                for cand in candidates[: max(1, max_pages)]:
                     per_source["pages_fetched"] += 1
-                    try:
-                        page_resp = session.get(cand, timeout=8)
-                        if page_resp.status_code in (401, 402, 403):
-                            per_source["blocked"] = True
-                            continue
-                        page_resp.raise_for_status()
-                    except Exception:
+                    pr = _fetch_url(session, cand, timeout_s=timeout_html_s, headers=headers or None)
+                    if pr.status_code == 403:
+                        per_source["blocked"] = True
+                        continue
+                    if not pr.ok or not pr.content:
                         continue
 
-                    page_soup = BeautifulSoup(page_resp.content, "html.parser")
+                    page_soup = BeautifulSoup(pr.content, "html.parser")
                     published_dt = _extract_published_datetime(page_soup)
                     if not published_dt:
                         continue
                     per_source["pages_with_date"] += 1
+                    ok_html = True
+
                     if published_dt < cutoff or published_dt > now_utc + timedelta(minutes=5):
                         continue
 
                     if not fallback_newest_dt or published_dt > fallback_newest_dt:
                         fallback_newest_dt = published_dt
 
+                    canonical = _extract_canonical_url(page_soup, cand)
+                    title = _extract_title(page_soup, default_title=name)
+                    snippet = _extract_excerpt(page_soup)[:600]
+                    if not snippet:
+                        snippet = "(No excerpt provided)"
+
                     stats["items_raw"] += 1
                     per_source["items_raw"] += 1
                     stats["items_with_date"] += 1
                     per_source["items_with_date"] += 1
-
-                    title_tag = page_soup.find("meta", attrs={"property": "og:title"}) or page_soup.find(
-                        "title"
-                    )
-                    title = ""
-                    if title_tag:
-                        title = title_tag.get("content") or title_tag.get_text(" ") or ""
-                    title = title.strip() or name
-
-                    desc_tag = page_soup.find("meta", attrs={"name": "description"})
-                    snippet = desc_tag.get("content") if desc_tag else ""
-                    if not snippet:
-                        p_tag = page_soup.find("p")
-                        snippet = p_tag.get_text(" ") if p_tag else ""
-                    snippet = _strip_html(snippet)[:600]
-                    if not snippet:
-                        snippet = "(No excerpt provided)"
 
                     record_item(
                         {
                             "source": "foamed",
                             "foamed_source": name,
                             "channel": name,
-                            "id": cand,
+                            "id": canonical,
                             "title": title,
-                            "url": cand,
+                            "url": canonical,
                             "homepage": homepage,
                             "feed_type": feed_type,
                             "published_at": published_dt,
@@ -450,31 +691,52 @@ def collect_foamed_items(
                             "text": snippet,
                         }
                     )
-                    kept += 1
 
             except Exception as e:
                 per_source["errors"] += 1
-                per_source["error"] = f"html_fallback_failed: {e!r}"[:200]
+                per_source["error"] = f"html_fallback_failed:{type(e).__name__}"[:200]
                 print(f"[foamed] WARN source={name!r}: html fallback failed: {e!r}")
 
-            if per_source["html_fallback_used"]:
-                per_source["entries_total"] = max(per_source["entries_total"], per_source.get("pages_fetched", 0))
-                per_source["entries_with_date"] = max(
-                    per_source.get("entries_with_date", 0), per_source.get("pages_with_date", 0)
-                )
-                if fallback_newest_dt and (not newest_entry_dt or fallback_newest_dt > newest_entry_dt):
-                    newest_entry_dt = fallback_newest_dt
+        if per_source["html_fallback_used"] and not per_source.get("method"):
+            per_source["method"] = "html_fallback"
+
+        if fallback_newest_dt and (not newest_entry_dt or fallback_newest_dt > newest_entry_dt):
+            newest_entry_dt = fallback_newest_dt
 
         if newest_entry_dt:
             per_source["newest_entry_datetime"] = newest_entry_dt.astimezone(timezone.utc).isoformat()
 
+        # --- Health classification & counters ------------------------------
+        html_parse_failed = bool(per_source.get("html_fallback_used") and not ok_html and (per_source.get("pages_fetched") or 0) > 0)
+        health = "other"
+        if per_source.get("blocked"):
+            health = "blocked_403"
+        elif per_source.get("feed_status_code") in (404, 410) or per_source.get("homepage_status_code") in (404, 410):
+            health = "not_found_404"
+        elif per_source.get("feed_ok"):
+            health = "ok_rss"
+        elif ok_html:
+            health = "ok_html"
+        elif parse_failed or html_parse_failed:
+            health = "parse_failed"
+
+        per_source["health"] = health
+        if isinstance(stats.get("source_health"), dict):
+            stats["source_health"][health] = int(stats["source_health"].get(health, 0) or 0) + 1
+
+        if health in ("ok_rss", "ok_html"):
+            stats["sources_ok"] += 1
+        else:
+            stats["sources_failed"] += 1
+
         stats["per_source"][name] = per_source
         print(
-            f"[foamed] source={name!r}: feed_ok={per_source['feed_ok']} "
-            f"discovered_feed_used={per_source['discovered_feed_used']} "
-            f"html_fallback={per_source['html_fallback_used']} candidates={per_source['candidates_found']} "
-            f"pages={per_source['pages_fetched']} with_date={per_source['pages_with_date']} "
-            f"kept_last24h={per_source['kept_last24h']}"
+            f"[foamed] source={name!r}: method={per_source.get('method') or 'n/a'} "
+            f"why={per_source.get('why') or 'n/a'} health={per_source.get('health') or 'n/a'} "
+            f"feed_status={per_source.get('feed_status_code') or 'n/a'} home_status={per_source.get('homepage_status_code') or 'n/a'} "
+            f"entries={per_source.get('entries_total', 0)} entries_with_date={per_source.get('entries_with_date', 0)} "
+            f"html={per_source.get('html_fallback_used')} candidates={per_source.get('candidates_found', 0)} pages={per_source.get('pages_fetched', 0)} "
+            f"kept_last{lookback_hours}h={per_source.get('kept_last24h', 0)}"
         )
 
     return items, stats

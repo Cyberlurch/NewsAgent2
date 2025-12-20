@@ -237,7 +237,8 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str]:
     if before and not before.endswith("\n"):
         before += "\n"
 
-    new_body = f"{before}{placeholder_block}\n{after.lstrip(' \n')}"
+    after_stripped = after.lstrip(" \n")
+    new_body = f"{before}{placeholder_block}\n{after_stripped}"
     if original_trailing_newline and not new_body.endswith("\n"):
         new_body += "\n"
 
@@ -334,16 +335,22 @@ def send_markdown(subject: str, md_body: str) -> None:
         )
         return
 
-    md_for_email, metadata_text = _extract_run_metadata_for_email(md_body)
+    # Keep the HTML part as close to the original Markdown as possible.
+    # We only extract the Run Metadata for (a) a plaintext-friendly replacement
+    # and (b) attaching the full metadata as a .txt file.
+    md_plain, metadata_text = _extract_run_metadata_for_email(md_body)
 
     try:
-        html = _safe_markdown_to_html(md_for_email)
+        html = _safe_markdown_to_html(md_body)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
         print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")
         print(traceback.format_exc())
-        html = f"<pre>{html_module.escape(md_for_email or '')}</pre>"
+        html = f"<pre>{html_module.escape(md_body or '')}</pre>"
 
-    plain = _strip_details_tags(md_for_email)
+    if "<details" in (md_body or "") and "<details" not in (html or ""):
+        print("[email] WARN: '<details>' did not survive markdown->HTML conversion; metadata may not be collapsible.")
+
+    plain = _strip_details_tags(md_plain)
 
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
@@ -356,7 +363,10 @@ def send_markdown(subject: str, md_body: str) -> None:
     msg.attach(alternative)
 
     if metadata_text:
-        filename = f"cybermed_run_metadata_{datetime.now().strftime('%Y-%m-%d_%H-%M')}.txt"
+        safe_report_key = re.sub(r"[^a-z0-9_-]+", "_", (report_key or "report").strip().lower())
+        if not safe_report_key:
+            safe_report_key = "report"
+        filename = f"{safe_report_key}_run_metadata_{datetime.now().strftime('%Y-%m-%d_%H-%M')}.txt"
         attachment = MIMEText(metadata_text, "plain", "utf-8")
         attachment.add_header("Content-Disposition", "attachment", filename=filename)
         msg.attach(attachment)
