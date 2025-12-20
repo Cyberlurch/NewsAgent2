@@ -58,6 +58,20 @@ def _safe_int(env_name: str, default: int) -> int:
         return default
 
 
+def _parse_hours_override(raw: str) -> int | None:
+    text = (raw or "").strip()
+    if text == "":
+        return None
+    try:
+        val = int(float(text))
+        if val <= 0:
+            raise ValueError("must be positive")
+        return val
+    except Exception:
+        print(f"[warn] Invalid LOOKBACK_HOURS_OVERRIDE={text!r} -> ignoring override")
+        return None
+
+
 def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, List[str]], Dict[str, float]]:
     """
     Reads channels JSON and flattens the channels list.
@@ -350,6 +364,81 @@ def _apply_prune_state_compat(state: Dict[str, Any], retention_days: int) -> Dic
         return state
 
 
+def _update_state_after_run(
+    *,
+    state_path: str,
+    state: Dict[str, Any],
+    items_all_new: List[Dict[str, Any]],
+    overview_items: List[Dict[str, Any]],
+    detail_items: List[Dict[str, Any]],
+    foamed_overview_items: List[Dict[str, Any]],
+    report_key: str,
+    report_mode: str,
+    now_utc_iso: str,
+    read_only: bool,
+) -> None:
+    if read_only:
+        print("[state] Read-only mode -> skipping state write and processed markers.")
+        return
+
+    overview_pubmed_ids = {
+        str(it.get("id") or "").strip()
+        for it in overview_items
+        if (it.get("source") or "").strip().lower() == "pubmed"
+    }
+    deep_dive_pubmed_ids = {
+        str(it.get("id") or "").strip()
+        for it in detail_items
+        if (it.get("source") or "").strip().lower() == "pubmed"
+    }
+    foamed_overview_ids = {str(it.get("id") or "").strip() for it in foamed_overview_items}
+
+    for it in items_all_new:
+        src = (it.get("source") or "").strip().lower() or "youtube"
+        iid = str(it.get("id") or "").strip()
+        if not iid:
+            continue
+        try:
+            meta = {
+                "title": it.get("title"),
+                "channel": it.get("channel"),
+                "url": it.get("url"),
+                "processed_at_utc": now_utc_iso,
+            }
+            if src == "pubmed":
+                meta["screened_at_utc"] = meta.get("screened_at_utc") or now_utc_iso
+                sent_overview = iid in overview_pubmed_ids
+                sent_deep = iid in deep_dive_pubmed_ids
+                if sent_overview or sent_deep:
+                    mark_sent(
+                        state,
+                        report_key,
+                        src,
+                        iid,
+                        sent_overview=sent_overview,
+                        sent_deep_dive=sent_deep,
+                        meta=meta,
+                        when_utc=now_utc_iso,
+                    )
+                else:
+                    mark_screened(state, report_key, src, iid, meta=meta)
+            elif src == "foamed":
+                if iid in foamed_overview_ids:
+                    mark_processed(state, report_key, src, iid, meta=meta)
+            else:
+                mark_processed(state, report_key, src, iid, meta=meta)
+        except Exception as e:
+            print(f"[state] WARN: mark_processed failed for {src}:{iid!r}: {e!r}")
+
+    if report_mode == "daily":
+        state["last_successful_daily_run_utc"] = now_utc_iso
+
+    try:
+        save_state(state_path, state)
+    except Exception as e:
+        print(f"[state] WARN: failed to save state: {e!r}")
+
+
 def main() -> None:
     load_dotenv()
 
@@ -358,9 +447,16 @@ def main() -> None:
     ap.add_argument("--hours", type=int, default=24, help="Lookback window in hours")
     args = ap.parse_args()
 
+    report_mode_raw = (os.getenv("REPORT_MODE", "daily") or "daily").strip().lower()
+    report_mode = report_mode_raw if report_mode_raw in {"daily", "weekly", "monthly"} else "daily"
+    lookback_override = _parse_hours_override(os.getenv("LOOKBACK_HOURS_OVERRIDE", ""))
+    read_only_mode = report_mode in {"weekly", "monthly"}
+
     report_key = (os.getenv("REPORT_KEY", "cyberlurch") or "cyberlurch").strip()
-    report_title = (os.getenv("REPORT_TITLE", "The Cyberlurch Report") or "The Cyberlurch Report").strip()
-    report_subject = (os.getenv("REPORT_SUBJECT", report_title) or report_title).strip()
+    base_report_title = (os.getenv("REPORT_TITLE", "The Cyberlurch Report") or "The Cyberlurch Report").strip()
+    base_report_subject = (os.getenv("REPORT_SUBJECT", base_report_title) or base_report_title).strip()
+    report_title = base_report_title
+    report_subject = base_report_subject
     report_dir = (os.getenv("REPORT_DIR", "reports") or "reports").strip()
 
     report_language = (os.getenv("REPORT_LANGUAGE", "de") or "de").strip()
@@ -382,11 +478,49 @@ def main() -> None:
     retention_days = _safe_int("STATE_RETENTION_DAYS", 20)
     foamed_sources_path = (os.getenv("CYBERMED_FOAMED_SOURCES", "data/cybermed_foamed_sources.json") or "data/cybermed_foamed_sources.json").strip()
 
+    if report_mode == "weekly":
+        report_title = f"{base_report_title} — Weekly"
+        report_subject = f"{base_report_subject} — Weekly"
+    elif report_mode == "monthly":
+        report_title = f"{base_report_title} — Monthly"
+        report_subject = f"{base_report_subject} — Monthly"
+    else:
+        report_title = base_report_title
+        report_subject = base_report_subject
+
+    state = load_state(state_path)
+    state = _apply_prune_state_compat(state, retention_days=retention_days)
+
+    last_successful_daily_iso = str(state.get("last_successful_daily_run_utc") or state.get("last_successful_run_utc") or "")
+    last_successful_daily = _parse_iso_utc(last_successful_daily_iso)
+
+    effective_hours = args.hours
+    if lookback_override is not None:
+        effective_hours = lookback_override
+    elif report_mode == "weekly":
+        effective_hours = 168
+    elif report_mode == "monthly":
+        effective_hours = 720
+    else:
+        now_sto = datetime.now(tz=STO)
+        if now_sto.weekday() == 0:
+            if last_successful_daily:
+                hours_since = max(
+                    0,
+                    int((datetime.now(timezone.utc) - last_successful_daily).total_seconds() // 3600) + 1,
+                )
+                effective_hours = max(args.hours, min(hours_since or args.hours, 72))
+            else:
+                effective_hours = max(args.hours, 72)
+
+    args.hours = effective_hours
+
     print("=== NewsAgent2 run ===")
+    print(f"[config] report_mode={report_mode} read_only={read_only_mode}")
     print(f"[config] report_key={report_key!r}")
     print(f"[config] report_title={report_title!r}")
     print(f"[config] report_subject={report_subject!r}")
-    print(f"[config] channels_file={args.channels!r} hours={args.hours}")
+    print(f"[config] channels_file={args.channels!r} hours={args.hours} (override={lookback_override is not None})")
     print(f"[config] report_dir={report_dir!r}")
     print(f"[config] report_language={report_language!r} report_profile={report_profile!r}")
     print(f"[config] limits: MAX_ITEMS_PER_CHANNEL={max_items_per_channel}, DETAIL_ITEMS_PER_DAY={detail_items_per_day}, DETAIL_ITEMS_PER_CHANNEL_MAX={detail_items_per_channel_max}")
@@ -395,9 +529,6 @@ def main() -> None:
     print(f"[state] path={state_path!r} retention_days={retention_days}")
     if _is_cybermed(report_key, report_profile):
         print(f"[foamed] sources_config={foamed_sources_path!r}")
-
-    state = load_state(state_path)
-    state = _apply_prune_state_compat(state, retention_days=retention_days)
 
     selection_cfg: Dict[str, Any] = {}
     if _is_cybermed(report_key, report_profile):
@@ -411,6 +542,15 @@ def main() -> None:
             detail_items_per_day = int(sel_section.get("deep_dive_max_per_run", detail_items_per_day) or detail_items_per_day)
         except Exception as e:
             print(f"[config] WARN: failed to load Cybermed selection config for run-time tuning: {e!r}")
+
+    if report_mode == "weekly":
+        overview_items_max = min(overview_items_max, 14)
+        detail_items_per_day = min(detail_items_per_day, 4)
+        detail_items_per_channel_max = min(detail_items_per_channel_max, 2)
+    elif report_mode == "monthly":
+        overview_items_max = min(overview_items_max, 10)
+        detail_items_per_day = min(detail_items_per_day, 3)
+        detail_items_per_channel_max = min(detail_items_per_channel_max, 2)
 
     foamed_sources: List[Dict[str, Any]] = []
     foamed_candidates: List[Dict[str, Any]] = []
@@ -444,10 +584,11 @@ def main() -> None:
         else:
             print("[email] SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
 
-        try:
-            save_state(state_path, state)
-        except Exception as ee:
-            print(f"[state] WARN: failed to save state after config error: {ee!r}")
+        if not read_only_mode:
+            try:
+                save_state(state_path, state)
+            except Exception as ee:
+                print(f"[state] WARN: failed to save state after config error: {ee!r}")
         return
 
     print(f"[channels] Loaded channels: {len(channels)}")
@@ -482,7 +623,7 @@ def main() -> None:
                 if not vid:
                     continue
 
-                if is_processed(state, report_key, "youtube", vid):
+                if not read_only_mode and is_processed(state, report_key, "youtube", vid):
                     skipped_by_state += 1
                     continue
 
@@ -536,18 +677,19 @@ def main() -> None:
                     continue
 
                 skip_by_state = False
-                if is_cybermed_run:
-                    skip_by_state, skip_reason = should_skip_pubmed_item(
-                        state,
-                        report_key,
-                        pmid,
-                        overview_cooldown_hours=sent_cooldown_hours,
-                        reconsider_unsent_hours=reconsider_unsent_hours,
-                    )
-                    if skip_by_state:
-                        pubmed_state_skip_reasons[skip_reason] = pubmed_state_skip_reasons.get(skip_reason, 0) + 1
-                else:
-                    skip_by_state = is_processed(state, report_key, "pubmed", pmid)
+                if not read_only_mode:
+                    if is_cybermed_run:
+                        skip_by_state, skip_reason = should_skip_pubmed_item(
+                            state,
+                            report_key,
+                            pmid,
+                            overview_cooldown_hours=sent_cooldown_hours,
+                            reconsider_unsent_hours=reconsider_unsent_hours,
+                        )
+                        if skip_by_state:
+                            pubmed_state_skip_reasons[skip_reason] = pubmed_state_skip_reasons.get(skip_reason, 0) + 1
+                    else:
+                        skip_by_state = is_processed(state, report_key, "pubmed", pmid)
 
                 if skip_by_state:
                     skipped_by_state += 1
@@ -596,7 +738,7 @@ def main() -> None:
                 iid = str(it.get("id") or it.get("url") or "").strip()
                 if not iid:
                     continue
-                if is_processed(state, report_key, "foamed", iid):
+                if not read_only_mode and is_processed(state, report_key, "foamed", iid):
                     foamed_skipped_by_state += 1
                     continue
 
@@ -845,33 +987,19 @@ def main() -> None:
             f.write(md)
         print(f"[report] Wrote {out_path}")
 
-        # Mark newly screened items as processed for memory (except FOAMed, which should be reconsidered on next run if not sent).
         now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-        for it in items_all_new:
-            src = (it.get("source") or "").strip().lower() or "youtube"
-            iid = str(it.get("id") or "").strip()
-            if not iid:
-                continue
-            if src == "foamed" and iid not in {str(x.get("id") or "").strip() for x in foamed_overview_items}:
-                continue
-            try:
-                meta = {
-                    "title": it.get("title"),
-                    "channel": it.get("channel"),
-                    "url": it.get("url"),
-                    "processed_at_utc": now_utc_iso,
-                }
-                if src == "pubmed":
-                    mark_screened(state, report_key, src, iid, meta=meta)
-                else:
-                    mark_processed(state, report_key, src, iid, meta=meta)
-            except Exception as e:
-                print(f"[state] WARN: mark_processed failed for {src}:{iid!r}: {e!r}")
-
-        try:
-            save_state(state_path, state)
-        except Exception as e:
-            print(f"[state] WARN: failed to save state: {e!r}")
+        _update_state_after_run(
+            state_path=state_path,
+            state=state,
+            items_all_new=items_all_new,
+            overview_items=[],
+            detail_items=[],
+            foamed_overview_items=foamed_overview_items,
+            report_key=report_key,
+            report_mode=report_mode,
+            now_utc_iso=now_utc_iso,
+            read_only=read_only_mode,
+        )
 
         if send_empty_email == "1":
             try:
@@ -915,6 +1043,11 @@ def main() -> None:
 
     if not overview_items and detail_items:
         overview_items = list(detail_items)
+
+    if report_mode in {"weekly", "monthly"}:
+        for it in overview_items[: max(1, min(3, len(overview_items)))]:
+            if not it.get("top_pick"):
+                it["top_pick"] = True
 
     for it in overview_items:
         src = (it.get("source") or "").strip().lower()
@@ -1018,62 +1151,18 @@ def main() -> None:
     print(f"[report] Wrote {out_path}")
 
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    overview_pubmed_ids = {
-        str(it.get("id") or "").strip()
-        for it in overview_items
-        if (it.get("source") or "").strip().lower() == "pubmed"
-    }
-    deep_dive_pubmed_ids = {
-        str(it.get("id") or "").strip()
-        for it in detail_items
-        if (it.get("source") or "").strip().lower() == "pubmed"
-    }
-    foamed_overview_ids = {
-        str(it.get("id") or "").strip()
-        for it in foamed_overview_items
-    }
-
-    for it in items_all_new:
-        src = (it.get("source") or "").strip().lower() or "youtube"
-        iid = str(it.get("id") or "").strip()
-        if not iid:
-            continue
-        try:
-            meta = {
-                "title": it.get("title"),
-                "channel": it.get("channel"),
-                "url": it.get("url"),
-                "processed_at_utc": now_utc_iso,
-            }
-            if src == "pubmed":
-                meta["screened_at_utc"] = meta.get("screened_at_utc") or now_utc_iso
-                sent_overview = iid in overview_pubmed_ids
-                sent_deep = iid in deep_dive_pubmed_ids
-                if sent_overview or sent_deep:
-                    mark_sent(
-                        state,
-                        report_key,
-                        src,
-                        iid,
-                        sent_overview=sent_overview,
-                        sent_deep_dive=sent_deep,
-                        meta=meta,
-                        when_utc=now_utc_iso,
-                    )
-                else:
-                    mark_screened(state, report_key, src, iid, meta=meta)
-            elif src == "foamed":
-                if iid in foamed_overview_ids:
-                    mark_processed(state, report_key, src, iid, meta=meta)
-            else:
-                mark_processed(state, report_key, src, iid, meta=meta)
-        except Exception as e:
-            print(f"[state] WARN: mark_processed failed for {src}:{iid!r}: {e!r}")
-
-    try:
-        save_state(state_path, state)
-    except Exception as e:
-        print(f"[state] WARN: failed to save state: {e!r}")
+    _update_state_after_run(
+        state_path=state_path,
+        state=state,
+        items_all_new=items_all_new,
+        overview_items=overview_items,
+        detail_items=detail_items,
+        foamed_overview_items=foamed_overview_items,
+        report_key=report_key,
+        report_mode=report_mode,
+        now_utc_iso=now_utc_iso,
+        read_only=read_only_mode,
+    )
 
     try:
         send_markdown(report_subject, md)
