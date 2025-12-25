@@ -6,6 +6,8 @@ on:
     # GitHub cron runs in UTC. Dual weekday crons + local gate ensure a single 06:00 run in Europe/Stockholm.
     - cron: "0 4 * * 1-5"
     - cron: "0 5 * * 1-5"
+    # Year in Review (Jan 1 @ 06:00 Europe/Stockholm -> 05:00 UTC)
+    - cron: "0 5 1 1 *"
   workflow_dispatch:
     inputs:
       report_mode:
@@ -16,6 +18,7 @@ on:
           - daily
           - weekly
           - monthly
+          - yearly
       lookback_hours:
         description: "Override lookback window in hours (blank = default per mode)"
         required: false
@@ -106,19 +109,24 @@ jobs:
 
           run_modes=""
           run_which_report="${{ env.WHICH_REPORT }}"
+          schedule_expr="${{ github.event.schedule || '' }}"
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             run_modes="${{ env.REPORT_MODE }}"
           else
             run_which_report="both"
-            dow=$(TZ=Europe/Stockholm date +"%u")
-            dom=$(TZ=Europe/Stockholm date +"%d")
+            if [ "$schedule_expr" = "0 5 1 1 *" ]; then
+              run_modes="yearly"
+            else
+              dow=$(TZ=Europe/Stockholm date +"%u")
+              dom=$(TZ=Europe/Stockholm date +"%d")
 
-            run_modes="daily"
-            if [ "$dow" = "1" ]; then
-              run_modes="$run_modes weekly"
-              if [ "$dom" -le 7 ]; then
-                run_modes="$run_modes monthly"
+              run_modes="daily"
+              if [ "$dow" = "1" ]; then
+                run_modes="$run_modes weekly"
+                if [ "$dom" -le 7 ]; then
+                  run_modes="$run_modes monthly"
+                fi
               fi
             fi
           fi
@@ -193,20 +201,21 @@ jobs:
           done
 
       - name: Commit updated state (processed_items.json) if changed
-        if: steps.compute_plan.outputs.run_skip != 'true' && contains(steps.compute_plan.outputs.run_modes, 'daily')
+        if: steps.compute_plan.outputs.run_skip != 'true' && (contains(steps.compute_plan.outputs.run_modes, 'daily') || contains(steps.compute_plan.outputs.run_modes, 'monthly'))
         run: |
-          if git diff --quiet -- state/processed_items.json; then
-            echo "No changes in state/processed_items.json."
+          changed=$(git status --porcelain -- state/processed_items.json state/rollups.json || true)
+          if [ -z "$changed" ]; then
+            echo "No changes in state files."
             exit 0
           fi
 
-          echo "State file changed -> committing."
+          echo "State file(s) changed -> committing."
 
           git config user.name "newsagent-bot"
           git config user.email "newsagent-bot@users.noreply.github.com"
 
-          git add state/processed_items.json
-          git commit -m "Update processed items state [skip ci]" || {
+          git add -A state/processed_items.json state/rollups.json
+          git commit -m "Update state files [skip ci]" || {
             echo "Nothing to commit (commit returned non-zero)."
             exit 0
           }

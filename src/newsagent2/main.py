@@ -14,6 +14,14 @@ from .collector_foamed import collect_foamed_items
 from .collectors_youtube import fetch_transcript, list_recent_videos
 from .collectors_pubmed import search_recent_pubmed
 from .emailer import send_markdown
+from .rollups import (
+    extract_summary_bullets,
+    load_rollups_state,
+    render_yearly_markdown,
+    rollups_for_year,
+    save_rollups_state,
+    upsert_monthly_rollup,
+)
 from .reporter import to_markdown
 from .state_manager import (
     is_processed,
@@ -257,6 +265,8 @@ def _mode_deep_dive_cap(report_mode: str, base_cap: int) -> int:
         return min(base_cap, WEEKLY_MAX_DEEP_DIVES)
     if report_mode == "monthly":
         return min(base_cap, MONTHLY_MAX_DEEP_DIVES)
+    if report_mode == "yearly":
+        return 0
     return base_cap
 
 
@@ -462,6 +472,118 @@ def _apply_prune_state_compat(state: Dict[str, Any], retention_days: int) -> Dic
         return state
 
 
+def _rollup_items_for_month(
+    overview_items: List[Dict[str, Any]],
+    detail_items: List[Dict[str, Any]],
+    foamed_overview_items: List[Dict[str, Any]],
+    *,
+    max_items: int = 15,
+) -> List[Dict[str, Any]]:
+    candidates = []
+    seen_keys: set[tuple[str, str]] = set()
+
+    def _add(items: List[Dict[str, Any]]) -> None:
+        for it in items:
+            title = (it.get("title") or "").strip()
+            url = (it.get("url") or "").strip()
+            source = (it.get("source") or "").strip()
+            channel = (it.get("channel") or "").strip()
+            if not title and not url:
+                continue
+            key = (url or title, str(it.get("published_at") or ""))
+            if key in seen_keys:
+                continue
+            seen_keys.add(key)
+            published = it.get("published_at")
+            candidates.append(
+                {
+                    "title": title,
+                    "url": url,
+                    "channel": channel,
+                    "source": source,
+                    "published_at": published,
+                    "top_pick": bool(it.get("top_pick")),
+                }
+            )
+
+    _add(overview_items)
+    _add(detail_items)
+    _add(foamed_overview_items)
+
+    def _sort_key(it: Dict[str, Any]) -> tuple[int, datetime]:
+        ts_raw = it.get("published_at")
+        ts = ts_raw if isinstance(ts_raw, datetime) else datetime.min.replace(tzinfo=timezone.utc)
+        return (1 if it.get("top_pick") else 0, ts)
+
+    sorted_items = sorted(candidates, key=_sort_key, reverse=True)
+    out: List[Dict[str, Any]] = []
+    for it in sorted_items:
+        if len(out) >= max_items:
+            break
+        out.append(
+            {
+                "title": it.get("title") or "",
+                "url": it.get("url") or "",
+                "channel": it.get("channel") or "",
+                "source": it.get("source") or "",
+                "date": (
+                    it["published_at"].astimezone(timezone.utc).strftime("%Y-%m-%d")
+                    if isinstance(it.get("published_at"), datetime)
+                    else ""
+                ),
+            }
+        )
+    return out
+
+
+def _run_yearly_report(
+    *,
+    rollups_state_path: str,
+    report_key: str,
+    base_report_title: str,
+    base_report_subject: str,
+    report_language: str,
+    report_dir: str,
+) -> None:
+    os.makedirs(report_dir, exist_ok=True)
+    rollups_state = load_rollups_state(rollups_state_path)
+    now_sto = datetime.now(tz=STO)
+    target_year = now_sto.year - 1
+
+    report_title = f"The Cyberlurch Year in Review — {target_year}"
+    report_subject = report_title
+    if _is_cybermed(report_key, os.getenv("REPORT_PROFILE", "")):
+        report_title = f"The Cybermed Year in Review — {target_year}"
+        report_subject = report_title
+    elif "cybermed" in base_report_title.lower():
+        report_title = f"The Cybermed Year in Review — {target_year}"
+        report_subject = report_title
+    elif "cyberlurch" in base_report_title.lower():
+        report_title = f"The Cyberlurch Year in Review — {target_year}"
+        report_subject = report_title
+    else:
+        report_title = f"{base_report_title} — Year in Review {target_year}"
+        report_subject = report_title
+
+    entries = rollups_for_year(rollups_state, report_key, target_year)
+    md = render_yearly_markdown(
+        report_title=report_title,
+        report_language=report_language,
+        year=target_year,
+        rollups=entries,
+    )
+
+    out_path = os.path.join(report_dir, f"{report_key}_yearly_review_{target_year}.md")
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(md)
+    print(f"[report] Wrote yearly report to {out_path}")
+
+    try:
+        send_markdown(report_subject, md)
+    except Exception as e:
+        print(f"[email] WARN: failed to send yearly email (report was generated): {e!r}")
+
+
 def _update_state_after_run(
     *,
     state_path: str,
@@ -546,9 +668,9 @@ def main() -> None:
     args = ap.parse_args()
 
     report_mode_raw = (os.getenv("REPORT_MODE", "daily") or "daily").strip().lower()
-    report_mode = report_mode_raw if report_mode_raw in {"daily", "weekly", "monthly"} else "daily"
+    report_mode = report_mode_raw if report_mode_raw in {"daily", "weekly", "monthly", "yearly"} else "daily"
     lookback_override = _parse_hours_override(os.getenv("LOOKBACK_HOURS_OVERRIDE", ""))
-    read_only_mode = report_mode in {"weekly", "monthly"}
+    read_only_mode = report_mode in {"weekly", "monthly", "yearly"}
 
     report_key = (os.getenv("REPORT_KEY", "cyberlurch") or "cyberlurch").strip()
     base_report_title = (os.getenv("REPORT_TITLE", "The Cyberlurch Report") or "The Cyberlurch Report").strip()
@@ -573,6 +695,7 @@ def main() -> None:
     max_text_chars_per_item = _safe_int("MAX_TEXT_CHARS_PER_ITEM", 12000)
 
     state_path = (os.getenv("STATE_PATH", "state/processed_items.json") or "state/processed_items.json").strip()
+    rollups_state_path = (os.getenv("ROLLUPS_STATE_PATH", "state/rollups.json") or "state/rollups.json").strip()
     retention_days = _safe_int("STATE_RETENTION_DAYS", 20)
     foamed_sources_path = (os.getenv("CYBERMED_FOAMED_SOURCES", "data/cybermed_foamed_sources.json") or "data/cybermed_foamed_sources.json").strip()
 
@@ -582,12 +705,26 @@ def main() -> None:
     elif report_mode == "monthly":
         report_title = f"{base_report_title} — Monthly"
         report_subject = f"{base_report_subject} — Monthly"
+    elif report_mode == "yearly":
+        report_title = f"{base_report_title} — Year in Review"
+        report_subject = f"{base_report_subject} — Year in Review"
     else:
         report_title = base_report_title
         report_subject = base_report_subject
 
     state = load_state(state_path)
     state = _apply_prune_state_compat(state, retention_days=retention_days)
+
+    if report_mode == "yearly":
+        _run_yearly_report(
+            rollups_state_path=rollups_state_path,
+            report_key=report_key,
+            base_report_title=base_report_title,
+            base_report_subject=base_report_subject,
+            report_language=report_language,
+            report_dir=report_dir,
+        )
+        return
 
     last_successful_daily_iso = str(state.get("last_successful_daily_run_utc") or state.get("last_successful_run_utc") or "")
     last_successful_daily = _parse_iso_utc(last_successful_daily_iso)
@@ -625,6 +762,7 @@ def main() -> None:
     print(f"[config] overview_items_max={overview_items_max}, max_text_chars_per_item={max_text_chars_per_item}")
     print(f"[config] pubmed_sent_cooldown_hours={sent_cooldown_hours}, reconsider_unsent_hours={reconsider_unsent_hours}")
     print(f"[state] path={state_path!r} retention_days={retention_days}")
+    print(f"[rollups] path={rollups_state_path!r}")
     if _is_cybermed(report_key, report_profile):
         print(f"[foamed] sources_config={foamed_sources_path!r}")
 
@@ -1296,6 +1434,25 @@ def main() -> None:
     print(f"[report] Wrote {out_path}")
 
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+
+    if report_mode == "monthly":
+        try:
+            rollups_state = load_rollups_state(rollups_state_path)
+            month_key = datetime.now(tz=STO).strftime("%Y-%m")
+            executive_summary = extract_summary_bullets(overview_body, max_bullets=8)
+            rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items)
+            upsert_monthly_rollup(
+                rollups_state,
+                report_key=report_key,
+                month=month_key,
+                generated_at=now_utc_iso,
+                executive_summary=executive_summary,
+                top_items=rollup_items,
+            )
+            save_rollups_state(rollups_state_path, rollups_state)
+        except Exception as e:
+            print(f"[rollups] WARN: failed to persist monthly rollup: {e!r}")
+
     _update_state_after_run(
         state_path=state_path,
         state=state,
