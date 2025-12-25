@@ -37,6 +37,11 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 - FOAMed sources: `data/cybermed_foamed_sources.json`
 - Cyberlurch channels: `data/channels.json` (or `data/youtube_only.json` when present)
 
+### FOAMed runtime toggles
+
+- `FOAMED_AUDIT` (default `0`): when set to `1`, keep normal RSS-first behavior but also run a lightweight HTML sampling pass for RSS-healthy sources. Audit stats are included in the hidden run metadata attachment (not the visible email body).
+- `FOAMED_FORCE_FALLBACK_SOURCES` (default empty): comma-separated list of FOAMed source names that should skip RSS and exercise the HTML fallback path, recorded in run metadata.
+
 ### Recipient configuration (primary and fallbacks)
 
 Recipients are kept in secrets to avoid leaking addresses. The workflow prioritizes **RECIPIENTS_CONFIG_JSON**; older mechanisms are consulted only if that secret is missing or invalid.

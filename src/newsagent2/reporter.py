@@ -273,6 +273,36 @@ def _format_cybermed_metadata(
                     diag += f", error={err}"
                 lines.append(f"    - {diag}")
 
+        forced = foamed_stats.get("forced_html_fallback_sources") or []
+        if forced:
+            lines.append(f"  - forced_html_fallback_sources: {', '.join(forced)}")
+
+        audit_stats = foamed_stats.get("audit") or {}
+        if isinstance(audit_stats, dict) and audit_stats.get("enabled") and audit_stats.get("sources"):
+            lines.append("  - audit:")
+            for name, audit in sorted((audit_stats.get("sources") or {}).items()):
+                if not isinstance(audit, dict):
+                    continue
+                html_extra = audit.get("items_found_in_html_not_in_rss") or {}
+                rss_extra = audit.get("items_found_in_rss_not_in_html") or {}
+                html_list = html_extra.get("examples") or []
+                rss_list = rss_extra.get("examples") or []
+                audit_line = (
+                    f"    - {name}: "
+                    f"rss_items_seen={audit.get('rss_items_seen', 0)}, "
+                    f"rss_items_in_window={audit.get('rss_items_in_window', 0)}, "
+                    f"html_candidates_seen={audit.get('html_candidates_seen', 0)}, "
+                    f"html_items_in_window={audit.get('html_items_in_window', 0)}, "
+                    f"html_not_in_rss={html_extra.get('count', 0)}, "
+                    f"rss_not_in_html={rss_extra.get('count', 0)}, "
+                    f"audit_pages_fetched={audit.get('audit_pages_fetched', 0)}"
+                )
+                if html_list:
+                    audit_line += f", html_examples={'; '.join(html_list[:5])}"
+                if rss_list:
+                    audit_line += f", rss_examples={'; '.join(rss_list[:5])}"
+                lines.append(audit_line)
+
     if isinstance(cybermed_stats, dict) and cybermed_stats.get("pubmed"):
         pub = cybermed_stats.get("pubmed", {})
         sel = pub.get("selection", {}) if isinstance(pub.get("selection"), dict) else {}
