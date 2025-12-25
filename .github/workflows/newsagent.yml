@@ -3,8 +3,9 @@ name: NewsAgent2 daily
 
 on:
   schedule:
-    # GitHub cron runs in UTC. 05:00 UTC ≈ 07:00 Stockholm in summer (DST) and ≈ 06:00 in winter.
-    - cron: "0 5 * * *"
+    # GitHub cron runs in UTC. Dual weekday crons + local gate ensure a single 06:00 run in Europe/Stockholm.
+    - cron: "0 4 * * 1-5"
+    - cron: "0 5 * * 1-5"
   workflow_dispatch:
     inputs:
       report_mode:
@@ -75,55 +76,124 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Gate scheduled runs to 06:00 Europe/Stockholm
+        id: gate_stockholm
+        if: github.event_name == 'schedule'
+        run: |
+          now_local=$(TZ=Europe/Stockholm date +"%H:%M")
+          if [ "$now_local" != "06:00" ]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "Local time is $now_local (not 06:00) -> skipping run."
+            exit 0
+          fi
+
+          echo "should_run=true" >> "$GITHUB_OUTPUT"
+          echo "Local time is $now_local -> proceeding."
+
+      - name: Compute run plan
+        id: compute_plan
+        run: |
+          set -euo pipefail
+
+          gate_decision="${{ steps.gate_stockholm.outputs.should_run || '' }}"
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "$gate_decision" != "true" ]; then
+            echo "run_skip=true" >> "$GITHUB_OUTPUT"
+            echo "run_modes=" >> "$GITHUB_OUTPUT"
+            echo "run_which_report=both" >> "$GITHUB_OUTPUT"
+            echo "Gate check requested skip; no modes scheduled."
+            exit 0
+          fi
+
+          run_modes=""
+          run_which_report="${{ env.WHICH_REPORT }}"
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            run_modes="${{ env.REPORT_MODE }}"
+          else
+            run_which_report="both"
+            dow=$(TZ=Europe/Stockholm date +"%u")
+            dom=$(TZ=Europe/Stockholm date +"%d")
+
+            run_modes="daily"
+            if [ "$dow" = "1" ]; then
+              run_modes="$run_modes weekly"
+              if [ "$dom" -le 7 ]; then
+                run_modes="$run_modes monthly"
+              fi
+            fi
+          fi
+
+          echo "run_skip=false" >> "$GITHUB_OUTPUT"
+          echo "run_modes=$run_modes" >> "$GITHUB_OUTPUT"
+          echo "run_which_report=$run_which_report" >> "$GITHUB_OUTPUT"
+          echo "Run plan: modes=[$run_modes], which_report=$run_which_report"
+
       - name: Set up Python
+        if: steps.compute_plan.outputs.run_skip != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install dependencies
+        if: steps.compute_plan.outputs.run_skip != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Cyberlurch Report (YouTube)
-        if: env.WHICH_REPORT == 'both' || env.WHICH_REPORT == 'cyberlurch'
+      - name: Run reports
+        if: steps.compute_plan.outputs.run_skip != 'true'
         env:
-          REPORT_KEY: cyberlurch
-          REPORT_TITLE: The Cyberlurch Report
-          REPORT_SUBJECT: The Cyberlurch Report
-          REPORT_LANGUAGE: en
-          REPORT_PROFILE: general
-          SEND_EMPTY_REPORT_EMAIL: "1"
+          RUN_MODES: ${{ steps.compute_plan.outputs.run_modes }}
+          RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}
+          LOOKBACK_HOURS_OVERRIDE: ${{ env.LOOKBACK_HOURS_OVERRIDE }}
+
           # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.
           RECIPIENTS_JSON_CYBERLURCH: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH }}
-        run: |
-          if [ -f data/youtube_only.json ]; then
-            CHFILE="data/youtube_only.json"
-          else
-            CHFILE="data/channels.json"
-          fi
-
-          python -m src.newsagent2.main \
-            --channels "$CHFILE" \
-            --hours 24
-
-      - name: Run Cybermed Report (PubMed/Journals)
-        if: env.WHICH_REPORT == 'both' || env.WHICH_REPORT == 'cybermed'
-        env:
-          REPORT_KEY: cybermed
-          REPORT_TITLE: Cybermed Report
-          REPORT_SUBJECT: Cybermed Report
-          REPORT_LANGUAGE: en
-          REPORT_PROFILE: medical
-          SEND_EMPTY_REPORT_EMAIL: "1"
-          # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.
+          RECIPIENTS_JSON_CYBERLURCH_DAILY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_DAILY }}
+          RECIPIENTS_JSON_CYBERLURCH_WEEKLY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_WEEKLY }}
+          RECIPIENTS_JSON_CYBERLURCH_MONTHLY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_MONTHLY }}
           RECIPIENTS_JSON_CYBERMED: ${{ secrets.RECIPIENTS_JSON_CYBERMED }}
+          RECIPIENTS_JSON_CYBERMED_DAILY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_DAILY }}
+          RECIPIENTS_JSON_CYBERMED_WEEKLY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_WEEKLY }}
+          RECIPIENTS_JSON_CYBERMED_MONTHLY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_MONTHLY }}
+          RECIPIENTS_CONFIG_JSON: ${{ secrets.RECIPIENTS_CONFIG_JSON }}
+          RECIPIENTS_JSON: ${{ secrets.RECIPIENTS_JSON }}
         run: |
-          python -m src.newsagent2.main \
-            --channels "data/cybermed_channels.json" \
-            --hours 24
+          set -euo pipefail
+
+          for mode in $RUN_MODES; do
+            echo "--- Running cadence: $mode (which_report=$RUN_WHICH_REPORT) ---"
+            export REPORT_MODE="$mode"
+
+            if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cyberlurch" ]; then
+              if [ -f data/youtube_only.json ]; then
+                CHFILE="data/youtube_only.json"
+              else
+                CHFILE="data/channels.json"
+              fi
+
+              REPORT_KEY=cyberlurch \
+              REPORT_TITLE="The Cyberlurch Report" \
+              REPORT_SUBJECT="The Cyberlurch Report" \
+              REPORT_LANGUAGE=en \
+              REPORT_PROFILE=general \
+              SEND_EMPTY_REPORT_EMAIL="1" \
+              python -m src.newsagent2.main --channels "$CHFILE" --hours 24
+            fi
+
+            if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cybermed" ]; then
+              REPORT_KEY=cybermed \
+              REPORT_TITLE="Cybermed Report" \
+              REPORT_SUBJECT="Cybermed Report" \
+              REPORT_LANGUAGE=en \
+              REPORT_PROFILE=medical \
+              SEND_EMPTY_REPORT_EMAIL="1" \
+              python -m src.newsagent2.main --channels "data/cybermed_channels.json" --hours 24
+            fi
+          done
 
       - name: Commit updated state (processed_items.json) if changed
+        if: steps.compute_plan.outputs.run_skip != 'true' && contains(steps.compute_plan.outputs.run_modes, 'daily')
         run: |
           if git diff --quiet -- state/processed_items.json; then
             echo "No changes in state/processed_items.json."

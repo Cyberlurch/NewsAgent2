@@ -1,3 +1,4 @@
+import json
 import pathlib
 import sys
 import unittest
@@ -69,6 +70,38 @@ class RunMetadataExtractionTests(unittest.TestCase):
         self.assertEqual(md, new_md)
         self.assertEqual("", meta)
         self.assertFalse(markers_found)
+
+
+class RecipientResolutionTests(unittest.TestCase):
+    def test_mode_specific_env_overrides_report_level(self):
+        with patch.dict(
+            emailer.os.environ,
+            {
+                "RECIPIENTS_JSON_CYBERMED_DAILY": "[\"mode@example.com\"]",
+                "RECIPIENTS_JSON_CYBERMED": "[\"report@example.com\"]",
+                "RECIPIENTS_JSON": "[\"generic@example.com\"]",
+            },
+            clear=False,
+        ):
+            recips, src = emailer._get_recipients("cybermed", "daily")
+        self.assertEqual(["mode@example.com"], recips)
+        self.assertEqual("env:RECIPIENTS_JSON_CYBERMED_DAILY", src)
+
+    def test_recipients_config_json_nested(self):
+        cfg = {
+            "cybermed": {"daily": ["cm@example.com"], "weekly": ["weekly@example.com"]},
+            "cyberlurch": {"daily": ["cl@example.com"]},
+        }
+        with patch.dict(
+            emailer.os.environ,
+            {
+                "RECIPIENTS_CONFIG_JSON": json.dumps(cfg),
+            },
+            clear=False,
+        ):
+            recips, src = emailer._get_recipients("cyberlurch", "daily")
+        self.assertEqual(["cl@example.com"], recips)
+        self.assertEqual("env:RECIPIENTS_CONFIG_JSON", src)
 
 
 if __name__ == "__main__":

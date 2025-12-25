@@ -11,7 +11,7 @@ from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
-from typing import List, Tuple
+from typing import Dict, List, Tuple, Union
 
 from markdown import markdown
 
@@ -33,58 +33,71 @@ def _clean_recipient_list(value: object) -> List[str]:
     return out
 
 
-def _parse_recipients_from_json_env(report_key: str) -> Tuple[List[str], str]:
-    """Load recipients from JSON environment variables.
+def _resolve_recipients_from_mapping(
+    data: Union[Dict[str, object], List[str], object],
+    report_key: str,
+    report_mode: str,
+) -> List[str]:
+    """Resolve recipients from nested/flattened mappings or simple lists.
 
-    Priority:
-      1) RECIPIENTS_JSON_<REPORT_KEY_UPPER>
-      2) RECIPIENTS_JSON
-
-    Accepted formats:
+    Supported shapes:
       - list: ["a@b.com", "c@d.com"]
-      - dict: {"default": [...], "cyberlurch": [...], "cybermed": [...]} (keys are case-insensitive)
-
-    Returns:
-      (recipients, source_label)
+      - dict: nested {"cybermed": {"daily": [...]}} or flattened {"cybermed_daily": [...]}
+      - dict: per-report {"cybermed": [...]} or {"default": [...]}
     """
-    rk = (report_key or "default").strip() or "default"
-    rk_upper = rk.upper()
-    rk_lower = rk.lower()
+    if isinstance(data, list):
+        return _clean_recipient_list(data)
 
-    specific_var = f"RECIPIENTS_JSON_{rk_upper}"
-    raw = (os.getenv(specific_var) or "").strip()
-    source = ""
+    if not isinstance(data, dict):
+        return []
 
-    if raw:
-        source = f"env:{specific_var}"
-    else:
-        raw = (os.getenv("RECIPIENTS_JSON") or "").strip()
-        if raw:
-            source = "env:RECIPIENTS_JSON"
+    key_map: Dict[str, object] = {str(k).lower(): v for k, v in data.items()}
+    rk = (report_key or "default").strip().lower() or "default"
+    mode = (report_mode or "").strip().lower()
 
+    def _from_nested(obj: object) -> List[str]:
+        if isinstance(obj, dict):
+            mode_map = {str(k).lower(): v for k, v in obj.items()}
+            if mode and mode in mode_map:
+                return _clean_recipient_list(mode_map.get(mode))
+            for default_key in ("default", "all"):
+                if default_key in mode_map:
+                    return _clean_recipient_list(mode_map.get(default_key))
+            return []
+        return _clean_recipient_list(obj)
+
+    if mode:
+        for sep in ("_", "-", ""):
+            flat_key = f"{rk}{sep}{mode}"
+            if flat_key in key_map:
+                return _clean_recipient_list(key_map.get(flat_key))
+
+    if rk in key_map:
+        recipients = _from_nested(key_map.get(rk))
+        if recipients:
+            return recipients
+
+    for default_key in ("default", "all"):
+        if default_key in key_map:
+            recipients = _from_nested(key_map.get(default_key))
+            if recipients:
+                return recipients
+
+    return []
+
+
+def _parse_recipients_json_var(var_name: str, report_key: str, report_mode: str) -> Tuple[List[str], str]:
+    raw = (os.getenv(var_name) or "").strip()
     if not raw:
-        return [], source
+        return [], ""
 
     try:
         data = json.loads(raw)
     except Exception:
-        # Invalid JSON -> treat as absent and fall back to other sources.
-        return [], source
+        return [], f"env:{var_name}"
 
-    if isinstance(data, list):
-        return _clean_recipient_list(data), source
-
-    if isinstance(data, dict):
-        # Try report-specific key (case-insensitive), then default.
-        candidates = [rk_lower, rk, rk_upper, "default", "DEFAULT"]
-        val = None
-        for k in candidates:
-            if k in data:
-                val = data.get(k)
-                break
-        return _clean_recipient_list(val), source
-
-    return [], source
+    recipients = _resolve_recipients_from_mapping(data, report_key, report_mode)
+    return recipients, f"env:{var_name}"
 
 
 def _parse_recipients_from_env() -> Tuple[List[str], str]:
@@ -94,7 +107,7 @@ def _parse_recipients_from_env() -> Tuple[List[str], str]:
     return [x.strip() for x in raw.split(",") if x.strip()], "env:EMAIL_TO"
 
 
-def _load_recipients_from_file(report_key: str) -> Tuple[List[str], str]:
+def _load_recipients_from_file(report_key: str, report_mode: str) -> Tuple[List[str], str]:
     """Load recipients from data/recipients.json (optional local/private fallback)."""
     path = Path("data") / "recipients.json"
     if not path.exists():
@@ -105,36 +118,48 @@ def _load_recipients_from_file(report_key: str) -> Tuple[List[str], str]:
     except Exception:
         return [], "file:data/recipients.json"
 
-    if not isinstance(data, dict):
-        return [], "file:data/recipients.json"
-
-    rk = (report_key or "default").strip() or "default"
-    rk_lower = rk.lower()
-
-    candidates = [rk_lower, rk, rk.upper(), "default", "DEFAULT"]
-    val = None
-    for k in candidates:
-        if k in data:
-            val = data.get(k)
-            break
-
-    return _clean_recipient_list(val), "file:data/recipients.json"
+    recipients = _resolve_recipients_from_mapping(data, report_key, report_mode)
+    return recipients, "file:data/recipients.json"
 
 
-def _get_recipients(report_key: str) -> Tuple[List[str], str]:
-    # 1) JSON via Secrets (preferred)
-    rec, src = _parse_recipients_from_json_env(report_key)
+def _get_recipients(report_key: str, report_mode: str) -> Tuple[List[str], str]:
+    rk = (report_key or "default").strip()
+    mode = (report_mode or "").strip()
+    rk_upper = rk.upper() or "DEFAULT"
+    mode_upper = mode.upper()
+
+    # 1) Mode-specific env var
+    if mode_upper:
+        rec, src = _parse_recipients_json_var(f"RECIPIENTS_JSON_{rk_upper}_{mode_upper}", rk, mode)
+        if rec:
+            return rec, src
+
+    # 2) Per-report env var
+    rec, src = _parse_recipients_json_var(f"RECIPIENTS_JSON_{rk_upper}", rk, mode)
     if rec:
         return rec, src
 
-    # 2) Backward compatible: EMAIL_TO (only safe if passed via Secrets)
-    rec, src2 = _parse_recipients_from_env()
+    # 3) Combined config JSON
+    rec, src = _parse_recipients_json_var("RECIPIENTS_CONFIG_JSON", rk, mode)
     if rec:
-        return rec, src2
+        return rec, src
 
-    # 3) Optional local/private fallback: file-based recipients
-    rec, src3 = _load_recipients_from_file(report_key)
-    return rec, (src or src2 or src3)
+    # 4) Generic env (nested or flattened)
+    rec, src = _parse_recipients_json_var("RECIPIENTS_JSON", rk, mode)
+    if rec:
+        return rec, src
+
+    # 5) Optional file fallback
+    rec, src = _load_recipients_from_file(rk, mode)
+    if rec:
+        return rec, src
+
+    # 6) EMAIL_TO (legacy)
+    rec, src = _parse_recipients_from_env()
+    if rec:
+        return rec, src
+
+    return [], src or "env:EMAIL_TO"
 
 def _strip_details_tags(md_text: str) -> str:
     """Remove HTML <details>/<summary> tags while keeping readable text."""
@@ -317,6 +342,7 @@ def send_markdown(subject: str, md_body: str) -> None:
         return
 
     report_key = (os.getenv("REPORT_KEY", "default") or "default").strip() or "default"
+    report_mode = (os.getenv("REPORT_MODE", "daily") or "daily").strip() or "daily"
 
     host = os.getenv("SMTP_HOST")
     port_str = os.getenv("SMTP_PORT", "587")
@@ -324,7 +350,7 @@ def send_markdown(subject: str, md_body: str) -> None:
     pw = os.getenv("SMTP_PASS")
     from_addr = os.getenv("EMAIL_FROM", user or "newsagent@localhost")
 
-    to_list, recipients_source = _get_recipients(report_key)
+    to_list, recipients_source = _get_recipients(report_key, report_mode)
 
     try:
         port = int(port_str)
@@ -353,8 +379,15 @@ def send_markdown(subject: str, md_body: str) -> None:
     # and (b) attaching the full metadata as a .txt file.
     md_without_metadata, metadata_text, metadata_removed = _extract_run_metadata_for_email(md_body)
 
+    placeholder_block = ""
+    if metadata_text and metadata_removed and report_key.lower() != "cybermed":
+        placeholder_block = "\n\n_Run metadata is attached as a .txt file._\n"
+
+    if placeholder_block:
+        md_without_metadata = f"{md_without_metadata.rstrip()}{placeholder_block}"
+
     try:
-        html_source = md_without_metadata if metadata_removed else md_body
+        html_source = md_without_metadata if metadata_removed or placeholder_block else md_body
         html = _safe_markdown_to_html(html_source)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
         print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")
