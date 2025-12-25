@@ -92,16 +92,46 @@ class RecipientResolutionTests(unittest.TestCase):
             "cybermed": {"daily": ["cm@example.com"], "weekly": ["weekly@example.com"]},
             "cyberlurch": {"daily": ["cl@example.com"]},
         }
+        with patch.dict(emailer.os.environ, {"RECIPIENTS_CONFIG_JSON": json.dumps(cfg)}, clear=False):
+            recips, src = emailer._get_recipients("cyberlurch", "daily")
+        self.assertEqual(["cl@example.com"], recips)
+        self.assertEqual("env:RECIPIENTS_CONFIG_JSON", src)
+
+    def test_recipients_config_json_is_top_priority_for_all_modes(self):
+        cfg = {
+            "cybermed": {
+                "daily": ["cm-d@example.com"],
+                "weekly": ["cm-w@example.com"],
+                "monthly": ["cm-m@example.com"],
+            },
+            "cyberlurch": {
+                "daily": ["cl-d@example.com"],
+                "weekly": ["cl-w@example.com"],
+                "monthly": ["cl-m@example.com"],
+            },
+        }
         with patch.dict(
             emailer.os.environ,
             {
                 "RECIPIENTS_CONFIG_JSON": json.dumps(cfg),
+                "RECIPIENTS_JSON_CYBERMED_DAILY": '["override@example.com"]',  # should be ignored
             },
             clear=False,
         ):
-            recips, src = emailer._get_recipients("cyberlurch", "daily")
-        self.assertEqual(["cl@example.com"], recips)
-        self.assertEqual("env:RECIPIENTS_CONFIG_JSON", src)
+            cases = [
+                ("cybermed", "daily", ["cm-d@example.com"]),
+                ("cybermed", "weekly", ["cm-w@example.com"]),
+                ("cybermed", "monthly", ["cm-m@example.com"]),
+                ("cyberlurch", "daily", ["cl-d@example.com"]),
+                ("cyberlurch", "weekly", ["cl-w@example.com"]),
+                ("cyberlurch", "monthly", ["cl-m@example.com"]),
+            ]
+
+            for report_key, mode, expected in cases:
+                with self.subTest(report_key=report_key, mode=mode):
+                    recips, src = emailer._get_recipients(report_key, mode)
+                    self.assertEqual(expected, recips)
+                    self.assertEqual("env:RECIPIENTS_CONFIG_JSON", src)
 
 
 if __name__ == "__main__":

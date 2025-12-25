@@ -128,6 +128,17 @@ def _get_recipients(report_key: str, report_mode: str) -> Tuple[List[str], str]:
     rk_upper = rk.upper() or "DEFAULT"
     mode_upper = mode.upper()
 
+    # Preferred: combined config for all reports/modes
+    raw_config = (os.getenv("RECIPIENTS_CONFIG_JSON") or "").strip()
+    if raw_config:
+        try:
+            data = json.loads(raw_config)
+            recipients = _resolve_recipients_from_mapping(data, rk, mode)
+            return recipients, "env:RECIPIENTS_CONFIG_JSON"
+        except Exception:
+            # Fall back only when config is missing or invalid
+            pass
+
     # 1) Mode-specific env var
     if mode_upper:
         rec, src = _parse_recipients_json_var(f"RECIPIENTS_JSON_{rk_upper}_{mode_upper}", rk, mode)
@@ -140,9 +151,7 @@ def _get_recipients(report_key: str, report_mode: str) -> Tuple[List[str], str]:
         return rec, src
 
     # 3) Combined config JSON
-    rec, src = _parse_recipients_json_var("RECIPIENTS_CONFIG_JSON", rk, mode)
-    if rec:
-        return rec, src
+    # (handled above as the highest-priority source; reach here only if missing/invalid)
 
     # 4) Generic env (nested or flattened)
     rec, src = _parse_recipients_json_var("RECIPIENTS_JSON", rk, mode)
