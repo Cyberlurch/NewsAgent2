@@ -15,7 +15,7 @@ from .collectors_youtube import fetch_transcript, list_recent_videos
 from .collectors_pubmed import search_recent_pubmed
 from .emailer import send_markdown
 from .rollups import (
-    extract_summary_bullets,
+    derive_monthly_summary,
     load_rollups_state,
     render_yearly_markdown,
     prune_rollups,
@@ -1469,8 +1469,12 @@ def main() -> None:
         try:
             rollups_state = load_rollups_state(rollups_state_path)
             month_key = datetime.now(tz=STO).strftime("%Y-%m")
-            executive_summary = extract_summary_bullets(overview_body, max_bullets=8)
             rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items)
+            executive_summary = derive_monthly_summary(
+                overview_body,
+                top_items=rollup_items,
+                max_bullets=8,
+            )
             upsert_monthly_rollup(
                 rollups_state,
                 report_key=report_key,

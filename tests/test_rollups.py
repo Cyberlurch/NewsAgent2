@@ -158,3 +158,59 @@ def test_yearly_markdown_guardrails_and_limits():
         end = next((i for i in range(idx + 1, len(lines)) if lines[i].startswith("### ")), len(lines))
         bullet_count = len([ln for ln in lines[idx + 1 : end] if ln.startswith("- ")])
         assert 1 <= bullet_count <= 3
+
+
+def test_monthly_summary_ignores_run_metadata_block():
+    markdown = """## Run Metadata
+Run metadata is attached as a text file.
+
+## Details
+- Other content
+"""
+    top_items = [
+        {"title": "Star pick", "url": "https://example.com/a", "channel": "ch", "source": "yt", "published_at": "2024-12-01", "top_pick": True},
+        {"title": "Second pick", "url": "https://example.com/b", "channel": "ch", "source": "yt", "published_at": "2024-11-30"},
+    ]
+
+    summary = rollups.derive_monthly_summary(markdown, top_items=top_items, max_bullets=5)
+    assert summary[0] == "Highlights derived from top items."
+    assert all("metadata" not in s.lower() for s in summary)
+    assert "Star pick" in summary[1]
+    assert "Second pick" in summary[2]
+
+
+def test_metadata_placeholder_collapses_to_no_summary():
+    state = {}
+    rollups.upsert_monthly_rollup(
+        state,
+        report_key="cybermed",
+        month="2025-12",
+        generated_at="2026-01-01T00:00:00Z",
+        executive_summary=["Cybermed report metadata**"],
+        top_items=[],
+    )
+
+    entry = state["reports"]["cybermed"][0]
+    assert entry["executive_summary"] == ["(no summary captured)"]
+
+
+def test_yearly_markdown_uses_sanitized_rollup_summary():
+    md = rollups.render_yearly_markdown(
+        report_title="Year in Review",
+        report_language="en",
+        year=2025,
+        rollups=[
+            {
+                "month": "2025-12",
+                "executive_summary": ["Cybermed report metadata**"],
+                "top_items": [
+                    {"title": "First highlight", "url": "https://example.com/1", "channel": "ch", "source": "yt", "date": "2025-12-01", "top_pick": True},
+                    {"title": "Second highlight", "url": "https://example.com/2", "channel": "ch", "source": "yt", "date": "2025-11-30"},
+                ],
+            }
+        ],
+    )
+
+    assert "metadata" not in md.lower()
+    assert "Highlights derived from top items." in md
+    assert "December 2025: Highlights derived from top items." in md

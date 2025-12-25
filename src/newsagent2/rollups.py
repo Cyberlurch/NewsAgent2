@@ -158,12 +158,14 @@ def upsert_monthly_rollup(
         rollups = reports[rk]
 
     sanitized_items = [_sanitize_item(it) for it in top_items if it]
-    sanitized_exec = [str(x).strip() for x in executive_summary if str(x).strip()]
+    sanitized_exec = sanitize_rollup_summary(executive_summary)
+    if not sanitized_exec:
+        sanitized_exec = _fallback_summary_from_items(sanitized_items)
 
     payload = {
         "month": month_key,
         "generated_at": generated_at,
-        "executive_summary": sanitized_exec,
+        "executive_summary": sanitized_exec[:8],
         "top_items": sanitized_items,
     }
 
@@ -240,7 +242,7 @@ def prune_rollups(
     return state
 
 
-def extract_summary_bullets(markdown_text: str, max_bullets: int = 8) -> List[str]:
+def extract_summary_bullets(markdown_text: str, max_bullets: int = 8, *, require_exec_section: bool = False) -> List[str]:
     if max_bullets <= 0:
         return []
 
@@ -250,6 +252,7 @@ def extract_summary_bullets(markdown_text: str, max_bullets: int = 8) -> List[st
 
     lines = [ln.rstrip() for ln in text.splitlines()]
     bullets: List[str] = []
+    exec_section_found = False
 
     def _flush_sentence_pool(pool: List[str]) -> None:
         nonlocal bullets
@@ -268,16 +271,26 @@ def extract_summary_bullets(markdown_text: str, max_bullets: int = 8) -> List[st
             continue
         if stripped.lower().startswith("## "):
             header = stripped[3:].strip().lower()
-            in_exec_section = header.startswith("executive summary") or header.startswith("kurzüberblick")
-            if not in_exec_section:
+            is_exec_header = header.startswith("executive summary") or header.startswith("kurzüberblick")
+            if is_exec_header:
+                exec_section_found = True
+                in_exec_section = True
+                bullets = []
+                sentence_pool = []
+            else:
+                if in_exec_section:
+                    _flush_sentence_pool(sentence_pool)
+                    break
                 _flush_sentence_pool(sentence_pool)
                 sentence_pool = []
+                in_exec_section = False
             continue
         if stripped.lower().startswith("### "):
             if in_exec_section:
+                _flush_sentence_pool(sentence_pool)
                 break
             continue
-        if in_exec_section or not bullets:
+        if in_exec_section or (not require_exec_section and not bullets):
             if stripped.startswith(("-", "*")):
                 bullet = stripped.lstrip("-* ").strip()
                 if bullet:
@@ -293,7 +306,82 @@ def extract_summary_bullets(markdown_text: str, max_bullets: int = 8) -> List[st
                     break
 
     _flush_sentence_pool(sentence_pool)
+    if require_exec_section and not exec_section_found:
+        return []
     return bullets[:max_bullets]
+
+
+def sanitize_rollup_summary(lines: Sequence[str]) -> List[str]:
+    forbidden = [
+        "metadata",
+        "run metadata",
+        "attached",
+        "lookback window",
+        "foamed source health",
+        "pubmed items",
+        "foamed items",
+    ]
+
+    cleaned: List[str] = []
+    for raw in lines or []:
+        text = str(raw or "").strip()
+        if not text:
+            continue
+        while text.startswith("*") or text.startswith("_"):
+            text = text[1:].lstrip()
+        while text.endswith("*") or text.endswith("_"):
+            text = text[:-1].rstrip()
+        text = text.replace("**", "").strip()
+        lowered = text.lower()
+        if any(term in lowered for term in forbidden):
+            continue
+        if text:
+            cleaned.append(text)
+    return cleaned
+
+
+def _fallback_summary_from_items(top_items: Sequence[Dict[str, Any]]) -> List[str]:
+    ranked: List[Dict[str, Any]] = []
+    for idx, item in enumerate(top_items or []):
+        ranked.append(
+            {
+                "title": (item.get("title") or "").strip(),
+                "top_pick": bool(item.get("top_pick")),
+                "_idx": idx,
+            }
+        )
+    ranked.sort(key=lambda it: (0 if it.get("top_pick") else 1, it.get("_idx", 0)))
+    titles = [it["title"] for it in ranked if it["title"]]
+    if not titles:
+        return ["(no summary captured)"]
+    bullets = ["Highlights derived from top items."]
+    bullets.extend(titles[:2])
+    return bullets
+
+
+def derive_monthly_summary(
+    overview_markdown: str,
+    *,
+    top_items: Sequence[Dict[str, Any]],
+    max_bullets: int = 8,
+) -> List[str]:
+    exec_bullets = extract_summary_bullets(overview_markdown, max_bullets=max_bullets, require_exec_section=True)
+    sanitized_exec = sanitize_rollup_summary(exec_bullets)
+    if sanitized_exec:
+        return sanitized_exec[:max_bullets]
+
+    fallback = _fallback_summary_from_items(top_items)
+    sanitized_fallback = sanitize_rollup_summary(fallback)
+    return sanitized_fallback or ["(no summary captured)"]
+
+
+def normalize_rollup_summary(entry: Dict[str, Any]) -> List[str]:
+    raw_summary = entry.get("executive_summary") or []
+    summary = sanitize_rollup_summary(raw_summary)
+    if not summary:
+        summary = _fallback_summary_from_items(entry.get("top_items") or [])
+    summary = sanitize_rollup_summary(summary)
+    return summary or ["(no summary captured)"]
 
 
 def rollups_for_year(state: Dict[str, Any], report_key: str, year: int) -> List[Dict[str, Any]]:
@@ -353,12 +441,9 @@ def render_yearly_markdown(
         md.append("")
         for entry in sorted_rollups:
             month = str(entry.get("month") or "")
-            summary = entry.get("executive_summary") or []
+            summary = normalize_rollup_summary(entry)
             label = _month_label(month)
-            if summary:
-                md.append(f"- {label}: " + "; ".join(str(x).strip() for x in summary if str(x).strip()))
-            else:
-                md.append(f"- {label}: (no summary captured)")
+            md.append(f"- {label}: " + "; ".join(summary))
     md.append("")
 
     md.append("## Top 10 items" if not is_de else "## Top 10 Artikel")
@@ -406,7 +491,7 @@ def render_yearly_markdown(
         md.append(f"### {heading}")
         md.append("")
 
-        summary = [str(x).strip() for x in (entry.get("executive_summary") or []) if str(x).strip()]
+        summary = normalize_rollup_summary(entry)
         bullets: List[str] = []
         for bullet in summary:
             if len(bullets) >= 3:
