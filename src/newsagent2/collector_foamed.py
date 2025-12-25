@@ -4,6 +4,7 @@ import calendar
 import html
 import json
 import re
+import os
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
@@ -33,6 +34,12 @@ DEFAULT_USER_AGENT = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
     "Chrome/124.0.0.0 Safari/537.36 NewsAgent2/1.0"
 )
+
+DEFAULT_FOAMED_HEADERS = {
+    "User-Agent": DEFAULT_USER_AGENT,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+}
 
 
 @dataclass(frozen=True)
@@ -307,6 +314,133 @@ def _extract_excerpt(soup: BeautifulSoup) -> str:
     return ""
 
 
+def _run_html_pass(
+    session: requests.Session,
+    *,
+    name: str,
+    homepage: str,
+    seed_urls: List[str],
+    allow_rx: List[re.Pattern[str]],
+    deny_rx: List[re.Pattern[str]],
+    now_utc: datetime,
+    cutoff: datetime,
+    max_candidates: int,
+    max_pages: int,
+    timeout_s: int,
+    headers: Optional[Dict[str, str]],
+    feed_type: str,
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    stats = {
+        "candidates_seen": 0,
+        "pages_fetched": 0,
+        "pages_with_date": 0,
+        "blocked": False,
+        "last_published": None,
+        "items_in_window": 0,
+        "homepage_status_code": None,
+    }
+
+    if isinstance(seed_urls, str):
+        seed_urls = [seed_urls]
+    if not isinstance(seed_urls, list) or not seed_urls:
+        seed_urls = [homepage]
+
+    home_host = urlsplit(homepage).netloc
+
+    items: List[Dict[str, Any]] = []
+
+    # Collect candidates across all seed pages.
+    candidate_scores: Dict[str, int] = {}
+
+    for seed in seed_urls:
+        seed = str(seed or "").strip()
+        if not seed:
+            continue
+        sr = _fetch_url(session, seed, timeout_s=timeout_s, headers=headers)
+        if sr.status_code == 403:
+            stats["blocked"] = True
+        if seed == homepage:
+            stats["homepage_status_code"] = sr.status_code
+        if not sr.ok or not sr.content:
+            continue
+
+        soup = BeautifulSoup(sr.content, "html.parser")
+        for a in soup.find_all("a", href=True):
+            href = a.get("href")
+            if not href:
+                continue
+            abs_url = urljoin(seed, href)
+            parsed_url = urlsplit(abs_url)
+            if parsed_url.scheme not in {"http", "https"}:
+                continue
+            # Keep to same host (or subdomain) to limit noise.
+            if home_host and parsed_url.netloc and not parsed_url.netloc.endswith(home_host):
+                continue
+            if any(abs_url.lower().endswith(ext) for ext in (".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf")):
+                continue
+
+            cleaned = _clean_url(abs_url)
+            if deny_rx and _matches_any(deny_rx, cleaned):
+                continue
+            if allow_rx and not _matches_any(allow_rx, cleaned):
+                continue
+
+            score = 2 if _is_likely_post_url(cleaned) else 1
+            candidate_scores[cleaned] = max(candidate_scores.get(cleaned, 0), score)
+
+    # Sort: likely-post first, then stable order.
+    candidates = sorted(candidate_scores.items(), key=lambda kv: (-kv[1], kv[0]))
+    candidates = [u for u, _ in candidates][: max(1, max_candidates)]
+    stats["candidates_seen"] = len(candidates)
+
+    for cand in candidates[: max(1, max_pages)]:
+        stats["pages_fetched"] += 1
+        pr = _fetch_url(session, cand, timeout_s=timeout_s, headers=headers)
+        if pr.status_code == 403:
+            stats["blocked"] = True
+            continue
+        if not pr.ok or not pr.content:
+            continue
+
+        page_soup = BeautifulSoup(pr.content, "html.parser")
+        published_dt = _extract_published_datetime(page_soup)
+        if not published_dt:
+            continue
+        stats["pages_with_date"] += 1
+
+        if published_dt < cutoff or published_dt > now_utc + timedelta(minutes=5):
+            continue
+
+        stats["items_in_window"] += 1
+        if not stats["last_published"] or published_dt > stats["last_published"]:
+            stats["last_published"] = published_dt
+
+        canonical = _extract_canonical_url(page_soup, cand)
+        title = _extract_title(page_soup, default_title=name)
+        snippet = _extract_excerpt(page_soup)[:600]
+        if not snippet:
+            snippet = "(No excerpt provided)"
+
+        items.append(
+            {
+                "source": "foamed",
+                "foamed_source": name,
+                "channel": name,
+                "id": canonical,
+                "title": title,
+                "url": canonical,
+                "homepage": homepage,
+                "feed_type": feed_type,
+                "published_at": published_dt,
+                "published_field": "html_fallback",
+                "date_unknown": False,
+                "text": snippet,
+            }
+        )
+
+    return items, stats
+
+
 def collect_foamed_items(
     sources_config: List[Dict[str, Any]],
     now_utc: datetime,
@@ -335,6 +469,12 @@ def collect_foamed_items(
     cutoff = now_utc - timedelta(hours=lookback_hours)
 
     session = _session_with_retries(DEFAULT_USER_AGENT)
+    audit_enabled = (os.getenv("FOAMED_AUDIT", "0") or "0").strip() == "1"
+    forced_fallback_sources = {
+        s.strip().lower()
+        for s in (os.getenv("FOAMED_FORCE_FALLBACK_SOURCES", "") or "").split(",")
+        if s.strip()
+    }
     items: List[Dict[str, Any]] = []
     stats: Dict[str, Any] = {
         "sources_total": 0,
@@ -353,6 +493,11 @@ def collect_foamed_items(
             "parse_failed": 0,
             "other": 0,
         },
+        "audit": {
+            "enabled": audit_enabled,
+            "sources": {},
+        },
+        "forced_html_fallback_sources": [],
     }
 
     for src in sources_config or []:
@@ -397,6 +542,8 @@ def collect_foamed_items(
         ua = str(src.get("user_agent") or "").strip()
         if ua:
             headers["User-Agent"] = ua
+        if not headers:
+            headers = dict(DEFAULT_FOAMED_HEADERS)
 
         per_source = {
             "items_raw": 0,
@@ -422,18 +569,33 @@ def collect_foamed_items(
             "feed_status_code": None,
             "homepage_status_code": None,
             "discovered_feed_url": None,
+            "forced_html_fallback": False,
+            "audit": None,
         }
+        rss_urls_in_window: List[str] = []
 
         def record_item(item: Dict[str, Any]) -> None:
             items.append(item)
             stats["kept_last24h"] += 1
             per_source["kept_last24h"] += 1
+            if (item.get("published_field") or "").startswith("html_fallback"):
+                return
+            url = (item.get("url") or item.get("id") or "").strip()
+            if url:
+                rss_urls_in_window.append(url)
 
         # --- RSS stage -----------------------------------------------------
         entries: List[Dict[str, Any]] = []
         parse_failed = False
 
-        if feed_url:
+        forced_fallback = name.lower() in forced_fallback_sources
+        if forced_fallback:
+            per_source["forced_html_fallback"] = True
+            per_source["method"] = "html_fallback"
+            per_source["why"] = "forced_html_fallback"
+            stats["forced_html_fallback_sources"].append(name)
+
+        if feed_url and not forced_fallback:
             fr = _fetch_url(session, feed_url, timeout_s=timeout_feed_s, headers=headers or None)
             per_source["feed_status_code"] = fr.status_code
             if fr.status_code == 403:
@@ -459,7 +621,7 @@ def collect_foamed_items(
                     per_source["error"] = "feed_unavailable"
 
         # --- Feed autodiscovery (homepage) ---------------------------------
-        if (not entries or not per_source["feed_ok"]) and homepage:
+        if (not entries or not per_source["feed_ok"]) and homepage and not forced_fallback:
             hr = _fetch_url(session, homepage, timeout_s=timeout_html_s, headers=headers or None)
             per_source["homepage_status_code"] = hr.status_code
             if hr.status_code == 403:
@@ -595,102 +757,39 @@ def collect_foamed_items(
             if not isinstance(seed_urls, list) or not seed_urls:
                 seed_urls = [homepage]
 
-            home_host = urlsplit(homepage).netloc
-
             try:
-                # Collect candidates across all seed pages.
-                candidate_scores: Dict[str, int] = {}
-
-                for seed in seed_urls:
-                    seed = str(seed or "").strip()
-                    if not seed:
-                        continue
-                    sr = _fetch_url(session, seed, timeout_s=timeout_html_s, headers=headers or None)
-                    if seed == homepage:
-                        per_source["homepage_status_code"] = sr.status_code
-                    if sr.status_code == 403:
-                        per_source["blocked"] = True
-                    if not sr.ok or not sr.content:
-                        continue
-
-                    soup = BeautifulSoup(sr.content, "html.parser")
-                    for a in soup.find_all("a", href=True):
-                        href = a.get("href")
-                        if not href:
-                            continue
-                        abs_url = urljoin(seed, href)
-                        parsed_url = urlsplit(abs_url)
-                        if parsed_url.scheme not in {"http", "https"}:
-                            continue
-                        # Keep to same host (or subdomain) to limit noise.
-                        if home_host and parsed_url.netloc and not parsed_url.netloc.endswith(home_host):
-                            continue
-                        if any(abs_url.lower().endswith(ext) for ext in (".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf")):
-                            continue
-
-                        cleaned = _clean_url(abs_url)
-                        if deny_rx and _matches_any(deny_rx, cleaned):
-                            continue
-                        if allow_rx and not _matches_any(allow_rx, cleaned):
-                            continue
-
-                        score = 2 if _is_likely_post_url(cleaned) else 1
-                        candidate_scores[cleaned] = max(candidate_scores.get(cleaned, 0), score)
-
-                # Sort: likely-post first, then stable order.
-                candidates = sorted(candidate_scores.items(), key=lambda kv: (-kv[1], kv[0]))
-                candidates = [u for u, _ in candidates][:max(1, max_candidates)]
-                per_source["candidates_found"] = len(candidates)
-
-                for cand in candidates[: max(1, max_pages)]:
-                    per_source["pages_fetched"] += 1
-                    pr = _fetch_url(session, cand, timeout_s=timeout_html_s, headers=headers or None)
-                    if pr.status_code == 403:
-                        per_source["blocked"] = True
-                        continue
-                    if not pr.ok or not pr.content:
-                        continue
-
-                    page_soup = BeautifulSoup(pr.content, "html.parser")
-                    published_dt = _extract_published_datetime(page_soup)
-                    if not published_dt:
-                        continue
-                    per_source["pages_with_date"] += 1
+                html_items, html_stats = _run_html_pass(
+                    session,
+                    name=name,
+                    homepage=homepage,
+                    seed_urls=seed_urls,
+                    allow_rx=allow_rx,
+                    deny_rx=deny_rx,
+                    now_utc=now_utc,
+                    cutoff=cutoff,
+                    max_candidates=max_candidates,
+                    max_pages=max_pages,
+                    timeout_s=timeout_html_s,
+                    headers=headers or None,
+                    feed_type=feed_type,
+                )
+                per_source["candidates_found"] = html_stats.get("candidates_seen", 0)
+                per_source["pages_fetched"] = html_stats.get("pages_fetched", 0)
+                per_source["pages_with_date"] = html_stats.get("pages_with_date", 0)
+                if html_stats.get("homepage_status_code") is not None:
+                    per_source["homepage_status_code"] = html_stats.get("homepage_status_code")
+                if html_stats.get("blocked"):
+                    per_source["blocked"] = True
+                if html_stats.get("last_published"):
+                    fallback_newest_dt = html_stats["last_published"]
+                if html_items:
                     ok_html = True
-
-                    if published_dt < cutoff or published_dt > now_utc + timedelta(minutes=5):
-                        continue
-
-                    if not fallback_newest_dt or published_dt > fallback_newest_dt:
-                        fallback_newest_dt = published_dt
-
-                    canonical = _extract_canonical_url(page_soup, cand)
-                    title = _extract_title(page_soup, default_title=name)
-                    snippet = _extract_excerpt(page_soup)[:600]
-                    if not snippet:
-                        snippet = "(No excerpt provided)"
-
+                for item in html_items:
                     stats["items_raw"] += 1
                     per_source["items_raw"] += 1
                     stats["items_with_date"] += 1
                     per_source["items_with_date"] += 1
-
-                    record_item(
-                        {
-                            "source": "foamed",
-                            "foamed_source": name,
-                            "channel": name,
-                            "id": canonical,
-                            "title": title,
-                            "url": canonical,
-                            "homepage": homepage,
-                            "feed_type": feed_type,
-                            "published_at": published_dt,
-                            "published_field": "html_fallback",
-                            "date_unknown": False,
-                            "text": snippet,
-                        }
-                    )
+                    record_item(item)
 
             except Exception as e:
                 per_source["errors"] += 1
@@ -705,6 +804,55 @@ def collect_foamed_items(
 
         if newest_entry_dt:
             per_source["newest_entry_datetime"] = newest_entry_dt.astimezone(timezone.utc).isoformat()
+
+        # --- Audit mode (RSS completeness check) --------------------------
+        if audit_enabled and per_source.get("feed_ok") and homepage and not forced_fallback:
+            audit_seed_urls = src.get("fallback_urls") or [homepage]
+            if isinstance(audit_seed_urls, str) and audit_seed_urls.strip():
+                audit_seed_urls = [audit_seed_urls.strip()]
+            if not isinstance(audit_seed_urls, list) or not audit_seed_urls:
+                audit_seed_urls = [homepage]
+            audit_max_candidates = min(max_candidates, 12)
+            audit_max_pages = min(max_pages, 4)
+
+            html_audit_items, html_audit_stats = _run_html_pass(
+                session,
+                name=name,
+                homepage=homepage,
+                seed_urls=audit_seed_urls,
+                allow_rx=allow_rx,
+                deny_rx=deny_rx,
+                now_utc=now_utc,
+                cutoff=cutoff,
+                max_candidates=audit_max_candidates,
+                max_pages=audit_max_pages,
+                timeout_s=timeout_html_s,
+                headers=headers or None,
+                feed_type=feed_type,
+            )
+
+            html_urls_in_window = [it.get("url") or it.get("id") for it in html_audit_items if (it.get("url") or it.get("id"))]
+            rss_set = {u for u in rss_urls_in_window if u}
+            html_set = {u for u in html_urls_in_window if u}
+            html_not_in_rss = sorted(html_set - rss_set)
+            rss_not_in_html = sorted(rss_set - html_set)
+
+            per_source["audit"] = {
+                "rss_items_seen": per_source.get("entries_total", 0),
+                "rss_items_in_window": len(rss_urls_in_window),
+                "html_candidates_seen": int(html_audit_stats.get("candidates_seen") or 0),
+                "html_items_in_window": int(html_audit_stats.get("items_in_window") or 0),
+                "items_found_in_html_not_in_rss": {
+                    "count": len(html_not_in_rss),
+                    "examples": html_not_in_rss[:5],
+                },
+                "items_found_in_rss_not_in_html": {
+                    "count": len(rss_not_in_html),
+                    "examples": rss_not_in_html[:5],
+                },
+                "audit_pages_fetched": int(html_audit_stats.get("pages_fetched") or 0),
+            }
+            stats["audit"]["sources"][name] = per_source["audit"]
 
         # --- Health classification & counters ------------------------------
         html_parse_failed = bool(per_source.get("html_fallback_used") and not ok_html and (per_source.get("pages_fetched") or 0) > 0)
