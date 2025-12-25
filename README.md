@@ -1,42 +1,129 @@
-## NewsAgent2 – Cybermed & Cyberlurch newsletters
+# NewsAgent2 – Automated Cybermed & Cyberlurch Newsletters
 
-This repository generates two automated email newsletters via GitHub Actions:
+NewsAgent2 is a private automation project that generates and emails two newsletters via GitHub Actions:
 
-- **Cybermed Report**: PubMed journal screening + FOAMed/blog commentary screening (RSS with HTML fallback), filtered to a strict **last 24 hours** window (with special Monday catch-up logic; see Scheduling).
-- **Cyberlurch Report**: YouTube/news aggregation and summarization (project-specific sources and selection rules).
+- **Cybermed Report** (medical, English): PubMed journal screening + FOAMed/blog sources (RSS first, HTML fallback).
+- **The Cyberlurch Report** (general, German): YouTube/news sources aggregation and summarization.
 
-### Key features (Cybermed)
-- **Overview (“BOTTOM LINE”)**: short clinical takeaways from newly screened items.
-- **Deep Dives**: a smaller subset of the most relevant/impactful items (typically ≤ 8/day).
-- **Top picks marking**: best items are highlighted with a **star icon (⭐)** in both Overview and Deep Dives.
-- **FOAMed & Commentary**: screens curated education/blog sources using RSS where possible, and an HTML fallback when no RSS is available.
+The system is designed to run reliably on a schedule, avoid duplicate processing, and keep email delivery compatible across many email clients.
 
-### Scheduling (Europe/Stockholm)
-Both Cybermed and Cyberlurch run at **05:30** local time on:
-- **Sunday, Monday, Tuesday, Wednesday, Friday**
-- No runs on Thursday and Saturday.
+---
 
-#### Monday “weekend catch-up”
-Monday morning reports must include all new items **since the last successful Friday run** (weekend catch-up). On other days, the system uses a standard **24h** lookback.
+## What gets generated
 
-### Configuration
-- PubMed/journal channels:
-  - `data/cybermed_channels.json`
-- FOAMed sources:
-  - `data/cybermed_foamed_sources.json`
-- Recipients:
-  - provided via environment variables / secrets (see workflow configuration)
+### 1) Cybermed Report (Medical)
+Cybermed is “paper-first” and structured for clinical scanning:
 
-### Output
-Generated reports are written to:
-- `reports/`
+- **Papers** grouped under clinical categories (e.g., Critical Care / Anesthesia / Pain / AI / Other depending on configuration).
+- Each paper includes:
+  - a clickable link
+  - a short **BOTTOM LINE** takeaway
+- **Deep Dives**: a smaller subset of the most relevant items with a longer structured summary.
+- **FOAMed & Commentary**: curated educational sources (RSS where possible; HTML fallback when feeds are missing).
 
-A run metadata text attachment is produced for troubleshooting and audit.
+### 2) The Cyberlurch Report (General)
+Cyberlurch is a YouTube/news-based digest:
 
-### Known limitations
-- Some FOAMed sources may block scraping (e.g., HTTP 403) or change URLs (HTTP 404). The collector reports per-source diagnostics in run metadata. If no posts are published (or none qualify in the last 24h), returning **0 FOAMed items is expected**.
+- **Executive Summary** and optional **Deep Dives**
+- Daily runs are “last 24h” style; weekly/monthly runs provide curated rollups.
+- Output format is optimized for email readability and click-through to sources.
 
-### Roadmap
-After stable daily operation:
-- **Weekly report** (Monday after the daily run): “top tier only” digest for casual readers (Cybermed + Cyberlurch).
-- **Monthly report** (after weekly): condensed “top tier only” roll-up (Cybermed + Cyberlurch).
+---
+
+## How it runs (GitHub Actions)
+
+NewsAgent2 uses a single GitHub Actions workflow:
+
+- **Workflow file:** `.github/workflows/newsagent.yml`
+- **Entry point:** `src/newsagent2/main.py`
+
+### Scheduled runs (Europe/Stockholm)
+The scheduled job is intended to deliver at **06:00 Europe/Stockholm** on **weekdays (Mon–Fri)**.
+
+Because GitHub cron runs in UTC and Stockholm uses DST, the workflow uses a DST-safe approach:
+- GitHub triggers twice (two UTC times)
+- The workflow checks Stockholm time at runtime and only continues when local time is exactly **06:00**
+
+This yields one reliable weekday delivery at 06:00 local time year-round.
+
+### Automated weekly + monthly
+Weekly and monthly reports are automated in the same workflow:
+
+- **Daily** runs every scheduled weekday.
+- **Weekly** runs on **Mondays** (after daily).
+- **Monthly** runs on the **first Monday of the month** (after weekly).
+
+### Manual runs (workflow_dispatch)
+You can manually run any report cadence using GitHub’s **Run workflow** button:
+- Choose cadence: `daily` / `weekly` / `monthly`
+- Choose report(s): `cybermed` / `cyberlurch` / `both`
+- Optional: override lookback window (hours)
+
+---
+
+## State / “memory” and duplicate prevention
+
+To prevent duplicates across runs, NewsAgent2 keeps a lightweight state file:
+
+- `state/processed_items.json`
+
+**Daily** runs update state (to avoid reprocessing the same content).
+**Weekly** and **Monthly** runs are treated as **read-only** and should not mutate state.
+
+This makes rollups reproducible and prevents weekly/monthly runs from “consuming” content meant for daily processing.
+
+---
+
+## Email delivery
+
+NewsAgent2 sends email via SMTP.
+
+- The newsletter body is produced as Markdown and rendered to HTML for email clients.
+- A run metadata text file is attached for troubleshooting/audit purposes.
+- The project avoids printing secret values or recipient lists into GitHub logs.
+
+---
+
+## Configuration
+
+### GitHub Secrets (required)
+You configure secrets under:
+**Repo → Settings → Secrets and variables → Actions**
+
+Typical secrets include:
+- `OPENAI_API_KEY`
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`
+- `EMAIL_FROM`
+- `NCBI_API_KEY` (optional but recommended for PubMed rate-limit robustness)
+
+No secret values are stored in the repository.
+
+### GitHub Variables (optional)
+Common non-secret variables:
+- `OPENAI_MODEL`
+- `SEND_EMAIL`
+- PubMed throttling parameters (if used by your configuration)
+
+### Recipient configuration (recommended patterns)
+
+NewsAgent2 supports separate recipient lists for daily/weekly/monthly and for each report.
+
+You can configure recipients in one of these ways:
+
+**Option 1: One combined secret (recommended)**
+Create a secret named: `RECIPIENTS_CONFIG_JSON`
+
+Format:
+```json
+{
+  "cybermed": {
+    "daily":   ["a@example.com"],
+    "weekly":  ["b@example.com"],
+    "monthly": ["c@example.com"]
+  },
+  "cyberlurch": {
+    "daily":   ["a@example.com"],
+    "weekly":  ["b@example.com"],
+    "monthly": ["c@example.com"]
+  }
+}
