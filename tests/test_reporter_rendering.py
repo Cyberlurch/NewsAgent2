@@ -24,8 +24,9 @@ class CybermedMetadataRenderingTests(TestCase):
                 report_mode="daily",
             )
 
-        self.assertIn("## Run Metadata", rendered)
         self.assertNotIn("Run Metadata Summary", rendered)
+        self.assertNotIn("## Run Metadata", rendered)
+        self.assertNotIn("Run Metadata (click to expand)", rendered)
         self.assertIn("<!-- RUN_METADATA_ATTACHMENT_START -->", rendered)
         self.assertIn("<!-- RUN_METADATA_ATTACHMENT_END -->", rendered)
 
