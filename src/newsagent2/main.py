@@ -18,6 +18,7 @@ from .rollups import (
     extract_summary_bullets,
     load_rollups_state,
     render_yearly_markdown,
+    prune_rollups,
     rollups_for_year,
     save_rollups_state,
     upsert_monthly_rollup,
@@ -526,6 +527,7 @@ def _rollup_items_for_month(
                 "url": it.get("url") or "",
                 "channel": it.get("channel") or "",
                 "source": it.get("source") or "",
+                "top_pick": bool(it.get("top_pick")),
                 "date": (
                     it["published_at"].astimezone(timezone.utc).strftime("%Y-%m-%d")
                     if isinstance(it.get("published_at"), datetime)
@@ -697,6 +699,7 @@ def main() -> None:
     state_path = (os.getenv("STATE_PATH", "state/processed_items.json") or "state/processed_items.json").strip()
     rollups_state_path = (os.getenv("ROLLUPS_STATE_PATH", "state/rollups.json") or "state/rollups.json").strip()
     retention_days = _safe_int("STATE_RETENTION_DAYS", 20)
+    rollups_max_months = _safe_int("ROLLUPS_MAX_MONTHS", 24)
     foamed_sources_path = (os.getenv("CYBERMED_FOAMED_SOURCES", "data/cybermed_foamed_sources.json") or "data/cybermed_foamed_sources.json").strip()
 
     if report_mode == "weekly":
@@ -762,7 +765,7 @@ def main() -> None:
     print(f"[config] overview_items_max={overview_items_max}, max_text_chars_per_item={max_text_chars_per_item}")
     print(f"[config] pubmed_sent_cooldown_hours={sent_cooldown_hours}, reconsider_unsent_hours={reconsider_unsent_hours}")
     print(f"[state] path={state_path!r} retention_days={retention_days}")
-    print(f"[rollups] path={rollups_state_path!r}")
+    print(f"[rollups] path={rollups_state_path!r} max_months={rollups_max_months}")
     if _is_cybermed(report_key, report_profile):
         print(f"[foamed] sources_config={foamed_sources_path!r}")
 
@@ -1448,6 +1451,12 @@ def main() -> None:
                 generated_at=now_utc_iso,
                 executive_summary=executive_summary,
                 top_items=rollup_items,
+            )
+            prune_rollups(
+                rollups_state,
+                report_key=report_key,
+                max_months=rollups_max_months,
+                keep_month=month_key,
             )
             save_rollups_state(rollups_state_path, rollups_state)
         except Exception as e:
