@@ -241,30 +241,39 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
         before = working_body[: marker_match.start()] or ""
         after = working_body[marker_match.end() :] or ""
 
-        working_body = f"{before}{after.lstrip(' \n')}"
+        replacement = "Run metadata is attached as a text file."
+        prefix = before
+        if prefix and not prefix.endswith("\n"):
+            prefix += "\n"
+        suffix = after.lstrip(" \n")
+        working_body = f"{prefix}{replacement}"
+        if suffix:
+            if not working_body.endswith("\n"):
+                working_body += "\n"
+            working_body += suffix
         metadata_removed = True
-
-    lines = working_body.splitlines()
-    start_idx = None
-    for idx, line in enumerate(lines):
-        if re.match(r"^##\s*Run Metadata\s*$", line.strip(), flags=re.IGNORECASE):
-            start_idx = idx
-            break
-
-    if start_idx is not None:
-        end_idx = len(lines)
-        for j in range(start_idx + 1, len(lines)):
-            if re.match(r"^##\s+", lines[j]):
-                end_idx = j
+    else:
+        lines = working_body.splitlines()
+        start_idx = None
+        for idx, line in enumerate(lines):
+            if re.match(r"^##\s*Run Metadata\s*$", line.strip(), flags=re.IGNORECASE):
+                start_idx = idx
                 break
 
-        metadata_block = "\n".join(lines[start_idx:end_idx])
-        if re.search(r"run metadata", metadata_block, flags=re.IGNORECASE):
-            new_lines = lines[:start_idx] + lines[end_idx:]
-            working_body = "\n".join(new_lines)
-            if not metadata_text:
-                metadata_text = _extract_metadata_text(metadata_block)
-            metadata_removed = True
+        if start_idx is not None:
+            end_idx = len(lines)
+            for j in range(start_idx + 1, len(lines)):
+                if re.match(r"^##\s+", lines[j]):
+                    end_idx = j
+                    break
+
+            metadata_block = "\n".join(lines[start_idx:end_idx])
+            if re.search(r"run metadata", metadata_block, flags=re.IGNORECASE):
+                new_lines = lines[:start_idx] + lines[end_idx:]
+                working_body = "\n".join(new_lines)
+                if not metadata_text:
+                    metadata_text = _extract_metadata_text(metadata_block)
+                metadata_removed = True
 
     if not metadata_removed:
         details_match = re.search(
@@ -389,7 +398,12 @@ def send_markdown(subject: str, md_body: str) -> None:
     md_without_metadata, metadata_text, metadata_removed = _extract_run_metadata_for_email(md_body)
 
     placeholder_block = ""
-    if metadata_text and metadata_removed and report_key.lower() != "cybermed":
+    if (
+        metadata_text
+        and metadata_removed
+        and report_key.lower() != "cybermed"
+        and "Run metadata is attached as a text file." not in (md_without_metadata or "")
+    ):
         placeholder_block = "\n\n_Run metadata is attached as a .txt file._\n"
 
     if placeholder_block:

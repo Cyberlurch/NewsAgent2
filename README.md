@@ -96,7 +96,8 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 ## Email delivery
 
 - Reports are generated in Markdown, converted to HTML for email clients, and include a plaintext alternative.
-- Run metadata is attached as a `.txt` file for troubleshooting, while the email body omits the metadata block for readability.
+- Run metadata is attached as a `.txt` file for troubleshooting, while the email body omits the metadata block for readability. For Cybermed, the body keeps a minimal “Run Metadata” header as an anchor but the summary lines are removed; the full metadata stays in the attachment.
+- Cyberlurch weekly/monthly reports omit a separate “Sources” section; source links live inside **Top videos (this period)**. The Cyberlurch Daily still includes “Sources”.
 
 ---
 
