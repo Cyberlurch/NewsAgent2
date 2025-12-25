@@ -21,6 +21,45 @@ def _new_state() -> Dict[str, Any]:
     }
 
 
+def _sanitize_rollups_state(state: Dict[str, Any]) -> bool:
+    changed = False
+    reports = state.setdefault("reports", {})
+    if not isinstance(reports, dict):
+        state["reports"] = {}
+        reports = state["reports"]
+        changed = True
+
+    for report_key, entries in list(reports.items()):
+        if not isinstance(entries, list):
+            reports[report_key] = []
+            changed = True
+            continue
+
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+
+            top_items_raw = entry.get("top_items")
+            if isinstance(top_items_raw, list):
+                sanitized_items = [_sanitize_item(it) for it in top_items_raw if isinstance(it, dict)]
+                if sanitized_items != top_items_raw:
+                    entry["top_items"] = sanitized_items
+                    changed = True
+            else:
+                sanitized_items = []
+                entry["top_items"] = sanitized_items
+                changed = True
+
+            fallback = _fallback_summary_from_items(sanitized_items)
+            sanitized_summary = sanitize_rollup_summary(entry.get("executive_summary") or [], fallback=fallback)
+            limited_summary = sanitized_summary[:8]
+            if limited_summary != entry.get("executive_summary"):
+                entry["executive_summary"] = limited_summary
+                changed = True
+
+    return changed
+
+
 def load_rollups_state(path: str) -> Dict[str, Any]:
     if not path:
         print("[rollups] WARN: empty path -> starting fresh")
@@ -47,6 +86,13 @@ def load_rollups_state(path: str) -> Dict[str, Any]:
         data.setdefault("reports", {})
         if not isinstance(data.get("reports"), dict):
             data["reports"] = {}
+
+        changed = _sanitize_rollups_state(data)
+        if changed and path:
+            try:
+                save_rollups_state(path, data)
+            except Exception as e:
+                print(f"[rollups] WARN: failed to self-heal state at {path!r}: {e!r}")
 
         return data
     except Exception as e:
@@ -158,7 +204,10 @@ def upsert_monthly_rollup(
         rollups = reports[rk]
 
     sanitized_items = [_sanitize_item(it) for it in top_items if it]
-    sanitized_exec = sanitize_rollup_summary(executive_summary)
+    sanitized_exec = sanitize_rollup_summary(
+        executive_summary,
+        fallback=_fallback_summary_from_items(sanitized_items),
+    )
     if not sanitized_exec:
         sanitized_exec = _fallback_summary_from_items(sanitized_items)
 
@@ -311,7 +360,7 @@ def extract_summary_bullets(markdown_text: str, max_bullets: int = 8, *, require
     return bullets[:max_bullets]
 
 
-def sanitize_rollup_summary(lines: Sequence[str]) -> List[str]:
+def sanitize_rollup_summary(lines: Sequence[str] | str, *, fallback: Sequence[str] | None = None) -> List[str]:
     forbidden = [
         "metadata",
         "run metadata",
@@ -322,22 +371,38 @@ def sanitize_rollup_summary(lines: Sequence[str]) -> List[str]:
         "foamed items",
     ]
 
-    cleaned: List[str] = []
-    for raw in lines or []:
-        text = str(raw or "").strip()
-        if not text:
-            continue
-        while text.startswith("*") or text.startswith("_"):
-            text = text[1:].lstrip()
-        while text.endswith("*") or text.endswith("_"):
-            text = text[:-1].rstrip()
-        text = text.replace("**", "").strip()
-        lowered = text.lower()
-        if any(term in lowered for term in forbidden):
-            continue
-        if text:
-            cleaned.append(text)
-    return cleaned
+    def _clean(raw_lines: Sequence[str] | str) -> List[str]:
+        cleaned: List[str] = []
+        if isinstance(raw_lines, str):
+            iterable: Sequence[str] = [raw_lines]
+        else:
+            iterable = raw_lines or []
+
+        for raw in iterable:
+            text = str(raw or "").strip()
+            if not text:
+                continue
+            if text.startswith(("- ", "* ")):
+                text = text[2:].lstrip()
+            while text.startswith(("*", "_")):
+                text = text[1:].lstrip()
+            while text.endswith(("*", "_")):
+                text = text[:-1].rstrip()
+            text = text.replace("**", "").strip()
+            lowered = text.lower()
+            if any(term in lowered for term in forbidden):
+                continue
+            if text:
+                cleaned.append(text)
+        return cleaned
+
+    cleaned_primary = _clean(lines)
+    if cleaned_primary:
+        return cleaned_primary
+
+    fb_lines: Sequence[str] = fallback if fallback is not None else ["Highlights derived from top items."]
+    cleaned_fallback = _clean(fb_lines)
+    return cleaned_fallback or ["Highlights derived from top items."]
 
 
 def _fallback_summary_from_items(top_items: Sequence[Dict[str, Any]]) -> List[str]:
@@ -366,21 +431,15 @@ def derive_monthly_summary(
     max_bullets: int = 8,
 ) -> List[str]:
     exec_bullets = extract_summary_bullets(overview_markdown, max_bullets=max_bullets, require_exec_section=True)
-    sanitized_exec = sanitize_rollup_summary(exec_bullets)
-    if sanitized_exec:
-        return sanitized_exec[:max_bullets]
-
     fallback = _fallback_summary_from_items(top_items)
-    sanitized_fallback = sanitize_rollup_summary(fallback)
-    return sanitized_fallback or ["(no summary captured)"]
+    sanitized_exec = sanitize_rollup_summary(exec_bullets, fallback=fallback)
+    sanitized_exec = sanitized_exec[:max_bullets]
+    return sanitized_exec or ["(no summary captured)"]
 
 
 def normalize_rollup_summary(entry: Dict[str, Any]) -> List[str]:
     raw_summary = entry.get("executive_summary") or []
-    summary = sanitize_rollup_summary(raw_summary)
-    if not summary:
-        summary = _fallback_summary_from_items(entry.get("top_items") or [])
-    summary = sanitize_rollup_summary(summary)
+    summary = sanitize_rollup_summary(raw_summary, fallback=_fallback_summary_from_items(entry.get("top_items") or []))
     return summary or ["(no summary captured)"]
 
 

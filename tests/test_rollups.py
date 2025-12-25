@@ -1,3 +1,4 @@
+import json
 import pathlib
 from datetime import datetime
 import sys
@@ -214,3 +215,47 @@ def test_yearly_markdown_uses_sanitized_rollup_summary():
     assert "metadata" not in md.lower()
     assert "Highlights derived from top items." in md
     assert "December 2025: Highlights derived from top items." in md
+
+
+def test_sanitize_rollup_summary_filters_metadata_and_falls_back():
+    sanitized = rollups.sanitize_rollup_summary(["Cybermed report metadata**"])
+    assert sanitized == ["Highlights derived from top items."]
+    assert all("metadata" not in line.lower() for line in sanitized)
+
+
+def test_sanitize_rollup_summary_strips_attachment_line():
+    sanitized = rollups.sanitize_rollup_summary(["Run metadata is attached as a text file."])
+    assert sanitized == ["Highlights derived from top items."]
+
+
+def test_sanitize_rollup_summary_preserves_normal_bullet():
+    sanitized = rollups.sanitize_rollup_summary(["* Key finding **"])
+    assert sanitized == ["Key finding"]
+
+
+def test_load_rollups_state_self_heals_existing_file(tmp_path):
+    path = tmp_path / "rollups.json"
+    raw_state = {
+        "reports": {
+            "cybermed": [
+                {
+                    "month": "2025-12",
+                    "generated_at": "2026-01-01T00:00:00Z",
+                    "executive_summary": ["Cybermed report metadata**"],
+                    "top_items": [
+                        {"title": "First highlight", "url": "https://example.com/1", "channel": "ch", "source": "yt", "published_at": "2025-12-01"}
+                    ],
+                }
+            ]
+        }
+    }
+    path.write_text(json.dumps(raw_state), encoding="utf-8")
+
+    state = rollups.load_rollups_state(str(path))
+    summary = state["reports"]["cybermed"][0]["executive_summary"]
+    assert "metadata" not in " ".join(summary).lower()
+    assert summary[0] == "Highlights derived from top items."
+
+    cleaned = json.loads(path.read_text(encoding="utf-8"))
+    cleaned_summary = cleaned["reports"]["cybermed"][0]["executive_summary"]
+    assert "metadata" not in " ".join(cleaned_summary).lower()
