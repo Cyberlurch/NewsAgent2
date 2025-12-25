@@ -11,12 +11,14 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 
 - Weekdays (Mon–Fri) at **06:00** local time.
   - Implemented with dual UTC crons (`0 4 * * 1-5` and `0 5 * * 1-5`) plus an early gate step that sets `TZ=Europe/Stockholm` and only proceeds when the local time is exactly **06:00**. This keeps a single delivery across DST changes.
+- **Jan 1, 06:00** local time: **Year in Review** for each report (cron `0 5 1 1 *`).
 - Automated cadences:
   - **Daily**: every weekday.
   - **Weekly**: runs on Mondays after the daily run.
   - **Monthly**: runs on the first Monday of each month after the weekly run.
+  - **Yearly**: runs on Jan 1 and compiles the prior year's monthly rollups.
 - Manual runs (`workflow_dispatch`):
-  - Choose `report_mode` (`daily` / `weekly` / `monthly`).
+  - Choose `report_mode` (`daily` / `weekly` / `monthly` / `yearly`).
   - Choose `which_report` (`both` / `cybermed` / `cyberlurch`).
   - Optional: override `lookback_hours`.
   - Only the requested combination runs; weekly/monthly remain read-only.
@@ -28,6 +30,7 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 - **Workflow file:** `.github/workflows/newsagent.yml`
 - **Entry point:** `src/newsagent2/main.py`
 - **State file:** `state/processed_items.json` (daily runs update it; weekly/monthly are read-only to keep rollups reproducible).
+- **Rollups state:** `state/rollups.json` (non-secret). Monthly runs append/update a single entry per month and report with the top items, dates/links, and executive-summary bullets. The yearly report uses the prior year's 12 monthly rollups.
 
 ---
 
@@ -88,6 +91,7 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 - `OPENAI_MODEL`
 - `SEND_EMAIL`
 - PubMed throttling parameters (as needed)
+- `ROLLUPS_STATE_PATH` (optional): path to persist monthly rollups; defaults to `state/rollups.json`.
 
 ---
 
@@ -95,6 +99,7 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 
 - Keep all credentials and recipient lists in GitHub Secrets; do **not** commit addresses or passwords to the repository.
 - Workflow logs avoid printing secret values and only show recipient counts (not addresses).
+- Monthly rollups and the Year in Review use only newsletter content (titles, links, summaries) and never include recipient addresses.
 
 ---
 
@@ -103,6 +108,7 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 - Reports are generated in Markdown, converted to HTML for email clients, and include a plaintext alternative.
 - Run metadata is attached as a `.txt` file for troubleshooting, while the email body omits the metadata block for readability. For Cybermed, the body keeps a minimal “Run Metadata” header as an anchor but the summary lines are removed; the full metadata stays in the attachment.
 - Cyberlurch weekly/monthly reports omit a separate “Sources” section; source links live inside **Top videos (this period)**. The Cyberlurch Daily still includes “Sources”.
+- The yearly cadence sends to the union of daily/weekly/monthly recipients for the selected report (deduplicated).
 
 ---
 

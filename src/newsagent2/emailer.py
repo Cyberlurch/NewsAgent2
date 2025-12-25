@@ -170,6 +170,53 @@ def _get_recipients(report_key: str, report_mode: str) -> Tuple[List[str], str]:
 
     return [], src or "env:EMAIL_TO"
 
+
+def _dedupe_preserve(values: List[str]) -> List[str]:
+    seen = set()
+    out: List[str] = []
+    for v in values:
+        if v in seen:
+            continue
+        seen.add(v)
+        out.append(v)
+    return out
+
+
+def _get_recipients_union(report_key: str) -> Tuple[List[str], str]:
+    rk = (report_key or "default").strip()
+    raw_config = (os.getenv("RECIPIENTS_CONFIG_JSON") or "").strip()
+    if raw_config:
+        try:
+            data = json.loads(raw_config)
+            if isinstance(data, dict):
+                block = data.get(rk) or data.get("default") or data.get("all")
+                if isinstance(block, dict):
+                    all_modes = []
+                    for key in ("daily", "weekly", "monthly", "all", "default"):
+                        val = block.get(key)
+                        if val:
+                            all_modes.extend(_clean_recipient_list(val))
+                    deduped = _dedupe_preserve(all_modes)
+                    if deduped:
+                        return deduped, "env:RECIPIENTS_CONFIG_JSON"
+                elif isinstance(block, list):
+                    deduped = _dedupe_preserve(_clean_recipient_list(block))
+                    if deduped:
+                        return deduped, "env:RECIPIENTS_CONFIG_JSON"
+        except Exception:
+            pass
+
+    recipients: List[str] = []
+    sources: List[str] = []
+    for mode in ("daily", "weekly", "monthly"):
+        rec, src = _get_recipients(rk, mode)
+        if rec:
+            recipients.extend(rec)
+            if src and src not in sources:
+                sources.append(src)
+
+    return _dedupe_preserve(recipients), "union:" + ",".join(sources) if sources else "union"
+
 def _strip_details_tags(md_text: str) -> str:
     """Remove HTML <details>/<summary> tags while keeping readable text."""
     if not md_text:
@@ -368,7 +415,10 @@ def send_markdown(subject: str, md_body: str) -> None:
     pw = os.getenv("SMTP_PASS")
     from_addr = os.getenv("EMAIL_FROM", user or "newsagent@localhost")
 
-    to_list, recipients_source = _get_recipients(report_key, report_mode)
+    if report_mode.lower() == "yearly":
+        to_list, recipients_source = _get_recipients_union(report_key)
+    else:
+        to_list, recipients_source = _get_recipients(report_key, report_mode)
 
     try:
         port = int(port_str)
