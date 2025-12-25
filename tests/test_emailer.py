@@ -29,6 +29,7 @@ class RunMetadataExtractionTests(unittest.TestCase):
     def test_marker_based_attachment_and_summary_removed_from_body(self):
         md = (
             "# Report\n\n"
+            "## Run Metadata\n"
             "<!-- RUN_METADATA_ATTACHMENT_START -->\n"
             "first line\nsecond line\n"
             "<!-- RUN_METADATA_ATTACHMENT_END -->\n"
@@ -38,9 +39,9 @@ class RunMetadataExtractionTests(unittest.TestCase):
 
         self.assertEqual("first line\nsecond line", meta)
         self.assertTrue(markers)
-        self.assertNotIn("Run Metadata", new_md)
+        self.assertIn("## Run Metadata", new_md)
+        self.assertIn("Run metadata is attached as a text file.", new_md)
         self.assertNotIn("RUN_METADATA_ATTACHMENT_START", new_md)
-        self.assertNotIn("Run metadata is attached", new_md)
 
     def test_metadata_block_removed_and_attached_when_details_used(self):
         md = (

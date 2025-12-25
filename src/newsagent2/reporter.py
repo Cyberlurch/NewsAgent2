@@ -659,42 +659,7 @@ def to_markdown(
             if md and md[-1] != "":
                 md.append("")
             meta_content = "\n\n".join(meta_blocks)
-
-            pubmed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "pubmed")
-            foamed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "foamed")
-
-            lookback_match = re.search(r"lookback[^\d]*(\d+\s*h(?:ours?)?)", meta_content, flags=re.IGNORECASE)
-            lookback_window = lookback_match.group(1).strip() if lookback_match else "n/a"
-
-            foamed_source_health = (foamed_stats or {}).get("source_health") or {}
-            sh = {
-                "ok_rss": foamed_source_health.get("ok_rss", 0),
-                "ok_html": foamed_source_health.get("ok_html", 0),
-                "blocked_403": foamed_source_health.get("blocked_403", 0),
-                "not_found_404": foamed_source_health.get("not_found_404", 0),
-                "parse_failed": foamed_source_health.get("parse_failed", 0),
-                "other": foamed_source_health.get("other", 0),
-            }
-
-            summary_lines = [
-                "## Run Metadata",
-                "",
-                "### Run Metadata Summary",
-                "",
-                f"- Lookback window: {lookback_window}",
-                f"- PubMed items (overview + details): {pubmed_count}",
-                f"- FOAMed items: {foamed_count}",
-                (
-                    "- FOAMed source health: "
-                    f"ok_rss={sh['ok_rss']}, ok_html={sh['ok_html']}, "
-                    f"blocked_403={sh['blocked_403']}, not_found_404={sh['not_found_404']}, "
-                    f"parse_failed={sh['parse_failed']}, other={sh['other']}"
-                ),
-            ]
-
-            md.extend(summary_lines)
-            md.append("")
-            md.append("### Full Run Metadata (for attachment)")
+            md.append("## Run Metadata")
             md.append("<!-- RUN_METADATA_ATTACHMENT_START -->")
             md.append(meta_content)
             md.append("<!-- RUN_METADATA_ATTACHMENT_END -->")
