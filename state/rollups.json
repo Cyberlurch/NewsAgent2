@@ -2,8 +2,12 @@
   "reports": {
     "cyberlurch": [
       {
-        "executive_summary": [],
-        "generated_at": "2025-12-25T20:13:52+00:00",
+        "executive_summary": [
+          "Highlights derived from top items.",
+          "Ukraine stellt unfassbaren Friedensplan vor + Angriff mit Storm Shadow auf Russland!",
+          "Massiver Raketenangriff zu Weihnachten + Putin enteignet in Ostukraine."
+        ],
+        "generated_at": "2025-12-25T21:50:14+00:00",
         "month": "2025-12",
         "top_items": [
           {
@@ -11,6 +15,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "Ukraine stellt unfassbaren Friedensplan vor + Angriff mit Storm Shadow auf Russland!",
+            "top_pick": true,
             "url": "https://www.youtube.com/watch?v=8MZzGKSd51I"
           },
           {
@@ -18,6 +23,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "Massiver Raketenangriff zu Weihnachten + Putin enteignet in Ostukraine.",
+            "top_pick": true,
             "url": "https://www.youtube.com/watch?v=wgrK3BgxCG0"
           },
           {
@@ -25,6 +31,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "Trump kündigt größtes Kriegsschiff der Welt an – Mit überraschenden Waffen!",
+            "top_pick": true,
             "url": "https://www.youtube.com/watch?v=eIdivQenCA8"
           },
           {
@@ -32,6 +39,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "Wahnsinn: 85 US-Senatoren wollen russische Öl-Tanker beschlagnahmen!",
+            "top_pick": false,
             "url": "https://www.youtube.com/watch?v=6v0t9pTVI2M"
           },
           {
@@ -39,6 +47,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "Ukraine schaltet wichtigen General in Moskau aus – Putin verspricht Vergeltung!",
+            "top_pick": false,
             "url": "https://www.youtube.com/watch?v=m4ufooO3f-0"
           },
           {
@@ -46,6 +55,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "🚨🚨It JUST Got WORSE… Watchmen Updates",
+            "top_pick": false,
             "url": "https://www.youtube.com/watch?v=7KZRwGHDB2k"
           },
           {
@@ -53,6 +63,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "🚨🚨She SPILLS The Beans!  Mrs. Poplar ANSWERS Your Questions!!",
+            "top_pick": false,
             "url": "https://www.youtube.com/watch?v=3r_dwzqDCJE"
           },
           {
@@ -60,6 +71,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "🚨🚨The BACKLASH Will Be SCARY…",
+            "top_pick": false,
             "url": "https://www.youtube.com/watch?v=8JEYZnATXbs"
           },
           {
@@ -67,6 +79,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "Why Governments Pay Soldiers RIGHT Before WAR",
+            "top_pick": false,
             "url": "https://www.youtube.com/watch?v=oc_gopOAgpY"
           },
           {
@@ -74,6 +87,7 @@
             "date": "2025-12-25",
             "source": "youtube",
             "title": "Damascus, Russia, Iran, and the Future of Israel",
+            "top_pick": false,
             "url": "https://www.youtube.com/watch?v=qob14CHr-7w"
           }
         ]
@@ -82,9 +96,11 @@
     "cybermed": [
       {
         "executive_summary": [
-          "Cybermed report metadata**"
+          "Highlights derived from top items.",
+          "Eligibility for Extracorporeal Cardio-Pulmonary Resuscitation in Out-of-Hospital Cardiac Arrests in Sweden.",
+          "Impact of Tumor Arterial Embolization on Hemodynamics During Surgical Resection of Pheochromocytoma and Paraganglioma in Children."
         ],
-        "generated_at": "2025-12-25T20:15:57+00:00",
+        "generated_at": "2025-12-25T21:52:20+00:00",
         "month": "2025-12",
         "top_items": [
           {
@@ -92,6 +108,7 @@
             "date": "2026-01-01",
             "source": "pubmed",
             "title": "Eligibility for Extracorporeal Cardio-Pulmonary Resuscitation in Out-of-Hospital Cardiac Arrests in Sweden.",
+            "top_pick": true,
             "url": "https://pubmed.ncbi.nlm.nih.gov/41380717/"
           },
           {
@@ -99,6 +116,7 @@
             "date": "2026-01-01",
             "source": "pubmed",
             "title": "Impact of Tumor Arterial Embolization on Hemodynamics During Surgical Resection of Pheochromocytoma and Paraganglioma in Children.",
+            "top_pick": true,
             "url": "https://pubmed.ncbi.nlm.nih.gov/41397380/"
           },
           {
@@ -106,6 +124,7 @@
             "date": "2025-12-24",
             "source": "pubmed",
             "title": "Nafamostat mesilate as anticoagulant for blood purification: a systematic review and meta-analysis.",
+            "top_pick": true,
             "url": "https://pubmed.ncbi.nlm.nih.gov/41444652/"
           },
           {
@@ -113,6 +132,7 @@
             "date": "2025-12-23",
             "source": "foamed",
             "title": "Intercostal nerve block outperforms ESPB for uniportal VATS",
+            "top_pick": true,
             "url": "https://www.nysora.com/education-news/intercostal-nerve-block-outperforms-espb-for-uniportal-vats/"
           },
           {
@@ -120,6 +140,7 @@
             "date": "2025-12-11",
             "source": "foamed",
             "title": "Oblique subcostal TAP block in open sublay mesh hernia repair",
+            "top_pick": true,
             "url": "https://www.nysora.com/education-news/oblique-subcostal-tap-block-in-open-sublay-mesh-hernia-repair/"
           },
           {
@@ -127,6 +148,7 @@
             "date": "2025-12-24",
             "source": "pubmed",
             "title": "Methodology series of ESAIC guidelines: standards in guidelines production.",
+            "top_pick": false,
             "url": "https://pubmed.ncbi.nlm.nih.gov/41437805/"
           },
           {
@@ -134,6 +156,7 @@
             "date": "2025-12-23",
             "source": "pubmed",
             "title": "Frequency and Management of Maternal Peripartum Cardiac Arrest: A Multicenter Retrospective Cohort Analysis.",
+            "top_pick": false,
             "url": "https://pubmed.ncbi.nlm.nih.gov/41432376/"
           },
           {
@@ -141,6 +164,7 @@
             "date": "2025-12-23",
             "source": "pubmed",
             "title": "Association of Preoperative Frailty and Postoperative Outcomes in Older Adults Undergoing Major Cardiac Procedures: A Systematic Review and Meta-Analysis.",
+            "top_pick": false,
             "url": "https://pubmed.ncbi.nlm.nih.gov/41442636/"
           },
           {
@@ -148,6 +172,7 @@
             "date": "2025-12-19",
             "source": "pubmed",
             "title": "Identification of difficult airways in critical care units (ID-ACCT): a multicentre, survey-based prospective observational study.",
+            "top_pick": false,
             "url": "https://pubmed.ncbi.nlm.nih.gov/41421867/"
           },
           {
@@ -155,6 +180,7 @@
             "date": "2025-12-19",
             "source": "pubmed",
             "title": "Patient-defined Outcomes in Cardiovascular Surgery and Interventions.",
+            "top_pick": false,
             "url": "https://pubmed.ncbi.nlm.nih.gov/41416879/"
           },
           {
@@ -162,6 +188,7 @@
             "date": "2025-12-19",
             "source": "foamed",
             "title": "Radiofrequency ablation boosts mobility in lumbar spinal arthritis",
+            "top_pick": false,
             "url": "https://www.nysora.com/education-news/radiofrequency-ablation-boosts-mobility-in-lumbar-spinal-arthritis/"
           },
           {
@@ -169,6 +196,7 @@
             "date": "2025-12-16",
             "source": "foamed",
             "title": "Industry Spotlight at NYSORA Events: Advancing Non-Opioid Pain Management in Cardiac and Thoracic Surgery",
+            "top_pick": false,
             "url": "https://www.nysora.com/industry-news-category/industry-spotlight-at-nysora-events-advancing-non-opioid-pain-management-in-cardiac-and-thoracic-surgery/"
           },
           {
@@ -176,6 +204,7 @@
             "date": "2025-12-16",
             "source": "foamed",
             "title": "Enhancing recovery in outpatient anesthesia: redefining perioperative care through evidence-based ERAS protocols",
+            "top_pick": false,
             "url": "https://www.nysora.com/education-news/enhancing-recovery-in-outpatient-anesthesia-redefining-perioperative-care-through-evidence-based-eras-protocols/"
           },
           {
@@ -183,12 +212,13 @@
             "date": "2025-12-15",
             "source": "foamed",
             "title": "NYSORA Community Chose the “Most Innovative Regional Anesthesia Manufacturers 2025”",
+            "top_pick": false,
             "url": "https://www.nysora.com/industry-news-category/nysora-community-chose-the-most-innovative-regional-anesthesia-manufacturers-2025/"
           }
         ]
       }
     ]
   },
-  "updated_at_utc": "2025-12-25T20:15:57+00:00",
+  "updated_at_utc": "2025-12-25T21:52:20+00:00",
   "version": 1
 }
