@@ -203,25 +203,43 @@ jobs:
       - name: Commit updated state (processed_items.json) if changed
         if: steps.compute_plan.outputs.run_skip != 'true' && (contains(steps.compute_plan.outputs.run_modes, 'daily') || contains(steps.compute_plan.outputs.run_modes, 'monthly'))
         run: |
-          changed=$(git status --porcelain -- state/processed_items.json state/rollups.json || true)
+          set -euo pipefail
+
+          # Collect only existing state files (avoid git add pathspec failures)
+          FILES=()
+          for f in state/processed_items.json state/rollups.json; do
+            if [ -f "$f" ]; then
+              FILES+=("$f")
+            fi
+          done
+
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "No state files found -> nothing to commit."
+            exit 0
+          fi
+
+          changed="$(git status --porcelain -- "${FILES[@]}" || true)"
           if [ -z "$changed" ]; then
             echo "No changes in state files."
             exit 0
           fi
 
           echo "State file(s) changed -> committing."
-
           git config user.name "newsagent-bot"
           git config user.email "newsagent-bot@users.noreply.github.com"
 
-          git add -A state/processed_items.json state/rollups.json
+          git add -A "${FILES[@]}"
           git commit -m "Update state files [skip ci]" || {
             echo "Nothing to commit (commit returned non-zero)."
             exit 0
           }
 
-          # Reduce chance of non-fast-forward if a manual run overlaps with schedule.
-          git pull --rebase origin "${GITHUB_REF_NAME}"
-
-          echo "Pushing commit to branch: ${GITHUB_REF_NAME}"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          # If your workflow already does pull --rebase to reduce non-fast-forward risk, keep it.
+          # If not present, it is OK to omit. If present, keep it exactly as before.
+          if [ -n "${GITHUB_REF_NAME:-}" ]; then
+            git pull --rebase origin "${GITHUB_REF_NAME}" || true
+            echo "Pushing commit to branch: ${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
+            echo "GITHUB_REF_NAME not set; skipping push."
+          fi
