@@ -23,6 +23,10 @@ on:
         description: "Override lookback window in hours (blank = default per mode)"
         required: false
         type: string
+      year_in_review_year:
+        description: "Optional target year for yearly runs (e.g., 2025)"
+        required: false
+        type: string
       which_report:
         description: "Which report(s) to run"
         default: both
@@ -166,6 +170,7 @@ jobs:
           RECIPIENTS_JSON_CYBERMED_MONTHLY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_MONTHLY }}
           RECIPIENTS_CONFIG_JSON: ${{ secrets.RECIPIENTS_CONFIG_JSON }}
           RECIPIENTS_JSON: ${{ secrets.RECIPIENTS_JSON }}
+          YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && env.REPORT_MODE == 'yearly' && github.event.inputs.year_in_review_year || '' }}
         run: |
           set -euo pipefail
 

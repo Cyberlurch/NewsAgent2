@@ -21,7 +21,15 @@ NewsAgent2 is a private automation project that generates and emails two newslet
   - Choose `report_mode` (`daily` / `weekly` / `monthly` / `yearly`).
   - Choose `which_report` (`both` / `cybermed` / `cyberlurch`).
   - Optional: override `lookback_hours`.
+  - Optional (yearly only): set `year_in_review_year` to force a specific target year.
   - Only the requested combination runs; weekly/monthly remain read-only.
+
+**Year in Review targeting and safeguards**
+
+- YEAR_IN_REVIEW_YEAR (env or workflow input) wins when set.
+- Otherwise, if the local date in Europe/Stockholm is Jan 1 (manual or scheduled), the Year in Review targets the previous year.
+- On other days, manual yearly runs target the current year for easier previews.
+- Scheduled yearly runs skip sending if no monthly rollups exist for the target year (a short log line is emitted instead).
 
 ---
 
