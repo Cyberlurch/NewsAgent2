@@ -12,12 +12,14 @@ This repository generates two automated email newsletters via GitHub Actions:
 - **FOAMed & Commentary**: screens curated education/blog sources using RSS where possible, and an HTML fallback when no RSS is available.
 
 ### Scheduling (Europe/Stockholm)
-Both Cybermed and Cyberlurch run at **05:30** local time on:
-- **Sunday, Monday, Tuesday, Wednesday, Friday**
-- No runs on Thursday and Saturday.
-
-#### Monday “weekend catch-up”
-Monday morning reports must include all new items **since the last successful Friday run** (weekend catch-up). On other days, the system uses a standard **24h** lookback.
+- Weekdays (Mon–Fri) at **06:00** local time.
+  - Implemented via two UTC crons (04:00, 05:00) plus an early gate step that only proceeds when `TZ=Europe/Stockholm` time is exactly 06:00. This survives DST shifts.
+- Automated cadences:
+  - **Daily**: every weekday.
+  - **Weekly**: additionally on Mondays (after the daily run).
+  - **Monthly**: first Monday of each month (after weekly).
+- Manual runs (`workflow_dispatch`) still support choosing `report_mode` (daily/weekly/monthly) and `which_report` (both/cybermed/cyberlurch).
+  - Only the daily run updates state/commits; weekly/monthly stay read-only.
 
 ### Configuration
 - PubMed/journal channels:
@@ -25,7 +27,33 @@ Monday morning reports must include all new items **since the last successful Fr
 - FOAMed sources:
   - `data/cybermed_foamed_sources.json`
 - Recipients:
-  - provided via environment variables / secrets (see workflow configuration)
+  - Provide via secrets/environment variables (per-report & per-cadence supported).
+  - Priority (highest first):
+    1. `RECIPIENTS_JSON_<REPORTKEY>_<MODE>` (e.g., `RECIPIENTS_JSON_CYBERMED_DAILY`, `RECIPIENTS_JSON_CYBERLURCH_WEEKLY`)
+    2. `RECIPIENTS_JSON_<REPORTKEY>` (legacy per-report list)
+    3. `RECIPIENTS_CONFIG_JSON` (single JSON containing all lists; see template below)
+    4. `RECIPIENTS_JSON` (accepts nested or flattened keys)
+    5. `data/recipients.json` (optional local file; same formats as above)
+    6. `EMAIL_TO` (legacy fallback; comma-separated)
+
+#### Recipients JSON template
+
+Use the same shape for `RECIPIENTS_CONFIG_JSON`, `RECIPIENTS_JSON`, or `data/recipients.json`:
+
+```
+{
+  "cybermed": {
+    "daily":   ["alice@example.com", "bob@example.com"],
+    "weekly":  ["weekly-reader@example.com"],
+    "monthly": ["monthly-reader@example.com", "cfo@example.com"]
+  },
+  "cyberlurch": {
+    "daily":   ["alice@example.com"],
+    "weekly":  ["weekly-reader@example.com", "bob@example.com"],
+    "monthly": ["monthly-reader@example.com"]
+  }
+}
+```
 
 ### Output
 Generated reports are written to:

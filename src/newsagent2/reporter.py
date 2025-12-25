@@ -637,7 +637,8 @@ def to_markdown(
                 md.append(line)
             md.append("")
 
-        if not is_cyberlurch_periodic:
+        show_sources = not is_cyberlurch_periodic
+        if show_sources:
             seen = set()
             src_lines: List[str] = []
             for it in items:
