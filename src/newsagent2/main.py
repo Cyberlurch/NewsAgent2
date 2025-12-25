@@ -86,6 +86,24 @@ def _is_cybermed(report_key: str, report_profile: str) -> bool:
     return rk == "cybermed" or rp == "medical"
 
 
+def _determine_year_in_review_year(*, now_sto: datetime, override_year: str | None, event_name: str) -> int:
+    override = (override_year or "").strip()
+    if override:
+        try:
+            return int(override)
+        except Exception:
+            print(f"[yearly] WARN: invalid YEAR_IN_REVIEW_YEAR={override!r} -> ignoring override")
+
+    event = (event_name or "").strip().lower()
+    is_jan1 = now_sto.month == 1 and now_sto.day == 1
+    is_scheduled_jan1 = event == "schedule" and is_jan1
+
+    if is_jan1 or is_scheduled_jan1:
+        return now_sto.year - 1
+
+    return now_sto.year
+
+
 def _date_yyyymmdd_utc(dt: datetime) -> str:
     """PubMed accepts YYYY/MM/DD; current collector uses UTC date boundaries."""
     return dt.astimezone(timezone.utc).strftime("%Y/%m/%d")
@@ -550,7 +568,12 @@ def _run_yearly_report(
     os.makedirs(report_dir, exist_ok=True)
     rollups_state = load_rollups_state(rollups_state_path)
     now_sto = datetime.now(tz=STO)
-    target_year = now_sto.year - 1
+    event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
+    target_year = _determine_year_in_review_year(
+        now_sto=now_sto,
+        override_year=os.getenv("YEAR_IN_REVIEW_YEAR"),
+        event_name=event_name,
+    )
 
     report_title = f"The Cyberlurch Year in Review — {target_year}"
     report_subject = report_title
@@ -568,6 +591,10 @@ def _run_yearly_report(
         report_subject = report_title
 
     entries = rollups_for_year(rollups_state, report_key, target_year)
+    if not entries and event_name == "schedule":
+        print(f"[email] Scheduled yearly run found no rollups for {target_year} -> skipping email.")
+        return
+
     md = render_yearly_markdown(
         report_title=report_title,
         report_language=report_language,
