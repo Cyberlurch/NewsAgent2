@@ -67,3 +67,94 @@ def test_yearly_markdown_uses_previous_year_rollups():
         label = datetime(year=2024, month=i, day=1).strftime("%B 2024")
         assert label in md
         assert f"m{i}" in md
+
+
+def test_prune_rollups_keeps_newest_and_current_month():
+    state = {
+        "reports": {
+            "cyberlurch": [
+                {"month": "2023-11"},
+                {"month": "2023-12"},
+                {"month": "2024-01"},
+                {"month": "2024-02"},
+                {"month": "2024-03"},
+            ]
+        }
+    }
+    rollups.prune_rollups(state, report_key="cyberlurch", max_months=2, keep_month="2024-01")
+    months = [entry["month"] for entry in state["reports"]["cyberlurch"]]
+    assert months == ["2024-01", "2024-02", "2024-03"]
+
+
+def test_prune_rollups_handles_missing_and_empty(tmp_path):
+    missing_path = tmp_path / "missing.json"
+    state_missing = rollups.load_rollups_state(str(missing_path))
+    rollups.prune_rollups(state_missing, report_key="cybermed", max_months=12, keep_month="2024-01")
+    assert state_missing["reports"] == {}
+
+    empty_path = tmp_path / "empty.json"
+    empty_path.write_text("", encoding="utf-8")
+    state_empty = rollups.load_rollups_state(str(empty_path))
+    rollups.prune_rollups(state_empty, report_key="cybermed", max_months=12, keep_month="2024-01")
+    assert state_empty["reports"] == {}
+
+
+def test_yearly_markdown_guardrails_and_limits():
+    rollup_entries = []
+    for month in range(1, 5):
+        rollup_entries.append(
+            {
+                "month": f"2024-{month:02d}",
+                "executive_summary": [f"summary {month}-{i}" for i in range(1, 5)],
+                "top_items": [
+                    {
+                        "title": f"Starred {month}",
+                        "url": f"https://example.com/star-{month}",
+                        "channel": "ch",
+                        "source": "yt",
+                        "date": f"2024-{month:02d}-01",
+                        "top_pick": True,
+                    },
+                ]
+                + [
+                    {
+                        "title": f"Regular {month}-{i}",
+                        "url": f"https://example.com/{month}-{i}",
+                        "channel": "ch",
+                        "source": "yt",
+                        "date": f"2024-{month:02d}-0{i}",
+                    }
+                    for i in range(1, 5)
+                ],
+            }
+        )
+
+    md = rollups.render_yearly_markdown(
+        report_title="Year in Review",
+        report_language="en",
+        year=2024,
+        rollups=rollup_entries,
+    )
+
+    assert "Coverage note: only 4 monthly editions were available for this year." in md
+    assert md.index("Coverage note:") < md.index("## Executive Summary")
+
+    jan_idx = md.index("January 2024")
+    mar_idx = md.index("March 2024")
+    assert jan_idx < mar_idx
+
+    top_section_start = md.index("## Top 10 items")
+    first_star = md.index("⭐ [Starred 1]", top_section_start)
+    first_regular = md.index("Regular 1-1", top_section_start)
+    assert first_star < first_regular
+
+    lines = md.splitlines()
+    top_section_end = lines.index("## By month")
+    top_section_lines = lines[lines.index("## Top 10 items") : top_section_end]
+    assert sum(1 for ln in top_section_lines if "https://example.com/" in ln) == 10
+
+    for heading in ("### January 2024", "### February 2024", "### March 2024", "### April 2024"):
+        idx = lines.index(heading)
+        end = next((i for i in range(idx + 1, len(lines)) if lines[i].startswith("### ")), len(lines))
+        bullet_count = len([ln for ln in lines[idx + 1 : end] if ln.startswith("- ")])
+        assert 1 <= bullet_count <= 3

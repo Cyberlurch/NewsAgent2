@@ -151,6 +151,24 @@ class RecipientResolutionTests(unittest.TestCase):
         )
         self.assertEqual("env:RECIPIENTS_CONFIG_JSON", src)
 
+    def test_union_recipients_preserves_mode_order(self):
+        with patch.dict(
+            emailer.os.environ,
+            {
+                "RECIPIENTS_JSON_CYBERMED_DAILY": '["daily@example.com", "dup@example.com"]',
+                "RECIPIENTS_JSON_CYBERMED_WEEKLY": '["dup@example.com", "weekly@example.com"]',
+                "RECIPIENTS_JSON_CYBERMED_MONTHLY": '["weekly@example.com", "monthly@example.com"]',
+            },
+            clear=False,
+        ):
+            recips, src = emailer._get_recipients_union("cybermed")
+
+        self.assertEqual(
+            ["daily@example.com", "dup@example.com", "weekly@example.com", "monthly@example.com"],
+            recips,
+        )
+        self.assertTrue(src.startswith("union"))
+
 
 if __name__ == "__main__":
     unittest.main()

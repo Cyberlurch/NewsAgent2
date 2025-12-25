@@ -506,7 +506,7 @@ def to_markdown(
             normalized_mode = "weekly"
         elif "monthly" in title_lower:
             normalized_mode = "monthly"
-    is_cyberlurch_periodic = is_cyberlurch and normalized_mode in {"weekly", "monthly"}
+    is_cyberlurch_periodic = is_cyberlurch and normalized_mode in {"weekly", "monthly", "yearly"}
     meta_only = ""
     if overview_markdown:
         if is_cybermed:
