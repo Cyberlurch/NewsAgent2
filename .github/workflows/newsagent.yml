@@ -83,19 +83,31 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Gate scheduled runs to 06:00 Europe/Stockholm
+      - name: Gate scheduled runs to ~06:00 Europe/Stockholm
         id: gate_stockholm
-        if: github.event_name == 'schedule'
         run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "Non-scheduled event -> proceeding without time gate."
+            exit 0
+          fi
+
           now_local=$(TZ=Europe/Stockholm date +"%H:%M")
-          if [ "$now_local" != "06:00" ]; then
+          today=$(TZ=Europe/Stockholm date +%F)
+          target_epoch=$(TZ=Europe/Stockholm date -d "${today} 06:00" +%s)
+          now_epoch=$(TZ=Europe/Stockholm date +%s)
+          diff=$((now_epoch - target_epoch))
+
+          if [ $diff -lt -900 ] || [ $diff -gt 3540 ]; then
             echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "Local time is $now_local (not 06:00) -> skipping run."
+            echo "::warning::Skipping scheduled run: local time ${now_local} is outside the allowed delivery window around 06:00 Europe/Stockholm. No report/email sent."
             exit 0
           fi
 
           echo "should_run=true" >> "$GITHUB_OUTPUT"
-          echo "Local time is $now_local -> proceeding."
+          echo "Local time ${now_local} within delivery window -> proceeding."
 
       - name: Compute run plan
         id: compute_plan

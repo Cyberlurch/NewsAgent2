@@ -9,8 +9,8 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 
 ## Scheduling and automation (Europe/Stockholm)
 
-- Weekdays (Mon–Fri) at **06:00** local time.
-  - Implemented with dual UTC crons (`0 4 * * 1-5` and `0 5 * * 1-5`) plus an early gate step that sets `TZ=Europe/Stockholm` and only proceeds when the local time is exactly **06:00**. This keeps a single delivery across DST changes.
+- Weekdays (Mon–Fri) at **~06:00** local time.
+  - Implemented with dual UTC crons (`0 4 * * 1-5` and `0 5 * * 1-5`) plus an early gate step that checks Europe/Stockholm time and only proceeds when the local time is within a delivery window around **06:00** (currently 05:45–06:59). This keeps a single delivery across DST changes while tolerating GitHub's schedule jitter.
 - **Jan 1, 06:00** local time: **Year in Review** for each report (cron `0 5 1 1 *`).
 - Automated cadences:
   - **Daily**: every weekday.
@@ -23,6 +23,7 @@ NewsAgent2 is a private automation project that generates and emails two newslet
   - Optional: override `lookback_hours`.
   - Optional (yearly only): set `year_in_review_year` to force a specific target year.
   - Only the requested combination runs; weekly/monthly remain read-only.
+  - Time gating is **not** applied to manual runs; they proceed immediately regardless of local time.
 
 **Year in Review targeting and safeguards**
 
