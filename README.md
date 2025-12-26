@@ -10,7 +10,8 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 ## Scheduling and automation (Europe/Stockholm)
 
 - Weekdays (Mon–Fri) at **~06:00** local time.
-  - Implemented with dual UTC crons (`0 4 * * 1-5` and `0 5 * * 1-5`) plus an early gate step that checks Europe/Stockholm time and only proceeds when the local time is within a delivery window around **06:00** (currently 05:45–06:59). This keeps a single delivery across DST changes while tolerating GitHub's schedule jitter.
+  - Implemented with dual UTC crons (`0 4 * * 1-5` and `0 5 * * 1-5`) and an early gate that allows any start where the Europe/Stockholm local **hour** is `06` (minutes are ignored). This tolerates GitHub’s schedule jitter while keeping the delivery slot around 06:00.
+  - The “other” cron is a DST-coverage probe: when it lands outside local hour 06 it intentionally no-ops with a log line like `DST coverage run (...) -> intentional skip; waiting for local 06:00 delivery slot.` so green-but-empty runs are clearly marked.
 - **Jan 1, 06:00** local time: **Year in Review** for each report (cron `0 5 1 1 *`).
 - Automated cadences:
   - **Daily**: every weekday.
@@ -24,6 +25,7 @@ NewsAgent2 is a private automation project that generates and emails two newslet
   - Optional (yearly only): set `year_in_review_year` to force a specific target year.
   - Only the requested combination runs; weekly/monthly remain read-only.
   - Time gating is **not** applied to manual runs; they proceed immediately regardless of local time.
+- Guardrail: real runs stay red if no newsletter is produced or if no email send was attempted for a non-empty recipient list. DST-coverage no-ops bypass the guardrail but emit the explicit skip notice above.
 
 **Year in Review targeting and safeguards**
 
