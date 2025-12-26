@@ -120,6 +120,15 @@ def _safe_int(env_name: str, default: int) -> int:
         return default
 
 
+def _env_bool(env_name: str, default: bool) -> bool:
+    raw = (os.getenv(env_name, "1" if default else "0") or "").strip().lower()
+    if raw in {"0", "false", "no", "off"}:
+        return False
+    if raw in {"1", "true", "yes", "on"}:
+        return True
+    return default
+
+
 def _parse_hours_override(raw: str) -> int | None:
     text = (raw or "").strip()
     if text == "":
@@ -132,6 +141,119 @@ def _parse_hours_override(raw: str) -> int | None:
     except Exception:
         print(f"[warn] Invalid LOOKBACK_HOURS_OVERRIDE={text!r} -> ignoring override")
         return None
+
+
+def _foamed_health_bucket(state: Dict[str, Any]) -> Dict[str, Any]:
+    if not isinstance(state, dict):
+        return {}
+    bucket = state.setdefault("foamed_source_health", {})
+    if not isinstance(bucket, dict):
+        bucket = {}
+        state["foamed_source_health"] = bucket
+    return bucket
+
+
+def _foamed_source_disabled(entry: Dict[str, Any], now_utc: datetime) -> bool:
+    if not isinstance(entry, dict):
+        return False
+    disabled_until = _parse_iso_utc(str(entry.get("disabled_until_utc") or ""))
+    return bool(disabled_until and disabled_until > now_utc)
+
+
+def _filter_disabled_foamed_sources(
+    sources: List[Dict[str, Any]],
+    state: Dict[str, Any],
+    now_utc: datetime,
+    *,
+    auto_disable_enabled: bool,
+) -> Tuple[List[Dict[str, Any]], Dict[str, int]]:
+    health = _foamed_health_bucket(state)
+    filtered: List[Dict[str, Any]] = []
+    skipped = 0
+    active_disabled = 0
+
+    for src in sources:
+        name = (src.get("name") or "").strip()
+        if not name:
+            continue
+        entry = health.get(name) or {}
+        if _foamed_source_disabled(entry, now_utc):
+            active_disabled += 1
+            if auto_disable_enabled:
+                skipped += 1
+                continue
+        filtered.append(src)
+
+    return filtered, {"skipped_disabled_count": skipped, "disabled_active_count": active_disabled}
+
+
+def _update_foamed_health_state(
+    state: Dict[str, Any],
+    per_source_stats: Dict[str, Any] | None,
+    now_utc: datetime,
+    *,
+    auto_disable_enabled: bool,
+    disable_after_403: int,
+    disable_days_403: int,
+    disable_after_404: int,
+    disable_days_404: int,
+    source_names: Set[str] | None = None,
+) -> Dict[str, Any]:
+    bucket = _foamed_health_bucket(state)
+    now_iso = now_utc.astimezone(timezone.utc).replace(microsecond=0).isoformat()
+    newly_disabled: List[str] = []
+    per_source_stats = per_source_stats or {}
+    scope_names: Set[str] = set(source_names or [])
+
+    for name, stats in per_source_stats.items():
+        if not isinstance(stats, dict):
+            continue
+        src_name = str(name or "").strip()
+        if not src_name:
+            continue
+        scope_names.add(src_name)
+
+        health_entry = bucket.get(src_name) or {}
+        prev_disabled = _foamed_source_disabled(health_entry, now_utc)
+        failures = int(health_entry.get("consecutive_failures") or 0)
+        health = str(stats.get("health") or "").strip().lower()
+
+        if health in {"ok_rss", "ok_html"}:
+            failures = 0
+            health_entry["disabled_until_utc"] = ""
+            health_entry["last_ok_utc"] = now_iso
+        elif health:
+            failures += 1
+            if auto_disable_enabled and health == "blocked_403" and disable_after_403 > 0 and failures >= disable_after_403:
+                health_entry["disabled_until_utc"] = (
+                    now_utc + timedelta(days=max(0, disable_days_403))
+                ).replace(microsecond=0).astimezone(timezone.utc).isoformat()
+            elif auto_disable_enabled and health == "not_found_404" and disable_after_404 > 0 and failures >= disable_after_404:
+                health_entry["disabled_until_utc"] = (
+                    now_utc + timedelta(days=max(0, disable_days_404))
+                ).replace(microsecond=0).astimezone(timezone.utc).isoformat()
+
+        health_entry["consecutive_failures"] = failures
+        if health:
+            health_entry["last_health"] = health
+        health_entry["last_seen_utc"] = now_iso
+
+        if not prev_disabled and _foamed_source_disabled(health_entry, now_utc):
+            newly_disabled.append(src_name)
+
+        bucket[src_name] = health_entry
+
+    active_disabled = 0
+    for name in scope_names:
+        entry = bucket.get(name) or {}
+        if _foamed_source_disabled(entry, now_utc):
+            active_disabled += 1
+
+    return {
+        "newly_disabled_count": len(newly_disabled),
+        "newly_disabled_examples": newly_disabled[:5],
+        "disabled_active_count": active_disabled,
+    }
 
 
 def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, List[str]], Dict[str, float]]:
@@ -728,6 +850,11 @@ def main() -> None:
     retention_days = _safe_int("STATE_RETENTION_DAYS", 20)
     rollups_max_months = _safe_int("ROLLUPS_MAX_MONTHS", 24)
     foamed_sources_path = (os.getenv("CYBERMED_FOAMED_SOURCES", "data/cybermed_foamed_sources.json") or "data/cybermed_foamed_sources.json").strip()
+    foamed_auto_disable_enabled = _env_bool("FOAMED_AUTO_DISABLE", True)
+    foamed_disable_after_403 = _safe_int("FOAMED_DISABLE_AFTER_403", 3)
+    foamed_disable_days_403 = _safe_int("FOAMED_DISABLE_DAYS_403", 7)
+    foamed_disable_after_404 = _safe_int("FOAMED_DISABLE_AFTER_404", 2)
+    foamed_disable_days_404 = _safe_int("FOAMED_DISABLE_DAYS_404", 30)
 
     if report_mode == "weekly":
         report_title = f"{base_report_title} — Weekly"
@@ -1001,8 +1128,31 @@ def main() -> None:
         foamed_sources = load_foamed_sources_config(foamed_sources_path)
         if foamed_sources:
             now_utc = datetime.now(timezone.utc)
-            foamed_collected, foamed_collection_stats = collect_foamed_items(foamed_sources, now_utc, lookback_hours=args.hours)
+            foamed_sources_filtered, filter_stats = _filter_disabled_foamed_sources(
+                foamed_sources,
+                state,
+                now_utc,
+                auto_disable_enabled=foamed_auto_disable_enabled,
+            )
+            foamed_collected, foamed_collection_stats = collect_foamed_items(foamed_sources_filtered, now_utc, lookback_hours=args.hours)
             foamed_screened_total = len(foamed_collected)
+            auto_disable_meta = _update_foamed_health_state(
+                state,
+                (foamed_collection_stats or {}).get("per_source"),
+                now_utc,
+                auto_disable_enabled=foamed_auto_disable_enabled,
+                disable_after_403=foamed_disable_after_403,
+                disable_days_403=foamed_disable_days_403,
+                disable_after_404=foamed_disable_after_404,
+                disable_days_404=foamed_disable_days_404,
+                source_names={(s.get("name") or "").strip() for s in foamed_sources},
+            )
+            foamed_collection_stats = dict(foamed_collection_stats or {})
+            foamed_collection_stats["auto_disable"] = {
+                "enabled": bool(foamed_auto_disable_enabled),
+                **filter_stats,
+                **auto_disable_meta,
+            }
 
             for it in foamed_collected:
                 iid = str(it.get("id") or it.get("url") or "").strip()
