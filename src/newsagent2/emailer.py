@@ -483,10 +483,23 @@ def send_markdown(subject: str, md_body: str) -> None:
 
     plain = _strip_details_tags(md_without_metadata)
 
+    disclose_recipients = (os.getenv("EMAIL_DISCLOSE_RECIPIENTS") or "").strip() == "1"
+    if len(to_list) <= 1:
+        header_to_value = ", ".join(to_list)
+        header_to_mode = "single"
+    elif disclose_recipients:
+        header_to_value = ", ".join(to_list)
+        header_to_mode = "disclosed"
+    else:
+        header_to_value = from_addr
+        header_to_mode = "undisclosed"
+
+    print(f"[email] header_to_mode={header_to_mode}")
+
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
     msg["From"] = from_addr
-    msg["To"] = ", ".join(to_list)
+    msg["To"] = header_to_value
 
     alternative = MIMEMultipart("alternative")
     alternative.attach(MIMEText(plain, "plain", "utf-8"))
