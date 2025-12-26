@@ -121,6 +121,7 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 - Run metadata is attached as a `.txt` file for troubleshooting, while the email body omits the metadata block for readability. Cybermed emails also suppress the metadata text from the visible body while keeping the attachment intact.
 - Cyberlurch weekly/monthly/yearly reports omit a separate “Sources” section; source links live inside **Top videos (this period)**. The Cyberlurch Daily still includes “Sources”.
 - The yearly cadence sends to the union of daily/weekly/monthly recipients for the selected report (deduplicated).
+- Multi-recipient privacy: when more than one recipient is configured, the **To** header defaults to the sender address so recipients are not revealed to each other. Set `EMAIL_DISCLOSE_RECIPIENTS=1` only if you explicitly want the header to list all recipients.
 
 ---
 

@@ -252,6 +252,121 @@ Hi.
                 ]
                 self.assertTrue(any(name and "cyberlurch_run_metadata_" in name for name in attachment_names))
 
+    @unittest.skipUnless(HAS_MARKDOWN, "python-markdown is not installed")
+    def test_multi_recipient_to_header_is_hidden_by_default(self):
+        from newsagent2 import emailer
+
+        class DummySMTP:
+            last_instance = None
+
+            def __init__(self, *args, **kwargs):
+                self.sent = []
+                self.to_addrs = []
+                DummySMTP.last_instance = self
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+            def starttls(self):
+                return None
+
+            def login(self, user, pw):
+                return None
+
+            def sendmail(self, from_addr, to_addrs, msg_data):
+                self.sent.append(msg_data)
+                self.to_addrs.append(to_addrs)
+
+        md = "# Multi recipient privacy test"
+
+        with unittest.mock.patch("smtplib.SMTP", DummySMTP):
+            with unittest.mock.patch.dict(
+                os.environ,
+                {
+                    "SEND_EMAIL": "1",
+                    "REPORT_KEY": "cybermed",
+                    "REPORT_MODE": "daily",
+                    "SMTP_HOST": "localhost",
+                    "SMTP_PORT": "25",
+                    "SMTP_USER": "user",
+                    "SMTP_PASS": "pass",
+                    "EMAIL_FROM": "from@example.com",
+                    "RECIPIENTS_JSON_CYBERMED": "[\"one@example.com\", \"two@example.com\"]",
+                    "EMAIL_DISCLOSE_RECIPIENTS": "",
+                },
+                clear=False,
+            ):
+                emailer.send_markdown("Multi Recipient", md)
+                dummy = DummySMTP.last_instance
+                self.assertIsNotNone(dummy)
+                self.assertTrue(dummy.sent)
+                payload = dummy.sent[0]
+                msg = message_from_string(payload)
+
+                self.assertEqual(msg["To"], "from@example.com")
+                self.assertEqual(dummy.to_addrs[0], ["one@example.com", "two@example.com"])
+
+    @unittest.skipUnless(HAS_MARKDOWN, "python-markdown is not installed")
+    def test_multi_recipient_to_header_can_be_disclosed_opt_in(self):
+        from newsagent2 import emailer
+
+        class DummySMTP:
+            last_instance = None
+
+            def __init__(self, *args, **kwargs):
+                self.sent = []
+                self.to_addrs = []
+                DummySMTP.last_instance = self
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, exc_type, exc, tb):
+                return False
+
+            def starttls(self):
+                return None
+
+            def login(self, user, pw):
+                return None
+
+            def sendmail(self, from_addr, to_addrs, msg_data):
+                self.sent.append(msg_data)
+                self.to_addrs.append(to_addrs)
+
+        md = "# Multi recipient disclosure opt-in"
+
+        with unittest.mock.patch("smtplib.SMTP", DummySMTP):
+            with unittest.mock.patch.dict(
+                os.environ,
+                {
+                    "SEND_EMAIL": "1",
+                    "REPORT_KEY": "cybermed",
+                    "REPORT_MODE": "daily",
+                    "SMTP_HOST": "localhost",
+                    "SMTP_PORT": "25",
+                    "SMTP_USER": "user",
+                    "SMTP_PASS": "pass",
+                    "EMAIL_FROM": "from@example.com",
+                    "RECIPIENTS_JSON_CYBERMED": "[\"one@example.com\", \"two@example.com\"]",
+                    "EMAIL_DISCLOSE_RECIPIENTS": "1",
+                },
+                clear=False,
+            ):
+                emailer.send_markdown("Multi Recipient Opt-In", md)
+                dummy = DummySMTP.last_instance
+                self.assertIsNotNone(dummy)
+                self.assertTrue(dummy.sent)
+                payload = dummy.sent[0]
+                msg = message_from_string(payload)
+
+                self.assertIn("one@example.com", msg["To"])
+                self.assertIn("two@example.com", msg["To"])
+                self.assertEqual(dummy.to_addrs[0], ["one@example.com", "two@example.com"])
+
 
 if __name__ == "__main__":
     unittest.main()
