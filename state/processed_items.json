@@ -1,5 +1,137 @@
 {
-  "last_successful_daily_run_utc": "2025-12-26T15:23:50+00:00",
+  "foamed_source_health": {
+    "ACCRAC": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "ALiEM": {
+      "consecutive_failures": 1,
+      "last_health": "blocked_403",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "APSF Newsletter": {
+      "consecutive_failures": 1,
+      "last_health": "blocked_403",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "Anesthesiology News": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "Critical Care Practitioner": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "Critical Care Reviews": {
+      "consecutive_failures": 1,
+      "last_health": "not_found_404",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "Deranged Physiology": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "EMCrit": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "Intensive Care Network": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "JournalFeed (Critical Care)": {
+      "consecutive_failures": 1,
+      "last_health": "blocked_403",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "LITFL": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "NYSORA": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "OpenAnesthesia": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "PulmCCM": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "REBEL EM Critical Care": {
+      "consecutive_failures": 1,
+      "last_health": "not_found_404",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "SMACC": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "St Emlyn's": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "The Bottom Line": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "The Resus Room": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    },
+    "Thinking Critical Care": {
+      "consecutive_failures": 0,
+      "disabled_until_utc": "",
+      "last_health": "ok_rss",
+      "last_ok_utc": "2025-12-26T15:41:47+00:00",
+      "last_seen_utc": "2025-12-26T15:41:47+00:00"
+    }
+  },
+  "last_successful_daily_run_utc": "2025-12-26T15:42:43+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -2824,6 +2956,6 @@
       }
     }
   },
-  "updated_at_utc": "2025-12-26T15:23:50+00:00",
+  "updated_at_utc": "2025-12-26T15:42:43+00:00",
   "version": 1
 }
