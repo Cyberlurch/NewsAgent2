@@ -47,6 +47,27 @@ class TestEmailMetadata(unittest.TestCase):
         self.assertIn("<summary", html)
 
     @unittest.skipUnless(HAS_MARKDOWN, "python-markdown is not installed")
+    def test_comment_wrapped_run_metadata_is_removed_and_attached(self):
+        from newsagent2.emailer import _extract_run_metadata_for_email
+
+        md = """
+Intro
+<!-- RUN_METADATA_ATTACHMENT_START
+- first: 1
+- second: 2
+RUN_METADATA_ATTACHMENT_END -->
+
+Body continues.
+""".strip()
+
+        cleaned, meta, removed = _extract_run_metadata_for_email(md)
+        self.assertTrue(removed)
+        self.assertIn("first: 1", meta)
+        self.assertIn("Body continues.", cleaned)
+        self.assertNotIn("second: 2", cleaned)
+        self.assertNotIn("RUN_METADATA_ATTACHMENT_START", cleaned)
+
+    @unittest.skipUnless(HAS_MARKDOWN, "python-markdown is not installed")
     def test_plaintext_replaces_metadata_with_attachment_notice(self):
         from newsagent2.emailer import _extract_run_metadata_for_email
 

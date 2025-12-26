@@ -3,10 +3,12 @@ from __future__ import annotations
 import json
 import os
 from datetime import datetime, timezone
+import re
 from typing import Any, Dict, List, Sequence
 from zoneinfo import ZoneInfo
 
 STO = ZoneInfo("Europe/Stockholm")
+DEFAULT_ROLLUPS_PATH = "state/rollups.json"
 
 
 def _utc_now_iso() -> str:
@@ -19,6 +21,15 @@ def _new_state() -> Dict[str, Any]:
         "updated_at_utc": _utc_now_iso(),
         "reports": {},
     }
+
+
+def _parse_generated_at(value: str) -> datetime:
+    raw = (value or "").strip()
+    try:
+        dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+    except Exception:
+        return datetime.min.replace(tzinfo=timezone.utc)
 
 
 def _sanitize_rollups_state(state: Dict[str, Any]) -> bool:
@@ -35,9 +46,16 @@ def _sanitize_rollups_state(state: Dict[str, Any]) -> bool:
             changed = True
             continue
 
+        dedup: Dict[str, Dict[str, Any]] = {}
+        passthrough_entries: List[Any] = []
+
         for entry in entries:
             if not isinstance(entry, dict):
+                passthrough_entries.append(entry)
                 continue
+
+            month_key = str(entry.get("month") or "").strip()
+            generated_at = str(entry.get("generated_at") or "").strip()
 
             top_items_raw = entry.get("top_items")
             if isinstance(top_items_raw, list):
@@ -57,24 +75,54 @@ def _sanitize_rollups_state(state: Dict[str, Any]) -> bool:
                 entry["executive_summary"] = limited_summary
                 changed = True
 
+            entry["month"] = month_key
+            entry["generated_at"] = generated_at
+            if month_key:
+                existing = dedup.get(month_key)
+                if existing is None or _parse_generated_at(generated_at) >= _parse_generated_at(
+                    existing.get("generated_at", "")
+                ):
+                    dedup[month_key] = entry
+                    changed = changed or existing is not None
+            else:
+                passthrough_entries.append(entry)
+
+        sanitized_entries = sorted(dedup.values(), key=lambda e: _month_sort_key(str(e.get("month") or "")))
+        sanitized_entries.extend(passthrough_entries)
+        if sanitized_entries != entries:
+            reports[report_key] = sanitized_entries
+            changed = True
+
     return changed
 
 
-def load_rollups_state(path: str) -> Dict[str, Any]:
+def load_rollups_state(path: str, *, create_if_missing: bool = True) -> Dict[str, Any]:
     if not path:
         print("[rollups] WARN: empty path -> starting fresh")
         return _new_state()
 
     if not os.path.exists(path):
         print(f"[rollups] No state file found at {path!r} -> starting fresh")
-        return _new_state()
+        state = _new_state()
+        if create_if_missing:
+            try:
+                save_rollups_state(path, state)
+            except Exception as e:
+                print(f"[rollups] WARN: failed to initialize rollups state at {path!r}: {e!r}")
+        return state
 
     try:
         with open(path, "r", encoding="utf-8") as f:
             raw = f.read().strip()
         if not raw:
             print(f"[rollups] WARN: state file {path!r} is empty -> starting fresh")
-            return _new_state()
+            state = _new_state()
+            if create_if_missing:
+                try:
+                    save_rollups_state(path, state)
+                except Exception as e:
+                    print(f"[rollups] WARN: failed to reinitialize empty rollups state at {path!r}: {e!r}")
+            return state
 
         data = json.loads(raw)
         if not isinstance(data, dict):
@@ -390,7 +438,7 @@ def sanitize_rollup_summary(lines: Sequence[str] | str, *, fallback: Sequence[st
                 text = text[:-1].rstrip()
             text = text.replace("**", "").strip()
             lowered = text.lower()
-            if any(term in lowered for term in forbidden):
+            if any(term in lowered for term in forbidden) or re.search(r"\bmetadata\b", lowered):
                 continue
             if text:
                 cleaned.append(text)
@@ -430,7 +478,8 @@ def derive_monthly_summary(
     top_items: Sequence[Dict[str, Any]],
     max_bullets: int = 8,
 ) -> List[str]:
-    exec_bullets = extract_summary_bullets(overview_markdown, max_bullets=max_bullets, require_exec_section=True)
+    cleaned_overview = _strip_metadata_sections(overview_markdown)
+    exec_bullets = extract_summary_bullets(cleaned_overview, max_bullets=max_bullets, require_exec_section=True)
     fallback = _fallback_summary_from_items(top_items)
     sanitized_exec = sanitize_rollup_summary(exec_bullets, fallback=fallback)
     sanitized_exec = sanitized_exec[:max_bullets]
@@ -441,6 +490,48 @@ def normalize_rollup_summary(entry: Dict[str, Any]) -> List[str]:
     raw_summary = entry.get("executive_summary") or []
     summary = sanitize_rollup_summary(raw_summary, fallback=_fallback_summary_from_items(entry.get("top_items") or []))
     return summary or ["(no summary captured)"]
+
+
+def _strip_metadata_sections(md_text: str) -> str:
+    text = (md_text or "").strip()
+    if not text:
+        return ""
+
+    lines = text.splitlines()
+    cleaned: List[str] = []
+    skip_block = False
+    in_cybermed_meta = False
+
+    for ln in lines:
+        stripped = ln.strip()
+        lowered = stripped.lower()
+
+        if re.match(r"^##\s*run metadata", lowered):
+            skip_block = True
+            continue
+
+        if stripped.startswith("## ") and skip_block:
+            skip_block = False
+
+        if lowered == "**cybermed report metadata**":
+            in_cybermed_meta = True
+            continue
+
+        if in_cybermed_meta:
+            if stripped.startswith("## "):
+                in_cybermed_meta = False
+            else:
+                continue
+
+        if skip_block:
+            continue
+
+        if "run metadata" in lowered or "metadata" in lowered:
+            continue
+
+        cleaned.append(ln)
+
+    return "\n".join(cleaned)
 
 
 def rollups_for_year(state: Dict[str, Any], report_key: str, year: int) -> List[Dict[str, Any]]:
