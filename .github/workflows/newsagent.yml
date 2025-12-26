@@ -73,6 +73,7 @@ jobs:
       PUBMED_MAX_RETRIES: ${{ vars.PUBMED_MAX_RETRIES || '4' }}
       PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
       PUBMED_DATE_TYPE: ${{ vars.PUBMED_DATE_TYPE || 'edat' }}
+      REPORT_DIR: out
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
       WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'both') || 'both' }}
@@ -94,20 +95,28 @@ jobs:
             exit 0
           fi
 
+          schedule_expr="${{ github.event.schedule || '' }}"
           now_local=$(TZ=Europe/Stockholm date +"%H:%M")
-          today=$(TZ=Europe/Stockholm date +%F)
-          target_epoch=$(TZ=Europe/Stockholm date -d "${today} 06:00" +%s)
-          now_epoch=$(TZ=Europe/Stockholm date +%s)
-          diff=$((now_epoch - target_epoch))
+          local_hour=$(TZ=Europe/Stockholm date +%H)
+          dow=$(TZ=Europe/Stockholm date +%u)
 
-          if [ $diff -lt -900 ] || [ $diff -gt 3540 ]; then
+          if [ "$dow" -ge 6 ]; then
             echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::Skipping scheduled run: local time ${now_local} is outside the allowed delivery window around 06:00 Europe/Stockholm. No report/email sent."
+            echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping scheduled run: weekend (Mon–Fri only). No report/email sent."
+            exit 0
+          fi
+
+          if [ "$local_hour" != "06" ]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "dst_coverage_run=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::DST coverage run (cron='${schedule_expr}') at ${now_local} Europe/Stockholm -> intentional skip; waiting for local 06:00 delivery slot."
             exit 0
           fi
 
           echo "should_run=true" >> "$GITHUB_OUTPUT"
-          echo "Local time ${now_local} within delivery window -> proceeding."
+          echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
+          echo "Local time ${now_local} within delivery hour -> proceeding."
 
       - name: Compute run plan
         id: compute_plan
@@ -115,11 +124,17 @@ jobs:
           set -euo pipefail
 
           gate_decision="${{ steps.gate_stockholm.outputs.should_run || '' }}"
+          gate_dst_cov="${{ steps.gate_stockholm.outputs.dst_coverage_run || '' }}"
           if [ "${{ github.event_name }}" = "schedule" ] && [ "$gate_decision" != "true" ]; then
             echo "run_skip=true" >> "$GITHUB_OUTPUT"
             echo "run_modes=" >> "$GITHUB_OUTPUT"
             echo "run_which_report=both" >> "$GITHUB_OUTPUT"
-            echo "Gate check requested skip; no modes scheduled."
+            echo "run_skip_reason=${gate_dst_cov:+dst_coverage}" >> "$GITHUB_OUTPUT"
+            if [ "$gate_dst_cov" = "true" ]; then
+              echo "Gate check requested skip; DST coverage run intentionally no-op."
+            else
+              echo "Gate check requested skip; no modes scheduled."
+            fi
             exit 0
           fi
 
@@ -164,12 +179,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Prepare output directory
+        if: steps.compute_plan.outputs.run_skip != 'true'
+        run: |
+          set -euo pipefail
+          rm -rf out
+          mkdir -p out
+
       - name: Run reports
         if: steps.compute_plan.outputs.run_skip != 'true'
         env:
           RUN_MODES: ${{ steps.compute_plan.outputs.run_modes }}
           RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}
           LOOKBACK_HOURS_OVERRIDE: ${{ env.LOOKBACK_HOURS_OVERRIDE }}
+          REPORT_DIR: ${{ env.REPORT_DIR }}
+          RUN_LOG_PATH: out/run.log
 
           # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.
           RECIPIENTS_JSON_CYBERLURCH: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH }}
@@ -185,6 +209,10 @@ jobs:
           YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && env.REPORT_MODE == 'yearly' && github.event.inputs.year_in_review_year || '' }}
         run: |
           set -euo pipefail
+          LOG_PATH="${RUN_LOG_PATH:-out/run.log}"
+          mkdir -p "$(dirname "$LOG_PATH")"
+          : > "$LOG_PATH"
+          exec > >(tee -a "$LOG_PATH") 2>&1
 
           for mode in $RUN_MODES; do
             echo "--- Running cadence: $mode (which_report=$RUN_WHICH_REPORT) ---"
@@ -216,6 +244,47 @@ jobs:
               python -m src.newsagent2.main --channels "data/cybermed_channels.json" --hours 24
             fi
           done
+
+      - name: Verify reports and email attempts
+        if: steps.compute_plan.outputs.run_skip != 'true'
+        env:
+          RUN_MODES: ${{ steps.compute_plan.outputs.run_modes }}
+          RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}
+          REPORT_DIR: ${{ env.REPORT_DIR }}
+          RUN_LOG_PATH: out/run.log
+        run: |
+          set -euo pipefail
+
+          report_dir="${REPORT_DIR:-out}"
+          log_path="${RUN_LOG_PATH:-out/run.log}"
+
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            local_hour=$(TZ=Europe/Stockholm date +%H)
+            if [ "$local_hour" != "06" ]; then
+              echo "DST coverage run detected (local hour=$local_hour) -> guardrail bypass."
+              exit 0
+            fi
+          fi
+
+          if [ ! -f "$log_path" ]; then
+            echo "ERROR: Run log not found at $log_path"
+            exit 1
+          fi
+
+          shopt -s nullglob
+          md_files=("$report_dir"/*.md)
+          if [ ${#md_files[@]} -eq 0 ]; then
+            echo "ERROR: No newsletter markdown files were generated in ${report_dir} for modes: ${RUN_MODES}."
+            exit 1
+          fi
+
+          send_lines=$(grep -E "\[email\] Sending email \(report_key=.*recipients_count=([1-9][0-9]*)" "$log_path" || true)
+          if [ -z "$send_lines" ]; then
+            echo "ERROR: No email send attempts detected for non-empty recipient lists. Check recipient secrets and SMTP settings."
+            exit 1
+          fi
+
+          echo "Verification passed: reports exist and email attempts were logged."
 
       - name: Commit updated state (processed_items.json) if changed
         if: steps.compute_plan.outputs.run_skip != 'true' && (contains(steps.compute_plan.outputs.run_modes, 'daily') || contains(steps.compute_plan.outputs.run_modes, 'monthly'))
