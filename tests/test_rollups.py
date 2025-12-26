@@ -92,6 +92,7 @@ def test_prune_rollups_handles_missing_and_empty(tmp_path):
     state_missing = rollups.load_rollups_state(str(missing_path))
     rollups.prune_rollups(state_missing, report_key="cybermed", max_months=12, keep_month="2024-01")
     assert state_missing["reports"] == {}
+    assert missing_path.exists()
 
     empty_path = tmp_path / "empty.json"
     empty_path.write_text("", encoding="utf-8")
@@ -180,6 +181,19 @@ Run metadata is attached as a text file.
     assert "Second pick" in summary[2]
 
 
+def test_monthly_summary_skips_cybermed_metadata_block():
+    markdown = """**Cybermed report metadata**
+- diagnostics
+## Executive Summary
+- Real summary line
+- Another
+"""
+    top_items = [{"title": "Fallback item", "url": "https://example.com/1", "channel": "ch", "source": "yt", "published_at": "2024-01-01"}]
+    summary = rollups.derive_monthly_summary(markdown, top_items=top_items, max_bullets=5)
+    assert any("real summary line" in s.lower() for s in summary)
+    assert all("metadata" not in s.lower() for s in summary)
+
+
 def test_metadata_placeholder_collapses_to_no_summary():
     state = {}
     rollups.upsert_monthly_rollup(
@@ -259,3 +273,22 @@ def test_load_rollups_state_self_heals_existing_file(tmp_path):
     cleaned = json.loads(path.read_text(encoding="utf-8"))
     cleaned_summary = cleaned["reports"]["cybermed"][0]["executive_summary"]
     assert "metadata" not in " ".join(cleaned_summary).lower()
+
+
+def test_load_rollups_state_dedupes_latest_month(tmp_path):
+    path = tmp_path / "rollups.json"
+    payload = {
+        "reports": {
+            "cybermed": [
+                {"month": "2025-12", "generated_at": "2025-12-31T00:00:00Z", "executive_summary": ["Old"], "top_items": []},
+                {"month": "2025-12", "generated_at": "2026-01-01T00:00:00Z", "executive_summary": ["New"], "top_items": []},
+            ]
+        }
+    }
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    state = rollups.load_rollups_state(str(path))
+    entries = state["reports"]["cybermed"]
+    assert len(entries) == 1
+    assert entries[0]["generated_at"] == "2026-01-01T00:00:00Z"
+    assert entries[0]["executive_summary"] == ["New"]

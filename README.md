@@ -41,7 +41,7 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 - **Workflow file:** `.github/workflows/newsagent.yml`
 - **Entry point:** `src/newsagent2/main.py`
 - **State file:** `state/processed_items.json` (daily runs update it; weekly/monthly are read-only to keep rollups reproducible).
-- **Rollups state:** `state/rollups.json` (non-secret). Monthly runs append/update a single entry per month and report with the top items, dates/links, and executive-summary bullets. The yearly report uses the prior year's 12 monthly rollups.
+- **Rollups state:** `state/rollups.json` (non-secret). The file is created automatically if missing, and monthly runs upsert one `YYYY-MM` entry per report with top items and executive-summary bullets (deduped per month and kept sorted). The yearly report reads this file to assemble the Year in Review.
 
 ---
 
@@ -118,7 +118,7 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 ## Email delivery
 
 - Reports are generated in Markdown, converted to HTML for email clients, and include a plaintext alternative.
-- Run metadata is attached as a `.txt` file for troubleshooting, while the email body omits the metadata block for readability. For Cybermed, the body keeps a minimal “Run Metadata” header as an anchor but the summary lines are removed; the full metadata stays in the attachment.
+- Run metadata is attached as a `.txt` file for troubleshooting, while the email body omits the metadata block for readability. Cybermed emails also suppress the metadata text from the visible body while keeping the attachment intact.
 - Cyberlurch weekly/monthly/yearly reports omit a separate “Sources” section; source links live inside **Top videos (this period)**. The Cyberlurch Daily still includes “Sources”.
 - The yearly cadence sends to the union of daily/weekly/monthly recipients for the selected report (deduplicated).
 

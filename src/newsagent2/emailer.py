@@ -277,28 +277,39 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
     metadata_text = ""
     metadata_removed = False
 
+    def _splice_out_block(match: re.Match[str], captured: str) -> None:
+        nonlocal working_body, metadata_text, metadata_removed
+        before = working_body[: match.start()] or ""
+        after = working_body[match.end() :] or ""
+
+        prefix = before
+        if prefix and not prefix.endswith("\n"):
+            prefix += "\n"
+        suffix = after.lstrip(" \n")
+        working_body = prefix
+        if suffix:
+            working_body += suffix
+
+        if captured and not metadata_text:
+            metadata_text = captured
+        metadata_removed = True
+
+    comment_block_pattern = re.compile(
+        r"<!--\s*RUN_METADATA_ATTACHMENT_START\b(.*?)RUN_METADATA_ATTACHMENT_END\s*-->",
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
     marker_pattern = re.compile(
         r"<!--\s*RUN_METADATA_ATTACHMENT_START\s*-->(.*?)<!--\s*RUN_METADATA_ATTACHMENT_END\s*-->",
         flags=re.IGNORECASE | re.DOTALL,
     )
 
+    comment_match = comment_block_pattern.search(working_body)
     marker_match = marker_pattern.search(working_body)
-    if marker_match:
-        metadata_text = marker_match.group(1) or ""
-        before = working_body[: marker_match.start()] or ""
-        after = working_body[marker_match.end() :] or ""
-
-        replacement = "Run metadata is attached as a text file."
-        prefix = before
-        if prefix and not prefix.endswith("\n"):
-            prefix += "\n"
-        suffix = after.lstrip(" \n")
-        working_body = f"{prefix}{replacement}"
-        if suffix:
-            if not working_body.endswith("\n"):
-                working_body += "\n"
-            working_body += suffix
-        metadata_removed = True
+    if comment_match:
+        _splice_out_block(comment_match, (comment_match.group(1) or "").strip())
+    elif marker_match:
+        _splice_out_block(marker_match, (marker_match.group(1) or "").strip())
     else:
         lines = working_body.splitlines()
         start_idx = None
