@@ -293,22 +293,22 @@ jobs:
 
           mkdir -p state
           python - <<'PY'
-from datetime import datetime, timezone
-import json, os
+          from datetime import datetime, timezone
+          import json, os
 
-path = os.path.join("state", "rollups.json")
-if not os.path.exists(path):
-    payload = {
-        "version": 1,
-        "updated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-        "reports": {},
-    }
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(payload, ensure_ascii=False, indent=2)
-        f.write("\n")
-    print(f"Initialized {path}")
-PY
+          path = os.path.join("state", "rollups.json")
+          if not os.path.exists(path):
+              payload = {
+                  "version": 1,
+                  "updated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+                  "reports": {},
+              }
+              os.makedirs(os.path.dirname(path), exist_ok=True)
+              with open(path, "w", encoding="utf-8") as f:
+                  json.dump(payload, ensure_ascii=False, indent=2)
+                  f.write("\n")
+              print(f"Initialized {path}")
+          PY
 
           # Collect only existing state files (avoid git add pathspec failures)
           FILES=()
