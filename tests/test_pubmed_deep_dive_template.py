@@ -73,3 +73,27 @@ def test_multiline_fields_are_parsed():
     assert "Population/setting: 50 ICU patients across 3 sites" in normalized
     assert "Key results: Mortality 5%; ICU stay shorter in intervention arm" in normalized
     assert missing < 4
+
+
+def test_fallback_markdown_template_is_parsed():
+    md = textwrap.dedent(
+        """
+        BOTTOM LINE: Useful signal
+
+        - Study type: RCT
+        - Population/setting: Children 5–12 elective ENT surgery
+        - Intervention/exposure & comparator: Dexmedetomidine vs midazolam premedication
+        - Primary endpoints: Post-op emergence delirium
+        - Key results: Lower delirium with dexmedetomidine
+        - Limitations:
+          - Single-center
+        - Why this matters: Could refine pediatric anesthesia practice
+        """
+    ).strip()
+
+    normalized, missing = _normalize_pubmed_field_values(md, lang="en")
+
+    assert "BOTTOM LINE: Useful signal" in normalized
+    assert "Study type: RCT" in normalized
+    assert "Population/setting: Children 5–12 elective ENT surgery" in normalized
+    assert missing == 0

@@ -1700,6 +1700,9 @@ def main() -> None:
         "download_success_count": 0,
         "parse_fallback_used_count": 0,
         "not_reported_all_fields_count": 0,
+        "json_failures_count": 0,
+        "markdown_fallback_used_count": 0,
+        "sparse_after_json_count": 0,
     }
 
     for it in overview_items:
@@ -1869,15 +1872,21 @@ def main() -> None:
         if key and detail_block:
             details_for_report.setdefault(key, detail_block)
 
-        if getattr(it, "_deep_dive_retried", False):
+        if it.get("_deep_dive_retried"):
             deep_dive_retried += 1
-        if getattr(it, "_deep_dive_empty_output", False):
+        if it.get("_deep_dive_empty_output"):
             deep_dive_empty_outputs += 1
         if src == "pubmed":
-            if getattr(it, "_deep_dive_parse_fallback", False):
+            if it.get("_deep_dive_parse_fallback"):
                 deep_dive_diag["parse_fallback_used_count"] += 1
-            if getattr(it, "_deep_dive_all_fields_placeholder", False):
+            if it.get("_deep_dive_all_fields_placeholder"):
                 deep_dive_diag["not_reported_all_fields_count"] += 1
+            if it.get("_deep_dive_json_failed"):
+                deep_dive_diag["json_failures_count"] += 1
+            if it.get("_deep_dive_used_markdown_fallback"):
+                deep_dive_diag["markdown_fallback_used_count"] += 1
+            if it.get("_deep_dive_sparse_after_json"):
+                deep_dive_diag["sparse_after_json_count"] += 1
 
     deep_dive_diag["enriched_fulltext_count"] = len(
         [
@@ -1940,6 +1949,9 @@ def main() -> None:
             "download_success_count": deep_dive_diag.get("download_success_count", 0),
             "parse_fallback_used_count": deep_dive_diag.get("parse_fallback_used_count", 0),
             "not_reported_all_fields_count": deep_dive_diag.get("not_reported_all_fields_count", 0),
+            "deep_dive_json_failures": deep_dive_diag.get("json_failures_count", 0),
+            "deep_dive_markdown_fallbacks": deep_dive_diag.get("markdown_fallback_used_count", 0),
+            "deep_dive_sparse_after_json": deep_dive_diag.get("sparse_after_json_count", 0),
         }
 
     md = to_markdown(
