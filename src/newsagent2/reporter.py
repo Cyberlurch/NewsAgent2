@@ -7,6 +7,8 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
 
+from .summarizer import normalize_pubmed_deep_dive
+
 try:  # Optional import; keep reporter usable without selector
     from .selector_medical import load_cybermed_selection_config
 except Exception:  # pragma: no cover - fallback for non-cybermed runs
@@ -152,9 +154,11 @@ def _detail_lookup(details_by_id: Dict[str, str], item: Dict[str, Any]) -> str:
     title = str(item.get("title") or "").strip()
     src = str(item.get("source") or "youtube").strip().lower()
     candidates = []
+    if iid:
+        candidates.append(iid)
     if src and iid:
         candidates.append(f"{src}:{iid}")
-    for key in (iid, url, title):
+    for key in (url, title):
         if key:
             candidates.append(key)
     for key in candidates:
@@ -337,6 +341,18 @@ def _format_cybermed_metadata(
             f"deep_dive_hard_excluded={sel.get('deep_dive_hard_excluded', 'n/a')}"
         )
 
+    if isinstance(cybermed_stats, dict):
+        deep = cybermed_stats.get("deep_dives") or {}
+        if isinstance(deep, dict) and deep:
+            lines.append(
+                "- deep_dive_stats: "
+                f"requested={deep.get('requested_deep_dives', 'n/a')}, "
+                f"generated={deep.get('generated_deep_dives', 'n/a')}, "
+                f"retried={deep.get('retried_deep_dives', 'n/a')}, "
+                f"empty_outputs={deep.get('empty_deep_dive_outputs', 'n/a')}, "
+                f"missing_abstracts={deep.get('missing_abstract_count', 'n/a')}"
+            )
+
     if domain_counts:
         lines.append("- domain_counts:")
         for name, count in sorted(domain_counts.items()):
@@ -389,39 +405,9 @@ def _best_bottom_line(item: Dict[str, Any], detail_md: str) -> str:
     return _fallback_bottom_line(item)
 
 
-def _ensure_pubmed_deep_dive_template(detail_md: str, fallback_bottom_line: str) -> str:
-    detail = (detail_md or "").strip()
-    headings = (
-        "study type:",
-        "population/setting:",
-        "intervention/exposure & comparator:",
-        "primary endpoints:",
-        "key results:",
-        "limitations:",
-        "why this matters:",
-    )
-
-    if detail:
-        lower = detail.lower()
-        if all(h in lower for h in headings):
-            return detail_md
-
-    best_bl = (fallback_bottom_line or "").strip()
-    synthesized_bl = best_bl if best_bl else "Not reported"
-
-    return "\n".join(
-        [
-            f"BOTTOM LINE: {synthesized_bl}",
-            "Study type: Not reported",
-            "Population/setting: Not reported",
-            "Intervention/exposure & comparator: Not reported",
-            "Primary endpoints: Not reported",
-            "Key results: Not reported",
-            "Limitations:",
-            "- Not reported",
-            "Why this matters: Not reported",
-        ]
-    )
+def _ensure_pubmed_deep_dive_template(detail_md: str, fallback_bottom_line: str, *, lang: str = "en") -> str:
+    normalized = normalize_pubmed_deep_dive(detail_md or "", lang=lang, fallback_bottom_line=fallback_bottom_line)
+    return normalized or f"BOTTOM LINE: {fallback_bottom_line or 'Not reported'}"
 
 def _infer_track_and_subcategory(item: Dict[str, Any]) -> Tuple[str, str]:
     hay = " ".join((str(item.get(k) or "") for k in ("title", "journal", "channel"))).lower()
@@ -684,7 +670,7 @@ def to_markdown(
             detail_block = _detail_lookup(details_by_id, it)
             best_bottom_line = _best_bottom_line(it, detail_block) if is_cybermed else ""
             if is_cybermed and str(it.get("source") or "").strip().lower() == "pubmed":
-                detail_block = _ensure_pubmed_deep_dive_template(detail_block, best_bottom_line)
+                detail_block = _ensure_pubmed_deep_dive_template(detail_block, best_bottom_line, lang=lang)
             if not detail_block and is_cybermed:
                 detail_block = f"**BOTTOM LINE:** {best_bottom_line}"
             md.append(detail_block)

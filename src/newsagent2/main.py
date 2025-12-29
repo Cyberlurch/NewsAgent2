@@ -39,6 +39,7 @@ from .summarizer import (
     summarize_item_detail,
     summarize_pubmed_bottom_line,
     summarize_foamed_bottom_line,
+    extract_pubmed_abstract,
 )
 
 STO = ZoneInfo("Europe/Stockholm")
@@ -1550,6 +1551,17 @@ def main() -> None:
     if cybermed_meta_block:
         overview_body = cybermed_meta_block + overview_body
 
+    deep_dive_requested = len(detail_items)
+    deep_dive_retried = 0
+    deep_dive_empty_outputs = 0
+    missing_abstract_count = 0
+    for it in detail_items:
+        src = (it.get("source") or "").strip().lower()
+        if src == "pubmed":
+            abs_text, _ = extract_pubmed_abstract(it.get("text") or "")
+            if not abs_text.strip():
+                missing_abstract_count += 1
+
     details_by_id: Dict[str, str] = {}
     details_for_report: Dict[str, str] = {}
     for it in detail_items:
@@ -1570,8 +1582,17 @@ def main() -> None:
 
         if key:
             details_by_id[key] = detail_block
+        if iid_raw and detail_block:
+            details_by_id.setdefault(iid_raw, detail_block)
         if iid and detail_block:
             details_for_report[iid] = detail_block
+        if key and detail_block:
+            details_for_report.setdefault(key, detail_block)
+
+        if getattr(it, "_deep_dive_retried", False):
+            deep_dive_retried += 1
+        if getattr(it, "_deep_dive_empty_output", False):
+            deep_dive_empty_outputs += 1
 
     if is_cybermed_run and not deep_dive_ids and details_for_report:
         for iid in details_for_report.keys():
@@ -1596,9 +1617,16 @@ def main() -> None:
             if iid and iid in deep_dive_ids:
                 it["top_pick"] = True
 
-    if is_cybermed_run and "pubmed" in cybermed_run_stats:
+    if is_cybermed_run:
         cybermed_run_stats.setdefault("pubmed", {})
         cybermed_run_stats["pubmed"]["generated_deep_dives"] = len(details_for_report)
+        cybermed_run_stats["deep_dives"] = {
+            "requested_deep_dives": deep_dive_requested,
+            "generated_deep_dives": len(details_for_report),
+            "retried_deep_dives": deep_dive_retried,
+            "empty_deep_dive_outputs": deep_dive_empty_outputs,
+            "missing_abstract_count": missing_abstract_count,
+        }
 
     md = to_markdown(
         report_items,
