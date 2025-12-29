@@ -41,6 +41,7 @@ from .summarizer import (
     summarize_foamed_bottom_line,
     extract_pubmed_abstract,
 )
+from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
 
 STO = ZoneInfo("Europe/Stockholm")
 
@@ -845,6 +846,10 @@ def main() -> None:
     sent_cooldown_hours = _safe_int("PUBMED_SENT_COOLDOWN_HOURS", 48)
     reconsider_unsent_hours = _safe_int("RECONSIDER_UNSENT_HOURS", 36)
     max_text_chars_per_item = _safe_int("MAX_TEXT_CHARS_PER_ITEM", 12000)
+    pubmed_use_pmc_oa_fulltext = _env_bool("PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT", False)
+    pubmed_fulltext_max_bytes = _safe_int("PUBMED_DEEPDIVE_FULLTEXT_MAX_BYTES", 25000000)
+    pubmed_fulltext_max_chars = _safe_int("PUBMED_DEEPDIVE_FULLTEXT_MAX_CHARS", 30000)
+    pubmed_fulltext_timeout_s = _safe_int("PUBMED_DEEPDIVE_FULLTEXT_TIMEOUT_S", 20)
 
     state_path = (os.getenv("STATE_PATH", "state/processed_items.json") or "state/processed_items.json").strip()
     rollups_state_path = (os.getenv("ROLLUPS_STATE_PATH", "state/rollups.json") or "state/rollups.json").strip()
@@ -1550,6 +1555,54 @@ def main() -> None:
 
     if cybermed_meta_block:
         overview_body = cybermed_meta_block + overview_body
+
+    if is_cybermed_run and pubmed_use_pmc_oa_fulltext:
+        pubmed_detail_items = [
+            it for it in detail_items if (it.get("source") or "").strip().lower() == "pubmed"
+        ]
+        attempted = len(pubmed_detail_items)
+        enriched = 0
+        oa_found = 0
+        downloaded = 0
+        skipped_size = 0
+        if attempted:
+            try:
+                pmids = [(it.get("pmid") or it.get("id") or "").strip() for it in pubmed_detail_items]
+                pmcid_map = get_pmcids_for_pmids(pmids, timeout=pubmed_fulltext_timeout_s)
+                for it in pubmed_detail_items:
+                    pmid = (it.get("pmid") or it.get("id") or "").strip()
+                    if not pmid:
+                        continue
+                    pmcid = pmcid_map.get(pmid, "")
+                    if not pmcid:
+                        continue
+                    links = get_oa_links(pmcid, timeout=pubmed_fulltext_timeout_s)
+                    if not links:
+                        continue
+                    oa_found += 1
+                    text, skipped = fetch_and_extract_fulltext(
+                        links,
+                        timeout_s=float(pubmed_fulltext_timeout_s),
+                        max_bytes=max(1024, pubmed_fulltext_max_bytes),
+                        max_chars=max(1000, pubmed_fulltext_max_chars),
+                    )
+                    if skipped:
+                        skipped_size += 1
+                    if text:
+                        downloaded += 1
+                        base_text = (it.get("text") or "").strip()
+                        combined = "\n\n".join(
+                            [part for part in (base_text, f"[PMC Open Access full text]\n{text}") if part]
+                        ).strip()
+                        if combined:
+                            it["text"] = combined
+                            enriched += 1
+            except Exception as e:
+                print(f"[pmc] WARN: deepdive_fulltext enrichment failed: {e!r}")
+        print(
+            f"[pmc] deepdive_fulltext: attempted={attempted} enriched={enriched} "
+            f"(oa_found={oa_found}, downloaded={downloaded}, skipped_size={skipped_size})"
+        )
 
     deep_dive_requested = len(detail_items)
     deep_dive_retried = 0

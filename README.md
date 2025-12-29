@@ -106,6 +106,19 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 - `ROLLUPS_STATE_PATH` (optional): path to persist monthly rollups; defaults to `state/rollups.json`.
 - `ROLLUPS_MAX_MONTHS` (optional): maximum number of monthly rollups to keep per report (default: 24; current month is never pruned).
 
+### Deep-dive model controls
+
+- `OPENAI_MODEL_PUBMED_DEEPDIVE` (defaults to `OPENAI_MODEL`): primary model for PubMed deep dives (e.g., `gpt-4.1`).
+- `OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK` (optional): fallback model used once when the first deep-dive attempt outputs too many “Not reported” fields.
+
+### Optional PubMed Open Access full text enrichment
+
+- `PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT` (default `0`): when set to `1`, attempts to fetch PMC Open Access full text for the selected PubMed deep dives via the PMC ID Converter and OA Web Service.
+- Limits (tune to stay within GitHub Actions budgets):
+  - `PUBMED_DEEPDIVE_FULLTEXT_MAX_BYTES` (default `25000000`)
+  - `PUBMED_DEEPDIVE_FULLTEXT_MAX_CHARS` (default `30000`)
+  - `PUBMED_DEEPDIVE_FULLTEXT_TIMEOUT_S` (default `20`)
+
 ---
 
 ## Security
