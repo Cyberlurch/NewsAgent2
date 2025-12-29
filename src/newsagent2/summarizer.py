@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional
 from openai import OpenAI
 
 # Default model used for all summaries (override via OPENAI_MODEL env var)
-OPENAI_MODEL = (os.getenv("OPENAI_MODEL") or "gpt-4.1-mini").strip()
+OPENAI_MODEL = (os.getenv("OPENAI_MODEL") or "gpt-4.1").strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE") or OPENAI_MODEL).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK") or "").strip()
 
@@ -162,7 +162,7 @@ _SYS_DETAIL_PUBMED_DE = (
     "You are a careful clinical summarizer. Write strictly in German.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract/full-text excerpt when available).\n"
     "Use ONLY the provided text; do not add outside facts. Extract what is explicitly or implicitly present; only use 'nicht berichtet' when there is truly no hint in the text.\n"
-    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Do not drop information that is present in the abstract or full text.\n\n"
+    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Do not drop information that is present in the abstract or full text. Priorisiere Methoden/Ergebnisse und nenne konkrete Zahlen, falls vorhanden. Gib nach jedem Label mindestens einen kurzen Satz in derselben Zeile an; zusätzliche Bullet-Points dürfen in eingerückten Zeilen folgen.\n\n"
     "Return Markdown that renders cleanly in HTML email:\n"
     "- Start with one paragraph: 'BOTTOM LINE: …'\n"
     "- Then a bullet list with bold labels exactly like this:\n"
@@ -180,7 +180,7 @@ _SYS_DETAIL_PUBMED_EN = (
     "You are a careful clinical summarizer. Write strictly in English.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract/full-text excerpt when available).\n"
     "Use ONLY the provided text; do not add outside facts. Extract what is explicitly or implicitly present; only use 'Not reported' when there is truly no hint in the text.\n"
-    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Do not drop information that is present in the abstract or full text.\n\n"
+    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Do not drop information that is present in the abstract or full text. Prioritize Methods/Results and include concrete numbers when present. Put at least one short sentence on the SAME LINE after each label; additional indented bullets may follow.\n\n"
     "Return Markdown that renders cleanly in HTML email:\n"
     "- Start with one paragraph: 'BOTTOM LINE: …'\n"
     "- Then a bullet list with bold labels exactly like this:\n"
@@ -214,7 +214,7 @@ _SYS_DETAIL_PUBMED_CYBERLURCH_EN = (
     "  - **Limitations:**\n"
     "    - …\n"
     "  - **Why this matters:** …\n"
-    "If the text contains enough information to infer the study type/population/endpoints/results, do so; only use 'Not reported' when there is truly no hint in the provided text.\n"
+    "If the text contains enough information to infer the study type/population/endpoints/results, do so; only use 'Not reported' when there is truly no hint in the provided text. Prioritize Methods/Results, include concrete numbers when present, and place at least one short sentence on the SAME LINE after each label (additional indented bullets are allowed).\n"
 )
 
 
@@ -342,11 +342,12 @@ def extract_pubmed_abstract(raw_text: str) -> tuple[str, bool]:
 def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: str = "") -> tuple[str, int]:
     placeholder = "Not reported" if lang == "en" else "nicht berichtet"
     lower_placeholder = placeholder.lower()
-    label_line_pat = re.compile(r"(?im)^([^:]+):\s*(.+)$")
+    label_line_pat = re.compile(r"(?im)^\s*(?:[-*•]\s*)?(?:\*\*)?([^:]+)(?:\*\*)?\s*:?\s*(.*?)\s*$")
 
     def _clean_value(val: str) -> str:
         cleaned = (val or "").strip()
         cleaned = re.sub(r"^\*+|\*+$", "", cleaned).strip()
+        cleaned = re.sub(r"^[\s>*-]*[-*•]\s+", "", cleaned)
         if cleaned.lower() in {"not reported", "nicht berichtet"}:
             return placeholder
         return cleaned
@@ -362,23 +363,70 @@ def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: 
                 return heading
         return ""
 
-    def _extract_alias_fields(text: str) -> Dict[str, str]:
-        fields: Dict[str, str] = {}
-        for line in text.splitlines():
-            normalized_line = re.sub(r"^\s*[-*•]\s*", "", line or "")
+    def _join_parts(parts: List[str]) -> str:
+        cleaned = [_clean_value(p) for p in parts if _clean_value(p)]
+        return "; ".join(cleaned).strip()
+
+    def _parse_labeled_blocks(text: str) -> Dict[str, List[str]]:
+        blocks: Dict[str, List[str]] = {}
+        lines = text.splitlines()
+        idx = 0
+        while idx < len(lines):
+            raw_line = lines[idx]
+            normalized_line = re.sub(r"^\s*[-*•]\s*", "", raw_line or "")
             normalized_line = re.sub(r"^\*+|\*+$", "", normalized_line).strip()
+            normalized_line = normalized_line.replace("**", "").strip()
             if not normalized_line:
+                idx += 1
                 continue
             m = label_line_pat.match(normalized_line)
             if not m:
+                idx += 1
                 continue
             canon = _canonical_label(m.group(1))
             if not canon:
+                idx += 1
                 continue
-            val = _clean_value(m.group(2) or "")
-            if val:
-                fields[canon] = val
-        return fields
+
+            value_parts: List[str] = []
+            first_val = _clean_value(m.group(2) or "")
+            if first_val:
+                value_parts.append(first_val)
+
+            lookahead = idx + 1
+            while lookahead < len(lines):
+                nxt_raw = lines[lookahead]
+                nxt_norm = re.sub(r"^\s*[-*•]\s*", "", nxt_raw or "")
+                nxt_norm = re.sub(r"^\*+|\*+$", "", nxt_norm).rstrip()
+                nxt_norm = nxt_norm.replace("**", "").strip()
+                if not (nxt_norm or "").strip():
+                    if value_parts:
+                        break
+                    lookahead += 1
+                    continue
+                next_label_match = label_line_pat.match(nxt_norm.strip())
+                if next_label_match and _canonical_label(next_label_match.group(1)):
+                    break
+                if nxt_raw.startswith((" ", "\t")) or nxt_raw.lstrip().startswith(("-", "*", "•", ">")):
+                    cleaned_part = _clean_value(nxt_norm)
+                    if cleaned_part:
+                        value_parts.append(cleaned_part)
+                    lookahead += 1
+                    continue
+                if value_parts:
+                    break
+                lookahead += 1
+
+            next_idx = max(lookahead, idx + 1)
+            if value_parts:
+                blocks[canon] = value_parts
+            idx = next_idx
+        return blocks
+
+    alias_blocks = _parse_labeled_blocks(md)
+
+    def _extract_alias_fields(text: str) -> Dict[str, str]:
+        return {k: _join_parts(v) for k, v in alias_blocks.items() if _join_parts(v)}
 
     def _extract_bottom_line(text: str) -> str:
         for line in text.splitlines():
@@ -389,6 +437,8 @@ def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: 
         return ""
 
     def _extract_field(text: str, label: str) -> str:
+        if label in alias_blocks:
+            return _join_parts(alias_blocks[label])
         pat = rf"(?im)^\s*(?:[-*•]\s*)?(?:\*\*)?{re.escape(label)}(?:\*\*)?\s*:?\s*(?:\*\*)?\s*(.+)$"
         m = re.search(pat, text)
         if m:
@@ -396,6 +446,11 @@ def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: 
         return ""
 
     def _extract_limitations(text: str) -> List[str]:
+        if "Limitations:" in alias_blocks:
+            return [_clean_value(x) for x in alias_blocks.get("Limitations:", []) if _clean_value(x)]
+        inline_lim = _extract_field(text, "Limitations")
+        if inline_lim:
+            return [_clean_value(inline_lim)]
         pat = re.compile(r"(?im)^\s*(?:[-*•]\s*)?(?:\*\*)?(limitations|strengths/limitations)(?:\*\*)?\s*:?\s*$")
         lines = text.splitlines()
         start_idx = None
@@ -451,7 +506,7 @@ def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: 
 
     limitations_list = [_clean_value(x) for x in _extract_limitations(md) if _clean_value(x)]
     alias_lim = _clean_value(alias_fields.get("Limitations:", ""))
-    if alias_lim:
+    if alias_lim and "Limitations:" not in alias_blocks:
         limitations_list = [alias_lim] + limitations_list
 
     not_reported_fields = 0
@@ -673,18 +728,19 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         text = text[:max_chars].rstrip()
 
     abstract_header_seen = False
-    fulltext_excerpt = ""
+    fulltext_excerpt = (item.get("full_text_excerpt") or "").strip()
     abstract = (item.get("abstract") or "").strip() if src == "pubmed" else ""
 
     if src == "pubmed":
         if not abstract:
             abstract, abstract_header_seen = extract_pubmed_abstract(text)
-        marker = "[PMC Open Access full text]"
-        marker_idx = text.find(marker)
-        if marker_idx != -1:
-            fulltext_excerpt = text[marker_idx:]
-            if len(fulltext_excerpt) > 20000:
-                fulltext_excerpt = fulltext_excerpt[:20000].rstrip()
+        if not fulltext_excerpt:
+            marker = "[PMC Open Access full text]"
+            marker_idx = text.find(marker)
+            if marker_idx != -1:
+                fulltext_excerpt = text[marker_idx:]
+                if len(fulltext_excerpt) > 20000:
+                    fulltext_excerpt = fulltext_excerpt[:20000].rstrip()
         item["_deep_dive_missing_abstract"] = abstract.strip() == ""
     else:
         item["_deep_dive_missing_abstract"] = False
@@ -733,10 +789,14 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     if src == "pubmed":
         user_prompt += (
             "Please produce the requested deep dive. Use the structured fields above; the abstract/full text is provided separately from any header text. "
-            "If the text contains clues for study type, population, endpoints, results, or limitations, place them in the corresponding fields instead of writing 'Not reported'/'nicht berichtet'.\n"
+            "If the text contains clues for study type, population, endpoints, results, or limitations, place them in the corresponding fields instead of writing 'Not reported'/'nicht berichtet'. "
+            "If a full_text_excerpt is present, it may be truncated—prioritize Methods/Results and concrete numbers.\n"
         )
     else:
         user_prompt += "Now write the requested deep dive.\n"
+
+    not_reported_fields = 0
+    parse_fallback_used = False
 
     try:
         client = _get_client()
@@ -763,6 +823,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     parsed, lang=lang, fallback_bottom_line=fallback_bl
                 )
             else:
+                parse_fallback_used = True
                 messages = [
                     {"role": "system", "content": sys_prompt},
                     {"role": "user", "content": user_prompt},
@@ -787,7 +848,8 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     user_prompt
                     + retry_context
                     + "\nRETRY: The provided content includes useful details. Extract or infer study type, population/setting, endpoints, results, limitations, and why this matters. "
-                    "Keep the exact template and avoid 'Not reported'/'nicht berichtet' unless a field is truly absent from the text.\n"
+                    "Keep the exact template and avoid 'Not reported'/'nicht berichtet' unless a field is truly absent from the text. "
+                    "Put at least one short sentence on the SAME LINE after each label; additional bullets may follow on subsequent indented lines.\n"
                 )
                 r_retry = client.chat.completions.create(
                     model=models.fallback or model_to_use,
@@ -805,6 +867,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     content = normalized_retry
                     not_reported_fields = retry_missing
                 retried = True
+                parse_fallback_used = True
 
             item["_deep_dive_retried"] = retried
         else:
@@ -821,6 +884,9 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             item["_deep_dive_retried"] = False
 
         item["_deep_dive_empty_output"] = not bool(content.strip())
+        item["_deep_dive_parse_fallback"] = parse_fallback_used or retried
+        item["_deep_dive_not_reported_fields"] = not_reported_fields
+        item["_deep_dive_all_fields_placeholder"] = not_reported_fields >= 7
         return content
     except Exception as e:
         if lang == "en":

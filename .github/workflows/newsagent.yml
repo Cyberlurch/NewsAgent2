@@ -67,6 +67,7 @@ jobs:
       NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
       NCBI_TOOL: ${{ vars.NCBI_TOOL || 'NewsAgent2' }}
       NCBI_EMAIL: ${{ vars.NCBI_EMAIL || '' }}
+      UNPAYWALL_EMAIL: ${{ vars.UNPAYWALL_EMAIL || vars.NCBI_EMAIL || '' }}
 
       # PubMed Rate-Limit robustness (non-secret)
       PUBMED_MIN_INTERVAL_S: ${{ vars.PUBMED_MIN_INTERVAL_S || '0.40' }}
@@ -74,6 +75,7 @@ jobs:
       PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
       PUBMED_DATE_TYPE: ${{ vars.PUBMED_DATE_TYPE || 'edat' }}
       PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT || 'true' }}
+      PUBMED_DEEPDIVE_USE_UNPAYWALL_OA_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_UNPAYWALL_OA_FULLTEXT || '1' }}
       REPORT_DIR: out
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}

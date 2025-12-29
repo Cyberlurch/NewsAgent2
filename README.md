@@ -119,6 +119,12 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
   - `PUBMED_DEEPDIVE_FULLTEXT_MAX_CHARS` (default `30000`)
   - `PUBMED_DEEPDIVE_FULLTEXT_TIMEOUT_S` (default `20`)
 
+### Optional: Unpaywall full-text deep dives
+
+- `UNPAYWALL_EMAIL` (optional; falls back to `NCBI_EMAIL`): contact email required by the Unpaywall API. If missing, Unpaywall enrichment is disabled automatically.
+- `PUBMED_DEEPDIVE_USE_UNPAYWALL_OA_FULLTEXT` (default `1`): when enabled, attempts to fetch legal open-access full text via Unpaywall for PubMed deep dives (PDF preferred, HTML fallback). Downloads are size-limited and trimmed before prompting the model.
+- Only OA content is fetched—no institutional proxy automation is attempted.
+
 ---
 
 ## Security
