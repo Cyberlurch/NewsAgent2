@@ -52,6 +52,8 @@ jobs:
       # OpenAI
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
+      OPENAI_MODEL_PUBMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE || 'gpt-4.1' }}
+      OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK || '' }}
 
       # E-Mail (SMTP)
       SEND_EMAIL: ${{ vars.SEND_EMAIL || '1' }}
