@@ -1,6 +1,6 @@
 import textwrap
 
-from src.newsagent2.summarizer import _ensure_pubmed_deep_dive_template
+from src.newsagent2.summarizer import _ensure_pubmed_deep_dive_template, _normalize_pubmed_field_values
 
 
 def test_bottom_line_only_rebuilt_with_template():
@@ -44,3 +44,32 @@ def test_structured_output_is_preserved_and_normalized():
     assert "Study type: RCT" in fixed
     assert "Limitations:\n- Small sample" in fixed
     assert fixed.count("Limitations:") == 1
+
+
+def test_multiline_fields_are_parsed():
+    md = textwrap.dedent(
+        """
+        BOTTOM LINE: Early signal
+
+        Study type:
+        - Prospective cohort
+        Population/setting:
+          - 50 ICU patients across 3 sites
+        Primary endpoints:
+        - 28-day mortality
+        Key results:
+        - Mortality 5%
+        - ICU stay shorter in intervention arm
+        Limitations:
+        - Single center
+        Why this matters:
+        - Adds early real-world data
+        """
+    ).strip()
+
+    normalized, missing = _normalize_pubmed_field_values(md, lang="en")
+
+    assert "Study type: Prospective cohort" in normalized
+    assert "Population/setting: 50 ICU patients across 3 sites" in normalized
+    assert "Key results: Mortality 5%; ICU stay shorter in intervention arm" in normalized
+    assert missing < 4

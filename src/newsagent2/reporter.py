@@ -346,11 +346,17 @@ def _format_cybermed_metadata(
         if isinstance(deep, dict) and deep:
             lines.append(
                 "- deep_dive_stats: "
+                f"candidates={deep.get('candidates', 'n/a')}, "
                 f"requested={deep.get('requested_deep_dives', 'n/a')}, "
                 f"generated={deep.get('generated_deep_dives', 'n/a')}, "
                 f"retried={deep.get('retried_deep_dives', 'n/a')}, "
                 f"empty_outputs={deep.get('empty_deep_dive_outputs', 'n/a')}, "
-                f"missing_abstracts={deep.get('missing_abstract_count', 'n/a')}"
+                f"missing_abstracts={deep.get('missing_abstract_count', 'n/a')}, "
+                f"fulltext_enriched={deep.get('enriched_fulltext_count', 'n/a')}, "
+                f"unpaywall_oa_found={deep.get('unpaywall_oa_found_count', 'n/a')}, "
+                f"download_successes={deep.get('download_success_count', 'n/a')}, "
+                f"parse_fallback_used={deep.get('parse_fallback_used_count', 'n/a')}, "
+                f"all_fields_not_reported={deep.get('not_reported_all_fields_count', 'n/a')}"
             )
 
     if domain_counts:

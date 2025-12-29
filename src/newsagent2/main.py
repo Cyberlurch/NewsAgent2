@@ -42,6 +42,7 @@ from .summarizer import (
     extract_pubmed_abstract,
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
+from .fulltext_unpaywall import download_best_oa_fulltext, lookup_unpaywall
 
 STO = ZoneInfo("Europe/Stockholm")
 
@@ -154,6 +155,9 @@ def _pubmed_text_has_sufficient_content(
     abstract = (item.get("abstract") or "").strip()
     if len(abstract) >= min_abstract_chars:
         return True
+    fulltext_excerpt = (item.get("full_text_excerpt") or "").strip()
+    if len(fulltext_excerpt) >= min_fulltext_chars:
+        return True
     text = (item.get("text") or "").strip()
     marker = "[PMC Open Access full text]"
     if marker in text:
@@ -169,11 +173,14 @@ def _select_pubmed_deep_dives_with_content(
     *,
     deep_dive_limit: int,
     use_pmc_oa_fulltext: bool,
+    use_unpaywall_oa_fulltext: bool,
+    unpaywall_email: str,
     min_abstract_chars: int,
     min_fulltext_chars: int,
     fulltext_timeout_s: int,
     fulltext_max_bytes: int,
     fulltext_max_chars: int,
+    unpaywall_min_chars: int,
 ) -> List[Dict[str, Any]]:
     selected: List[Dict[str, Any]] = []
     if deep_dive_limit <= 0 or not candidates:
@@ -193,6 +200,9 @@ def _select_pubmed_deep_dives_with_content(
     enriched = 0
     oa_found = 0
     downloaded = 0
+    unpaywall_oa_found = 0
+    unpaywall_downloaded = 0
+    unpaywall_enabled = use_unpaywall_oa_fulltext and bool(unpaywall_email)
     for cand in candidates:
         if len(selected) >= deep_dive_limit:
             break
@@ -203,36 +213,68 @@ def _select_pubmed_deep_dives_with_content(
             selected.append(cand)
             continue
 
-        if not use_pmc_oa_fulltext:
-            continue
-
         pmid = (cand.get("pmid") or cand.get("id") or "").strip()
-        if not pmid:
-            continue
-
         pmcid = pmcid_map.get(pmid, "")
-        if not pmcid:
-            continue
+        used_fulltext = False
 
-        links = get_oa_links(pmcid, timeout=float(fulltext_timeout_s))
-        if not links:
-            continue
-        oa_found += 1
+        if use_pmc_oa_fulltext and pmcid:
+            links = get_oa_links(pmcid, timeout=float(fulltext_timeout_s))
+            if links:
+                oa_found += 1
+                cand["_deep_dive_pmc_oa_found"] = True
+                text, _ = fetch_and_extract_fulltext(
+                    links,
+                    timeout_s=float(fulltext_timeout_s),
+                    max_bytes=max(1024, fulltext_max_bytes),
+                    max_chars=max(1000, fulltext_max_chars),
+                )
+                if text:
+                    downloaded += 1
+                    cand["_deep_dive_pmc_downloaded"] = True
+                    base_text = (cand.get("text") or "").strip()
+                    combined = "\n\n".join([part for part in (base_text, f"[PMC Open Access full text]\n{text}") if part]).strip()
+                    if combined:
+                        cand["text"] = combined
+                    cand.setdefault(
+                        "full_text_excerpt",
+                        f"PMC Open Access full text (truncated):\n{text[:fulltext_max_chars].rstrip()}",
+                    )
+                    enriched += 1
+                    cand["_deep_dive_fulltext_enriched"] = True
+                    used_fulltext = True
 
-        text, _ = fetch_and_extract_fulltext(
-            links,
-            timeout_s=float(fulltext_timeout_s),
-            max_bytes=max(1024, fulltext_max_bytes),
-            max_chars=max(1000, fulltext_max_chars),
-        )
-        if not text:
-            continue
-        downloaded += 1
-        base_text = (cand.get("text") or "").strip()
-        combined = "\n\n".join([part for part in (base_text, f"[PMC Open Access full text]\n{text}") if part]).strip()
-        if combined:
-            cand["text"] = combined
-        enriched += 1
+        if not used_fulltext and unpaywall_enabled:
+            doi = (cand.get("doi") or "").strip()
+            if doi:
+                oa_info = lookup_unpaywall(
+                    doi,
+                    unpaywall_email,
+                    connect_timeout=10.0,
+                    read_timeout=30.0,
+                    retries=2,
+                )
+                if oa_info.get("is_oa"):
+                    unpaywall_oa_found += 1
+                    cand["_deep_dive_unpaywall_found"] = True
+                    oa_text, _ = download_best_oa_fulltext(
+                        oa_info,
+                        max_bytes=max(1024, fulltext_max_bytes),
+                        max_chars=max(1000, fulltext_max_chars),
+                        connect_timeout=10.0,
+                        read_timeout=30.0,
+                    )
+                    if oa_text and len(oa_text) >= max(500, unpaywall_min_chars):
+                        unpaywall_downloaded += 1
+                        cand["_deep_dive_unpaywall_downloaded"] = True
+                        trimmed_text = oa_text[:fulltext_max_chars].rstrip()
+                        cand["full_text_excerpt"] = f"Open-access full text excerpt (truncated; may be incomplete):\n{trimmed_text}"
+                        base_text = (cand.get("text") or "").strip()
+                        combined = "\n\n".join([part for part in (base_text, trimmed_text) if part]).strip()
+                        if combined:
+                            cand["text"] = combined
+                        enriched += 1
+                        cand["_deep_dive_fulltext_enriched"] = True
+                        used_fulltext = True
 
         if _pubmed_text_has_sufficient_content(
             cand, min_abstract_chars=min_abstract_chars, min_fulltext_chars=min_fulltext_chars
@@ -242,12 +284,14 @@ def _select_pubmed_deep_dives_with_content(
     if selected:
         print(
             f"[deepdive] Selected {len(selected)} PubMed deep-dive candidate(s) "
-            f"(enriched={enriched}, oa_found={oa_found}, downloaded={downloaded}, limit={deep_dive_limit})"
+            f"(enriched={enriched}, oa_found={oa_found}, downloaded={downloaded}, unpaywall_oa_found={unpaywall_oa_found}, "
+            f"unpaywall_downloaded={unpaywall_downloaded}, limit={deep_dive_limit})"
         )
     else:
         print(
             f"[deepdive] No PubMed deep-dive candidates met content requirements "
-            f"(limit={deep_dive_limit}, enriched={enriched}, oa_found={oa_found}, downloaded={downloaded})"
+            f"(limit={deep_dive_limit}, enriched={enriched}, oa_found={oa_found}, downloaded={downloaded}, "
+            f"unpaywall_oa_found={unpaywall_oa_found}, unpaywall_downloaded={unpaywall_downloaded})"
         )
 
     return selected
@@ -955,11 +999,17 @@ def main() -> None:
     reconsider_unsent_hours = _safe_int("RECONSIDER_UNSENT_HOURS", 36)
     max_text_chars_per_item = _safe_int("MAX_TEXT_CHARS_PER_ITEM", 12000)
     pubmed_use_pmc_oa_fulltext = _env_bool("PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT", True)
+    pubmed_use_unpaywall_oa_fulltext = _env_bool("PUBMED_DEEPDIVE_USE_UNPAYWALL_OA_FULLTEXT", True)
     pubmed_fulltext_max_bytes = _safe_int("PUBMED_DEEPDIVE_FULLTEXT_MAX_BYTES", 25000000)
     pubmed_fulltext_max_chars = _safe_int("PUBMED_DEEPDIVE_FULLTEXT_MAX_CHARS", 30000)
     pubmed_fulltext_timeout_s = _safe_int("PUBMED_DEEPDIVE_FULLTEXT_TIMEOUT_S", 20)
+    pubmed_unpaywall_min_chars = _safe_int("PUBMED_DEEPDIVE_UNPAYWALL_MIN_CHARS", 1500)
     pubmed_min_abstract_chars = _safe_int("PUBMED_DEEPDIVE_MIN_ABSTRACT_CHARS", 600)
     pubmed_min_fulltext_chars = _safe_int("PUBMED_DEEPDIVE_MIN_FULLTEXT_CHARS", 2000)
+    unpaywall_email = (os.getenv("UNPAYWALL_EMAIL") or os.getenv("NCBI_EMAIL") or "").strip()
+    unpaywall_enabled = pubmed_use_unpaywall_oa_fulltext and bool(unpaywall_email)
+    if pubmed_use_unpaywall_oa_fulltext and not unpaywall_email:
+        print("[unpaywall] WARN: UNPAYWALL_EMAIL not set; disabling Unpaywall OA enrichment.")
 
     state_path = (os.getenv("STATE_PATH", "state/processed_items.json") or "state/processed_items.json").strip()
     rollups_state_path = (os.getenv("ROLLUPS_STATE_PATH", "state/rollups.json") or "state/rollups.json").strip()
@@ -1424,11 +1474,14 @@ def main() -> None:
             pubmed_deep_dive_items,
             deep_dive_limit=deep_dive_limit,
             use_pmc_oa_fulltext=pubmed_use_pmc_oa_fulltext,
+            use_unpaywall_oa_fulltext=unpaywall_enabled,
+            unpaywall_email=unpaywall_email,
             min_abstract_chars=pubmed_min_abstract_chars,
             min_fulltext_chars=pubmed_min_fulltext_chars,
             fulltext_timeout_s=pubmed_fulltext_timeout_s,
             fulltext_max_bytes=pubmed_fulltext_max_bytes,
             fulltext_max_chars=pubmed_fulltext_max_chars,
+            unpaywall_min_chars=pubmed_unpaywall_min_chars,
         )
 
     # Cybermed in-report transparency header (MUST be based on the real pipeline).
@@ -1640,6 +1693,15 @@ def main() -> None:
             if not it.get("top_pick"):
                 it["top_pick"] = True
 
+    deep_dive_diag = {
+        "candidates": len([it for it in detail_items if (it.get("source") or "").strip().lower() == "pubmed"]),
+        "enriched_fulltext_count": 0,
+        "unpaywall_oa_found_count": 0,
+        "download_success_count": 0,
+        "parse_fallback_used_count": 0,
+        "not_reported_all_fields_count": 0,
+    }
+
     for it in overview_items:
         src = (it.get("source") or "").strip().lower()
         iid = str(it.get("id") or "").strip()
@@ -1679,7 +1741,7 @@ def main() -> None:
     if cybermed_meta_block:
         overview_body = cybermed_meta_block + overview_body
 
-    if is_cybermed_run and pubmed_use_pmc_oa_fulltext:
+    if is_cybermed_run and (pubmed_use_pmc_oa_fulltext or unpaywall_enabled):
         pubmed_detail_items = [
             it for it in detail_items if (it.get("source") or "").strip().lower() == "pubmed"
         ]
@@ -1688,43 +1750,86 @@ def main() -> None:
         oa_found = 0
         downloaded = 0
         skipped_size = 0
+        unpaywall_found = 0
+        unpaywall_downloaded = 0
         if attempted:
             try:
-                pmids = [(it.get("pmid") or it.get("id") or "").strip() for it in pubmed_detail_items]
-                pmcid_map = get_pmcids_for_pmids(pmids, timeout=pubmed_fulltext_timeout_s)
+                pmcid_map: Dict[str, str] = {}
+                if pubmed_use_pmc_oa_fulltext:
+                    pmids = [(it.get("pmid") or it.get("id") or "").strip() for it in pubmed_detail_items]
+                    pmcid_map = get_pmcids_for_pmids(pmids, timeout=pubmed_fulltext_timeout_s)
                 for it in pubmed_detail_items:
                     pmid = (it.get("pmid") or it.get("id") or "").strip()
-                    if not pmid:
-                        continue
-                    pmcid = pmcid_map.get(pmid, "")
-                    if not pmcid:
-                        continue
-                    links = get_oa_links(pmcid, timeout=pubmed_fulltext_timeout_s)
-                    if not links:
-                        continue
-                    oa_found += 1
-                    text, skipped = fetch_and_extract_fulltext(
-                        links,
-                        timeout_s=float(pubmed_fulltext_timeout_s),
-                        max_bytes=max(1024, pubmed_fulltext_max_bytes),
-                        max_chars=max(1000, pubmed_fulltext_max_chars),
-                    )
-                    if skipped:
-                        skipped_size += 1
-                    if text:
-                        downloaded += 1
-                        base_text = (it.get("text") or "").strip()
-                        combined = "\n\n".join(
-                            [part for part in (base_text, f"[PMC Open Access full text]\n{text}") if part]
-                        ).strip()
-                        if combined:
-                            it["text"] = combined
-                            enriched += 1
+                    if pubmed_use_pmc_oa_fulltext and pmid and pmcid_map.get(pmid):
+                        links = get_oa_links(pmcid_map.get(pmid, ""), timeout=pubmed_fulltext_timeout_s)
+                        if links:
+                            oa_found += 1
+                            it["_deep_dive_pmc_oa_found"] = True
+                            text, skipped = fetch_and_extract_fulltext(
+                                links,
+                                timeout_s=float(pubmed_fulltext_timeout_s),
+                                max_bytes=max(1024, pubmed_fulltext_max_bytes),
+                                max_chars=max(1000, pubmed_fulltext_max_chars),
+                            )
+                            if skipped:
+                                skipped_size += 1
+                            if text:
+                                downloaded += 1
+                                it["_deep_dive_pmc_downloaded"] = True
+                                base_text = (it.get("text") or "").strip()
+                                combined = "\n\n".join(
+                                    [part for part in (base_text, f"[PMC Open Access full text]\n{text}") if part]
+                                ).strip()
+                                if combined:
+                                    it["text"] = combined
+                                it.setdefault(
+                                    "full_text_excerpt",
+                                    f"PMC Open Access full text (truncated):\n{text[:pubmed_fulltext_max_chars].rstrip()}",
+                                )
+                                enriched += 1
+                                it["_deep_dive_fulltext_enriched"] = True
+                    if (
+                        unpaywall_enabled
+                        and not (it.get("full_text_excerpt") or "").strip()
+                        and (it.get("doi") or "").strip()
+                    ):
+                        doi = (it.get("doi") or "").strip()
+                        oa_info = lookup_unpaywall(
+                            doi,
+                            unpaywall_email,
+                            connect_timeout=10.0,
+                            read_timeout=30.0,
+                            retries=2,
+                        )
+                        if oa_info.get("is_oa"):
+                            unpaywall_found += 1
+                            it["_deep_dive_unpaywall_found"] = True
+                            text, skipped = download_best_oa_fulltext(
+                                oa_info,
+                                max_bytes=max(1024, pubmed_fulltext_max_bytes),
+                                max_chars=max(1000, pubmed_fulltext_max_chars),
+                                connect_timeout=10.0,
+                                read_timeout=30.0,
+                            )
+                            if skipped:
+                                skipped_size += 1
+                            if text and len(text) >= max(500, pubmed_unpaywall_min_chars):
+                                unpaywall_downloaded += 1
+                                it["_deep_dive_unpaywall_downloaded"] = True
+                                trimmed = text[:pubmed_fulltext_max_chars].rstrip()
+                                it["full_text_excerpt"] = (
+                                    f"Open-access full text excerpt (truncated; may be incomplete):\n{trimmed}"
+                                )
+                                if not it.get("text"):
+                                    it["text"] = trimmed
+                                enriched += 1
+                                it["_deep_dive_fulltext_enriched"] = True
             except Exception as e:
                 print(f"[pmc] WARN: deepdive_fulltext enrichment failed: {e!r}")
         print(
             f"[pmc] deepdive_fulltext: attempted={attempted} enriched={enriched} "
-            f"(oa_found={oa_found}, downloaded={downloaded}, skipped_size={skipped_size})"
+            f"(oa_found={oa_found}, downloaded={downloaded}, unpaywall_oa_found={unpaywall_found}, "
+            f"unpaywall_downloaded={unpaywall_downloaded}, skipped_size={skipped_size})"
         )
 
     deep_dive_requested = len(detail_items)
@@ -1768,6 +1873,34 @@ def main() -> None:
             deep_dive_retried += 1
         if getattr(it, "_deep_dive_empty_output", False):
             deep_dive_empty_outputs += 1
+        if src == "pubmed":
+            if getattr(it, "_deep_dive_parse_fallback", False):
+                deep_dive_diag["parse_fallback_used_count"] += 1
+            if getattr(it, "_deep_dive_all_fields_placeholder", False):
+                deep_dive_diag["not_reported_all_fields_count"] += 1
+
+    deep_dive_diag["enriched_fulltext_count"] = len(
+        [
+            it
+            for it in detail_items
+            if (it.get("source") or "").strip().lower() == "pubmed" and it.get("_deep_dive_fulltext_enriched")
+        ]
+    )
+    deep_dive_diag["unpaywall_oa_found_count"] = len(
+        [
+            it
+            for it in detail_items
+            if (it.get("source") or "").strip().lower() == "pubmed" and it.get("_deep_dive_unpaywall_found")
+        ]
+    )
+    deep_dive_diag["download_success_count"] = len(
+        [
+            it
+            for it in detail_items
+            if (it.get("source") or "").strip().lower() == "pubmed"
+            and (it.get("_deep_dive_unpaywall_downloaded") or it.get("_deep_dive_pmc_downloaded"))
+        ]
+    )
 
     if is_cybermed_run and not deep_dive_ids and details_for_report:
         for iid in details_for_report.keys():
@@ -1796,11 +1929,17 @@ def main() -> None:
         cybermed_run_stats.setdefault("pubmed", {})
         cybermed_run_stats["pubmed"]["generated_deep_dives"] = len(details_for_report)
         cybermed_run_stats["deep_dives"] = {
+            "candidates": deep_dive_diag.get("candidates", 0),
             "requested_deep_dives": deep_dive_requested,
             "generated_deep_dives": len(details_for_report),
             "retried_deep_dives": deep_dive_retried,
             "empty_deep_dive_outputs": deep_dive_empty_outputs,
             "missing_abstract_count": missing_abstract_count,
+            "enriched_fulltext_count": deep_dive_diag.get("enriched_fulltext_count", 0),
+            "unpaywall_oa_found_count": deep_dive_diag.get("unpaywall_oa_found_count", 0),
+            "download_success_count": deep_dive_diag.get("download_success_count", 0),
+            "parse_fallback_used_count": deep_dive_diag.get("parse_fallback_used_count", 0),
+            "not_reported_all_fields_count": deep_dive_diag.get("not_reported_all_fields_count", 0),
         }
 
     md = to_markdown(
