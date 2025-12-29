@@ -145,6 +145,114 @@ def _parse_hours_override(raw: str) -> int | None:
         return None
 
 
+def _pubmed_text_has_sufficient_content(
+    item: Dict[str, Any],
+    *,
+    min_abstract_chars: int,
+    min_fulltext_chars: int,
+) -> bool:
+    abstract = (item.get("abstract") or "").strip()
+    if len(abstract) >= min_abstract_chars:
+        return True
+    text = (item.get("text") or "").strip()
+    marker = "[PMC Open Access full text]"
+    if marker in text:
+        idx = text.find(marker)
+        excerpt = text[idx:]
+        if len(excerpt.strip()) >= min_fulltext_chars:
+            return True
+    return False
+
+
+def _select_pubmed_deep_dives_with_content(
+    candidates: List[Dict[str, Any]],
+    *,
+    deep_dive_limit: int,
+    use_pmc_oa_fulltext: bool,
+    min_abstract_chars: int,
+    min_fulltext_chars: int,
+    fulltext_timeout_s: int,
+    fulltext_max_bytes: int,
+    fulltext_max_chars: int,
+) -> List[Dict[str, Any]]:
+    selected: List[Dict[str, Any]] = []
+    if deep_dive_limit <= 0 or not candidates:
+        return selected
+
+    pmcid_map: Dict[str, str] = {}
+    if use_pmc_oa_fulltext:
+        pmids = [
+            (it.get("pmid") or it.get("id") or "").strip()
+            for it in candidates
+            if not _pubmed_text_has_sufficient_content(
+                it, min_abstract_chars=min_abstract_chars, min_fulltext_chars=min_fulltext_chars
+            )
+        ]
+        pmcid_map = get_pmcids_for_pmids(pmids, timeout=float(fulltext_timeout_s))
+
+    enriched = 0
+    oa_found = 0
+    downloaded = 0
+    for cand in candidates:
+        if len(selected) >= deep_dive_limit:
+            break
+
+        if _pubmed_text_has_sufficient_content(
+            cand, min_abstract_chars=min_abstract_chars, min_fulltext_chars=min_fulltext_chars
+        ):
+            selected.append(cand)
+            continue
+
+        if not use_pmc_oa_fulltext:
+            continue
+
+        pmid = (cand.get("pmid") or cand.get("id") or "").strip()
+        if not pmid:
+            continue
+
+        pmcid = pmcid_map.get(pmid, "")
+        if not pmcid:
+            continue
+
+        links = get_oa_links(pmcid, timeout=float(fulltext_timeout_s))
+        if not links:
+            continue
+        oa_found += 1
+
+        text, _ = fetch_and_extract_fulltext(
+            links,
+            timeout_s=float(fulltext_timeout_s),
+            max_bytes=max(1024, fulltext_max_bytes),
+            max_chars=max(1000, fulltext_max_chars),
+        )
+        if not text:
+            continue
+        downloaded += 1
+        base_text = (cand.get("text") or "").strip()
+        combined = "\n\n".join([part for part in (base_text, f"[PMC Open Access full text]\n{text}") if part]).strip()
+        if combined:
+            cand["text"] = combined
+        enriched += 1
+
+        if _pubmed_text_has_sufficient_content(
+            cand, min_abstract_chars=min_abstract_chars, min_fulltext_chars=min_fulltext_chars
+        ):
+            selected.append(cand)
+
+    if selected:
+        print(
+            f"[deepdive] Selected {len(selected)} PubMed deep-dive candidate(s) "
+            f"(enriched={enriched}, oa_found={oa_found}, downloaded={downloaded}, limit={deep_dive_limit})"
+        )
+    else:
+        print(
+            f"[deepdive] No PubMed deep-dive candidates met content requirements "
+            f"(limit={deep_dive_limit}, enriched={enriched}, oa_found={oa_found}, downloaded={downloaded})"
+        )
+
+    return selected
+
+
 def _foamed_health_bucket(state: Dict[str, Any]) -> Dict[str, Any]:
     if not isinstance(state, dict):
         return {}
@@ -846,10 +954,12 @@ def main() -> None:
     sent_cooldown_hours = _safe_int("PUBMED_SENT_COOLDOWN_HOURS", 48)
     reconsider_unsent_hours = _safe_int("RECONSIDER_UNSENT_HOURS", 36)
     max_text_chars_per_item = _safe_int("MAX_TEXT_CHARS_PER_ITEM", 12000)
-    pubmed_use_pmc_oa_fulltext = _env_bool("PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT", False)
+    pubmed_use_pmc_oa_fulltext = _env_bool("PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT", True)
     pubmed_fulltext_max_bytes = _safe_int("PUBMED_DEEPDIVE_FULLTEXT_MAX_BYTES", 25000000)
     pubmed_fulltext_max_chars = _safe_int("PUBMED_DEEPDIVE_FULLTEXT_MAX_CHARS", 30000)
     pubmed_fulltext_timeout_s = _safe_int("PUBMED_DEEPDIVE_FULLTEXT_TIMEOUT_S", 20)
+    pubmed_min_abstract_chars = _safe_int("PUBMED_DEEPDIVE_MIN_ABSTRACT_CHARS", 600)
+    pubmed_min_fulltext_chars = _safe_int("PUBMED_DEEPDIVE_MIN_FULLTEXT_CHARS", 2000)
 
     state_path = (os.getenv("STATE_PATH", "state/processed_items.json") or "state/processed_items.json").strip()
     rollups_state_path = (os.getenv("ROLLUPS_STATE_PATH", "state/rollups.json") or "state/rollups.json").strip()
@@ -1123,6 +1233,7 @@ def main() -> None:
                         "description": (a.get("journal") or "").strip(),
                         "pmid": pmid,
                         "text": text,
+                        "abstract": (a.get("abstract") or "").strip(),
                     }
                 )
 
@@ -1307,6 +1418,18 @@ def main() -> None:
             pubmed_deep_dive_items = _curate_top_items(deep_candidates, deep_dive_limit)
     else:
         items = items_all_new
+
+    if is_cybermed_run and pubmed_deep_dive_items:
+        pubmed_deep_dive_items = _select_pubmed_deep_dives_with_content(
+            pubmed_deep_dive_items,
+            deep_dive_limit=deep_dive_limit,
+            use_pmc_oa_fulltext=pubmed_use_pmc_oa_fulltext,
+            min_abstract_chars=pubmed_min_abstract_chars,
+            min_fulltext_chars=pubmed_min_fulltext_chars,
+            fulltext_timeout_s=pubmed_fulltext_timeout_s,
+            fulltext_max_bytes=pubmed_fulltext_max_bytes,
+            fulltext_max_chars=pubmed_fulltext_max_chars,
+        )
 
     # Cybermed in-report transparency header (MUST be based on the real pipeline).
     cybermed_meta_block = ""
@@ -1611,8 +1734,7 @@ def main() -> None:
     for it in detail_items:
         src = (it.get("source") or "").strip().lower()
         if src == "pubmed":
-            abs_text, _ = extract_pubmed_abstract(it.get("text") or "")
-            if not abs_text.strip():
+            if not (it.get("abstract") or "").strip():
                 missing_abstract_count += 1
 
     details_by_id: Dict[str, str] = {}

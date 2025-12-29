@@ -259,6 +259,56 @@ _PUBMED_LABEL_ALIASES = {
     "bottom line": "BOTTOM LINE:",
 }
 
+_PUBMED_JSON_KEYS = [
+    "bottom_line",
+    "study_type",
+    "population_setting",
+    "intervention_comparator",
+    "primary_endpoints",
+    "key_results",
+    "limitations",
+    "why_this_matters",
+]
+
+
+def _pubmed_json_system_prompt(lang: str) -> str:
+    placeholder = "Not reported" if lang == "en" else "nicht berichtet"
+    lang_label = "English" if lang == "en" else "German"
+    return (
+        "You are a careful clinical summarizer. Use ONLY the provided abstract/full text; do not invent facts.\n"
+        f"Respond with a single valid JSON object (no Markdown, no commentary) using these keys: {', '.join(_PUBMED_JSON_KEYS)}.\n"
+        "- Each field must be concise (<=2 sentences) and written in the requested language.\n"
+        f"- If a field is truly absent, use the placeholder '{placeholder}'.\n"
+        "- Field semantics:\n"
+        "  - bottom_line: the core takeaway.\n"
+        "  - study_type: design/methods.\n"
+        "  - population_setting: who/where the study was done.\n"
+        "  - intervention_comparator: exposure/intervention and comparator.\n"
+        "  - primary_endpoints: primary outcomes/endpoints.\n"
+        "  - key_results: main findings with numbers when available.\n"
+        "  - limitations: array of short bullet strings.\n"
+        "  - why_this_matters: clinical/practical relevance.\n"
+        f"- Output language: {lang_label} for the values; keep JSON keys in English."
+    )
+
+
+def _strip_json_markers(raw: str) -> str:
+    text = (raw or "").strip()
+    if text.startswith("```"):
+        text = re.sub(r"^```(?:json)?", "", text, flags=re.IGNORECASE).strip()
+    if text.endswith("```"):
+        text = text[: -3].rstrip()
+    return text
+
+
+def _parse_pubmed_json_output(raw: str) -> Optional[Dict[str, Any]]:
+    cleaned = _strip_json_markers(raw)
+    try:
+        data = json.loads(cleaned)
+    except Exception:
+        return None
+    return data if isinstance(data, dict) else None
+
 
 def extract_pubmed_abstract(raw_text: str) -> tuple[str, bool]:
     """
@@ -460,6 +510,58 @@ def _ensure_pubmed_deep_dive_template(detail_md: str, *, lang: str = "en", fallb
     return normalize_pubmed_deep_dive(detail_md, lang=lang, fallback_bottom_line=fallback_bottom_line)
 
 
+def _render_pubmed_deep_dive_from_json(
+    data: Dict[str, Any], *, lang: str, fallback_bottom_line: str = ""
+) -> tuple[str, int]:
+    placeholder = "Not reported" if lang == "en" else "nicht berichtet"
+
+    def _as_str(key: str) -> str:
+        val = data.get(key, "")
+        if isinstance(val, (list, dict)):
+            return ""
+        return str(val or "").strip()
+
+    def _as_list(key: str) -> List[str]:
+        val = data.get(key, [])
+        if isinstance(val, list):
+            return [str(v or "").strip() for v in val if str(v or "").strip()]
+        if isinstance(val, str):
+            parts = [p.strip() for p in re.split(r"[\n;]+", val) if p.strip()]
+            return parts
+        return []
+
+    fields_map = {
+        "bottom_line": _as_str("bottom_line") or fallback_bottom_line or placeholder,
+        "study_type": _as_str("study_type"),
+        "population": _as_str("population_setting"),
+        "intervention": _as_str("intervention_comparator"),
+        "endpoints": _as_str("primary_endpoints"),
+        "key_results": _as_str("key_results"),
+        "why_matters": _as_str("why_this_matters"),
+    }
+    limitations = _as_list("limitations")
+    if not limitations:
+        limitations = [placeholder]
+
+    lines = [
+        f"BOTTOM LINE: {fields_map['bottom_line'] or placeholder}",
+        "",
+        f"- Study type: {fields_map['study_type'] or placeholder}",
+        f"- Population/setting: {fields_map['population'] or placeholder}",
+        f"- Intervention/exposure & comparator: {fields_map['intervention'] or placeholder}",
+        f"- Primary endpoints: {fields_map['endpoints'] or placeholder}",
+        f"- Key results: {fields_map['key_results'] or placeholder}",
+        "- Limitations:",
+    ]
+    lines.extend(f"- {li or placeholder}" for li in limitations)
+    lines.append(f"- Why this matters: {fields_map['why_matters'] or placeholder}")
+
+    normalized, missing_fields = _normalize_pubmed_field_values(
+        "\n".join(lines).strip(), lang=lang, fallback_bottom_line=fallback_bottom_line
+    )
+    return normalized, missing_fields
+
+
 def _is_sparse_pubmed_deep_dive(not_reported_fields: int) -> bool:
     return not_reported_fields >= 4
 
@@ -570,10 +672,19 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     if len(text) > max_chars:
         text = text[:max_chars].rstrip()
 
-    abstract = text
     abstract_header_seen = False
+    fulltext_excerpt = ""
+    abstract = (item.get("abstract") or "").strip() if src == "pubmed" else ""
+
     if src == "pubmed":
-        abstract, abstract_header_seen = extract_pubmed_abstract(text)
+        if not abstract:
+            abstract, abstract_header_seen = extract_pubmed_abstract(text)
+        marker = "[PMC Open Access full text]"
+        marker_idx = text.find(marker)
+        if marker_idx != -1:
+            fulltext_excerpt = text[marker_idx:]
+            if len(fulltext_excerpt) > 20000:
+                fulltext_excerpt = fulltext_excerpt[:20000].rstrip()
         item["_deep_dive_missing_abstract"] = abstract.strip() == ""
     else:
         item["_deep_dive_missing_abstract"] = False
@@ -598,6 +709,8 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         }
         if abstract_header_seen:
             meta["abstract_note"] = "Abstract extracted after initial header lines."
+        if fulltext_excerpt:
+            meta["full_text_excerpt"] = fulltext_excerpt
     else:
         meta = {
             "source": src,
@@ -619,9 +732,9 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     )
     if src == "pubmed":
         user_prompt += (
-        "Please produce the requested deep dive. Use the structured fields above; the abstract/full text is provided separately from any header text. "
-        "If the text contains clues for study type, population, endpoints, results, or limitations, place them in the corresponding fields instead of writing 'Not reported'/'nicht berichtet'.\n"
-    )
+            "Please produce the requested deep dive. Use the structured fields above; the abstract/full text is provided separately from any header text. "
+            "If the text contains clues for study type, population, endpoints, results, or limitations, place them in the corresponding fields instead of writing 'Not reported'/'nicht berichtet'.\n"
+        )
     else:
         user_prompt += "Now write the requested deep dive.\n"
 
@@ -629,27 +742,51 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         client = _get_client()
         models = _pubmed_deep_dive_models()
         model_to_use = models.primary if src == "pubmed" else OPENAI_MODEL
-        messages = [
-            {"role": "system", "content": sys_prompt},
-            {"role": "user", "content": user_prompt},
-        ]
-        r = client.chat.completions.create(
-            model=model_to_use,
-            messages=messages,
-            temperature=0.2,
-        )
-        content = (r.choices[0].message.content or "").strip()
         retried = False
 
         if src == "pubmed":
             fallback_bl = (item.get("bottom_line") or "").strip()
-            normalized, not_reported_fields = _normalize_pubmed_field_values(
-                content, lang=lang, fallback_bottom_line=fallback_bl
+            json_messages = [
+                {"role": "system", "content": _pubmed_json_system_prompt(lang)},
+                {"role": "user", "content": user_prompt + "Return ONLY the JSON object described."},
+            ]
+            r_json = client.chat.completions.create(
+                model=model_to_use,
+                messages=json_messages,
+                temperature=0.15,
             )
-            if _is_sparse_pubmed_deep_dive(not_reported_fields) and len(abstract) >= 300:
+            raw_json = (r_json.choices[0].message.content or "").strip()
+            parsed = _parse_pubmed_json_output(raw_json)
+
+            if parsed is not None:
+                content, not_reported_fields = _render_pubmed_deep_dive_from_json(
+                    parsed, lang=lang, fallback_bottom_line=fallback_bl
+                )
+            else:
+                messages = [
+                    {"role": "system", "content": sys_prompt},
+                    {"role": "user", "content": user_prompt},
+                ]
+                r = client.chat.completions.create(
+                    model=model_to_use,
+                    messages=messages,
+                    temperature=0.2,
+                )
+                raw_md = (r.choices[0].message.content or "").strip()
+                content, not_reported_fields = _normalize_pubmed_field_values(
+                    raw_md, lang=lang, fallback_bottom_line=fallback_bl
+                )
+
+            if _is_sparse_pubmed_deep_dive(not_reported_fields):
+                retry_context = ""
+                if fulltext_excerpt:
+                    retry_context = f"\nPMC Open Access excerpt (truncated):\n{fulltext_excerpt}"
+                elif abstract:
+                    retry_context = f"\nAbstract:\n{abstract}"
                 retry_prompt = (
                     user_prompt
-                    + "\nRETRY: The provided abstract/full text includes useful details. Extract or infer study type, population/setting, endpoints, results, limitations, and why this matters. "
+                    + retry_context
+                    + "\nRETRY: The provided content includes useful details. Extract or infer study type, population/setting, endpoints, results, limitations, and why this matters. "
                     "Keep the exact template and avoid 'Not reported'/'nicht berichtet' unless a field is truly absent from the text.\n"
                 )
                 r_retry = client.chat.completions.create(
@@ -660,14 +797,27 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     ],
                     temperature=0.15,
                 )
-                content = (r_retry.choices[0].message.content or "").strip() or content
-                retried = True
-                normalized, _ = _normalize_pubmed_field_values(
-                    content, lang=lang, fallback_bottom_line=fallback_bl
+                content_retry = (r_retry.choices[0].message.content or "").strip()
+                normalized_retry, retry_missing = _normalize_pubmed_field_values(
+                    content_retry, lang=lang, fallback_bottom_line=fallback_bl
                 )
-            content = normalized
+                if normalized_retry:
+                    content = normalized_retry
+                    not_reported_fields = retry_missing
+                retried = True
+
             item["_deep_dive_retried"] = retried
         else:
+            messages = [
+                {"role": "system", "content": sys_prompt},
+                {"role": "user", "content": user_prompt},
+            ]
+            r = client.chat.completions.create(
+                model=model_to_use,
+                messages=messages,
+                temperature=0.2,
+            )
+            content = (r.choices[0].message.content or "").strip()
             item["_deep_dive_retried"] = False
 
         item["_deep_dive_empty_output"] = not bool(content.strip())
