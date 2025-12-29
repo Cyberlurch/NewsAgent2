@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
@@ -144,30 +145,32 @@ _SYS_DETAIL_PUBMED_DE = (
     "You are a careful clinical summarizer. Write strictly in German.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract text when available).\n"
     "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'nicht berichtet'.\n\n"
-    "Return Markdown with this structure:\n"
-    "**BOTTOM LINE:** 1–2 Sätze: Was ist neu, wie belastbar, und mögliche Relevanz für Praxis.\n\n"
-    "**Studientyp:** (RCT / Kohorte / Fall-Kontrolle / Querschnitt / Systematic Review / Guideline / Sonstiges / nicht berichtet)\n"
-    "**Population/Setting:** (kurz)\n"
-    "**Intervention/Exposure & Vergleich:** (wenn vorhanden)\n"
-    "**Primäre Endpunkte:** (wenn vorhanden)\n"
-    "**Wichtigste Ergebnisse:** (konkret, Zahlen wenn vorhanden)\n"
-    "**Limitationen:** 1–3 Punkte\n"
-    "**Warum das wichtig ist:** 1 kurzer Absatz.\n"
+    "Return Markdown with EXACTLY these headings (with colons) and bullets under 'Limitations':\n\n"
+    "BOTTOM LINE: 1–2 Sätze: Was ist neu, wie belastbar, und mögliche Relevanz für Praxis.\n\n"
+    "Study type: (RCT / Kohorte / Fall-Kontrolle / Querschnitt / Systematic Review / Guideline / Sonstiges / nicht berichtet)\n"
+    "Population/setting: (kurz)\n"
+    "Intervention/exposure & comparator: (wenn vorhanden)\n"
+    "Primary endpoints: (wenn vorhanden)\n"
+    "Key results: (konkret, Zahlen wenn vorhanden)\n"
+    "Limitations:\n"
+    "- 1–3 Punkte\n"
+    "Why this matters: 1 kurzer Absatz.\n"
 )
 
 _SYS_DETAIL_PUBMED_EN = (
     "You are a careful clinical summarizer. Write strictly in English.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract text when available).\n"
     "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'not reported'.\n\n"
-    "Return Markdown with this structure:\n"
-    "**BOTTOM LINE:** 1–2 sentences: what is new, how strong the evidence is, and the possible practice impact.\n\n"
-    "**Study type:** (RCT / cohort / case-control / cross-sectional / systematic review / guideline / other / not reported)\n"
-    "**Population/setting:** (short)\n"
-    "**Intervention/exposure & comparator:** (if stated)\n"
-    "**Primary endpoints:** (if stated)\n"
-    "**Key results:** (concrete; include numbers if present)\n"
-    "**Limitations:** 1–3 bullets\n"
-    "**Why this matters:** 1 short paragraph.\n"
+    "Return Markdown with EXACTLY these headings (with colons) and bullets under 'Limitations':\n\n"
+    "BOTTOM LINE: 1–2 sentences: what is new, how strong the evidence is, and the possible practice impact.\n\n"
+    "Study type: (RCT / cohort / case-control / cross-sectional / systematic review / guideline / other / not reported)\n"
+    "Population/setting: (short)\n"
+    "Intervention/exposure & comparator: (if stated)\n"
+    "Primary endpoints: (if stated)\n"
+    "Key results: (concrete; include numbers if present)\n"
+    "Limitations:\n"
+    "- 1–3 bullets\n"
+    "Why this matters: 1 short paragraph.\n"
 )
 
 _SYS_DETAIL_PUBMED_CYBERLURCH_EN = (
@@ -179,16 +182,107 @@ _SYS_DETAIL_PUBMED_CYBERLURCH_EN = (
     "- If the item language is English, German, or Swedish, write the summary in that language.\n"
     "- Otherwise, translate/summarize the item into English.\n"
     "- Keep the structural labels in English.\n\n"
-    "Return Markdown with this structure:\n"
-    "**BOTTOM LINE:** 1–2 sentences: what is new, how strong the evidence is, and the possible practice impact.\n\n"
-    "**Study type:** (RCT / cohort / case-control / cross-sectional / systematic review / guideline / other / not reported)\n"
-    "**Population/setting:** (short)\n"
-    "**Intervention/exposure & comparator:** (if stated)\n"
-    "**Primary endpoints:** (if stated)\n"
-    "**Key results:** (concrete; include numbers if present)\n"
-    "**Limitations:** 1–3 bullets\n"
-    "**Why this matters:** 1 short paragraph.\n"
+    "Return Markdown with EXACTLY these headings (with colons) and bullets under 'Limitations':\n\n"
+    "BOTTOM LINE: 1–2 sentences: what is new, how strong the evidence is, and the possible practice impact.\n\n"
+    "Study type: (RCT / cohort / case-control / cross-sectional / systematic review / guideline / other / not reported)\n"
+    "Population/setting: (short)\n"
+    "Intervention/exposure & comparator: (if stated)\n"
+    "Primary endpoints: (if stated)\n"
+    "Key results: (concrete; include numbers if present)\n"
+    "Limitations:\n"
+    "- 1–3 bullets\n"
+    "Why this matters: 1 short paragraph.\n"
 )
+
+
+_PUBMED_REQUIRED_HEADINGS = [
+    "BOTTOM LINE:",
+    "Study type:",
+    "Population/setting:",
+    "Intervention/exposure & comparator:",
+    "Primary endpoints:",
+    "Key results:",
+    "Limitations:",
+    "Why this matters:",
+]
+
+
+def _ensure_pubmed_deep_dive_template(md: str, *, lang: str, fallback_bottom_line: str = "") -> str:
+    """
+    Enforce the PubMed deep-dive template and fill missing fields with placeholders.
+    """
+
+    placeholder = "not reported" if lang == "en" else "nicht berichtet"
+
+    def _normalize_headings(text: str) -> str:
+        normalized = text
+        for heading in _PUBMED_REQUIRED_HEADINGS:
+            base = heading.rstrip(":")
+            patterns = [
+                rf"\*\*{re.escape(base)}:\*\*",
+                rf"\*\*{re.escape(base)}\*\*",
+                rf"{re.escape(base)}\s*:",
+            ]
+            for pat in patterns:
+                normalized = re.sub(pat, heading, normalized, flags=re.IGNORECASE)
+        return normalized
+
+    def _extract_bottom_line(text: str) -> str:
+        for line in text.splitlines():
+            if line.strip().lower().startswith("bottom line:"):
+                return line.split(":", 1)[-1].strip()
+        return ""
+
+    def _ensure_limitations_bullets(text: str) -> str:
+        lower = text.lower()
+        idx = lower.find("limitations:")
+        if idx == -1:
+            return text
+
+        start = idx + len("limitations:")
+        next_heading_idx = lower.find("why this matters:", start)
+        end = next_heading_idx if next_heading_idx != -1 else len(text)
+
+        before = text[:start]
+        section = text[start:end].lstrip("\n")
+        after = text[end:]
+
+        lines = [ln for ln in section.splitlines() if ln.strip()]
+        if not lines:
+            bullets = [f"- {placeholder}"]
+        elif any(re.match(r"\\s*[-*•]", ln) for ln in lines):
+            bullets = lines
+        else:
+            bullets = [f"- {ln.strip()}" for ln in lines]
+            if not bullets:
+                bullets = [f"- {placeholder}"]
+
+        fixed_section = "\n".join(bullets)
+        if not fixed_section.endswith("\n"):
+            fixed_section += "\n"
+        return before + "\n" + fixed_section + after
+
+    md_normalized = _normalize_headings(md)
+    lower_md = md_normalized.lower()
+    missing = [h for h in _PUBMED_REQUIRED_HEADINGS if h.lower() not in lower_md]
+
+    if missing:
+        bottom_line = _extract_bottom_line(md_normalized) or fallback_bottom_line or placeholder
+        rebuilt = (
+            f"BOTTOM LINE: {bottom_line}\n\n"
+            f"Study type: {placeholder}\n"
+            f"Population/setting: {placeholder}\n"
+            f"Intervention/exposure & comparator: {placeholder}\n"
+            f"Primary endpoints: {placeholder}\n"
+            f"Key results: {placeholder}\n"
+            f"Limitations:\n"
+            f"- {placeholder}\n"
+            f"Why this matters: {placeholder}\n"
+        )
+        return rebuilt.strip()
+
+    md_fixed = _ensure_limitations_bullets(md_normalized)
+    return md_fixed.strip()
 
 
 def _get_client() -> OpenAI:
@@ -308,6 +402,10 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         "title": (item.get("title") or "").strip(),
         "url": (item.get("url") or "").strip(),
         "published_at": published_str,
+        "journal": (item.get("journal") or "").strip(),
+        "year": item.get("year"),
+        "pmid": (item.get("pmid") or item.get("id") or "").strip(),
+        "doi": (item.get("doi") or "").strip(),
         "text": text,
     }
     payload = json.dumps(meta, ensure_ascii=False, indent=2)
@@ -328,7 +426,11 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             ],
             temperature=0.2,
         )
-        return (r.choices[0].message.content or "").strip()
+        content = (r.choices[0].message.content or "").strip()
+        if src == "pubmed":
+            fallback_bl = (item.get("bottom_line") or "").strip()
+            content = _ensure_pubmed_deep_dive_template(content, lang=lang, fallback_bottom_line=fallback_bl)
+        return content
     except Exception as e:
         if lang == "en":
             return f"**Error:** Failed to create deep dive: `{e!r}`\n"
