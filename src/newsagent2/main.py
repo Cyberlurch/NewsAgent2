@@ -1551,41 +1551,39 @@ def main() -> None:
         overview_body = cybermed_meta_block + overview_body
 
     details_by_id: Dict[str, str] = {}
+    details_for_report: Dict[str, str] = {}
     for it in detail_items:
         src = (it.get("source") or "").strip().lower() or "youtube"
-        iid = str(it.get("id") or "").strip()
-        if not iid:
+        iid_raw = str(it.get("id") or "").strip()
+        iid = str(it.get("id") or it.get("url") or it.get("title") or "").strip()
+        if not iid and not iid_raw:
             continue
-        key = f"{src}:{iid}"
+        key = f"{src}:{iid_raw}" if iid_raw else ""
         try:
-            details_by_id[key] = summarize_item_detail(it, language=report_language, profile=report_profile).strip()
+            detail_block = summarize_item_detail(it, language=report_language, profile=report_profile).strip()
         except Exception as e:
             print(f"[summarize] WARN: summarize_item_detail failed for {key!r}: {e!r}")
             if report_language.lower().startswith("en"):
-                details_by_id[key] = "Key takeaways:\n- (Failed to generate deep dive.)\n"
+                detail_block = "Key takeaways:\n- (Failed to generate deep dive.)\n"
             else:
-                details_by_id[key] = "Kernaussagen:\n- (Fehler beim Erzeugen der Detail-Zusammenfassung)\n"
+                detail_block = "Kernaussagen:\n- (Fehler beim Erzeugen der Detail-Zusammenfassung)\n"
 
-    if is_cybermed_run and not deep_dive_ids and details_by_id:
-        for key in details_by_id.keys():
-            iid = key.split(":", 1)[1] if ":" in key else key
+        if key:
+            details_by_id[key] = detail_block
+        if iid and detail_block:
+            details_for_report[iid] = detail_block
+
+    if is_cybermed_run and not deep_dive_ids and details_for_report:
+        for iid in details_for_report.keys():
             iid = (iid or "").strip()
             if iid:
                 deep_dive_ids.add(iid)
 
     out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
 
-    details_for_report: Dict[str, str] = {}
-    for it in detail_items:
-        src = (it.get("source") or "").strip().lower() or "youtube"
-        iid = str(it.get("id") or "").strip()
-        key = f"{src}:{iid}"
-        if iid and key in details_by_id:
-            details_for_report[iid] = details_by_id[key]
-
     if not is_cybermed_run:
         for it in overview_items:
-            iid = str(it.get("id") or "").strip()
+            iid = str(it.get("id") or it.get("url") or it.get("title") or "").strip()
             if not iid or iid in details_for_report:
                 continue
             bl = (it.get("bottom_line") or "").strip()
@@ -1594,9 +1592,13 @@ def main() -> None:
 
     if is_cybermed_run and deep_dive_ids:
         for it in report_items + detail_items:
-            iid = str(it.get("id") or "").strip()
+            iid = str(it.get("id") or it.get("url") or it.get("title") or "").strip()
             if iid and iid in deep_dive_ids:
                 it["top_pick"] = True
+
+    if is_cybermed_run and "pubmed" in cybermed_run_stats:
+        cybermed_run_stats.setdefault("pubmed", {})
+        cybermed_run_stats["pubmed"]["generated_deep_dives"] = len(details_for_report)
 
     md = to_markdown(
         report_items,

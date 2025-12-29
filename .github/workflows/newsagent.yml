@@ -92,6 +92,8 @@ jobs:
         run: |
           set -euo pipefail
 
+          DELIVERY_HOUR_LOCAL="05"
+
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
             echo "Non-scheduled event -> proceeding without time gate."
@@ -141,16 +143,16 @@ jobs:
             exit 0
           fi
 
-          if [ "$local_hour" != "05" ]; then
+          if [ "$local_hour" != "$DELIVERY_HOUR_LOCAL" ]; then
             echo "should_run=false" >> "$GITHUB_OUTPUT"
             echo "dst_coverage_run=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::DST coverage run (cron='${schedule_expr}') at ${now_local} Europe/Stockholm -> intentional skip; waiting for local 05:00 delivery slot."
+            echo "::notice::DST coverage run (cron='${schedule_expr}') at ${now_local} Europe/Stockholm -> intentional skip; waiting for local ${DELIVERY_HOUR_LOCAL}:00 delivery slot."
             exit 0
           fi
 
           echo "should_run=true" >> "$GITHUB_OUTPUT"
           echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
-          echo "Local time ${now_local} within delivery hour -> proceeding."
+          echo "Local time ${now_local} within delivery hour (${DELIVERY_HOUR_LOCAL}:xx) -> proceeding."
 
       - name: Compute run plan
         id: compute_plan

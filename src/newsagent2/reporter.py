@@ -102,7 +102,7 @@ def _is_cyberlurch_report(report_title: str) -> bool:
 def _extract_bottom_line(detail_md: str) -> str:
     if not detail_md:
         return ""
-    m = re.search(r"\*\*BOTTOM LINE:\*\*\s*(.+)", detail_md, flags=re.IGNORECASE)
+    m = re.search(r"(?:\*\*)?BOTTOM LINE:(?:\*\*)?\s*(.+)", detail_md, flags=re.IGNORECASE)
     if not m:
         return ""
     return (m.group(1) or "").strip().splitlines()[0].strip()
@@ -148,9 +148,19 @@ def _cybermed_deep_dive_limit() -> int:
 
 def _detail_lookup(details_by_id: Dict[str, str], item: Dict[str, Any]) -> str:
     iid = str(item.get("id") or "").strip()
+    url = str(item.get("url") or "").strip()
+    title = str(item.get("title") or "").strip()
     src = str(item.get("source") or "youtube").strip().lower()
-    key = f"{src}:{iid}" if iid else ""
-    return (details_by_id.get(key) or details_by_id.get(iid) or "").strip()
+    candidates = []
+    if src and iid:
+        candidates.append(f"{src}:{iid}")
+    for key in (iid, url, title):
+        if key:
+            candidates.append(key)
+    for key in candidates:
+        if key in details_by_id:
+            return (details_by_id.get(key) or "").strip()
+    return ""
 
 
 def _build_source_label(item: Dict[str, Any]) -> str:
@@ -377,6 +387,41 @@ def _best_bottom_line(item: Dict[str, Any], detail_md: str) -> str:
         return extracted
 
     return _fallback_bottom_line(item)
+
+
+def _ensure_pubmed_deep_dive_template(detail_md: str, fallback_bottom_line: str) -> str:
+    detail = (detail_md or "").strip()
+    headings = (
+        "study type:",
+        "population/setting:",
+        "intervention/exposure & comparator:",
+        "primary endpoints:",
+        "key results:",
+        "limitations:",
+        "why this matters:",
+    )
+
+    if detail:
+        lower = detail.lower()
+        if all(h in lower for h in headings):
+            return detail_md
+
+    best_bl = (fallback_bottom_line or "").strip()
+    synthesized_bl = best_bl if best_bl else "Not reported"
+
+    return "\n".join(
+        [
+            f"BOTTOM LINE: {synthesized_bl}",
+            "Study type: Not reported",
+            "Population/setting: Not reported",
+            "Intervention/exposure & comparator: Not reported",
+            "Primary endpoints: Not reported",
+            "Key results: Not reported",
+            "Limitations:",
+            "- Not reported",
+            "Why this matters: Not reported",
+        ]
+    )
 
 def _infer_track_and_subcategory(item: Dict[str, Any]) -> Tuple[str, str]:
     hay = " ".join((str(item.get(k) or "") for k in ("title", "journal", "channel"))).lower()
@@ -637,8 +682,11 @@ def to_markdown(
             md.append(f"### {heading_body}")
             md.append("")
             detail_block = _detail_lookup(details_by_id, it)
+            best_bottom_line = _best_bottom_line(it, detail_block) if is_cybermed else ""
+            if is_cybermed and str(it.get("source") or "").strip().lower() == "pubmed":
+                detail_block = _ensure_pubmed_deep_dive_template(detail_block, best_bottom_line)
             if not detail_block and is_cybermed:
-                detail_block = f"**BOTTOM LINE:** {_best_bottom_line(it, detail_block)}"
+                detail_block = f"**BOTTOM LINE:** {best_bottom_line}"
             md.append(detail_block)
             md.append("")
 
