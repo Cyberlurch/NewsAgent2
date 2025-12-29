@@ -3,11 +3,14 @@ name: NewsAgent2 daily
 
 on:
   schedule:
-    # GitHub cron runs in UTC. Dual weekday crons + local gate ensure a single 06:00 run in Europe/Stockholm.
+    # GitHub cron runs in UTC. Dual weekday crons + local gate ensure a single 05:00 run in Europe/Stockholm.
+    - cron: "0 3 * * 1-5"
     - cron: "0 4 * * 1-5"
-    - cron: "0 5 * * 1-5"
-    # Year in Review (Jan 1 @ 06:00 Europe/Stockholm -> 05:00 UTC)
-    - cron: "0 5 1 1 *"
+    # Monthly (day 1 @ 05:00 Europe/Stockholm -> 04:00 UTC; DST coverage at 03:00 UTC)
+    - cron: "0 3 1 * *"
+    - cron: "0 4 1 * *"
+    # Year in Review (Jan 1 @ 05:00 Europe/Stockholm -> 04:00 UTC)
+    - cron: "0 4 1 1 *"
   workflow_dispatch:
     inputs:
       report_mode:
@@ -84,7 +87,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Gate scheduled runs to ~06:00 Europe/Stockholm
+      - name: Gate scheduled runs to ~05:00 Europe/Stockholm
         id: gate_stockholm
         run: |
           set -euo pipefail
@@ -99,18 +102,49 @@ jobs:
           now_local=$(TZ=Europe/Stockholm date +"%H:%M")
           local_hour=$(TZ=Europe/Stockholm date +%H)
           dow=$(TZ=Europe/Stockholm date +%u)
+          dom=$(TZ=Europe/Stockholm date +%d)
+          month=$(TZ=Europe/Stockholm date +%m)
 
-          if [ "$dow" -ge 6 ]; then
+          is_yearly=false
+          is_monthly=false
+          is_weekday_schedule=false
+          case "$schedule_expr" in
+            "0 4 1 1 *")
+              is_yearly=true
+              ;;
+            "0 3 1 * *"|"0 4 1 * *")
+              is_monthly=true
+              ;;
+            "0 3 * * 1-5"|"0 4 * * 1-5")
+              is_weekday_schedule=true
+              ;;
+          esac
+
+          if [ "$month" = "01" ] && [ "$dom" = "01" ] && [ "$is_yearly" = false ]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping scheduled run: Jan 1 handled by yearly schedule; cron='${schedule_expr}'."
+            exit 0
+          fi
+
+          if [ "$dom" = "01" ] && [ "$is_weekday_schedule" = true ]; then
+            echo "should_run=false" >> "$GITHUB_OUTPUT"
+            echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping weekday schedule on 1st of month to avoid overlap with monthly cron (${schedule_expr})."
+            exit 0
+          fi
+
+          if [ "$dow" -ge 6 ] && [ "$is_monthly" = false ] && [ "$is_yearly" = false ]; then
             echo "should_run=false" >> "$GITHUB_OUTPUT"
             echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
             echo "::notice::Skipping scheduled run: weekend (Mon–Fri only). No report/email sent."
             exit 0
           fi
 
-          if [ "$local_hour" != "06" ]; then
+          if [ "$local_hour" != "05" ]; then
             echo "should_run=false" >> "$GITHUB_OUTPUT"
             echo "dst_coverage_run=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::DST coverage run (cron='${schedule_expr}') at ${now_local} Europe/Stockholm -> intentional skip; waiting for local 06:00 delivery slot."
+            echo "::notice::DST coverage run (cron='${schedule_expr}') at ${now_local} Europe/Stockholm -> intentional skip; waiting for local 05:00 delivery slot."
             exit 0
           fi
 
@@ -146,18 +180,22 @@ jobs:
             run_modes="${{ env.REPORT_MODE }}"
           else
             run_which_report="both"
-            if [ "$schedule_expr" = "0 5 1 1 *" ]; then
-              run_modes="yearly"
-            else
-              dow=$(TZ=Europe/Stockholm date +"%u")
-              dom=$(TZ=Europe/Stockholm date +"%d")
+            dow=$(TZ=Europe/Stockholm date +"%u")
 
-              run_modes="daily"
-              if [ "$dow" = "1" ]; then
+            if [ "$schedule_expr" = "0 4 1 1 *" ]; then
+              run_modes="yearly monthly"
+            elif [ "$schedule_expr" = "0 3 1 * *" ] || [ "$schedule_expr" = "0 4 1 * *" ]; then
+              run_modes="monthly"
+              if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then
+                run_modes="$run_modes daily"
+              fi
+              if [ "$dow" = "5" ]; then
                 run_modes="$run_modes weekly"
-                if [ "$dom" -le 7 ]; then
-                  run_modes="$run_modes monthly"
-                fi
+              fi
+            else
+              run_modes="daily"
+              if [ "$dow" = "5" ]; then
+                run_modes="$run_modes weekly"
               fi
             fi
           fi
@@ -260,7 +298,7 @@ jobs:
 
           if [ "${{ github.event_name }}" = "schedule" ]; then
             local_hour=$(TZ=Europe/Stockholm date +%H)
-            if [ "$local_hour" != "06" ]; then
+            if [ "$local_hour" != "05" ]; then
               echo "DST coverage run detected (local hour=$local_hour) -> guardrail bypass."
               exit 0
             fi
