@@ -270,6 +270,16 @@ _PUBMED_JSON_KEYS = [
     "why_this_matters",
 ]
 
+_PUBMED_REQUIRED_JSON_KEYS = {
+    "study_type",
+    "population_setting",
+    "intervention_comparator",
+    "primary_endpoints",
+    "key_results",
+    "limitations",
+    "why_this_matters",
+}
+
 
 def _pubmed_json_system_prompt(lang: str) -> str:
     placeholder = "Not reported" if lang == "en" else "nicht berichtet"
@@ -308,6 +318,12 @@ def _parse_pubmed_json_output(raw: str) -> Optional[Dict[str, Any]]:
     except Exception:
         return None
     return data if isinstance(data, dict) else None
+
+
+def _validate_pubmed_json_output(data: Dict[str, Any]) -> None:
+    missing = [k for k in _PUBMED_REQUIRED_JSON_KEYS if k not in data]
+    if missing:
+        raise ValueError(f"missing required keys: {', '.join(sorted(missing))}")
 
 
 def extract_pubmed_abstract(raw_text: str) -> tuple[str, bool]:
@@ -617,6 +633,28 @@ def _render_pubmed_deep_dive_from_json(
     return normalized, missing_fields
 
 
+def _run_pubmed_markdown_deep_dive(
+    client: OpenAI,
+    *,
+    model: str,
+    sys_prompt: str,
+    user_prompt: str,
+    lang: str,
+    fallback_bottom_line: str,
+) -> tuple[str, int]:
+    messages = [
+        {"role": "system", "content": sys_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+    r = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0.2,
+    )
+    raw_md = (r.choices[0].message.content or "").strip()
+    return _normalize_pubmed_field_values(raw_md, lang=lang, fallback_bottom_line=fallback_bottom_line)
+
+
 def _is_sparse_pubmed_deep_dive(not_reported_fields: int) -> bool:
     return not_reported_fields >= 4
 
@@ -796,80 +834,71 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         user_prompt += "Now write the requested deep dive.\n"
 
     not_reported_fields = 0
-    parse_fallback_used = False
+    json_failed = False
+    used_markdown_fallback = False
+    sparse_after_json = False
 
     try:
         client = _get_client()
         models = _pubmed_deep_dive_models()
         model_to_use = models.primary if src == "pubmed" else OPENAI_MODEL
-        retried = False
 
         if src == "pubmed":
             fallback_bl = (item.get("bottom_line") or "").strip()
-            json_messages = [
-                {"role": "system", "content": _pubmed_json_system_prompt(lang)},
-                {"role": "user", "content": user_prompt + "Return ONLY the JSON object described."},
-            ]
-            r_json = client.chat.completions.create(
-                model=model_to_use,
-                messages=json_messages,
-                temperature=0.15,
-            )
-            raw_json = (r_json.choices[0].message.content or "").strip()
-            parsed = _parse_pubmed_json_output(raw_json)
-
-            if parsed is not None:
+            try:
+                json_messages = [
+                    {"role": "system", "content": _pubmed_json_system_prompt(lang)},
+                    {"role": "user", "content": user_prompt + "Return ONLY the JSON object described."},
+                ]
+                r_json = client.chat.completions.create(
+                    model=model_to_use,
+                    messages=json_messages,
+                    temperature=0.15,
+                    response_format={"type": "json_object"},
+                )
+                raw_json = (r_json.choices[0].message.content or "").strip()
+                parsed = _parse_pubmed_json_output(raw_json)
+                if parsed is None:
+                    raise ValueError("json parsing failed")
+                _validate_pubmed_json_output(parsed)
                 content, not_reported_fields = _render_pubmed_deep_dive_from_json(
                     parsed, lang=lang, fallback_bottom_line=fallback_bl
                 )
-            else:
-                parse_fallback_used = True
-                messages = [
-                    {"role": "system", "content": sys_prompt},
-                    {"role": "user", "content": user_prompt},
-                ]
-                r = client.chat.completions.create(
-                    model=model_to_use,
-                    messages=messages,
-                    temperature=0.2,
-                )
-                raw_md = (r.choices[0].message.content or "").strip()
-                content, not_reported_fields = _normalize_pubmed_field_values(
-                    raw_md, lang=lang, fallback_bottom_line=fallback_bl
-                )
+            except Exception as json_err:
+                json_failed = True
+                print(f"[summarize] WARN: pubmed_deepdive_json_failed pmid={meta.get('pmid', '')} err={json_err}")
+                content = ""
 
-            if _is_sparse_pubmed_deep_dive(not_reported_fields):
-                retry_context = ""
-                if fulltext_excerpt:
-                    retry_context = f"\nPMC Open Access excerpt (truncated):\n{fulltext_excerpt}"
-                elif abstract:
-                    retry_context = f"\nAbstract:\n{abstract}"
-                retry_prompt = (
-                    user_prompt
-                    + retry_context
-                    + "\nRETRY: The provided content includes useful details. Extract or infer study type, population/setting, endpoints, results, limitations, and why this matters. "
-                    "Keep the exact template and avoid 'Not reported'/'nicht berichtet' unless a field is truly absent from the text. "
-                    "Put at least one short sentence on the SAME LINE after each label; additional bullets may follow on subsequent indented lines.\n"
-                )
-                r_retry = client.chat.completions.create(
-                    model=models.fallback or model_to_use,
-                    messages=[
-                        {"role": "system", "content": sys_prompt},
-                        {"role": "user", "content": retry_prompt},
-                    ],
-                    temperature=0.15,
-                )
-                content_retry = (r_retry.choices[0].message.content or "").strip()
-                normalized_retry, retry_missing = _normalize_pubmed_field_values(
-                    content_retry, lang=lang, fallback_bottom_line=fallback_bl
-                )
-                if normalized_retry:
-                    content = normalized_retry
-                    not_reported_fields = retry_missing
-                retried = True
-                parse_fallback_used = True
+            sparse_after_json = _is_sparse_pubmed_deep_dive(not_reported_fields) if content else False
 
-            item["_deep_dive_retried"] = retried
+            if json_failed or sparse_after_json:
+                reason = "json_failed" if json_failed else "json_sparse"
+                try:
+                    fb_model = models.fallback or model_to_use
+                    fallback_content, fb_missing = _run_pubmed_markdown_deep_dive(
+                        client,
+                        model=fb_model,
+                        sys_prompt=sys_prompt,
+                        user_prompt=user_prompt,
+                        lang=lang,
+                        fallback_bottom_line=fallback_bl,
+                    )
+                    if fallback_content:
+                        content = fallback_content
+                        not_reported_fields = fb_missing
+                        used_markdown_fallback = True
+                    print(
+                        f"[summarize] INFO: pubmed_deepdive_markdown_fallback pmid={meta.get('pmid', '')} reason={reason}"
+                    )
+                except Exception as fb_err:
+                    print(
+                        f"[summarize] WARN: pubmed_deepdive_markdown_fallback_failed pmid={meta.get('pmid', '')} err={fb_err}"
+                    )
+
+            item["_deep_dive_retried"] = json_failed or sparse_after_json or used_markdown_fallback
+            item["_deep_dive_json_failed"] = json_failed
+            item["_deep_dive_used_markdown_fallback"] = used_markdown_fallback
+            item["_deep_dive_sparse_after_json"] = sparse_after_json
         else:
             messages = [
                 {"role": "system", "content": sys_prompt},
@@ -884,7 +913,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             item["_deep_dive_retried"] = False
 
         item["_deep_dive_empty_output"] = not bool(content.strip())
-        item["_deep_dive_parse_fallback"] = parse_fallback_used or retried
+        item["_deep_dive_parse_fallback"] = used_markdown_fallback or json_failed or sparse_after_json
         item["_deep_dive_not_reported_fields"] = not_reported_fields
         item["_deep_dive_all_fields_placeholder"] = not_reported_fields >= 7
         return content
