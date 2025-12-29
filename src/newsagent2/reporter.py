@@ -145,6 +145,14 @@ def _cybermed_deep_dive_limit() -> int:
     except Exception:
         return 8
 
+
+def _detail_lookup(details_by_id: Dict[str, str], item: Dict[str, Any]) -> str:
+    iid = str(item.get("id") or "").strip()
+    src = str(item.get("source") or "youtube").strip().lower()
+    key = f"{src}:{iid}" if iid else ""
+    return (details_by_id.get(key) or details_by_id.get(iid) or "").strip()
+
+
 def _build_source_label(item: Dict[str, Any]) -> str:
     year = str(item.get("year") or "").strip()
     journal = str(item.get("journal") or "").strip()
@@ -551,7 +559,7 @@ def to_markdown(
                         title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
                         display_title = _prefix_star(title_lbl) if it.get("top_pick") else title_lbl
                         label = _md_escape_label(_build_source_label(it))
-                        detail = (details_by_id.get(iid) or "").strip()
+                        detail = _detail_lookup(details_by_id, it)
                         bottom = _best_bottom_line(it, detail)
                         md.append(
                             f"- [{display_title}]({url}) — *{label}*" if url else f"- {display_title} — *{label}*"
@@ -608,13 +616,13 @@ def to_markdown(
     if is_cybermed:
         detail_items = [it for it in items if it.get("cybermed_deep_dive")]
         if not detail_items:
-            detail_items = [it for it in items if str(it.get("id") or "") in details_by_id]
+            detail_items = [it for it in items if _detail_lookup(details_by_id, it)]
         detail_items = sorted(detail_items, key=_deep_dive_sort_key)
         deep_dive_cap = max(0, _cybermed_deep_dive_limit())
         if deep_dive_cap:
             detail_items = detail_items[:deep_dive_cap]
     else:
-        detail_items = [it for it in items if str(it.get("id") or "") in details_by_id]
+        detail_items = [it for it in items if _detail_lookup(details_by_id, it)]
 
     if detail_items:
         md.extend([deep_dives_heading, ""])
@@ -628,7 +636,7 @@ def to_markdown(
                 heading_body = _prefix_star(heading_body)
             md.append(f"### {heading_body}")
             md.append("")
-            detail_block = (details_by_id.get(iid) or "").rstrip()
+            detail_block = _detail_lookup(details_by_id, it)
             if not detail_block and is_cybermed:
                 detail_block = f"**BOTTOM LINE:** {_best_bottom_line(it, detail_block)}"
             md.append(detail_block)
