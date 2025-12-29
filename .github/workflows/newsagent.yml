@@ -3,14 +3,9 @@ name: NewsAgent2 daily
 
 on:
   schedule:
-    # GitHub cron runs in UTC. Dual weekday crons + local gate ensure a single 05:00 run in Europe/Stockholm.
-    - cron: "0 3 * * 1-5"
-    - cron: "0 4 * * 1-5"
-    # Monthly (day 1 @ 05:00 Europe/Stockholm -> 04:00 UTC; DST coverage at 03:00 UTC)
-    - cron: "0 3 1 * *"
-    - cron: "0 4 1 * *"
-    # Year in Review (Jan 1 @ 05:00 Europe/Stockholm -> 04:00 UTC)
-    - cron: "0 4 1 1 *"
+    # GitHub cron runs in UTC. Dual daily crons + local gate ensure a single 05:00 run in Europe/Stockholm (DST covered).
+    - cron: "0 3 * * *"
+    - cron: "0 4 * * *"
   workflow_dispatch:
     inputs:
       report_mode:
@@ -107,39 +102,19 @@ jobs:
           dom=$(TZ=Europe/Stockholm date +%d)
           month=$(TZ=Europe/Stockholm date +%m)
 
-          is_yearly=false
-          is_monthly=false
-          is_weekday_schedule=false
-          case "$schedule_expr" in
-            "0 4 1 1 *")
-              is_yearly=true
-              ;;
-            "0 3 1 * *"|"0 4 1 * *")
-              is_monthly=true
-              ;;
-            "0 3 * * 1-5"|"0 4 * * 1-5")
-              is_weekday_schedule=true
-              ;;
-          esac
-
-          if [ "$month" = "01" ] && [ "$dom" = "01" ] && [ "$is_yearly" = false ]; then
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Skipping scheduled run: Jan 1 handled by yearly schedule; cron='${schedule_expr}'."
-            exit 0
+          is_yearly_due=false
+          is_monthly_due=false
+          if [ "$dom" = "01" ]; then
+            is_monthly_due=true
+          fi
+          if [ "$month" = "01" ] && [ "$dom" = "01" ]; then
+            is_yearly_due=true
           fi
 
-          if [ "$dom" = "01" ] && [ "$is_weekday_schedule" = true ]; then
+          if [ "$dow" -ge 6 ] && [ "$is_monthly_due" = false ] && [ "$is_yearly_due" = false ]; then
             echo "should_run=false" >> "$GITHUB_OUTPUT"
             echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Skipping weekday schedule on 1st of month to avoid overlap with monthly cron (${schedule_expr})."
-            exit 0
-          fi
-
-          if [ "$dow" -ge 6 ] && [ "$is_monthly" = false ] && [ "$is_yearly" = false ]; then
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Skipping scheduled run: weekend (Mon–Fri only). No report/email sent."
+            echo "::notice::Skipping scheduled run: weekend (Mon–Fri daily cadence); no monthly/yearly due today."
             exit 0
           fi
 
@@ -183,23 +158,23 @@ jobs:
           else
             run_which_report="both"
             dow=$(TZ=Europe/Stockholm date +"%u")
+            dom=$(TZ=Europe/Stockholm date +"%d")
+            month=$(TZ=Europe/Stockholm date +"%m")
 
-            if [ "$schedule_expr" = "0 4 1 1 *" ]; then
-              run_modes="yearly monthly"
-            elif [ "$schedule_expr" = "0 3 1 * *" ] || [ "$schedule_expr" = "0 4 1 * *" ]; then
-              run_modes="monthly"
-              if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then
-                run_modes="$run_modes daily"
-              fi
-              if [ "$dow" = "5" ]; then
-                run_modes="$run_modes weekly"
-              fi
-            else
-              run_modes="daily"
-              if [ "$dow" = "5" ]; then
-                run_modes="$run_modes weekly"
-              fi
+            modes=()
+            if [ "$month" = "01" ] && [ "$dom" = "01" ]; then
+              modes+=("yearly")
             fi
+            if [ "$dom" = "01" ]; then
+              modes+=("monthly")
+            fi
+            if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then
+              modes+=("daily")
+            fi
+            if [ "$dow" = "5" ]; then
+              modes+=("weekly")
+            fi
+            run_modes="${modes[*]}"
           fi
 
           echo "run_skip=false" >> "$GITHUB_OUTPUT"

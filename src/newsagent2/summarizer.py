@@ -144,33 +144,37 @@ _SYS_DETAIL_YOUTUBE_CYBERLURCH_EN = (
 _SYS_DETAIL_PUBMED_DE = (
     "You are a careful clinical summarizer. Write strictly in German.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract text when available).\n"
-    "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'nicht berichtet'.\n\n"
-    "Return Markdown with EXACTLY these headings (with colons) and bullets under 'Limitations':\n\n"
-    "BOTTOM LINE: 1–2 Sätze: Was ist neu, wie belastbar, und mögliche Relevanz für Praxis.\n\n"
-    "Study type: (RCT / Kohorte / Fall-Kontrolle / Querschnitt / Systematic Review / Guideline / Sonstiges / nicht berichtet)\n"
-    "Population/setting: (kurz)\n"
-    "Intervention/exposure & comparator: (wenn vorhanden)\n"
-    "Primary endpoints: (wenn vorhanden)\n"
-    "Key results: (konkret, Zahlen wenn vorhanden)\n"
-    "Limitations:\n"
-    "- 1–3 Punkte\n"
-    "Why this matters: 1 kurzer Absatz.\n"
+    "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'nicht berichtet'.\n"
+    "If the abstract contains enough information to infer the study type/population/endpoints/results, do so; only use 'nicht berichtet' when there is truly no hint in the provided text.\n\n"
+    "Return Markdown that renders cleanly in HTML email:\n"
+    "- Start with one paragraph: 'BOTTOM LINE: …'\n"
+    "- Then a bullet list with bold labels exactly like this:\n"
+    "  - **Study type:** …\n"
+    "  - **Population/setting:** …\n"
+    "  - **Intervention/exposure & comparator:** …\n"
+    "  - **Primary endpoints:** …\n"
+    "  - **Key results:** …\n"
+    "  - **Limitations:**\n"
+    "    - …\n"
+    "  - **Why this matters:** …\n"
 )
 
 _SYS_DETAIL_PUBMED_EN = (
     "You are a careful clinical summarizer. Write strictly in English.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract text when available).\n"
-    "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'not reported'.\n\n"
-    "Return Markdown with EXACTLY these headings (with colons) and bullets under 'Limitations':\n\n"
-    "BOTTOM LINE: 1–2 sentences: what is new, how strong the evidence is, and the possible practice impact.\n\n"
-    "Study type: (RCT / cohort / case-control / cross-sectional / systematic review / guideline / other / not reported)\n"
-    "Population/setting: (short)\n"
-    "Intervention/exposure & comparator: (if stated)\n"
-    "Primary endpoints: (if stated)\n"
-    "Key results: (concrete; include numbers if present)\n"
-    "Limitations:\n"
-    "- 1–3 bullets\n"
-    "Why this matters: 1 short paragraph.\n"
+    "Use ONLY the provided text; do not add outside facts. If something is not stated, write 'not reported'.\n"
+    "If the abstract contains enough information to infer the study type/population/endpoints/results, do so; only use 'Not reported' when there is truly no hint in the provided text.\n\n"
+    "Return Markdown that renders cleanly in HTML email:\n"
+    "- Start with one paragraph: 'BOTTOM LINE: …'\n"
+    "- Then a bullet list with bold labels exactly like this:\n"
+    "  - **Study type:** …\n"
+    "  - **Population/setting:** …\n"
+    "  - **Intervention/exposure & comparator:** …\n"
+    "  - **Primary endpoints:** …\n"
+    "  - **Key results:** …\n"
+    "  - **Limitations:**\n"
+    "    - …\n"
+    "  - **Why this matters:** …\n"
 )
 
 _SYS_DETAIL_PUBMED_CYBERLURCH_EN = (
@@ -182,16 +186,18 @@ _SYS_DETAIL_PUBMED_CYBERLURCH_EN = (
     "- If the item language is English, German, or Swedish, write the summary in that language.\n"
     "- Otherwise, translate/summarize the item into English.\n"
     "- Keep the structural labels in English.\n\n"
-    "Return Markdown with EXACTLY these headings (with colons) and bullets under 'Limitations':\n\n"
-    "BOTTOM LINE: 1–2 sentences: what is new, how strong the evidence is, and the possible practice impact.\n\n"
-    "Study type: (RCT / cohort / case-control / cross-sectional / systematic review / guideline / other / not reported)\n"
-    "Population/setting: (short)\n"
-    "Intervention/exposure & comparator: (if stated)\n"
-    "Primary endpoints: (if stated)\n"
-    "Key results: (concrete; include numbers if present)\n"
-    "Limitations:\n"
-    "- 1–3 bullets\n"
-    "Why this matters: 1 short paragraph.\n"
+    "Return Markdown that renders cleanly in HTML email:\n"
+    "- Start with one paragraph: 'BOTTOM LINE: …'\n"
+    "- Then a bullet list with bold labels exactly like this:\n"
+    "  - **Study type:** …\n"
+    "  - **Population/setting:** …\n"
+    "  - **Intervention/exposure & comparator:** …\n"
+    "  - **Primary endpoints:** …\n"
+    "  - **Key results:** …\n"
+    "  - **Limitations:**\n"
+    "    - …\n"
+    "  - **Why this matters:** …\n"
+    "If the abstract contains enough information to infer the study type/population/endpoints/results, do so; only use 'Not reported' when there is truly no hint in the provided text.\n"
 )
 
 
@@ -207,82 +213,121 @@ _PUBMED_REQUIRED_HEADINGS = [
 ]
 
 
-def _ensure_pubmed_deep_dive_template(md: str, *, lang: str, fallback_bottom_line: str = "") -> str:
+def extract_pubmed_abstract(raw_text: str) -> tuple[str, bool]:
     """
-    Enforce the PubMed deep-dive template and fill missing fields with placeholders.
+    Extract the abstract portion from a PubMed text blob.
+
+    Returns (abstract_text, header_was_present).
     """
+    text = (raw_text or "").strip()
+    if not text:
+        return "", False
 
-    placeholder = "not reported" if lang == "en" else "nicht berichtet"
+    lines = text.splitlines()
+    header_seen = False
+    abstract_lines: List[str] = []
+    found_blank = False
 
-    def _normalize_headings(text: str) -> str:
-        normalized = text
-        for heading in _PUBMED_REQUIRED_HEADINGS:
-            base = heading.rstrip(":")
-            patterns = [
-                rf"\*\*{re.escape(base)}:\*\*",
-                rf"\*\*{re.escape(base)}\*\*",
-                rf"{re.escape(base)}\s*:",
-            ]
-            for pat in patterns:
-                normalized = re.sub(pat, heading, normalized, flags=re.IGNORECASE)
-        return normalized
+    for line in lines:
+        if not found_blank and line.strip() == "":
+            found_blank = True
+            header_seen = True
+            continue
+        if found_blank:
+            abstract_lines.append(line)
+
+    if not abstract_lines:
+        return text, header_seen
+
+    return "\n".join(abstract_lines).strip(), header_seen
+
+
+def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: str = "") -> tuple[str, int]:
+    placeholder = "Not reported" if lang == "en" else "nicht berichtet"
+    lower_placeholder = placeholder.lower()
+
+    def _clean_value(val: str) -> str:
+        cleaned = (val or "").strip()
+        if cleaned.lower() in {"not reported", "nicht berichtet"}:
+            return placeholder
+        return cleaned
 
     def _extract_bottom_line(text: str) -> str:
         for line in text.splitlines():
-            if line.strip().lower().startswith("bottom line:"):
+            if line.strip().lower().startswith("bottom line"):
                 return line.split(":", 1)[-1].strip()
         return ""
 
-    def _ensure_limitations_bullets(text: str) -> str:
-        lower = text.lower()
-        idx = lower.find("limitations:")
-        if idx == -1:
-            return text
+    def _extract_field(text: str, label: str) -> str:
+        pat = rf"(?im)^\s*(?:[-*•]\s*)?(?:\*\*)?{re.escape(label)}(?:\*\*)?\s*:?\s*(.+)$"
+        m = re.search(pat, text)
+        if m:
+            return _clean_value(m.group(1))
+        return ""
 
-        start = idx + len("limitations:")
-        next_heading_idx = lower.find("why this matters:", start)
-        end = next_heading_idx if next_heading_idx != -1 else len(text)
+    def _extract_limitations(text: str) -> List[str]:
+        pat = re.compile(r"(?im)^\s*(?:[-*•]\s*)?(?:\*\*)?limitations(?:\*\*)?\s*:?\s*$")
+        lines = text.splitlines()
+        start_idx = None
+        for i, ln in enumerate(lines):
+            if pat.match(ln):
+                start_idx = i + 1
+                break
+        if start_idx is None:
+            return []
+        collected: List[str] = []
+        for ln in lines[start_idx:]:
+            stripped = ln.strip()
+            if not stripped:
+                if collected:
+                    break
+                continue
+            if re.match(r"(?i)^\s*(?:[-*•]\s*)?(?:\*\*)?(study type|population/setting|intervention/exposure|primary endpoints|key results|why this matters)(?:\*\*)?\s*:", stripped):
+                break
+            if stripped.startswith(("-", "*", "•")):
+                stripped = stripped.lstrip("-*• ").strip()
+            collected.append(_clean_value(stripped))
+        return collected
 
-        before = text[:start]
-        section = text[start:end].lstrip("\n")
-        after = text[end:]
+    bottom_line = _clean_value(_extract_bottom_line(md) or fallback_bottom_line or placeholder)
+    study_type = _clean_value(_extract_field(md, "Study type"))
+    population = _clean_value(_extract_field(md, "Population/setting"))
+    intervention = _clean_value(_extract_field(md, "Intervention/exposure & comparator"))
+    endpoints = _clean_value(_extract_field(md, "Primary endpoints"))
+    key_results = _clean_value(_extract_field(md, "Key results"))
+    why_matters = _clean_value(_extract_field(md, "Why this matters"))
+    limitations_list = [_clean_value(x) for x in _extract_limitations(md) if _clean_value(x)]
 
-        lines = [ln for ln in section.splitlines() if ln.strip()]
-        if not lines:
-            bullets = [f"- {placeholder}"]
-        elif any(re.match(r"\\s*[-*•]", ln) for ln in lines):
-            bullets = lines
-        else:
-            bullets = [f"- {ln.strip()}" for ln in lines]
-            if not bullets:
-                bullets = [f"- {placeholder}"]
+    not_reported_fields = 0
+    for val in (study_type, population, intervention, endpoints, key_results, why_matters):
+        cleaned = (val or "").strip()
+        if not cleaned or cleaned.lower() == lower_placeholder:
+            not_reported_fields += 1
 
-        fixed_section = "\n".join(bullets)
-        if not fixed_section.endswith("\n"):
-            fixed_section += "\n"
-        return before + "\n" + fixed_section + after
+    if not limitations_list:
+        limitations_list = [placeholder]
+        not_reported_fields += 1
+    elif all((li or "").strip().lower() == lower_placeholder for li in limitations_list):
+        not_reported_fields += 1
 
-    md_normalized = _normalize_headings(md)
-    lower_md = md_normalized.lower()
-    missing = [h for h in _PUBMED_REQUIRED_HEADINGS if h.lower() not in lower_md]
+    fields = [
+        f"- **Study type:** {study_type or placeholder}",
+        f"- **Population/setting:** {population or placeholder}",
+        f"- **Intervention/exposure & comparator:** {intervention or placeholder}",
+        f"- **Primary endpoints:** {endpoints or placeholder}",
+        f"- **Key results:** {key_results or placeholder}",
+        "- **Limitations:**",
+    ]
+    fields.extend(f"  - {li or placeholder}" for li in limitations_list)
+    fields.append(f"- **Why this matters:** {why_matters or placeholder}")
 
-    if missing:
-        bottom_line = _extract_bottom_line(md_normalized) or fallback_bottom_line or placeholder
-        rebuilt = (
-            f"BOTTOM LINE: {bottom_line}\n\n"
-            f"Study type: {placeholder}\n"
-            f"Population/setting: {placeholder}\n"
-            f"Intervention/exposure & comparator: {placeholder}\n"
-            f"Primary endpoints: {placeholder}\n"
-            f"Key results: {placeholder}\n"
-            f"Limitations:\n"
-            f"- {placeholder}\n"
-            f"Why this matters: {placeholder}\n"
-        )
-        return rebuilt.strip()
+    normalized = "\n".join([f"BOTTOM LINE: {bottom_line or placeholder}", ""] + fields).strip()
+    return normalized, not_reported_fields
 
-    md_fixed = _ensure_limitations_bullets(md_normalized)
-    return md_fixed.strip()
+
+def normalize_pubmed_deep_dive(md: str, *, lang: str, fallback_bottom_line: str = "") -> str:
+    normalized, _ = _normalize_pubmed_field_values(md, lang=lang, fallback_bottom_line=fallback_bottom_line)
+    return normalized
 
 
 def _get_client() -> OpenAI:
@@ -390,46 +435,104 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     if len(text) > 6000:
         text = text[:6000].rstrip()
 
+    abstract = text
+    abstract_header_seen = False
+    if src == "pubmed":
+        abstract, abstract_header_seen = extract_pubmed_abstract(text)
+        item["_deep_dive_missing_abstract"] = abstract.strip() == ""
+    else:
+        item["_deep_dive_missing_abstract"] = False
+
     published = item.get("published_at")
     if isinstance(published, datetime):
         published_str = published.replace(microsecond=0).isoformat()
     else:
         published_str = str(published) if published else ""
 
-    meta = {
-        "source": src,
-        "channel": (item.get("channel") or "").strip(),
-        "title": (item.get("title") or "").strip(),
-        "url": (item.get("url") or "").strip(),
-        "published_at": published_str,
-        "journal": (item.get("journal") or "").strip(),
-        "year": item.get("year"),
-        "pmid": (item.get("pmid") or item.get("id") or "").strip(),
-        "doi": (item.get("doi") or "").strip(),
-        "text": text,
-    }
+    if src == "pubmed":
+        meta = {
+            "source": src,
+            "title": (item.get("title") or "").strip(),
+            "journal": (item.get("journal") or item.get("channel") or "").strip(),
+            "year": item.get("year"),
+            "published_at": published_str,
+            "pmid": (item.get("pmid") or item.get("id") or "").strip(),
+            "doi": (item.get("doi") or "").strip(),
+            "url": (item.get("url") or "").strip(),
+            "abstract": abstract,
+        }
+        if abstract_header_seen:
+            meta["abstract_note"] = "Abstract extracted after initial header lines."
+    else:
+        meta = {
+            "source": src,
+            "channel": (item.get("channel") or "").strip(),
+            "title": (item.get("title") or "").strip(),
+            "url": (item.get("url") or "").strip(),
+            "published_at": published_str,
+            "journal": (item.get("journal") or "").strip(),
+            "year": item.get("year"),
+            "pmid": (item.get("pmid") or item.get("id") or "").strip(),
+            "doi": (item.get("doi") or "").strip(),
+            "text": text,
+        }
     payload = json.dumps(meta, ensure_ascii=False, indent=2)
 
     user_prompt = (
         "Item (JSON):\n"
         f"{payload}\n\n"
-        "Now write the requested deep dive."
     )
+    if src == "pubmed":
+        user_prompt += (
+            "Please produce the requested deep dive. Use the structured fields above; the abstract is provided separately from any header text.\n"
+        )
+    else:
+        user_prompt += "Now write the requested deep dive.\n"
 
     try:
         client = _get_client()
+        messages = [
+            {"role": "system", "content": sys_prompt},
+            {"role": "user", "content": user_prompt},
+        ]
         r = client.chat.completions.create(
             model=OPENAI_MODEL,
-            messages=[
-                {"role": "system", "content": sys_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
+            messages=messages,
             temperature=0.2,
         )
         content = (r.choices[0].message.content or "").strip()
+        retried = False
+
         if src == "pubmed":
             fallback_bl = (item.get("bottom_line") or "").strip()
-            content = _ensure_pubmed_deep_dive_template(content, lang=lang, fallback_bottom_line=fallback_bl)
+            normalized, not_reported_fields = _normalize_pubmed_field_values(
+                content, lang=lang, fallback_bottom_line=fallback_bl
+            )
+            if not_reported_fields >= 4 and len(abstract) >= 400:
+                retry_prompt = (
+                    user_prompt
+                    + "\nRETRY: The abstract is detailed. Extract or infer study type, population/setting, endpoints, results, limitations, and why this matters. "
+                    "Only use 'Not reported' or 'nicht berichtet' when there is truly no information in the abstract.\n"
+                )
+                r_retry = client.chat.completions.create(
+                    model=OPENAI_MODEL,
+                    messages=[
+                        {"role": "system", "content": sys_prompt},
+                        {"role": "user", "content": retry_prompt},
+                    ],
+                    temperature=0.15,
+                )
+                content = (r_retry.choices[0].message.content or "").strip() or content
+                retried = True
+                normalized, _ = _normalize_pubmed_field_values(
+                    content, lang=lang, fallback_bottom_line=fallback_bl
+                )
+            content = normalized
+            item["_deep_dive_retried"] = retried
+        else:
+            item["_deep_dive_retried"] = False
+
+        item["_deep_dive_empty_output"] = not bool(content.strip())
         return content
     except Exception as e:
         if lang == "en":
