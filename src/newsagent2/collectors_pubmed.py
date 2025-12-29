@@ -353,6 +353,7 @@ def _parse_pubmed_xml(xml_text: str, max_items: int) -> List[Dict[str, Any]]:
                 "journal_medline_ta": journal_medline_ta.strip() if journal_medline_ta else "",
                 "doi": doi,
                 "text": "\n".join(text_chunks).strip(),
+                "abstract": abstract,
             }
         )
 

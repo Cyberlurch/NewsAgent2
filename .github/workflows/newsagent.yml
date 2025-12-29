@@ -3,9 +3,9 @@ name: NewsAgent2 daily
 
 on:
   schedule:
-    # GitHub cron runs in UTC. Dual daily crons + local gate ensure a single 05:00 run in Europe/Stockholm (DST covered).
+    # GitHub cron runs in UTC. Dual daily crons + local gate ensure a single 04:00 run in Europe/Stockholm (DST covered).
+    - cron: "0 2 * * *"
     - cron: "0 3 * * *"
-    - cron: "0 4 * * *"
   workflow_dispatch:
     inputs:
       report_mode:
@@ -51,7 +51,7 @@ jobs:
     env:
       # OpenAI
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1' }}
       OPENAI_MODEL_PUBMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE || 'gpt-4.1' }}
       OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK || '' }}
 
@@ -73,6 +73,7 @@ jobs:
       PUBMED_MAX_RETRIES: ${{ vars.PUBMED_MAX_RETRIES || '4' }}
       PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
       PUBMED_DATE_TYPE: ${{ vars.PUBMED_DATE_TYPE || 'edat' }}
+      PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT || 'true' }}
       REPORT_DIR: out
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
@@ -84,12 +85,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Gate scheduled runs to ~05:00 Europe/Stockholm
+      - name: Gate scheduled runs to ~04:00 Europe/Stockholm
         id: gate_stockholm
         run: |
           set -euo pipefail
 
-          DELIVERY_HOUR_LOCAL="05"
+          DELIVERY_HOUR_LOCAL="04"
 
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
@@ -277,7 +278,7 @@ jobs:
 
           if [ "${{ github.event_name }}" = "schedule" ]; then
             local_hour=$(TZ=Europe/Stockholm date +%H)
-            if [ "$local_hour" != "05" ]; then
+            if [ "$local_hour" != "04" ]; then
               echo "DST coverage run detected (local hour=$local_hour) -> guardrail bypass."
               exit 0
             fi
