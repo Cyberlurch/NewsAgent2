@@ -689,9 +689,9 @@ def to_markdown(
             if md and md[-1] != "":
                 md.append("")
             meta_content = "\n\n".join(meta_blocks)
-            md.append("<!-- RUN_METADATA_ATTACHMENT_START")
+            md.append("<!-- RUN_METADATA_ATTACHMENT_START -->")
             md.append(meta_content)
-            md.append("RUN_METADATA_ATTACHMENT_END -->")
+            md.append("<!-- RUN_METADATA_ATTACHMENT_END -->")
             md.append("")
 
     return "\n".join(md)

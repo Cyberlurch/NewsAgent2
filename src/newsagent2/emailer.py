@@ -276,9 +276,10 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
     working_body = md_body
     metadata_text = ""
     metadata_removed = False
+    was_marker_based = False
 
     def _splice_out_block(match: re.Match[str], captured: str) -> None:
-        nonlocal working_body, metadata_text, metadata_removed
+        nonlocal working_body, metadata_text, metadata_removed, was_marker_based
         before = working_body[: match.start()] or ""
         after = working_body[match.end() :] or ""
 
@@ -291,8 +292,11 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
             working_body += suffix
 
         if captured and not metadata_text:
-            metadata_text = captured
+            cleaned = re.sub(r"^\\s*-->\\s*", "", captured)
+            cleaned = re.sub(r"\\s*<!--\\s*$", "", cleaned)
+            metadata_text = cleaned.strip()
         metadata_removed = True
+        was_marker_based = True
 
     comment_block_pattern = re.compile(
         r"<!--\s*RUN_METADATA_ATTACHMENT_START\b(.*?)RUN_METADATA_ATTACHMENT_END\s*-->",
@@ -306,10 +310,10 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
 
     comment_match = comment_block_pattern.search(working_body)
     marker_match = marker_pattern.search(working_body)
-    if comment_match:
-        _splice_out_block(comment_match, (comment_match.group(1) or "").strip())
-    elif marker_match:
+    if marker_match:
         _splice_out_block(marker_match, (marker_match.group(1) or "").strip())
+    elif comment_match:
+        _splice_out_block(comment_match, (comment_match.group(1) or "").strip())
     else:
         lines = working_body.splitlines()
         start_idx = None
@@ -355,6 +359,17 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
 
     if metadata_removed and original_trailing_newline and not working_body.endswith("\n"):
         working_body += "\n"
+
+    if was_marker_based and metadata_text:
+        placeholder = "Run metadata is attached as a text file."
+        if placeholder not in working_body:
+            note = f"{placeholder}\n"
+            if "## Run Metadata" in working_body:
+                working_body = working_body.replace("## Run Metadata", f"## Run Metadata\n\n{note}".rstrip(), 1)
+            else:
+                if working_body and not working_body.endswith("\n"):
+                    working_body += "\n"
+                working_body = f"{working_body}{note}"
 
     return working_body, metadata_text.strip(), metadata_removed
 
