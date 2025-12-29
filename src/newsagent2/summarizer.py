@@ -162,7 +162,7 @@ _SYS_DETAIL_PUBMED_DE = (
     "You are a careful clinical summarizer. Write strictly in German.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract/full-text excerpt when available).\n"
     "Use ONLY the provided text; do not add outside facts. Extract what is explicitly or implicitly present; only use 'nicht berichtet' when there is truly no hint in the text.\n"
-    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Do not drop information that is present in the abstract or full text. Priorisiere Methoden/Ergebnisse und nenne konkrete Zahlen, falls vorhanden. Gib nach jedem Label mindestens einen kurzen Satz in derselben Zeile an; zusätzliche Bullet-Points dürfen in eingerückten Zeilen folgen.\n\n"
+    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Nutze vorhandene Volltext-Auszüge (falls vorhanden) bevorzugt vor dem Abstract, priorisiere Methoden/Ergebnisse und nenne konkrete Zahlen. Gib nach jedem Label mindestens einen kurzen Satz in derselben Zeile an; zusätzliche Bullet-Points dürfen in eingerückten Zeilen folgen.\n\n"
     "Return Markdown that renders cleanly in HTML email:\n"
     "- Start with one paragraph: 'BOTTOM LINE: …'\n"
     "- Then a bullet list with bold labels exactly like this:\n"
@@ -180,7 +180,7 @@ _SYS_DETAIL_PUBMED_EN = (
     "You are a careful clinical summarizer. Write strictly in English.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract/full-text excerpt when available).\n"
     "Use ONLY the provided text; do not add outside facts. Extract what is explicitly or implicitly present; only use 'Not reported' when there is truly no hint in the text.\n"
-    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Do not drop information that is present in the abstract or full text. Prioritize Methods/Results and include concrete numbers when present. Put at least one short sentence on the SAME LINE after each label; additional indented bullets may follow.\n\n"
+    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Prefer any full-text excerpt provided (especially Methods/Results) over the abstract when present; include concrete numbers when available. Put at least one short sentence on the SAME LINE after each label; additional indented bullets may follow.\n\n"
     "Return Markdown that renders cleanly in HTML email:\n"
     "- Start with one paragraph: 'BOTTOM LINE: …'\n"
     "- Then a bullet list with bold labels exactly like this:\n"
@@ -197,7 +197,7 @@ _SYS_DETAIL_PUBMED_EN = (
 _SYS_DETAIL_PUBMED_CYBERLURCH_EN = (
     "You are a careful clinical summarizer. Section headers must be in English.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract/full-text excerpt when available).\n"
-    "Use ONLY the provided text; do not add outside facts. Extract what is explicitly or implicitly present; only use 'Not reported' when there is truly no hint in the text.\n\n"
+    "Use ONLY the provided text; do not add outside facts. Extract what is explicitly or implicitly present; only use 'Not reported' when there is truly no hint in the text. Prefer any full-text excerpt provided (especially Methods/Results) over the abstract when present; include concrete numbers when available.\n\n"
     "Language policy:\n"
     "- Detect the dominant language using the title and abstract text.\n"
     "- If the item language is English, German, or Swedish, write the summary in that language.\n"
@@ -761,7 +761,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             sys_prompt += "\nMedizinischer Fokus: betone Evidenz, Studiendesign (falls genannt) und praktische Implikationen; keine Spekulation.\n"
 
     text = (item.get("text") or "").strip()
-    max_chars = 32000 if src == "pubmed" else 6000
+    max_chars = 30000 if src == "pubmed" else 6000
     if len(text) > max_chars:
         text = text[:max_chars].rstrip()
 
@@ -775,6 +775,9 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         if not fulltext_excerpt:
             marker = "[PMC Open Access full text]"
             marker_idx = text.find(marker)
+            if marker_idx == -1:
+                marker = "[Unpaywall OA full text"
+                marker_idx = text.find(marker)
             if marker_idx != -1:
                 fulltext_excerpt = text[marker_idx:]
                 if len(fulltext_excerpt) > 20000:
@@ -805,6 +808,12 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             meta["abstract_note"] = "Abstract extracted after initial header lines."
         if fulltext_excerpt:
             meta["full_text_excerpt"] = fulltext_excerpt
+        if item.get("fulltext_source"):
+            meta["fulltext_source"] = (item.get("fulltext_source") or "").strip()
+        if item.get("fulltext_license"):
+            meta["fulltext_license"] = (item.get("fulltext_license") or "").strip()
+        if item.get("fulltext_host_type"):
+            meta["fulltext_host_type"] = (item.get("fulltext_host_type") or "").strip()
     else:
         meta = {
             "source": src,
@@ -828,7 +837,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         user_prompt += (
             "Please produce the requested deep dive. Use the structured fields above; the abstract/full text is provided separately from any header text. "
             "If the text contains clues for study type, population, endpoints, results, or limitations, place them in the corresponding fields instead of writing 'Not reported'/'nicht berichtet'. "
-            "If a full_text_excerpt is present, it may be truncated—prioritize Methods/Results and concrete numbers.\n"
+            "If a full_text_excerpt is present, treat it as the primary evidence source (abstract is secondary), note that it may be truncated, and prioritize Methods/Results with concrete numbers.\n"
         )
     else:
         user_prompt += "Now write the requested deep dive.\n"
