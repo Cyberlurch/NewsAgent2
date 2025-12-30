@@ -1758,6 +1758,7 @@ def main() -> None:
 
     deep_dive_diag = {
         "candidates": len([it for it in detail_items if (it.get("source") or "").strip().lower() == "pubmed"]),
+        "total_items": len(detail_items),
         "enriched_fulltext_count": 0,
         "unpaywall_oa_found_count": 0,
         "download_success_count": 0,
@@ -1766,6 +1767,8 @@ def main() -> None:
         "json_failures_count": 0,
         "markdown_fallback_used_count": 0,
         "sparse_after_json_count": 0,
+        "placeholder_rerun_count": 0,
+        "placeholder_value_high_count": 0,
     }
 
     for it in overview_items:
@@ -1961,6 +1964,7 @@ def main() -> None:
     deep_dive_retried = 0
     deep_dive_empty_outputs = 0
     missing_abstract_count = 0
+    placeholder_counts: List[int] = []
     for it in detail_items:
         src = (it.get("source") or "").strip().lower()
         if src == "pubmed":
@@ -2009,6 +2013,12 @@ def main() -> None:
                 deep_dive_diag["markdown_fallback_used_count"] += 1
             if it.get("_deep_dive_sparse_after_json"):
                 deep_dive_diag["sparse_after_json_count"] += 1
+            placeholder_count = int(it.get("_deep_dive_placeholder_value_count") or 0)
+            placeholder_counts.append(placeholder_count)
+            if it.get("_deep_dive_placeholder_rerun"):
+                deep_dive_diag["placeholder_rerun_count"] += 1
+            if placeholder_count >= 5:
+                deep_dive_diag["placeholder_value_high_count"] += 1
 
     deep_dive_diag["enriched_fulltext_count"] = len(
         [
@@ -2031,6 +2041,27 @@ def main() -> None:
             if (it.get("source") or "").strip().lower() == "pubmed"
             and (it.get("_deep_dive_unpaywall_downloaded") or it.get("_deep_dive_pmc_downloaded"))
         ]
+    )
+    if placeholder_counts:
+        placeholder_counts_sorted = sorted(placeholder_counts)
+        deep_dive_diag["placeholder_value_min"] = placeholder_counts_sorted[0]
+        deep_dive_diag["placeholder_value_median"] = int(median(placeholder_counts_sorted))
+        deep_dive_diag["placeholder_value_max"] = placeholder_counts_sorted[-1]
+    else:
+        deep_dive_diag["placeholder_value_min"] = 0
+        deep_dive_diag["placeholder_value_median"] = 0
+        deep_dive_diag["placeholder_value_max"] = 0
+
+    placeholder_stats = (
+        f"{deep_dive_diag['placeholder_value_min']}/"
+        f"{deep_dive_diag['placeholder_value_median']}/"
+        f"{deep_dive_diag['placeholder_value_max']}"
+    )
+    print(
+        "[deepdive] diagnostics: "
+        f"total={deep_dive_diag.get('total_items', 0)} "
+        f"placeholder_reruns={deep_dive_diag.get('placeholder_rerun_count', 0)} "
+        f"placeholder_count(min/med/max)={placeholder_stats}"
     )
 
     if is_cybermed_run and not deep_dive_ids and details_for_report:
@@ -2061,6 +2092,7 @@ def main() -> None:
         cybermed_run_stats["pubmed"]["generated_deep_dives"] = len(details_for_report)
         cybermed_run_stats["deep_dives"] = {
             "candidates": deep_dive_diag.get("candidates", 0),
+            "total_deep_dive_items": deep_dive_diag.get("total_items", 0),
             "requested_deep_dives": deep_dive_requested,
             "generated_deep_dives": len(details_for_report),
             "retried_deep_dives": deep_dive_retried,
@@ -2074,6 +2106,11 @@ def main() -> None:
             "deep_dive_json_failures": deep_dive_diag.get("json_failures_count", 0),
             "deep_dive_markdown_fallbacks": deep_dive_diag.get("markdown_fallback_used_count", 0),
             "deep_dive_sparse_after_json": deep_dive_diag.get("sparse_after_json_count", 0),
+            "placeholder_reruns": deep_dive_diag.get("placeholder_rerun_count", 0),
+            "placeholder_value_high_count": deep_dive_diag.get("placeholder_value_high_count", 0),
+            "placeholder_value_min": deep_dive_diag.get("placeholder_value_min", 0),
+            "placeholder_value_median": deep_dive_diag.get("placeholder_value_median", 0),
+            "placeholder_value_max": deep_dive_diag.get("placeholder_value_max", 0),
         }
 
     md = to_markdown(
