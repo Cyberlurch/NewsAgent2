@@ -1,0 +1,47 @@
+import pathlib
+import sys
+
+SRC = pathlib.Path(__file__).resolve().parents[1] / "src"
+if str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+
+from newsagent2.utils.text_quality import is_low_signal_youtube_text, parse_vtt_to_text
+
+
+def test_is_low_signal_youtube_text_flags_promos_with_links():
+    promo_text = (
+        "Support the channel on Patreon and check the links below for affiliate deals. "
+        "Subscribe for more updates and share the merch drop. "
+        "https://example.com/deal1 https://example.com/deal2 https://example.com/deal3 "
+        "Join the Discord to support the channel and see sponsors."
+    ) * 3
+
+    assert is_low_signal_youtube_text(promo_text) is True
+
+
+def test_is_low_signal_youtube_text_accepts_normal_transcript():
+    transcript_like = (
+        "Today we examine the latest security updates across multiple platforms. "
+        "The report outlines how the patch cycle impacts enterprise deployments and "
+        "what administrators should prioritize over the next week. "
+        "We also discuss lessons learned from recent incidents and explore mitigation strategies. "
+        "Finally, we close with a preview of upcoming research findings relevant to the community."
+    ) * 4
+
+    assert is_low_signal_youtube_text(transcript_like) is False
+
+
+def test_parse_vtt_to_text_strips_cues_and_timestamps():
+    vtt = """WEBVTT
+Kind: captions
+
+1
+00:00:00.000 --> 00:00:02.000
+Hello world!
+
+2
+00:00:02.500 --> 00:00:04.000
+Visit our site <c.colorE5E5E5>News</c> Agent.
+"""
+
+    assert parse_vtt_to_text(vtt) == "Hello world! Visit our site News Agent."

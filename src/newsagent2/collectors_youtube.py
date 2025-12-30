@@ -3,8 +3,12 @@ from __future__ import annotations
 
 import datetime as dt
 from zoneinfo import ZoneInfo
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Sequence
 import re
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
 
 import yt_dlp
 from youtube_transcript_api import (
@@ -13,6 +17,8 @@ from youtube_transcript_api import (
     NoTranscriptFound,
     VideoUnavailable,
 )
+
+from .utils.text_quality import parse_vtt_to_text
 
 STO = ZoneInfo("Europe/Stockholm")
 
@@ -126,3 +132,65 @@ def fetch_transcript(video_id: str) -> str | None:
         return None
     except Exception:
         return None
+
+
+def _pick_vtt_file(files: List[Path], lang_priority: Sequence[str]) -> Path | None:
+    if not files:
+        return None
+
+    langs = [l.lower() for l in lang_priority if l]
+    for lang in langs:
+        for f in files:
+            name = f.name.lower()
+            if name.endswith(f".{lang}.vtt") or f".{lang}." in name:
+                return f
+    return files[0]
+
+
+def fetch_youtube_captions_text(
+    url: str, lang_priority: Sequence[str] = ("en", "en-US", "en-GB"), *, timeout_s: float = 25.0
+) -> str:
+    """
+    Fetch captions (preferring auto-generated) without downloading the video.
+    Returns plain text (VTT stripped) truncated to ~7000 chars.
+    """
+    target_url = (url or "").strip()
+    if not target_url:
+        return ""
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        out_tmpl = str(Path(tmpdir) / "%(id)s.%(ext)s")
+        cmd = [
+            sys.executable,
+            "-m",
+            "yt_dlp",
+            "--skip-download",
+            "--write-auto-subs",
+            "--write-subs",
+            "--sub-lang",
+            "en.*",
+            "--sub-format",
+            "vtt",
+            "-o",
+            out_tmpl,
+            target_url,
+        ]
+        try:
+            res = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout_s)
+        except Exception:
+            return ""
+
+        vtt_files = sorted(Path(tmpdir).glob("*.vtt"))
+        if res.returncode != 0 and not vtt_files:
+            return ""
+        if not vtt_files:
+            return ""
+
+        chosen = _pick_vtt_file(list(vtt_files), lang_priority) or vtt_files[0]
+        try:
+            content = chosen.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            return ""
+
+        text = parse_vtt_to_text(content, max_chars=7000)
+        return text.strip()
