@@ -55,6 +55,45 @@ class CybermedDeepDiveDetailLookupTests(TestCase):
         self.assertIn("Study type:", md)
 
 
+    def test_deep_dive_bottom_line_label_is_bold(self):
+        items = [
+            {
+                "id": "12345",
+                "source": "pubmed",
+                "channel": "PubMed: Anesthesiology",
+                "journal": "Anesthesiology",
+                "year": 2025,
+                "title": "Frequency and Management of Maternal Peripartum Cardiac Arrest",
+                "url": "https://example.org/x",
+                "cybermed_deep_dive": True,
+            }
+        ]
+        details_by_id = {
+            "pubmed:12345": (
+                "BOTTOM LINE: plain label\n\n"
+                "Study type: cohort\n"
+                "Population/setting: not reported\n"
+                "Intervention/exposure & comparator: not reported\n"
+                "Primary endpoints: not reported\n"
+                "Key results: not reported\n"
+                "Limitations:\n"
+                "- not reported\n"
+                "Why this matters: not reported\n"
+            )
+        }
+
+        with patch.dict(os.environ, {"REPORT_KEY": "cybermed"}):
+            md = reporter.to_markdown(
+                items,
+                overview_markdown="",
+                details_by_id=details_by_id,
+                report_title="Cybermed Weekly",
+                report_language="en",
+                report_mode="weekly",
+            )
+
+        self.assertIn("**BOTTOM LINE:** plain label", md)
+
 if __name__ == "__main__":
     import unittest
 
