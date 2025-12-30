@@ -109,6 +109,17 @@ def _extract_bottom_line(detail_md: str) -> str:
         return ""
     return (m.group(1) or "").strip().splitlines()[0].strip()
 
+
+def _bold_bottom_line_label(text: str) -> str:
+    if not text:
+        return text
+
+    def _repl(match: re.Match[str]) -> str:
+        leading = match.group(1) or ""
+        return f"{leading}**BOTTOM LINE:**"
+
+    return re.sub(r"(?im)^(\s*)(?:\*\*)?BOTTOM LINE:(?:\*\*)?", _repl, text)
+
 def _extract_cybermed_meta_block(overview_markdown: str) -> str:
     text = (overview_markdown or "").strip()
     if not text:
@@ -695,6 +706,7 @@ def to_markdown(
                 detail_block = _ensure_pubmed_deep_dive_template(detail_block, best_bottom_line, lang=lang)
             if not detail_block and is_cybermed:
                 detail_block = f"**BOTTOM LINE:** {best_bottom_line}"
+            detail_block = _bold_bottom_line_label(detail_block)
             md.append(detail_block)
             md.append("")
 
