@@ -326,24 +326,26 @@ _PUBMED_PLACEHOLDER_FIELDS = [
 ]
 
 
+def _is_missing_value(val: Any, *, placeholder: str) -> bool:
+    placeholder_norm = (placeholder or "").strip().strip(".").lower()
+    tokens = {placeholder_norm, "not reported", "nicht berichtet"}
+    text = ""
+    if isinstance(val, list):
+        text = " ".join([str(v or "").strip() for v in val if str(v or "").strip()]).strip()
+    else:
+        text = str(val or "").strip()
+    if not text:
+        return True
+    normalized = text.strip().strip(".").lower()
+    return normalized in tokens
+
+
 def _count_pubmed_placeholder_fields(data: Dict[str, Any], *, lang: str) -> int:
     lang_norm = _norm_language(lang)
     placeholder = "Not reported" if lang_norm == "en" else "nicht berichtet"
-    placeholder_lower = placeholder.lower()
-    placeholder_tokens = {placeholder_lower, "not reported", "nicht berichtet"}
 
     def _is_placeholder(val: Any) -> bool:
-        if val is None:
-            return True
-        if isinstance(val, list):
-            joined = " ".join([str(v or "").strip() for v in val if str(v or "").strip()]).strip()
-            val_str = joined
-        else:
-            val_str = str(val or "").strip()
-        if not val_str:
-            return True
-        normalized = val_str.strip().strip(".").strip().lower()
-        return normalized in placeholder_tokens
+        return _is_missing_value(val, placeholder=placeholder)
 
     count = 0
     for key in _PUBMED_PLACEHOLDER_FIELDS:
@@ -355,8 +357,6 @@ def _count_pubmed_placeholder_fields(data: Dict[str, Any], *, lang: str) -> int:
 def _count_pubmed_placeholder_fields_from_markdown(md: str, *, lang: str) -> int:
     lang_norm = _norm_language(lang)
     placeholder = "Not reported" if lang_norm == "en" else "nicht berichtet"
-    placeholder_lower = placeholder.lower()
-    placeholder_tokens = {placeholder_lower, "not reported", "nicht berichtet"}
 
     patterns = {
         "study_type": re.compile(r"(?im)^\s*-\s*Study type:\s*(.+)$"),
@@ -367,18 +367,11 @@ def _count_pubmed_placeholder_fields_from_markdown(md: str, *, lang: str) -> int
         "why_this_matters": re.compile(r"(?im)^\s*-\s*Why this matters:\s*(.+)$"),
     }
 
-    def _is_placeholder(text: str) -> bool:
-        cleaned = (text or "").strip()
-        if not cleaned:
-            return True
-        normalized = cleaned.strip().strip(".").strip().lower()
-        return normalized in placeholder_tokens
-
     count = 0
     for pat in patterns.values():
         match = pat.search(md)
         value = match.group(1) if match else ""
-        if _is_placeholder(value):
+        if _is_missing_value(value, placeholder=placeholder):
             count += 1
     return count
 
@@ -458,16 +451,178 @@ def extract_pubmed_abstract(raw_text: str) -> tuple[str, bool]:
     return "\n".join(abstract_lines).strip(), header_seen
 
 
+def _parse_structured_pubmed_abstract_sections(abstract_text: str) -> Dict[str, str]:
+    text = (abstract_text or "").strip()
+    if not text:
+        return {}
+
+    heading_map = {
+        "objective": "objectives",
+        "objectives": "objectives",
+        "design": "design",
+        "study design": "design",
+        "setting": "setting",
+        "subjects": "subjects",
+        "participants": "subjects",
+        "patients": "subjects",
+        "intervention": "interventions",
+        "interventions": "interventions",
+        "measurements": "measurements",
+        "measurements and main results": "measurements",
+        "main results": "results",
+        "results": "results",
+        "conclusion": "conclusions",
+        "conclusions": "conclusions",
+    }
+
+    def _canonical_heading(raw: str) -> str:
+        key = " ".join((raw or "").lower().strip().strip(":").split())
+        return heading_map.get(key, "")
+
+    heading_pattern = re.compile(
+        r"(?im)(?P<header>Objectives?|Objective|Design|Study design|Setting|Subjects|Participants|Patients|Interventions?|Intervention|Measurements(?: and main results)?|Main results|Results|Conclusions?)\s*[:\-]\s*"
+    )
+    matches = list(heading_pattern.finditer(text))
+    if not matches:
+        return {}
+
+    sections: Dict[str, str] = {}
+    for idx, match in enumerate(matches):
+        start = match.end()
+        end = matches[idx + 1].start() if idx + 1 < len(matches) else len(text)
+        heading = _canonical_heading(match.group("header"))
+        if not heading:
+            continue
+        content = text[start:end].strip()
+        if content and heading not in sections:
+            sections[heading] = content
+    return sections
+
+
+def _heuristic_fill_pubmed_deep_dive_from_structured_abstract(
+    *, bottom_line: str, lang: str, abstract_text: str, current_md: str
+) -> tuple[str, int, bool]:
+    lang_norm = _norm_language(lang)
+    placeholder = "Not reported" if lang_norm == "en" else "nicht berichtet"
+    normalized_md, base_missing = _normalize_pubmed_field_values(
+        current_md, lang=lang_norm, fallback_bottom_line=bottom_line
+    )
+    sections = _parse_structured_pubmed_abstract_sections(abstract_text)
+    if not abstract_text.strip() or len(sections) < 3:
+        return normalized_md, base_missing, False
+
+    def _extract_field(md: str, pattern: re.Pattern[str]) -> str:
+        m = pattern.search(md)
+        return (m.group(1) if m else "").strip()
+
+    def _extract_limitations(md: str) -> List[str]:
+        lines = md.splitlines()
+        start_idx = None
+        for i, line in enumerate(lines):
+            if re.match(r"(?im)^\s*-\s*Limitations:\s*$", line):
+                start_idx = i + 1
+                break
+        if start_idx is None:
+            return []
+        collected: List[str] = []
+        for ln in lines[start_idx:]:
+            if re.match(r"(?im)^\s*-\s*Why this matters:\s*", ln):
+                break
+            cleaned = re.sub(r"^\s*-\s*", "", ln or "").strip()
+            if cleaned:
+                collected.append(cleaned)
+        return collected
+
+    field_patterns = {
+        "study_type": re.compile(r"(?im)^\s*-\s*Study type:\s*(.+)$"),
+        "population": re.compile(r"(?im)^\s*-\s*Population/setting:\s*(.+)$"),
+        "intervention": re.compile(r"(?im)^\s*-\s*Intervention/exposure\s*&\s*comparator:\s*(.+)$"),
+        "endpoints": re.compile(r"(?im)^\s*-\s*Primary endpoints:\s*(.+)$"),
+        "key_results": re.compile(r"(?im)^\s*-\s*Key results:\s*(.+)$"),
+        "why_matters": re.compile(r"(?im)^\s*-\s*Why this matters:\s*(.+)$"),
+        "bottom_line": re.compile(r"(?im)^BOTTOM LINE:\s*(.+)$"),
+    }
+
+    current_fields = {k: _extract_field(normalized_md, pat) for k, pat in field_patterns.items()}
+    limitations = _extract_limitations(normalized_md) or [placeholder]
+
+    def _first_sentence(text: str) -> str:
+        cleaned = (text or "").strip()
+        if not cleaned:
+            return ""
+        parts = re.split(r"(?<=[.!?])\s+", cleaned)
+        return (parts[0] or cleaned).strip()
+
+    design_text = sections.get("design", "").strip()
+    objectives_text = sections.get("objectives", "").strip()
+    setting_text = sections.get("setting", "").strip()
+    subjects_text = sections.get("subjects", "").strip()
+    interventions_text = sections.get("interventions", "").strip()
+    measurements_text = sections.get("measurements", "").strip()
+    results_text = sections.get("results", "").strip()
+    conclusions_text = sections.get("conclusions", "").strip()
+
+    population_setting_text = "; ".join([p for p in [setting_text, subjects_text] if p])
+    endpoints_text = _first_sentence(objectives_text) if objectives_text else ""
+    key_results_text = measurements_text or results_text
+    why_matters_text = conclusions_text
+    intervention_value = interventions_text
+    if intervention_value and intervention_value.strip().lower() == "none":
+        intervention_value = "None (observational)"
+
+    updated_fields = dict(current_fields)
+
+    if _is_missing_value(updated_fields.get("study_type"), placeholder=placeholder) and design_text:
+        updated_fields["study_type"] = design_text
+    if _is_missing_value(updated_fields.get("population"), placeholder=placeholder) and population_setting_text:
+        updated_fields["population"] = population_setting_text
+    if _is_missing_value(updated_fields.get("intervention"), placeholder=placeholder) and intervention_value:
+        updated_fields["intervention"] = intervention_value
+    if _is_missing_value(updated_fields.get("endpoints"), placeholder=placeholder) and endpoints_text:
+        updated_fields["endpoints"] = endpoints_text
+    if _is_missing_value(updated_fields.get("key_results"), placeholder=placeholder) and key_results_text:
+        updated_fields["key_results"] = key_results_text
+    if _is_missing_value(updated_fields.get("why_matters"), placeholder=placeholder) and why_matters_text:
+        updated_fields["why_matters"] = why_matters_text
+    if _is_missing_value(updated_fields.get("bottom_line"), placeholder=placeholder) and conclusions_text:
+        updated_fields["bottom_line"] = conclusions_text
+
+    if all(_is_missing_value(li, placeholder=placeholder) for li in limitations):
+        limitations = [placeholder]
+
+    lines = [
+        f"BOTTOM LINE: {updated_fields.get('bottom_line') or placeholder}",
+        "",
+        f"- Study type: {updated_fields.get('study_type') or placeholder}",
+        f"- Population/setting: {updated_fields.get('population') or placeholder}",
+        f"- Intervention/exposure & comparator: {updated_fields.get('intervention') or placeholder}",
+        f"- Primary endpoints: {updated_fields.get('endpoints') or placeholder}",
+        f"- Key results: {updated_fields.get('key_results') or placeholder}",
+        "- Limitations:",
+    ]
+    lines.extend(f"- {li or placeholder}" for li in limitations)
+    lines.append(f"- Why this matters: {updated_fields.get('why_matters') or placeholder}")
+
+    rescued_md, missing_after = _normalize_pubmed_field_values(
+        "\n".join(lines).strip(), lang=lang_norm, fallback_bottom_line=bottom_line
+    )
+    used = missing_after < base_missing
+    return rescued_md, missing_after, used
+
+
 def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: str = "") -> tuple[str, int]:
     placeholder = "Not reported" if lang == "en" else "nicht berichtet"
-    lower_placeholder = placeholder.lower()
     label_line_pat = re.compile(r"(?im)^\s*(?:[-*•]\s*)?(?:\*\*)?([^:]+)(?:\*\*)?\s*:?\s*(.*?)\s*$")
+    label_prefixes = [re.escape(h.rstrip(":").lower()) for h in _PUBMED_REQUIRED_HEADINGS]
+    label_prefixes.extend([re.escape(k.lower()) for k in _PUBMED_LABEL_ALIASES.keys()])
+    label_prefix_pat = re.compile(rf"(?im)^\s*(?:{'|'.join(label_prefixes)})\s*:\s*")
 
     def _clean_value(val: str) -> str:
         cleaned = (val or "").strip()
         cleaned = re.sub(r"^\*+|\*+$", "", cleaned).strip()
         cleaned = re.sub(r"^[\s>*-]*[-*•]\s+", "", cleaned)
-        if cleaned.lower() in {"not reported", "nicht berichtet"}:
+        cleaned = label_prefix_pat.sub("", cleaned)
+        if _is_missing_value(cleaned, placeholder=placeholder):
             return placeholder
         return cleaned
 
@@ -638,9 +793,9 @@ def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: 
         "why_matters": why_matters,
     }
 
-    salvage_candidates = iter([b for b in _salvage_unlabeled_bullets(md) if b and b.lower() != lower_placeholder])
+    salvage_candidates = iter([b for b in _salvage_unlabeled_bullets(md) if b and not _is_missing_value(b, placeholder=placeholder)])
     for key in fields_map:
-        if (fields_map[key] or "").strip():
+        if not _is_missing_value(fields_map[key], placeholder=placeholder):
             continue
         try:
             candidate = next(salvage_candidates)
@@ -650,14 +805,13 @@ def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: 
             fields_map[key] = candidate
 
     for val in fields_map.values():
-        cleaned = (val or "").strip()
-        if not cleaned or cleaned.lower() == lower_placeholder:
+        if _is_missing_value(val, placeholder=placeholder):
             not_reported_fields += 1
 
     if not limitations_list:
         limitations_list = [placeholder]
         not_reported_fields += 1
-    elif all((li or "").strip().lower() == lower_placeholder for li in limitations_list):
+    elif all(_is_missing_value(li, placeholder=placeholder) for li in limitations_list):
         not_reported_fields += 1
 
     fields = [
@@ -953,6 +1107,8 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     placeholder_count = 0
     best_effort_attempted = False
     best_effort_used = False
+    structured_rescue_attempted = False
+    structured_rescue_used = False
 
     try:
         client = _get_client()
@@ -1029,6 +1185,26 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                         )
 
             rescue_possible = placeholder_count >= 5 and (abstract or fulltext_excerpt)
+            structured_rescue_input = (abstract or item.get("text") or "").strip()
+            if src == "pubmed" and content and _is_sparse_pubmed_deep_dive(not_reported_fields) and structured_rescue_input:
+                structured_rescue_attempted = True
+                rescue_md, rescue_missing, rescue_used = _heuristic_fill_pubmed_deep_dive_from_structured_abstract(
+                    bottom_line=(item.get("bottom_line") or ""),
+                    lang=lang,
+                    abstract_text=structured_rescue_input,
+                    current_md=content,
+                )
+                if rescue_used and rescue_missing < not_reported_fields:
+                    filled_fields = max(0, not_reported_fields - rescue_missing)
+                    content = rescue_md
+                    not_reported_fields = rescue_missing
+                    structured_rescue_used = True
+                    placeholder_count = _count_pubmed_placeholder_fields_from_markdown(content, lang=lang)
+                    print(
+                        f"[summarize] INFO: pubmed_deepdive_structured_rescue pmid={meta.get('pmid', '')} filled_fields={filled_fields} missing_after={rescue_missing}"
+                    )
+
+            rescue_possible = placeholder_count >= 5 and (abstract or fulltext_excerpt)
             if src == "pubmed" and content and rescue_possible:
                 best_effort_attempted = True
                 best_effort_sys_prompt = (
@@ -1072,6 +1248,8 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             item["_deep_dive_placeholder_rerun"] = placeholder_rerun
             item["_deep_dive_best_effort_attempted"] = best_effort_attempted
             item["_deep_dive_best_effort_used"] = best_effort_used
+            item["_deep_dive_structured_rescue_attempted"] = structured_rescue_attempted
+            item["_deep_dive_structured_rescue_used"] = structured_rescue_used
         else:
             messages = [
                 {"role": "system", "content": sys_prompt},
@@ -1087,7 +1265,12 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
 
         item["_deep_dive_empty_output"] = not bool(content.strip())
         item["_deep_dive_parse_fallback"] = (
-            used_markdown_fallback or json_failed or sparse_after_json or placeholder_rerun or best_effort_attempted
+            used_markdown_fallback
+            or json_failed
+            or sparse_after_json
+            or placeholder_rerun
+            or best_effort_attempted
+            or structured_rescue_attempted
         )
         item["_deep_dive_not_reported_fields"] = not_reported_fields
         item["_deep_dive_all_fields_placeholder"] = not_reported_fields >= 7

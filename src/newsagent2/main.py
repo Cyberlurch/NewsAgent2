@@ -1769,6 +1769,7 @@ def main() -> None:
         "sparse_after_json_count": 0,
         "placeholder_rerun_count": 0,
         "placeholder_value_high_count": 0,
+        "structured_rescue_used_count": 0,
     }
 
     for it in overview_items:
@@ -2081,6 +2082,8 @@ def main() -> None:
                 deep_dive_diag["placeholder_rerun_count"] += 1
             if placeholder_count >= 5:
                 deep_dive_diag["placeholder_value_high_count"] += 1
+            if it.get("_deep_dive_structured_rescue_used"):
+                deep_dive_diag["structured_rescue_used_count"] += 1
 
     deep_dive_diag["enriched_fulltext_count"] = len(
         [
@@ -2173,6 +2176,7 @@ def main() -> None:
             "placeholder_value_min": deep_dive_diag.get("placeholder_value_min", 0),
             "placeholder_value_median": deep_dive_diag.get("placeholder_value_median", 0),
             "placeholder_value_max": deep_dive_diag.get("placeholder_value_max", 0),
+            "structured_rescue_used_count": deep_dive_diag.get("structured_rescue_used_count", 0),
         }
 
     md = to_markdown(
