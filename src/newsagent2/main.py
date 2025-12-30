@@ -5,6 +5,7 @@ import json
 import os
 import re
 from datetime import datetime, timedelta, timezone
+from statistics import median
 from typing import Any, Dict, List, Set, Tuple
 from zoneinfo import ZoneInfo
 
@@ -12,7 +13,7 @@ from dotenv import load_dotenv
 
 from .collector_foamed import collect_foamed_items
 from .collectors_youtube import fetch_transcript, list_recent_videos
-from .collectors_pubmed import search_recent_pubmed
+from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .emailer import send_markdown
 from .rollups import (
     derive_monthly_summary,
@@ -1868,6 +1869,92 @@ def main() -> None:
             f"[pmc] deepdive_fulltext: attempted={attempted} enriched={enriched} "
             f"(oa_found={oa_found}, downloaded={downloaded}, unpaywall_oa_found={unpaywall_found}, "
             f"unpaywall_downloaded={unpaywall_downloaded}, skipped_size={skipped_size})"
+        )
+
+    if is_cybermed_run:
+        pubmed_detail_items = [
+            it for it in detail_items if (it.get("source") or "").strip().lower() == "pubmed"
+        ]
+        missing_before = 0
+        missing_pmids: List[str] = []
+        for it in pubmed_detail_items:
+            abstract_raw = (it.get("abstract") or "").strip()
+            if (
+                not abstract_raw
+                or "no abstract" in abstract_raw.lower()
+                or len(abstract_raw) < 200
+            ):
+                missing_before += 1
+                pmid = (it.get("pmid") or it.get("id") or "").strip()
+                if pmid:
+                    missing_pmids.append(pmid)
+
+        fetched: Dict[str, str] = {}
+        if missing_pmids:
+            try:
+                fetched = fetch_pubmed_abstracts(missing_pmids)
+            except Exception as e:
+                print(f"[deepdive] WARN: fetch_pubmed_abstracts failed: {e!r}")
+
+        refetched = 0
+        for it in pubmed_detail_items:
+            pmid = (it.get("pmid") or it.get("id") or "").strip()
+            existing_abs = (it.get("abstract") or "").strip()
+            fetched_abs = fetched.get(pmid, "").strip()
+            if fetched_abs and len(fetched_abs) > len(existing_abs):
+                it["abstract"] = fetched_abs
+                refetched += 1
+
+            title = (it.get("title") or "").strip()
+            journal = (it.get("journal") or "").strip()
+            pub_year = ""
+            pub_dt = it.get("published_at")
+            if isinstance(pub_dt, datetime):
+                pub_year = str(pub_dt.year)
+            id_parts: List[str] = []
+            if pmid:
+                id_parts.append(f"PMID {pmid}")
+            doi_val = (it.get("doi") or "").strip()
+            if doi_val:
+                id_parts.append(f"DOI {doi_val}")
+            abstract_block = (it.get("abstract") or "").strip()
+            fulltext_block = (it.get("full_text_excerpt") or "").strip()
+
+            lines: List[str] = []
+            if title:
+                lines.append(title)
+            if journal and pub_year:
+                lines.append(f"{journal} ({pub_year})")
+            elif journal:
+                lines.append(journal)
+            elif pub_year:
+                lines.append(pub_year)
+            if id_parts:
+                lines.append(" / ".join(id_parts))
+            lines.append("")
+            if abstract_block:
+                lines.append(abstract_block)
+            if fulltext_block:
+                if abstract_block:
+                    lines.append("")
+                lines.append(fulltext_block)
+            it["text"] = "\n".join(lines).strip()
+
+        abstract_lengths = sorted([len((it.get("abstract") or "").strip()) for it in pubmed_detail_items])
+        fulltext_lengths = sorted([len((it.get("full_text_excerpt") or "").strip()) for it in pubmed_detail_items])
+
+        def _stats(lengths: List[int]) -> str:
+            if not lengths:
+                return "0/0/0"
+            return f"{lengths[0]}/{int(median(lengths))}/{lengths[-1]}"
+
+        print(
+            "[deepdive] pubmed_inputs: "
+            f"items={len(pubmed_detail_items)} "
+            f"missing_before={missing_before} "
+            f"refetched={refetched} "
+            f"abstract_len(min/med/max)={_stats(abstract_lengths)} "
+            f"fulltext_len(min/med/max)={_stats(fulltext_lengths)}"
         )
 
     deep_dive_requested = len(detail_items)
