@@ -194,6 +194,42 @@ _SYS_DETAIL_PUBMED_EN = (
     "  - **Why this matters:** …\n"
 )
 
+_SYS_DETAIL_PUBMED_DE_BESTEFFORT = (
+    "You are a careful clinical summarizer. Write strictly in German.\n"
+    "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract/full-text excerpt when available).\n"
+    "Use ONLY the provided text; do not add outside facts. Extract what is explicitly or implicitly present; avoid placeholders. Do NOT output 'Not reported'/'nicht berichtet' unless the provided text contains truly no hint. If uncertain, write 'Not explicitly stated; likely …' and justify using phrases present in the text. No invented numbers.\n"
+    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Nutze vorhandene Volltext-Auszüge (falls vorhanden) bevorzugt vor dem Abstract, priorisiere Methoden/Ergebnisse und nenne konkrete Zahlen. Gib nach jedem Label mindestens einen kurzen Satz in derselben Zeile an; zusätzliche Bullet-Points dürfen in eingerückten Zeilen folgen.\n\n"
+    "Return Markdown that renders cleanly in HTML email:\n"
+    "- Start with one paragraph: 'BOTTOM LINE: …'\n"
+    "- Then a bullet list with bold labels exactly like this:\n"
+    "  - **Study type:** …\n"
+    "  - **Population/setting:** …\n"
+    "  - **Intervention/exposure & comparator:** …\n"
+    "  - **Primary endpoints:** …\n"
+    "  - **Key results:** …\n"
+    "  - **Limitations:**\n"
+    "    - …\n"
+    "  - **Why this matters:** …\n"
+)
+
+_SYS_DETAIL_PUBMED_EN_BESTEFFORT = (
+    "You are a careful clinical summarizer. Write strictly in English.\n"
+    "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract/full-text excerpt when available).\n"
+    "Use ONLY the provided text; do not add outside facts. Extract what is explicitly or implicitly present; avoid placeholders. Do NOT output 'Not reported' unless the provided text contains truly no hint. If uncertain, write 'Not explicitly stated; likely …' and justify using phrases present in the text. No invented numbers.\n"
+    "Capture study type, population/setting, intervention/comparator, endpoints, key results, limitations, and why it matters. Prefer any full-text excerpt provided (especially Methods/Results) over the abstract when present; include concrete numbers when available. Put at least one short sentence on the SAME LINE after each label; additional indented bullets may follow.\n\n"
+    "Return Markdown that renders cleanly in HTML email:\n"
+    "- Start with one paragraph: 'BOTTOM LINE: …'\n"
+    "- Then a bullet list with bold labels exactly like this:\n"
+    "  - **Study type:** …\n"
+    "  - **Population/setting:** …\n"
+    "  - **Intervention/exposure & comparator:** …\n"
+    "  - **Primary endpoints:** …\n"
+    "  - **Key results:** …\n"
+    "  - **Limitations:**\n"
+    "    - …\n"
+    "  - **Why this matters:** …\n"
+)
+
 _SYS_DETAIL_PUBMED_CYBERLURCH_EN = (
     "You are a careful clinical summarizer. Section headers must be in English.\n"
     "You will receive one PubMed item (title + journal + PMID/DOI + date + abstract/full-text excerpt when available).\n"
@@ -915,6 +951,8 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     sparse_after_json = False
     placeholder_rerun = False
     placeholder_count = 0
+    best_effort_attempted = False
+    best_effort_used = False
 
     try:
         client = _get_client()
@@ -990,13 +1028,50 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                             f"[summarize] INFO: pubmed_deepdive_placeholder_rerun pmid={meta.get('pmid', '')} placeholders={placeholder_before_rerun}"
                         )
 
-            item["_deep_dive_retried"] = json_failed or sparse_after_json or used_markdown_fallback or placeholder_rerun
+            rescue_possible = placeholder_count >= 5 and (abstract or fulltext_excerpt)
+            if src == "pubmed" and content and rescue_possible:
+                best_effort_attempted = True
+                best_effort_sys_prompt = (
+                    _SYS_DETAIL_PUBMED_EN_BESTEFFORT if lang == "en" else _SYS_DETAIL_PUBMED_DE_BESTEFFORT
+                )
+                try:
+                    fb_model = models.fallback or model_to_use
+                    rescue_content, rescue_missing = _run_pubmed_markdown_deep_dive(
+                        client,
+                        model=fb_model,
+                        sys_prompt=best_effort_sys_prompt,
+                        user_prompt=user_prompt,
+                        lang=lang,
+                        fallback_bottom_line=fallback_bl,
+                    )
+                    rescue_placeholder_count = _count_pubmed_placeholder_fields_from_markdown(
+                        rescue_content, lang=lang
+                    )
+                    if rescue_placeholder_count < placeholder_count:
+                        content = rescue_content
+                        not_reported_fields = rescue_missing
+                        placeholder_count = rescue_placeholder_count
+                        best_effort_used = True
+                        used_markdown_fallback = used_markdown_fallback or True
+                    print(
+                        f"[summarize] INFO: pubmed_deepdive_best_effort pmid={meta.get('pmid', '')} attempted=1 used={int(best_effort_used)} placeholders={rescue_placeholder_count}"
+                    )
+                except Exception as rescue_err:
+                    print(
+                        f"[summarize] WARN: pubmed_deepdive_best_effort_failed pmid={meta.get('pmid', '')} err={rescue_err}"
+                    )
+
+            item["_deep_dive_retried"] = (
+                json_failed or sparse_after_json or used_markdown_fallback or placeholder_rerun or best_effort_attempted
+            )
             item["_deep_dive_json_failed"] = json_failed
             item["_deep_dive_used_markdown_fallback"] = used_markdown_fallback
             item["_deep_dive_sparse_after_json"] = sparse_after_json
             item["_deep_dive_placeholder_value_count"] = placeholder_count
             item["_deep_dive_placeholder_value_high"] = placeholder_count >= 5
             item["_deep_dive_placeholder_rerun"] = placeholder_rerun
+            item["_deep_dive_best_effort_attempted"] = best_effort_attempted
+            item["_deep_dive_best_effort_used"] = best_effort_used
         else:
             messages = [
                 {"role": "system", "content": sys_prompt},
@@ -1011,7 +1086,9 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             item["_deep_dive_retried"] = False
 
         item["_deep_dive_empty_output"] = not bool(content.strip())
-        item["_deep_dive_parse_fallback"] = used_markdown_fallback or json_failed or sparse_after_json or placeholder_rerun
+        item["_deep_dive_parse_fallback"] = (
+            used_markdown_fallback or json_failed or sparse_after_json or placeholder_rerun or best_effort_attempted
+        )
         item["_deep_dive_not_reported_fields"] = not_reported_fields
         item["_deep_dive_all_fields_placeholder"] = not_reported_fields >= 7
         return content
