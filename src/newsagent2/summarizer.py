@@ -359,6 +359,7 @@ def _pubmed_json_system_prompt(lang: str) -> str:
         "  - bottom_line: the core takeaway.\n"
         "  - study_type: design/methods.\n"
         "  - population_setting: who/where the study was done.\n"
+        "  - If the abstract names study design phrases (e.g., randomized trial, cross-sectional, retrospective cohort, systematic review, simulation study), map them to study_type; if it names population descriptors (e.g., N= counts, multicenter, ICU patients), map them to population_setting. Only use the placeholder when there is truly no hint.\n"
         "  - intervention_comparator: exposure/intervention and comparator.\n"
         "  - primary_endpoints: primary outcomes/endpoints.\n"
         "  - key_results: main findings with numbers when available.\n"
