@@ -1965,6 +1965,68 @@ def main() -> None:
     deep_dive_empty_outputs = 0
     missing_abstract_count = 0
     placeholder_counts: List[int] = []
+    pubmed_deep_dive_items = [
+        it for it in detail_items if (it.get("source") or "").strip().lower() == "pubmed"
+    ]
+    pubmed_missing_abs_pmids: List[str] = []
+    for it in pubmed_deep_dive_items:
+        abstract_raw = (it.get("abstract") or "").strip()
+        if not abstract_raw:
+            pmid = (it.get("pmid") or it.get("id") or "").strip()
+            if pmid:
+                pubmed_missing_abs_pmids.append(pmid)
+
+    fetched_pubmed_abstracts: Dict[str, str] = {}
+    if pubmed_missing_abs_pmids:
+        try:
+            fetched_pubmed_abstracts = fetch_pubmed_abstracts(pubmed_missing_abs_pmids)
+        except Exception as e:
+            print(f"[deepdive] WARN: fetch_pubmed_abstracts (pre-deepdive) failed: {e!r}")
+
+    refetched_abstracts = 0
+    evidence_lengths: List[int] = []
+    for it in pubmed_deep_dive_items:
+        pmid = (it.get("pmid") or it.get("id") or "").strip()
+        abstract_val = (it.get("abstract") or "").strip()
+        if pmid and not abstract_val:
+            fetched_abs = (fetched_pubmed_abstracts.get(pmid) or "").strip()
+            if fetched_abs:
+                it["abstract"] = fetched_abs
+                abstract_val = fetched_abs
+                refetched_abstracts += 1
+
+        title = (it.get("title") or "").strip()
+        fulltext_excerpt = (it.get("full_text_excerpt") or "").strip()
+        evidence_parts: List[str] = []
+        if title:
+            evidence_parts.append(title)
+        if abstract_val:
+            evidence_parts.append(f"ABSTRACT:\n{abstract_val}")
+        if fulltext_excerpt:
+            evidence_parts.append(f"OA FULLTEXT EXCERPT:\n{fulltext_excerpt}")
+        evidence_text = "\n\n".join(evidence_parts).strip()
+        if evidence_text:
+            it["text"] = evidence_text
+        evidence_len = len(evidence_text)
+        evidence_lengths.append(evidence_len)
+        print(
+            f"[deepdive] pubmed_evidence pmid={pmid} abstract_chars={len(abstract_val)} fulltext_chars={len(fulltext_excerpt)} evidence_chars={evidence_len}"
+        )
+
+    def _stats(values: List[int]) -> str:
+        if not values:
+            return "0/0/0"
+        ordered = sorted(values)
+        return f"{ordered[0]}/{int(median(ordered))}/{ordered[-1]}"
+
+    if pubmed_deep_dive_items:
+        print(
+            "[deepdive] pubmed_evidence_stats: "
+            f"items={len(pubmed_deep_dive_items)} "
+            f"missing_abstracts={len(pubmed_missing_abs_pmids)} "
+            f"refetched={refetched_abstracts} "
+            f"evidence_chars(min/med/max)={_stats(evidence_lengths)}"
+        )
     for it in detail_items:
         src = (it.get("source") or "").strip().lower()
         if src == "pubmed":
