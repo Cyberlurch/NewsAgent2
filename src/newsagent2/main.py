@@ -40,6 +40,7 @@ from .summarizer import (
     summarize_item_detail,
     summarize_pubmed_bottom_line,
     summarize_foamed_bottom_line,
+    summarize_cyberlurch_bottom_line,
     extract_pubmed_abstract,
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
@@ -2173,6 +2174,70 @@ def main() -> None:
             iid = (iid or "").strip()
             if iid:
                 deep_dive_ids.add(iid)
+
+    if not is_cybermed_run:
+        default_cap = 12
+        if report_mode in {"weekly", "monthly"}:
+            default_cap = 20
+        cap = max(0, _safe_int("CYBERLURCH_BOTTOM_LINE_MAX_ITEMS", default_cap))
+        seen_keys: Set[str] = set()
+        candidates: List[Dict[str, Any]] = []
+        skipped_thin = 0
+
+        def _mark_keys(item: Dict[str, Any]) -> None:
+            keys = {
+                str(item.get("id") or "").strip(),
+                str(item.get("url") or "").strip(),
+                str(item.get("title") or "").strip(),
+            }
+            for key in keys:
+                if key:
+                    seen_keys.add(key)
+
+        for it in overview_items + detail_items:
+            if not isinstance(it, dict):
+                continue
+            keys = [
+                str(it.get("id") or "").strip(),
+                str(it.get("url") or "").strip(),
+                str(it.get("title") or "").strip(),
+            ]
+            if any(key and key in seen_keys for key in keys):
+                continue
+            _mark_keys(it)
+            bottom_line = (it.get("bottom_line") or "").strip()
+            if bottom_line:
+                continue
+            text_len = len((it.get("text") or "").strip())
+            if text_len < 200:
+                skipped_thin += 1
+                continue
+            candidates.append(it)
+
+        generated = 0
+        lengths: List[int] = []
+        for it in candidates[:cap]:
+            try:
+                summary = summarize_cyberlurch_bottom_line(it, language=report_language) or ""
+            except Exception:
+                summary = ""
+            summary = summary.strip()
+            if summary:
+                it["bottom_line"] = summary
+                generated += 1
+                lengths.append(len(summary))
+
+        def _stats(values: List[int]) -> str:
+            if not values:
+                return "0/0/0"
+            ordered = sorted(values)
+            return f"{ordered[0]}/{int(median(ordered))}/{ordered[-1]}"
+
+        print(
+            "[bottomline] cyberlurch: "
+            f"candidates={len(candidates)} generated={generated} skipped_thin={skipped_thin} "
+            f"bl_chars(min/med/max)={_stats(lengths)}"
+        )
 
     out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
 

@@ -1410,6 +1410,74 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
         return f"{fallback} — {e!r}"
 
 
+def summarize_cyberlurch_bottom_line(item: Dict[str, Any], *, language: str = "en") -> str:
+    """
+    Produce a short (1 sentence) bottom line for general/news/youtube items.
+    Must be safe: use only provided text; if too thin, return a conservative fallback.
+    """
+
+    lang = _norm_language(language)
+    text = (item.get("text") or "").strip()
+    if len(text) > 2000:
+        text = text[:2000].rstrip()
+    if len(text) < 80:
+        if lang == "en":
+            return "Unable to summarize reliably from the available excerpt."
+        return "Keine zuverlässige Zusammenfassung aus dem verfügbaren Auszug möglich."
+
+    published = item.get("published_at")
+    if isinstance(published, datetime):
+        published_str = published.replace(microsecond=0).isoformat()
+    else:
+        published_str = str(published) if published else ""
+
+    meta = {
+        "title": (item.get("title") or "").strip(),
+        "channel": (item.get("channel") or item.get("source") or "").strip(),
+        "url": (item.get("url") or "").strip(),
+        "published_at": published_str,
+        "text": text,
+    }
+
+    sys_prompt = (
+        "You are a concise summarizer. Return exactly one sentence (max ~30–40 words) that captures the core takeaway. "
+        "Base the statement strictly on the provided text; do not invent facts. "
+        "If the excerpt is too thin to summarize reliably, state that explicitly. "
+        "Do not prefix with 'BOTTOM LINE:'."
+    )
+    if lang != "en":
+        sys_prompt = (
+            "Du bist ein prägnanter Zusammenfasser. Gib genau einen Satz (max. ~30–40 Wörter) wieder, der die Kernaussage einfängt. "
+            "Nutze ausschließlich den bereitgestellten Text; erfinde keine Fakten. "
+            "Wenn der Auszug zu dünn ist, sage das explizit. "
+            "Kein Präfix 'BOTTOM LINE:'."
+        )
+
+    payload = json.dumps(meta, ensure_ascii=False, indent=2)
+    user_prompt = (
+        "Item (JSON):\n"
+        f"{payload}\n\n"
+        "Return only the requested single sentence in the requested language."
+    )
+
+    try:
+        client = _get_client()
+        r = client.chat.completions.create(
+            model=OPENAI_MODEL,
+            messages=[
+                {"role": "system", "content": sys_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            temperature=0.2,
+            max_tokens=90,
+        )
+        return (r.choices[0].message.content or "").strip()
+    except Exception:
+        if lang == "en":
+            return "Unable to summarize reliably from the available excerpt."
+        return "Keine zuverlässige Zusammenfassung aus dem verfügbaren Auszug möglich."
+
+
 def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") -> str:
     """
     Create a cautious, single-sentence bottom line for FOAMed/blog content.
