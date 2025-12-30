@@ -192,7 +192,7 @@ def _sanitize_item(it: Dict[str, Any]) -> Dict[str, Any]:
     top_pick = bool(it.get("top_pick"))
     bottom_line_raw = (it.get("bottom_line") or "").strip()
     bottom_line_cleaned = re.sub(r"\s+", " ", bottom_line_raw)
-    bottom_line = bottom_line_cleaned[:500].strip()
+    bottom_line = bottom_line_cleaned[:600].strip()
     published = it.get("published_at") or it.get("date") or ""
     date_val = ""
     if isinstance(published, datetime):
