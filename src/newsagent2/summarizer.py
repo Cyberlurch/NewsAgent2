@@ -499,6 +499,69 @@ def _parse_structured_pubmed_abstract_sections(abstract_text: str) -> Dict[str, 
     return sections
 
 
+def render_pubmed_deep_dive_from_abstract(abstract_text: str, *, placeholder: str = "Not reported") -> str:
+    """
+    Deterministically render a PubMed deep dive from a structured abstract.
+
+    The output matches the layout expected by :func:`normalize_pubmed_deep_dive` and
+    stays conservative: it only uses information present in the abstract and avoids
+    hallucinating limitations.
+    """
+
+    def _first_sentences(text: str, max_sentences: int = 2) -> str:
+        cleaned = (text or "").strip()
+        if not cleaned:
+            return ""
+        parts = [p.strip() for p in re.split(r"(?<=[.!?])\s+", cleaned) if p.strip()]
+        return " ".join(parts[:max_sentences]) if parts else ""
+
+    sections = _parse_structured_pubmed_abstract_sections(abstract_text)
+
+    design_text = sections.get("design", "").strip()
+    setting_text = sections.get("setting", "").strip()
+    subjects_text = sections.get("subjects", "").strip()
+    interventions_text = sections.get("interventions", "").strip()
+    measurements_text = sections.get("measurements", "").strip()
+    results_text = sections.get("results", "").strip()
+    objectives_text = sections.get("objectives", "").strip()
+    conclusions_text = sections.get("conclusions", "").strip()
+
+    population_setting = "; ".join([p for p in (setting_text, subjects_text) if p])
+    primary_endpoints = _first_sentences(objectives_text, max_sentences=1)
+    key_results_source = measurements_text or results_text
+    key_results = _first_sentences(key_results_source, max_sentences=2)
+    why_matters = _first_sentences(conclusions_text, max_sentences=2)
+
+    intervention_value = interventions_text
+    if intervention_value and intervention_value.lower().strip() == "none":
+        intervention_value = "None (observational)"
+
+    study_type = design_text or placeholder
+    population_value = population_setting or placeholder
+    intervention_value = intervention_value or placeholder
+    primary_endpoints = primary_endpoints or placeholder
+    key_results = key_results or placeholder
+    why_matters = why_matters or placeholder
+    bottom_line = _first_sentences(conclusions_text or key_results or objectives_text, max_sentences=1) or placeholder
+
+    limitations = ["Not explicitly stated in abstract."]
+
+    lines = [
+        f"BOTTOM LINE: {bottom_line}",
+        "",
+        f"- Study type: {study_type}",
+        f"- Population/setting: {population_value}",
+        f"- Intervention/exposure & comparator: {intervention_value}",
+        f"- Primary endpoints: {primary_endpoints}",
+        f"- Key results: {key_results}",
+        "- Limitations:",
+    ]
+    lines.extend(f"- {limitation}" for limitation in limitations)
+    lines.append(f"- Why this matters: {why_matters}")
+
+    return "\n".join(lines).strip()
+
+
 def _heuristic_fill_pubmed_deep_dive_from_structured_abstract(
     *, bottom_line: str, lang: str, abstract_text: str, current_md: str
 ) -> tuple[str, int, bool]:
@@ -663,8 +726,9 @@ def _normalize_pubmed_field_values(md: str, *, lang: str, fallback_bottom_line: 
                 continue
 
             value_parts: List[str] = []
-            first_val = _clean_value(m.group(2) or "")
-            if first_val:
+            raw_first = m.group(2) or ""
+            first_val = _clean_value(raw_first)
+            if raw_first.strip() and first_val:
                 value_parts.append(first_val)
 
             lookahead = idx + 1

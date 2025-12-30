@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
 
-from .summarizer import normalize_pubmed_deep_dive
+from .summarizer import normalize_pubmed_deep_dive, render_pubmed_deep_dive_from_abstract
 
 try:  # Optional import; keep reporter usable without selector
     from .selector_medical import load_cybermed_selection_config
@@ -136,16 +136,28 @@ def _extract_cybermed_meta_block(overview_markdown: str) -> str:
     return "\n".join(kept).strip()
 
 
-def _cybermed_deep_dive_limit() -> int:
+def _cybermed_deep_dive_limit(report_mode: Optional[str] = None) -> int:
     if not load_cybermed_selection_config:
         return 8
 
     try:
         cfg = load_cybermed_selection_config()
         sel = cfg.get("selection", {}) if isinstance(cfg.get("selection"), dict) else {}
-        return int(sel.get("max_deep_dives", 8) or 8)
+        config_max = int(sel.get("max_deep_dives", 8) or 8)
     except Exception:
-        return 8
+        config_max = 8
+
+    mode = (report_mode or "").strip().lower()
+    if mode == "weekly":
+        mode_cap = 3
+    elif mode == "monthly":
+        mode_cap = 2
+    elif mode == "yearly":
+        mode_cap = 0
+    else:
+        mode_cap = config_max
+
+    return min(config_max, mode_cap)
 
 
 def _detail_lookup(details_by_id: Dict[str, str], item: Dict[str, Any]) -> str:
@@ -655,7 +667,7 @@ def to_markdown(
         if not detail_items:
             detail_items = [it for it in items if _detail_lookup(details_by_id, it)]
         detail_items = sorted(detail_items, key=_deep_dive_sort_key)
-        deep_dive_cap = max(0, _cybermed_deep_dive_limit())
+        deep_dive_cap = max(0, _cybermed_deep_dive_limit(normalized_mode))
         if deep_dive_cap:
             detail_items = detail_items[:deep_dive_cap]
     else:
@@ -676,6 +688,10 @@ def to_markdown(
             detail_block = _detail_lookup(details_by_id, it)
             best_bottom_line = _best_bottom_line(it, detail_block) if is_cybermed else ""
             if is_cybermed and str(it.get("source") or "").strip().lower() == "pubmed":
+                if not detail_block:
+                    abstract = (it.get("abstract") or it.get("text") or "").strip()
+                    if len(abstract) >= 200:
+                        detail_block = render_pubmed_deep_dive_from_abstract(abstract)
                 detail_block = _ensure_pubmed_deep_dive_template(detail_block, best_bottom_line, lang=lang)
             if not detail_block and is_cybermed:
                 detail_block = f"**BOTTOM LINE:** {best_bottom_line}"
