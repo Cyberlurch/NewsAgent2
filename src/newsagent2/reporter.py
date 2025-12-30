@@ -729,6 +729,13 @@ def to_markdown(
                         else f"- {display_title}{suffix}{date_suffix}"
                     )
                 md.append(line)
+                if is_cyberlurch_periodic:
+                    bottom_line = (it.get("bottom_line") or "").strip()
+                    if bottom_line:
+                        bl = bottom_line
+                        if not bottom_line.lower().startswith("bottom line"):
+                            bl = f"BOTTOM LINE: {bottom_line}"
+                        md.append(f"  - {bl}")
             md.append("")
 
         show_sources = not is_cyberlurch_periodic
