@@ -280,6 +280,72 @@ _PUBMED_REQUIRED_JSON_KEYS = {
     "why_this_matters",
 }
 
+_PUBMED_PLACEHOLDER_FIELDS = [
+    "study_type",
+    "population_setting",
+    "intervention_comparator",
+    "primary_endpoints",
+    "key_results",
+    "why_this_matters",
+]
+
+
+def _count_pubmed_placeholder_fields(data: Dict[str, Any], *, lang: str) -> int:
+    lang_norm = _norm_language(lang)
+    placeholder = "Not reported" if lang_norm == "en" else "nicht berichtet"
+    placeholder_lower = placeholder.lower()
+    placeholder_tokens = {placeholder_lower, "not reported", "nicht berichtet"}
+
+    def _is_placeholder(val: Any) -> bool:
+        if val is None:
+            return True
+        if isinstance(val, list):
+            joined = " ".join([str(v or "").strip() for v in val if str(v or "").strip()]).strip()
+            val_str = joined
+        else:
+            val_str = str(val or "").strip()
+        if not val_str:
+            return True
+        normalized = val_str.strip().strip(".").strip().lower()
+        return normalized in placeholder_tokens
+
+    count = 0
+    for key in _PUBMED_PLACEHOLDER_FIELDS:
+        if _is_placeholder(data.get(key, "")):
+            count += 1
+    return count
+
+
+def _count_pubmed_placeholder_fields_from_markdown(md: str, *, lang: str) -> int:
+    lang_norm = _norm_language(lang)
+    placeholder = "Not reported" if lang_norm == "en" else "nicht berichtet"
+    placeholder_lower = placeholder.lower()
+    placeholder_tokens = {placeholder_lower, "not reported", "nicht berichtet"}
+
+    patterns = {
+        "study_type": re.compile(r"(?im)^\s*-\s*Study type:\s*(.+)$"),
+        "population_setting": re.compile(r"(?im)^\s*-\s*Population/setting:\s*(.+)$"),
+        "intervention_comparator": re.compile(r"(?im)^\s*-\s*Intervention/exposure\s*&\s*comparator:\s*(.+)$"),
+        "primary_endpoints": re.compile(r"(?im)^\s*-\s*Primary endpoints:\s*(.+)$"),
+        "key_results": re.compile(r"(?im)^\s*-\s*Key results:\s*(.+)$"),
+        "why_this_matters": re.compile(r"(?im)^\s*-\s*Why this matters:\s*(.+)$"),
+    }
+
+    def _is_placeholder(text: str) -> bool:
+        cleaned = (text or "").strip()
+        if not cleaned:
+            return True
+        normalized = cleaned.strip().strip(".").strip().lower()
+        return normalized in placeholder_tokens
+
+    count = 0
+    for pat in patterns.values():
+        match = pat.search(md)
+        value = match.group(1) if match else ""
+        if _is_placeholder(value):
+            count += 1
+    return count
+
 
 def _pubmed_json_system_prompt(lang: str) -> str:
     placeholder = "Not reported" if lang == "en" else "nicht berichtet"
@@ -846,6 +912,8 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     json_failed = False
     used_markdown_fallback = False
     sparse_after_json = False
+    placeholder_rerun = False
+    placeholder_count = 0
 
     try:
         client = _get_client()
@@ -873,15 +941,19 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                 content, not_reported_fields = _render_pubmed_deep_dive_from_json(
                     parsed, lang=lang, fallback_bottom_line=fallback_bl
                 )
+                placeholder_count = _count_pubmed_placeholder_fields(parsed, lang=lang)
             except Exception as json_err:
                 json_failed = True
                 print(f"[summarize] WARN: pubmed_deepdive_json_failed pmid={meta.get('pmid', '')} err={json_err}")
                 content = ""
 
             sparse_after_json = _is_sparse_pubmed_deep_dive(not_reported_fields) if content else False
+            placeholder_high = placeholder_count >= 5 if content else False
+            placeholder_rerun = placeholder_high
+            placeholder_before_rerun = placeholder_count
 
-            if json_failed or sparse_after_json:
-                reason = "json_failed" if json_failed else "json_sparse"
+            if json_failed or sparse_after_json or placeholder_high:
+                reason = "json_failed" if json_failed else ("json_sparse" if sparse_after_json else "placeholder_density")
                 try:
                     fb_model = models.fallback or model_to_use
                     fallback_content, fb_missing = _run_pubmed_markdown_deep_dive(
@@ -893,9 +965,17 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                         fallback_bottom_line=fallback_bl,
                     )
                     if fallback_content:
-                        content = fallback_content
-                        not_reported_fields = fb_missing
-                        used_markdown_fallback = True
+                        fallback_placeholder_count = _count_pubmed_placeholder_fields_from_markdown(
+                            fallback_content, lang=lang
+                        )
+                        should_use_fallback = json_failed or sparse_after_json
+                        if not should_use_fallback and placeholder_high and fallback_placeholder_count < placeholder_count:
+                            should_use_fallback = True
+                        if should_use_fallback:
+                            content = fallback_content
+                            not_reported_fields = fb_missing
+                            used_markdown_fallback = True
+                            placeholder_count = fallback_placeholder_count
                     print(
                         f"[summarize] INFO: pubmed_deepdive_markdown_fallback pmid={meta.get('pmid', '')} reason={reason}"
                     )
@@ -903,11 +983,19 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     print(
                         f"[summarize] WARN: pubmed_deepdive_markdown_fallback_failed pmid={meta.get('pmid', '')} err={fb_err}"
                     )
+                finally:
+                    if placeholder_rerun:
+                        print(
+                            f"[summarize] INFO: pubmed_deepdive_placeholder_rerun pmid={meta.get('pmid', '')} placeholders={placeholder_before_rerun}"
+                        )
 
-            item["_deep_dive_retried"] = json_failed or sparse_after_json or used_markdown_fallback
+            item["_deep_dive_retried"] = json_failed or sparse_after_json or used_markdown_fallback or placeholder_rerun
             item["_deep_dive_json_failed"] = json_failed
             item["_deep_dive_used_markdown_fallback"] = used_markdown_fallback
             item["_deep_dive_sparse_after_json"] = sparse_after_json
+            item["_deep_dive_placeholder_value_count"] = placeholder_count
+            item["_deep_dive_placeholder_value_high"] = placeholder_count >= 5
+            item["_deep_dive_placeholder_rerun"] = placeholder_rerun
         else:
             messages = [
                 {"role": "system", "content": sys_prompt},
@@ -922,7 +1010,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             item["_deep_dive_retried"] = False
 
         item["_deep_dive_empty_output"] = not bool(content.strip())
-        item["_deep_dive_parse_fallback"] = used_markdown_fallback or json_failed or sparse_after_json
+        item["_deep_dive_parse_fallback"] = used_markdown_fallback or json_failed or sparse_after_json or placeholder_rerun
         item["_deep_dive_not_reported_fields"] = not_reported_fields
         item["_deep_dive_all_fields_placeholder"] = not_reported_fields >= 7
         return content
