@@ -100,7 +100,7 @@
           "Eligibility for Extracorporeal Cardio-Pulmonary Resuscitation in Out-of-Hospital Cardiac Arrests in Sweden.",
           "Impact of Tumor Arterial Embolization on Hemodynamics During Surgical Resection of Pheochromocytoma and Paraganglioma in Children."
         ],
-        "generated_at": "2025-12-26T12:31:45+00:00",
+        "generated_at": "2025-12-30T16:20:15+00:00",
         "month": "2025-12",
         "top_items": [
           {
@@ -121,19 +121,19 @@
           },
           {
             "channel": "NYSORA",
-            "date": "2025-12-26",
+            "date": "2025-12-30",
             "source": "foamed",
-            "title": "Opioid-free anesthesia in major surgery",
+            "title": "Tracheal intubation techniques in head and neck surgery: navigating challenges and enhancing airway safety",
             "top_pick": true,
-            "url": "https://www.nysora.com/education-news/opioid-free-anesthesia-in-major-surgery/"
+            "url": "https://www.nysora.com/education-news/tracheal-intubation-techniques-in-head-and-neck-surgery-navigating-challenges-and-enhancing-airway-safety/"
           },
           {
-            "channel": "PubMed: Critical Care",
-            "date": "2025-12-24",
+            "channel": "PubMed: Anesthesiology",
+            "date": "2025-12-26",
             "source": "pubmed",
-            "title": "Nafamostat mesilate as anticoagulant for blood purification: a systematic review and meta-analysis.",
+            "title": "Individualised Perioperative Blood Pressure and Fluid Therapy in Oesophagectomy a prospective, single-blind randomised controlled trial.",
             "top_pick": true,
-            "url": "https://pubmed.ncbi.nlm.nih.gov/41444652/"
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41452340/"
           },
           {
             "channel": "NYSORA",
@@ -142,6 +142,22 @@
             "title": "Intercostal nerve block outperforms ESPB for uniportal VATS",
             "top_pick": true,
             "url": "https://www.nysora.com/education-news/intercostal-nerve-block-outperforms-espb-for-uniportal-vats/"
+          },
+          {
+            "channel": "NYSORA",
+            "date": "2025-12-29",
+            "source": "foamed",
+            "title": "New ASA recommendations for surgical pain relief",
+            "top_pick": false,
+            "url": "https://www.nysora.com/education-news/new-asa-recommendations-for-surgical-pain-relief/"
+          },
+          {
+            "channel": "NYSORA",
+            "date": "2025-12-26",
+            "source": "foamed",
+            "title": "Opioid-free anesthesia in major surgery",
+            "top_pick": false,
+            "url": "https://www.nysora.com/education-news/opioid-free-anesthesia-in-major-surgery/"
           },
           {
             "channel": "PubMed: European Journal of Anaesthesiology",
@@ -176,14 +192,6 @@
             "url": "https://pubmed.ncbi.nlm.nih.gov/41421867/"
           },
           {
-            "channel": "PubMed: Anesthesiology",
-            "date": "2025-12-19",
-            "source": "pubmed",
-            "title": "Patient-defined Outcomes in Cardiovascular Surgery and Interventions.",
-            "top_pick": false,
-            "url": "https://pubmed.ncbi.nlm.nih.gov/41416879/"
-          },
-          {
             "channel": "NYSORA",
             "date": "2025-12-19",
             "source": "foamed",
@@ -200,25 +208,17 @@
             "url": "https://www.nysora.com/industry-news-category/industry-spotlight-at-nysora-events-advancing-non-opioid-pain-management-in-cardiac-and-thoracic-surgery/"
           },
           {
-            "channel": "NYSORA",
-            "date": "2025-12-16",
-            "source": "foamed",
-            "title": "Enhancing recovery in outpatient anesthesia: redefining perioperative care through evidence-based ERAS protocols",
+            "channel": "PubMed: Journal of Intensive Care",
+            "date": "2025-12-11",
+            "source": "pubmed",
+            "title": "Prolonged infusion of remimazolam in surgical and medical intensive care unit patients: a pilot pharmacokinetic study.",
             "top_pick": false,
-            "url": "https://www.nysora.com/education-news/enhancing-recovery-in-outpatient-anesthesia-redefining-perioperative-care-through-evidence-based-eras-protocols/"
-          },
-          {
-            "channel": "NYSORA",
-            "date": "2025-12-15",
-            "source": "foamed",
-            "title": "NYSORA Community Chose the “Most Innovative Regional Anesthesia Manufacturers 2025”",
-            "top_pick": false,
-            "url": "https://www.nysora.com/industry-news-category/nysora-community-chose-the-most-innovative-regional-anesthesia-manufacturers-2025/"
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41373030/"
           }
         ]
       }
     ]
   },
-  "updated_at_utc": "2025-12-26T12:31:45+00:00",
+  "updated_at_utc": "2025-12-30T16:20:15+00:00",
   "version": 1
 }
