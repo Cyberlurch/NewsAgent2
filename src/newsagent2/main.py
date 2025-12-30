@@ -857,6 +857,7 @@ def _rollup_items_for_month(
                     "source": source,
                     "published_at": published,
                     "top_pick": bool(it.get("top_pick")),
+                    "bottom_line": (it.get("bottom_line") or "").strip(),
                 }
             )
 
@@ -881,6 +882,7 @@ def _rollup_items_for_month(
                 "channel": it.get("channel") or "",
                 "source": it.get("source") or "",
                 "top_pick": bool(it.get("top_pick")),
+                "bottom_line": it.get("bottom_line") or "",
                 "date": (
                     it["published_at"].astimezone(timezone.utc).strftime("%Y-%m-%d")
                     if isinstance(it.get("published_at"), datetime)

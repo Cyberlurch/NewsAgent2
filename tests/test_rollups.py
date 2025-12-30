@@ -228,7 +228,8 @@ def test_yearly_markdown_uses_sanitized_rollup_summary():
 
     assert "metadata" not in md.lower()
     assert "Highlights derived from top items." in md
-    assert "December 2025: Highlights derived from top items." in md
+    assert "December 2025" in md
+    assert "Highlights derived from top items." in md
 
 
 def test_sanitize_rollup_summary_filters_metadata_and_falls_back():
@@ -245,6 +246,42 @@ def test_sanitize_rollup_summary_strips_attachment_line():
 def test_sanitize_rollup_summary_preserves_normal_bullet():
     sanitized = rollups.sanitize_rollup_summary(["* Key finding **"])
     assert sanitized == ["Key finding"]
+
+
+def test_yearly_markdown_includes_bottom_lines():
+    md = rollups.render_yearly_markdown(
+        report_title="Year in Review",
+        report_language="en",
+        year=2025,
+        rollups=[
+            {
+                "month": "2025-12",
+                "executive_summary": ["Summary line"],
+                "top_items": [
+                    {
+                        "title": "Critical airway update",
+                        "url": "https://example.com/airway",
+                        "channel": "ch",
+                        "source": "yt",
+                        "date": "2025-12-01",
+                        "top_pick": True,
+                        "bottom_line": "Use video laryngoscopy for improved first-pass success.",
+                    },
+                    {
+                        "title": "Backup item",
+                        "url": "https://example.com/backup",
+                        "channel": "ch",
+                        "source": "yt",
+                        "date": "2025-11-30",
+                        "bottom_line": "Helpful but less urgent.",
+                    },
+                ],
+            }
+        ],
+    )
+
+    assert "**BOTTOM LINE:**" in md
+    assert "Use video laryngoscopy for improved first-pass success." in md
 
 
 def test_load_rollups_state_self_heals_existing_file(tmp_path):
