@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 
 from .collector_foamed import collect_foamed_items
-from .collectors_youtube import fetch_transcript, list_recent_videos
+from .collectors_youtube import fetch_transcript, fetch_youtube_captions_text, list_recent_videos
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .emailer import send_markdown
 from .rollups import (
@@ -45,6 +45,7 @@ from .summarizer import (
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
 from .unpaywall import fetch_best_oa_fulltext, lookup_unpaywall, pick_best_oa_url
+from .utils.text_quality import is_low_signal_youtube_text
 
 STO = ZoneInfo("Europe/Stockholm")
 
@@ -1257,6 +1258,12 @@ def main() -> None:
 
     items: List[Dict[str, Any]] = []
     skipped_by_state = 0
+    youtube_diag = {
+        "videos_total": 0,
+        "low_signal_count": 0,
+        "captions_fallback_attempted": 0,
+        "captions_fallback_succeeded": 0,
+    }
 
     # Cybermed observability (used to build an in-report transparency header).
     is_cybermed_run = _is_cybermed(report_key, report_profile)
@@ -1289,6 +1296,7 @@ def main() -> None:
                     skipped_by_state += 1
                     continue
 
+                youtube_diag["videos_total"] += 1
                 desc = (v.get("description") or "").strip()
                 transcript = None
                 try:
@@ -1298,6 +1306,23 @@ def main() -> None:
                     transcript = None
 
                 text = (transcript or desc).strip()
+                fallback_text = ""
+                if is_low_signal_youtube_text(text):
+                    youtube_diag["low_signal_count"] += 1
+                    fallback_url = (v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}"
+                    try:
+                        youtube_diag["captions_fallback_attempted"] += 1
+                        fallback_text = fetch_youtube_captions_text(fallback_url)
+                    except Exception:
+                        print("[collect] WARN source=youtube: captions fallback failed")
+                        fallback_text = ""
+
+                fallback_text = (fallback_text or "").strip()
+                if fallback_text:
+                    youtube_diag["captions_fallback_succeeded"] += 1
+                    if len(fallback_text) >= 200 or len(fallback_text) > len(text):
+                        text = fallback_text
+
                 if not text:
                     print(f"[collect] WARN source=youtube channel={cname!r} video={vid!r}: no transcript/description -> skipping")
                     continue
@@ -1389,6 +1414,15 @@ def main() -> None:
         else:
             print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
             continue
+
+    if youtube_diag["videos_total"] or youtube_diag["captions_fallback_attempted"]:
+        print(
+            "[collect] youtube_stats: "
+            f"videos_total={youtube_diag['videos_total']} "
+            f"low_signal_count={youtube_diag['low_signal_count']} "
+            f"captions_attempted={youtube_diag['captions_fallback_attempted']} "
+            f"captions_succeeded={youtube_diag['captions_fallback_succeeded']}"
+        )
 
     if is_cybermed_run:
         foamed_sources = load_foamed_sources_config(foamed_sources_path)
