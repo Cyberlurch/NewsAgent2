@@ -3,9 +3,9 @@ name: NewsAgent2 daily
 
 on:
   schedule:
-    # GitHub cron runs in UTC. Dual daily crons + local gate ensure a single 04:00 run in Europe/Stockholm (DST covered).
-    - cron: "0 2 * * *"
-    - cron: "0 3 * * *"
+    # GitHub cron runs in UTC. Dual daily crons + local gate ensure a single 05:30 run in Europe/Stockholm (DST covered).
+    - cron: "30 3 * * *"   # 05:30 when Stockholm is UTC+2 (CEST)
+    - cron: "30 4 * * *"   # 05:30 when Stockholm is UTC+1 (CET)
   workflow_dispatch:
     inputs:
       report_mode:
@@ -35,8 +35,8 @@ on:
           - cyberlurch
 
 concurrency:
-  group: newsagent2-daily
-  cancel-in-progress: true
+  group: newsagent2-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -87,52 +87,54 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Gate scheduled runs to ~04:00 Europe/Stockholm
+      - name: Gate scheduled runs to 05:30 Europe/Stockholm
         id: gate_stockholm
         run: |
           set -euo pipefail
 
-          DELIVERY_HOUR_LOCAL="04"
-
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
+            echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
             echo "Non-scheduled event -> proceeding without time gate."
             exit 0
           fi
 
           schedule_expr="${{ github.event.schedule || '' }}"
-          now_local=$(TZ=Europe/Stockholm date +"%H:%M")
-          local_hour=$(TZ=Europe/Stockholm date +%H)
+          offset=$(TZ=Europe/Stockholm date +%z)
           dow=$(TZ=Europe/Stockholm date +%u)
           dom=$(TZ=Europe/Stockholm date +%d)
-          month=$(TZ=Europe/Stockholm date +%m)
 
-          is_yearly_due=false
-          is_monthly_due=false
-          if [ "$dom" = "01" ]; then
-            is_monthly_due=true
-          fi
-          if [ "$month" = "01" ] && [ "$dom" = "01" ]; then
-            is_yearly_due=true
+          expected_cron="30 3 * * *"
+          if [ "$offset" = "+0100" ]; then
+            expected_cron="30 4 * * *"
           fi
 
-          if [ "$dow" -ge 6 ] && [ "$is_monthly_due" = false ] && [ "$is_yearly_due" = false ]; then
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Skipping scheduled run: weekend (Mon–Fri daily cadence); no monthly/yearly due today."
+          should_run=true
+          dst_coverage_run=false
+          reasons=()
+
+          if [ "$schedule_expr" != "$expected_cron" ]; then
+            should_run=false
+            dst_coverage_run=true
+            reasons+=("cron-mismatch")
+          fi
+
+          if [ "$dow" -ge 6 ] && [ "$dom" != "01" ]; then
+            should_run=false
+            reasons+=("weekend-nonfirst")
+          fi
+
+          echo "should_run=$should_run" >> "$GITHUB_OUTPUT"
+          echo "dst_coverage_run=$dst_coverage_run" >> "$GITHUB_OUTPUT"
+
+          reason_text="${reasons[*]:-none}"
+          echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' dow=${dow} dom=${dom} should_run=${should_run} reasons=${reason_text}"
+
+          if [ "$should_run" != "true" ]; then
             exit 0
           fi
 
-          if [ "$local_hour" != "$DELIVERY_HOUR_LOCAL" ]; then
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "dst_coverage_run=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::DST coverage run (cron='${schedule_expr}') at ${now_local} Europe/Stockholm -> intentional skip; waiting for local ${DELIVERY_HOUR_LOCAL}:00 delivery slot."
-            exit 0
-          fi
-
-          echo "should_run=true" >> "$GITHUB_OUTPUT"
-          echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
-          echo "Local time ${now_local} within delivery hour (${DELIVERY_HOUR_LOCAL}:xx) -> proceeding."
+          echo "Proceeding with scheduled run aligned to Europe/Stockholm 05:30 delivery."
 
       - name: Compute run plan
         id: compute_plan
@@ -279,9 +281,28 @@ jobs:
           log_path="${RUN_LOG_PATH:-out/run.log}"
 
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            local_hour=$(TZ=Europe/Stockholm date +%H)
-            if [ "$local_hour" != "04" ]; then
-              echo "DST coverage run detected (local hour=$local_hour) -> guardrail bypass."
+            schedule_expr="${{ github.event.schedule || '' }}"
+            offset=$(TZ=Europe/Stockholm date +%z)
+            dow=$(TZ=Europe/Stockholm date +%u)
+            dom=$(TZ=Europe/Stockholm date +%d)
+
+            expected_cron="30 3 * * *"
+            if [ "$offset" = "+0100" ]; then
+              expected_cron="30 4 * * *"
+            fi
+
+            should_run=true
+            if [ "$schedule_expr" != "$expected_cron" ]; then
+              should_run=false
+            fi
+            if [ "$dow" -ge 6 ] && [ "$dom" != "01" ]; then
+              should_run=false
+            fi
+
+            echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' dow=${dow} dom=${dom} should_run=${should_run}"
+
+            if [ "$should_run" != "true" ]; then
+              echo "Verification bypassed: scheduled run not aligned to Stockholm 05:30 delivery slot."
               exit 0
             fi
           fi

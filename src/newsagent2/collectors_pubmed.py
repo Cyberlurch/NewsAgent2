@@ -238,6 +238,34 @@ def _extract_text(elem: Optional[ET.Element]) -> str:
     return "".join(elem.itertext()).strip()
 
 
+def _normalize_itertext(elem: Optional[ET.Element]) -> str:
+    if elem is None:
+        return ""
+    return " ".join("".join(elem.itertext()).split()).strip()
+
+
+def _extract_title(article: ET.Element) -> str:
+    title_elem = article.find(".//ArticleTitle")
+    return _normalize_itertext(title_elem)
+
+
+def _extract_abstract(article: ET.Element) -> str:
+    parts: List[str] = []
+    for ab in article.findall(".//Abstract/AbstractText"):
+        text = _normalize_itertext(ab)
+        if not text:
+            continue
+        label = (ab.attrib.get("Label") or ab.attrib.get("NlmCategory") or "").strip()
+        if label and label.lower() not in {"abstract"}:
+            if text.startswith(f"{label}:"):
+                parts.append(text)
+            else:
+                parts.append(f"{label}: {text}")
+        else:
+            parts.append(text)
+    return "\n".join(parts).strip()
+
+
 def _parse_pub_date(article: ET.Element) -> datetime:
     now = _utc_now()
 
@@ -300,24 +328,14 @@ def _parse_pubmed_xml(xml_text: str, max_items: int) -> List[Dict[str, Any]]:
         if not pmid:
             continue
 
-        title = _extract_text(art.find(".//ArticleTitle"))
+        title = _extract_title(art)
         if not title:
             title = f"PubMed Article {pmid}"
 
         journal = _extract_text(art.find(".//Journal/Title"))
         journal_iso_abbrev = _extract_text(art.find(".//Journal/ISOAbbreviation"))
         journal_medline_ta = _extract_text(art.find(".//MedlineJournalInfo/MedlineTA"))
-        abstract_parts = []
-        for ab in art.findall(".//Abstract/AbstractText"):
-            part = _extract_text(ab)
-            if part:
-                label = ab.attrib.get("Label") or ab.attrib.get("NlmCategory") or ""
-                label = label.strip()
-                if label and label.lower() not in ("abstract",):
-                    abstract_parts.append(f"{label}: {part}")
-                else:
-                    abstract_parts.append(part)
-        abstract = "\n\n".join([p for p in abstract_parts if p]).strip()
+        abstract = _extract_abstract(art)
 
         pub_dt = _parse_pub_date(art)
 
@@ -404,3 +422,36 @@ def search_recent_pubmed(
     fetch_params = {"db": "pubmed", "id": ids, "retmode": "xml"}
     xml_text = _request_text(PUBMED_EFETCH_URL, fetch_params, timeout_s=max(35, timeout_s))
     return _parse_pubmed_xml(xml_text, max_items=max_items)
+
+
+def fetch_pubmed_abstracts(pmids: List[str], timeout_s: int = 25) -> Dict[str, str]:
+    """
+    Fetch abstracts for a list of PMIDs. Returns {pmid: abstract}.
+    """
+    pmids_clean = [str(p).strip() for p in pmids if p and str(p).strip()]
+    if not pmids_clean:
+        return {}
+
+    unique_pmids = list(dict.fromkeys(pmids_clean))
+    params = {"db": "pubmed", "id": ",".join(unique_pmids), "retmode": "xml"}
+
+    xml_text = _request_text(PUBMED_EFETCH_URL, params, timeout_s=max(35, timeout_s))
+    if not xml_text.strip():
+        return {}
+
+    try:
+        root = ET.fromstring(xml_text)
+    except ET.ParseError as e:
+        print(f"[pubmed] ERROR: could not parse XML in fetch_pubmed_abstracts: {e}")
+        return {}
+
+    abstracts: Dict[str, str] = {}
+    for art in root.findall(".//PubmedArticle"):
+        pmid = _extract_text(art.find(".//PMID"))
+        if not pmid:
+            continue
+        abstract = _extract_abstract(art)
+        if abstract:
+            abstracts[pmid] = abstract
+
+    return abstracts
