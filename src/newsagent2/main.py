@@ -826,6 +826,43 @@ def _apply_prune_state_compat(state: Dict[str, Any], retention_days: int) -> Dic
         return state
 
 
+def _ensure_bottom_lines_for_rollup(items: List[Dict[str, Any]], *, language: str) -> None:
+    attempted = 0
+    filled = 0
+    skipped = 0
+    for it in items:
+        if attempted >= 25:
+            break
+        bottom_line = (it.get("bottom_line") or "").strip()
+        if bottom_line:
+            skipped += 1
+            continue
+        source = (it.get("source") or "").strip().lower()
+        summary = ""
+        if source == "pubmed":
+            attempted += 1
+            try:
+                summary = summarize_pubmed_bottom_line(it, language=language) or ""
+            except Exception:
+                summary = ""
+        elif source == "foamed":
+            attempted += 1
+            try:
+                summary = summarize_foamed_bottom_line(it, language=language) or ""
+            except Exception:
+                summary = ""
+        else:
+            skipped += 1
+            continue
+        summary = summary.strip()
+        if summary:
+            it["bottom_line"] = summary
+            filled += 1
+        else:
+            skipped += 1
+    print(f"[rollups] bottom_line fill: attempted={attempted} filled={filled} skipped={skipped}")
+
+
 def _rollup_items_for_month(
     overview_items: List[Dict[str, Any]],
     detail_items: List[Dict[str, Any]],
@@ -882,7 +919,7 @@ def _rollup_items_for_month(
                 "channel": it.get("channel") or "",
                 "source": it.get("source") or "",
                 "top_pick": bool(it.get("top_pick")),
-                "bottom_line": it.get("bottom_line") or "",
+                "bottom_line": (it.get("bottom_line") or "").strip(),
                 "date": (
                     it["published_at"].astimezone(timezone.utc).strftime("%Y-%m-%d")
                     if isinstance(it.get("published_at"), datetime)
@@ -2201,7 +2238,15 @@ def main() -> None:
     if report_mode == "monthly":
         try:
             rollups_state = load_rollups_state(rollups_state_path)
+            override = (os.getenv("ROLLUP_MONTH_OVERRIDE") or "").strip()
             month_key = datetime.now(tz=STO).strftime("%Y-%m")
+            if override:
+                if re.match(r"^\d{4}-\d{2}$", override):
+                    month_key = override
+                else:
+                    print(f"[rollups] WARN: invalid ROLLUP_MONTH_OVERRIDE={override!r}; expected YYYY-MM")
+            candidates = overview_items + detail_items + foamed_overview_items
+            _ensure_bottom_lines_for_rollup(candidates, language=report_language)
             rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items)
             executive_summary = derive_monthly_summary(
                 overview_body,

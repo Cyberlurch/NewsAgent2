@@ -40,6 +40,23 @@ def test_upsert_monthly_rollup_overwrites_month():
     assert entry["top_items"][0]["date"] == "2024-01-06"
 
 
+def test_sanitize_item_preserves_bottom_line_and_truncates():
+    long_bl = " Key point\nNext\tLine " + "x" * 700
+    sanitized = rollups._sanitize_item(
+        {
+            "title": "One",
+            "url": "https://a",
+            "channel": "ch",
+            "source": "youtube",
+            "published_at": "2024-01-05",
+            "bottom_line": long_bl,
+        }
+    )
+    assert sanitized["bottom_line"].startswith("Key point Next Line")
+    assert len(sanitized["bottom_line"]) == 600
+    assert "\n" not in sanitized["bottom_line"]
+
+
 def test_yearly_markdown_uses_previous_year_rollups():
     base_state = {
         "reports": {
@@ -265,7 +282,7 @@ def test_yearly_markdown_includes_bottom_lines():
                         "source": "yt",
                         "date": "2025-12-01",
                         "top_pick": True,
-                        "bottom_line": "Use video laryngoscopy for improved first-pass success.",
+                        "bottom_line": "Use video laryngoscopy for improved first-pass success.\nConsider device availability.",
                     },
                     {
                         "title": "Backup item",
@@ -281,7 +298,7 @@ def test_yearly_markdown_includes_bottom_lines():
     )
 
     assert "**BOTTOM LINE:**" in md
-    assert "Use video laryngoscopy for improved first-pass success." in md
+    assert "Use video laryngoscopy for improved first-pass success. Consider device availability." in md
 
 
 def test_load_rollups_state_self_heals_existing_file(tmp_path):
