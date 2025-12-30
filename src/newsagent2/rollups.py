@@ -190,6 +190,9 @@ def _sanitize_item(it: Dict[str, Any]) -> Dict[str, Any]:
     channel = (it.get("channel") or "").strip()
     source = (it.get("source") or "").strip()
     top_pick = bool(it.get("top_pick"))
+    bottom_line_raw = (it.get("bottom_line") or "").strip()
+    bottom_line_cleaned = re.sub(r"\s+", " ", bottom_line_raw)
+    bottom_line = bottom_line_cleaned[:500].strip()
     published = it.get("published_at") or it.get("date") or ""
     date_val = ""
     if isinstance(published, datetime):
@@ -212,6 +215,7 @@ def _sanitize_item(it: Dict[str, Any]) -> Dict[str, Any]:
         "source": source,
         "top_pick": top_pick,
         "date": date_val,
+        "bottom_line": bottom_line,
     }
 
 
@@ -456,19 +460,27 @@ def sanitize_rollup_summary(lines: Sequence[str] | str, *, fallback: Sequence[st
 def _fallback_summary_from_items(top_items: Sequence[Dict[str, Any]]) -> List[str]:
     ranked: List[Dict[str, Any]] = []
     for idx, item in enumerate(top_items or []):
+        bottom_line = (item.get("bottom_line") or "").strip()
+        snippet = re.sub(r"\s+", " ", bottom_line)[:120].strip()
         ranked.append(
             {
                 "title": (item.get("title") or "").strip(),
                 "top_pick": bool(item.get("top_pick")),
+                "bottom_line": snippet,
                 "_idx": idx,
             }
         )
     ranked.sort(key=lambda it: (0 if it.get("top_pick") else 1, it.get("_idx", 0)))
-    titles = [it["title"] for it in ranked if it["title"]]
-    if not titles:
+    entries = [it for it in ranked if it.get("title")]
+    if not entries:
         return ["(no summary captured)"]
     bullets = ["Highlights derived from top items."]
-    bullets.extend(titles[:2])
+    for it in entries[:2]:
+        prefix = "⭐ " if it.get("top_pick") else ""
+        line = f"{prefix}{it['title']}"
+        if it.get("bottom_line"):
+            line = f"{line} — {it['bottom_line']}"
+        bullets.append(line)
     return bullets
 
 
@@ -547,6 +559,36 @@ def rollups_for_year(state: Dict[str, Any], report_key: str, year: int) -> List[
     return sorted(filtered, key=lambda r: r.get("month") or "")
 
 
+def _short_bottom_line(text: str, *, max_len: int = 160) -> str:
+    cleaned = re.sub(r"\s+", " ", (text or "").strip())
+    if len(cleaned) > max_len:
+        return cleaned[: max_len - 1].rstrip() + "…"
+    return cleaned
+
+
+def _derive_themes(items: Sequence[Dict[str, Any]]) -> List[str]:
+    themes: List[str] = []
+    theme_keywords = [
+        ("Resuscitation & cardiac arrest", ["arrest", "resuscitation", "ecpr"]),
+        ("Airway management", ["airway", "intubation"]),
+        ("Analgesia & regional anesthesia", ["analgesia", "pain", "block"]),
+        ("Perioperative hemodynamics", ["hemodynamic", "blood pressure", "fluid"]),
+        ("Guidelines & methodology", ["guideline", "standards", "grade", "methodology"]),
+    ]
+    for label, keywords in theme_keywords:
+        combined_texts = " ".join(
+            f"{(it.get('title') or '').lower()} {(it.get('bottom_line') or '').lower()}" for it in items
+        )
+        if any(kw in combined_texts for kw in keywords):
+            themes.append(label)
+        if len(themes) >= 4:
+            break
+
+    if not themes and items:
+        return ["Mixed clinical topics"]
+    return themes[:4]
+
+
 def render_yearly_markdown(
     *,
     report_title: str,
@@ -569,6 +611,26 @@ def render_yearly_markdown(
         key=lambda entry: _month_sort_key(str(entry.get("month") or "")),
     )
     rollup_count = len(sorted_rollups)
+    normalized_rollups: List[Dict[str, Any]] = []
+    starred_items: List[Dict[str, Any]] = []
+    other_items: List[Dict[str, Any]] = []
+
+    for entry in sorted_rollups:
+        month = str(entry.get("month") or "")
+        label = _month_label(month)
+        summary = normalize_rollup_summary(entry)
+        items: List[Dict[str, Any]] = []
+        for raw_item in entry.get("top_items") or []:
+            if not isinstance(raw_item, dict):
+                continue
+            normalized_item = _sanitize_item(raw_item)
+            normalized_item["month_label"] = label
+            items.append(normalized_item)
+            (starred_items if normalized_item.get("top_pick") else other_items).append(normalized_item)
+        normalized_rollups.append({"month": month, "label": label, "summary": summary, "items": items})
+
+    combined_items = starred_items + other_items
+    top_ten = combined_items[:10]
 
     md: List[str] = [
         f"<h1 style=\"margin:0 0 4px 0; font-size:32px; line-height:1.15;\">{report_title}</h1>",
@@ -581,7 +643,7 @@ def render_yearly_markdown(
         md.append("")
 
     md.append("## Executive Summary" if not is_de else "## Kurzüberblick")
-    if not sorted_rollups:
+    if not normalized_rollups:
         md.append(
             "- No monthly rollups were found for this year."
             if not is_de
@@ -589,36 +651,30 @@ def render_yearly_markdown(
         )
     else:
         md.append("")
-        for entry in sorted_rollups:
-            month = str(entry.get("month") or "")
-            summary = normalize_rollup_summary(entry)
-            label = _month_label(month)
-            md.append(f"- {label}: " + "; ".join(summary))
+        coverage_label = "Coverage" if not is_de else "Abdeckung"
+        themes_label = "Key themes" if not is_de else "Schlüsselthemen"
+        revisit_label = "Quick revisit (Top 3)" if not is_de else "Schnellüberblick (Top 3)"
+        md.append(f"- {coverage_label}: {rollup_count} month(s) captured.")
+        themes = _derive_themes(top_ten)
+        md.append(f"- {themes_label}: {', '.join(themes) if themes else ('(none detected)' if not is_de else '(keine erkannt)')}")
+        md.append(f"- {revisit_label}:")
+        if top_ten:
+            for item in top_ten[:3]:
+                title = item.get("title") or "(untitled)"
+                url = item.get("url") or ""
+                snippet = _short_bottom_line(item.get("bottom_line") or "", max_len=180)
+                link = f"[{title}]({url})" if url else title
+                line = f"  - {link}"
+                if snippet:
+                    line = f"{line} — {snippet}"
+                md.append(line)
+        else:
+            md.append("  - (no monthly highlights captured)")
     md.append("")
 
     md.append("## Top 10 items" if not is_de else "## Top 10 Artikel")
     md.append("")
 
-    starred_items: List[Dict[str, Any]] = []
-    other_items: List[Dict[str, Any]] = []
-    for entry in sorted_rollups:
-        month = str(entry.get("month") or "")
-        label = _month_label(month)
-        for raw_item in entry.get("top_items") or []:
-            item = raw_item or {}
-            normalized = {
-                "title": (item.get("title") or "").strip() or "(untitled)",
-                "url": (item.get("url") or "").strip(),
-                "channel": (item.get("channel") or "").strip(),
-                "source": (item.get("source") or "").strip(),
-                "date": (item.get("date") or "").strip(),
-                "month_label": label,
-                "top_pick": bool(item.get("top_pick")),
-            }
-            (starred_items if normalized["top_pick"] else other_items).append(normalized)
-
-    combined_items = starred_items + other_items
-    top_ten = combined_items[:10]
     if not top_ten:
         md.append("- No monthly highlights were captured.")
     else:
@@ -632,32 +688,53 @@ def render_yearly_markdown(
             if not url:
                 line = line.replace("[]()", "")  # guard against empty markdown links if url missing
             md.append(line)
+            bottom_line_text = _short_bottom_line(item.get("bottom_line") or "", max_len=220)
+            unavailable = (
+                "(not available in rollup; re-run monthly to capture)"
+                if not is_de
+                else "(nicht verfügbar; monatliche Zusammenfassung erneut ausführen)"
+            )
+            md.append(f"  - **BOTTOM LINE:** {bottom_line_text or unavailable}")
     md.append("")
 
     md.append("## By month" if not is_de else "## Nach Monaten")
-    for entry in sorted_rollups:
-        month = str(entry.get("month") or "")
-        heading = _month_label(month)
+    for entry in normalized_rollups:
+        heading = entry["label"]
         md.append(f"### {heading}")
         md.append("")
 
-        summary = normalize_rollup_summary(entry)
         bullets: List[str] = []
-        for bullet in summary:
-            if len(bullets) >= 3:
-                break
-            bullets.append(bullet)
+        summary = entry["summary"]
+        if summary:
+            bullets.append(summary[0])
 
-        if len(bullets) < 3:
-            for item in entry.get("top_items") or []:
-                if len(bullets) >= 3:
-                    break
-                title = (item.get("title") or "").strip() or "(untitled)"
-                url = (item.get("url") or "").strip()
-                label_parts = [p for p in ((item.get("channel") or "").strip(), (item.get("date") or "").strip()) if p]
-                label = " — ".join(label_parts) if label_parts else ""
-                entry_line = f"{title} ({label})" if label else title
-                bullets.append(f"[{entry_line}]({url})" if url else entry_line)
+        items = entry["items"]
+        primary_item = None
+        if items:
+            primary_item = next((it for it in items if it.get("top_pick")), items[0])
+        secondary_item = None
+        if items and len(items) > 1:
+            secondary_candidates = [it for it in items if it is not primary_item]
+            if secondary_candidates:
+                secondary_item = secondary_candidates[0]
+
+        def _format_month_item(item: Dict[str, Any]) -> str:
+            title = item.get("title") or "(untitled)"
+            url = item.get("url") or ""
+            label_parts = [p for p in ((item.get("channel") or "").strip(), (item.get("date") or "").strip()) if p]
+            label = " — ".join(label_parts) if label_parts else ""
+            snippet = _short_bottom_line(item.get("bottom_line") or "", max_len=140)
+            line = f"{title}" if not url else f"[{title}]({url})"
+            if label:
+                line = f"{line} — {label}"
+            if snippet:
+                line = f"{line} — {snippet}"
+            return line
+
+        if primary_item and len(bullets) < 3:
+            bullets.append(_format_month_item(primary_item))
+        if secondary_item and len(bullets) < 3:
+            bullets.append(_format_month_item(secondary_item))
 
         if not bullets:
             bullets.append("(no summary captured)")
