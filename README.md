@@ -9,15 +9,16 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 
 ## Scheduling and automation (Europe/Stockholm)
 
-- Weekdays (Mon–Fri) at **~06:00** local time.
-  - Implemented with dual UTC crons (`0 4 * * 1-5` and `0 5 * * 1-5`) and an early gate that allows any start where the Europe/Stockholm local **hour** is `06` (minutes are ignored). This tolerates GitHub’s schedule jitter while keeping the delivery slot around 06:00.
-  - The “other” cron is a DST-coverage probe: when it lands outside local hour 06 it intentionally no-ops with a log line like `DST coverage run (...) -> intentional skip; waiting for local 06:00 delivery slot.` so green-but-empty runs are clearly marked.
-- **Jan 1, 06:00** local time: **Year in Review** for each report (cron `0 5 1 1 *`).
+- Weekdays (Mon–Fri) at **~05:30** local time.
+  - Implemented with dual UTC crons (`30 3 * * *` and `30 4 * * *`) plus a gate that picks the expected cron based on the Stockholm offset, marking the “other” cron as a DST-coverage no-op (green-but-empty).
+  - Scheduled runs skip weekends unless `dom == 01`, allowing the 1st of the month to proceed even when it falls on Saturday/Sunday.
+- **Jan 1, 05:30** local time: **Year in Review** for each report (same gated 05:30 schedule slot).
 - Automated cadences:
-  - **Daily**: every weekday.
-  - **Weekly**: runs on Mondays after the daily run.
-  - **Monthly**: runs on the first Monday of each month after the weekly run.
-  - **Yearly**: runs on Jan 1 and compiles the prior year's monthly rollups.
+  - **Daily**: Mon–Fri (weekdays).
+  - **Weekly**: Fridays (after the daily run; the same scheduled execution can include both modes).
+  - **Monthly**: on the 1st day of the month (after the daily run when applicable; the same scheduled execution can include multiple modes).
+  - **Yearly**: Jan 1 (reads monthly rollups for the prior year).
+  - Verification: weekly mode is triggered on Fridays (`dow=5`) in the workflow run-plan logic.
 - Manual runs (`workflow_dispatch`):
   - Choose `report_mode` (`daily` / `weekly` / `monthly` / `yearly`).
   - Choose `which_report` (`both` / `cybermed` / `cyberlurch`).
