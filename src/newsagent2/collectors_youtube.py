@@ -5,8 +5,6 @@ import datetime as dt
 from zoneinfo import ZoneInfo
 from typing import List, Dict, Any, Sequence
 import re
-import subprocess
-import sys
 import tempfile
 from pathlib import Path
 
@@ -18,9 +16,10 @@ from youtube_transcript_api import (
     VideoUnavailable,
 )
 
-from .utils.text_quality import parse_vtt_to_text
+from .utils.text_quality import vtt_to_text
 
 STO = ZoneInfo("Europe/Stockholm")
+CAPTIONS_MIN_CHARS = 200
 
 
 def _channel_handle_from_url(url: str) -> str:
@@ -134,63 +133,66 @@ def fetch_transcript(video_id: str) -> str | None:
         return None
 
 
-def _pick_vtt_file(files: List[Path], lang_priority: Sequence[str]) -> Path | None:
-    if not files:
-        return None
+def fetch_captions_text(
+    video_url_or_id: str,
+    preferred_lang_patterns: Sequence[str],
+    *,
+    timeout_s: float = 25.0,
+) -> tuple[str, str]:
+    """
+    Fetch captions (preferring auto-generated) without downloading the video.
+    Returns (text, status) where status is one of: success, empty, error.
+    """
+    target = (video_url_or_id or "").strip()
+    if not target:
+        return "", "empty"
 
-    langs = [l.lower() for l in lang_priority if l]
-    for lang in langs:
-        for f in files:
-            name = f.name.lower()
-            if name.endswith(f".{lang}.vtt") or f".{lang}." in name:
-                return f
-    return files[0]
+    with tempfile.TemporaryDirectory() as tmpdir:
+        out_tmpl = str(Path(tmpdir) / "%(id)s.%(ext)s")
+        ydl_opts = {
+            "quiet": True,
+            "skip_download": True,
+            "writesubtitles": True,
+            "writeautomaticsub": True,
+            "subtitleslangs": list(preferred_lang_patterns),
+            "subtitlesformat": "vtt",
+            "outtmpl": out_tmpl,
+            "nocheckcertificate": True,
+            "socket_timeout": timeout_s,
+        }
+
+        try:
+            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([target])
+        except Exception:
+            return "", "error"
+
+        vtt_files = [
+            f
+            for f in Path(tmpdir).glob("*.vtt")
+            if "live_chat" not in f.name.lower()
+        ]
+        if not vtt_files:
+            return "", "empty"
+
+        best_text = ""
+        for vtt_file in vtt_files:
+            try:
+                content = vtt_file.read_text(encoding="utf-8", errors="ignore")
+            except Exception:
+                continue
+            text = vtt_to_text(content)
+            if len(text) >= CAPTIONS_MIN_CHARS and len(text) > len(best_text):
+                best_text = text
+
+        if not best_text:
+            return "", "empty"
+
+        return best_text.strip(), "success"
 
 
 def fetch_youtube_captions_text(
     url: str, lang_priority: Sequence[str] = ("en", "en-US", "en-GB"), *, timeout_s: float = 25.0
 ) -> str:
-    """
-    Fetch captions (preferring auto-generated) without downloading the video.
-    Returns plain text (VTT stripped) truncated to ~7000 chars.
-    """
-    target_url = (url or "").strip()
-    if not target_url:
-        return ""
-
-    with tempfile.TemporaryDirectory() as tmpdir:
-        out_tmpl = str(Path(tmpdir) / "%(id)s.%(ext)s")
-        cmd = [
-            sys.executable,
-            "-m",
-            "yt_dlp",
-            "--skip-download",
-            "--write-auto-subs",
-            "--write-subs",
-            "--sub-lang",
-            "en.*",
-            "--sub-format",
-            "vtt",
-            "-o",
-            out_tmpl,
-            target_url,
-        ]
-        try:
-            res = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout_s)
-        except Exception:
-            return ""
-
-        vtt_files = sorted(Path(tmpdir).glob("*.vtt"))
-        if res.returncode != 0 and not vtt_files:
-            return ""
-        if not vtt_files:
-            return ""
-
-        chosen = _pick_vtt_file(list(vtt_files), lang_priority) or vtt_files[0]
-        try:
-            content = chosen.read_text(encoding="utf-8", errors="ignore")
-        except Exception:
-            return ""
-
-        text = parse_vtt_to_text(content, max_chars=7000)
-        return text.strip()
+    text, status = fetch_captions_text(url, lang_priority, timeout_s=timeout_s)
+    return text if status == "success" else ""

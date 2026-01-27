@@ -24,7 +24,7 @@ def _count_urls(text: str) -> int:
     return len(re.findall(r"https?://\S+|www\.\S+", text, flags=re.IGNORECASE))
 
 
-def is_low_signal_youtube_text(text: str) -> bool:
+def is_low_signal(text: str) -> bool:
     """
     Heuristic to detect promo-only/low-signal YouTube descriptions or transcripts.
 
@@ -74,11 +74,15 @@ def is_low_signal_youtube_text(text: str) -> bool:
     return False
 
 
-def parse_vtt_to_text(vtt_content: str, *, max_chars: int | None = 7000) -> str:
+def is_low_signal_youtube_text(text: str) -> bool:
+    return is_low_signal(text)
+
+
+def vtt_to_text(vtt: str) -> str:
     """
     Strip timestamps/cue numbers from a VTT payload and collapse into plain text.
     """
-    lines = (vtt_content or "").splitlines()
+    lines = (vtt or "").splitlines()
     text_lines = []
     for raw in lines:
         line = raw.strip()
@@ -100,7 +104,11 @@ def parse_vtt_to_text(vtt_content: str, *, max_chars: int | None = 7000) -> str:
             text_lines.append(cleaned)
 
     text = " ".join(text_lines)
-    text = re.sub(r"\s+", " ", text).strip()
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def parse_vtt_to_text(vtt_content: str, *, max_chars: int | None = 7000) -> str:
+    text = vtt_to_text(vtt_content)
     if max_chars is not None and len(text) > max_chars:
         text = text[:max_chars].rstrip()
     return text

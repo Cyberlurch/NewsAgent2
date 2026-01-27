@@ -550,6 +550,7 @@ def to_markdown(
     foamed_stats: Optional[Dict[str, Any]] = None,
     cybermed_stats: Optional[Dict[str, Any]] = None,
     report_mode: Optional[str] = None,
+    run_metadata: Optional[str] = None,
 ) -> str:
     lang = _norm_language(report_language)
     title = report_title.strip()
@@ -772,6 +773,15 @@ def to_markdown(
             if md and md[-1] != "":
                 md.append("")
             meta_content = "\n\n".join(meta_blocks)
+            md.append("<!-- RUN_METADATA_ATTACHMENT_START -->")
+            md.append(meta_content)
+            md.append("<!-- RUN_METADATA_ATTACHMENT_END -->")
+            md.append("")
+    elif run_metadata:
+        meta_content = str(run_metadata or "").strip()
+        if meta_content:
+            if md and md[-1] != "":
+                md.append("")
             md.append("<!-- RUN_METADATA_ATTACHMENT_START -->")
             md.append(meta_content)
             md.append("<!-- RUN_METADATA_ATTACHMENT_END -->")

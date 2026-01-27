@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 
 from .collector_foamed import collect_foamed_items
-from .collectors_youtube import fetch_transcript, fetch_youtube_captions_text, list_recent_videos
+from .collectors_youtube import fetch_transcript, fetch_captions_text, list_recent_videos
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .emailer import send_markdown
 from .rollups import (
@@ -45,7 +45,8 @@ from .summarizer import (
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
 from .unpaywall import fetch_best_oa_fulltext, lookup_unpaywall, pick_best_oa_url
-from .utils.text_quality import is_low_signal_youtube_text
+from .utils.diagnostics import YouTubeDiagnosticsCounters
+from .utils.text_quality import is_low_signal
 
 STO = ZoneInfo("Europe/Stockholm")
 
@@ -90,6 +91,12 @@ def _is_cybermed(report_key: str, report_profile: str) -> bool:
     rk = (report_key or "").strip().lower()
     rp = (report_profile or "").strip().lower()
     return rk == "cybermed" or rp == "medical"
+
+
+def _is_poplar_channel(channel: Dict[str, Any]) -> bool:
+    name = re.sub(r"\s+", "", str(channel.get("name") or "").strip().lower())
+    url = str(channel.get("url") or "").strip().lower()
+    return "thepoplarreport" in name or "thepoplarreport" in url
 
 
 def _determine_year_in_review_year(*, now_sto: datetime, override_year: str | None, event_name: str) -> int:
@@ -1224,6 +1231,8 @@ def main() -> None:
     foamed_meta_stats: Dict[str, Any] = {}
     foamed_collection_stats: Dict[str, Any] = {}
 
+    run_metadata = ""
+
     try:
         channels, channel_topics, topic_weights = load_channels_config(args.channels)
     except Exception as e:
@@ -1233,7 +1242,13 @@ def main() -> None:
             overview = f"## Kurzüberblick\n\n**Fehler:** Konnte Channels-Konfiguration nicht laden: `{e!r}`\n"
         out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
         md = to_markdown(
-            [], overview, {}, report_title=report_title, report_language=report_language, report_mode=report_mode
+            [],
+            overview,
+            {},
+            report_title=report_title,
+            report_language=report_language,
+            report_mode=report_mode,
+            run_metadata=run_metadata,
         )
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(md)
@@ -1258,12 +1273,7 @@ def main() -> None:
 
     items: List[Dict[str, Any]] = []
     skipped_by_state = 0
-    youtube_diag = {
-        "videos_total": 0,
-        "low_signal_count": 0,
-        "captions_fallback_attempted": 0,
-        "captions_fallback_succeeded": 0,
-    }
+    youtube_diag = YouTubeDiagnosticsCounters()
 
     # Cybermed observability (used to build an in-report transparency header).
     is_cybermed_run = _is_cybermed(report_key, report_profile)
@@ -1279,12 +1289,13 @@ def main() -> None:
         source = (ch.get("source") or "youtube").strip().lower()
         curl = (ch.get("url") or "").strip()
         query = (ch.get("query") or "").strip()
+        is_poplar = _is_poplar_channel(ch)
 
         if source == "youtube":
             try:
                 vids = list_recent_videos(curl, hours=args.hours, max_items=max_items_per_channel)
-            except Exception as e:
-                print(f"[collect] ERROR source=youtube channel={cname!r}: list_recent_videos failed: {e!r}")
+            except Exception:
+                print("[collect] ERROR source=youtube: list_recent_videos failed")
                 continue
 
             for v in vids:
@@ -1296,35 +1307,50 @@ def main() -> None:
                     skipped_by_state += 1
                     continue
 
-                youtube_diag["videos_total"] += 1
+                youtube_diag.videos_total += 1
+                if is_poplar:
+                    youtube_diag.poplar_total += 1
                 desc = (v.get("description") or "").strip()
                 transcript = None
                 try:
                     transcript = fetch_transcript(vid)
-                except Exception as e:
-                    print(f"[collect] WARN source=youtube channel={cname!r} video={vid!r}: fetch_transcript failed: {e!r}")
+                except Exception:
                     transcript = None
 
                 text = (transcript or desc).strip()
                 fallback_text = ""
-                if is_low_signal_youtube_text(text):
-                    youtube_diag["low_signal_count"] += 1
+                if is_low_signal(text):
+                    youtube_diag.low_signal_total += 1
+                    if is_poplar:
+                        youtube_diag.poplar_low_signal += 1
                     fallback_url = (v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}"
                     try:
-                        youtube_diag["captions_fallback_attempted"] += 1
-                        fallback_text = fetch_youtube_captions_text(fallback_url)
+                        youtube_diag.captions_attempted_total += 1
+                        if is_poplar:
+                            youtube_diag.poplar_captions_attempted += 1
+                        fallback_text, status = fetch_captions_text(
+                            fallback_url,
+                            ["de.*", "en.*", "de", "en"],
+                        )
                     except Exception:
-                        print("[collect] WARN source=youtube: captions fallback failed")
-                        fallback_text = ""
+                        fallback_text, status = "", "error"
+                    if status == "success":
+                        youtube_diag.captions_success_total += 1
+                        if is_poplar:
+                            youtube_diag.poplar_captions_success += 1
+                    elif status == "empty":
+                        youtube_diag.captions_empty_total += 1
+                        if is_poplar:
+                            youtube_diag.poplar_captions_empty += 1
+                    elif status == "error":
+                        youtube_diag.captions_error_total += 1
 
                 fallback_text = (fallback_text or "").strip()
                 if fallback_text:
-                    youtube_diag["captions_fallback_succeeded"] += 1
                     if len(fallback_text) >= 200 or len(fallback_text) > len(text):
                         text = fallback_text
 
                 if not text:
-                    print(f"[collect] WARN source=youtube channel={cname!r} video={vid!r}: no transcript/description -> skipping")
                     continue
 
                 if len(text) > max_text_chars_per_item:
@@ -1415,14 +1441,11 @@ def main() -> None:
             print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
             continue
 
-    if youtube_diag["videos_total"] or youtube_diag["captions_fallback_attempted"]:
-        print(
-            "[collect] youtube_stats: "
-            f"videos_total={youtube_diag['videos_total']} "
-            f"low_signal_count={youtube_diag['low_signal_count']} "
-            f"captions_attempted={youtube_diag['captions_fallback_attempted']} "
-            f"captions_succeeded={youtube_diag['captions_fallback_succeeded']}"
-        )
+    print(f"[collect] youtube_diagnostics: {youtube_diag.to_log_line()}")
+
+    run_metadata = ""
+    if report_key.strip().lower() == "cyberlurch":
+        run_metadata = youtube_diag.to_metadata_section()
 
     if is_cybermed_run:
         foamed_sources = load_foamed_sources_config(foamed_sources_path)
@@ -2326,6 +2349,7 @@ def main() -> None:
         foamed_stats=foamed_meta_stats,
         cybermed_stats=cybermed_run_stats if is_cybermed_run else None,
         report_mode=report_mode,
+        run_metadata=run_metadata,
     )
 
     with open(out_path, "w", encoding="utf-8") as f:

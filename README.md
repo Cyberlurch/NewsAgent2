@@ -7,6 +7,14 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 
 ---
 
+## YouTube captions fallback (Cyberlurch)
+
+- Captions are fetched via yt-dlp **only** when a video’s description/transcript is classified as low-signal. This keeps the pipeline conservative and avoids unnecessary calls.
+- Diagnostics are tracked as counters only (no content), and log output avoids titles, URLs, and transcript text.
+- The run-metadata attachment includes a “YouTube Diagnostics” section with the same counter totals.
+
+---
+
 ## Scheduling and automation (Europe/Stockholm)
 
 - Weekdays (Mon–Fri) at **~05:30** local time.
