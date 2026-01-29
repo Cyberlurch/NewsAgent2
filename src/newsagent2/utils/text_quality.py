@@ -13,6 +13,11 @@ PROMO_KEYWORDS = [
     "sponsored",
     "affiliate",
     "affiliates",
+    "gold",
+    "ira",
+    "lear capital",
+    "promo code",
+    "discount code",
     "links below",
     "follow us",
     "join the discord",
@@ -75,7 +80,63 @@ def is_low_signal(text: str) -> bool:
 
 
 def is_low_signal_youtube_text(text: str) -> bool:
-    return is_low_signal(text)
+    return classify_low_signal_youtube_text(text)[0]
+
+
+def classify_low_signal_youtube_text(text: str) -> tuple[bool, str]:
+    normalized = (text or "").strip()
+    if not normalized:
+        return True, "empty"
+
+    if len(normalized) < 220:
+        return True, "too_short"
+
+    lowered = normalized.lower()
+    url_count = _count_urls(lowered)
+    words = re.findall(r"[a-zA-Z0-9']+", lowered)
+    word_count = len(words)
+    if word_count == 0:
+        return True, "empty"
+
+    link_dense = url_count >= 3 and url_count * 5 >= word_count
+    promo_hits = sum(1 for kw in PROMO_KEYWORDS if kw in lowered)
+
+    if len(normalized) <= 450:
+        if link_dense:
+            return True, "link_dense"
+        if promo_hits >= 2:
+            return True, "promo_keywords"
+        return False, ""
+
+    promo_low_signal = False
+    if promo_hits >= 2:
+        non_promo_words = [
+            w
+            for w in words
+            if w
+            not in {
+                "patreon",
+                "donate",
+                "subscribe",
+                "merch",
+                "sponsor",
+                "affiliate",
+                "links",
+            }
+        ]
+        if len(non_promo_words) < 80 or promo_hits >= 4:
+            promo_low_signal = True
+
+    link_density = url_count / max(word_count, 1)
+    if promo_hits and link_density > 0.05 and word_count < 250:
+        promo_low_signal = True
+
+    if link_dense:
+        return True, "link_dense"
+    if promo_low_signal:
+        return True, "promo_keywords"
+
+    return False, ""
 
 
 def vtt_to_text(vtt: str) -> str:
