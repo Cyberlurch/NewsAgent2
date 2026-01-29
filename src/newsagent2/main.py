@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 
 from .collector_foamed import collect_foamed_items
-from .collectors_youtube import fetch_transcript, fetch_captions_text, list_recent_videos
+from .collectors_youtube import fetch_transcript, fetch_captions_text, list_recent_videos, get_yt_dlp_version
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .emailer import send_markdown
 from .rollups import (
@@ -46,7 +46,7 @@ from .summarizer import (
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
 from .unpaywall import fetch_best_oa_fulltext, lookup_unpaywall, pick_best_oa_url
 from .utils.diagnostics import YouTubeDiagnosticsCounters
-from .utils.text_quality import is_low_signal
+from .utils.text_quality import classify_low_signal_youtube_text
 
 STO = ZoneInfo("Europe/Stockholm")
 
@@ -97,6 +97,12 @@ def _is_poplar_channel(channel: Dict[str, Any]) -> bool:
     name = re.sub(r"\s+", "", str(channel.get("name") or "").strip().lower())
     url = str(channel.get("url") or "").strip().lower()
     return "thepoplarreport" in name or "thepoplarreport" in url
+
+
+def _is_blackscout_channel(channel: Dict[str, Any]) -> bool:
+    name = re.sub(r"\s+", "", str(channel.get("name") or "").strip().lower())
+    url = str(channel.get("url") or "").strip().lower()
+    return "blackscoutsurvival" in name or "blackscoutsurvival" in url
 
 
 def _determine_year_in_review_year(*, now_sto: datetime, override_year: str | None, event_name: str) -> int:
@@ -1274,6 +1280,7 @@ def main() -> None:
     items: List[Dict[str, Any]] = []
     skipped_by_state = 0
     youtube_diag = YouTubeDiagnosticsCounters()
+    youtube_diag.yt_dlp_version = get_yt_dlp_version()
 
     # Cybermed observability (used to build an in-report transparency header).
     is_cybermed_run = _is_cybermed(report_key, report_profile)
@@ -1290,6 +1297,7 @@ def main() -> None:
         curl = (ch.get("url") or "").strip()
         query = (ch.get("query") or "").strip()
         is_poplar = _is_poplar_channel(ch)
+        is_blackscout = _is_blackscout_channel(ch)
 
         if source == "youtube":
             try:
@@ -1310,6 +1318,8 @@ def main() -> None:
                 youtube_diag.videos_total += 1
                 if is_poplar:
                     youtube_diag.poplar_total += 1
+                if is_blackscout:
+                    youtube_diag.blackscout_total += 1
                 desc = (v.get("description") or "").strip()
                 transcript = None
                 try:
@@ -1319,31 +1329,53 @@ def main() -> None:
 
                 text = (transcript or desc).strip()
                 fallback_text = ""
-                if is_low_signal(text):
+                is_low_signal, low_signal_reason = classify_low_signal_youtube_text(text)
+                if is_low_signal:
                     youtube_diag.low_signal_total += 1
+                    if low_signal_reason:
+                        youtube_diag.low_signal_reason_counts[low_signal_reason] = (
+                            youtube_diag.low_signal_reason_counts.get(low_signal_reason, 0) + 1
+                        )
                     if is_poplar:
                         youtube_diag.poplar_low_signal += 1
+                    if is_blackscout:
+                        youtube_diag.blackscout_low_signal += 1
                     fallback_url = (v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}"
                     try:
                         youtube_diag.captions_attempted_total += 1
                         if is_poplar:
                             youtube_diag.poplar_captions_attempted += 1
-                        fallback_text, status = fetch_captions_text(
+                        if is_blackscout:
+                            youtube_diag.blackscout_captions_attempted += 1
+                        fallback_text, status, error_kind = fetch_captions_text(
                             fallback_url,
-                            ["de.*", "en.*", "de", "en"],
+                            ["de.*", "en.*", "sv.*", "-live_chat"],
+                            retries=1,
                         )
                     except Exception:
-                        fallback_text, status = "", "error"
+                        fallback_text, status, error_kind = "", "error", "unknown"
                     if status == "success":
                         youtube_diag.captions_success_total += 1
                         if is_poplar:
                             youtube_diag.poplar_captions_success += 1
+                        if is_blackscout:
+                            youtube_diag.blackscout_captions_success += 1
                     elif status == "empty":
                         youtube_diag.captions_empty_total += 1
                         if is_poplar:
                             youtube_diag.poplar_captions_empty += 1
+                        if is_blackscout:
+                            youtube_diag.blackscout_captions_empty += 1
                     elif status == "error":
                         youtube_diag.captions_error_total += 1
+                        if is_poplar:
+                            youtube_diag.poplar_captions_error += 1
+                        if is_blackscout:
+                            youtube_diag.blackscout_captions_error += 1
+                        error_bucket = error_kind or "unknown"
+                        youtube_diag.captions_error_by_kind[error_bucket] = (
+                            youtube_diag.captions_error_by_kind.get(error_bucket, 0) + 1
+                        )
 
                 fallback_text = (fallback_text or "").strip()
                 if fallback_text:

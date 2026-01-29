@@ -36,6 +36,18 @@ def test_is_low_signal_youtube_text_accepts_normal_transcript():
     assert is_low_signal_youtube_text(transcript_like) is False
 
 
+def test_is_low_signal_youtube_text_allows_midlength_text_without_links():
+    mid_length = (
+        "This briefing summarizes the week with a focus on practical preparedness steps, "
+        "including storage plans, supply rotation, and resilient communications habits. "
+        "It highlights the main takeaways from recent field practice and closes with "
+        "recommendations for community coordination and follow-through."
+    )
+
+    assert 250 <= len(mid_length) <= 350
+    assert is_low_signal_youtube_text(mid_length) is False
+
+
 def test_is_low_signal_flags_promo_urls():
     promo_text = (
         "Support our sponsors and subscribe for more. "
