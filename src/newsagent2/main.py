@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 
 from .collector_foamed import collect_foamed_items
 from .collectors_youtube import fetch_transcript, fetch_captions_text, list_recent_videos, get_yt_dlp_version
+from .collectors_youtube_timedtext import fetch_captions_via_timedtext
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .emailer import send_markdown
 from .rollups import (
@@ -1340,42 +1341,88 @@ def main() -> None:
                         youtube_diag.poplar_low_signal += 1
                     if is_blackscout:
                         youtube_diag.blackscout_low_signal += 1
-                    fallback_url = (v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}"
+
+                should_fetch_captions = is_low_signal or is_poplar or is_blackscout
+                if should_fetch_captions and not transcript:
+                    timedtext_status = ""
                     try:
-                        youtube_diag.captions_attempted_total += 1
+                        youtube_diag.timedtext_attempted_total += 1
                         if is_poplar:
-                            youtube_diag.poplar_captions_attempted += 1
+                            youtube_diag.poplar_timedtext_attempted += 1
                         if is_blackscout:
-                            youtube_diag.blackscout_captions_attempted += 1
-                        fallback_text, status, error_kind = fetch_captions_text(
-                            fallback_url,
-                            ["de.*", "en.*", "sv.*", "-live_chat"],
-                            retries=1,
+                            youtube_diag.blackscout_timedtext_attempted += 1
+                        fallback_text, timedtext_status = fetch_captions_via_timedtext(
+                            vid,
+                            ("de", "en", "sv"),
                         )
                     except Exception:
-                        fallback_text, status, error_kind = "", "error", "unknown"
-                    if status == "success":
-                        youtube_diag.captions_success_total += 1
+                        fallback_text, timedtext_status = "", "error_parse"
+
+                    if timedtext_status == "success":
+                        youtube_diag.timedtext_success_total += 1
                         if is_poplar:
-                            youtube_diag.poplar_captions_success += 1
+                            youtube_diag.poplar_timedtext_success += 1
                         if is_blackscout:
-                            youtube_diag.blackscout_captions_success += 1
-                    elif status == "empty":
-                        youtube_diag.captions_empty_total += 1
+                            youtube_diag.blackscout_timedtext_success += 1
+                    elif timedtext_status == "empty":
+                        youtube_diag.timedtext_empty_total += 1
                         if is_poplar:
-                            youtube_diag.poplar_captions_empty += 1
+                            youtube_diag.poplar_timedtext_empty += 1
                         if is_blackscout:
-                            youtube_diag.blackscout_captions_empty += 1
-                    elif status == "error":
-                        youtube_diag.captions_error_total += 1
+                            youtube_diag.blackscout_timedtext_empty += 1
+                    else:
+                        youtube_diag.timedtext_error_total += 1
                         if is_poplar:
-                            youtube_diag.poplar_captions_error += 1
+                            youtube_diag.poplar_timedtext_error += 1
                         if is_blackscout:
-                            youtube_diag.blackscout_captions_error += 1
-                        error_bucket = error_kind or "unknown"
-                        youtube_diag.captions_error_by_kind[error_bucket] = (
-                            youtube_diag.captions_error_by_kind.get(error_bucket, 0) + 1
-                        )
+                            youtube_diag.blackscout_timedtext_error += 1
+
+                    if timedtext_status != "success":
+                        if youtube_diag.ytdlp_disabled_due_to_bot_check:
+                            youtube_diag.ytdlp_skipped_due_to_bot_check_total += 1
+                            if is_poplar:
+                                youtube_diag.poplar_ytdlp_skipped_due_to_bot_check += 1
+                            if is_blackscout:
+                                youtube_diag.blackscout_ytdlp_skipped_due_to_bot_check += 1
+                        else:
+                            fallback_url = (v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}"
+                            try:
+                                youtube_diag.captions_attempted_total += 1
+                                if is_poplar:
+                                    youtube_diag.poplar_captions_attempted += 1
+                                if is_blackscout:
+                                    youtube_diag.blackscout_captions_attempted += 1
+                                fallback_text, status, error_kind = fetch_captions_text(
+                                    fallback_url,
+                                    ["de.*", "en.*", "sv.*", "-live_chat"],
+                                    retries=1,
+                                )
+                            except Exception:
+                                fallback_text, status, error_kind = "", "error", "unknown"
+                            if status == "success":
+                                youtube_diag.captions_success_total += 1
+                                if is_poplar:
+                                    youtube_diag.poplar_captions_success += 1
+                                if is_blackscout:
+                                    youtube_diag.blackscout_captions_success += 1
+                            elif status == "empty":
+                                youtube_diag.captions_empty_total += 1
+                                if is_poplar:
+                                    youtube_diag.poplar_captions_empty += 1
+                                if is_blackscout:
+                                    youtube_diag.blackscout_captions_empty += 1
+                            elif status == "error":
+                                youtube_diag.captions_error_total += 1
+                                if is_poplar:
+                                    youtube_diag.poplar_captions_error += 1
+                                if is_blackscout:
+                                    youtube_diag.blackscout_captions_error += 1
+                                error_bucket = error_kind or "unknown"
+                                youtube_diag.captions_error_by_kind[error_bucket] = (
+                                    youtube_diag.captions_error_by_kind.get(error_bucket, 0) + 1
+                                )
+                                if error_bucket == "bot_check":
+                                    youtube_diag.ytdlp_disabled_due_to_bot_check = True
 
                 fallback_text = (fallback_text or "").strip()
                 if fallback_text:

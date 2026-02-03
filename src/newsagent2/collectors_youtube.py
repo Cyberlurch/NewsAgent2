@@ -195,7 +195,9 @@ def fetch_captions_text(
                 "outtmpl": out_tmpl,
                 "nocheckcertificate": True,
                 "socket_timeout": timeout_s,
-                "extractor_args": {"youtube": {"player_client": ["android", "web"]}},
+                "extractor_args": {
+                    "youtube": {"player_client": ["android", "web_safari", "web"]}
+                },
             }
 
             try:
