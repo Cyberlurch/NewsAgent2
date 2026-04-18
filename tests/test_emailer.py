@@ -39,8 +39,8 @@ class RunMetadataExtractionTests(unittest.TestCase):
 
         self.assertEqual("first line\nsecond line", meta)
         self.assertTrue(markers)
-        self.assertIn("## Run Metadata", new_md)
-        self.assertIn("Run metadata is attached as a text file.", new_md)
+        self.assertNotIn("## Run Metadata", new_md)
+        self.assertNotIn("Run metadata is attached as a text file.", new_md)
         self.assertNotIn("RUN_METADATA_ATTACHMENT_START", new_md)
 
     def test_metadata_block_removed_and_attached_when_details_used(self):

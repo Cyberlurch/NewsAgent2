@@ -47,7 +47,7 @@ class TestEmailMetadata(unittest.TestCase):
         self.assertIn("<summary", html)
 
     @unittest.skipUnless(HAS_MARKDOWN, "python-markdown is not installed")
-    def test_comment_wrapped_run_metadata_is_removed_and_attached(self):
+    def test_comment_wrapped_run_metadata_is_removed_from_cleaned_body(self):
         from newsagent2.emailer import _extract_run_metadata_for_email
 
         md = """
@@ -95,7 +95,7 @@ Hello.
         self.assertTrue(markers_found)
 
     @unittest.skipUnless(HAS_MARKDOWN, "python-markdown is not installed")
-    def test_cybermed_email_omits_placeholder_but_attaches_metadata(self):
+    def test_cybermed_email_has_no_metadata_placeholder_or_attachment(self):
         from newsagent2 import emailer
 
         class DummySMTP:
@@ -167,14 +167,16 @@ Hello.
                 plain_body = "\n".join(plain_parts)
 
                 self.assertNotIn("Run metadata is attached", plain_body)
+                self.assertNotIn("Run Metadata", plain_body)
+                self.assertNotIn("- a: 1", plain_body)
 
                 attachment_names = [
                     part.get_filename() for part in msg.walk() if part.get_content_disposition() == "attachment"
                 ]
-                self.assertTrue(any(name and "cybermed_run_metadata_" in name for name in attachment_names))
+                self.assertFalse(any(name and "_run_metadata_" in name for name in attachment_names))
 
     @unittest.skipUnless(HAS_MARKDOWN, "python-markdown is not installed")
-    def test_non_cybermed_email_keeps_placeholder(self):
+    def test_non_cybermed_email_has_no_metadata_placeholder_or_attachment(self):
         from newsagent2 import emailer
 
         class DummySMTP:
@@ -245,12 +247,14 @@ Hi.
                 ]
                 plain_body = "\n".join(plain_parts)
 
-                self.assertIn("Run metadata is attached", plain_body)
+                self.assertNotIn("Run metadata is attached", plain_body)
+                self.assertNotIn("Run Metadata", plain_body)
+                self.assertNotIn("- c: 3", plain_body)
 
                 attachment_names = [
                     part.get_filename() for part in msg.walk() if part.get_content_disposition() == "attachment"
                 ]
-                self.assertTrue(any(name and "cyberlurch_run_metadata_" in name for name in attachment_names))
+                self.assertFalse(any(name and "_run_metadata_" in name for name in attachment_names))
 
     @unittest.skipUnless(HAS_MARKDOWN, "python-markdown is not installed")
     def test_multi_recipient_to_header_is_hidden_by_default(self):

@@ -11,7 +11,7 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 
 - Captions are fetched via yt-dlp **only** when a video’s description/transcript is classified as low-signal. This keeps the pipeline conservative and avoids unnecessary calls.
 - Diagnostics are tracked as counters only (no content), and log output avoids titles, URLs, and transcript text.
-- The run-metadata attachment includes a “YouTube Diagnostics” section with the same counter totals.
+- YouTube diagnostics are captured for troubleshooting only and are not sent in recipient-facing emails.
 
 ---
 
@@ -62,7 +62,7 @@ NewsAgent2 is a private automation project that generates and emails two newslet
 
 ### FOAMed runtime toggles
 
-- `FOAMED_AUDIT` (default `0`): when set to `1`, keep normal RSS-first behavior but also run a lightweight HTML sampling pass for RSS-healthy sources. Audit stats are included in the hidden run metadata attachment (not the visible email body).
+- `FOAMED_AUDIT` (default `0`): when set to `1`, keep normal RSS-first behavior but also run a lightweight HTML sampling pass for RSS-healthy sources. Audit stats are recorded for troubleshooting and are not sent in recipient-facing emails.
 - `FOAMED_FORCE_FALLBACK_SOURCES` (default empty): comma-separated list of FOAMed source names that should skip RSS and exercise the HTML fallback path, recorded in run metadata.
 - `FOAMED_AUTO_DISABLE` (default `1`): when enabled, FOAMed sources that repeatedly return 403/404 are auto-disabled for a cooldown window to reduce repeated failures. Thresholds can be tuned via `FOAMED_DISABLE_AFTER_403` (default `3` consecutive runs) and `FOAMED_DISABLE_DAYS_403` (default `7` days), or `FOAMED_DISABLE_AFTER_404` (default `2`) and `FOAMED_DISABLE_DAYS_404` (default `30`). Disable state lives inside `state/processed_items.json` and clears automatically after a successful fetch.
 
@@ -147,7 +147,8 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 ## Email delivery
 
 - Reports are generated in Markdown, converted to HTML for email clients, and include a plaintext alternative.
-- Run metadata is attached as a `.txt` file for troubleshooting, while the email body omits the metadata block for readability. Cybermed emails also suppress the metadata text from the visible body while keeping the attachment intact.
+- Recipient emails are sent clean (plaintext + HTML only): run metadata is removed from visible content and no run-metadata attachment is sent.
+- Troubleshooting metadata is retained only for internal diagnostics and is not delivered to recipients.
 - Cyberlurch weekly/monthly/yearly reports omit a separate “Sources” section; source links live inside **Top videos (this period)**. The Cyberlurch Daily still includes “Sources”.
 - The yearly cadence sends to the union of daily/weekly/monthly recipients for the selected report (deduplicated).
 - Multi-recipient privacy: when more than one recipient is configured, the **To** header defaults to the sender address so recipients are not revealed to each other. Set `EMAIL_DISCLOSE_RECIPIENTS=1` only if you explicitly want the header to list all recipients.

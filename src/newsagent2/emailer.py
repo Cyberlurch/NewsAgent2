@@ -7,7 +7,6 @@ import os
 import re
 import smtplib
 import traceback
-from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
@@ -263,7 +262,7 @@ def _extract_metadata_text(block: str) -> str:
 
 
 def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
-    """Split out the Run Metadata block for attachment use in emails.
+    """Remove Run Metadata blocks from outgoing email markdown.
 
     Returns (markdown_without_metadata_block, metadata_text, metadata_removed).
     If no metadata block exists, returns the original markdown, empty text, and False.
@@ -276,10 +275,9 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
     working_body = md_body
     metadata_text = ""
     metadata_removed = False
-    was_marker_based = False
 
     def _splice_out_block(match: re.Match[str], captured: str) -> None:
-        nonlocal working_body, metadata_text, metadata_removed, was_marker_based
+        nonlocal working_body, metadata_text, metadata_removed
         before = working_body[: match.start()] or ""
         after = working_body[match.end() :] or ""
 
@@ -296,7 +294,6 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
             cleaned = re.sub(r"\\s*<!--\\s*$", "", cleaned)
             metadata_text = cleaned.strip()
         metadata_removed = True
-        was_marker_based = True
 
     comment_block_pattern = re.compile(
         r"<!--\s*RUN_METADATA_ATTACHMENT_START\b(.*?)RUN_METADATA_ATTACHMENT_END\s*-->",
@@ -357,19 +354,16 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
             metadata_text = _extract_metadata_text(metadata_block)
         metadata_removed = True
 
+    if metadata_removed:
+        working_body = re.sub(
+            r"(?im)^[ \t]*##[ \t]*Run Metadata[ \t]*$\n?",
+            "",
+            working_body,
+        )
+        working_body = re.sub(r"\n{3,}", "\n\n", working_body)
+
     if metadata_removed and original_trailing_newline and not working_body.endswith("\n"):
         working_body += "\n"
-
-    if was_marker_based and metadata_text:
-        placeholder = "Run metadata is attached as a text file."
-        if placeholder not in working_body:
-            note = f"{placeholder}\n"
-            if "## Run Metadata" in working_body:
-                working_body = working_body.replace("## Run Metadata", f"## Run Metadata\n\n{note}".rstrip(), 1)
-            else:
-                if working_body and not working_body.endswith("\n"):
-                    working_body += "\n"
-                working_body = f"{working_body}{note}"
 
     return working_body, metadata_text.strip(), metadata_removed
 
@@ -468,25 +462,11 @@ def send_markdown(subject: str, md_body: str) -> None:
         )
         return
 
-    # Keep the HTML part as close to the original Markdown as possible.
-    # We only extract the Run Metadata for (a) a plaintext-friendly replacement
-    # and (b) attaching the full metadata as a .txt file.
-    md_without_metadata, metadata_text, metadata_removed = _extract_run_metadata_for_email(md_body)
-
-    placeholder_block = ""
-    if (
-        metadata_text
-        and metadata_removed
-        and report_key.lower() != "cybermed"
-        and "Run metadata is attached as a text file." not in (md_without_metadata or "")
-    ):
-        placeholder_block = "\n\n_Run metadata is attached as a .txt file._\n"
-
-    if placeholder_block:
-        md_without_metadata = f"{md_without_metadata.rstrip()}{placeholder_block}"
+    # Keep recipient-facing email bodies clean by removing run metadata from outgoing markdown.
+    md_without_metadata, _, metadata_removed = _extract_run_metadata_for_email(md_body)
 
     try:
-        html_source = md_without_metadata if metadata_removed or placeholder_block else md_body
+        html_source = md_without_metadata if metadata_removed else md_body
         html = _safe_markdown_to_html(html_source)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
         print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")
@@ -520,15 +500,6 @@ def send_markdown(subject: str, md_body: str) -> None:
     alternative.attach(MIMEText(plain, "plain", "utf-8"))
     alternative.attach(MIMEText(html, "html", "utf-8"))
     msg.attach(alternative)
-
-    if metadata_text:
-        safe_report_key = re.sub(r"[^a-z0-9_-]+", "_", (report_key or "report").strip().lower())
-        if not safe_report_key:
-            safe_report_key = "report"
-        filename = f"{safe_report_key}_run_metadata_{datetime.now().strftime('%Y-%m-%d_%H-%M')}.txt"
-        attachment = MIMEText(metadata_text, "plain", "utf-8")
-        attachment.add_header("Content-Disposition", "attachment", filename=filename)
-        msg.attach(attachment)
 
     try:
         # Do not log host/from/to addresses.
