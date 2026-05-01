@@ -4,8 +4,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "ALiEM": {
       "consecutive_failures": 19,
@@ -23,42 +23,42 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "Critical Care Practitioner": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "Critical Care Reviews": {
-      "consecutive_failures": 5,
-      "disabled_until_utc": "2026-05-01T05:37:32+00:00",
+      "consecutive_failures": 6,
+      "disabled_until_utc": "2026-05-31T06:29:34+00:00",
       "last_health": "not_found_404",
-      "last_seen_utc": "2026-04-01T05:37:32+00:00"
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "Deranged Physiology": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "EMCrit": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "Intensive Care Network": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "JournalFeed (Critical Care)": {
       "consecutive_failures": 19,
@@ -70,73 +70,73 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "NYSORA": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "OpenAnesthesia": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "PulmCCM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "REBEL EM Critical Care": {
-      "consecutive_failures": 5,
-      "disabled_until_utc": "2026-05-01T05:37:32+00:00",
+      "consecutive_failures": 6,
+      "disabled_until_utc": "2026-05-31T06:29:34+00:00",
       "last_health": "not_found_404",
-      "last_seen_utc": "2026-04-01T05:37:32+00:00"
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "SMACC": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "St Emlyn's": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "The Bottom Line": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "The Resus Room": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "Thinking Critical Care": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-04-30T06:16:18+00:00",
-      "last_seen_utc": "2026-04-30T06:16:18+00:00"
+      "last_ok_utc": "2026-05-01T06:29:34+00:00",
+      "last_seen_utc": "2026-05-01T06:29:34+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-04-30T06:17:29+00:00",
+  "last_successful_daily_run_utc": "2026-05-01T06:31:08+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -176,6 +176,12 @@
             "processed_at_utc": "2026-04-27T06:14:12+00:00",
             "title": "Tucker Carlson: \"Everything you've been told is a lie\" | The Ultimate Redacted Compilation",
             "url": "https://www.youtube.com/watch?v=0Zl5xV9YeV0"
+          },
+          "1FXa3tnTadE": {
+            "channel": "Redacted",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "\"Lebanon is now Gaza 2.0!\" Food, Medicine, and Water are RUNNING OUT | Redacted w Clayton Morris",
+            "url": "https://www.youtube.com/watch?v=1FXa3tnTadE"
           },
           "1_lojMkrqdw": {
             "channel": "Redacted",
@@ -230,6 +236,12 @@
             "processed_at_utc": "2026-04-15T05:36:12+00:00",
             "title": "Israel Daily News - April 14, 2026 | Ceasefire Hangs in Balance",
             "url": "https://www.youtube.com/watch?v=40OYcFfZ6Mk"
+          },
+          "4IE897QryTk": {
+            "channel": "Israel English News",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "Is the U.S. Heading Back to War with Iran?",
+            "url": "https://www.youtube.com/watch?v=4IE897QryTk"
           },
           "4TJzy23FwZw": {
             "channel": "Israel English News",
@@ -338,6 +350,12 @@
             "processed_at_utc": "2026-04-17T05:39:22+00:00",
             "title": "Col. Dan Davis: “Iran is fighting for it’s life, and they are winning by surviving” | Redacted",
             "url": "https://www.youtube.com/watch?v=9QrRlS01uQY"
+          },
+          "9RbXUuqhVak": {
+            "channel": "Prepper News Flash",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "⚡IRAN \"Theres Nothing to Negotiate\" a BIGGER WAR is Brewing w/ Dr. Paul Craig Roberts",
+            "url": "https://www.youtube.com/watch?v=9RbXUuqhVak"
           },
           "9eXoSbnIjS0": {
             "channel": "Redacted",
@@ -507,6 +525,12 @@
             "title": "Höcke Interview: Ganz Deutschland spricht darüber + Erste CDU-Abgeordnete fordert Neuwahlen!",
             "url": "https://www.youtube.com/watch?v=JeB5wHlfHB4"
           },
+          "JjVQMTiK1j8": {
+            "channel": "Prepper News Flash",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "⚡ALERT: We Are Entering PHASE 3: Ground War in Iran",
+            "url": "https://www.youtube.com/watch?v=JjVQMTiK1j8"
+          },
           "K6vkZLuHgzI": {
             "channel": "Prepper News Flash",
             "processed_at_utc": "2026-04-22T05:37:48+00:00",
@@ -518,6 +542,12 @@
             "processed_at_utc": "2026-04-13T06:00:50+00:00",
             "title": "🚨🚨IRAN Refuses TRUMP’S Final OFFER… Watchmen Updates",
             "url": "https://www.youtube.com/watch?v=KVtNcIU0Elw"
+          },
+          "LTi_K2GeTTI": {
+            "channel": "Israel English News",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "ILTV News Flash – April 30, 2026",
+            "url": "https://www.youtube.com/watch?v=LTi_K2GeTTI"
           },
           "Lff8J_Wl1XM": {
             "channel": "The Poplar Report",
@@ -837,6 +867,12 @@
             "title": "Brace for Impact! In 3 Days EVERYTHING Could Change | Redacted w Clayton Morris",
             "url": "https://www.youtube.com/watch?v=dOhwQON-ado"
           },
+          "dmEMR46IRDE": {
+            "channel": "Israel English News",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "On The Hour – April 30, 2026 | Iran Strike Plans Revealed | Gaza & Global Tensions Rise",
+            "url": "https://www.youtube.com/watch?v=dmEMR46IRDE"
+          },
           "dvB6shMnISA": {
             "channel": "Redacted",
             "processed_at_utc": "2026-04-24T05:54:27+00:00",
@@ -872,6 +908,12 @@
             "processed_at_utc": "2026-04-13T06:00:50+00:00",
             "title": "Israel Daily News - April 12, 2026 | Will the Iran War Resume Soon?",
             "url": "https://www.youtube.com/watch?v=fcEw_l7mpDU"
+          },
+          "fpz-DPSlzbA": {
+            "channel": "Israel English News",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "On The Hour – April 30, 2026 | US–Iran Standoff Escalates, Strike Plans & Global Oil Crisis",
+            "url": "https://www.youtube.com/watch?v=fpz-DPSlzbA"
           },
           "fy8fw-wmkUg": {
             "channel": "Vermietertagebuch",
@@ -1119,6 +1161,12 @@
             "title": "\"Extremely DIRE consequences!\" Putin just issued a major warning to Trump on Iran | Redacted News",
             "url": "https://www.youtube.com/watch?v=rRpBK0O445o"
           },
+          "rWwVRUXWcI8": {
+            "channel": "Redacted",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "Food and Energy are on the Verge of COLLAPSE",
+            "url": "https://www.youtube.com/watch?v=rWwVRUXWcI8"
+          },
           "ryjxUlFh5oE": {
             "channel": "Vermietertagebuch",
             "processed_at_utc": "2026-04-21T05:38:52+00:00",
@@ -1143,6 +1191,12 @@
             "title": "Israel Daily News - April 20, 2026 | Israel Pauses for Yom HaZikaron",
             "url": "https://www.youtube.com/watch?v=sy3HlPgO5xk"
           },
+          "t6WnK4Cc-QE": {
+            "channel": "Redacted",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "Is Fauci About to Be ARRESTED? His team was just indicted | Redacted News",
+            "url": "https://www.youtube.com/watch?v=t6WnK4Cc-QE"
+          },
           "vS_9yMt3slA": {
             "channel": "Redacted",
             "processed_at_utc": "2026-04-14T05:36:26+00:00",
@@ -1160,6 +1214,12 @@
             "processed_at_utc": "2026-04-20T06:00:46+00:00",
             "title": "Professors Losing Jobs Saying THIS About Iran War",
             "url": "https://www.youtube.com/watch?v=wG8qkeOgVqI"
+          },
+          "wgdnfw_YfK0": {
+            "channel": "Israel English News",
+            "processed_at_utc": "2026-05-01T06:29:15+00:00",
+            "title": "Israel Daily News - April 30, 2026 | Ceasefire In Lebanon Over, Attacks Escelate",
+            "url": "https://www.youtube.com/watch?v=wgdnfw_YfK0"
           },
           "x0ogIiliRkU": {
             "channel": "Israel English News",
@@ -3393,8 +3453,8 @@
           },
           "42055600": {
             "channel": "PubMed: Regional Anesthesia & Pain Medicine",
-            "processed_at_utc": "2026-04-30T06:17:29+00:00",
-            "screened_at_utc": "2026-04-30T06:17:29+00:00",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
             "title": "Dose-dependent dorsal column activation drives analgesic effects of spinal cord stimulation in a rat model of neuropathic pain.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42055600/"
           },
@@ -3415,29 +3475,271 @@
           },
           "42056522": {
             "channel": "PubMed: Nature (medizin/biomed breit)",
-            "processed_at_utc": "2026-04-30T06:17:29+00:00",
-            "screened_at_utc": "2026-04-30T06:17:29+00:00",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
             "title": "GLP-1R-GIPR-PPARα/γ/δ quintuple agonism corrects obesity and diabetes in mice.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42056522/"
           },
           "42056526": {
             "channel": "PubMed: Nature (medizin/biomed breit)",
-            "processed_at_utc": "2026-04-30T06:17:29+00:00",
-            "screened_at_utc": "2026-04-30T06:17:29+00:00",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
             "title": "Vaccination generates broadly cross-neutralizing antibodies to the HIV Env apex.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42056526/"
           },
           "42056527": {
             "channel": "PubMed: Nature (medizin/biomed breit)",
-            "processed_at_utc": "2026-04-30T06:17:29+00:00",
-            "screened_at_utc": "2026-04-30T06:17:29+00:00",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
             "title": "Safety and efficacy of intratumoural anti-CTLA4 with intravenous anti-PD1.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42056527/"
+          },
+          "42057044": {
+            "channel": "PubMed: Critical Care",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Minimally invasive extracorporeal CO2 removal in hypercapnic respiratory failure: a prospective observational study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42057044/"
+          },
+          "42057084": {
+            "channel": "PubMed: Critical Care",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_deep_dive_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Blood pressure response index trajectories identify distinct hemodynamic phenotypes and predict mortality in septic shock: a two-database retrospective cohort study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42057084/"
+          },
+          "42057116": {
+            "channel": "PubMed: Critical Care",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Morphological subphenotypes in acute pancreatitis-related ARDS: limitations, extensions, and research priorities.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42057116/"
+          },
+          "42057187": {
+            "channel": "PubMed: Critical Care",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Better teaching in the ICU: from educational principles to case-based, visualization-guided, and AI-enhanced training infrastructure.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42057187/"
+          },
+          "42057188": {
+            "channel": "PubMed: Critical Care",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Tracheobronchial exposure should not be equated with parenchymal target attainment for nebulized amikacin.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42057188/"
+          },
+          "42057575": {
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_deep_dive_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "The effect of intravenous ondansetron on maternal spinal-induced hypotension in preeclamptic patients undergoing caesarean delivery: A randomised, controlled clinical trial.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42057575/"
+          },
+          "42057579": {
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Abnormal vital signs during recovery from noncardiac surgery on general wards: A blinded prospective observational study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42057579/"
+          },
+          "42058020": {
+            "channel": "PubMed: Annals of Intensive Care",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Brain neurovascular unit biomarkers: a hypothesis-driven paradigm to advance understanding of post-cardiac arrest cerebral injury.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42058020/"
+          },
+          "42058021": {
+            "channel": "PubMed: Annals of Intensive Care",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_deep_dive_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Lactate in cardiogenic shock: pathophysiology, prognostic value, and clinical interpretation.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42058021/"
+          },
+          "42058022": {
+            "channel": "PubMed: Annals of Intensive Care",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Are King's College and Clichy-Villejuif criteria used for liver transplantation still appropriate? A retrospective study over a 25-year period.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42058022/"
+          },
+          "42059919": {
+            "channel": "PubMed: Intensive Care Medicine",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Stepwise clinical and diagnostic strategy for coma of unknown origin.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42059919/"
+          },
+          "42059920": {
+            "channel": "PubMed: Intensive Care Medicine",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_deep_dive_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Standard of care for rehabilitation in critical illness.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42059920/"
+          },
+          "42059921": {
+            "channel": "PubMed: Intensive Care Medicine",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Mechanical ventilation for ICU patients with obesity: current best practices and future directions.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42059921/"
+          },
+          "42060751": {
+            "channel": "PubMed: Science (medizin/biomed breit)",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Performance of a large language model on the reasoning tasks of a physician.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42060751/"
+          },
+          "42060766": {
+            "channel": "PubMed: Science (medizin/biomed breit)",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "AI can reason like a physician-what comes next?",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42060766/"
+          },
+          "42060845": {
+            "channel": "PubMed: Critical Care Medicine",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Editorial Board Acknowledgment.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42060845/"
+          },
+          "42061495": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Deciphering mitochondrial therapeutic heterogeneity at the post-resuscitation point of care.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42061495/"
+          },
+          "42061698": {
+            "channel": "PubMed: CHEST",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Impact of Invasive Mold Infection-Coded Diagnoses on Utilization, Costs, and Mortality After Lung Transplantation.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42061698/"
+          },
+          "42061699": {
+            "channel": "PubMed: CHEST",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_deep_dive_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Risk stratification in chronic thromboembolic pulmonary hypertension patients after pulmonary endarterectomy. The role of brain natriuretic peptide and high-sensitivity troponin I.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42061699/"
+          },
+          "42061700": {
+            "channel": "PubMed: CHEST",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_deep_dive_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Eosinophil Counts in Adults with Asthma Treated with Anti-IL-4Rα Rademikibart: Exploratory Analyses in a Randomized Trial.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42061700/"
+          },
+          "42061701": {
+            "channel": "PubMed: CHEST",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_deep_dive_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "In-hospital influenza vaccination is associated with reduced 1-year mortality in critical patients with chronic pulmonary disease: a real world target trial emulation.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42061701/"
+          },
+          "42061977": {
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Interpreting non-inferiority in a prematurely terminated trial: concerns regarding cooled versus standard radiofrequency ablation for facetogenic low back pain.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42061977/"
+          },
+          "42062007": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "From guidelines to practice: Critical insights on ventilation strategies and PEEP personalization in CPR.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42062007/"
+          },
+          "42062156": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Associations of baseline characteristics, patient-reported outcomes, and satisfaction with pain therapy with the patient's global impression of change. Comment on Br J Anaesth 2026; 136: 1341-8.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42062156/"
+          },
+          "42062157": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Regional anaesthesia modalities for primary total hip arthroplasty: tailoring the technique to the surgical approach. Response to Br J Anaesth 2026; 136: 1638-1639.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42062157/"
+          },
+          "42062158": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "From macrocirculation to microcirculation and cellular oxygenation: a paradigm shift.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42062158/"
+          },
+          "42062159": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Astrocyte-neurone crosstalk mediates dexmedetomidine sedation.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42062159/"
+          },
+          "42062160": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "European Malignant Hyperthermia Group 2025 guidelines for the investigation of malignant hyperthermia susceptibility: the indispensable educational loop from guidelines to rescue. Comment on Br J Anaesth 2026; 136: 653-61.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42062160/"
+          },
+          "42062499": {
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Long-lived immune cells show promise against cancer in world-first trial.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42062499/"
+          },
+          "42062780": {
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "processed_at_utc": "2026-05-01T06:31:08+00:00",
+            "screened_at_utc": "2026-05-01T06:31:08+00:00",
+            "sent_overview_at_utc": "2026-05-01T06:31:08+00:00",
+            "title": "Initiation of High-Potency Benzodiazepine Prescriptions Among Survivors of Severe Trauma.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42062780/"
           }
         }
       }
     }
   },
-  "updated_at_utc": "2026-04-30T06:17:29+00:00",
+  "updated_at_utc": "2026-05-01T06:31:08+00:00",
   "version": 1
 }
