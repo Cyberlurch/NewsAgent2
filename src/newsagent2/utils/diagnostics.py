@@ -6,6 +6,16 @@ from dataclasses import dataclass, field
 @dataclass
 class YouTubeDiagnosticsCounters:
     yt_dlp_version: str = "unknown"
+    channels_attempted_total: int = 0
+    channels_success_total: int = 0
+    channels_error_total: int = 0
+    videos_listed_total: int = 0
+    videos_kept_after_date_total: int = 0
+    videos_skipped_by_date_total: int = 0
+    videos_skipped_empty_text_total: int = 0
+    metadata_enrichment_attempted_total: int = 0
+    metadata_enrichment_success_total: int = 0
+    metadata_enrichment_error_total: int = 0
     videos_total: int = 0
     low_signal_total: int = 0
     captions_attempted_total: int = 0
@@ -63,7 +73,18 @@ class YouTubeDiagnosticsCounters:
 
     def to_log_line(self) -> str:
         return (
-            "yt_dlp_version={yt_dlp_version} videos_total={videos_total} "
+            "yt_dlp_version={yt_dlp_version} "
+            "channels_attempted_total={channels_attempted_total} "
+            "channels_success_total={channels_success_total} "
+            "channels_error_total={channels_error_total} "
+            "videos_listed_total={videos_listed_total} "
+            "videos_kept_after_date_total={videos_kept_after_date_total} "
+            "videos_skipped_by_date_total={videos_skipped_by_date_total} "
+            "videos_skipped_empty_text_total={videos_skipped_empty_text_total} "
+            "metadata_enrichment_attempted_total={metadata_enrichment_attempted_total} "
+            "metadata_enrichment_success_total={metadata_enrichment_success_total} "
+            "metadata_enrichment_error_total={metadata_enrichment_error_total} "
+            "videos_total={videos_total} "
             "low_signal_total={low_signal_total} "
             "captions_attempted_total={captions_attempted_total} "
             "captions_success_total={captions_success_total} "
@@ -103,6 +124,16 @@ class YouTubeDiagnosticsCounters:
         lines = [
             "## YouTube Diagnostics",
             f"- yt_dlp_version: {self.yt_dlp_version}",
+            f"- channels_attempted_total: {self.channels_attempted_total}",
+            f"- channels_success_total: {self.channels_success_total}",
+            f"- channels_error_total: {self.channels_error_total}",
+            f"- videos_listed_total: {self.videos_listed_total}",
+            f"- videos_kept_after_date_total: {self.videos_kept_after_date_total}",
+            f"- videos_skipped_by_date_total: {self.videos_skipped_by_date_total}",
+            f"- videos_skipped_empty_text_total: {self.videos_skipped_empty_text_total}",
+            f"- metadata_enrichment_attempted_total: {self.metadata_enrichment_attempted_total}",
+            f"- metadata_enrichment_success_total: {self.metadata_enrichment_success_total}",
+            f"- metadata_enrichment_error_total: {self.metadata_enrichment_error_total}",
             f"- videos_total: {self.videos_total}",
             f"- low_signal_total: {self.low_signal_total}",
             f"- captions_attempted_total: {self.captions_attempted_total}",

@@ -27,12 +27,20 @@ on:
         type: string
       which_report:
         description: "Which report(s) to run"
-        default: both
+        default: cyberlurch
         type: choice
         options:
+          - cyberlurch
           - both
           - cybermed
-          - cyberlurch
+      email_mode:
+        description: "Email behavior for manual runs"
+        default: none
+        type: choice
+        options:
+          - none
+          - test
+          - real
 
 concurrency:
   group: newsagent2-${{ github.workflow }}-${{ github.ref }}
@@ -56,7 +64,7 @@ jobs:
       OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK || '' }}
 
       # E-Mail (SMTP)
-      SEND_EMAIL: ${{ vars.SEND_EMAIL || '1' }}
+      SEND_EMAIL: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') == 'none' && '0' || (vars.SEND_EMAIL || '1') }}
       EMAIL_FROM: ${{ secrets.EMAIL_FROM || '' }}
       SMTP_HOST: ${{ secrets.SMTP_HOST }}
       SMTP_PORT: ${{ secrets.SMTP_PORT }}
@@ -79,7 +87,8 @@ jobs:
       REPORT_DIR: out
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
-      WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'both') || 'both' }}
+      WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'cyberlurch') || 'both' }}
+      EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') || 'real' }}
 
     steps:
       - name: Checkout
@@ -216,18 +225,21 @@ jobs:
           LOOKBACK_HOURS_OVERRIDE: ${{ env.LOOKBACK_HOURS_OVERRIDE }}
           REPORT_DIR: ${{ env.REPORT_DIR }}
           RUN_LOG_PATH: out/run.log
+          EMAIL_MODE: ${{ env.EMAIL_MODE }}
+          SEND_EMAIL: ${{ env.SEND_EMAIL }}
 
           # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.
-          RECIPIENTS_JSON_CYBERLURCH: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH }}
-          RECIPIENTS_JSON_CYBERLURCH_DAILY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_DAILY }}
-          RECIPIENTS_JSON_CYBERLURCH_WEEKLY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_WEEKLY }}
-          RECIPIENTS_JSON_CYBERLURCH_MONTHLY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_MONTHLY }}
-          RECIPIENTS_JSON_CYBERMED: ${{ secrets.RECIPIENTS_JSON_CYBERMED }}
-          RECIPIENTS_JSON_CYBERMED_DAILY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_DAILY }}
-          RECIPIENTS_JSON_CYBERMED_WEEKLY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_WEEKLY }}
-          RECIPIENTS_JSON_CYBERMED_MONTHLY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_MONTHLY }}
-          RECIPIENTS_CONFIG_JSON: ${{ secrets.RECIPIENTS_CONFIG_JSON }}
-          RECIPIENTS_JSON: ${{ secrets.RECIPIENTS_JSON }}
+          RECIPIENTS_JSON_CYBERLURCH: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH || '' }}
+          RECIPIENTS_JSON_CYBERLURCH_DAILY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH_DAILY || '' }}
+          RECIPIENTS_JSON_CYBERLURCH_WEEKLY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH_WEEKLY || '' }}
+          RECIPIENTS_JSON_CYBERLURCH_MONTHLY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH_MONTHLY || '' }}
+          RECIPIENTS_JSON_CYBERMED: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED || '' }}
+          RECIPIENTS_JSON_CYBERMED_DAILY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED_DAILY || '' }}
+          RECIPIENTS_JSON_CYBERMED_WEEKLY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED_WEEKLY || '' }}
+          RECIPIENTS_JSON_CYBERMED_MONTHLY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED_MONTHLY || '' }}
+          RECIPIENTS_CONFIG_JSON: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_CONFIG_JSON || '' }}
+          RECIPIENTS_JSON: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON || '' }}
+          TEST_RECIPIENTS_CONFIG_JSON: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') == 'test' && secrets.TEST_RECIPIENTS_CONFIG_JSON || '' }}
           YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && env.REPORT_MODE == 'yearly' && github.event.inputs.year_in_review_year || '' }}
         run: |
           set -euo pipefail
@@ -235,6 +247,32 @@ jobs:
           mkdir -p "$(dirname "$LOG_PATH")"
           : > "$LOG_PATH"
           exec > >(tee -a "$LOG_PATH") 2>&1
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            case "${EMAIL_MODE:-none}" in
+              none)
+                export SEND_EMAIL=0
+                unset RECIPIENTS_CONFIG_JSON RECIPIENTS_JSON
+                unset RECIPIENTS_JSON_CYBERLURCH RECIPIENTS_JSON_CYBERLURCH_DAILY RECIPIENTS_JSON_CYBERLURCH_WEEKLY RECIPIENTS_JSON_CYBERLURCH_MONTHLY
+                unset RECIPIENTS_JSON_CYBERMED RECIPIENTS_JSON_CYBERMED_DAILY RECIPIENTS_JSON_CYBERMED_WEEKLY RECIPIENTS_JSON_CYBERMED_MONTHLY
+                ;;
+              test)
+                export SEND_EMAIL=1
+                unset RECIPIENTS_JSON
+                unset RECIPIENTS_JSON_CYBERLURCH RECIPIENTS_JSON_CYBERLURCH_DAILY RECIPIENTS_JSON_CYBERLURCH_WEEKLY RECIPIENTS_JSON_CYBERLURCH_MONTHLY
+                unset RECIPIENTS_JSON_CYBERMED RECIPIENTS_JSON_CYBERMED_DAILY RECIPIENTS_JSON_CYBERMED_WEEKLY RECIPIENTS_JSON_CYBERMED_MONTHLY
+                export RECIPIENTS_CONFIG_JSON="${TEST_RECIPIENTS_CONFIG_JSON:-}"
+                ;;
+              real)
+                export SEND_EMAIL="${SEND_EMAIL:-1}"
+                ;;
+              *)
+                echo "ERROR: unsupported email_mode"
+                exit 1
+                ;;
+            esac
+            echo "Manual email mode: ${EMAIL_MODE:-none}"
+          fi
 
           for mode in $RUN_MODES; do
             echo "--- Running cadence: $mode (which_report=$RUN_WHICH_REPORT) ---"
@@ -274,6 +312,8 @@ jobs:
           RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}
           REPORT_DIR: ${{ env.REPORT_DIR }}
           RUN_LOG_PATH: out/run.log
+          EMAIL_MODE: ${{ env.EMAIL_MODE }}
+          SEND_EMAIL: ${{ env.SEND_EMAIL }}
         run: |
           set -euo pipefail
 
@@ -317,6 +357,16 @@ jobs:
           if [ ${#md_files[@]} -eq 0 ]; then
             echo "ERROR: No newsletter markdown files were generated in ${report_dir} for modes: ${RUN_MODES}."
             exit 1
+          fi
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${EMAIL_MODE:-none}" = "none" ]; then
+            echo "Verification passed: reports exist; manual email_mode=none does not require email attempts."
+            exit 0
+          fi
+
+          if [ "${SEND_EMAIL:-1}" != "1" ]; then
+            echo "Verification passed: reports exist; SEND_EMAIL is not 1 so email attempts are not required."
+            exit 0
           fi
 
           send_lines=$(grep -E "\[email\] Sending email \(report_key=.*recipients_count=([1-9][0-9]*)" "$log_path" || true)

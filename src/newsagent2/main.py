@@ -1301,10 +1301,18 @@ def main() -> None:
         is_blackscout = _is_blackscout_channel(ch)
 
         if source == "youtube":
+            youtube_diag.channels_attempted_total += 1
             try:
-                vids = list_recent_videos(curl, hours=args.hours, max_items=max_items_per_channel)
-            except Exception:
-                print("[collect] ERROR source=youtube: list_recent_videos failed")
+                vids = list_recent_videos(
+                    curl,
+                    hours=args.hours,
+                    max_items=max_items_per_channel,
+                    diagnostics=youtube_diag.__dict__,
+                )
+                youtube_diag.channels_success_total += 1
+            except Exception as e:
+                youtube_diag.channels_error_total += 1
+                print(f"[collect] ERROR source=youtube: list_recent_videos failed err_type={type(e).__name__}")
                 continue
 
             for v in vids:
@@ -1430,6 +1438,7 @@ def main() -> None:
                         text = fallback_text
 
                 if not text:
+                    youtube_diag.videos_skipped_empty_text_total += 1
                     continue
 
                 if len(text) > max_text_chars_per_item:

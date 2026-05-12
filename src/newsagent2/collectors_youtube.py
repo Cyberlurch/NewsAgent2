@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import datetime as dt
+import os
 from zoneinfo import ZoneInfo
 from typing import List, Dict, Any, Sequence
 import re
@@ -32,17 +33,130 @@ def _channel_handle_from_url(url: str) -> str:
     return m.group(1) if m else url
 
 
+def _diag_inc(diagnostics: dict[str, int] | None, key: str, amount: int = 1) -> None:
+    if diagnostics is not None:
+        diagnostics[key] = int(diagnostics.get(key, 0) or 0) + amount
+
+
+def _utc_from_epoch(value: Any) -> dt.datetime | None:
+    try:
+        if value is None or value == "":
+            return None
+        return dt.datetime.fromtimestamp(float(value), tz=dt.timezone.utc)
+    except (TypeError, ValueError, OSError, OverflowError):
+        return None
+
+
+def _upload_date_value(value: Any) -> dt.date | None:
+    raw = str(value or "").strip()
+    if not raw:
+        return None
+    try:
+        return dt.datetime.strptime(raw, "%Y%m%d").date()
+    except ValueError:
+        return None
+
+
+def _published_at_from_entry(entry: Dict[str, Any]) -> tuple[dt.datetime | None, bool]:
+    """
+    Return (published_at_utc, is_date_granular).
+
+    yt-dlp flat playlist entries often only expose upload_date=YYYYMMDD. That is a
+    date bucket, not proof that the video was published at 00:00 UTC. For those
+    entries, use noon UTC as a stable representative timestamp while keeping the
+    date-granular flag so filtering can compare calendar dates instead of falsely
+    dropping early-morning runs' previous-day uploads.
+    """
+    for key in ("timestamp", "release_timestamp"):
+        published = _utc_from_epoch(entry.get(key))
+        if published is not None:
+            return published, False
+
+    upload_date = _upload_date_value(entry.get("upload_date"))
+    if upload_date is not None:
+        return dt.datetime.combine(upload_date, dt.time(12, 0), tzinfo=dt.timezone.utc), True
+
+    return None, False
+
+
+def _is_plausibly_recent(
+    published: dt.datetime | None,
+    *,
+    date_granular: bool,
+    cutoff: dt.datetime,
+    now_utc: dt.datetime,
+) -> bool:
+    if published is None:
+        return True
+    if date_granular:
+        return published.date() >= cutoff.date()
+    return cutoff <= published <= now_utc + dt.timedelta(hours=1)
+
+
+def _needs_metadata_enrichment(
+    published: dt.datetime | None,
+    *,
+    date_granular: bool,
+    cutoff: dt.datetime,
+) -> bool:
+    if date_granular or published is None:
+        return True
+    return abs((published - cutoff).total_seconds()) <= 6 * 3600
+
+
+def _fetch_full_video_metadata(
+    video_url: str,
+    diagnostics: dict[str, int] | None = None,
+) -> Dict[str, Any] | None:
+    _diag_inc(diagnostics, "metadata_enrichment_attempted_total")
+    try:
+        with yt_dlp.YoutubeDL(
+            {
+                "quiet": True,
+                "skip_download": True,
+                "ignoreerrors": True,
+                "nocheckcertificate": True,
+            }
+        ) as ydl:
+            info = ydl.extract_info(video_url, download=False)
+    except Exception:
+        _diag_inc(diagnostics, "metadata_enrichment_error_total")
+        return None
+
+    if not isinstance(info, dict):
+        _diag_inc(diagnostics, "metadata_enrichment_error_total")
+        return None
+
+    _diag_inc(diagnostics, "metadata_enrichment_success_total")
+    return info
+
+
+def _scan_limit(max_items: int) -> int:
+    raw = (os.getenv("YOUTUBE_LIST_SCAN_LIMIT") or "").strip()
+    if raw:
+        try:
+            configured = int(raw)
+            if configured > 0:
+                return min(configured, 500)
+        except ValueError:
+            pass
+    return min(max(50, max_items * 5), 100)
+
+
 def list_recent_videos(
     channel_url: str,
     hours: int = 24,
     max_items: int = 10,
+    diagnostics: dict[str, int] | None = None,
+    now_utc: dt.datetime | None = None,
 ) -> List[Dict[str, Any]]:
     """
     Liste die jüngsten Videos (ohne Download) eines Kanals via yt-dlp (flat playlist).
 
     Filter:
-      - nur Videos der letzten `hours` Stunden (basierend auf upload_date),
-      - begrenzt auf `max_items` Einträge.
+      - nur Videos der letzten `hours` Stunden,
+      - date-only upload_date=YYYYMMDD is treated as date-granular metadata,
+      - begrenzt auf `max_items` zurückgegebene Einträge.
 
     Rückgabe pro Video:
       {
@@ -55,11 +169,12 @@ def list_recent_videos(
       }
     """
     handle = _channel_handle_from_url(channel_url)
+    scan_limit = _scan_limit(max_items)
 
     ydl_opts = {
         "quiet": True,
         "extract_flat": True,
-        "playlistend": max_items,
+        "playlistend": scan_limit,
         "skip_download": True,
         "ignoreerrors": True,
         "nocheckcertificate": True,
@@ -67,54 +182,94 @@ def list_recent_videos(
 
     url = f"https://www.youtube.com/@{handle}/videos"
 
-    now_utc = dt.datetime.now(dt.timezone.utc)
+    if now_utc is None:
+        now_utc = dt.datetime.now(dt.timezone.utc)
+    elif now_utc.tzinfo is None:
+        now_utc = now_utc.replace(tzinfo=dt.timezone.utc)
+    else:
+        now_utc = now_utc.astimezone(dt.timezone.utc)
     cutoff = now_utc - dt.timedelta(hours=hours)
 
     out: List[Dict[str, Any]] = []
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
-        entries = info.get("entries") or []
+        entries = info.get("entries") or [] if isinstance(info, dict) else []
 
         for e in entries:
+            if not isinstance(e, dict):
+                continue
+            _diag_inc(diagnostics, "videos_listed_total")
             vid = e.get("id")
             if not vid:
                 continue
 
-            title = e.get("title") or ""
+            published, date_granular = _published_at_from_entry(e)
+            video_url = f"https://www.youtube.com/watch?v={vid}"
+            enriched = False
+            metadata_attempted = False
 
-            # yt-dlp liefert upload_date als YYYYMMDD, gelegentlich nicht gesetzt
-            up = e.get("upload_date")
-            if up:
-                try:
-                    published = dt.datetime.strptime(up, "%Y%m%d").replace(
-                        tzinfo=dt.timezone.utc
-                    )
-                except ValueError:
-                    published = now_utc
-            else:
-                # Fallback: behandeln als "jetzt" -> gilt als jüngst
-                published = now_utc
+            if not _is_plausibly_recent(published, date_granular=date_granular, cutoff=cutoff, now_utc=now_utc):
+                # A precise timestamp just outside the cutoff may be stale flat metadata; try
+                # one full metadata fetch before deciding. Date-only entries from before
+                # cutoff.date() are not plausible and can be skipped without enrichment.
+                if (not date_granular) and _needs_metadata_enrichment(published, date_granular=date_granular, cutoff=cutoff):
+                    metadata_attempted = True
+                    full = _fetch_full_video_metadata(video_url, diagnostics)
+                    if full:
+                        full_published, full_date_granular = _published_at_from_entry(full)
+                        if full_published is not None:
+                            published, date_granular = full_published, full_date_granular
+                        e = {**e, **full}
+                        enriched = True
+                if not _is_plausibly_recent(published, date_granular=date_granular, cutoff=cutoff, now_utc=now_utc):
+                    _diag_inc(diagnostics, "videos_skipped_by_date_total")
+                    continue
+            if _needs_metadata_enrichment(published, date_granular=date_granular, cutoff=cutoff):
+                metadata_attempted = True
+                full = _fetch_full_video_metadata(video_url, diagnostics)
+                if full:
+                    full_published, full_date_granular = _published_at_from_entry(full)
+                    if full_published is not None:
+                        published, date_granular = full_published, full_date_granular
+                    e = {**e, **full}
+                    enriched = True
 
-            if published < cutoff:
+            if not _is_plausibly_recent(published, date_granular=date_granular, cutoff=cutoff, now_utc=now_utc):
+                _diag_inc(diagnostics, "videos_skipped_by_date_total")
                 continue
 
-            description = (e.get("description") or "").strip()
-            if len(description) < DESCRIPTION_MIN_CHARS:
-                description = _fetch_full_video_description(vid) or description
+            if published is None:
+                published = now_utc
 
+            description = (e.get("description") or "").strip()
+            if len(description) < DESCRIPTION_MIN_CHARS and not enriched and not metadata_attempted:
+                full = _fetch_full_video_metadata(video_url, diagnostics)
+                if full:
+                    full_published, full_date_granular = _published_at_from_entry(full)
+                    if full_published is not None:
+                        published, date_granular = full_published, full_date_granular
+                    if _is_plausibly_recent(published, date_granular=date_granular, cutoff=cutoff, now_utc=now_utc):
+                        e = {**e, **full}
+                        description = (e.get("description") or "").strip()
+                    else:
+                        _diag_inc(diagnostics, "videos_skipped_by_date_total")
+                        continue
+
+            _diag_inc(diagnostics, "videos_kept_after_date_total")
             out.append(
                 {
                     "id": vid,
-                    "title": title,
-                    "channel": e.get("uploader") or handle,
+                    "title": e.get("title") or "",
+                    "channel": e.get("uploader") or e.get("channel") or handle,
                     "published_at": published,
-                    "url": f"https://www.youtube.com/watch?v={vid}",
+                    "url": video_url,
                     "description": description,
                 }
             )
+            if len(out) >= max_items:
+                break
 
     return out
-
 
 def fetch_transcript(video_id: str) -> str | None:
     """
