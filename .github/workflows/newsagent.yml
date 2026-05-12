@@ -377,6 +377,15 @@ jobs:
 
           echo "Verification passed: reports exist and email attempts were logged."
 
+      - name: Upload generated Markdown reports
+        if: steps.compute_plan.outputs.run_skip != 'true' && github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v7
+        with:
+          name: newsagent2-markdown-reports-${{ github.run_id }}
+          path: ${{ env.REPORT_DIR }}/*.md
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Commit updated state (processed_items.json) if changed
         if: steps.compute_plan.outputs.run_skip != 'true' && (contains(steps.compute_plan.outputs.run_modes, 'daily') || contains(steps.compute_plan.outputs.run_modes, 'monthly'))
         run: |
