@@ -4,8 +4,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "ALiEM": {
       "consecutive_failures": 20,
@@ -17,22 +17,22 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "Anesthesiology News": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "Critical Care Practitioner": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "Critical Care Reviews": {
       "consecutive_failures": 6,
@@ -44,22 +44,22 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "EMCrit": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "Intensive Care Network": {
-      "consecutive_failures": 0,
+      "consecutive_failures": 1,
       "disabled_until_utc": "",
-      "last_health": "ok_rss",
+      "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "JournalFeed (Critical Care)": {
       "consecutive_failures": 20,
@@ -71,29 +71,29 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "NYSORA": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "OpenAnesthesia": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "PulmCCM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "REBEL EM Critical Care": {
       "consecutive_failures": 6,
@@ -102,42 +102,42 @@
       "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "SMACC": {
-      "consecutive_failures": 0,
+      "consecutive_failures": 1,
       "disabled_until_utc": "",
-      "last_health": "ok_rss",
+      "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "St Emlyn's": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "The Bottom Line": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "The Resus Room": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     },
     "Thinking Critical Care": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-11T06:54:12+00:00"
+      "last_ok_utc": "2026-05-12T06:25:39+00:00",
+      "last_seen_utc": "2026-05-12T06:25:39+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-05-11T06:55:36+00:00",
+  "last_successful_daily_run_utc": "2026-05-12T06:30:10+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -183,18 +183,6 @@
             "processed_at_utc": "2026-05-07T06:22:44+00:00",
             "title": "\"MKUltra is alive and well\" but now it's MUCH WORSE - CIA Whistleblower reveals | Redacted News",
             "url": "https://www.youtube.com/watch?v=1YI_x_WQ5UY"
-          },
-          "1_lojMkrqdw": {
-            "channel": "Redacted",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "Europe's Energy CRISIS Begins: Lockdowns, Empty Shelves & Jet Fuel Running Out in 6 Weeks",
-            "url": "https://www.youtube.com/watch?v=1_lojMkrqdw"
-          },
-          "1uoU7OJ9DP8": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "Israel Daily News - April 22, 2026",
-            "url": "https://www.youtube.com/watch?v=1uoU7OJ9DP8"
           },
           "2Vrg1askwCc": {
             "channel": "BlackScoutSurvival",
@@ -244,12 +232,6 @@
             "title": "Why They're About to Close The Strait of Malacca",
             "url": "https://www.youtube.com/watch?v=4k1qQb8Wjwo"
           },
-          "53WiWv1qzmQ": {
-            "channel": "Redacted",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "\"The Most MORAL Army\" Caught DESTROYING Jesus Statue!",
-            "url": "https://www.youtube.com/watch?v=53WiWv1qzmQ"
-          },
           "56HkYEl_EMQ": {
             "channel": "Vermietertagebuch",
             "processed_at_utc": "2026-04-27T06:14:12+00:00",
@@ -279,12 +261,6 @@
             "processed_at_utc": "2026-04-28T06:17:52+00:00",
             "title": "🚨🚨WARFARE Has Changed In Last 2 Years… & The NEXT 2 Will Be CRAZY",
             "url": "https://www.youtube.com/watch?v=76DYl_S8spw"
-          },
-          "7su7sOg9SKo": {
-            "channel": "Redacted",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "Prof. John Mearsheimer: Trump's ONLY option is surrender | Redacted News",
-            "url": "https://www.youtube.com/watch?v=7su7sOg9SKo"
           },
           "8-Spfbv5D4w": {
             "channel": "Israel English News",
@@ -382,23 +358,11 @@
             "title": "The MAGA Grift Is OVER…",
             "url": "https://www.youtube.com/watch?v=EBCWhw1PTkY"
           },
-          "EJDtGKiQRLg": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "Israel investment opportunities in uncertain times",
-            "url": "https://www.youtube.com/watch?v=EJDtGKiQRLg"
-          },
           "EO8ZJX0efs8": {
             "channel": "Israel English News",
             "processed_at_utc": "2026-04-24T05:54:27+00:00",
             "title": "What’s Next In The Iran Ceasefire?",
             "url": "https://www.youtube.com/watch?v=EO8ZJX0efs8"
-          },
-          "FC4d4MfyCro": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "Eskalation: USA kapern Öl-Tanker nach China – China schickt Kriegsschiffe!",
-            "url": "https://www.youtube.com/watch?v=FC4d4MfyCro"
           },
           "FgR7vgR3GmQ": {
             "channel": "BlackScoutSurvival",
@@ -424,12 +388,6 @@
             "title": "On The Hour –  May 6, 2026 | Project Freedom Has Been Paused — But The Crisis Is Far From Over",
             "url": "https://www.youtube.com/watch?v=GX31ZNmyYXM"
           },
-          "HJrbY5VmOL4": {
-            "channel": "Redacted",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "CREEPY! Netherlands is GROWING babies without women | Redacted w Natali and Clayton Morris",
-            "url": "https://www.youtube.com/watch?v=HJrbY5VmOL4"
-          },
           "Hfvj_qr3JcQ": {
             "channel": "Israel English News",
             "processed_at_utc": "2026-05-06T06:17:31+00:00",
@@ -453,12 +411,6 @@
             "processed_at_utc": "2026-05-01T06:29:15+00:00",
             "title": "⚡ALERT: We Are Entering PHASE 3: Ground War in Iran",
             "url": "https://www.youtube.com/watch?v=JjVQMTiK1j8"
-          },
-          "K6vkZLuHgzI": {
-            "channel": "Prepper News Flash",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "⚡ALERT: \"I SOLD EVERYTHING\" and Bugged out @ClemChambersAlpha",
-            "url": "https://www.youtube.com/watch?v=K6vkZLuHgzI"
           },
           "KM-B7__JJ-U": {
             "channel": "The Poplar Report",
@@ -501,18 +453,6 @@
             "processed_at_utc": "2026-04-23T05:42:00+00:00",
             "title": "Prof. Jiang: Trump is TRAPPED! His Iran Off Ramp is Closed | Redacted w Clayton Morris",
             "url": "https://www.youtube.com/watch?v=NidlGa9C0H8"
-          },
-          "OW0rtrw9oMc": {
-            "channel": "The Poplar Report",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "🚨🚨Hours LEFT… THEN Everything CHANGES- Watchmen Updates",
-            "url": "https://www.youtube.com/watch?v=OW0rtrw9oMc"
-          },
-          "Onye7rqNwPA": {
-            "channel": "BlackScoutSurvival",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "Why Would Trump Do This?",
-            "url": "https://www.youtube.com/watch?v=Onye7rqNwPA"
           },
           "P-y9uqMDkWg": {
             "channel": "Israel English News",
@@ -579,12 +519,6 @@
             "processed_at_utc": "2026-04-24T05:54:27+00:00",
             "title": "“Food rationing and lockdowns are here” Prof. Jiang on the DEPRESSION that’s coming | Redacted News",
             "url": "https://www.youtube.com/watch?v=SnOUsioKFiY"
-          },
-          "Sz9548L56Ns": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "Israel Daily News - April 21, 2026 | Happy Birthday, Israel: Stronger Than Ever 💪🏻",
-            "url": "https://www.youtube.com/watch?v=Sz9548L56Ns"
           },
           "TD0sGOZCbQM": {
             "channel": "Israel English News",
@@ -736,12 +670,6 @@
             "title": "Neo Paganism: Globalism’s New Glue - Mike Golay",
             "url": "https://www.youtube.com/watch?v=hTzOwq86r9Q"
           },
-          "icIyc_YYAZk": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "Trump aktiviert Kriegswirtschaft (DEFENSE PRODUCTION ACT) + China mit kritischer Warnung an USA",
-            "url": "https://www.youtube.com/watch?v=icIyc_YYAZk"
-          },
           "jB5XlpC8zDY": {
             "channel": "The Poplar Report",
             "processed_at_utc": "2026-05-04T06:26:31+00:00",
@@ -766,23 +694,11 @@
             "title": "🚨🚨ALERT: IMMINENT Attacks Worldwide… Watchmen Updates",
             "url": "https://www.youtube.com/watch?v=jw00dz9u0Rg"
           },
-          "k152_JcAjLo": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "ILTV INSIDER | Israel at Independence: From Missiles to Meaning",
-            "url": "https://www.youtube.com/watch?v=k152_JcAjLo"
-          },
           "kDFtPC5G07w": {
             "channel": "The Poplar Report",
             "processed_at_utc": "2026-04-27T06:14:12+00:00",
             "title": "🚨🚨It’s A NEW World… Completely Different Than LAST Month",
             "url": "https://www.youtube.com/watch?v=kDFtPC5G07w"
-          },
-          "kq2gzKHF2Wg": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-04-22T05:37:48+00:00",
-            "title": "On The Hour – April 21, 2026 | Who Is Winning The Iran Game?",
-            "url": "https://www.youtube.com/watch?v=kq2gzKHF2Wg"
           },
           "l5iJt7vlMVw": {
             "channel": "Redacted",
@@ -958,6 +874,12 @@
             "title": "Presence, Purpose, and Recovery",
             "url": "https://litfl.com/presence-purpose-and-recovery/"
           },
+          "https://www.anesthesiologynews.com/Clinical-Anesthesiology/Article/05-26/Blood-Transfusion-Effective-for-Anemic-Trauma-Patients/80482": {
+            "channel": "Anesthesiology News",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Blood Transfusion Effective for Anemic Trauma Patients",
+            "url": "https://www.anesthesiologynews.com/Clinical-Anesthesiology/Article/05-26/Blood-Transfusion-Effective-for-Anemic-Trauma-Patients/80482"
+          },
           "https://www.anesthesiologynews.com/Multimedia/Article/04-26/Anesthesia-Block-Choice-for-Breast-Surgery/80396": {
             "channel": "Anesthesiology News",
             "processed_at_utc": "2026-04-24T05:56:17+00:00",
@@ -981,6 +903,12 @@
             "processed_at_utc": "2026-04-24T05:56:17+00:00",
             "title": "PEEP optimization in obese patients during general anesthesia",
             "url": "https://www.nysora.com/education-news/peep-optimization-in-obese-patients-during-general-anesthesia/"
+          },
+          "https://www.nysora.com/education-news/perioperative-vasopressor-management-in-surgical-patients/": {
+            "channel": "NYSORA",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Perioperative vasopressor management in surgical patients",
+            "url": "https://www.nysora.com/education-news/perioperative-vasopressor-management-in-surgical-patients/"
           },
           "https://www.nysora.com/education-news/peripheral-nerve-blocks-reduce-heart-injury-risk-after-hip-fracture-surgery-in-older-adults/": {
             "channel": "NYSORA",
@@ -1018,12 +946,6 @@
             "title": "About OA - OpenAnesthesia",
             "url": "https://www.openanesthesia.org/about-oa/"
           },
-          "https://www.stemlynsblog.org/clinician-productivity-wrong-question/": {
-            "channel": "St Emlyn's",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "How many patients should we see per hour?",
-            "url": "https://www.stemlynsblog.org/clinician-productivity-wrong-question/"
-          },
           "https://www.stemlynsblog.org/fit-to-quit-the-trial-evidence-for-smoking-cessation-interventions-in-ed/": {
             "channel": "St Emlyn's",
             "processed_at_utc": "2026-04-24T05:56:17+00:00",
@@ -1035,237 +957,17 @@
             "processed_at_utc": "2026-04-29T06:13:16+00:00",
             "title": "High Five for High PEITHO? Intermediate-high risk PE @ St Emlyns",
             "url": "https://www.stemlynsblog.org/high-five-for-high-peitho-intermediate-high-risk-pe-st-emlyns/"
+          },
+          "https://www.stemlynsblog.org/the-three-body-problem-ed-clinical-staffing/": {
+            "channel": "St Emlyn's",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "The three-body problem and ED clinical staffing",
+            "url": "https://www.stemlynsblog.org/the-three-body-problem-ed-clinical-staffing/"
           }
         }
       },
       "pubmed": {
         "processed": {
-          "42007984": {
-            "channel": "PubMed: Intensive Care Medicine",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Temperature control in acute brain injury.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42007984/"
-          },
-          "42007985": {
-            "channel": "PubMed: Intensive Care Medicine",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Gaps or paradoxes in clinical responses in obese patients.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42007985/"
-          },
-          "42007986": {
-            "channel": "PubMed: Intensive Care Medicine",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_deep_dive_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Implementation of a kidney protection strategy to prevent acute kidney injury after major surgery in high-risk patients identified by biomarkers: a systematic review and individual participant data meta-analysis of randomized controlled trials.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42007986/"
-          },
-          "42008277": {
-            "channel": "PubMed: JAMA (intensiv/akut Filter)",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_deep_dive_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Using Serious Games to Increase the Implementation of Trauma Triage Guidelines: A Randomized Clinical Trial.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42008277/"
-          },
-          "42008828": {
-            "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Sustainable Anesthesia: A Scoping Review of Carbon Reduction Strategies.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42008828/"
-          },
-          "42008830": {
-            "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Influence of the Glutamatergic MS-LH Circuit Activation on Emergence From Sevoflurane Anesthesia in Mice.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42008830/"
-          },
-          "42009583": {
-            "channel": "PubMed: Resuscitation",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Uniform reporting of outcomes from resuscitation education research: the resuscitation education Utstein style: a consensus report from the International Liaison Committee on Resuscitation.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42009583/"
-          },
-          "42009930": {
-            "channel": "PubMed: Intensive Care Medicine",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Reconsidering transfusion thresholds in traumatic brain injury with multiple trauma: implications from the HEMOTION sub-study.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42009930/"
-          },
-          "42010445": {
-            "channel": "PubMed: Critical Care",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "The contribution of mechanical ventilation to critical illness-associated diaphragm dysfunction: a critical appraisal.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42010445/"
-          },
-          "42010699": {
-            "channel": "PubMed: Critical Care",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "The economic value of preventing projected sepsis-related deaths among adults in 79 countries, 2000-2023, with projections to 2050: a modelling study.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42010699/"
-          },
-          "42010700": {
-            "channel": "PubMed: Critical Care",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Autoregulation-guided intracranial pressure and cerebral perfusion pressure targets in different subtypes and characteristics of traumatic brain injury.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42010700/"
-          },
-          "42011988": {
-            "channel": "PubMed: Anesthesiology",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Chronic Pain and Dementia/Cognitive Decline Risk: Comment.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42011988/"
-          },
-          "42011989": {
-            "channel": "PubMed: Anesthesiology",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Chronic Pain and Dementia/Cognitive Decline Risk: Reply.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42011989/"
-          },
-          "42011994": {
-            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Utah's Prescription-Renewal Pilot Program - Autonomous AI Managing Patient Care.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42011994/"
-          },
-          "42011995": {
-            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Anticompetitive Mergers - Pharmaceutical Buyouts as a Strategy for Maintaining Market Dominance.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42011995/"
-          },
-          "42011996": {
-            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Goals of Care and the Importance of Being Polish.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42011996/"
-          },
-          "42011999": {
-            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Bronchial Casts from Inhalation of Forest-Fire Smoke.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42011999/"
-          },
-          "42012005": {
-            "channel": "PubMed: Anesthesiology",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Objective: Pain Control.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42012005/"
-          },
-          "42012006": {
-            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Closing the Evidence Gap for Drugs in Children - Measures to Strengthen the Pediatric Research Equity Act.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42012006/"
-          },
-          "42012940": {
-            "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Pulse Oximeter Performance and Skin Pigment: Comparison of 34 Oximeters Using Current and Emerging Regulatory Frameworks.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42012940/"
-          },
-          "42013129": {
-            "channel": "PubMed: Pain",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "The new generation of psychological treatments for pain: characteristics and critical appraisal.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42013129/"
-          },
-          "42013134": {
-            "channel": "PubMed: Pain",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Predictors of patient treatment adherence and moderators of response for a randomized clinical trial comparing remote cognitive behavioral therapy approaches for high-impact chronic musculoskeletal pain.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42013134/"
-          },
-          "42013387": {
-            "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "The Legacy of Dr S. R. Mallampati (1941-2026).",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42013387/"
-          },
-          "42013393": {
-            "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Uncomfortable Transitions in Payment Models for Chronic Low Back Pain: Navigating Medicare's Mandatory Payment Reforms in Anesthesiology and Chronic Pain Management.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42013393/"
-          },
-          "42014228": {
-            "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Astrocytic α2A-adrenergic signalling in the hypothalamic paraventricular nucleus contributes to dexmedetomidine-induced sedation in mice.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42014228/"
-          },
-          "42014229": {
-            "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Monitoring intraoperative EEG: importance of monitor settings for individualised anaesthesia.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42014229/"
-          },
-          "42014230": {
-            "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_deep_dive_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Defining estimands in anaesthesia clinical trials: a scoping review and framework.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42014230/"
-          },
-          "42014231": {
-            "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Modulating effect of peripheral nerve stimulation on peripheral nerve blocks: technique and preliminary block profile.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42014231/"
-          },
-          "42014232": {
-            "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-04-22T05:39:22+00:00",
-            "screened_at_utc": "2026-04-22T05:39:22+00:00",
-            "sent_overview_at_utc": "2026-04-22T05:39:22+00:00",
-            "title": "Suicidal behaviour after surgery.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42014232/"
-          },
           "42015192": {
             "channel": "PubMed: Critical Care",
             "processed_at_utc": "2026-04-23T05:43:29+00:00",
@@ -3652,11 +3354,152 @@
             "sent_overview_at_utc": "2026-05-11T06:55:36+00:00",
             "title": "Response.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42108047/"
+          },
+          "42108463": {
+            "channel": "PubMed: Critical Care",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_deep_dive_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Beyond binary AKI classification: development and external validation of a distributional model predicting serum creatinine and urine output trajectories in ICU patients.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42108463/"
+          },
+          "42108554": {
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Endoscopic Debulking and Bronchial Artery Embolization for a Rare Pulmonary Cavernous Hemangioma in the Left Mainstem Bronchus: A Multidisciplinary Approach.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42108554/"
+          },
+          "42109031": {
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_deep_dive_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Clinical effectiveness of intravenous hypertonic sodium lactate infusion for intra-operative brain relaxation in supratentorial brain tumour surgery: A double-blind randomised phase II pilot study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42109031/"
+          },
+          "42111229": {
+            "channel": "PubMed: Annals of Intensive Care",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "How to perform fluid de-escalation in critical care.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42111229/"
+          },
+          "42112681": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Defining Perioperative Right Heart Failure in Cardiac Surgery: A Multiparametric Approach to Diagnosis and Management.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42112681/"
+          },
+          "42112850": {
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Can AI Say \"I Don't Know\"?",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42112850/"
+          },
+          "42112868": {
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "A Sleeping Giant of Health Care Affordability - Self-Insured Employers.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42112868/"
+          },
+          "42112869": {
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Overcoming the Digital Divide in Health Care AI.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42112869/"
+          },
+          "42112887": {
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Unpacking the Ordinary.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42112887/"
+          },
+          "42112894": {
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Cerebral Syphilitic Gumma.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42112894/"
+          },
+          "42113209": {
+            "channel": "PubMed: Intensive Care Medicine",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Extracorporeal membrane oxygenation, acute kidney injury, fluid balance, and continuous renal replacement therapy: Acute Disease Quality Initiative (ADQI) and Extracorporeal Life Support Organization (ELSO) joint consensus conference.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42113209/"
+          },
+          "42113210": {
+            "channel": "PubMed: Intensive Care Medicine",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "The emerging role of diaphragm neurostimulation in ARDS.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42113210/"
+          },
+          "42113211": {
+            "channel": "PubMed: Intensive Care Medicine",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Correspondence on \"Mechanical ventilation for ICU patient with obesity: current best practices and future directions\" Author's reply.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42113211/"
+          },
+          "42113212": {
+            "channel": "PubMed: Intensive Care Medicine",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Beyond consensus: operationalizing gender equity and equality in intensive care medicine.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42113212/"
+          },
+          "42114543": {
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Correction to Lancet Respir Med 2026; published online April 22. https://doi.org/10.1016/S2213-2600(26)00092-5.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42114543/"
+          },
+          "42114800": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "OUT OF HOSPITAL CARDIAC ARREST, UNCONTROLLED DONATION AFTER CIRCULATORY DEATH ONLY LUNG and LUNG TRANSPLANTS.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42114800/"
+          },
+          "42115060": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Patient Blood Management: a systematic review of current international guidelines.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42115060/"
+          },
+          "42115061": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-05-12T06:30:10+00:00",
+            "screened_at_utc": "2026-05-12T06:30:10+00:00",
+            "sent_overview_at_utc": "2026-05-12T06:30:10+00:00",
+            "title": "Association of postoperative elevation of biomarkers of neural injury in blood with postoperative neurocognitive disorders in adults receiving general anaesthesia: a systematic review.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42115061/"
           }
         }
       }
     }
   },
-  "updated_at_utc": "2026-05-11T06:55:36+00:00",
+  "updated_at_utc": "2026-05-12T06:30:10+00:00",
   "version": 1
 }
