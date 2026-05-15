@@ -91,6 +91,8 @@ _SYS_OVERVIEW_CYBERLURCH_EN = (
     "- Output must be valid Markdown.\n"
     "- Start with exactly this section header: '## Executive Summary'.\n"
     "- Summarize only what is supported by the provided text; do not invent facts.\n"
+    "- Items marked content_status=metadata_only have title/channel/date only; do not infer details beyond the title.\n"
+    "- When content_status=metadata_only, state that transcript/caption/description content was unavailable.\n"
     "- If claims are speculative/uncertain, say so explicitly.\n"
     "- Prefer concrete statements (who/what/where/when) if present.\n"
     "- Keep it readable: short paragraphs or short bullet lists.\n"
@@ -1005,6 +1007,8 @@ def _slim_items(items: List[Dict[str, Any]], max_text_chars: int = 2000) -> List
                 "title": (it.get("title") or "").strip(),
                 "url": (it.get("url") or "").strip(),
                 "published_at": published_str,
+                "content_status": (it.get("content_status") or "").strip(),
+                "text_source": (it.get("text_source") or "").strip(),
                 "text": text,
             }
         )

@@ -72,7 +72,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertNotIn("## Sources", md)
 
 
-    def test_daily_sources_remain_present(self):
+    def test_daily_top_videos_present_and_sources_deduped(self):
         items = [
             {
                 "id": "d1",
@@ -93,8 +93,35 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
                 report_mode="daily",
             )
 
-        self.assertIn("## Sources", md)
-        self.assertIn("https://example.com/daily", md)
+        self.assertIn("## Top videos", md)
+        self.assertIn("[Daily Video](https://example.com/daily)", md)
+        self.assertNotIn("## Sources", md)
+
+
+    def test_daily_metadata_only_item_is_marked(self):
+        items = [
+            {
+                "id": "d2",
+                "title": "Metadata Video",
+                "url": "https://example.com/meta",
+                "channel": "Channel M",
+                "published_at": datetime(2024, 3, 2),
+                "content_status": "metadata_only",
+            }
+        ]
+
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(
+                items,
+                overview_markdown="",
+                details_by_id={},
+                report_title="Cyberlurch Daily",
+                report_language="en",
+                report_mode="daily",
+            )
+
+        self.assertIn("## Top videos", md)
+        self.assertIn("Transcript/caption text unavailable; listed from metadata only.", md)
 
 
 if __name__ == "__main__":

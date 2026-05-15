@@ -13,6 +13,12 @@ class YouTubeDiagnosticsCounters:
     videos_kept_after_date_total: int = 0
     videos_skipped_by_date_total: int = 0
     videos_skipped_empty_text_total: int = 0
+    metadata_only_total: int = 0
+    rss_fallback_attempted_total: int = 0
+    rss_fallback_success_total: int = 0
+    rss_fallback_error_total: int = 0
+    rss_fallback_resolution_failed_total: int = 0
+    channels_file_used: str = ""
     metadata_enrichment_attempted_total: int = 0
     metadata_enrichment_success_total: int = 0
     metadata_enrichment_error_total: int = 0
@@ -26,6 +32,8 @@ class YouTubeDiagnosticsCounters:
     timedtext_success_total: int = 0
     timedtext_empty_total: int = 0
     timedtext_error_total: int = 0
+    transcript_success_total: int = 0
+    transcript_empty_total: int = 0
     ytdlp_disabled_due_to_bot_check: bool = False
     ytdlp_skipped_due_to_bot_check_total: int = 0
     captions_error_by_kind: dict[str, int] = field(
@@ -81,6 +89,11 @@ class YouTubeDiagnosticsCounters:
             "videos_kept_after_date_total={videos_kept_after_date_total} "
             "videos_skipped_by_date_total={videos_skipped_by_date_total} "
             "videos_skipped_empty_text_total={videos_skipped_empty_text_total} "
+            "metadata_only_total={metadata_only_total} "
+            "rss_fallback_attempted_total={rss_fallback_attempted_total} "
+            "rss_fallback_success_total={rss_fallback_success_total} "
+            "rss_fallback_error_total={rss_fallback_error_total} "
+            "rss_fallback_resolution_failed_total={rss_fallback_resolution_failed_total} "
             "metadata_enrichment_attempted_total={metadata_enrichment_attempted_total} "
             "metadata_enrichment_success_total={metadata_enrichment_success_total} "
             "metadata_enrichment_error_total={metadata_enrichment_error_total} "
@@ -94,6 +107,8 @@ class YouTubeDiagnosticsCounters:
             "timedtext_success_total={timedtext_success_total} "
             "timedtext_empty_total={timedtext_empty_total} "
             "timedtext_error_total={timedtext_error_total} "
+            "transcript_success_total={transcript_success_total} "
+            "transcript_empty_total={transcript_empty_total} "
             "ytdlp_disabled_due_to_bot_check={ytdlp_disabled_due_to_bot_check} "
             "ytdlp_skipped_due_to_bot_check_total={ytdlp_skipped_due_to_bot_check_total} "
             "poplar_total={poplar_total} poplar_low_signal={poplar_low_signal} "
@@ -131,6 +146,12 @@ class YouTubeDiagnosticsCounters:
             f"- videos_kept_after_date_total: {self.videos_kept_after_date_total}",
             f"- videos_skipped_by_date_total: {self.videos_skipped_by_date_total}",
             f"- videos_skipped_empty_text_total: {self.videos_skipped_empty_text_total}",
+            f"- metadata_only_total: {self.metadata_only_total}",
+            f"- rss_fallback_attempted_total: {self.rss_fallback_attempted_total}",
+            f"- rss_fallback_success_total: {self.rss_fallback_success_total}",
+            f"- rss_fallback_error_total: {self.rss_fallback_error_total}",
+            f"- rss_fallback_resolution_failed_total: {self.rss_fallback_resolution_failed_total}",
+            f"- channels_file_used: {self.channels_file_used}",
             f"- metadata_enrichment_attempted_total: {self.metadata_enrichment_attempted_total}",
             f"- metadata_enrichment_success_total: {self.metadata_enrichment_success_total}",
             f"- metadata_enrichment_error_total: {self.metadata_enrichment_error_total}",
@@ -144,6 +165,8 @@ class YouTubeDiagnosticsCounters:
             f"- timedtext_success_total: {self.timedtext_success_total}",
             f"- timedtext_empty_total: {self.timedtext_empty_total}",
             f"- timedtext_error_total: {self.timedtext_error_total}",
+            f"- transcript_success_total: {self.transcript_success_total}",
+            f"- transcript_empty_total: {self.transcript_empty_total}",
             f"- ytdlp_disabled_due_to_bot_check: {self.ytdlp_disabled_due_to_bot_check}",
             f"- ytdlp_skipped_due_to_bot_check_total: {self.ytdlp_skipped_due_to_bot_check_total}",
             "- captions_error_by_kind:",
@@ -184,3 +207,31 @@ class YouTubeDiagnosticsCounters:
             f"- blackscout_ytdlp_skipped_due_to_bot_check: {self.blackscout_ytdlp_skipped_due_to_bot_check}",
         ]
         return "\n".join(lines)
+
+    def to_count_only_dict(self) -> dict[str, object]:
+        keys = [
+            "yt_dlp_version",
+            "channels_file_used",
+            "channels_attempted_total",
+            "channels_success_total",
+            "channels_error_total",
+            "videos_listed_total",
+            "videos_kept_after_date_total",
+            "videos_skipped_by_date_total",
+            "videos_skipped_empty_text_total",
+            "metadata_only_total",
+            "rss_fallback_attempted_total",
+            "rss_fallback_success_total",
+            "rss_fallback_error_total",
+            "rss_fallback_resolution_failed_total",
+            "transcript_success_total",
+            "transcript_empty_total",
+            "timedtext_success_total",
+            "timedtext_error_total",
+            "captions_success_total",
+            "captions_error_total",
+        ]
+        data = {key: getattr(self, key, 0) for key in keys}
+        data["captions_error_by_kind"] = dict(self.captions_error_by_kind)
+        return data
+
