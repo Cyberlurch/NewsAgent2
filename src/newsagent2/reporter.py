@@ -712,8 +712,10 @@ def to_markdown(
             md.append("")
 
     if not is_cybermed:
-        if normalized_mode in {"weekly", "monthly"} and items:
-            md.extend(["## Top videos (this period)", ""])
+        show_top_videos = items and (normalized_mode in {"weekly", "monthly"} or (is_cyberlurch and normalized_mode in {"", "daily"}))
+        if show_top_videos:
+            heading = "## Top videos (this period)" if normalized_mode in {"weekly", "monthly"} else "## Top videos"
+            md.extend([heading, ""])
             seen_urls = set()
             for it in items:
                 url = str(it.get("url") or "").strip()
@@ -742,6 +744,8 @@ def to_markdown(
                         else f"- {display_title}{suffix}{date_suffix}"
                     )
                 md.append(line)
+                if it.get("content_status") == "metadata_only":
+                    md.append("  - Transcript/caption text unavailable; listed from metadata only.")
                 if is_cyberlurch_periodic:
                     bottom_line = (it.get("bottom_line") or "").strip()
                     if bottom_line:
@@ -751,7 +755,7 @@ def to_markdown(
                         md.append(f"  - {bl}")
             md.append("")
 
-        show_sources = not is_cyberlurch_periodic
+        show_sources = not is_cyberlurch_periodic and not (is_cyberlurch and normalized_mode in {"", "daily"} and items)
         if show_sources:
             seen = set()
             src_lines: List[str] = []

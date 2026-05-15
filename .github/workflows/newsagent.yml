@@ -41,6 +41,11 @@ on:
           - none
           - test
           - real
+      cyberlurch_channels_file:
+        description: "Cyberlurch channels file override"
+        required: false
+        default: ""
+        type: string
 
 concurrency:
   group: newsagent2-${{ github.workflow }}-${{ github.ref }}
@@ -89,6 +94,7 @@ jobs:
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
       WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'cyberlurch') || 'both' }}
       EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') || 'real' }}
+      CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.cyberlurch_channels_file || '') || '' }}
 
     steps:
       - name: Checkout
@@ -227,6 +233,7 @@ jobs:
           RUN_LOG_PATH: out/run.log
           EMAIL_MODE: ${{ env.EMAIL_MODE }}
           SEND_EMAIL: ${{ env.SEND_EMAIL }}
+          CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ env.CYBERLURCH_CHANNELS_FILE_OVERRIDE }}
 
           # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.
           RECIPIENTS_JSON_CYBERLURCH: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH || '' }}
@@ -279,10 +286,20 @@ jobs:
             export REPORT_MODE="$mode"
 
             if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cyberlurch" ]; then
-              if [ -f data/youtube_only.json ]; then
-                CHFILE="data/youtube_only.json"
-              else
-                CHFILE="data/channels.json"
+              CHFILE="data/channels.json"
+              if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${CYBERLURCH_CHANNELS_FILE_OVERRIDE:-}" ]; then
+                case "${CYBERLURCH_CHANNELS_FILE_OVERRIDE}" in
+                  data/*.json) ;;
+                  *) echo "ERROR: invalid cyberlurch_channels_file: must start with data/ and end with .json"; exit 1 ;;
+                esac
+                case "${CYBERLURCH_CHANNELS_FILE_OVERRIDE}" in
+                  *..*) echo "ERROR: invalid cyberlurch_channels_file: must not contain .."; exit 1 ;;
+                esac
+                if [ ! -f "${CYBERLURCH_CHANNELS_FILE_OVERRIDE}" ]; then
+                  echo "ERROR: invalid cyberlurch_channels_file: file does not exist"
+                  exit 1
+                fi
+                CHFILE="${CYBERLURCH_CHANNELS_FILE_OVERRIDE}"
               fi
 
               REPORT_KEY=cyberlurch \
@@ -382,7 +399,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: newsagent2-markdown-reports-${{ github.run_id }}
-          path: ${{ env.REPORT_DIR }}/*.md
+          path: |
+            ${{ env.REPORT_DIR }}/*.md
+            ${{ env.REPORT_DIR }}/*diagnostics*.json
           if-no-files-found: error
           retention-days: 7
 

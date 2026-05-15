@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from .collector_foamed import collect_foamed_items
 from .collectors_youtube import fetch_transcript, fetch_captions_text, list_recent_videos, get_yt_dlp_version
 from .collectors_youtube_timedtext import fetch_captions_via_timedtext
+from .collectors_youtube_rss import list_recent_videos_rss
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .emailer import send_markdown
 from .rollups import (
@@ -148,6 +149,43 @@ def _env_bool(env_name: str, default: bool) -> bool:
         return True
     return default
 
+
+
+def _dedupe_videos_by_id(videos: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    out: List[Dict[str, Any]] = []
+    seen: Set[str] = set()
+    for v in videos:
+        vid = str(v.get("id") or "").strip()
+        if not vid or vid in seen:
+            continue
+        seen.add(vid)
+        out.append(v)
+    return out
+
+
+def _metadata_only_text(*, title: str, channel: str, published_at: Any) -> str:
+    if isinstance(published_at, datetime):
+        published = published_at.astimezone(timezone.utc).replace(microsecond=0).isoformat()
+    else:
+        published = str(published_at or "").strip()
+    return (
+        "METADATA_ONLY: transcript, captions, and description were unavailable. "
+        f"Title: {title}. Channel: {channel}. Published: {published}."
+    )
+
+
+def _write_cyberlurch_youtube_diagnostics(report_dir: str, diag: YouTubeDiagnosticsCounters) -> None:
+    if (os.getenv("GITHUB_EVENT_NAME") or "").strip() != "workflow_dispatch":
+        return
+    try:
+        os.makedirs(report_dir, exist_ok=True)
+        out_path = os.path.join(report_dir, "cyberlurch_youtube_diagnostics.json")
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(diag.to_count_only_dict(), f, ensure_ascii=False, indent=2, sort_keys=True)
+            f.write("\n")
+        print(f"[diagnostics] Wrote count-only YouTube diagnostics: {out_path}")
+    except Exception as e:
+        print(f"[diagnostics] WARN: failed to write YouTube diagnostics err_type={type(e).__name__}")
 
 def _parse_hours_override(raw: str) -> int | None:
     text = (raw or "").strip()
@@ -557,7 +595,7 @@ def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, Lis
             if source == "youtube":
                 if not curl:
                     continue
-                channels.append({"name": cname, "source": "youtube", "url": curl})
+                channels.append({"name": cname, "source": "youtube", "url": curl, "channel_id": (c.get("channel_id") or "").strip()})
 
             elif source == "pubmed":
                 if not query and curl:
@@ -1282,6 +1320,7 @@ def main() -> None:
     skipped_by_state = 0
     youtube_diag = YouTubeDiagnosticsCounters()
     youtube_diag.yt_dlp_version = get_yt_dlp_version()
+    youtube_diag.channels_file_used = args.channels
 
     # Cybermed observability (used to build an in-report transparency header).
     is_cybermed_run = _is_cybermed(report_key, report_profile)
@@ -1302,6 +1341,8 @@ def main() -> None:
 
         if source == "youtube":
             youtube_diag.channels_attempted_total += 1
+            vids: List[Dict[str, Any]] = []
+            ytdlp_failed = False
             try:
                 vids = list_recent_videos(
                     curl,
@@ -1311,8 +1352,22 @@ def main() -> None:
                 )
                 youtube_diag.channels_success_total += 1
             except Exception as e:
+                ytdlp_failed = True
                 youtube_diag.channels_error_total += 1
                 print(f"[collect] ERROR source=youtube: list_recent_videos failed err_type={type(e).__name__}")
+
+            if _env_bool("YOUTUBE_METADATA_FALLBACK", True) and (ytdlp_failed or not vids):
+                rss_items = list_recent_videos_rss(
+                    ch,
+                    hours=args.hours,
+                    max_items=max_items_per_channel,
+                    diagnostics=youtube_diag.__dict__,
+                )
+                if rss_items and ytdlp_failed:
+                    youtube_diag.channels_success_total += 1
+                vids = _dedupe_videos_by_id(list(vids) + list(rss_items))
+
+            if not vids:
                 continue
 
             for v in vids:
@@ -1335,9 +1390,15 @@ def main() -> None:
                     transcript = fetch_transcript(vid)
                 except Exception:
                     transcript = None
+                if transcript:
+                    youtube_diag.transcript_success_total += 1
+                else:
+                    youtube_diag.transcript_empty_total += 1
 
+                text_source = "transcript" if transcript else ("description" if desc else "")
                 text = (transcript or desc).strip()
                 fallback_text = ""
+                fallback_source = ""
                 is_low_signal, low_signal_reason = classify_low_signal_youtube_text(text)
                 if is_low_signal:
                     youtube_diag.low_signal_total += 1
@@ -1367,6 +1428,7 @@ def main() -> None:
                         fallback_text, timedtext_status = "", "error_parse"
 
                     if timedtext_status == "success":
+                        fallback_source = "timedtext"
                         youtube_diag.timedtext_success_total += 1
                         if is_poplar:
                             youtube_diag.poplar_timedtext_success += 1
@@ -1408,6 +1470,7 @@ def main() -> None:
                             except Exception:
                                 fallback_text, status, error_kind = "", "error", "unknown"
                             if status == "success":
+                                fallback_source = "yt_dlp_captions"
                                 youtube_diag.captions_success_total += 1
                                 if is_poplar:
                                     youtube_diag.poplar_captions_success += 1
@@ -1436,10 +1499,17 @@ def main() -> None:
                 if fallback_text:
                     if len(fallback_text) >= 200 or len(fallback_text) > len(text):
                         text = fallback_text
+                        text_source = fallback_source or "yt_dlp_captions"
 
+                content_status = "full_text" if text else "metadata_only"
                 if not text:
-                    youtube_diag.videos_skipped_empty_text_total += 1
-                    continue
+                    youtube_diag.metadata_only_total += 1
+                    text_source = "metadata_only"
+                    text = _metadata_only_text(
+                        title=(v.get("title") or "").strip(),
+                        channel=cname,
+                        published_at=v.get("published_at"),
+                    )
 
                 if len(text) > max_text_chars_per_item:
                     text = text[:max_text_chars_per_item].rstrip()
@@ -1454,6 +1524,8 @@ def main() -> None:
                         "published_at": v.get("published_at"),
                         "description": desc,
                         "text": text,
+                        "content_status": content_status,
+                        "text_source": text_source,
                     }
                 )
 
@@ -1534,6 +1606,7 @@ def main() -> None:
     run_metadata = ""
     if report_key.strip().lower() == "cyberlurch":
         run_metadata = youtube_diag.to_metadata_section()
+        _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag)
 
     if is_cybermed_run:
         foamed_sources = load_foamed_sources_config(foamed_sources_path)
@@ -1859,7 +1932,13 @@ def main() -> None:
             overview = cybermed_meta_block + "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n"
         out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
         md = to_markdown(
-            [], overview, {}, report_title=report_title, report_language=report_language, report_mode=report_mode
+            [],
+            overview,
+            {},
+            report_title=report_title,
+            report_language=report_language,
+            report_mode=report_mode,
+            run_metadata=run_metadata if report_key.strip().lower() == "cyberlurch" else None,
         )
 
         with open(out_path, "w", encoding="utf-8") as f:
@@ -1916,13 +1995,25 @@ def main() -> None:
         )
         curated_overview = _curate_cyberlurch_overview(items_sorted, report_mode, overview_items_max)
         overview_items = curated_overview
+        full_text_items = [it for it in items_sorted if it.get("content_status") != "metadata_only"]
+        metadata_only_items = [it for it in items_sorted if it.get("content_status") == "metadata_only"]
         detail_items = _choose_detail_items(
-            items=items_sorted,
+            items=full_text_items,
             channel_topics=channel_topics,
             topic_weights=topic_weights,
             detail_items_per_day=detail_items_per_day,
             detail_items_per_channel_max=detail_items_per_channel_max,
         )
+        if len(detail_items) < max(0, deep_dive_limit) and metadata_only_items:
+            already = {(it.get("source"), it.get("id")) for it in detail_items}
+            fillers = _choose_detail_items(
+                items=[it for it in metadata_only_items if (it.get("source"), it.get("id")) not in already],
+                channel_topics=channel_topics,
+                topic_weights=topic_weights,
+                detail_items_per_day=max(0, deep_dive_limit) - len(detail_items),
+                detail_items_per_channel_max=detail_items_per_channel_max,
+            )
+            detail_items.extend(fillers)
         detail_items = detail_items[: max(0, deep_dive_limit)]
         if report_mode in {"weekly", "monthly"} and report_key.strip().lower() == "cyberlurch":
             report_items = _dedupe_items(overview_items + detail_items)
