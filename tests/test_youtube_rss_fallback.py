@@ -82,9 +82,7 @@ def test_main_rss_fallback_retains_metadata_only_and_count_only_diagnostics(tmp_
         diagnostics["rss_fallback_success_total"] = diagnostics.get("rss_fallback_success_total", 0) + 1
         return [video]
     monkeypatch.setattr(main_mod, "list_recent_videos_rss", fake_rss)
-    monkeypatch.setattr(main_mod, "fetch_transcript", lambda vid: None)
-    monkeypatch.setattr(main_mod, "fetch_captions_via_timedtext", lambda *a, **k: ("", "empty"))
-    monkeypatch.setattr(main_mod, "fetch_captions_text", lambda *a, **k: ("", "empty", ""))
+    monkeypatch.setattr(main_mod, "fetch_video_content", lambda **k: type("R", (), {"status":"empty","text":"","source":"metadata_only"})())
     monkeypatch.setattr(main_mod, "summarize", lambda items, **k: "## Executive Summary\n\nTranscript content was unavailable for metadata-only items.")
     monkeypatch.setattr(main_mod, "summarize_item_detail", lambda item, **k: "Key takeaways:\n- Metadata only; no transcript available.")
     monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
@@ -156,9 +154,7 @@ def test_rss_primary_with_channel_id_skips_ytdlp_listing(tmp_path, monkeypatch):
     calls = {"ytdlp": 0}
     monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: calls.__setitem__("ytdlp", calls["ytdlp"] + 1) or [])
     monkeypatch.setattr(main_mod, "list_recent_videos_rss", lambda *a, **k: [{"id": "v1", "title": "t", "channel": "c", "published_at": dt.datetime(2026, 5, 14, 12, 0, tzinfo=dt.timezone.utc), "url": "https://www.youtube.com/watch?v=v1", "description": ""}])
-    monkeypatch.setattr(main_mod, "fetch_transcript", lambda *_: None)
-    monkeypatch.setattr(main_mod, "fetch_captions_via_timedtext", lambda *a, **k: ("", "empty"))
-    monkeypatch.setattr(main_mod, "fetch_captions_text", lambda *a, **k: ("", "empty", ""))
+    monkeypatch.setattr(main_mod, "fetch_video_content", lambda **k: type("R", (), {"status":"empty","text":"","source":"metadata_only"})())
     monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "sum")
     monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
     monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
@@ -174,13 +170,13 @@ def test_bot_check_disables_subsequent_captions_calls(tmp_path, monkeypatch, cap
     report_dir = tmp_path / "out_bot"
     vids = [{"id": "id1", "title": "A", "channel": "c", "published_at": dt.datetime(2026, 5, 14, 12, 0, tzinfo=dt.timezone.utc), "url": "https://www.youtube.com/watch?v=id1", "description": ""}, {"id": "id2", "title": "B", "channel": "c", "published_at": dt.datetime(2026, 5, 14, 12, 0, tzinfo=dt.timezone.utc), "url": "https://www.youtube.com/watch?v=id2", "description": ""}]
     monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
-    monkeypatch.setattr(main_mod, "fetch_transcript", lambda *_: None)
-    monkeypatch.setattr(main_mod, "fetch_captions_via_timedtext", lambda *a, **k: ("", "error_parse"))
     counter = {"n": 0}
-    def _caps(*a, **k):
+    def _provider(**k):
         counter["n"] += 1
-        return ("", "error", "bot_check")
-    monkeypatch.setattr(main_mod, "fetch_captions_text", _caps)
+        if counter["n"] == 1:
+            return type("R", (), {"status":"error","text":"","source":"yt_dlp_captions","error_kind":"bot_check"})()
+        return type("R", (), {"status":"empty","text":"","source":"metadata_only","error_kind":""})()
+    monkeypatch.setattr(main_mod, "fetch_video_content", _provider)
     monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "sum")
     monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
     monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
@@ -188,7 +184,7 @@ def test_bot_check_disables_subsequent_captions_calls(tmp_path, monkeypatch, cap
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
     main_mod.main()
     out = capsys.readouterr().out
-    assert counter["n"] == 1
+    assert counter["n"] == 2
     assert "sign in to confirm" not in out.lower()
     assert "watch?v=id1" not in out and "id1" not in out
 
@@ -199,7 +195,7 @@ def test_transcript_success_sets_full_text_source(tmp_path, monkeypatch):
     report_dir = tmp_path / "out_tr"
     vids=[{"id":"ok1","title":"T","channel":"c","published_at":dt.datetime(2026,5,14,12,0,tzinfo=dt.timezone.utc),"url":"https://www.youtube.com/watch?v=ok1","description":""}]
     monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
-    monkeypatch.setattr(main_mod, "fetch_transcript", lambda *a, **k: "real transcript")
+    monkeypatch.setattr(main_mod, "fetch_video_content", lambda **k: type("R", (), {"status":"success","text":"real transcript","source":"youtube_transcript_api"})())
     monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "sum")
     monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
     monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
@@ -216,9 +212,7 @@ def test_metadata_only_skips_deep_dives(tmp_path, monkeypatch):
     report_dir = tmp_path / "out_meta"
     vids=[{"id":"m1","title":"Meta","channel":"c","published_at":dt.datetime(2026,5,14,12,0,tzinfo=dt.timezone.utc),"url":"https://www.youtube.com/watch?v=m1","description":""}]
     monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
-    monkeypatch.setattr(main_mod, "fetch_transcript", lambda *a, **k: None)
-    monkeypatch.setattr(main_mod, "fetch_captions_via_timedtext", lambda *a, **k: ("", "empty"))
-    monkeypatch.setattr(main_mod, "fetch_captions_text", lambda *a, **k: ("", "empty", ""))
+    monkeypatch.setattr(main_mod, "fetch_video_content", lambda **k: type("R", (), {"status":"empty","text":"","source":"metadata_only"})())
     monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "## Executive Summary\n\nmeta")
     calls={"n":0}
     def _detail(*a, **k): calls["n"] += 1; return "detail"
