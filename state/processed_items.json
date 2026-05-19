@@ -137,7 +137,7 @@
       "last_seen_utc": "2026-05-19T07:03:47+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-05-19T13:13:57+00:00",
+  "last_successful_daily_run_utc": "2026-05-19T13:32:53+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -435,6 +435,12 @@
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
             "title": "On The Hour –  May 17, 2026 | Israel Strikes Hezbollah, Hamas Leader Killed, Iran Tensions Soar",
             "url": "https://www.youtube.com/watch?v=7XLgu9rild0"
+          },
+          "7jzDMrUtybQ": {
+            "channel": "tagesschau",
+            "processed_at_utc": "2026-05-19T13:32:53+00:00",
+            "title": "Putin reist nach China: Besuch unter Freunden",
+            "url": "https://www.youtube.com/watch?v=7jzDMrUtybQ"
           },
           "7xOgf1qNjs0": {
             "channel": "COMPACTTV",
@@ -5012,6 +5018,6 @@
       }
     }
   },
-  "updated_at_utc": "2026-05-19T13:13:57+00:00",
+  "updated_at_utc": "2026-05-19T13:32:53+00:00",
   "version": 1
 }
