@@ -13,7 +13,6 @@ from dotenv import load_dotenv
 
 from .collector_foamed import collect_foamed_items
 from .collectors_youtube import fetch_transcript, fetch_captions_text, list_recent_videos, get_yt_dlp_version
-from .collectors_youtube_timedtext import fetch_captions_via_timedtext
 from .collectors_youtube_rss import list_recent_videos_rss
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .emailer import send_markdown
@@ -47,6 +46,7 @@ from .summarizer import (
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
 from .unpaywall import fetch_best_oa_fulltext, lookup_unpaywall, pick_best_oa_url
+from .youtube_content_providers import fetch_video_content
 from .utils.diagnostics import YouTubeDiagnosticsCounters
 from .utils.text_quality import classify_low_signal_youtube_text
 
@@ -1403,118 +1403,15 @@ def main() -> None:
                 if is_blackscout:
                     youtube_diag.blackscout_total += 1
                 desc = (v.get("description") or "").strip()
-                transcript = None
-                try:
-                    transcript = fetch_transcript(vid, diagnostics=youtube_diag.__dict__)
-                except Exception:
-                    transcript = None
-                text_source = "transcript" if transcript else ("description" if desc else "")
-                text = (transcript or desc).strip()
-                fallback_text = ""
-                fallback_source = ""
-                is_low_signal, low_signal_reason = classify_low_signal_youtube_text(text)
-                if is_low_signal:
-                    youtube_diag.low_signal_total += 1
-                    if low_signal_reason:
-                        youtube_diag.low_signal_reason_counts[low_signal_reason] = (
-                            youtube_diag.low_signal_reason_counts.get(low_signal_reason, 0) + 1
-                        )
-                    if is_poplar:
-                        youtube_diag.poplar_low_signal += 1
-                    if is_blackscout:
-                        youtube_diag.blackscout_low_signal += 1
-
-                should_fetch_captions = is_low_signal or is_poplar or is_blackscout
-                if should_fetch_captions and not transcript:
-                    timedtext_status = ""
-                    try:
-                        youtube_diag.timedtext_attempted_total += 1
-                        if is_poplar:
-                            youtube_diag.poplar_timedtext_attempted += 1
-                        if is_blackscout:
-                            youtube_diag.blackscout_timedtext_attempted += 1
-                        fallback_text, timedtext_status = fetch_captions_via_timedtext(
-                            vid,
-                            ("de", "en", "sv"),
-                        )
-                    except Exception:
-                        fallback_text, timedtext_status = "", "error_parse"
-
-                    if timedtext_status == "success":
-                        fallback_source = "timedtext"
-                        youtube_diag.timedtext_success_total += 1
-                        if is_poplar:
-                            youtube_diag.poplar_timedtext_success += 1
-                        if is_blackscout:
-                            youtube_diag.blackscout_timedtext_success += 1
-                    elif timedtext_status == "empty":
-                        youtube_diag.timedtext_empty_total += 1
-                        if is_poplar:
-                            youtube_diag.poplar_timedtext_empty += 1
-                        if is_blackscout:
-                            youtube_diag.blackscout_timedtext_empty += 1
-                    else:
-                        youtube_diag.timedtext_error_total += 1
-                        if is_poplar:
-                            youtube_diag.poplar_timedtext_error += 1
-                        if is_blackscout:
-                            youtube_diag.blackscout_timedtext_error += 1
-
-                    if timedtext_status != "success":
-                        if youtube_diag.ytdlp_disabled_due_to_bot_check:
-                            youtube_diag.ytdlp_skipped_due_to_bot_check_total += 1
-                            if is_poplar:
-                                youtube_diag.poplar_ytdlp_skipped_due_to_bot_check += 1
-                            if is_blackscout:
-                                youtube_diag.blackscout_ytdlp_skipped_due_to_bot_check += 1
-                        else:
-                            fallback_url = (v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}"
-                            try:
-                                youtube_diag.captions_attempted_total += 1
-                                if is_poplar:
-                                    youtube_diag.poplar_captions_attempted += 1
-                                if is_blackscout:
-                                    youtube_diag.blackscout_captions_attempted += 1
-                                fallback_text, status, error_kind = fetch_captions_text(
-                                    fallback_url,
-                                    ["de.*", "en.*", "sv.*", "-live_chat"],
-                                    retries=1,
-                                )
-                            except Exception:
-                                fallback_text, status, error_kind = "", "error", "unknown"
-                            if status == "success":
-                                fallback_source = "yt_dlp_captions"
-                                youtube_diag.captions_success_total += 1
-                                if is_poplar:
-                                    youtube_diag.poplar_captions_success += 1
-                                if is_blackscout:
-                                    youtube_diag.blackscout_captions_success += 1
-                            elif status == "empty":
-                                youtube_diag.captions_empty_total += 1
-                                if is_poplar:
-                                    youtube_diag.poplar_captions_empty += 1
-                                if is_blackscout:
-                                    youtube_diag.blackscout_captions_empty += 1
-                            elif status == "error":
-                                youtube_diag.captions_error_total += 1
-                                if is_poplar:
-                                    youtube_diag.poplar_captions_error += 1
-                                if is_blackscout:
-                                    youtube_diag.blackscout_captions_error += 1
-                                error_bucket = error_kind or "unknown"
-                                youtube_diag.captions_error_by_kind[error_bucket] = (
-                                    youtube_diag.captions_error_by_kind.get(error_bucket, 0) + 1
-                                )
-                                if error_bucket == "bot_check":
-                                    youtube_diag.ytdlp_disabled_due_to_bot_check = True
-
-                fallback_text = (fallback_text or "").strip()
-                if fallback_text:
-                    if len(fallback_text) >= 200 or len(fallback_text) > len(text):
-                        text = fallback_text
-                        text_source = fallback_source or "yt_dlp_captions"
-
-                content_status = "full_text" if text else "metadata_only"
+                provider_result = fetch_video_content(
+                    video_id=vid,
+                    video_url=(v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}",
+                    description=desc,
+                    diagnostics=youtube_diag.__dict__,
+                )
+                text = (provider_result.text or "").strip()
+                text_source = provider_result.source
+                content_status = "full_text" if provider_result.status == "success" and text else "metadata_only"
                 if not text:
                     youtube_diag.metadata_only_total += 1
                     text_source = "metadata_only"

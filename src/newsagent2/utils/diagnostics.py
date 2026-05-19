@@ -86,6 +86,18 @@ class YouTubeDiagnosticsCounters:
     blackscout_timedtext_empty: int = 0
     blackscout_timedtext_error: int = 0
     blackscout_ytdlp_skipped_due_to_bot_check: int = 0
+    provider_attempted_by_name: dict[str, int] = field(default_factory=dict)
+    provider_success_by_name: dict[str, int] = field(default_factory=dict)
+    provider_empty_by_name: dict[str, int] = field(default_factory=dict)
+    provider_error_by_name: dict[str, int] = field(default_factory=dict)
+    provider_error_kind_by_name: dict[str, dict[str, int]] = field(default_factory=dict)
+    cache_hit_total: int = 0
+    cache_miss_total: int = 0
+    cache_write_total: int = 0
+    external_api_attempted_total: int = 0
+    external_api_success_total: int = 0
+    external_api_empty_total: int = 0
+    external_api_error_total: int = 0
 
     def to_log_line(self) -> str:
         return (
@@ -251,4 +263,16 @@ class YouTubeDiagnosticsCounters:
         data["captions_error_by_kind"] = dict(self.captions_error_by_kind)
         data["ytdlp_warning_by_kind"] = dict(self.ytdlp_warning_by_kind)
         data["ytdlp_error_by_kind"] = dict(self.ytdlp_error_by_kind)
+        data["provider_attempted_by_name"] = dict(self.provider_attempted_by_name)
+        data["provider_success_by_name"] = dict(self.provider_success_by_name)
+        data["provider_empty_by_name"] = dict(self.provider_empty_by_name)
+        data["provider_error_by_name"] = dict(self.provider_error_by_name)
+        data["provider_error_kind_by_name"] = dict(self.provider_error_kind_by_name)
+        data["cache_hit_total"] = self.cache_hit_total
+        data["cache_miss_total"] = self.cache_miss_total
+        data["cache_write_total"] = self.cache_write_total
+        data["external_api_attempted_total"] = self.external_api_attempted_total
+        data["external_api_success_total"] = self.external_api_success_total
+        data["external_api_empty_total"] = self.external_api_empty_total
+        data["external_api_error_total"] = self.external_api_error_total
         return data
