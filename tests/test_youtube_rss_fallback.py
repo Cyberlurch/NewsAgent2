@@ -147,3 +147,47 @@ def test_empty_cyberlurch_report_keeps_metadata_attachment_and_diagnostics_file(
     assert diag["channels_attempted_total"] == 1
     assert diag["videos_listed_total"] == 0
     assert "captions_error_by_kind" in diag
+
+
+def test_rss_primary_with_channel_id_skips_ytdlp_listing(tmp_path, monkeypatch):
+    channels_path = tmp_path / "channels.json"
+    channels_path.write_text(json.dumps({"topic_buckets": [{"topic": "t", "channels": [{"name": "C", "url": "https://youtube.com/@c", "channel_id": "UCabc"}]}]}), encoding="utf-8")
+    report_dir = tmp_path / "out_rss_primary"
+    calls = {"ytdlp": 0}
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: calls.__setitem__("ytdlp", calls["ytdlp"] + 1) or [])
+    monkeypatch.setattr(main_mod, "list_recent_videos_rss", lambda *a, **k: [{"id": "v1", "title": "t", "channel": "c", "published_at": dt.datetime(2026, 5, 14, 12, 0, tzinfo=dt.timezone.utc), "url": "https://www.youtube.com/watch?v=v1", "description": ""}])
+    monkeypatch.setattr(main_mod, "fetch_transcript", lambda *_: None)
+    monkeypatch.setattr(main_mod, "fetch_captions_via_timedtext", lambda *a, **k: ("", "empty"))
+    monkeypatch.setattr(main_mod, "fetch_captions_text", lambda *a, **k: ("", "empty", ""))
+    monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "sum")
+    monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
+    monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
+    monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
+    main_mod.main()
+    assert calls["ytdlp"] == 0
+
+
+def test_bot_check_disables_subsequent_captions_calls(tmp_path, monkeypatch, capsys):
+    channels_path = tmp_path / "channels.json"
+    channels_path.write_text(json.dumps({"topic_buckets": [{"topic": "t", "channels": [{"name": "C", "url": "https://youtube.com/@c"}]}]}), encoding="utf-8")
+    report_dir = tmp_path / "out_bot"
+    vids = [{"id": "id1", "title": "A", "channel": "c", "published_at": dt.datetime(2026, 5, 14, 12, 0, tzinfo=dt.timezone.utc), "url": "https://www.youtube.com/watch?v=id1", "description": ""}, {"id": "id2", "title": "B", "channel": "c", "published_at": dt.datetime(2026, 5, 14, 12, 0, tzinfo=dt.timezone.utc), "url": "https://www.youtube.com/watch?v=id2", "description": ""}]
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
+    monkeypatch.setattr(main_mod, "fetch_transcript", lambda *_: None)
+    monkeypatch.setattr(main_mod, "fetch_captions_via_timedtext", lambda *a, **k: ("", "error_parse"))
+    counter = {"n": 0}
+    def _caps(*a, **k):
+        counter["n"] += 1
+        return ("", "error", "bot_check")
+    monkeypatch.setattr(main_mod, "fetch_captions_text", _caps)
+    monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "sum")
+    monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
+    monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
+    monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s2.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
+    main_mod.main()
+    out = capsys.readouterr().out
+    assert counter["n"] == 1
+    assert "sign in to confirm" not in out.lower()
+    assert "watch?v=id1" not in out and "id1" not in out

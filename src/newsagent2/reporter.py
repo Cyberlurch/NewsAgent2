@@ -716,6 +716,13 @@ def to_markdown(
         if show_top_videos:
             heading = "## Top videos (this period)" if normalized_mode in {"weekly", "monthly"} else "## Top videos"
             md.extend([heading, ""])
+            if is_cyberlurch and normalized_mode in {"", "daily"} and items and all(
+                it.get("content_status") == "metadata_only" for it in items
+            ):
+                md.append(
+                    "This run found recent videos, but YouTube transcript/caption extraction was unavailable; summaries are limited to metadata."
+                )
+                md.append("")
             seen_urls = set()
             for it in items:
                 url = str(it.get("url") or "").strip()

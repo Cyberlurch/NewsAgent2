@@ -36,6 +36,14 @@ class YouTubeDiagnosticsCounters:
     transcript_empty_total: int = 0
     ytdlp_disabled_due_to_bot_check: bool = False
     ytdlp_skipped_due_to_bot_check_total: int = 0
+    ytdlp_js_runtime_configured: str = "unknown"
+    ytdlp_remote_components_enabled: bool = False
+    rss_primary_attempted_total: int = 0
+    rss_primary_success_total: int = 0
+    rss_primary_empty_total: int = 0
+    rss_primary_error_total: int = 0
+    ytdlp_warning_by_kind: dict[str, int] = field(default_factory=lambda: {"bot_check": 0, "no_js_runtime": 0, "http_403": 0, "http_429": 0, "timeout": 0, "extract_failed": 0, "no_subtitles": 0, "unknown": 0})
+    ytdlp_error_by_kind: dict[str, int] = field(default_factory=lambda: {"bot_check": 0, "no_js_runtime": 0, "http_403": 0, "http_429": 0, "timeout": 0, "extract_failed": 0, "no_subtitles": 0, "unknown": 0})
     captions_error_by_kind: dict[str, int] = field(
         default_factory=lambda: {
             "timeout": 0,
@@ -230,8 +238,17 @@ class YouTubeDiagnosticsCounters:
             "timedtext_error_total",
             "captions_success_total",
             "captions_error_total",
+            "ytdlp_disabled_due_to_bot_check",
+            "ytdlp_skipped_due_to_bot_check_total",
+            "ytdlp_js_runtime_configured",
+            "ytdlp_remote_components_enabled",
+            "rss_primary_attempted_total",
+            "rss_primary_success_total",
+            "rss_primary_empty_total",
+            "rss_primary_error_total",
         ]
         data = {key: getattr(self, key, 0) for key in keys}
         data["captions_error_by_kind"] = dict(self.captions_error_by_kind)
+        data["ytdlp_warning_by_kind"] = dict(self.ytdlp_warning_by_kind)
+        data["ytdlp_error_by_kind"] = dict(self.ytdlp_error_by_kind)
         return data
-
