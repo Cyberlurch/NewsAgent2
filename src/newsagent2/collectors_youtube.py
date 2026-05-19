@@ -22,6 +22,21 @@ from .utils.text_quality import vtt_to_text
 STO = ZoneInfo("Europe/Stockholm")
 CAPTIONS_MIN_CHARS = 200
 DESCRIPTION_MIN_CHARS = 100
+YTDLP_ERROR_KINDS = ("bot_check", "no_js_runtime", "http_403", "http_429", "timeout", "extract_failed", "no_subtitles", "unknown")
+
+
+class SafeYtDlpLogger:
+    def __init__(self, diagnostics: dict[str, Any] | None):
+        self.diagnostics = diagnostics
+
+    def debug(self, _msg: str) -> None:
+        return
+
+    def warning(self, msg: str) -> None:
+        _diag_inc_kind(self.diagnostics, "ytdlp_warning_by_kind", classify_captions_error_kind(msg))
+
+    def error(self, msg: str) -> None:
+        _diag_inc_kind(self.diagnostics, "ytdlp_error_by_kind", classify_captions_error_kind(msg))
 
 
 def _channel_handle_from_url(url: str) -> str:
@@ -36,6 +51,40 @@ def _channel_handle_from_url(url: str) -> str:
 def _diag_inc(diagnostics: dict[str, int] | None, key: str, amount: int = 1) -> None:
     if diagnostics is not None:
         diagnostics[key] = int(diagnostics.get(key, 0) or 0) + amount
+
+
+def _diag_inc_kind(diagnostics: dict[str, Any] | None, key: str, kind: str) -> None:
+    if diagnostics is None:
+        return
+    bucket = diagnostics.get(key)
+    if not isinstance(bucket, dict):
+        bucket = {}
+        diagnostics[key] = bucket
+    normalized = kind if kind in YTDLP_ERROR_KINDS else "unknown"
+    bucket[normalized] = int(bucket.get(normalized, 0) or 0) + 1
+
+
+def build_ytdlp_common_opts(*, ignoreerrors: bool = True, diagnostics: dict[str, Any] | None = None) -> dict[str, Any]:
+    runtime = (os.getenv("YTDLP_JS_RUNTIME") or "deno").strip().lower()
+    opts: dict[str, Any] = {
+        "quiet": True,
+        "skip_download": True,
+        "ignoreerrors": ignoreerrors,
+        "nocheckcertificate": True,
+    }
+    if runtime != "none":
+        selected = runtime if runtime in {"deno", "node", "quickjs", "bun"} else "deno"
+        opts["js_runtimes"] = {selected: {}}
+        if diagnostics is not None:
+            diagnostics["ytdlp_js_runtime_configured"] = selected
+    elif diagnostics is not None:
+        diagnostics["ytdlp_js_runtime_configured"] = "none"
+    remote_enabled = (os.getenv("YTDLP_ALLOW_REMOTE_COMPONENTS") or "0").strip() == "1"
+    if remote_enabled:
+        opts["remote_components"] = ["ejs:github"]
+    if diagnostics is not None:
+        diagnostics["ytdlp_remote_components_enabled"] = bool(remote_enabled)
+    return opts
 
 
 def _utc_from_epoch(value: Any) -> dt.datetime | None:
@@ -110,14 +159,9 @@ def _fetch_full_video_metadata(
 ) -> Dict[str, Any] | None:
     _diag_inc(diagnostics, "metadata_enrichment_attempted_total")
     try:
-        with yt_dlp.YoutubeDL(
-            {
-                "quiet": True,
-                "skip_download": True,
-                "ignoreerrors": True,
-                "nocheckcertificate": True,
-            }
-        ) as ydl:
+        opts = build_ytdlp_common_opts(ignoreerrors=True, diagnostics=diagnostics)
+        opts["logger"] = SafeYtDlpLogger(diagnostics)
+        with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
     except Exception:
         _diag_inc(diagnostics, "metadata_enrichment_error_total")
@@ -172,13 +216,11 @@ def list_recent_videos(
     scan_limit = _scan_limit(max_items)
 
     ydl_opts = {
-        "quiet": True,
         "extract_flat": True,
         "playlistend": scan_limit,
-        "skip_download": True,
-        "ignoreerrors": True,
-        "nocheckcertificate": True,
+        **build_ytdlp_common_opts(ignoreerrors=True, diagnostics=diagnostics),
     }
+    ydl_opts["logger"] = SafeYtDlpLogger(diagnostics)
 
     url = f"https://www.youtube.com/@{handle}/videos"
 
@@ -341,19 +383,18 @@ def fetch_captions_text(
         with tempfile.TemporaryDirectory() as tmpdir:
             out_tmpl = str(Path(tmpdir) / "%(id)s.%(ext)s")
             ydl_opts = {
-                "quiet": True,
-                "skip_download": True,
                 "writesubtitles": True,
                 "writeautomaticsub": True,
                 "subtitleslangs": list(preferred_lang_patterns),
                 "subtitlesformat": "vtt/best",
                 "outtmpl": out_tmpl,
-                "nocheckcertificate": True,
                 "socket_timeout": timeout_s,
                 "extractor_args": {
                     "youtube": {"player_client": ["android", "web_safari", "web"]}
                 },
+                **build_ytdlp_common_opts(ignoreerrors=True),
             }
+            ydl_opts["logger"] = SafeYtDlpLogger(None)
 
             try:
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -405,6 +446,8 @@ def classify_captions_error_kind(message: str) -> str:
         return "timeout"
     if "no subtitles" in msg or "there are no subtitles for the requested languages" in msg:
         return "no_subtitles"
+    if "no supported javascript runtime" in msg:
+        return "no_js_runtime"
     if "http error 403" in msg or "403 forbidden" in msg:
         return "http_403"
     if "http error 429" in msg or "too many requests" in msg:
@@ -421,12 +464,7 @@ def classify_captions_error_kind(message: str) -> str:
 def _fetch_full_video_description(video_id: str) -> str:
     if not video_id:
         return ""
-    ydl_opts = {
-        "quiet": True,
-        "skip_download": True,
-        "ignoreerrors": True,
-        "nocheckcertificate": True,
-    }
+    ydl_opts = build_ytdlp_common_opts(ignoreerrors=True)
     video_url = f"https://www.youtube.com/watch?v={video_id}"
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:

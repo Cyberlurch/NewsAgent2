@@ -169,7 +169,7 @@ def _metadata_only_text(*, title: str, channel: str, published_at: Any) -> str:
     else:
         published = str(published_at or "").strip()
     return (
-        "METADATA_ONLY: transcript, captions, and description were unavailable. "
+        "METADATA_ONLY: Only title/channel/date metadata is available. Do not infer details beyond the title. "
         f"Title: {title}. Channel: {channel}. Published: {published}."
     )
 
@@ -1343,18 +1343,36 @@ def main() -> None:
             youtube_diag.channels_attempted_total += 1
             vids: List[Dict[str, Any]] = []
             ytdlp_failed = False
-            try:
-                vids = list_recent_videos(
-                    curl,
-                    hours=args.hours,
-                    max_items=max_items_per_channel,
-                    diagnostics=youtube_diag.__dict__,
-                )
-                youtube_diag.channels_success_total += 1
-            except Exception as e:
-                ytdlp_failed = True
-                youtube_diag.channels_error_total += 1
-                print(f"[collect] ERROR source=youtube: list_recent_videos failed err_type={type(e).__name__}")
+            used_rss_primary = False
+            if str(ch.get("channel_id") or "").strip():
+                youtube_diag.rss_primary_attempted_total += 1
+                try:
+                    rss_primary = list_recent_videos_rss(
+                        ch, hours=args.hours, max_items=max_items_per_channel, diagnostics=youtube_diag.__dict__
+                    )
+                    if rss_primary:
+                        youtube_diag.rss_primary_success_total += 1
+                        youtube_diag.channels_success_total += 1
+                        vids = rss_primary
+                        used_rss_primary = True
+                    else:
+                        youtube_diag.rss_primary_empty_total += 1
+                except Exception:
+                    youtube_diag.rss_primary_error_total += 1
+
+            if not used_rss_primary:
+                try:
+                    vids = list_recent_videos(
+                        curl,
+                        hours=args.hours,
+                        max_items=max_items_per_channel,
+                        diagnostics=youtube_diag.__dict__,
+                    )
+                    youtube_diag.channels_success_total += 1
+                except Exception as e:
+                    ytdlp_failed = True
+                    youtube_diag.channels_error_total += 1
+                    print(f"[collect] ERROR source=youtube: list_recent_videos failed err_type={type(e).__name__}")
 
             if _env_bool("YOUTUBE_METADATA_FALLBACK", True) and (ytdlp_failed or not vids):
                 rss_items = list_recent_videos_rss(
