@@ -1405,14 +1405,9 @@ def main() -> None:
                 desc = (v.get("description") or "").strip()
                 transcript = None
                 try:
-                    transcript = fetch_transcript(vid)
+                    transcript = fetch_transcript(vid, diagnostics=youtube_diag.__dict__)
                 except Exception:
                     transcript = None
-                if transcript:
-                    youtube_diag.transcript_success_total += 1
-                else:
-                    youtube_diag.transcript_empty_total += 1
-
                 text_source = "transcript" if transcript else ("description" if desc else "")
                 text = (transcript or desc).strip()
                 fallback_text = ""
@@ -1988,6 +1983,7 @@ def main() -> None:
 
     detail_items: List[Dict[str, Any]] = []
     deep_dive_ids: Set[str] = set()
+    deep_dive_skip_note = ""
     if is_cybermed_run:
         if report_mode in {"weekly", "monthly"}:
             overview_items = list(pubmed_overview_items)
@@ -2013,8 +2009,11 @@ def main() -> None:
         )
         curated_overview = _curate_cyberlurch_overview(items_sorted, report_mode, overview_items_max)
         overview_items = curated_overview
-        full_text_items = [it for it in items_sorted if it.get("content_status") != "metadata_only"]
-        metadata_only_items = [it for it in items_sorted if it.get("content_status") == "metadata_only"]
+        full_text_items = [
+            it for it in items_sorted
+            if it.get("content_status") != "metadata_only" and it.get("text_source") != "metadata_only"
+        ]
+        metadata_only_items = [it for it in items_sorted if it.get("content_status") == "metadata_only" or it.get("text_source") == "metadata_only"]
         detail_items = _choose_detail_items(
             items=full_text_items,
             channel_topics=channel_topics,
@@ -2022,21 +2021,13 @@ def main() -> None:
             detail_items_per_day=detail_items_per_day,
             detail_items_per_channel_max=detail_items_per_channel_max,
         )
-        if len(detail_items) < max(0, deep_dive_limit) and metadata_only_items:
-            already = {(it.get("source"), it.get("id")) for it in detail_items}
-            fillers = _choose_detail_items(
-                items=[it for it in metadata_only_items if (it.get("source"), it.get("id")) not in already],
-                channel_topics=channel_topics,
-                topic_weights=topic_weights,
-                detail_items_per_day=max(0, deep_dive_limit) - len(detail_items),
-                detail_items_per_channel_max=detail_items_per_channel_max,
-            )
-            detail_items.extend(fillers)
         detail_items = detail_items[: max(0, deep_dive_limit)]
         if report_mode in {"weekly", "monthly"} and report_key.strip().lower() == "cyberlurch":
             report_items = _dedupe_items(overview_items + detail_items)
         else:
             report_items = items_sorted
+        if not detail_items:
+            deep_dive_skip_note = "Deep dives skipped because no transcript, caption, or description content was available."
 
     if not overview_items and detail_items:
         overview_items = list(detail_items)
@@ -2093,17 +2084,37 @@ def main() -> None:
         else:
             overview_body = "## Kurzüberblick\n\nKeine neuen PubMed-Papers in diesem Lauf; aktuelle FOAMed-Beiträge stehen unten.\n"
     else:
-        try:
-            overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
-        except Exception as e:
-            print(f"[summarize] ERROR: summarize() failed: {e!r}")
+        all_overview_metadata_only = bool(overview_items) and all(
+            (it.get("content_status") == "metadata_only") or (it.get("text_source") == "metadata_only")
+            for it in overview_items
+        )
+        if (not is_cybermed_run) and all_overview_metadata_only:
             if report_language.lower().startswith("en"):
-                overview_body = "## Executive Summary\n\n**Error:** Failed to generate overview.\n"
+                overview_body = (
+                    "## Executive Summary\n\n"
+                    "Content extraction was unavailable for the selected Cyberlurch videos in this run. "
+                    "This summary is metadata-only (title/channel/date) and does not infer themes beyond listed titles.\n"
+                )
             else:
-                overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
+                overview_body = (
+                    "## Kurzüberblick\n\n"
+                    "Die Inhalts-Extraktion war für die ausgewählten Cyberlurch-Videos in diesem Lauf nicht verfügbar. "
+                    "Diese Zusammenfassung basiert nur auf Metadaten (Titel/Kanal/Datum) und leitet keine weitergehenden Themen ab.\n"
+                )
+        else:
+            try:
+                overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
+            except Exception as e:
+                print(f"[summarize] ERROR: summarize() failed: {e!r}")
+                if report_language.lower().startswith("en"):
+                    overview_body = "## Executive Summary\n\n**Error:** Failed to generate overview.\n"
+                else:
+                    overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
 
     if cybermed_meta_block:
         overview_body = cybermed_meta_block + overview_body
+    if deep_dive_skip_note and deep_dive_skip_note not in overview_body:
+        overview_body = overview_body.rstrip() + "\n\n" + deep_dive_skip_note + "\n"
 
     if is_cybermed_run and (pubmed_use_pmc_oa_fulltext or unpaywall_enabled):
         pubmed_detail_items = [
@@ -2331,6 +2342,8 @@ def main() -> None:
     details_by_id: Dict[str, str] = {}
     details_for_report: Dict[str, str] = {}
     for it in detail_items:
+        if (not is_cybermed_run) and ((it.get("content_status") == "metadata_only") or (it.get("text_source") == "metadata_only")):
+            continue
         src = (it.get("source") or "").strip().lower() or "youtube"
         iid_raw = str(it.get("id") or "").strip()
         iid = str(it.get("id") or it.get("url") or it.get("title") or "").strip()

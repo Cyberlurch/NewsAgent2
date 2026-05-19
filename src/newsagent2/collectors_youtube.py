@@ -313,51 +313,114 @@ def list_recent_videos(
 
     return out
 
-def fetch_transcript(video_id: str) -> str | None:
-    """
-    Hole Transkript für ein Video, bevorzugt Originalsprache (Deutsch/Englisch/Schwedisch),
-    akzeptiere auch auto-generierte Untertitel.
+TRANSCRIPT_ERROR_KINDS = {
+    "api_removed_or_incompatible",
+    "transcripts_disabled",
+    "no_transcript_found",
+    "video_unavailable",
+    "request_blocked",
+    "unknown",
+}
 
-    Rückgabe:
-      - Volltext des Transkripts (stripped) oder
-      - None, falls kein Transkript verfügbar ist.
-    """
-    # Reihenfolge beliebter Sprachen (keine Übersetzung!)
+
+def _diag_inc_named_kind(diagnostics: dict[str, Any] | None, key: str, kind: str) -> None:
+    if diagnostics is None:
+        return
+    bucket = diagnostics.get(key)
+    if not isinstance(bucket, dict):
+        bucket = {}
+        diagnostics[key] = bucket
+    normalized = kind if kind in TRANSCRIPT_ERROR_KINDS else "unknown"
+    bucket[normalized] = int(bucket.get(normalized, 0) or 0) + 1
+
+
+def _normalize_transcript_segments(payload: Any) -> list[str]:
+    if payload is None:
+        return []
+
+    if hasattr(payload, "to_raw_data"):
+        try:
+            payload = payload.to_raw_data()
+        except Exception:
+            payload = None
+
+    segments: list[str] = []
+    if isinstance(payload, list):
+        for seg in payload:
+            if isinstance(seg, dict):
+                text = str(seg.get("text") or "").strip()
+                if text:
+                    segments.append(text)
+        return segments
+
+    snippets = getattr(payload, "snippets", None)
+    if snippets is not None:
+        for seg in snippets:
+            text = str(getattr(seg, "text", "") or "").strip()
+            if text:
+                segments.append(text)
+    return segments
+
+
+def _classify_transcript_error(exc: Exception) -> str:
+    kind = type(exc).__name__.lower()
+    if "transcriptsdisabled" in kind:
+        return "transcripts_disabled"
+    if "notranscriptfound" in kind:
+        return "no_transcript_found"
+    if "videounavailable" in kind:
+        return "video_unavailable"
+    if "requestblocked" in kind or "toomanyrequests" in kind or "ipblocked" in kind:
+        return "request_blocked"
+    if isinstance(exc, (AttributeError, TypeError, ImportError)):
+        return "api_removed_or_incompatible"
+    return "unknown"
+
+
+def fetch_transcript(video_id: str, diagnostics: dict[str, Any] | None = None) -> str | None:
     langs = ["de", "en", "sv", "en-US", "de-DE", "sv-SE"]
+    _diag_inc(diagnostics, "transcript_attempted_total")
+    try:
+        api = YouTubeTranscriptApi()
+        transcript_list = api.list(video_id)
+    except Exception as exc:
+        _diag_inc(diagnostics, "transcript_empty_total")
+        _diag_inc(diagnostics, "transcript_error_total")
+        _diag_inc_named_kind(diagnostics, "transcript_error_by_kind", _classify_transcript_error(exc))
+        return None
+
+    for finder in ("find_manually_created_transcript", "find_generated_transcript"):
+        for lang in langs:
+            try:
+                transcript = getattr(transcript_list, finder)([lang])
+            except Exception:
+                transcript = None
+            if not transcript:
+                continue
+            try:
+                snippets = _normalize_transcript_segments(transcript.fetch())
+            except Exception as exc:
+                _diag_inc(diagnostics, "transcript_error_total")
+                _diag_inc_named_kind(diagnostics, "transcript_error_by_kind", _classify_transcript_error(exc))
+                continue
+            text = " ".join(snippets).strip()
+            if text:
+                _diag_inc(diagnostics, "transcript_success_total")
+                return text
 
     try:
-        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-    except (TranscriptsDisabled, NoTranscriptFound, VideoUnavailable):
-        return None
-    except Exception:
-        return None
+        for transcript in transcript_list:
+            if getattr(transcript, "is_generated", False):
+                snippets = _normalize_transcript_segments(transcript.fetch())
+                text = " ".join(snippets).strip()
+                if text:
+                    _diag_inc(diagnostics, "transcript_success_total")
+                    return text
+    except Exception as exc:
+        _diag_inc(diagnostics, "transcript_error_total")
+        _diag_inc_named_kind(diagnostics, "transcript_error_by_kind", _classify_transcript_error(exc))
 
-    for lang in langs:
-        try:
-            transcript = transcript_list.find_manually_created_transcript([lang])
-        except Exception:
-            transcript = None
-        if transcript:
-            text = " ".join(seg["text"] for seg in transcript.fetch() if seg.get("text"))
-            return text.strip() or None
-
-    for lang in langs:
-        try:
-            transcript = transcript_list.find_generated_transcript([lang])
-        except Exception:
-            transcript = None
-        if transcript:
-            text = " ".join(seg["text"] for seg in transcript.fetch() if seg.get("text"))
-            return text.strip() or None
-
-    for transcript in transcript_list:
-        if getattr(transcript, "is_generated", False):
-            try:
-                text = " ".join(seg["text"] for seg in transcript.fetch() if seg.get("text"))
-                return text.strip() or None
-            except Exception:
-                return None
-
+    _diag_inc(diagnostics, "transcript_empty_total")
     return None
 
 

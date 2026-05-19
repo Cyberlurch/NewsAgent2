@@ -191,3 +191,43 @@ def test_bot_check_disables_subsequent_captions_calls(tmp_path, monkeypatch, cap
     assert counter["n"] == 1
     assert "sign in to confirm" not in out.lower()
     assert "watch?v=id1" not in out and "id1" not in out
+
+
+def test_transcript_success_sets_full_text_source(tmp_path, monkeypatch):
+    channels_path = tmp_path / "channels.json"
+    channels_path.write_text(json.dumps({"topic_buckets":[{"topic":"t","channels":[{"name":"C","url":"https://youtube.com/@c"}]}]}), encoding="utf-8")
+    report_dir = tmp_path / "out_tr"
+    vids=[{"id":"ok1","title":"T","channel":"c","published_at":dt.datetime(2026,5,14,12,0,tzinfo=dt.timezone.utc),"url":"https://www.youtube.com/watch?v=ok1","description":""}]
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
+    monkeypatch.setattr(main_mod, "fetch_transcript", lambda *a, **k: "real transcript")
+    monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "sum")
+    monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
+    monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
+    monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s3.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
+    main_mod.main()
+    md = next(report_dir.glob("*.md")).read_text(encoding="utf-8")
+    assert "Deep dives skipped" not in md
+
+
+def test_metadata_only_skips_deep_dives(tmp_path, monkeypatch):
+    channels_path = tmp_path / "channels.json"
+    channels_path.write_text(json.dumps({"topic_buckets":[{"topic":"t","channels":[{"name":"C","url":"https://youtube.com/@c"}]}]}), encoding="utf-8")
+    report_dir = tmp_path / "out_meta"
+    vids=[{"id":"m1","title":"Meta","channel":"c","published_at":dt.datetime(2026,5,14,12,0,tzinfo=dt.timezone.utc),"url":"https://www.youtube.com/watch?v=m1","description":""}]
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
+    monkeypatch.setattr(main_mod, "fetch_transcript", lambda *a, **k: None)
+    monkeypatch.setattr(main_mod, "fetch_captions_via_timedtext", lambda *a, **k: ("", "empty"))
+    monkeypatch.setattr(main_mod, "fetch_captions_text", lambda *a, **k: ("", "empty", ""))
+    monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "## Executive Summary\n\nmeta")
+    calls={"n":0}
+    def _detail(*a, **k): calls["n"] += 1; return "detail"
+    monkeypatch.setattr(main_mod, "summarize_item_detail", _detail)
+    monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
+    monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s4.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
+    main_mod.main()
+    md = next(report_dir.glob("*.md")).read_text(encoding="utf-8")
+    assert "Deep dives skipped because no transcript, caption, or description content was available." in md
+    assert "Details & reasoning" not in md
+    assert calls["n"] == 0
