@@ -1272,6 +1272,16 @@ def main() -> None:
     print(f"[config] channels_file={args.channels!r} hours={args.hours} (override={lookback_override is not None})")
     print(f"[config] report_dir={report_dir!r}")
     print(f"[config] report_language={report_language!r} report_profile={report_profile!r}")
+    provider = (os.getenv("YOUTUBE_TRANSCRIPT_PROVIDER", "none") or "none").strip().lower()
+    api_key_present = bool((os.getenv("YOUTUBE_TRANSCRIPT_API_KEY") or "").strip())
+    base_url_present = bool((os.getenv("YOUTUBE_TRANSCRIPT_API_BASE_URL") or "").strip())
+    max_videos = max(0, _safe_int("MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN", 10))
+    min_chars = max(1, _safe_int("MANAGED_TRANSCRIPT_MIN_CHARS", 300))
+    if not _is_cybermed(report_key, report_profile):
+        print(
+            f"[transcript-provider] provider={provider} api_key_present={api_key_present} base_url_present={base_url_present} "
+            f"max_videos={max_videos} min_chars={min_chars}"
+        )
     print(f"[config] limits: MAX_ITEMS_PER_CHANNEL={max_items_per_channel}, DETAIL_ITEMS_PER_DAY={detail_items_per_day}, DETAIL_ITEMS_PER_CHANNEL_MAX={detail_items_per_channel_max}")
     print(f"[config] overview_items_max={overview_items_max}, max_text_chars_per_item={max_text_chars_per_item}")
     print(f"[config] pubmed_sent_cooldown_hours={sent_cooldown_hours}, reconsider_unsent_hours={reconsider_unsent_hours}")

@@ -104,6 +104,15 @@ class YouTubeDiagnosticsCounters:
     youtube_api_metadata_error_total: int = 0
     youtube_api_metadata_items_returned_total: int = 0
     youtube_api_channel_ids_discovered_total: int = 0
+    youtube_transcript_provider: str = "none"
+    managed_transcript_configured: bool = False
+    managed_transcript_api_key_present: bool = False
+    managed_transcript_base_url_present: bool = False
+    managed_transcript_attempted_total: int = 0
+    managed_transcript_success_total: int = 0
+    managed_transcript_error_total: int = 0
+    managed_transcript_auth_error_total: int = 0
+    managed_transcript_misconfigured_total: int = 0
 
     def to_log_line(self) -> str:
         return (
@@ -282,6 +291,15 @@ class YouTubeDiagnosticsCounters:
             "youtube_api_metadata_error_total",
             "youtube_api_metadata_items_returned_total",
             "youtube_api_channel_ids_discovered_total",
+            "youtube_transcript_provider",
+            "managed_transcript_configured",
+            "managed_transcript_api_key_present",
+            "managed_transcript_base_url_present",
+            "managed_transcript_attempted_total",
+            "managed_transcript_success_total",
+            "managed_transcript_error_total",
+            "managed_transcript_auth_error_total",
+            "managed_transcript_misconfigured_total",
         ]
         data = {key: getattr(self, key, 0) for key in keys}
         data["captions_error_by_kind"] = dict(self.captions_error_by_kind)

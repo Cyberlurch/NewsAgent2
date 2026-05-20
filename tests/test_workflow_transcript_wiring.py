@@ -1,0 +1,12 @@
+from pathlib import Path
+
+
+def test_workflow_has_managed_transcript_provider_override_and_env_wiring():
+    text = Path('.github/workflows/newsagent.yml').read_text(encoding='utf-8')
+    assert 'managed_transcript_provider:' in text
+    assert "- transcriptapi" in text
+    assert "- supadata" in text
+    assert "- generic" in text
+    assert "YOUTUBE_TRANSCRIPT_PROVIDER: ${{ env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE != 'default' && env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE || (vars.YOUTUBE_TRANSCRIPT_PROVIDER || 'none') }}" in text
+    assert "YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY || '' }}" in text
+    assert "YOUTUBE_TRANSCRIPT_API_BASE_URL: ${{ vars.YOUTUBE_TRANSCRIPT_API_BASE_URL || '' }}" in text
