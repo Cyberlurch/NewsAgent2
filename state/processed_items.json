@@ -137,7 +137,7 @@
       "last_seen_utc": "2026-05-20T07:02:26+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-05-20T12:54:56+00:00",
+  "last_successful_daily_run_utc": "2026-05-20T13:07:16+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -1551,6 +1551,12 @@
             "processed_at_utc": "2026-05-19T07:03:27+00:00",
             "title": "WHO utlyser \"globalt hälsonödläge\" - Nytt virus \"hotar\" - Arne Weinz",
             "url": "https://www.youtube.com/watch?v=aolrI4xeRPg"
+          },
+          "attLBzbEAHA": {
+            "channel": "tagesschau",
+            "processed_at_utc": "2026-05-20T13:07:16+00:00",
+            "title": "Der neue Zoll-Deal mit Trump: Was jetzt auf Deutschland und die EU zukommt",
+            "url": "https://www.youtube.com/watch?v=attLBzbEAHA"
           },
           "bFQGg4e5uHs": {
             "channel": "COMPACTTV",
@@ -5381,6 +5387,6 @@
       }
     }
   },
-  "updated_at_utc": "2026-05-20T12:54:56+00:00",
+  "updated_at_utc": "2026-05-20T13:07:16+00:00",
   "version": 1
 }
