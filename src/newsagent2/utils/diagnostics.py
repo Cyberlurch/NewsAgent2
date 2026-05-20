@@ -134,6 +134,10 @@ class YouTubeDiagnosticsCounters:
     transcript_chunking_success_total: int = 0
     transcript_chunking_error_total: int = 0
     transcript_chunking_skipped_budget_total: int = 0
+    transcript_chunking_not_needed_total: int = 0
+    managed_transcript_full_within_limit_total: int = 0
+    managed_transcript_chunked_total: int = 0
+    managed_transcript_excerpt_total: int = 0
     transcript_chunks_total: int = 0
     transcript_chars_processed_total: int = 0
     transcript_full_chars_available_max: int = 0
@@ -342,10 +346,14 @@ class YouTubeDiagnosticsCounters:
             "transcript_chunking_success_total",
             "transcript_chunking_error_total",
             "transcript_chunking_skipped_budget_total",
+            "transcript_chunking_not_needed_total",
             "transcript_chunks_total",
             "transcript_chars_processed_total",
             "transcript_full_chars_available_max",
             "transcript_full_chars_available_median",
+            "managed_transcript_full_within_limit_total",
+            "managed_transcript_chunked_total",
+            "managed_transcript_excerpt_total",
             "full_text_items_total",
             "metadata_only_items_total",
             "full_text_ratio",

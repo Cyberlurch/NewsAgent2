@@ -247,3 +247,21 @@ def test_chunking_failure_does_not_break_overview(tmp_path, monkeypatch):
     diag = json.loads((report_dir / "cyberlurch_youtube_diagnostics.json").read_text(encoding="utf-8"))
     assert "transcript_chunking_attempted_total" in diag
     assert "transcript_chunking_error_total" in diag
+
+
+def test_chunking_not_needed_counter_for_short_transcript(tmp_path, monkeypatch):
+    channels_path = tmp_path / "channels.json"
+    channels_path.write_text(json.dumps({"topic_buckets":[{"topic":"t","channels":[{"name":"C","url":"https://youtube.com/@c"}]}]}), encoding="utf-8")
+    report_dir = tmp_path / "out_short"
+    short_text = "X" * 3000
+    vids=[{"id":"c2","title":"Short","channel":"c","published_at":dt.datetime(2026,5,14,12,0,tzinfo=dt.timezone.utc),"url":"https://www.youtube.com/watch?v=c2","description":""}]
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
+    monkeypatch.setattr(main_mod, "fetch_video_content", lambda **k: type("R", (), {"status":"success","text":short_text,"source":"managed_transcript"})())
+    monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "## Executive Summary\n\nok")
+    monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
+    monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
+    monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s6.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
+    main_mod.main()
+    diag = json.loads((report_dir / "cyberlurch_youtube_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["transcript_chunking_not_needed_total"] >= 1

@@ -71,3 +71,62 @@ def test_deep_dive_prefers_chunk_summary_fields(monkeypatch):
     assert "Full transcript summary:" in captured["payload"]
     assert "Notable claims:" in captured["payload"]
     assert "RAWTRANSCRIPT RAWTRANSCRIPT RAWTRANSCRIPT" not in captured["payload"]
+
+
+def test_chunk_model_env_used(monkeypatch):
+    captured = {}
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(model, messages, temperature):
+                    captured.setdefault("models", []).append(model)
+                    return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"{}"})()})()]})()
+    monkeypatch.setenv("OPENAI_MODEL", "base-model")
+    monkeypatch.setenv("OPENAI_MODEL_CYBERLURCH_CHUNKS", "chunk-model")
+    import importlib
+    importlib.reload(summarizer)
+    monkeypatch.setattr(summarizer, "_get_client", lambda: C())
+    summarizer.summarize_youtube_transcript_chunks({"text":"X"*2000})
+    assert captured["models"] and all(m == "chunk-model" for m in captured["models"])
+
+
+def test_overview_and_deepdive_model_env_used(monkeypatch):
+    captured = []
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(model, messages, temperature, **kwargs):
+                    captured.append(model)
+                    return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"ok"})()})()]})()
+    monkeypatch.setenv("REPORT_KEY", "cyberlurch")
+    monkeypatch.setenv("OPENAI_MODEL", "base-model")
+    monkeypatch.setenv("OPENAI_MODEL_CYBERLURCH_OVERVIEW", "overview-model")
+    monkeypatch.setenv("OPENAI_MODEL_CYBERLURCH_DEEPDIVE", "deepdive-model")
+    import importlib
+    importlib.reload(summarizer)
+    monkeypatch.setattr(summarizer, "_get_client", lambda: C())
+    summarizer.summarize([{"source":"youtube","title":"t","text":"hello"}], language="en", profile="general")
+    summarizer.summarize_item_detail({"source":"youtube","title":"t","text":"hello world "*20}, language="en", profile="general")
+    assert "overview-model" in captured
+    assert "deepdive-model" in captured
+
+
+def test_cybermed_model_behavior_unchanged(monkeypatch):
+    captured = []
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(model, messages, temperature, **kwargs):
+                    captured.append(model)
+                    return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"ok"})()})()]})()
+    monkeypatch.setenv("REPORT_KEY", "cybermed")
+    monkeypatch.setenv("OPENAI_MODEL", "base-model")
+    monkeypatch.setenv("OPENAI_MODEL_CYBERLURCH_DEEPDIVE", "deepdive-model")
+    import importlib
+    importlib.reload(summarizer)
+    monkeypatch.setattr(summarizer, "_get_client", lambda: C())
+    summarizer.summarize_item_detail({"source":"youtube","title":"t","text":"hello world "*20}, language="en", profile="medical")
+    assert "base-model" in captured

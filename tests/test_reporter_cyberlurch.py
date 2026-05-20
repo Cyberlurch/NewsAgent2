@@ -146,6 +146,28 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("Source: TranscriptAPI, full transcript chunked", md)
 
+    def test_daily_source_label_for_full_transcript_within_limit(self):
+        items = [{
+            "id": "d5", "title": "Short Transcript", "url": "https://example.com/short",
+            "channel": "Channel E", "published_at": datetime(2024, 3, 4),
+            "text_source": "managed_transcript", "content_status": "full_text",
+            "transcript_full_chars_available": 5953, "transcript_chars_used_for_summary": 5953, "transcript_was_truncated": False,
+        }]
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertIn("Source: TranscriptAPI, full transcript within limit", md)
+
+    def test_daily_source_label_for_transcript_excerpt(self):
+        items = [{
+            "id": "d6", "title": "Truncated Transcript", "url": "https://example.com/excerpt",
+            "channel": "Channel E", "published_at": datetime(2024, 3, 4),
+            "text_source": "managed_transcript", "content_status": "full_text",
+            "transcript_full_chars_available": 12000, "transcript_chars_used_for_summary": 6000, "transcript_was_truncated": True,
+        }]
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertIn("Source: TranscriptAPI, transcript excerpt", md)
+
 
 if __name__ == "__main__":
     unittest.main()

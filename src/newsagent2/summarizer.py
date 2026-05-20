@@ -12,6 +12,9 @@ from openai import OpenAI
 
 # Default model used for all summaries (override via OPENAI_MODEL env var)
 OPENAI_MODEL = (os.getenv("OPENAI_MODEL") or "gpt-4.1").strip()
+OPENAI_MODEL_CYBERLURCH_CHUNKS = (os.getenv("OPENAI_MODEL_CYBERLURCH_CHUNKS") or OPENAI_MODEL).strip()
+OPENAI_MODEL_CYBERLURCH_OVERVIEW = (os.getenv("OPENAI_MODEL_CYBERLURCH_OVERVIEW") or OPENAI_MODEL).strip()
+OPENAI_MODEL_CYBERLURCH_DEEPDIVE = (os.getenv("OPENAI_MODEL_CYBERLURCH_DEEPDIVE") or OPENAI_MODEL).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE") or OPENAI_MODEL).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK") or "").strip()
 
@@ -1022,12 +1025,12 @@ def summarize_youtube_transcript_chunks(item: Dict[str, Any], *, language: str =
             "Summarize this transcript chunk in JSON with keys summary,key_points,notable_claims,uncertainties. "
             f"Keep summary <= {max_chunk_summary} chars. Chunk {idx}/{len(chunks)}:\n{ch}"
         )
-        r=client.chat.completions.create(model=OPENAI_MODEL,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up}],temperature=0.2)
+        r=client.chat.completions.create(model=OPENAI_MODEL_CYBERLURCH_CHUNKS,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up}],temperature=0.2)
         per.append((r.choices[0].message.content or "").strip())
     combined="\n\n".join(per)
     up2=("Combine chunk summaries into JSON with keys transcript_full_summary,transcript_key_points,transcript_notable_claims,transcript_uncertainties."
          " Keep concise and faithful.\n"+combined)
-    r2=client.chat.completions.create(model=OPENAI_MODEL,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up2}],temperature=0.2)
+    r2=client.chat.completions.create(model=OPENAI_MODEL_CYBERLURCH_CHUNKS,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up2}],temperature=0.2)
     out={"chunks_total":len(chunks),"chars_processed_total":sum(len(c) for c in chunks)}
     try:
         obj=json.loads((r2.choices[0].message.content or "{}").strip())
@@ -1091,7 +1094,7 @@ def summarize(items: List[Dict[str, Any]], *, language: str = "de", profile: str
     try:
         client = _get_client()
         r = client.chat.completions.create(
-            model=OPENAI_MODEL,
+            model=OPENAI_MODEL_CYBERLURCH_OVERVIEW if is_cyberlurch else OPENAI_MODEL,
             messages=[
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
@@ -1242,7 +1245,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     try:
         client = _get_client()
         models = _pubmed_deep_dive_models()
-        model_to_use = models.primary if src == "pubmed" else OPENAI_MODEL
+        model_to_use = models.primary if src == "pubmed" else (OPENAI_MODEL_CYBERLURCH_DEEPDIVE if is_cyberlurch else OPENAI_MODEL)
 
         if src == "pubmed":
             fallback_bl = (item.get("bottom_line") or "").strip()

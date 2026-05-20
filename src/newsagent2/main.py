@@ -38,6 +38,9 @@ from .state_manager import (
     should_skip_pubmed_item,
 )
 from .summarizer import (
+    OPENAI_MODEL_CYBERLURCH_CHUNKS,
+    OPENAI_MODEL_CYBERLURCH_DEEPDIVE,
+    OPENAI_MODEL_CYBERLURCH_OVERVIEW,
     summarize,
     summarize_item_detail,
     summarize_pubmed_bottom_line,
@@ -1273,6 +1276,12 @@ def main() -> None:
     print(f"[config] channels_file={args.channels!r} hours={args.hours} (override={lookback_override is not None})")
     print(f"[config] report_dir={report_dir!r}")
     print(f"[config] report_language={report_language!r} report_profile={report_profile!r}")
+    if report_key.strip().lower() == "cyberlurch":
+        print(
+            f"[models] cyberlurch_chunks={OPENAI_MODEL_CYBERLURCH_CHUNKS} "
+            f"cyberlurch_overview={OPENAI_MODEL_CYBERLURCH_OVERVIEW} "
+            f"cyberlurch_deepdive={OPENAI_MODEL_CYBERLURCH_DEEPDIVE}"
+        )
     provider = (os.getenv("YOUTUBE_TRANSCRIPT_PROVIDER", "none") or "none").strip().lower()
     if report_key.strip().lower()=="cyberlurch" and report_mode in {"weekly","monthly","yearly"} and not _env_bool("CYBERLURCH_MANAGED_TRANSCRIPTS_FOR_ROLLUPS", False):
         os.environ["YOUTUBE_TRANSCRIPT_PROVIDER"] = "none"
@@ -2131,6 +2140,9 @@ def main() -> None:
                     chunked = 0
                     for it in sorted(overview_items, key=lambda x: x.get("published_at") or datetime.min.replace(tzinfo=timezone.utc), reverse=True):
                         full_text = str(it.get("_full_text_for_processing") or it.get("text") or "")
+                        it["transcript_full_chars_available"] = len(full_text)
+                        it["transcript_chars_used_for_summary"] = len(str(it.get("text") or ""))
+                        it["transcript_was_truncated"] = bool(it["transcript_chars_used_for_summary"] < it["transcript_full_chars_available"])
                         if it.get("text_source") == "managed_transcript" and it.get("content_status") == "full_text" and len(full_text) >= min_chars:
                             youtube_diag.transcript_chunking_attempted_total += 1
                             youtube_diag.transcript_full_chars_available_max = max(
@@ -2146,6 +2158,8 @@ def main() -> None:
                                 it.update({k:v for k,v in res.items() if k.startswith("transcript_")})
                                 it["transcript_processing"] = "chunked_full_transcript"
                                 it["transcript_chunking_success"] = True
+                                it["transcript_chars_used_for_summary"] = len(full_text)
+                                it["transcript_was_truncated"] = False
                                 youtube_diag.transcript_chunking_success_total += 1
                                 youtube_diag.transcript_chunks_total += int(res.get("chunks_total") or 0)
                                 youtube_diag.transcript_chars_processed_total += int(res.get("chars_processed_total") or 0)
@@ -2153,6 +2167,8 @@ def main() -> None:
                             except Exception:
                                 it["transcript_chunking_success"] = False
                                 youtube_diag.transcript_chunking_error_total += 1
+                        elif it.get("text_source") == "managed_transcript" and it.get("content_status") == "full_text":
+                            youtube_diag.transcript_chunking_not_needed_total += 1
                     full_lengths = [
                         len(str(it.get("_full_text_for_processing") or it.get("text") or ""))
                         for it in overview_items
@@ -2161,6 +2177,15 @@ def main() -> None:
                     if full_lengths:
                         youtube_diag.transcript_full_chars_available_max = max(full_lengths)
                         youtube_diag.transcript_full_chars_available_median = int(median(full_lengths))
+                    for it in overview_items:
+                        if it.get("text_source") != "managed_transcript":
+                            continue
+                        if str(it.get("transcript_processing") or "").strip() == "chunked_full_transcript" and bool(it.get("transcript_chunking_success")):
+                            youtube_diag.managed_transcript_chunked_total += 1
+                        elif bool(it.get("transcript_was_truncated")):
+                            youtube_diag.managed_transcript_excerpt_total += 1
+                        else:
+                            youtube_diag.managed_transcript_full_within_limit_total += 1
                 overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
             except Exception as e:
                 print(f"[summarize] ERROR: summarize() failed: {e!r}")

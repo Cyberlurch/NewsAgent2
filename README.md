@@ -134,6 +134,15 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 - `OPENAI_MODEL_PUBMED_DEEPDIVE` (defaults to `OPENAI_MODEL`): primary model for PubMed deep dives (e.g., `gpt-4.1`).
 - `OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK` (optional): fallback model used once when the first deep-dive attempt outputs too many “Not reported” fields.
 
+### Recommended cost-conscious Cyberlurch model setup
+
+- `OPENAI_MODEL_CYBERLURCH_CHUNKS = gpt-5-mini`
+- `OPENAI_MODEL_CYBERLURCH_OVERVIEW = gpt-4.1`
+- `OPENAI_MODEL_CYBERLURCH_DEEPDIVE = gpt-4.1`
+
+Optional quality test:
+- `OPENAI_MODEL_CYBERLURCH_DEEPDIVE = gpt-5.2`
+
 ### Optional PubMed Open Access full text enrichment
 
 - `PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT` (default `0`): when set to `1`, attempts to fetch PMC Open Access full text for the selected PubMed deep dives via the PMC ID Converter and OA Web Service.
