@@ -9,11 +9,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-import requests
-
 from .collectors_youtube import fetch_captions_text, fetch_transcript
 from .collectors_youtube_timedtext import fetch_captions_via_timedtext
 from .utils.text_quality import classify_low_signal_youtube_text
+from .managed_transcripts import fetch_managed_transcript
 
 CACHE_PATH = Path("state/youtube_content_cache.json")
 DEFAULT_PROVIDER_ORDER = ["youtube_transcript_api", "description", "timedtext", "yt_dlp_captions", "metadata_only"]
@@ -82,88 +81,14 @@ class YtDlpCaptionsProvider(BaseProvider):
 class ManagedTranscriptProvider(BaseProvider):
     name = "managed_transcript"
 
-    def __init__(self) -> None:
-        self.profile = (os.getenv("YOUTUBE_TRANSCRIPT_PROVIDER") or "none").strip().lower()
-        if self.profile not in {"none", "transcriptapi", "supadata", "generic"}:
-            self.profile = "none"
-        self.api_key = (os.getenv("YOUTUBE_TRANSCRIPT_API_KEY") or "").strip()
-        self.base_url = (os.getenv("YOUTUBE_TRANSCRIPT_API_BASE_URL") or "").strip()
-        self.min_chars = max(1, int((os.getenv("MANAGED_TRANSCRIPT_MIN_CHARS") or "300").strip()))
-        raw_langs = (os.getenv("MANAGED_TRANSCRIPT_LANGS") or "de,en,sv").strip()
-        self.languages = [x.strip() for x in raw_langs.split(",") if x.strip()] or ["de", "en", "sv"]
-
-    def _enabled(self) -> bool:
-        return self.profile != "none"
-
-    def _extract_text(self, body: Any) -> str:
-        if isinstance(body, dict):
-            for key in ("text", "content", "transcript"):
-                val = body.get(key)
-                if isinstance(val, str) and val.strip():
-                    return val.strip()
-            segments = body.get("segments")
-            if isinstance(segments, list):
-                return " ".join(str(s.get("text") or "").strip() for s in segments if isinstance(s, dict)).strip()
-        if isinstance(body, list):
-            return " ".join(str(s.get("text") or "").strip() for s in body if isinstance(s, dict)).strip()
-        return ""
-
     def fetch(self, *, video_id: str, video_url: str, description: str, diagnostics: dict[str, Any]) -> ProviderResult:
-        t0 = time.monotonic()
-        diagnostics["youtube_transcript_provider"] = self.profile
-        diagnostics["managed_transcript_configured"] = self._enabled() and bool(self.api_key)
-        diagnostics["managed_transcript_api_key_present"] = bool(self.api_key)
-        diagnostics["managed_transcript_base_url_present"] = bool(self.base_url)
-        if not self._enabled():
-            return ProviderResult("empty", "", self.name, error_kind="disabled", duration_s=time.monotonic() - t0)
-        diagnostics["managed_transcript_attempted_total"] = int(diagnostics.get("managed_transcript_attempted_total", 0)) + 1
-        if not self.api_key:
-            diagnostics["managed_transcript_error_total"] = int(diagnostics.get("managed_transcript_error_total", 0)) + 1
-            diagnostics["managed_transcript_misconfigured_total"] = int(diagnostics.get("managed_transcript_misconfigured_total", 0)) + 1
-            return ProviderResult("error", "", self.name, error_kind="misconfigured", duration_s=time.monotonic() - t0)
-
-        method = (os.getenv("YOUTUBE_TRANSCRIPT_API_METHOD") or ("POST" if self.profile == "generic" else "GET")).strip().upper()
-        auth_header = (os.getenv("YOUTUBE_TRANSCRIPT_API_AUTH_HEADER") or ("Authorization" if self.profile == "generic" else "x-api-key")).strip()
-        video_param = (os.getenv("YOUTUBE_TRANSCRIPT_API_VIDEO_PARAM") or ("video_id" if self.profile == "generic" else "videoId")).strip()
-        url = self.base_url
-        if not url:
-            if self.profile == "supadata":
-                url = "https://api.supadata.ai/v1/youtube/transcript"
-            elif self.profile == "transcriptapi":
-                url = "https://api.transcriptapi.com/v1/transcript"
-        if not url:
-            diagnostics["managed_transcript_error_total"] = int(diagnostics.get("managed_transcript_error_total", 0)) + 1
-            diagnostics["managed_transcript_misconfigured_total"] = int(diagnostics.get("managed_transcript_misconfigured_total", 0)) + 1
-            return ProviderResult("error", "", self.name, error_kind="misconfigured", duration_s=time.monotonic() - t0)
-
-        headers = {auth_header: f"Bearer {self.api_key}" if auth_header.lower() == "authorization" else self.api_key}
-        payload = {video_param: video_id if video_param.lower() != "url" else video_url, "url": video_url, "languages": self.languages, "text": True}
-        try:
-            if method == "POST":
-                resp = requests.post(url, headers=headers, json=payload, timeout=20)
-            else:
-                resp = requests.get(url, headers=headers, params=payload, timeout=20)
-            if resp.status_code == 429:
-                diagnostics["managed_transcript_rate_limited_total"] = int(diagnostics.get("managed_transcript_rate_limited_total", 0)) + 1
-                retry_after = resp.headers.get("Retry-After")
-                if retry_after and retry_after.isdigit():
-                    time.sleep(min(2.0, max(0.0, float(retry_after))))
-                return ProviderResult("error", "", self.name, error_kind="rate_limited", duration_s=time.monotonic() - t0)
-            if resp.status_code >= 400:
-                diagnostics["managed_transcript_error_total"] = int(diagnostics.get("managed_transcript_error_total", 0)) + 1
-                if resp.status_code in {401, 403}:
-                    diagnostics["managed_transcript_auth_error_total"] = int(diagnostics.get("managed_transcript_auth_error_total", 0)) + 1
-                return ProviderResult("error", "", self.name, error_kind=f"http_{resp.status_code}", duration_s=time.monotonic() - t0)
-            body = resp.json() if resp.content else {}
-            text = self._extract_text(body)
-            if len(text) >= self.min_chars:
-                diagnostics["managed_transcript_success_total"] = int(diagnostics.get("managed_transcript_success_total", 0)) + 1
-                return ProviderResult("success", text, self.name, duration_s=time.monotonic() - t0)
-            diagnostics["managed_transcript_empty_total"] = int(diagnostics.get("managed_transcript_empty_total", 0)) + 1
-            return ProviderResult("empty", "", self.name, duration_s=time.monotonic() - t0)
-        except Exception:
-            diagnostics["managed_transcript_error_total"] = int(diagnostics.get("managed_transcript_error_total", 0)) + 1
-            return ProviderResult("error", "", self.name, error_kind="request_failed", duration_s=time.monotonic() - t0)
+        result = fetch_managed_transcript(video_id, diagnostics=diagnostics)
+        return ProviderResult(
+            result.get("status", "empty"),
+            str(result.get("text") or ""),
+            self.name,
+            error_kind=str(result.get("error_kind") or ""),
+        )
 
 
 class MetadataOnlyProvider(BaseProvider):
@@ -234,13 +159,7 @@ def fetch_video_content(*, video_id: str, video_url: str, description: str, diag
         "metadata_only": MetadataOnlyProvider(),
     }
     order = _provider_order()
-    managed_budget = max(0, int((os.getenv("MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN") or "10").strip()))
-
     for name in order:
-        if name == "managed_transcript":
-            if int(diagnostics.get("managed_transcript_attempted_total", 0)) >= managed_budget:
-                diagnostics["managed_transcript_skipped_budget_total"] = int(diagnostics.get("managed_transcript_skipped_budget_total", 0)) + 1
-                continue
         provider = providers.get(name)
         if provider is None:
             continue

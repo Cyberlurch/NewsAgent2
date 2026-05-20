@@ -110,6 +110,12 @@ class YouTubeDiagnosticsCounters:
     managed_transcript_base_url_present: bool = False
     managed_transcript_attempted_total: int = 0
     managed_transcript_success_total: int = 0
+    managed_transcript_empty_total: int = 0
+    managed_transcript_rate_limited_total: int = 0
+    managed_transcript_skipped_budget_total: int = 0
+    managed_transcript_chars_min: int = 0
+    managed_transcript_chars_median: int = 0
+    managed_transcript_chars_max: int = 0
     managed_transcript_error_total: int = 0
     managed_transcript_auth_error_total: int = 0
     managed_transcript_misconfigured_total: int = 0
@@ -297,9 +303,15 @@ class YouTubeDiagnosticsCounters:
             "managed_transcript_base_url_present",
             "managed_transcript_attempted_total",
             "managed_transcript_success_total",
+            "managed_transcript_empty_total",
             "managed_transcript_error_total",
             "managed_transcript_auth_error_total",
+            "managed_transcript_rate_limited_total",
             "managed_transcript_misconfigured_total",
+            "managed_transcript_skipped_budget_total",
+            "managed_transcript_chars_min",
+            "managed_transcript_chars_median",
+            "managed_transcript_chars_max",
         ]
         data = {key: getattr(self, key, 0) for key in keys}
         data["captions_error_by_kind"] = dict(self.captions_error_by_kind)
