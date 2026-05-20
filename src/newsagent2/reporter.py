@@ -752,7 +752,7 @@ def to_markdown(
                     )
                 md.append(line)
                 src_map = {
-                    "managed_transcript": "TranscriptAPI",
+                    "managed_transcript": "TranscriptAPI, transcript excerpt",
                     "youtube_transcript_api": "YouTube transcript API",
                     "description": "YouTube description",
                     "metadata_only": "metadata only",
@@ -761,7 +761,10 @@ def to_markdown(
                 if not text_source and it.get("content_status") == "metadata_only":
                     text_source = "metadata_only"
                 if text_source in src_map:
-                    md.append(f"  - Source: {src_map[text_source]}")
+                    label = src_map[text_source]
+                    if text_source == "managed_transcript" and str(it.get("transcript_processing") or "").strip() == "chunked_full_transcript":
+                        label = "TranscriptAPI, full transcript chunked"
+                    md.append(f"  - Source: {label}")
                 if it.get("content_status") == "metadata_only":
                     md.append("  - Transcript/caption text unavailable; listed from metadata only.")
                 if is_cyberlurch_periodic:
