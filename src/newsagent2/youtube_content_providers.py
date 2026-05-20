@@ -15,6 +15,7 @@ import yt_dlp
 
 from .collectors_youtube import build_ytdlp_common_opts, fetch_captions_text, fetch_transcript
 from .collectors_youtube_timedtext import fetch_captions_via_timedtext
+from .utils.text_quality import classify_low_signal_youtube_text
 
 CACHE_PATH = Path("state/youtube_content_cache.json")
 DEFAULT_PROVIDER_ORDER = ["youtube_transcript_api", "description", "timedtext", "yt_dlp_captions", "metadata_only"]
@@ -60,7 +61,13 @@ class DescriptionProvider(BaseProvider):
     def fetch(self, *, video_id: str, video_url: str, description: str, diagnostics: dict[str, Any]) -> ProviderResult:
         t0 = time.monotonic()
         text = (description or "").strip()
-        return ProviderResult("success" if text else "empty", text, self.name, duration_s=time.monotonic() - t0)
+        min_chars = max(1, int((os.getenv("DESCRIPTION_PROVIDER_MIN_CHARS") or "300").strip()))
+        if len(text) < min_chars:
+            return ProviderResult("empty", "", self.name, duration_s=time.monotonic() - t0)
+        low_signal, _reason = classify_low_signal_youtube_text(text)
+        if low_signal:
+            return ProviderResult("empty", "", self.name, duration_s=time.monotonic() - t0)
+        return ProviderResult("success", text, self.name, duration_s=time.monotonic() - t0)
 
 
 class TimedTextProvider(BaseProvider):

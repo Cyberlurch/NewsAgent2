@@ -15,6 +15,7 @@ from .collector_foamed import collect_foamed_items
 from .collectors_youtube import fetch_transcript, fetch_captions_text, list_recent_videos, get_yt_dlp_version
 from .collectors_youtube_rss import list_recent_videos_rss
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
+from .collectors_youtube_api import fetch_video_snippets
 from .emailer import send_markdown
 from .rollups import (
     derive_monthly_summary,
@@ -163,6 +164,44 @@ def _dedupe_videos_by_id(videos: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return out
 
 
+
+
+def _channel_cache_key(channel: dict[str, Any]) -> str:
+    name = str(channel.get("name") or "").strip()
+    if name:
+        return name
+    return str(channel.get("url") or "").strip()
+
+
+def _load_youtube_channel_id_cache(path: str = "state/youtube_channel_ids.json") -> dict[str, Any]:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict) and isinstance(data.get("channels"), dict):
+            return data
+    except Exception:
+        pass
+    return {"channels": {}}
+
+
+def _save_youtube_channel_id_cache(cache: dict[str, Any], *, read_only_mode: bool, path: str = "state/youtube_channel_ids.json") -> None:
+    if read_only_mode:
+        return
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(cache, f, ensure_ascii=False, indent=2, sort_keys=True)
+        f.write("\n")
+
+
+def _write_channel_id_suggestions(suggestions: dict[str, str], report_dir: str) -> None:
+    if (os.getenv("GITHUB_EVENT_NAME") or "").strip() != "workflow_dispatch" or not suggestions:
+        return
+    out_path = os.path.join(report_dir, "cyberlurch_channel_id_suggestions.json")
+    os.makedirs(report_dir, exist_ok=True)
+    payload = [{"channel": k, "channel_id": v} for k, v in sorted(suggestions.items())]
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+        f.write("\n")
 def _metadata_only_text(*, title: str, channel: str, published_at: Any) -> str:
     if isinstance(published_at, datetime):
         published = published_at.astimezone(timezone.utc).replace(microsecond=0).isoformat()
@@ -1330,6 +1369,8 @@ def main() -> None:
     pubmed_candidates_by_channel: Dict[str, int] = {}
     pubmed_queries_used: List[Tuple[str, str]] = []  # (channel_name, term)
     pubmed_state_skip_reasons: Dict[str, int] = {}
+    channel_id_cache = _load_youtube_channel_id_cache()
+    discovered_channel_ids: dict[str, str] = {}
 
     for ch in channels:
         cname = ch["name"]
@@ -1341,6 +1382,11 @@ def main() -> None:
 
         if source == "youtube":
             youtube_diag.channels_attempted_total += 1
+            cache_key = _channel_cache_key(ch)
+            cached_channel_id = str(channel_id_cache.get("channels", {}).get(cache_key, {}).get("channel_id") or "").strip()
+            if cached_channel_id and not str(ch.get("channel_id") or "").strip():
+                ch = dict(ch)
+                ch["channel_id"] = cached_channel_id
             vids: List[Dict[str, Any]] = []
             ytdlp_failed = False
             used_rss_primary = False
@@ -1387,6 +1433,36 @@ def main() -> None:
 
             if not vids:
                 continue
+
+            api_key = (os.getenv("YOUTUBE_API_KEY") or "").strip()
+            api_enabled = _env_bool("YOUTUBE_API_METADATA", bool(api_key)) and bool(api_key)
+            api_max_videos = max(1, _safe_int("YOUTUBE_API_MAX_VIDEOS_PER_RUN", 150))
+            snippets: dict[str, dict[str, Any]] = {}
+            if api_enabled:
+                id_batch = [str(v.get("id") or "").strip() for v in vids if str(v.get("id") or "").strip()][:api_max_videos]
+                for i in range(0, len(id_batch), 50):
+                    snippets.update(fetch_video_snippets(id_batch[i : i + 50], api_key, youtube_diag.__dict__))
+
+            for v in vids:
+                snippet = snippets.get(str(v.get("id") or "").strip()) or {}
+                if snippet:
+                    if snippet.get("title"):
+                        v["title"] = snippet["title"]
+                    if snippet.get("description"):
+                        v["description"] = snippet["description"]
+                    if snippet.get("channel"):
+                        v["channel"] = snippet["channel"]
+                    if snippet.get("published_at"):
+                        v["published_at"] = _parse_iso_utc(snippet.get("published_at")) or v.get("published_at")
+                    channel_id = str(snippet.get("channel_id") or "").strip()
+                    if channel_id.startswith("UC"):
+                        discovered_channel_ids[cache_key] = channel_id
+                        youtube_diag.youtube_api_channel_ids_discovered_total += 1
+                        channel_id_cache.setdefault("channels", {})[cache_key] = {
+                            "channel_id": channel_id,
+                            "source": "youtube_api",
+                            "updated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+                        }
 
             for v in vids:
                 vid = str(v.get("id") or "").strip()
@@ -1511,6 +1587,8 @@ def main() -> None:
             print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
             continue
 
+    _save_youtube_channel_id_cache(channel_id_cache, read_only_mode=read_only_mode)
+    _write_channel_id_suggestions(discovered_channel_ids, report_dir)
     print(f"[collect] youtube_diagnostics: {youtube_diag.to_log_line()}")
 
     run_metadata = ""

@@ -98,6 +98,12 @@ class YouTubeDiagnosticsCounters:
     external_api_success_total: int = 0
     external_api_empty_total: int = 0
     external_api_error_total: int = 0
+    youtube_api_metadata_attempted_total: int = 0
+    youtube_api_metadata_success_total: int = 0
+    youtube_api_metadata_empty_total: int = 0
+    youtube_api_metadata_error_total: int = 0
+    youtube_api_metadata_items_returned_total: int = 0
+    youtube_api_channel_ids_discovered_total: int = 0
 
     def to_log_line(self) -> str:
         return (
@@ -153,6 +159,12 @@ class YouTubeDiagnosticsCounters:
             "blackscout_ytdlp_skipped_due_to_bot_check={blackscout_ytdlp_skipped_due_to_bot_check} "
             "captions_error_by_kind={captions_error_by_kind} "
             "low_signal_reason_counts={low_signal_reason_counts}"
+            " youtube_api_metadata_attempted_total={youtube_api_metadata_attempted_total}"
+            " youtube_api_metadata_success_total={youtube_api_metadata_success_total}"
+            " youtube_api_metadata_empty_total={youtube_api_metadata_empty_total}"
+            " youtube_api_metadata_error_total={youtube_api_metadata_error_total}"
+            " youtube_api_metadata_items_returned_total={youtube_api_metadata_items_returned_total}"
+            " youtube_api_channel_ids_discovered_total={youtube_api_channel_ids_discovered_total}"
         ).format(**self.__dict__)
 
     def to_metadata_section(self) -> str:
@@ -225,6 +237,12 @@ class YouTubeDiagnosticsCounters:
             f"- blackscout_timedtext_empty: {self.blackscout_timedtext_empty}",
             f"- blackscout_timedtext_error: {self.blackscout_timedtext_error}",
             f"- blackscout_ytdlp_skipped_due_to_bot_check: {self.blackscout_ytdlp_skipped_due_to_bot_check}",
+            f"- youtube_api_metadata_attempted_total: {self.youtube_api_metadata_attempted_total}",
+            f"- youtube_api_metadata_success_total: {self.youtube_api_metadata_success_total}",
+            f"- youtube_api_metadata_empty_total: {self.youtube_api_metadata_empty_total}",
+            f"- youtube_api_metadata_error_total: {self.youtube_api_metadata_error_total}",
+            f"- youtube_api_metadata_items_returned_total: {self.youtube_api_metadata_items_returned_total}",
+            f"- youtube_api_channel_ids_discovered_total: {self.youtube_api_channel_ids_discovered_total}",
         ]
         return "\n".join(lines)
 
@@ -258,6 +276,12 @@ class YouTubeDiagnosticsCounters:
             "rss_primary_success_total",
             "rss_primary_empty_total",
             "rss_primary_error_total",
+            "youtube_api_metadata_attempted_total",
+            "youtube_api_metadata_success_total",
+            "youtube_api_metadata_empty_total",
+            "youtube_api_metadata_error_total",
+            "youtube_api_metadata_items_returned_total",
+            "youtube_api_channel_ids_discovered_total",
         ]
         data = {key: getattr(self, key, 0) for key in keys}
         data["captions_error_by_kind"] = dict(self.captions_error_by_kind)
