@@ -101,6 +101,7 @@ def test_upload_date_before_cutoff_date_is_skipped(monkeypatch):
 
 
 def test_metadata_enrichment_uses_better_timestamp_and_description(monkeypatch):
+    monkeypatch.setenv("YTDLP_FULL_METADATA_ENRICHMENT", "1")
     url = "https://www.youtube.com/watch?v=enriched"
     better_ts = int(dt.datetime(2026, 5, 11, 5, 0, tzinfo=dt.timezone.utc).timestamp())
     setup_dummy(
@@ -131,6 +132,7 @@ def test_metadata_enrichment_uses_better_timestamp_and_description(monkeypatch):
 
 
 def test_metadata_enrichment_failure_keeps_plausibly_recent_date_only_entry(monkeypatch):
+    monkeypatch.setenv("YTDLP_FULL_METADATA_ENRICHMENT", "1")
     url = "https://www.youtube.com/watch?v=fallback"
     setup_dummy(
         monkeypatch,

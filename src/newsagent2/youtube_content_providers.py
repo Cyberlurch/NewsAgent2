@@ -137,17 +137,21 @@ def fetch_video_content(*, video_id: str, video_url: str, description: str, diag
     now = dt.datetime.now(dt.timezone.utc)
     ttl = dt.timedelta(days=_cache_ttl_days())
 
-    cache_key = video_id
-    cached = cache.get(cache_key)
-    if isinstance(cached, dict):
+    for cache_key in (f"{video_id}::managed_transcript", video_id):
+        cached = cache.get(cache_key)
+        if not isinstance(cached, dict):
+            continue
         fetched = cached.get("fetched_at_utc")
         try:
             fetched_at = dt.datetime.fromisoformat(str(fetched))
         except Exception:
             fetched_at = None
         if fetched_at and fetched_at.tzinfo and (now - fetched_at) <= ttl and cached.get("status") == "success":
-            diagnostics["cache_hit_total"] = int(diagnostics.get("cache_hit_total", 0)) + 1
-            return ProviderResult("success", str(cached.get("text") or ""), str(cached.get("source") or "description"))
+            text = str(cached.get("text") or "").strip()
+            if text:
+                diagnostics["cache_hit_total"] = int(diagnostics.get("cache_hit_total", 0)) + 1
+                return ProviderResult("success", text, str(cached.get("source") or "description"))
+            diagnostics["cache_metadata_hit_no_text_total"] = int(diagnostics.get("cache_metadata_hit_no_text_total", 0)) + 1
     diagnostics["cache_miss_total"] = int(diagnostics.get("cache_miss_total", 0)) + 1
 
     providers = {

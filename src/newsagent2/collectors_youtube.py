@@ -234,6 +234,7 @@ def list_recent_videos(
     cutoff = now_utc - dt.timedelta(hours=hours)
 
     out: List[Dict[str, Any]] = []
+    full_metadata_enabled = (os.getenv("YTDLP_FULL_METADATA_ENRICHMENT") or "0").strip() == "1"
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
         entries = info.get("entries") or [] if isinstance(info, dict) else []
@@ -255,7 +256,7 @@ def list_recent_videos(
                 # A precise timestamp just outside the cutoff may be stale flat metadata; try
                 # one full metadata fetch before deciding. Date-only entries from before
                 # cutoff.date() are not plausible and can be skipped without enrichment.
-                if (not date_granular) and _needs_metadata_enrichment(published, date_granular=date_granular, cutoff=cutoff):
+                if full_metadata_enabled and (not date_granular) and _needs_metadata_enrichment(published, date_granular=date_granular, cutoff=cutoff):
                     metadata_attempted = True
                     full = _fetch_full_video_metadata(video_url, diagnostics)
                     if full:
@@ -267,7 +268,7 @@ def list_recent_videos(
                 if not _is_plausibly_recent(published, date_granular=date_granular, cutoff=cutoff, now_utc=now_utc):
                     _diag_inc(diagnostics, "videos_skipped_by_date_total")
                     continue
-            if force_full_metadata or _needs_metadata_enrichment(published, date_granular=date_granular, cutoff=cutoff):
+            if force_full_metadata or (full_metadata_enabled and _needs_metadata_enrichment(published, date_granular=date_granular, cutoff=cutoff)):
                 metadata_attempted = True
                 full = _fetch_full_video_metadata(video_url, diagnostics)
                 if full:
@@ -285,7 +286,7 @@ def list_recent_videos(
                 published = now_utc
 
             description = (e.get("description") or "").strip()
-            if force_full_metadata and len(description) < DESCRIPTION_MIN_CHARS and not enriched and not metadata_attempted:
+            if (force_full_metadata or full_metadata_enabled) and len(description) < DESCRIPTION_MIN_CHARS and not enriched and not metadata_attempted:
                 full = _fetch_full_video_metadata(video_url, diagnostics)
                 if full:
                     full_published, full_date_granular = _published_at_from_entry(full)

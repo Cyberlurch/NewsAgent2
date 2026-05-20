@@ -140,6 +140,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             "channel": "Channel D", "published_at": datetime(2024, 3, 3),
             "text_source": "managed_transcript", "content_status": "full_text",
             "transcript_processing": "chunked_full_transcript",
+            "transcript_chunking_success": True,
         }]
         with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")

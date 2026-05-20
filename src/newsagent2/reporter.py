@@ -762,7 +762,7 @@ def to_markdown(
                     text_source = "metadata_only"
                 if text_source in src_map:
                     label = src_map[text_source]
-                    if text_source == "managed_transcript" and str(it.get("transcript_processing") or "").strip() == "chunked_full_transcript":
+                    if text_source == "managed_transcript" and str(it.get("transcript_processing") or "").strip() == "chunked_full_transcript" and bool(it.get("transcript_chunking_success")):
                         label = "TranscriptAPI, full transcript chunked"
                     md.append(f"  - Source: {label}")
                 if it.get("content_status") == "metadata_only":

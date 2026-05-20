@@ -92,6 +92,7 @@ class YouTubeDiagnosticsCounters:
     provider_error_by_name: dict[str, int] = field(default_factory=dict)
     provider_error_kind_by_name: dict[str, dict[str, int]] = field(default_factory=dict)
     cache_hit_total: int = 0
+    cache_metadata_hit_no_text_total: int = 0
     cache_miss_total: int = 0
     cache_write_total: int = 0
     external_api_attempted_total: int = 0
@@ -135,6 +136,8 @@ class YouTubeDiagnosticsCounters:
     transcript_chunking_skipped_budget_total: int = 0
     transcript_chunks_total: int = 0
     transcript_chars_processed_total: int = 0
+    transcript_full_chars_available_max: int = 0
+    transcript_full_chars_available_median: int = 0
 
     def to_log_line(self) -> str:
         return (
@@ -341,6 +344,8 @@ class YouTubeDiagnosticsCounters:
             "transcript_chunking_skipped_budget_total",
             "transcript_chunks_total",
             "transcript_chars_processed_total",
+            "transcript_full_chars_available_max",
+            "transcript_full_chars_available_median",
             "full_text_items_total",
             "metadata_only_items_total",
             "full_text_ratio",
@@ -359,6 +364,7 @@ class YouTubeDiagnosticsCounters:
         data["provider_error_kind_by_name"] = dict(self.provider_error_kind_by_name)
         data["cache_hit_total"] = self.cache_hit_total
         data["cache_miss_total"] = self.cache_miss_total
+        data["cache_metadata_hit_no_text_total"] = self.cache_metadata_hit_no_text_total
         data["cache_write_total"] = self.cache_write_total
         data["external_api_attempted_total"] = self.external_api_attempted_total
         data["external_api_success_total"] = self.external_api_success_total
