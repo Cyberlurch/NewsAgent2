@@ -151,11 +151,11 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             "id": "d5", "title": "Short Transcript", "url": "https://example.com/short",
             "channel": "Channel E", "published_at": datetime(2024, 3, 4),
             "text_source": "managed_transcript", "content_status": "full_text",
-            "transcript_full_chars_available": 5953, "transcript_chars_used_for_summary": 5953, "transcript_was_truncated": False,
+            "transcript_processing": "direct_full_transcript", "transcript_direct_success": True,
         }]
         with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
-        self.assertIn("Source: TranscriptAPI, full transcript within limit", md)
+        self.assertIn("Source: TranscriptAPI, full transcript analyzed", md)
 
     def test_daily_source_label_for_transcript_excerpt(self):
         items = [{

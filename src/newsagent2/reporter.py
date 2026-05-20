@@ -760,16 +760,19 @@ def to_markdown(
                 if not text_source and it.get("content_status") == "metadata_only":
                     text_source = "metadata_only"
                 if text_source == "managed_transcript":
+                    was_direct = str(it.get("transcript_processing") or "").strip() == "direct_full_transcript" and bool(it.get("transcript_direct_success"))
                     was_chunked = str(it.get("transcript_processing") or "").strip() == "chunked_full_transcript" and bool(it.get("transcript_chunking_success"))
                     was_truncated = bool(it.get("transcript_was_truncated"))
                     full_chars = int(it.get("transcript_full_chars_available") or 0)
                     used_chars = int(it.get("transcript_chars_used_for_summary") or 0)
-                    if was_chunked:
+                    if was_direct:
+                        label = "TranscriptAPI, full transcript analyzed"
+                    elif was_chunked:
                         label = "TranscriptAPI, full transcript chunked"
                     elif was_truncated or (full_chars > 0 and used_chars > 0 and used_chars < full_chars):
                         label = "TranscriptAPI, transcript excerpt"
                     else:
-                        label = "TranscriptAPI, full transcript within limit"
+                        label = "TranscriptAPI, transcript excerpt"
                     md.append(f"  - Source: {label}")
                 elif text_source in src_map:
                     label = src_map[text_source]

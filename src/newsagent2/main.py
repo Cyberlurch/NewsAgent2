@@ -48,6 +48,7 @@ from .summarizer import (
     summarize_cyberlurch_bottom_line,
     extract_pubmed_abstract,
     summarize_youtube_transcript_chunks,
+    summarize_youtube_transcript_direct,
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
 from .unpaywall import fetch_best_oa_fulltext, lookup_unpaywall, pick_best_oa_url
@@ -2135,7 +2136,8 @@ def main() -> None:
                 is_cyberlurch_run = (report_key or "").strip().lower() == "cyberlurch"
                 if is_cyberlurch_run:
                     chunk_enabled = _env_bool("CYBERLURCH_CHUNK_TRANSCRIPTS", True)
-                    min_chars = _safe_int("CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS", 7000)
+                    direct_max_chars = _safe_int("CYBERLURCH_DIRECT_TRANSCRIPT_MAX_CHARS", 80000)
+                    min_chars = _safe_int("CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS", 80000)
                     budget = _safe_int("CYBERLURCH_MAX_CHUNKED_TRANSCRIPTS_PER_RUN", 5)
                     chunked = 0
                     for it in sorted(overview_items, key=lambda x: x.get("published_at") or datetime.min.replace(tzinfo=timezone.utc), reverse=True):
@@ -2143,32 +2145,51 @@ def main() -> None:
                         it["transcript_full_chars_available"] = len(full_text)
                         it["transcript_chars_used_for_summary"] = len(str(it.get("text") or ""))
                         it["transcript_was_truncated"] = bool(it["transcript_chars_used_for_summary"] < it["transcript_full_chars_available"])
-                        if it.get("text_source") == "managed_transcript" and it.get("content_status") == "full_text" and len(full_text) >= min_chars:
-                            youtube_diag.transcript_chunking_attempted_total += 1
+                        if it.get("text_source") == "managed_transcript" and it.get("content_status") == "full_text":
                             youtube_diag.transcript_full_chars_available_max = max(
                                 int(getattr(youtube_diag, "transcript_full_chars_available_max", 0)),
                                 len(full_text),
                             )
-                            if (not chunk_enabled) or chunked >= budget:
-                                youtube_diag.transcript_chunking_skipped_budget_total += 1
-                                continue
-                            try:
-                                it["_full_text_for_processing"] = full_text
-                                res = summarize_youtube_transcript_chunks(it, language=report_language, profile=report_profile)
-                                it.update({k:v for k,v in res.items() if k.startswith("transcript_")})
-                                it["transcript_processing"] = "chunked_full_transcript"
-                                it["transcript_chunking_success"] = True
-                                it["transcript_chars_used_for_summary"] = len(full_text)
-                                it["transcript_was_truncated"] = False
-                                youtube_diag.transcript_chunking_success_total += 1
-                                youtube_diag.transcript_chunks_total += int(res.get("chunks_total") or 0)
-                                youtube_diag.transcript_chars_processed_total += int(res.get("chars_processed_total") or 0)
-                                chunked += 1
-                            except Exception:
-                                it["transcript_chunking_success"] = False
-                                youtube_diag.transcript_chunking_error_total += 1
-                        elif it.get("text_source") == "managed_transcript" and it.get("content_status") == "full_text":
-                            youtube_diag.transcript_chunking_not_needed_total += 1
+                            if len(full_text) <= direct_max_chars:
+                                youtube_diag.transcript_direct_attempted_total += 1
+                                try:
+                                    it["_full_text_for_processing"] = full_text
+                                    res = summarize_youtube_transcript_direct(it, language=report_language, profile=report_profile)
+                                    it.update({k: v for k, v in res.items() if k.startswith("transcript_") or k in {"important_details", "editorial_relevance"}})
+                                    it["transcript_processing"] = "direct_full_transcript"
+                                    it["transcript_direct_success"] = True
+                                    it["transcript_chars_used_for_summary"] = len(full_text)
+                                    it["transcript_was_truncated"] = False
+                                    youtube_diag.transcript_direct_success_total += 1
+                                    youtube_diag.transcript_direct_chars_processed_total += int(res.get("chars_processed_total") or 0)
+                                except Exception:
+                                    it["transcript_direct_success"] = False
+                                    youtube_diag.transcript_direct_error_total += 1
+                                    it["transcript_processing"] = "excerpt"
+                            elif len(full_text) >= min_chars:
+                                youtube_diag.transcript_chunking_attempted_total += 1
+                                if (not chunk_enabled) or chunked >= budget:
+                                    youtube_diag.transcript_chunking_skipped_budget_total += 1
+                                    it["transcript_processing"] = "excerpt"
+                                    continue
+                                try:
+                                    it["_full_text_for_processing"] = full_text
+                                    res = summarize_youtube_transcript_chunks(it, language=report_language, profile=report_profile)
+                                    it.update({k:v for k,v in res.items() if k.startswith("transcript_")})
+                                    it["transcript_processing"] = "chunked_full_transcript"
+                                    it["transcript_chunking_success"] = True
+                                    it["transcript_chars_used_for_summary"] = len(full_text)
+                                    it["transcript_was_truncated"] = False
+                                    youtube_diag.transcript_chunking_success_total += 1
+                                    youtube_diag.transcript_chunks_total += int(res.get("chunks_total") or 0)
+                                    youtube_diag.transcript_chars_processed_total += int(res.get("chars_processed_total") or 0)
+                                    chunked += 1
+                                except Exception:
+                                    it["transcript_chunking_success"] = False
+                                    youtube_diag.transcript_chunking_error_total += 1
+                                    it["transcript_processing"] = "excerpt"
+                            else:
+                                youtube_diag.transcript_chunking_not_needed_total += 1
                     full_lengths = [
                         len(str(it.get("_full_text_for_processing") or it.get("text") or ""))
                         for it in overview_items
@@ -2182,10 +2203,15 @@ def main() -> None:
                             continue
                         if str(it.get("transcript_processing") or "").strip() == "chunked_full_transcript" and bool(it.get("transcript_chunking_success")):
                             youtube_diag.managed_transcript_chunked_total += 1
+                            youtube_diag.transcript_processing_chunked_total += 1
+                        elif str(it.get("transcript_processing") or "").strip() == "direct_full_transcript" and bool(it.get("transcript_direct_success")):
+                            youtube_diag.transcript_processing_direct_total += 1
                         elif bool(it.get("transcript_was_truncated")):
                             youtube_diag.managed_transcript_excerpt_total += 1
+                            youtube_diag.transcript_processing_excerpt_total += 1
                         else:
                             youtube_diag.managed_transcript_full_within_limit_total += 1
+                            youtube_diag.transcript_processing_not_needed_total += 1
                 overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
             except Exception as e:
                 print(f"[summarize] ERROR: summarize() failed: {e!r}")
