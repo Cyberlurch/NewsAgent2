@@ -1370,6 +1370,8 @@ def main() -> None:
         return
 
     print(f"[channels] Loaded channels: {len(channels)}")
+    if _env_bool("FORCE_REPROCESS", False) and (os.getenv("YOUTUBE_TRANSCRIPT_PROVIDER") or "none").strip().lower() != "none":
+        print("[cost] FORCE_REPROCESS=true may re-call managed transcript provider for already seen videos.")
 
     items: List[Dict[str, Any]] = []
     skipped_by_state = 0
@@ -1452,6 +1454,7 @@ def main() -> None:
 
             api_key = (os.getenv("YOUTUBE_API_KEY") or "").strip()
             api_enabled = _env_bool("YOUTUBE_API_METADATA", True) and bool(api_key)
+            force_ytdlp_full_metadata = _env_bool("YTDLP_FULL_METADATA_ENRICHMENT", False)
             api_max_videos = max(1, _safe_int("YOUTUBE_API_MAX_VIDEOS_PER_RUN", 150))
             snippets: dict[str, dict[str, Any]] = {}
             if api_enabled:
@@ -1485,7 +1488,9 @@ def main() -> None:
                 if not vid:
                     continue
 
-                if not read_only_mode and is_processed(state, report_key, "youtube", vid):
+                force_reprocess = _env_bool("FORCE_REPROCESS", False)
+                already_processed = is_processed(state, report_key, "youtube", vid)
+                if not read_only_mode and already_processed and not force_reprocess:
                     skipped_by_state += 1
                     continue
 
@@ -1495,15 +1500,23 @@ def main() -> None:
                 if is_blackscout:
                     youtube_diag.blackscout_total += 1
                 desc = (v.get("description") or "").strip()
+                allow_managed_reprocess = _env_bool("FORCE_REPROCESS_ALLOW_MANAGED_TRANSCRIPTS", False)
+                providers_override = None
+                if force_reprocess and not allow_managed_reprocess and already_processed:
+                    providers_override = "youtube_transcript_api,description,timedtext,yt_dlp_captions,metadata_only"
+                    youtube_diag.managed_transcript_skipped_force_reprocess_cost_guard_total = int(
+                        getattr(youtube_diag, "managed_transcript_skipped_force_reprocess_cost_guard_total", 0)
+                    ) + 1
                 provider_result = fetch_video_content(
                     video_id=vid,
                     video_url=(v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}",
                     description=desc,
                     diagnostics=youtube_diag.__dict__,
+                    providers_override=providers_override,
                 )
                 text = (provider_result.text or "").strip()
                 text_source = provider_result.source
-                content_status = "full_text" if provider_result.status == "success" and text else "metadata_only"
+                content_status = "full_text" if text_source in {"managed_transcript", "youtube_transcript_api", "description", "timedtext", "yt_dlp_captions"} and bool(text) else "metadata_only"
                 if not text:
                     youtube_diag.metadata_only_total += 1
                     text_source = "metadata_only"
@@ -1530,6 +1543,10 @@ def main() -> None:
                         "text_source": text_source,
                     }
                 )
+                if content_status == "full_text":
+                    youtube_diag.full_text_items_total += 1
+                else:
+                    youtube_diag.metadata_only_items_total += 1
 
         elif source == "pubmed":
             if is_cybermed_run:
@@ -1605,6 +1622,7 @@ def main() -> None:
 
     _save_youtube_channel_id_cache(channel_id_cache, read_only_mode=read_only_mode)
     _write_channel_id_suggestions(discovered_channel_ids, report_dir)
+    youtube_diag.managed_transcript_billable_success_estimate = youtube_diag.managed_transcript_success_total
     print(f"[collect] youtube_diagnostics: {youtube_diag.to_log_line()}")
 
     run_metadata = ""

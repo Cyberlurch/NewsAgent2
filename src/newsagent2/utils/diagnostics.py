@@ -124,6 +124,8 @@ class YouTubeDiagnosticsCounters:
     managed_transcript_skipped_previous_success_total: int = 0
     managed_transcript_skipped_retry_cooldown_total: int = 0
     managed_transcript_retry_due_total: int = 0
+    managed_transcript_billable_success_estimate: int = 0
+    managed_transcript_skipped_force_reprocess_cost_guard_total: int = 0
     full_text_items_total: int = 0
     metadata_only_items_total: int = 0
     full_text_ratio: float = 0.0
@@ -325,6 +327,8 @@ class YouTubeDiagnosticsCounters:
             "managed_transcript_skipped_previous_success_total",
             "managed_transcript_skipped_retry_cooldown_total",
             "managed_transcript_retry_due_total",
+            "managed_transcript_billable_success_estimate",
+            "managed_transcript_skipped_force_reprocess_cost_guard_total",
             "full_text_items_total",
             "metadata_only_items_total",
             "full_text_ratio",

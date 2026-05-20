@@ -121,7 +121,18 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             )
 
         self.assertIn("## Top videos", md)
+        self.assertIn("Source: metadata only", md)
         self.assertIn("Transcript/caption text unavailable; listed from metadata only.", md)
+
+    def test_daily_source_label_for_description(self):
+        items = [{
+            "id": "d3", "title": "Desc Video", "url": "https://example.com/desc",
+            "channel": "Channel D", "published_at": datetime(2024, 3, 3),
+            "text_source": "description", "content_status": "full_text",
+        }]
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertIn("Source: YouTube description", md)
 
 
 if __name__ == "__main__":

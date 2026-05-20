@@ -127,7 +127,7 @@ def _provider_order() -> list[str]:
     return DEFAULT_PROVIDER_ORDER.copy()
 
 
-def fetch_video_content(*, video_id: str, video_url: str, description: str, diagnostics: dict[str, Any]) -> ProviderResult:
+def fetch_video_content(*, video_id: str, video_url: str, description: str, diagnostics: dict[str, Any], providers_override: str | None = None) -> ProviderResult:
     diagnostics.setdefault("provider_attempted_by_name", {})
     diagnostics.setdefault("provider_success_by_name", {})
     diagnostics.setdefault("provider_empty_by_name", {})
@@ -158,7 +158,7 @@ def fetch_video_content(*, video_id: str, video_url: str, description: str, diag
         "yt_dlp_captions": YtDlpCaptionsProvider(),
         "metadata_only": MetadataOnlyProvider(),
     }
-    order = _provider_order()
+    order = [x.strip() for x in providers_override.split(",") if x.strip()] if providers_override else _provider_order()
     for name in order:
         provider = providers.get(name)
         if provider is None:

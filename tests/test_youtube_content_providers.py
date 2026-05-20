@@ -76,3 +76,18 @@ def test_cache_text_default_off_for_managed_transcript(tmp_path, monkeypatch):
                 fetch_video_content(video_id="v-cache-1", video_url="u", description="", diagnostics={})
     data=(tmp_path/"cache.json").read_text(encoding="utf-8")
     assert '"text": ""' in data
+
+
+def test_providers_override_skips_managed_transcript(tmp_path, monkeypatch):
+    monkeypatch.setenv("CYBERLURCH_CONTENT_PROVIDERS", "managed_transcript,description")
+    with patch("newsagent2.youtube_content_providers.CACHE_PATH", tmp_path/"cache.json"):
+        diag = {}
+        res = fetch_video_content(
+            video_id="v-ovr",
+            video_url="https://x",
+            description="substantive content " * 30,
+            diagnostics=diag,
+            providers_override="description,metadata_only",
+        )
+    assert res.source == "description"
+    assert diag["provider_attempted_by_name"].get("managed_transcript") is None
