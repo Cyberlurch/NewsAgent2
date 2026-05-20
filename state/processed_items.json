@@ -137,7 +137,7 @@
       "last_seen_utc": "2026-05-20T07:02:26+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-05-20T12:08:15+00:00",
+  "last_successful_daily_run_utc": "2026-05-20T12:36:47+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -2325,6 +2325,12 @@
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
             "title": "Jomshof (SD): Regeringen har inte gjort tillräckligt mot islamiseringen",
             "url": "https://www.youtube.com/watch?v=zrVFiqNxjeM"
+          },
+          "zvCPc6YXgPM": {
+            "channel": "IsraelNationalTV",
+            "processed_at_utc": "2026-05-20T12:36:47+00:00",
+            "title": "'Overwhelmed with death threats’: Pollard explains why he dropped Knesset bid",
+            "url": "https://www.youtube.com/watch?v=zvCPc6YXgPM"
           },
           "zyPehTHtugo": {
             "channel": "Redacted",
@@ -5363,6 +5369,6 @@
       }
     }
   },
-  "updated_at_utc": "2026-05-20T12:08:15+00:00",
+  "updated_at_utc": "2026-05-20T12:36:47+00:00",
   "version": 1
 }
