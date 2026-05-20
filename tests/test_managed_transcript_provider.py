@@ -68,3 +68,36 @@ def test_cache_hit_avoids_api_call():
             out = fetch_video_content(video_id="v6", video_url="https://youtube.com/watch?v=v6", description="", diagnostics={})
     assert out.text == "cached"
     post.assert_not_called()
+
+
+def test_transcriptapi_with_key_is_configured():
+    diag = {}
+    with tempfile.TemporaryDirectory() as td, patch.dict(os.environ, _env(YOUTUBE_TRANSCRIPT_PROVIDER="transcriptapi"), clear=False):
+        with patch("newsagent2.youtube_content_providers.CACHE_PATH", pathlib.Path(td) / "cache.json"):
+            resp = Mock(status_code=200, content=b"x")
+            resp.json.return_value = {"text": "hello transcript api"}
+            with patch("newsagent2.youtube_content_providers.requests.get", return_value=resp):
+                out = fetch_video_content(video_id="v7", video_url="https://youtube.com/watch?v=v7", description="", diagnostics=diag)
+    assert out.status == "success"
+    assert diag.get("youtube_transcript_provider") == "transcriptapi"
+    assert diag.get("managed_transcript_configured") is True
+    assert diag.get("managed_transcript_api_key_present") is True
+
+
+def test_provider_set_but_missing_key_increments_misconfigured():
+    diag = {}
+    with tempfile.TemporaryDirectory() as td, patch.dict(os.environ, _env(YOUTUBE_TRANSCRIPT_PROVIDER="supadata", YOUTUBE_TRANSCRIPT_API_KEY=""), clear=False):
+        with patch("newsagent2.youtube_content_providers.CACHE_PATH", pathlib.Path(td) / "cache.json"):
+            out = fetch_video_content(video_id="v8", video_url="https://youtube.com/watch?v=v8", description="", diagnostics=diag)
+    assert out.source == "metadata_only"
+    assert diag.get("managed_transcript_misconfigured_total", 0) >= 1
+
+
+def test_manual_override_none_disables_provider():
+    diag = {}
+    with tempfile.TemporaryDirectory() as td, patch.dict(os.environ, _env(YOUTUBE_TRANSCRIPT_PROVIDER="none"), clear=False):
+        with patch("newsagent2.youtube_content_providers.CACHE_PATH", pathlib.Path(td) / "cache.json"):
+            out = fetch_video_content(video_id="v9", video_url="https://youtube.com/watch?v=v9", description="", diagnostics=diag)
+    assert out.source == "metadata_only"
+    assert diag.get("managed_transcript_attempted_total", 0) == 0
+

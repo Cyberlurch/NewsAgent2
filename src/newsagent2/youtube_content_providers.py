@@ -84,9 +84,13 @@ class ManagedTranscriptProvider(BaseProvider):
 
     def __init__(self) -> None:
         self.profile = (os.getenv("YOUTUBE_TRANSCRIPT_PROVIDER") or "none").strip().lower()
+        if self.profile not in {"none", "transcriptapi", "supadata", "generic"}:
+            self.profile = "none"
         self.api_key = (os.getenv("YOUTUBE_TRANSCRIPT_API_KEY") or "").strip()
         self.base_url = (os.getenv("YOUTUBE_TRANSCRIPT_API_BASE_URL") or "").strip()
         self.min_chars = max(1, int((os.getenv("MANAGED_TRANSCRIPT_MIN_CHARS") or "300").strip()))
+        raw_langs = (os.getenv("MANAGED_TRANSCRIPT_LANGS") or "de,en,sv").strip()
+        self.languages = [x.strip() for x in raw_langs.split(",") if x.strip()] or ["de", "en", "sv"]
 
     def _enabled(self) -> bool:
         return self.profile != "none"
@@ -106,11 +110,16 @@ class ManagedTranscriptProvider(BaseProvider):
 
     def fetch(self, *, video_id: str, video_url: str, description: str, diagnostics: dict[str, Any]) -> ProviderResult:
         t0 = time.monotonic()
+        diagnostics["youtube_transcript_provider"] = self.profile
+        diagnostics["managed_transcript_configured"] = self._enabled() and bool(self.api_key)
+        diagnostics["managed_transcript_api_key_present"] = bool(self.api_key)
+        diagnostics["managed_transcript_base_url_present"] = bool(self.base_url)
         if not self._enabled():
             return ProviderResult("empty", "", self.name, error_kind="disabled", duration_s=time.monotonic() - t0)
         diagnostics["managed_transcript_attempted_total"] = int(diagnostics.get("managed_transcript_attempted_total", 0)) + 1
         if not self.api_key:
             diagnostics["managed_transcript_error_total"] = int(diagnostics.get("managed_transcript_error_total", 0)) + 1
+            diagnostics["managed_transcript_misconfigured_total"] = int(diagnostics.get("managed_transcript_misconfigured_total", 0)) + 1
             return ProviderResult("error", "", self.name, error_kind="misconfigured", duration_s=time.monotonic() - t0)
 
         method = (os.getenv("YOUTUBE_TRANSCRIPT_API_METHOD") or ("POST" if self.profile == "generic" else "GET")).strip().upper()
@@ -122,14 +131,13 @@ class ManagedTranscriptProvider(BaseProvider):
                 url = "https://api.supadata.ai/v1/youtube/transcript"
             elif self.profile == "transcriptapi":
                 url = "https://api.transcriptapi.com/v1/transcript"
-            elif self.profile == "youtube-transcript-io":
-                url = "https://api.youtube-transcript.io/transcript"
         if not url:
             diagnostics["managed_transcript_error_total"] = int(diagnostics.get("managed_transcript_error_total", 0)) + 1
+            diagnostics["managed_transcript_misconfigured_total"] = int(diagnostics.get("managed_transcript_misconfigured_total", 0)) + 1
             return ProviderResult("error", "", self.name, error_kind="misconfigured", duration_s=time.monotonic() - t0)
 
         headers = {auth_header: f"Bearer {self.api_key}" if auth_header.lower() == "authorization" else self.api_key}
-        payload = {video_param: video_id if video_param.lower() != "url" else video_url, "url": video_url, "languages": ["de", "en", "sv"], "text": True}
+        payload = {video_param: video_id if video_param.lower() != "url" else video_url, "url": video_url, "languages": self.languages, "text": True}
         try:
             if method == "POST":
                 resp = requests.post(url, headers=headers, json=payload, timeout=20)
@@ -143,6 +151,8 @@ class ManagedTranscriptProvider(BaseProvider):
                 return ProviderResult("error", "", self.name, error_kind="rate_limited", duration_s=time.monotonic() - t0)
             if resp.status_code >= 400:
                 diagnostics["managed_transcript_error_total"] = int(diagnostics.get("managed_transcript_error_total", 0)) + 1
+                if resp.status_code in {401, 403}:
+                    diagnostics["managed_transcript_auth_error_total"] = int(diagnostics.get("managed_transcript_auth_error_total", 0)) + 1
                 return ProviderResult("error", "", self.name, error_kind=f"http_{resp.status_code}", duration_s=time.monotonic() - t0)
             body = resp.json() if resp.content else {}
             text = self._extract_text(body)

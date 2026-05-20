@@ -46,15 +46,17 @@ on:
         required: false
         default: ""
         type: string
-      managed_transcript_mode:
-        description: "Use managed transcript provider for this manual test"
+      managed_transcript_provider:
+        description: "Managed transcript provider override"
         required: false
         default: default
         type: choice
         options:
           - default
-          - off
-          - on
+          - none
+          - transcriptapi
+          - supadata
+          - generic
 
 concurrency:
   group: newsagent2-${{ github.workflow }}-${{ github.ref }}
@@ -104,7 +106,7 @@ jobs:
       WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'cyberlurch') || 'both' }}
       EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') || 'real' }}
       CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.cyberlurch_channels_file || '') || '' }}
-      MANAGED_TRANSCRIPT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.managed_transcript_mode || 'default') || 'default' }}
+      MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.managed_transcript_provider || 'default') || 'default' }}
 
     steps:
       - name: Checkout
@@ -254,9 +256,12 @@ jobs:
           EMAIL_MODE: ${{ env.EMAIL_MODE }}
           SEND_EMAIL: ${{ env.SEND_EMAIL }}
           CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ env.CYBERLURCH_CHANNELS_FILE_OVERRIDE }}
-          YOUTUBE_TRANSCRIPT_PROVIDER: ${{ env.MANAGED_TRANSCRIPT_MODE == 'off' && 'none' || (env.MANAGED_TRANSCRIPT_MODE == 'on' && (vars.YOUTUBE_TRANSCRIPT_PROVIDER || 'generic')) || (vars.YOUTUBE_TRANSCRIPT_PROVIDER || 'none') }}
+          YOUTUBE_TRANSCRIPT_PROVIDER: ${{ env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE != 'default' && env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE || (vars.YOUTUBE_TRANSCRIPT_PROVIDER || 'none') }}
           YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY || '' }}
           YOUTUBE_TRANSCRIPT_API_BASE_URL: ${{ vars.YOUTUBE_TRANSCRIPT_API_BASE_URL || '' }}
+          MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN: ${{ vars.MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN || '10' }}
+          MANAGED_TRANSCRIPT_MIN_CHARS: ${{ vars.MANAGED_TRANSCRIPT_MIN_CHARS || '300' }}
+          MANAGED_TRANSCRIPT_LANGS: ${{ vars.MANAGED_TRANSCRIPT_LANGS || 'de,en,sv' }}
 
           # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.
           RECIPIENTS_JSON_CYBERLURCH: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH || '' }}
