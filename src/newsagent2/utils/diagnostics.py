@@ -129,6 +129,12 @@ class YouTubeDiagnosticsCounters:
     full_text_items_total: int = 0
     metadata_only_items_total: int = 0
     full_text_ratio: float = 0.0
+    transcript_chunking_attempted_total: int = 0
+    transcript_chunking_success_total: int = 0
+    transcript_chunking_error_total: int = 0
+    transcript_chunking_skipped_budget_total: int = 0
+    transcript_chunks_total: int = 0
+    transcript_chars_processed_total: int = 0
 
     def to_log_line(self) -> str:
         return (

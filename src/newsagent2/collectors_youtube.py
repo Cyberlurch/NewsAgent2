@@ -193,6 +193,7 @@ def list_recent_videos(
     max_items: int = 10,
     diagnostics: dict[str, int] | None = None,
     now_utc: dt.datetime | None = None,
+    force_full_metadata: bool = False,
 ) -> List[Dict[str, Any]]:
     """
     Liste die jüngsten Videos (ohne Download) eines Kanals via yt-dlp (flat playlist).
@@ -266,7 +267,7 @@ def list_recent_videos(
                 if not _is_plausibly_recent(published, date_granular=date_granular, cutoff=cutoff, now_utc=now_utc):
                     _diag_inc(diagnostics, "videos_skipped_by_date_total")
                     continue
-            if _needs_metadata_enrichment(published, date_granular=date_granular, cutoff=cutoff):
+            if force_full_metadata or _needs_metadata_enrichment(published, date_granular=date_granular, cutoff=cutoff):
                 metadata_attempted = True
                 full = _fetch_full_video_metadata(video_url, diagnostics)
                 if full:

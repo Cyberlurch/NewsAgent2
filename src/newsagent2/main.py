@@ -44,6 +44,7 @@ from .summarizer import (
     summarize_foamed_bottom_line,
     summarize_cyberlurch_bottom_line,
     extract_pubmed_abstract,
+    summarize_youtube_transcript_chunks,
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
 from .unpaywall import fetch_best_oa_fulltext, lookup_unpaywall, pick_best_oa_url
@@ -1431,6 +1432,7 @@ def main() -> None:
                         hours=args.hours,
                         max_items=max_items_per_channel,
                         diagnostics=youtube_diag.__dict__,
+                        force_full_metadata=force_ytdlp_full_metadata if "force_ytdlp_full_metadata" in locals() else False,
                     )
                     youtube_diag.channels_success_total += 1
                 except Exception as e:
@@ -2116,6 +2118,27 @@ def main() -> None:
                 )
         else:
             try:
+                if is_cyberlurch:
+                    chunk_enabled = _env_bool("CYBERLURCH_CHUNK_TRANSCRIPTS", True)
+                    min_chars = _safe_int("CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS", 7000)
+                    budget = _safe_int("CYBERLURCH_MAX_CHUNKED_TRANSCRIPTS_PER_RUN", 5)
+                    chunked = 0
+                    for it in sorted(overview_items, key=lambda x: x.get("published_at") or datetime.min.replace(tzinfo=timezone.utc), reverse=True):
+                        if (it.get("text_source") == "managed_transcript" and it.get("content_status") == "full_text" and len((it.get("text") or "")) >= min_chars):
+                            youtube_diag.transcript_chunking_attempted_total += 1
+                            if (not chunk_enabled) or chunked >= budget:
+                                youtube_diag.transcript_chunking_skipped_budget_total += 1
+                                continue
+                            try:
+                                res = summarize_youtube_transcript_chunks(it, language=report_language, profile=report_profile)
+                                it.update({k:v for k,v in res.items() if k.startswith("transcript_")})
+                                it["transcript_processing"] = "chunked_full_transcript"
+                                youtube_diag.transcript_chunking_success_total += 1
+                                youtube_diag.transcript_chunks_total += int(res.get("chunks_total") or 0)
+                                youtube_diag.transcript_chars_processed_total += int(res.get("chars_processed_total") or 0)
+                                chunked += 1
+                            except Exception:
+                                youtube_diag.transcript_chunking_error_total += 1
                 overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
             except Exception as e:
                 print(f"[summarize] ERROR: summarize() failed: {e!r}")

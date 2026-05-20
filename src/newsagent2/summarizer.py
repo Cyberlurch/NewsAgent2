@@ -987,10 +987,58 @@ def _get_client() -> OpenAI:
     return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
+
+
+def _chunk_text_ordered(text: str, *, chunk_chars: int, overlap_chars: int) -> list[str]:
+    txt=(text or "").strip()
+    if not txt:
+        return []
+    size=max(500,int(chunk_chars))
+    overlap=max(0,min(int(overlap_chars),size-1))
+    out=[]
+    i=0
+    n=len(txt)
+    while i<n:
+        j=min(n,i+size)
+        out.append(txt[i:j])
+        if j>=n:
+            break
+        i=max(i+1,j-overlap)
+    return out
+
+
+def summarize_youtube_transcript_chunks(item: Dict[str, Any], *, language: str = "de", profile: str = "general") -> dict:
+    text=(item.get("text") or "").strip()
+    chunk_chars=max(1000,int((os.getenv("CYBERLURCH_TRANSCRIPT_CHUNK_CHARS") or "6000").strip() or "6000"))
+    overlap=max(0,int((os.getenv("CYBERLURCH_TRANSCRIPT_CHUNK_OVERLAP_CHARS") or "500").strip() or "500"))
+    max_chunk_summary=max(300,int((os.getenv("CYBERLURCH_TRANSCRIPT_CHUNK_SUMMARY_MAX_CHARS") or "1200").strip() or "1200"))
+    chunks=_chunk_text_ordered(text, chunk_chars=chunk_chars, overlap_chars=overlap)
+    if not chunks:
+        return {"chunks_total":0,"chars_processed_total":0}
+    client=_get_client()
+    per=[]
+    for idx, ch in enumerate(chunks, start=1):
+        up = (
+            "Summarize this transcript chunk in JSON with keys summary,key_points,notable_claims,uncertainties. "
+            f"Keep summary <= {max_chunk_summary} chars. Chunk {idx}/{len(chunks)}:\n{ch}"
+        )
+        r=client.chat.completions.create(model=OPENAI_MODEL,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up}],temperature=0.2)
+        per.append((r.choices[0].message.content or "").strip())
+    combined="\n\n".join(per)
+    up2=("Combine chunk summaries into JSON with keys transcript_full_summary,transcript_key_points,transcript_notable_claims,transcript_uncertainties."
+         " Keep concise and faithful.\n"+combined)
+    r2=client.chat.completions.create(model=OPENAI_MODEL,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up2}],temperature=0.2)
+    out={"chunks_total":len(chunks),"chars_processed_total":sum(len(c) for c in chunks)}
+    try:
+        obj=json.loads((r2.choices[0].message.content or "{}").strip())
+        out.update({k:str(obj.get(k) or "").strip() for k in ["transcript_full_summary","transcript_key_points","transcript_notable_claims","transcript_uncertainties"]})
+    except Exception:
+        out["transcript_full_summary"]=(r2.choices[0].message.content or "").strip()
+    return out
 def _slim_items(items: List[Dict[str, Any]], max_text_chars: int = 2000) -> List[Dict[str, Any]]:
     out: List[Dict[str, Any]] = []
     for it in items:
-        text = (it.get("text") or "").strip()
+        text = (it.get("transcript_full_summary") or it.get("text") or "").strip()
         if len(text) > max_text_chars:
             text = text[:max_text_chars].rstrip()
 
@@ -1031,7 +1079,8 @@ def summarize(items: List[Dict[str, Any]], *, language: str = "de", profile: str
         if prof == "medical":
             sys_prompt += _MEDICAL_OVERVIEW_APPEND_EN if lang == "en" else _MEDICAL_OVERVIEW_APPEND_DE
 
-    items_json = json.dumps(_slim_items(items), ensure_ascii=False, indent=2)
+    max_chars = int((os.getenv("CYBERLURCH_OVERVIEW_MAX_TEXT_CHARS_PER_ITEM") or "6000").strip() or "6000") if is_cyberlurch else 2000
+    items_json = json.dumps(_slim_items(items, max_text_chars=max_chars), ensure_ascii=False, indent=2)
 
     user_prompt = (
         "Items (JSON):\n"
@@ -1086,6 +1135,8 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             sys_prompt += "\nMedizinischer Fokus: betone Evidenz, Studiendesign (falls genannt) und praktische Implikationen; keine Spekulation.\n"
 
     text = (item.get("text") or "").strip()
+    if src != "pubmed" and (item.get("transcript_full_summary") or "").strip():
+        text = f"{(item.get("transcript_full_summary") or "").strip()}\n\nKey points:\n{(item.get("transcript_key_points") or "").strip()}".strip()
     deep_chars = max(1, min(30000, int((os.getenv("CYBERLURCH_DEEPDIVE_MAX_TRANSCRIPT_CHARS") or "18000").strip() or "18000")))
     max_chars = 30000 if src == "pubmed" else (deep_chars if str(item.get("text_source") or "").strip()=="managed_transcript" else 6000)
     if len(text) > max_chars:
@@ -1359,6 +1410,8 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
 
     lang = _norm_language(language)
     text = (item.get("text") or "").strip()
+    if src != "pubmed" and (item.get("transcript_full_summary") or "").strip():
+        text = f"{(item.get("transcript_full_summary") or "").strip()}\n\nKey points:\n{(item.get("transcript_key_points") or "").strip()}".strip()
     if len(text) > 2000:
         text = text[:2000].rstrip()
 
@@ -1423,6 +1476,8 @@ def summarize_cyberlurch_bottom_line(item: Dict[str, Any], *, language: str = "e
 
     lang = _norm_language(language)
     text = (item.get("text") or "").strip()
+    if src != "pubmed" and (item.get("transcript_full_summary") or "").strip():
+        text = f"{(item.get("transcript_full_summary") or "").strip()}\n\nKey points:\n{(item.get("transcript_key_points") or "").strip()}".strip()
     if len(text) > 2000:
         text = text[:2000].rstrip()
     if len(text) < 80:
@@ -1490,6 +1545,8 @@ def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
 
     lang = _norm_language(language)
     text = (item.get("text") or "").strip()
+    if src != "pubmed" and (item.get("transcript_full_summary") or "").strip():
+        text = f"{(item.get("transcript_full_summary") or "").strip()}\n\nKey points:\n{(item.get("transcript_key_points") or "").strip()}".strip()
     if len(text) > 1500:
         text = text[:1500].rstrip()
 
