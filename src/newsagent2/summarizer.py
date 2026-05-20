@@ -1008,7 +1008,7 @@ def _chunk_text_ordered(text: str, *, chunk_chars: int, overlap_chars: int) -> l
 
 
 def summarize_youtube_transcript_chunks(item: Dict[str, Any], *, language: str = "de", profile: str = "general") -> dict:
-    text=(item.get("text") or "").strip()
+    text=(item.get("_full_text_for_processing") or item.get("text") or "").strip()
     chunk_chars=max(1000,int((os.getenv("CYBERLURCH_TRANSCRIPT_CHUNK_CHARS") or "6000").strip() or "6000"))
     overlap=max(0,int((os.getenv("CYBERLURCH_TRANSCRIPT_CHUNK_OVERLAP_CHARS") or "500").strip() or "500"))
     max_chunk_summary=max(300,int((os.getenv("CYBERLURCH_TRANSCRIPT_CHUNK_SUMMARY_MAX_CHARS") or "1200").strip() or "1200"))

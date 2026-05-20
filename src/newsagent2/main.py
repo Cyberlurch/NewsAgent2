@@ -1528,11 +1528,13 @@ def main() -> None:
                         published_at=v.get("published_at"),
                     )
 
+                full_text_for_processing = ""
+                if text_source == "managed_transcript" and text:
+                    full_text_for_processing = text
                 if len(text) > max_text_chars_per_item:
                     text = text[:max_text_chars_per_item].rstrip()
 
-                items.append(
-                    {
+                item_payload = {
                         "source": "youtube",
                         "id": vid,
                         "channel": cname,
@@ -1544,7 +1546,9 @@ def main() -> None:
                         "content_status": content_status,
                         "text_source": text_source,
                     }
-                )
+                if full_text_for_processing:
+                    item_payload["_full_text_for_processing"] = full_text_for_processing
+                items.append(item_payload)
                 if content_status == "full_text":
                     youtube_diag.full_text_items_total += 1
                 else:
@@ -1630,7 +1634,6 @@ def main() -> None:
     run_metadata = ""
     if report_key.strip().lower() == "cyberlurch":
         run_metadata = youtube_diag.to_metadata_section()
-        _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag)
 
     if is_cybermed_run:
         foamed_sources = load_foamed_sources_config(foamed_sources_path)
@@ -1990,6 +1993,8 @@ def main() -> None:
                 print(f"[email] WARN: failed to send empty report email: {e!r}")
         else:
             print("[email] No new items and SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
+        if report_key.strip().lower() == "cyberlurch":
+            _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag)
         return
 
     detail_items: List[Dict[str, Any]] = []
@@ -2125,21 +2130,37 @@ def main() -> None:
                     budget = _safe_int("CYBERLURCH_MAX_CHUNKED_TRANSCRIPTS_PER_RUN", 5)
                     chunked = 0
                     for it in sorted(overview_items, key=lambda x: x.get("published_at") or datetime.min.replace(tzinfo=timezone.utc), reverse=True):
-                        if (it.get("text_source") == "managed_transcript" and it.get("content_status") == "full_text" and len((it.get("text") or "")) >= min_chars):
+                        full_text = str(it.get("_full_text_for_processing") or it.get("text") or "")
+                        if it.get("text_source") == "managed_transcript" and it.get("content_status") == "full_text" and len(full_text) >= min_chars:
                             youtube_diag.transcript_chunking_attempted_total += 1
+                            youtube_diag.transcript_full_chars_available_max = max(
+                                int(getattr(youtube_diag, "transcript_full_chars_available_max", 0)),
+                                len(full_text),
+                            )
                             if (not chunk_enabled) or chunked >= budget:
                                 youtube_diag.transcript_chunking_skipped_budget_total += 1
                                 continue
                             try:
+                                it["_full_text_for_processing"] = full_text
                                 res = summarize_youtube_transcript_chunks(it, language=report_language, profile=report_profile)
                                 it.update({k:v for k,v in res.items() if k.startswith("transcript_")})
                                 it["transcript_processing"] = "chunked_full_transcript"
+                                it["transcript_chunking_success"] = True
                                 youtube_diag.transcript_chunking_success_total += 1
                                 youtube_diag.transcript_chunks_total += int(res.get("chunks_total") or 0)
                                 youtube_diag.transcript_chars_processed_total += int(res.get("chars_processed_total") or 0)
                                 chunked += 1
                             except Exception:
+                                it["transcript_chunking_success"] = False
                                 youtube_diag.transcript_chunking_error_total += 1
+                    full_lengths = [
+                        len(str(it.get("_full_text_for_processing") or it.get("text") or ""))
+                        for it in overview_items
+                        if (it.get("text_source") == "managed_transcript" and (it.get("_full_text_for_processing") or it.get("text")))
+                    ]
+                    if full_lengths:
+                        youtube_diag.transcript_full_chars_available_max = max(full_lengths)
+                        youtube_diag.transcript_full_chars_available_median = int(median(full_lengths))
                 overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
             except Exception as e:
                 print(f"[summarize] ERROR: summarize() failed: {e!r}")
@@ -2587,6 +2608,9 @@ def main() -> None:
             "structured_rescue_used_count": deep_dive_diag.get("structured_rescue_used_count", 0),
         }
 
+    for _it in report_items:
+        _it.pop("_full_text_for_processing", None)
+
     md = to_markdown(
         report_items,
         overview_body,
@@ -2602,6 +2626,8 @@ def main() -> None:
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
     print(f"[report] Wrote {out_path}")
+    if report_key.strip().lower() == "cyberlurch":
+        _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag)
 
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 

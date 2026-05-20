@@ -30,3 +30,11 @@ def test_force_full_metadata_keeps_old_behavior(monkeypatch):
     with patch.object(cy.yt_dlp,'YoutubeDL',_fake_ytdlp(entries)), patch.object(cy,'_fetch_full_video_metadata', return_value={}) as ff:
         cy.list_recent_videos('u',hours=48,max_items=1,diagnostics=diag, now_utc=dt.datetime(2026,5,20,tzinfo=dt.timezone.utc), force_full_metadata=True)
     assert ff.call_count >= 1
+
+
+def test_env_full_metadata_toggle_enabled(monkeypatch):
+    monkeypatch.setenv("YTDLP_FULL_METADATA_ENRICHMENT", "1")
+    entries=[{"id":"v1","title":"t","upload_date":"20260520","description":"x"*200}]
+    with patch.object(cy.yt_dlp,'YoutubeDL',_fake_ytdlp(entries)), patch.object(cy,'_fetch_full_video_metadata', return_value={}) as ff:
+        cy.list_recent_videos('u',hours=48,max_items=1,diagnostics={}, now_utc=dt.datetime(2026,5,20,tzinfo=dt.timezone.utc))
+    assert ff.call_count >= 1

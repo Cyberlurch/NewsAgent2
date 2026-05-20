@@ -91,3 +91,16 @@ def test_providers_override_skips_managed_transcript(tmp_path, monkeypatch):
         )
     assert res.source == "description"
     assert diag["provider_attempted_by_name"].get("managed_transcript") is None
+
+
+def test_cache_success_without_text_is_not_content_success(tmp_path, monkeypatch):
+    cache = tmp_path / "cache.json"
+    cache.write_text(json.dumps({"v2": {"status": "success", "source": "description", "fetched_at_utc": "2999-01-01T00:00:00+00:00", "text": ""}}))
+    monkeypatch.setenv("CYBERLURCH_CONTENT_PROVIDERS", "description")
+    monkeypatch.setenv("DESCRIPTION_PROVIDER_MIN_CHARS", "5")
+    with patch("newsagent2.youtube_content_providers.CACHE_PATH", cache):
+        diag = {}
+        res = fetch_video_content(video_id="v2", video_url="https://x", description="substantive content " * 20, diagnostics=diag)
+    assert res.status == "success"
+    assert res.text.strip() != ""
+    assert diag.get("cache_metadata_hit_no_text_total") == 1
