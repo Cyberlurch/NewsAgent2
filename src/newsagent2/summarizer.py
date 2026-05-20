@@ -1136,7 +1136,16 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
 
     text = (item.get("text") or "").strip()
     if src != "pubmed" and (item.get("transcript_full_summary") or "").strip():
-        text = f"{(item.get("transcript_full_summary") or "").strip()}\n\nKey points:\n{(item.get("transcript_key_points") or "").strip()}".strip()
+        text = (
+            "Full transcript summary:\n"
+            f"{(item.get('transcript_full_summary') or '').strip()}\n\n"
+            "Key points:\n"
+            f"{(item.get('transcript_key_points') or '').strip()}\n\n"
+            "Notable claims:\n"
+            f"{(item.get('transcript_notable_claims') or '').strip()}\n\n"
+            "Uncertainties:\n"
+            f"{(item.get('transcript_uncertainties') or '').strip()}"
+        ).strip()
     deep_chars = max(1, min(30000, int((os.getenv("CYBERLURCH_DEEPDIVE_MAX_TRANSCRIPT_CHARS") or "18000").strip() or "18000")))
     max_chars = 30000 if src == "pubmed" else (deep_chars if str(item.get("text_source") or "").strip()=="managed_transcript" else 6000)
     if len(text) > max_chars:
