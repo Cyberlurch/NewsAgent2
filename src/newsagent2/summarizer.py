@@ -1086,7 +1086,8 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             sys_prompt += "\nMedizinischer Fokus: betone Evidenz, Studiendesign (falls genannt) und praktische Implikationen; keine Spekulation.\n"
 
     text = (item.get("text") or "").strip()
-    max_chars = 30000 if src == "pubmed" else 6000
+    deep_chars = max(1, min(30000, int((os.getenv("CYBERLURCH_DEEPDIVE_MAX_TRANSCRIPT_CHARS") or "18000").strip() or "18000")))
+    max_chars = 30000 if src == "pubmed" else (deep_chars if str(item.get("text_source") or "").strip()=="managed_transcript" else 6000)
     if len(text) > max_chars:
         text = text[:max_chars].rstrip()
 

@@ -1273,9 +1273,12 @@ def main() -> None:
     print(f"[config] report_dir={report_dir!r}")
     print(f"[config] report_language={report_language!r} report_profile={report_profile!r}")
     provider = (os.getenv("YOUTUBE_TRANSCRIPT_PROVIDER", "none") or "none").strip().lower()
+    if report_key.strip().lower()=="cyberlurch" and report_mode in {"weekly","monthly","yearly"} and not _env_bool("CYBERLURCH_MANAGED_TRANSCRIPTS_FOR_ROLLUPS", False):
+        os.environ["YOUTUBE_TRANSCRIPT_PROVIDER"] = "none"
+        provider = "none"
     api_key_present = bool((os.getenv("YOUTUBE_TRANSCRIPT_API_KEY") or "").strip())
     base_url_present = bool((os.getenv("YOUTUBE_TRANSCRIPT_API_BASE_URL") or "").strip())
-    max_videos = max(0, _safe_int("MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN", 10))
+    max_videos = max(0, _safe_int("MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN", 25))
     min_chars = max(1, _safe_int("MANAGED_TRANSCRIPT_MIN_CHARS", 300))
     if not _is_cybermed(report_key, report_profile):
         print(
@@ -1283,6 +1286,9 @@ def main() -> None:
             f"max_videos={max_videos} min_chars={min_chars}"
         )
     print(f"[config] limits: MAX_ITEMS_PER_CHANNEL={max_items_per_channel}, DETAIL_ITEMS_PER_DAY={detail_items_per_day}, DETAIL_ITEMS_PER_CHANNEL_MAX={detail_items_per_channel_max}")
+    yt_api_key_present = bool((os.getenv("YOUTUBE_API_KEY") or "").strip())
+    yt_api_enabled = _env_bool("YOUTUBE_API_METADATA", True)
+    print(f"[youtube-api] metadata_enabled={yt_api_enabled} api_key_present={yt_api_key_present}")
     print(f"[config] overview_items_max={overview_items_max}, max_text_chars_per_item={max_text_chars_per_item}")
     print(f"[config] pubmed_sent_cooldown_hours={sent_cooldown_hours}, reconsider_unsent_hours={reconsider_unsent_hours}")
     print(f"[state] path={state_path!r} retention_days={retention_days}")
@@ -1445,7 +1451,7 @@ def main() -> None:
                 continue
 
             api_key = (os.getenv("YOUTUBE_API_KEY") or "").strip()
-            api_enabled = _env_bool("YOUTUBE_API_METADATA", bool(api_key)) and bool(api_key)
+            api_enabled = _env_bool("YOUTUBE_API_METADATA", True) and bool(api_key)
             api_max_videos = max(1, _safe_int("YOUTUBE_API_MAX_VIDEOS_PER_RUN", 150))
             snippets: dict[str, dict[str, Any]] = {}
             if api_enabled:
@@ -1999,6 +2005,10 @@ def main() -> None:
             if it.get("content_status") != "metadata_only" and it.get("text_source") != "metadata_only"
         ]
         metadata_only_items = [it for it in items_sorted if it.get("content_status") == "metadata_only" or it.get("text_source") == "metadata_only"]
+        youtube_diag.full_text_items_total = len(full_text_items)
+        youtube_diag.metadata_only_items_total = len(metadata_only_items)
+        total_items = len(full_text_items) + len(metadata_only_items)
+        youtube_diag.full_text_ratio = (len(full_text_items) / total_items) if total_items else 0.0
         detail_items = _choose_detail_items(
             items=full_text_items,
             channel_topics=channel_topics,
