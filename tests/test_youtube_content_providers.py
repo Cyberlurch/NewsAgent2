@@ -16,8 +16,8 @@ class YouTubeContentProviderTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as td:
             cache = pathlib.Path(td) / "youtube_content_cache.json"
             diag = {}
-            with patch("newsagent2.youtube_content_providers.CACHE_PATH", cache), patch.dict(os.environ, {"CYBERLURCH_CONTENT_PROVIDERS": "description,yt_dlp_captions", "YOUTUBE_CONTENT_CACHE_DAYS": "1"}, clear=False):
-                res = fetch_video_content(video_id="abc-order", video_url="https://x", description="hello world", diagnostics=diag)
+            with patch("newsagent2.youtube_content_providers.CACHE_PATH", cache), patch.dict(os.environ, {"CYBERLURCH_CONTENT_PROVIDERS": "description,yt_dlp_captions", "YOUTUBE_CONTENT_CACHE_DAYS": "1", "DESCRIPTION_PROVIDER_MIN_CHARS": "5"}, clear=False):
+                res = fetch_video_content(video_id="abc-order", video_url="https://x", description="substantive content " * 20, diagnostics=diag)
         self.assertEqual(res.source, "description")
         self.assertEqual(diag["provider_attempted_by_name"].get("description"), 1)
         self.assertIsNone(diag["provider_attempted_by_name"].get("yt_dlp_captions"))
@@ -40,11 +40,22 @@ class YouTubeContentProviderTests(unittest.TestCase):
             state.mkdir()
             cache = state / "youtube_content_cache.json"
             cache.write_text(json.dumps({"v1": {"status": "success", "source": "description", "fetched_at_utc": "2000-01-01T00:00:00+00:00", "text": "old"}}))
-            with patch("newsagent2.youtube_content_providers.CACHE_PATH", cache), patch.dict(os.environ, {"CYBERLURCH_CONTENT_PROVIDERS": "description", "YOUTUBE_CONTENT_CACHE_DAYS": "1"}):
+            with patch("newsagent2.youtube_content_providers.CACHE_PATH", cache), patch.dict(os.environ, {"CYBERLURCH_CONTENT_PROVIDERS": "description", "YOUTUBE_CONTENT_CACHE_DAYS": "1", "DESCRIPTION_PROVIDER_MIN_CHARS": "5"}):
                 diag = {}
-                res = fetch_video_content(video_id="v1", video_url="https://x", description="fresh", diagnostics=diag)
-                self.assertEqual(res.text, "fresh")
+                res = fetch_video_content(video_id="v1", video_url="https://x", description="substantive content " * 20, diagnostics=diag)
+                self.assertIn("substantive content", res.text)
                 self.assertEqual(diag.get("cache_miss_total"), 1)
+
+    def test_description_provider_quality_threshold(self):
+        with tempfile.TemporaryDirectory() as td:
+            cache = pathlib.Path(td) / "youtube_content_cache.json"
+            long_ok = "This is substantive content. " * 30
+            short_bad = "short blurb"
+            with patch("newsagent2.youtube_content_providers.CACHE_PATH", cache), patch.dict(os.environ, {"CYBERLURCH_CONTENT_PROVIDERS": "description", "DESCRIPTION_PROVIDER_MIN_CHARS": "300"}, clear=False):
+                res_ok = fetch_video_content(video_id="v-ok", video_url="https://x", description=long_ok, diagnostics={})
+                res_bad = fetch_video_content(video_id="v-bad", video_url="https://x", description=short_bad, diagnostics={})
+        self.assertEqual(res_ok.status, "success")
+        self.assertEqual(res_bad.status, "empty")
 
 
 if __name__ == "__main__":
