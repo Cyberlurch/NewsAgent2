@@ -168,7 +168,7 @@ def fetch_video_content(*, video_id: str, video_url: str, description: str, diag
         if result.status == "success" and result.text.strip():
             diagnostics["provider_success_by_name"][name] = diagnostics["provider_success_by_name"].get(name, 0) + 1
             text = result.text.strip()
-            cache_text = (os.getenv("YOUTUBE_CONTENT_CACHE_TEXT") or "1").strip() == "1"
+            cache_text = (os.getenv("YOUTUBE_CONTENT_CACHE_TEXT") or "0").strip() == "1"
             cache_key = video_id if name != "managed_transcript" else f"{video_id}::managed_transcript"
             cache[cache_key] = {"status": "success", "source": result.source, "fetched_at_utc": now.isoformat(), "text_hash": hashlib.sha256(text.encode("utf-8")).hexdigest(), "text": text if cache_text else ""}
             _save_cache(cache)

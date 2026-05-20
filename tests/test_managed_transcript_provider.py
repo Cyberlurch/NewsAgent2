@@ -18,6 +18,7 @@ def _env(**extra):
         "MANAGED_TRANSCRIPT_MIN_CHARS": "5",
         "MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN": "2",
         "MANAGED_TRANSCRIPT_LANGS": "de,en,sv",
+        "MANAGED_TRANSCRIPT_IGNORE_RETRY_STATE": "1",
     }
     base.update(extra)
     return base
@@ -79,12 +80,13 @@ def test_missing_api_key_misconfigured():
 
 
 def test_provider_success_sets_source_in_content_pipeline():
-    with tempfile.TemporaryDirectory() as td, patch.dict(os.environ, _env(), clear=False):
+    with tempfile.TemporaryDirectory() as td, patch.dict(os.environ, _env(MANAGED_TRANSCRIPT_IGNORE_RETRY_STATE="0"), clear=False):
         with patch("newsagent2.youtube_content_providers.CACHE_PATH", pathlib.Path(td) / "cache.json"):
-            resp = Mock(status_code=200, content=b"x")
-            resp.json.return_value = {"text": "hello transcript managed"}
-            with patch("newsagent2.managed_transcripts.requests.get", return_value=resp):
-                out = fetch_video_content(video_id="v1", video_url="https://youtube.com/watch?v=v1", description="", diagnostics={})
+            with patch("newsagent2.managed_transcripts.ATTEMPTS_PATH", pathlib.Path(td) / "attempts.json"):
+                resp = Mock(status_code=200, content=b"x")
+                resp.json.return_value = {"text": "hello transcript managed"}
+                with patch("newsagent2.managed_transcripts.requests.get", return_value=resp):
+                    out = fetch_video_content(video_id="v1", video_url="https://youtube.com/watch?v=v1", description="", diagnostics={})
     assert out.status == "success"
     assert out.source == "managed_transcript"
 
@@ -109,3 +111,23 @@ def test_no_secret_or_transcript_in_logs():
     dumped = str(diag)
     assert secret not in dumped
     assert transcript not in dumped
+
+
+def test_budget_25_sets_counters():
+    diag = {}
+    with patch.dict(os.environ, _env(MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN="25"), clear=False):
+        resp = Mock(status_code=200, content=b"x")
+        resp.json.return_value = {"text": "hello transcript managed"}
+        with patch("newsagent2.managed_transcripts.requests.get", return_value=resp):
+            fetch_managed_transcript("abc25", diagnostics=diag)
+    assert diag.get("managed_transcript_budget_total") == 25
+    assert diag.get("managed_transcript_budget_remaining") == 24
+
+def test_retry_state_previous_success_skips():
+    diag = {}
+    with tempfile.TemporaryDirectory() as td, patch.dict(os.environ, _env(MANAGED_TRANSCRIPT_IGNORE_RETRY_STATE="0"), clear=False):
+        with patch("newsagent2.managed_transcripts.ATTEMPTS_PATH", pathlib.Path(td)/"attempts.json"):
+            pathlib.Path(td, "attempts.json").write_text('{"attempts":{"transcriptapi:abc":{"video_id":"abc","provider":"transcriptapi","status":"success","retry_after_utc":""}}}', encoding="utf-8")
+            out = fetch_managed_transcript("abc", diagnostics=diag)
+    assert out["status"] == "cooldown"
+    assert diag.get("managed_transcript_skipped_previous_success_total") == 1

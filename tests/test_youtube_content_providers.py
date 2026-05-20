@@ -60,3 +60,19 @@ class YouTubeContentProviderTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_cache_text_default_off_for_managed_transcript(tmp_path, monkeypatch):
+    from newsagent2.youtube_content_providers import fetch_video_content
+    monkeypatch.setenv("CYBERLURCH_CONTENT_PROVIDERS", "managed_transcript")
+    monkeypatch.setenv("YOUTUBE_TRANSCRIPT_PROVIDER", "transcriptapi")
+    monkeypatch.setenv("YOUTUBE_TRANSCRIPT_API_KEY", "k")
+    monkeypatch.setenv("MANAGED_TRANSCRIPT_MIN_CHARS", "1")
+    from unittest.mock import Mock, patch
+    with patch("newsagent2.youtube_content_providers.CACHE_PATH", tmp_path/"cache.json"):
+        resp=Mock(status_code=200,content=b"x"); resp.json.return_value={"text":"abc"}
+        with patch("newsagent2.managed_transcripts.requests.get", return_value=resp):
+            with patch("newsagent2.managed_transcripts.ATTEMPTS_PATH", tmp_path/"attempts.json"):
+                fetch_video_content(video_id="v-cache-1", video_url="u", description="", diagnostics={})
+    data=(tmp_path/"cache.json").read_text(encoding="utf-8")
+    assert '"text": ""' in data

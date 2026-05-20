@@ -10,3 +10,6 @@ def test_workflow_has_managed_transcript_provider_override_and_env_wiring():
     assert "YOUTUBE_TRANSCRIPT_PROVIDER: ${{ env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE != 'default' && env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE || (vars.YOUTUBE_TRANSCRIPT_PROVIDER || 'none') }}" in text
     assert "YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY || '' }}" in text
     assert "YOUTUBE_TRANSCRIPT_API_BASE_URL: ${{ vars.YOUTUBE_TRANSCRIPT_API_BASE_URL || '' }}" in text
+    assert "YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY || '' }}" in text
+    assert "YOUTUBE_API_METADATA: ${{ vars.YOUTUBE_API_METADATA || '1' }}" in text
+    assert "MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN: ${{ vars.MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN || '25' }}" in text
