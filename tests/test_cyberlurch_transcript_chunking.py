@@ -38,3 +38,36 @@ def test_deep_dive_fallback_uses_env_limit(monkeypatch):
     summarizer.summarize_item_detail({'source':'youtube','text_source':'managed_transcript','text':txt,'title':'t','url':'u'}, language='en')
     assert 'A'*7000 in captured['payload']
     assert 'A'*20000 not in captured['payload']
+
+
+def test_deep_dive_prefers_chunk_summary_fields(monkeypatch):
+    captured = {}
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(model, messages, temperature):
+                    captured["payload"] = messages[-1]["content"]
+                    class R:
+                        choices=[type('x',(object,),{'message':type('m',(object,),{'content':'ok'})()})()]
+                    return R()
+    monkeypatch.setattr(summarizer, "_get_client", lambda: C())
+    monkeypatch.setenv("REPORT_KEY", "cyberlurch")
+    raw = "RAWTRANSCRIPT " * 3000
+    summarizer.summarize_item_detail(
+        {
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "text": raw,
+            "title": "t",
+            "url": "u",
+            "transcript_full_summary": "FULL SUMMARY",
+            "transcript_key_points": "- p1",
+            "transcript_notable_claims": "- c1",
+            "transcript_uncertainties": "- u1",
+        },
+        language="en",
+    )
+    assert "Full transcript summary:" in captured["payload"]
+    assert "Notable claims:" in captured["payload"]
+    assert "RAWTRANSCRIPT RAWTRANSCRIPT RAWTRANSCRIPT" not in captured["payload"]

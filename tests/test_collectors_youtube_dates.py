@@ -146,3 +146,30 @@ def test_metadata_enrichment_failure_keeps_plausibly_recent_date_only_entry(monk
     assert [v["id"] for v in videos] == ["fallback"]
     assert diag["metadata_enrichment_attempted_total"] == 1
     assert diag["metadata_enrichment_error_total"] == 1
+
+
+def test_precise_timestamp_suppresses_full_enrichment_without_force(monkeypatch):
+    ts = int(dt.datetime(2026, 5, 11, 10, 0, tzinfo=dt.timezone.utc).timestamp())
+    setup_dummy(monkeypatch, listing=[{"id": "clean", "timestamp": ts, "title": "t", "description": ""}])
+    diag = {}
+    videos = cy.list_recent_videos(
+        "https://www.youtube.com/@example", hours=24, diagnostics=diag, now_utc=fixed_now(), force_full_metadata=False
+    )
+    assert [v["id"] for v in videos] == ["clean"]
+    assert diag.get("metadata_enrichment_attempted_total", 0) == 0
+
+
+def test_force_full_enrichment_reenabled(monkeypatch):
+    ts = int(dt.datetime(2026, 5, 11, 10, 0, tzinfo=dt.timezone.utc).timestamp())
+    url = "https://www.youtube.com/watch?v=clean2"
+    setup_dummy(
+        monkeypatch,
+        listing=[{"id": "clean2", "timestamp": ts, "title": "t", "description": ""}],
+        metadata_by_url={url: {"id": "clean2", "description": "full description"}},
+    )
+    diag = {}
+    videos = cy.list_recent_videos(
+        "https://www.youtube.com/@example", hours=24, diagnostics=diag, now_utc=fixed_now(), force_full_metadata=True
+    )
+    assert [v["id"] for v in videos] == ["clean2"]
+    assert diag.get("metadata_enrichment_attempted_total", 0) >= 1

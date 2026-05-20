@@ -2118,7 +2118,8 @@ def main() -> None:
                 )
         else:
             try:
-                if is_cyberlurch:
+                is_cyberlurch_run = (report_key or "").strip().lower() == "cyberlurch"
+                if is_cyberlurch_run:
                     chunk_enabled = _env_bool("CYBERLURCH_CHUNK_TRANSCRIPTS", True)
                     min_chars = _safe_int("CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS", 7000)
                     budget = _safe_int("CYBERLURCH_MAX_CHUNKED_TRANSCRIPTS_PER_RUN", 5)

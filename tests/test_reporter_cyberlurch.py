@@ -134,6 +134,17 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("Source: YouTube description", md)
 
+    def test_daily_source_label_for_chunked_transcript(self):
+        items = [{
+            "id": "d4", "title": "Chunked Video", "url": "https://example.com/chunked",
+            "channel": "Channel D", "published_at": datetime(2024, 3, 3),
+            "text_source": "managed_transcript", "content_status": "full_text",
+            "transcript_processing": "chunked_full_transcript",
+        }]
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertIn("Source: TranscriptAPI, full transcript chunked", md)
+
 
 if __name__ == "__main__":
     unittest.main()

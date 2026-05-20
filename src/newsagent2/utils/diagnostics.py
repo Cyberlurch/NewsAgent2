@@ -335,9 +335,18 @@ class YouTubeDiagnosticsCounters:
             "managed_transcript_retry_due_total",
             "managed_transcript_billable_success_estimate",
             "managed_transcript_skipped_force_reprocess_cost_guard_total",
+            "transcript_chunking_attempted_total",
+            "transcript_chunking_success_total",
+            "transcript_chunking_error_total",
+            "transcript_chunking_skipped_budget_total",
+            "transcript_chunks_total",
+            "transcript_chars_processed_total",
             "full_text_items_total",
             "metadata_only_items_total",
             "full_text_ratio",
+            "metadata_enrichment_attempted_total",
+            "metadata_enrichment_success_total",
+            "metadata_enrichment_error_total",
         ]
         data = {key: getattr(self, key, 0) for key in keys}
         data["captions_error_by_kind"] = dict(self.captions_error_by_kind)

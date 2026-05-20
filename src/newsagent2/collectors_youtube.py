@@ -285,7 +285,7 @@ def list_recent_videos(
                 published = now_utc
 
             description = (e.get("description") or "").strip()
-            if len(description) < DESCRIPTION_MIN_CHARS and not enriched and not metadata_attempted:
+            if force_full_metadata and len(description) < DESCRIPTION_MIN_CHARS and not enriched and not metadata_attempted:
                 full = _fetch_full_video_metadata(video_url, diagnostics)
                 if full:
                     full_published, full_date_granular = _published_at_from_entry(full)
