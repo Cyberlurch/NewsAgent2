@@ -1038,6 +1038,54 @@ def summarize_youtube_transcript_chunks(item: Dict[str, Any], *, language: str =
     except Exception:
         out["transcript_full_summary"]=(r2.choices[0].message.content or "").strip()
     return out
+
+
+def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str = "de", profile: str = "general") -> dict:
+    text = (item.get("_full_text_for_processing") or item.get("text") or "").strip()
+    if not text:
+        return {"chars_processed_total": 0}
+    client = _get_client()
+    user_prompt = (
+        "Analyze the FULL transcript below and return ONLY valid JSON with keys:\n"
+        "{\n"
+        '  "transcript_full_summary": "...",\n'
+        '  "transcript_key_points": "...",\n'
+        '  "transcript_notable_claims": "...",\n'
+        '  "transcript_uncertainties": "...",\n'
+        '  "important_details": "...",\n'
+        '  "editorial_relevance": "..."\n'
+        "}\n\n"
+        "Rules:\n"
+        "- Use the whole transcript, not just title or introduction.\n"
+        "- Preserve concrete claims, names, places, dates, numbers, and caveats when present.\n"
+        "- Distinguish what the speaker claims from verified facts.\n"
+        "- Avoid sensational amplification.\n\n"
+        f"Transcript:\n{text}"
+    )
+    r = client.chat.completions.create(
+        model=OPENAI_MODEL_CYBERLURCH_CHUNKS,
+        messages=[
+            {"role": "system", "content": "Careful neutral summarizer. Return strict JSON only."},
+            {"role": "user", "content": user_prompt},
+        ],
+        temperature=0.2,
+    )
+    out = {"chars_processed_total": len(text)}
+    obj = json.loads((r.choices[0].message.content or "{}").strip())
+    out.update(
+        {
+            k: str(obj.get(k) or "").strip()
+            for k in [
+                "transcript_full_summary",
+                "transcript_key_points",
+                "transcript_notable_claims",
+                "transcript_uncertainties",
+                "important_details",
+                "editorial_relevance",
+            ]
+        }
+    )
+    return out
 def _slim_items(items: List[Dict[str, Any]], max_text_chars: int = 2000) -> List[Dict[str, Any]]:
     out: List[Dict[str, Any]] = []
     for it in items:

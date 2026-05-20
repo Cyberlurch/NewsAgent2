@@ -65,12 +65,31 @@ def test_deep_dive_prefers_chunk_summary_fields(monkeypatch):
             "transcript_key_points": "- p1",
             "transcript_notable_claims": "- c1",
             "transcript_uncertainties": "- u1",
+            "important_details": "details",
+            "editorial_relevance": "relevance",
         },
         language="en",
     )
     assert "Full transcript summary:" in captured["payload"]
     assert "Notable claims:" in captured["payload"]
+    assert "Key points:" in captured["payload"]
     assert "RAWTRANSCRIPT RAWTRANSCRIPT RAWTRANSCRIPT" not in captured["payload"]
+
+
+def test_direct_digest_uses_full_transcript_field(monkeypatch):
+    captured = {}
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(model, messages, temperature):
+                    captured["payload"] = messages[-1]["content"]
+                    return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"{\"transcript_full_summary\":\"ok\"}"})()})()]})()
+    monkeypatch.setattr(summarizer, "_get_client", lambda: C())
+    item = {"text": "SHORT", "_full_text_for_processing": "FULLTRANSCRIPT " * 100}
+    summarizer.summarize_youtube_transcript_direct(item, language="en")
+    assert "FULLTRANSCRIPT FULLTRANSCRIPT" in captured["payload"]
+    assert "Transcript:\nSHORT" not in captured["payload"]
 
 
 def test_chunk_model_env_used(monkeypatch):
