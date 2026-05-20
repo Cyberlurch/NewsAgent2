@@ -114,6 +114,20 @@ Configure under **Repo → Settings → Secrets and variables → Actions**:
 - PubMed throttling parameters (as needed)
 - `ROLLUPS_STATE_PATH` (optional): path to persist monthly rollups; defaults to `state/rollups.json`.
 - `ROLLUPS_MAX_MONTHS` (optional): maximum number of monthly rollups to keep per report (default: 24; current month is never pruned).
+- Managed YouTube transcript fallback (optional, disabled by default):
+  - `YOUTUBE_TRANSCRIPT_PROVIDER`: `none` (default) / `generic` / `supadata` / `transcriptapi` / `youtube-transcript-io`
+  - `YOUTUBE_TRANSCRIPT_API_BASE_URL`: endpoint override (required for `generic`; optional for vendor profiles)
+  - `YOUTUBE_TRANSCRIPT_API_METHOD`: `GET` or `POST` (default: `GET`, generic uses `POST`)
+  - `YOUTUBE_TRANSCRIPT_API_AUTH_HEADER`: `x-api-key` or `Authorization`
+  - `YOUTUBE_TRANSCRIPT_API_VIDEO_PARAM`: e.g. `videoId` or `url`
+  - `CYBERLURCH_CONTENT_PROVIDERS`: ordered chain, e.g. `youtube_transcript_api,managed_transcript,description,timedtext,yt_dlp_captions,metadata_only`
+  - `MANAGED_TRANSCRIPT_MIN_CHARS` (default `300`)
+  - `MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN` (default `10`)
+  - `MANAGED_TRANSCRIPT_ONLY_FOR_TOP_CANDIDATES` (default `1`)
+
+### GitHub Secrets (managed transcript provider)
+
+- `YOUTUBE_TRANSCRIPT_API_KEY` (required when `YOUTUBE_TRANSCRIPT_PROVIDER != none`)
 
 ### Deep-dive model controls
 
