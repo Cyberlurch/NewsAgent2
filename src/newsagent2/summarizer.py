@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 from .cyberlurch_editorial import infer_channel_tone_profile
 import os
 import re
@@ -1072,29 +1073,56 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         "- Avoid sensational amplification.\n\n"
         f"Transcript:\n{text}"
     )
-    r = client.chat.completions.create(
+    req = dict(
         model=OPENAI_MODEL_CYBERLURCH_CHUNKS,
         messages=[
             {"role": "system", "content": "Careful neutral summarizer. Return strict JSON only."},
             {"role": "user", "content": user_prompt},
         ],
         temperature=0.2,
+        response_format={"type": "json_object"},
     )
-    out = {"chars_processed_total": len(text)}
-    obj = json.loads((r.choices[0].message.content or "{}").strip())
-    out.update(
-        {
-            k: str(obj.get(k) or "").strip()
-            for k in [
-                "transcript_full_summary",
-                "transcript_key_points",
-                "transcript_notable_claims",
-                "transcript_uncertainties",
-                "important_details",
-                "editorial_relevance",
-            ]
-        }
-    )
+    try:
+        r = client.chat.completions.create(**req)
+    except TypeError:
+        req.pop("response_format", None)
+        r = client.chat.completions.create(**req)
+    out = {"chars_processed_total": len(text), "json_parse_error": False, "json_recovered": False, "fallback_text_used": False}
+    raw = (r.choices[0].message.content or "").strip()
+    if not raw:
+        raise ValueError("empty_output")
+
+    obj = None
+    try:
+        obj = json.loads(raw)
+    except Exception:
+        out["json_parse_error"] = True
+        m = re.search(r"\{[\s\S]*\}", raw)
+        if m:
+            try:
+                obj = json.loads(m.group(0))
+                out["json_recovered"] = True
+            except Exception:
+                obj = None
+
+    if isinstance(obj, dict):
+        out.update(
+            {
+                k: str(obj.get(k) or "").strip()
+                for k in [
+                    "transcript_full_summary",
+                    "transcript_key_points",
+                    "transcript_notable_claims",
+                    "transcript_uncertainties",
+                    "important_details",
+                    "editorial_relevance",
+                ]
+            }
+        )
+    else:
+        out["fallback_text_used"] = True
+        out["transcript_full_summary"] = raw[:2000].strip()
+    # TODO: Consider Responses API for future GPT-5-series optimization.
     return out
 def _slim_items(items: List[Dict[str, Any]], max_text_chars: int = 2000) -> List[Dict[str, Any]]:
     out: List[Dict[str, Any]] = []

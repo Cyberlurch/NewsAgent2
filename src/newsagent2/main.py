@@ -2216,10 +2216,28 @@ def main() -> None:
                                     it["transcript_was_truncated"] = False
                                     youtube_diag.transcript_direct_success_total += 1
                                     youtube_diag.transcript_direct_chars_processed_total += int(res.get("chars_processed_total") or 0)
-                                except Exception:
+                                    if bool(res.get("json_parse_error")):
+                                        youtube_diag.transcript_direct_json_parse_error_total += 1
+                                    if bool(res.get("json_recovered")):
+                                        youtube_diag.transcript_direct_json_recovered_total += 1
+                                    if bool(res.get("fallback_text_used")):
+                                        youtube_diag.transcript_direct_fallback_text_total += 1
+                                except Exception as e:
                                     it["transcript_direct_success"] = False
                                     youtube_diag.transcript_direct_error_total += 1
-                                    it["transcript_processing"] = "excerpt"
+                                    kind = "unknown"
+                                    msg = str(e).lower()
+                                    if "empty_output" in msg:
+                                        kind = "empty_output"
+                                    elif "timeout" in msg:
+                                        kind = "timeout"
+                                    elif "json" in msg:
+                                        kind = "json_parse_error"
+                                    elif "openai" in msg or "api" in msg:
+                                        kind = "openai_error"
+                                    youtube_diag.transcript_direct_error_by_kind[kind] = int(youtube_diag.transcript_direct_error_by_kind.get(kind, 0)) + 1
+                                    print(f"[transcript-direct] error_kind={kind} model={OPENAI_MODEL_CYBERLURCH_CHUNKS} chars={len(full_text)}")
+                                    it["transcript_processing"] = "excerpt_fallback"
                             elif len(full_text) >= min_chars:
                                 youtube_diag.transcript_chunking_attempted_total += 1
                                 if (not chunk_enabled) or chunked >= budget:
@@ -2260,6 +2278,9 @@ def main() -> None:
                             youtube_diag.transcript_processing_chunked_total += 1
                         elif str(it.get("transcript_processing") or "").strip() == "direct_full_transcript" and bool(it.get("transcript_direct_success")):
                             youtube_diag.transcript_processing_direct_total += 1
+                        elif str(it.get("transcript_processing") or "").strip() == "excerpt_fallback":
+                            youtube_diag.managed_transcript_excerpt_total += 1
+                            youtube_diag.transcript_processing_excerpt_total += 1
                         elif bool(it.get("transcript_was_truncated")):
                             youtube_diag.managed_transcript_excerpt_total += 1
                             youtube_diag.transcript_processing_excerpt_total += 1

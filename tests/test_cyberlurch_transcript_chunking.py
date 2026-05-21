@@ -149,3 +149,44 @@ def test_cybermed_model_behavior_unchanged(monkeypatch):
     monkeypatch.setattr(summarizer, "_get_client", lambda: C())
     summarizer.summarize_item_detail({"source":"youtube","title":"t","text":"hello world "*20}, language="en", profile="medical")
     assert "base-model" in captured
+
+
+def test_direct_digest_sets_json_response_format(monkeypatch):
+    captured = {}
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kwargs):
+                    captured.update(kwargs)
+                    return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"{\"transcript_full_summary\":\"ok\"}"})()})()]})()
+    monkeypatch.setattr(summarizer, "_get_client", lambda: C())
+    summarizer.summarize_youtube_transcript_direct({"text":"abc"}, language="en")
+    assert captured.get("response_format") == {"type": "json_object"}
+
+
+def test_direct_digest_recovers_embedded_json(monkeypatch):
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kwargs):
+                    return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"noise {\"transcript_full_summary\":\"ok\"} tail"})()})()]})()
+    monkeypatch.setattr(summarizer, "_get_client", lambda: C())
+    out = summarizer.summarize_youtube_transcript_direct({"text":"abc"}, language="en")
+    assert out["json_parse_error"] is True
+    assert out["json_recovered"] is True
+    assert out["transcript_full_summary"] == "ok"
+
+
+def test_direct_digest_fallback_text_when_json_invalid(monkeypatch):
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kwargs):
+                    return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"not-json-output"})()})()]})()
+    monkeypatch.setattr(summarizer, "_get_client", lambda: C())
+    out = summarizer.summarize_youtube_transcript_direct({"text":"abc"}, language="en")
+    assert out["fallback_text_used"] is True
+    assert out["transcript_full_summary"] == "not-json-output"
