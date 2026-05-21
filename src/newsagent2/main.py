@@ -46,6 +46,8 @@ from .cyberlurch_editorial import (
 )
 from .summarizer import (
     OPENAI_MODEL_CYBERLURCH_CHUNKS,
+    OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST,
+    OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK,
     OPENAI_MODEL_CYBERLURCH_DEEPDIVE,
     OPENAI_MODEL_CYBERLURCH_OVERVIEW,
     summarize,
@@ -75,6 +77,21 @@ CYBERLURCH_WEEKLY_MAX_VIDEOS = 10
 CYBERLURCH_MONTHLY_MAX_VIDEOS = 8
 WEEKLY_MAX_DEEP_DIVES = 3
 MONTHLY_MAX_DEEP_DIVES = 2
+
+
+def classify_direct_digest_error(exc: Exception) -> str:
+    msg = str(exc).lower()
+    if "empty_output" in msg:
+        return "empty_output"
+    if "timeout" in msg:
+        return "timeout"
+    if "response_format" in msg or "json_object" in msg:
+        return "response_format_unsupported"
+    if "openai" in msg or "api" in msg:
+        return "openai_error"
+    if "json" in msg:
+        return "json_parse_error"
+    return "unknown"
 
 
 def _parse_iso_utc(value: str | None) -> datetime | None:
@@ -1308,6 +1325,10 @@ def main() -> None:
             f"cyberlurch_overview={OPENAI_MODEL_CYBERLURCH_OVERVIEW} "
             f"cyberlurch_deepdive={OPENAI_MODEL_CYBERLURCH_DEEPDIVE}"
         )
+        print(
+            f"[models] cyberlurch_direct_digest={OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST} "
+            f"cyberlurch_direct_digest_fallback={OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK}"
+        )
     provider = (os.getenv("YOUTUBE_TRANSCRIPT_PROVIDER", "none") or "none").strip().lower()
     if report_key.strip().lower()=="cyberlurch" and report_mode in {"weekly","monthly","yearly"} and not _env_bool("CYBERLURCH_MANAGED_TRANSCRIPTS_FOR_ROLLUPS", False):
         os.environ["YOUTUBE_TRANSCRIPT_PROVIDER"] = "none"
@@ -2210,7 +2231,7 @@ def main() -> None:
                                     it["_full_text_for_processing"] = full_text
                                     res = summarize_youtube_transcript_direct(it, language=report_language, profile=report_profile)
                                     it.update({k: v for k, v in res.items() if k.startswith("transcript_") or k in {"important_details", "editorial_relevance"}})
-                                    it["transcript_processing"] = "direct_full_transcript"
+                                    it["transcript_processing"] = "direct_full_transcript_fallback" if bool(res.get("fallback_text_used")) else "direct_full_transcript"
                                     it["transcript_direct_success"] = True
                                     it["transcript_chars_used_for_summary"] = len(full_text)
                                     it["transcript_was_truncated"] = False
@@ -2222,21 +2243,16 @@ def main() -> None:
                                         youtube_diag.transcript_direct_json_recovered_total += 1
                                     if bool(res.get("fallback_text_used")):
                                         youtube_diag.transcript_direct_fallback_text_total += 1
+                                    if bool(res.get("response_format_used")):
+                                        youtube_diag.transcript_direct_response_format_used_total += 1
+                                    if bool(res.get("response_format_rejected")):
+                                        youtube_diag.transcript_direct_response_format_rejected_total += 1
                                 except Exception as e:
                                     it["transcript_direct_success"] = False
                                     youtube_diag.transcript_direct_error_total += 1
-                                    kind = "unknown"
-                                    msg = str(e).lower()
-                                    if "empty_output" in msg:
-                                        kind = "empty_output"
-                                    elif "timeout" in msg:
-                                        kind = "timeout"
-                                    elif "json" in msg:
-                                        kind = "json_parse_error"
-                                    elif "openai" in msg or "api" in msg:
-                                        kind = "openai_error"
+                                    kind = classify_direct_digest_error(e)
                                     youtube_diag.transcript_direct_error_by_kind[kind] = int(youtube_diag.transcript_direct_error_by_kind.get(kind, 0)) + 1
-                                    print(f"[transcript-direct] error_kind={kind} model={OPENAI_MODEL_CYBERLURCH_CHUNKS} chars={len(full_text)}")
+                                    print(f"[transcript-direct] error_kind={kind} model={OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST} chars={len(full_text)}")
                                     it["transcript_processing"] = "excerpt_fallback"
                             elif len(full_text) >= min_chars:
                                 youtube_diag.transcript_chunking_attempted_total += 1
@@ -2276,7 +2292,7 @@ def main() -> None:
                         if str(it.get("transcript_processing") or "").strip() == "chunked_full_transcript" and bool(it.get("transcript_chunking_success")):
                             youtube_diag.managed_transcript_chunked_total += 1
                             youtube_diag.transcript_processing_chunked_total += 1
-                        elif str(it.get("transcript_processing") or "").strip() == "direct_full_transcript" and bool(it.get("transcript_direct_success")):
+                        elif str(it.get("transcript_processing") or "").strip() in {"direct_full_transcript", "direct_full_transcript_fallback"} and bool(it.get("transcript_direct_success")):
                             youtube_diag.transcript_processing_direct_total += 1
                         elif str(it.get("transcript_processing") or "").strip() == "excerpt_fallback":
                             youtube_diag.managed_transcript_excerpt_total += 1

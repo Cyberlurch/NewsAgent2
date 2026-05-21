@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-import re
 from .cyberlurch_editorial import infer_channel_tone_profile
 import os
 import re
@@ -17,6 +16,8 @@ OPENAI_MODEL = (os.getenv("OPENAI_MODEL") or "gpt-4.1").strip()
 OPENAI_MODEL_CYBERLURCH_CHUNKS = (os.getenv("OPENAI_MODEL_CYBERLURCH_CHUNKS") or OPENAI_MODEL).strip()
 OPENAI_MODEL_CYBERLURCH_OVERVIEW = (os.getenv("OPENAI_MODEL_CYBERLURCH_OVERVIEW") or OPENAI_MODEL).strip()
 OPENAI_MODEL_CYBERLURCH_DEEPDIVE = (os.getenv("OPENAI_MODEL_CYBERLURCH_DEEPDIVE") or OPENAI_MODEL).strip()
+OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST = (os.getenv("OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST") or OPENAI_MODEL_CYBERLURCH_CHUNKS).strip()
+OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK = (os.getenv("OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK") or OPENAI_MODEL_CYBERLURCH_OVERVIEW).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE") or OPENAI_MODEL).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK") or "").strip()
 
@@ -1074,7 +1075,7 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         f"Transcript:\n{text}"
     )
     req = dict(
-        model=OPENAI_MODEL_CYBERLURCH_CHUNKS,
+        model=OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST,
         messages=[
             {"role": "system", "content": "Careful neutral summarizer. Return strict JSON only."},
             {"role": "user", "content": user_prompt},
@@ -1082,14 +1083,50 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         temperature=0.2,
         response_format={"type": "json_object"},
     )
-    try:
-        r = client.chat.completions.create(**req)
-    except TypeError:
-        req.pop("response_format", None)
-        r = client.chat.completions.create(**req)
-    out = {"chars_processed_total": len(text), "json_parse_error": False, "json_recovered": False, "fallback_text_used": False}
-    raw = (r.choices[0].message.content or "").strip()
+    out = {
+        "chars_processed_total": len(text),
+        "json_parse_error": False,
+        "json_recovered": False,
+        "fallback_text_used": False,
+        "response_format_used": False,
+        "response_format_rejected": False,
+    }
+    tried_models = [OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST]
+    if OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK and OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK not in tried_models:
+        tried_models.append(OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK)
+    raw = ""
+    last_exc = None
+    for idx, model in enumerate(tried_models):
+        attempt_req = dict(req)
+        attempt_req["model"] = model
+        try:
+            out["response_format_used"] = True
+            r = client.chat.completions.create(**attempt_req)
+            raw = (r.choices[0].message.content or "").strip()
+            if raw:
+                break
+            if idx == len(tried_models) - 1:
+                raise ValueError("empty_output")
+        except Exception as e:
+            msg = str(e).lower()
+            if "response_format" in msg or "json_object" in msg:
+                out["response_format_rejected"] = True
+                out["response_format_used"] = False
+                attempt_req.pop("response_format", None)
+                r = client.chat.completions.create(**attempt_req)
+                raw = (r.choices[0].message.content or "").strip()
+                if raw:
+                    break
+                if idx == len(tried_models) - 1:
+                    raise ValueError("empty_output")
+                continue
+            last_exc = e
+            if idx == len(tried_models) - 1:
+                raise
+            continue
     if not raw:
+        if last_exc:
+            raise last_exc
         raise ValueError("empty_output")
 
     obj = None
@@ -1121,7 +1158,13 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         )
     else:
         out["fallback_text_used"] = True
-        out["transcript_full_summary"] = raw[:2000].strip()
+        out["transcript_full_summary"] = raw[:4000].strip()
+        out["transcript_key_points"] = ""
+        out["transcript_notable_claims"] = ""
+        out["transcript_uncertainties"] = ""
+        out["important_details"] = ""
+        out["editorial_relevance"] = ""
+        out["_direct_digest_fallback_text"] = True
     # TODO: Consider Responses API for future GPT-5-series optimization.
     return out
 def _slim_items(items: List[Dict[str, Any]], max_text_chars: int = 2000) -> List[Dict[str, Any]]:
