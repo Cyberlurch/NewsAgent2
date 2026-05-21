@@ -198,12 +198,52 @@ def _trim_sentence_aware(text: str, max_chars: int) -> str:
     if sentence_endings:
         trimmed = window[:sentence_endings[-1]].rstrip()
         if trimmed:
-            return f"{trimmed}…"
-        return normalized[:max_chars].rsplit(" ", 1)[0].rstrip() + "…"
+            return re.sub(r"[.!?…]+$", "", trimmed).rstrip() + "…"
+        fallback = normalized[:max_chars].rsplit(" ", 1)[0].rstrip()
+        return re.sub(r"[.!?…]+$", "", fallback).rstrip() + "…"
     cut = window.rsplit(" ", 1)[0].rstrip()
     if not cut:
         cut = window.rstrip()
+    cut = re.sub(r"[.!?…]+$", "", cut).rstrip()
     return f"{cut}…"
+
+
+def _ensure_sentence_end(text: str) -> str:
+    cleaned = (text or "").strip()
+    if not cleaned:
+        return cleaned
+    if re.search(r"[.!?…](?:['\")\]]+)?$", cleaned):
+        return cleaned
+    return f"{cleaned}."
+
+
+def _rewrite_report_prose_openers(text: str) -> str:
+    cleaned = re.sub(r"\s+", " ", str(text or "")).strip()
+    if not cleaned:
+        return cleaned
+    rules = (
+        (r"^the transcript is (?:highly )?relevant(?: for)?\s*", ""),
+        (r"^this transcript is (?:highly )?relevant(?: for)?\s*", ""),
+        (r"^the transcript provides (?:insight|insights)(?: into)?\s*", ""),
+        (r"^this transcript provides (?:insight|insights)(?: into)?\s*", ""),
+        (r"^the transcript (?:shows|covers|describes|highlights)\s*", ""),
+        (r"^this transcript (?:shows|covers|describes|highlights)\s*", ""),
+        (r"^the video is about\s*", ""),
+        (r"^this video is about\s*", ""),
+        (r"^video is about\s*", ""),
+        (r"^the video is on\s*", ""),
+        (r"^video is on\s*", ""),
+        (r"^the transcript is a discussion(?: between [^,.;:]+)?(?: about| of| on)?\s*", ""),
+        (r"^transcript is a discussion(?: between [^,.;:]+)?(?: about| of| on)?\s*", ""),
+    )
+    for pattern, replacement in rules:
+        updated = re.sub(pattern, replacement, cleaned, flags=re.IGNORECASE).strip(" ,;:-")
+        if updated != cleaned:
+            cleaned = updated
+            break
+    if cleaned:
+        cleaned = cleaned[:1].upper() + cleaned[1:]
+    return cleaned
 
 def _strip_generic_summary_openers(text: str) -> str:
     cleaned = re.sub(r"\s+", " ", str(text or "")).strip()
@@ -241,17 +281,52 @@ def _cyberlurch_topic_bullet(item: Dict[str, Any], detail_block: str) -> str:
         or _to_clean_text(item.get("bottom_line"))
         or "high relevance for current channel discourse"
     )
-    content = _strip_generic_summary_openers(content).strip("-• ")
-    relevance = _strip_generic_summary_openers(relevance).strip("-• ")
-    content = _trim_sentence_aware(content, 220)
-    relevance = _trim_sentence_aware(relevance, 120)
+    content = _rewrite_report_prose_openers(_strip_generic_summary_openers(content)).strip("-• ")
+    relevance = _rewrite_report_prose_openers(_strip_generic_summary_openers(relevance)).strip("-• ")
+    content = _trim_sentence_aware(content, 280)
+    relevance = _trim_sentence_aware(relevance, 160)
+    content = _ensure_sentence_end(content)
+    relevance = _ensure_sentence_end(relevance)
     channel_text = _md_escape_label(str(item.get("channel") or "").strip() or "Unknown channel")
-    return f"- **{channel_text}:** {content}. _Why it matters:_ {relevance}."
+    return f"- **{channel_text}:** {content} _Why it matters:_ {relevance}"
+
+
+def _strip_cyberlurch_detail_metadata_block(detail_block: str, item_title: str) -> str:
+    lines = (detail_block or "").splitlines()
+    kept_start = 0
+    saw_metadata = False
+    for idx, raw in enumerate(lines):
+        line = raw.strip()
+        low = line.lower()
+        if not line:
+            if saw_metadata:
+                kept_start = idx + 1
+            continue
+        if re.match(r"^#{1,4}\s*(key takeaways|details\s*&\s*reasoning|uncertainties)\b", line, flags=re.IGNORECASE):
+            break
+        is_generated_title = bool(item_title and re.match(r"^####\s+.+$", line) and re.sub(r"^####\s+", "", line).strip().lower() == item_title.strip().lower())
+        is_metadata = bool(
+            is_generated_title
+            or re.match(r"^\*?\*?channel:\*?\*?\s*", line, flags=re.IGNORECASE)
+            or re.match(r"^\*?\*?published:\*?\*?\s*", line, flags=re.IGNORECASE)
+            or re.match(r"^\*?\*?url:\*?\*?\s*", line, flags=re.IGNORECASE)
+            or re.match(r"^\[(watch here|watch on youtube)\]\([^)]+\)\s*$", line, flags=re.IGNORECASE)
+        )
+        if is_metadata:
+            saw_metadata = True
+            kept_start = idx + 1
+            continue
+        if saw_metadata and line == "---":
+            kept_start = idx + 1
+            continue
+        break
+    return "\n".join(lines[kept_start:]).lstrip()
 
 
 def _normalize_deep_dive_headings(detail_block: str, *, item_title: str) -> str:
     if not detail_block:
         return detail_block
+    detail_block = _strip_cyberlurch_detail_metadata_block(detail_block, item_title)
     lines = []
     for raw in detail_block.splitlines():
         line = raw.strip()
