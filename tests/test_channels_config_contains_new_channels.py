@@ -52,6 +52,8 @@ def test_channels_config_contains_new_channels():
         "https://www.youtube.com/@THEALPHAPATHYT",
         "https://www.youtube.com/@WesHuff",
         "https://www.youtube.com/@WretchedNetwork",
+        "https://www.youtube.com/@sdwebbtv",
+        "https://www.youtube.com/@SwebbTV2",
     }
 
     missing = expected_urls - all_urls

@@ -255,6 +255,33 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertNotIn("# Title", md)
         self.assertIn("#### Uncertainties", md)
 
+    def test_topic_trim_sentence_aware_never_cuts_word_and_uses_ellipsis_when_shortened(self):
+        text = "Sentence one is complete. Sentence two is also complete and should be selected."
+        trimmed = reporter._trim_sentence_aware(text, 50)
+        self.assertTrue(trimmed.endswith("…"))
+        self.assertIn("Sentence one is complete.", trimmed)
+        self.assertNotIn("shou…", trimmed)
+
+    def test_topic_bullet_avoids_generic_transcript_opening_when_better_fields_exist(self):
+        item = {
+            "channel": "breakingpoints",
+            "transcript_full_summary": "The transcript is a discussion between hosts about policy posture and election signaling.",
+            "important_details": "It links policy posture, domestic politics, and regional messaging.",
+            "editorial_relevance": "It connects strategy choices to downstream regional risk.",
+        }
+        bullet = reporter._cyberlurch_topic_bullet(item, "")
+        self.assertNotIn("The transcript is a discussion", bullet)
+        self.assertIn("hosts about policy posture", bullet)
+
+    def test_deep_dive_cleanup_removes_standalone_watch_on_youtube_lines_only(self):
+        items = [{"id": "d12", "title": "Topic Video", "url": "https://example.com/topic6", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
+        details = {"d12": "Watch on YouTube\n\n[Watch on YouTube](https://example.com/topic6)\n\n#### Key takeaways\n- a"}
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="overview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertNotIn("[Watch on YouTube]", md)
+        self.assertNotIn("\nWatch on YouTube\n", md)
+        self.assertIn("#### Key takeaways", md)
+
 
 if __name__ == "__main__":
     unittest.main()
