@@ -142,7 +142,9 @@ class YouTubeDiagnosticsCounters:
     transcript_direct_json_parse_error_total: int = 0
     transcript_direct_json_recovered_total: int = 0
     transcript_direct_fallback_text_total: int = 0
-    transcript_direct_error_by_kind: dict[str, int] = field(default_factory=lambda: {"openai_error": 0, "json_parse_error": 0, "empty_output": 0, "timeout": 0, "unknown": 0})
+    transcript_direct_response_format_used_total: int = 0
+    transcript_direct_response_format_rejected_total: int = 0
+    transcript_direct_error_by_kind: dict[str, int] = field(default_factory=lambda: {"openai_error": 0, "response_format_unsupported": 0, "json_parse_error": 0, "empty_output": 0, "timeout": 0, "unknown": 0})
     transcript_processing_direct_total: int = 0
     transcript_processing_chunked_total: int = 0
     transcript_processing_excerpt_total: int = 0
@@ -366,6 +368,8 @@ class YouTubeDiagnosticsCounters:
             "transcript_direct_json_parse_error_total",
             "transcript_direct_json_recovered_total",
             "transcript_direct_fallback_text_total",
+            "transcript_direct_response_format_used_total",
+            "transcript_direct_response_format_rejected_total",
             "transcript_processing_direct_total",
             "transcript_processing_chunked_total",
             "transcript_processing_excerpt_total",

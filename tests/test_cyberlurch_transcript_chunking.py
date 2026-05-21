@@ -190,3 +190,21 @@ def test_direct_digest_fallback_text_when_json_invalid(monkeypatch):
     out = summarizer.summarize_youtube_transcript_direct({"text":"abc"}, language="en")
     assert out["fallback_text_used"] is True
     assert out["transcript_full_summary"] == "not-json-output"
+    assert out.get("_direct_digest_fallback_text") is True
+
+
+def test_direct_digest_retries_without_response_format(monkeypatch):
+    calls = []
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kwargs):
+                    calls.append(kwargs)
+                    if len(calls) == 1:
+                        raise RuntimeError("response_format unsupported")
+                    return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"{\"transcript_full_summary\":\"ok\"}"})()})()]})()
+    monkeypatch.setattr(summarizer, "_get_client", lambda: C())
+    out = summarizer.summarize_youtube_transcript_direct({"text":"abc"}, language="en")
+    assert out["response_format_rejected"] is True
+    assert out["transcript_full_summary"] == "ok"

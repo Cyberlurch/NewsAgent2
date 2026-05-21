@@ -193,6 +193,17 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("Source: TranscriptAPI, transcript excerpt fallback", md)
 
+    def test_daily_source_label_for_direct_fallback_digest_processing(self):
+        items = [{
+            "id": "d6c", "title": "Fallback Digest", "url": "https://example.com/fallback-digest",
+            "channel": "Channel E", "published_at": datetime(2024, 3, 4),
+            "text_source": "managed_transcript", "content_status": "full_text",
+            "transcript_processing": "direct_full_transcript_fallback", "transcript_direct_success": True,
+        }]
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertIn("Source: TranscriptAPI, full transcript analyzed (fallback digest)", md)
+
     def test_topic_sections_avoid_pubmed_wording(self):
         items = [{
             "id": "d8", "title": "Topic Video", "url": "https://example.com/topic2",
@@ -204,6 +215,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="## Executive Summary\n\nOverview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         for bad in ["This paper", "clinical implication", "Evidence strength", "methods not classified", "abstract keywords"]:
             self.assertNotIn(bad, md)
+        self.assertNotIn("What it says:", md)
 
 
 if __name__ == "__main__":

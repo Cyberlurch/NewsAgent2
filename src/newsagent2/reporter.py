@@ -690,26 +690,29 @@ def to_markdown(
             topic_points: dict[str, list[str]] = {}
             for it in detail_items:
                 topic = str(it.get("topic") or "").strip() or "Other"
-                summary_text = (
-                    str(it.get("transcript_full_summary") or "").strip()
-                    or str(it.get("deep_dive_summary") or "").strip()
-                    or str(it.get("summary") or "").strip()
-                    or str(it.get("text") or "").strip()
-                )
+                summary_text = str(it.get("transcript_full_summary") or "").strip()
+                details_text = str(it.get("important_details") or it.get("editorial_relevance") or "").strip()
+                deepdive_text = str(it.get("deep_dive_summary") or "").strip()
+                short_summary = str(it.get("summary") or "").strip()
                 title_text = str(it.get("title") or "").strip()
                 channel_text = str(it.get("channel") or "").strip() or "Unknown channel"
-                if summary_text:
-                    summary_line = summary_text.replace("\n", " ").strip()[:260]
-                    point = f"What it says: {summary_line}"
+                point_body = summary_text or details_text or deepdive_text or short_summary or f"Title focus: {title_text or 'Untitled'}."
+                summary_line = point_body.replace("\n", " ").strip()[:240]
+                point = f"Content point: {summary_line}"
+                why_text = (details_text or deepdive_text or short_summary or "").replace("\n", " ").strip()
+                if why_text:
+                    why = f"Why it matters: {why_text[:200]}"
+                elif title_text:
+                    why = f"Why it matters: intersects current debates around “{title_text[:120]}”."
                 else:
-                    point = f"What it says: title only ({title_text or 'Untitled'})."
+                    why = "Why it matters: recurring channel attention indicates sustained audience relevance."
                 topic_points.setdefault(topic, [])
                 if len(topic_points[topic]) < 5:
                     topic_points[topic].append(point)
                 if len(topic_points[topic]) < 5:
                     topic_points[topic].append(f"Channels involved: {channel_text}.")
                 if len(topic_points[topic]) < 5:
-                    topic_points[topic].append(f"Why it matters: this topic is active in the current reporting window.")
+                    topic_points[topic].append(why)
             if topic_points:
                 md.extend(["## Themenbereiche / Topic sections", ""])
                 for topic, points in sorted(topic_points.items(), key=lambda kv: (-len(kv[1]), kv[0].lower())):
@@ -805,6 +808,8 @@ def to_markdown(
                     used_chars = int(it.get("transcript_chars_used_for_summary") or 0)
                     if was_direct:
                         label = "TranscriptAPI, full transcript analyzed"
+                    elif str(it.get("transcript_processing") or "").strip() == "direct_full_transcript_fallback" and bool(it.get("transcript_direct_success")):
+                        label = "TranscriptAPI, full transcript analyzed (fallback digest)"
                     elif was_chunked:
                         label = "TranscriptAPI, full transcript chunked"
                     elif str(it.get("transcript_processing") or "").strip() == "excerpt_fallback":
