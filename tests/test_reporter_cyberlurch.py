@@ -166,7 +166,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         }]
         with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
-        self.assertIn("Source: TranscriptAPI, transcript excerpt", md)
+        self.assertIn("Source: TranscriptAPI, transcript excerpt fallback", md)
 
     def test_daily_renders_topic_sections_and_deep_dives(self):
         items = [{
@@ -181,6 +181,29 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertIn("## Themenbereiche / Topic sections", md)
         self.assertIn("## Deep Dives", md)
         self.assertIn("## Top videos", md)
+
+    def test_daily_source_label_for_excerpt_fallback_processing(self):
+        items = [{
+            "id": "d6b", "title": "Fallback Transcript", "url": "https://example.com/fallback",
+            "channel": "Channel E", "published_at": datetime(2024, 3, 4),
+            "text_source": "managed_transcript", "content_status": "full_text",
+            "transcript_processing": "excerpt_fallback",
+        }]
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertIn("Source: TranscriptAPI, transcript excerpt fallback", md)
+
+    def test_topic_sections_avoid_pubmed_wording(self):
+        items = [{
+            "id": "d8", "title": "Topic Video", "url": "https://example.com/topic2",
+            "channel": "Channel T", "published_at": datetime(2024, 3, 4),
+            "topic": "Ops", "transcript_full_summary": "Key infrastructure changes discussed"
+        }]
+        details = {"d8": "detail"}
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="## Executive Summary\n\nOverview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        for bad in ["This paper", "clinical implication", "Evidence strength", "methods not classified", "abstract keywords"]:
+            self.assertNotIn(bad, md)
 
 
 if __name__ == "__main__":

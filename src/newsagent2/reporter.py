@@ -690,17 +690,38 @@ def to_markdown(
             topic_points: dict[str, list[str]] = {}
             for it in detail_items:
                 topic = str(it.get("topic") or "").strip() or "Other"
-                detail_block = _detail_lookup(details_by_id, it)
-                bottom = _best_bottom_line(it, detail_block) or _fallback_bottom_line(it)
-                if bottom:
-                    topic_points.setdefault(topic, [])
-                    if len(topic_points[topic]) < 5 and bottom not in topic_points[topic]:
-                        topic_points[topic].append(bottom)
+                summary_text = (
+                    str(it.get("transcript_full_summary") or "").strip()
+                    or str(it.get("deep_dive_summary") or "").strip()
+                    or str(it.get("summary") or "").strip()
+                    or str(it.get("text") or "").strip()
+                )
+                title_text = str(it.get("title") or "").strip()
+                channel_text = str(it.get("channel") or "").strip() or "Unknown channel"
+                if summary_text:
+                    summary_line = summary_text.replace("\n", " ").strip()[:260]
+                    point = f"What it says: {summary_line}"
+                else:
+                    point = f"What it says: title only ({title_text or 'Untitled'})."
+                topic_points.setdefault(topic, [])
+                if len(topic_points[topic]) < 5:
+                    topic_points[topic].append(point)
+                if len(topic_points[topic]) < 5:
+                    topic_points[topic].append(f"Channels involved: {channel_text}.")
+                if len(topic_points[topic]) < 5:
+                    topic_points[topic].append(f"Why it matters: this topic is active in the current reporting window.")
             if topic_points:
                 md.extend(["## Themenbereiche / Topic sections", ""])
                 for topic, points in sorted(topic_points.items(), key=lambda kv: (-len(kv[1]), kv[0].lower())):
                     md.append(f"### {topic}")
-                    for p in points[:5]:
+                    clean_points = []
+                    for p in points:
+                        pl = p.lower()
+                        if any(bad in pl for bad in ["this paper", "clinical implication", "evidence strength", "methods not classified", "abstract keywords"]):
+                            continue
+                        if p not in clean_points:
+                            clean_points.append(p)
+                    for p in clean_points[:5]:
                         md.append(f"- {p}")
                     md.append("")
         md.extend([deep_dives_heading, ""])
@@ -786,10 +807,12 @@ def to_markdown(
                         label = "TranscriptAPI, full transcript analyzed"
                     elif was_chunked:
                         label = "TranscriptAPI, full transcript chunked"
+                    elif str(it.get("transcript_processing") or "").strip() == "excerpt_fallback":
+                        label = "TranscriptAPI, transcript excerpt fallback"
                     elif was_truncated or (full_chars > 0 and used_chars > 0 and used_chars < full_chars):
-                        label = "TranscriptAPI, transcript excerpt"
+                        label = "TranscriptAPI, transcript excerpt fallback"
                     else:
-                        label = "TranscriptAPI, transcript excerpt"
+                        label = "TranscriptAPI, transcript excerpt fallback"
                     md.append(f"  - Source: {label}")
                 elif text_source in src_map:
                     label = src_map[text_source]

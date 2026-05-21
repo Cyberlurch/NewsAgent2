@@ -139,6 +139,10 @@ class YouTubeDiagnosticsCounters:
     transcript_direct_success_total: int = 0
     transcript_direct_error_total: int = 0
     transcript_direct_chars_processed_total: int = 0
+    transcript_direct_json_parse_error_total: int = 0
+    transcript_direct_json_recovered_total: int = 0
+    transcript_direct_fallback_text_total: int = 0
+    transcript_direct_error_by_kind: dict[str, int] = field(default_factory=lambda: {"openai_error": 0, "json_parse_error": 0, "empty_output": 0, "timeout": 0, "unknown": 0})
     transcript_processing_direct_total: int = 0
     transcript_processing_chunked_total: int = 0
     transcript_processing_excerpt_total: int = 0
@@ -359,6 +363,9 @@ class YouTubeDiagnosticsCounters:
             "transcript_direct_success_total",
             "transcript_direct_error_total",
             "transcript_direct_chars_processed_total",
+            "transcript_direct_json_parse_error_total",
+            "transcript_direct_json_recovered_total",
+            "transcript_direct_fallback_text_total",
             "transcript_processing_direct_total",
             "transcript_processing_chunked_total",
             "transcript_processing_excerpt_total",
@@ -383,6 +390,7 @@ class YouTubeDiagnosticsCounters:
         data["ytdlp_error_by_kind"] = dict(self.ytdlp_error_by_kind)
         data["provider_attempted_by_name"] = dict(self.provider_attempted_by_name)
         data["provider_success_by_name"] = dict(self.provider_success_by_name)
+        data["transcript_direct_error_by_kind"] = dict(self.transcript_direct_error_by_kind)
         data["provider_empty_by_name"] = dict(self.provider_empty_by_name)
         data["provider_error_by_name"] = dict(self.provider_error_by_name)
         data["provider_error_kind_by_name"] = dict(self.provider_error_kind_by_name)
