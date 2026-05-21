@@ -218,14 +218,22 @@ def _metadata_only_text(*, title: str, channel: str, published_at: Any) -> str:
     )
 
 
-def _write_cyberlurch_youtube_diagnostics(report_dir: str, diag: YouTubeDiagnosticsCounters) -> None:
+def _write_cyberlurch_youtube_diagnostics(
+    report_dir: str,
+    diag: YouTubeDiagnosticsCounters,
+    *,
+    extra_counts: dict[str, Any] | None = None,
+) -> None:
     if (os.getenv("GITHUB_EVENT_NAME") or "").strip() != "workflow_dispatch":
         return
     try:
         os.makedirs(report_dir, exist_ok=True)
         out_path = os.path.join(report_dir, "cyberlurch_youtube_diagnostics.json")
+        payload = diag.to_count_only_dict()
+        if extra_counts:
+            payload.update(extra_counts)
         with open(out_path, "w", encoding="utf-8") as f:
-            json.dump(diag.to_count_only_dict(), f, ensure_ascii=False, indent=2, sort_keys=True)
+            json.dump(payload, f, ensure_ascii=False, indent=2, sort_keys=True)
             f.write("\n")
         print(f"[diagnostics] Wrote count-only YouTube diagnostics: {out_path}")
     except Exception as e:
@@ -1187,8 +1195,18 @@ def main() -> None:
     send_empty_email = (os.getenv("SEND_EMPTY_REPORT_EMAIL", "1") or "1").strip()
 
     max_items_per_channel = _safe_int("MAX_ITEMS_PER_CHANNEL", 5)
-    detail_items_per_day = _safe_int("DETAIL_ITEMS_PER_DAY", 8)
-    detail_items_per_channel_max = _safe_int("DETAIL_ITEMS_PER_CHANNEL_MAX", 3)
+    if report_key.strip().lower() == "cyberlurch":
+        detail_items_per_day = _safe_int(
+            "CYBERLURCH_DETAIL_ITEMS_PER_DAY",
+            _safe_int("DETAIL_ITEMS_PER_DAY", 10),
+        )
+        detail_items_per_channel_max = _safe_int(
+            "CYBERLURCH_DETAIL_ITEMS_PER_CHANNEL_MAX",
+            _safe_int("DETAIL_ITEMS_PER_CHANNEL_MAX", 2),
+        )
+    else:
+        detail_items_per_day = _safe_int("DETAIL_ITEMS_PER_DAY", 8)
+        detail_items_per_channel_max = _safe_int("DETAIL_ITEMS_PER_CHANNEL_MAX", 3)
 
     overview_items_max = _safe_int("OVERVIEW_ITEMS_MAX", 25)
     sent_cooldown_hours = _safe_int("PUBMED_SENT_COOLDOWN_HOURS", 48)
@@ -2678,7 +2696,23 @@ def main() -> None:
         f.write(md)
     print(f"[report] Wrote {out_path}")
     if report_key.strip().lower() == "cyberlurch":
-        _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag)
+        items_by_topic: dict[str, int] = {}
+        deep_dives_by_topic: dict[str, int] = {}
+        for it in report_items:
+            for topic in channel_topics.get(str(it.get("channel") or "").strip(), []):
+                items_by_topic[topic] = items_by_topic.get(topic, 0) + 1
+        for it in detail_items:
+            for topic in channel_topics.get(str(it.get("channel") or "").strip(), []):
+                deep_dives_by_topic[topic] = deep_dives_by_topic.get(topic, 0) + 1
+        extra_counts = {
+            "channels_config_total": len(channels),
+            "topic_buckets_total": len(topic_weights),
+            "active_topic_buckets_total": len([k for k, v in items_by_topic.items() if v > 0]),
+            "items_by_topic": items_by_topic,
+            "deep_dives_selected_total": len(detail_items),
+            "deep_dives_by_topic": deep_dives_by_topic,
+        }
+        _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, extra_counts=extra_counts)
 
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 

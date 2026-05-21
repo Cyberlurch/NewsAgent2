@@ -16,5 +16,34 @@ def test_channels_config_integrity():
         for channel in bucket.get("channels", []):
             all_channel_names.append(channel["name"])
 
-    assert len(all_channel_names) == 30
+    assert len(all_channel_names) == 52
     assert len(all_channel_names) == len(set(all_channel_names))
+
+    all_urls = []
+    for bucket in buckets:
+        for channel in bucket.get("channels", []):
+            all_urls.append(channel["url"])
+    assert len(all_urls) == len(set(all_urls))
+
+
+def test_expected_topic_buckets_and_existing_channels_once():
+    config_path = Path(__file__).resolve().parent.parent / "data" / "channels.json"
+    with config_path.open(encoding="utf-8") as f:
+        config = json.load(f)
+
+    expected_topics = {
+        "Mainstream DE/SE News",
+        "Geopolitik, Krieg & Machtblöcke",
+        "Israel, Nahost & Sicherheitslage",
+        "Christlicher Glaube, Bibel & Apologetik",
+        "Prophetie, Endzeit & Weltdeutung",
+        "Gesellschaft, Medienkritik & Debatte",
+        "Preparedness, Sicherheit & Survival",
+        "Finanzen, Wirtschaft & Krypto",
+    }
+    buckets = config.get("topic_buckets", [])
+    assert {b.get("topic") for b in buckets} == expected_topics
+
+    names = [c.get("name") for b in buckets for c in b.get("channels", [])]
+    for must_once in ["IsraelEnglishNews", "judgingfreedom", "klartextwinkler", "Riks", "SlingandStoneVideos"]:
+        assert names.count(must_once) == 1

@@ -686,6 +686,23 @@ def to_markdown(
         detail_items = [it for it in items if _detail_lookup(details_by_id, it)]
 
     if detail_items:
+        if is_cyberlurch:
+            topic_points: dict[str, list[str]] = {}
+            for it in detail_items:
+                topic = str(it.get("topic") or "").strip() or "Other"
+                detail_block = _detail_lookup(details_by_id, it)
+                bottom = _best_bottom_line(it, detail_block) or _fallback_bottom_line(it)
+                if bottom:
+                    topic_points.setdefault(topic, [])
+                    if len(topic_points[topic]) < 5 and bottom not in topic_points[topic]:
+                        topic_points[topic].append(bottom)
+            if topic_points:
+                md.extend(["## Themenbereiche / Topic sections", ""])
+                for topic, points in sorted(topic_points.items(), key=lambda kv: (-len(kv[1]), kv[0].lower())):
+                    md.append(f"### {topic}")
+                    for p in points[:5]:
+                        md.append(f"- {p}")
+                    md.append("")
         md.extend([deep_dives_heading, ""])
         for it in detail_items:
             iid = str(it.get("id") or "").strip()

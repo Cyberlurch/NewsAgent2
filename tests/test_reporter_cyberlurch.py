@@ -168,6 +168,20 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("Source: TranscriptAPI, transcript excerpt", md)
 
+    def test_daily_renders_topic_sections_and_deep_dives(self):
+        items = [{
+            "id": "d7", "title": "Topic Video", "url": "https://example.com/topic",
+            "channel": "Channel T", "published_at": datetime(2024, 3, 4),
+            "topic": "Geopolitik, Krieg & Machtblöcke",
+        }]
+        details = {"d7": "Key takeaways:\n- point\n\n**BOTTOM LINE:** topic detail"}
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="## Executive Summary\n\nOverview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertIn("## Executive Summary", md)
+        self.assertIn("## Themenbereiche / Topic sections", md)
+        self.assertIn("## Deep Dives", md)
+        self.assertIn("## Top videos", md)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,7 @@
   "topic_buckets": [
     {
       "topic": "Mainstream DE/SE News",
-      "weight": 1.4,
+      "weight": 1.2,
       "channels": [
         {
           "name": "tagesschau",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "topic": "Europa & Geo-Politik / Krieg",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
       "weight": 1.6,
       "channels": [
         {
@@ -29,10 +29,6 @@
         {
           "name": "ThePoplarReport",
           "url": "https://www.youtube.com/@ThePoplarReport"
-        },
-        {
-          "name": "Riks",
-          "url": "https://www.youtube.com/@Riks"
         },
         {
           "name": "russianmediamonitor",
@@ -47,31 +43,103 @@
           "url": "https://www.youtube.com/@COMPACTTV"
         },
         {
-          "name": "frihetsnytt2745",
-          "url": "https://www.youtube.com/@frihetsnytt2745"
-        },
-        {
-          "name": "krissyrieger",
-          "url": "https://www.youtube.com/@krissyrieger"
-        },
-        {
           "name": "profjiangclips",
           "url": "https://www.youtube.com/@profjiangclips"
+        },
+        {
+          "name": "breakingpoints",
+          "url": "https://www.youtube.com/@breakingpoints"
+        },
+        {
+          "name": "judgingfreedom",
+          "url": "https://www.youtube.com/@judgingfreedom"
         }
       ]
     },
     {
-      "topic": "Israel, Nahost & Prophetie",
-      "weight": 1.5,
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "weight": 1.6,
       "channels": [
         {
           "name": "IsraelEnglishNews",
           "url": "https://www.youtube.com/@IsraelEnglishNews"
         },
         {
+          "name": "IsraelNationalTV",
+          "url": "https://www.youtube.com/@IsraelNationalTV"
+        },
+        {
+          "name": "IsraelwithAline",
+          "url": "https://www.youtube.com/@IsraelwithAline"
+        },
+        {
+          "name": "CBNnewsonline",
+          "url": "https://www.youtube.com/@CBNnewsonline"
+        },
+        {
           "name": "beholdisrael",
           "url": "https://www.youtube.com/@beholdisrael"
+        }
+      ]
+    },
+    {
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "weight": 1.7,
+      "channels": [
+        {
+          "name": "AusGlaubenLeben",
+          "url": "https://www.youtube.com/@AusGlaubenLeben"
         },
+        {
+          "name": "CrossExamined",
+          "url": "https://www.youtube.com/@CrossExamined"
+        },
+        {
+          "name": "DLMChristianLifestyle",
+          "url": "https://www.youtube.com/@DLMChristianLifestyle"
+        },
+        {
+          "name": "DLMChristianPerspective",
+          "url": "https://www.youtube.com/@DLMChristianPerspective"
+        },
+        {
+          "name": "DrJamesTour",
+          "url": "https://www.youtube.com/@DrJamesTour"
+        },
+        {
+          "name": "DTBM",
+          "url": "https://www.youtube.com/@DTBM"
+        },
+        {
+          "name": "KapChatfield",
+          "url": "https://www.youtube.com/@KapChatfield"
+        },
+        {
+          "name": "offthekirb",
+          "url": "https://www.youtube.com/@offthekirb"
+        },
+        {
+          "name": "RogerLiebiLIVE",
+          "url": "https://www.youtube.com/@RogerLiebiLIVE"
+        },
+        {
+          "name": "WesHuff",
+          "url": "https://www.youtube.com/@WesHuff"
+        },
+        {
+          "name": "WretchedNetwork",
+          "url": "https://www.youtube.com/@WretchedNetwork"
+        },
+        {
+          "name": "BeardedBibleBros",
+          "url": "https://www.youtube.com/@BeardedBibleBros"
+        }
+      ]
+    },
+    {
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "weight": 1.4,
+      "channels": [
         {
           "name": "EndtimeheadlinesOrg",
           "url": "https://www.youtube.com/@EndtimeheadlinesOrg"
@@ -85,22 +153,60 @@
           "url": "https://www.youtube.com/@jamiewalden756"
         },
         {
-          "name": "IsraelNationalTV",
-          "url": "https://www.youtube.com/@IsraelNationalTV"
-        },
-        {
           "name": "endzeit-kanal",
           "url": "https://www.youtube.com/@endzeit-kanal"
         },
         {
           "name": "SlingandStoneVideos",
           "url": "https://www.youtube.com/@SlingandStoneVideos"
+        },
+        {
+          "name": "PredictiveHistory",
+          "url": "https://www.youtube.com/@PredictiveHistory"
+        },
+        {
+          "name": "Daily_Dose_Of_Wisdom",
+          "url": "https://www.youtube.com/@Daily_Dose_Of_Wisdom"
         }
       ]
     },
     {
-      "topic": "USA & Sicherheit / Gesellschaft",
-      "weight": 1.5,
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "weight": 1.4,
+      "channels": [
+        {
+          "name": "Riks",
+          "url": "https://www.youtube.com/@Riks"
+        },
+        {
+          "name": "frihetsnytt2745",
+          "url": "https://www.youtube.com/@frihetsnytt2745"
+        },
+        {
+          "name": "krissyrieger",
+          "url": "https://www.youtube.com/@krissyrieger"
+        },
+        {
+          "name": "DoomDebates",
+          "url": "https://www.youtube.com/@DoomDebates"
+        },
+        {
+          "name": "Blakwoodz",
+          "url": "https://www.youtube.com/@Blakwoodz"
+        },
+        {
+          "name": "Darius_official",
+          "url": "https://www.youtube.com/@Darius_official"
+        },
+        {
+          "name": "THEALPHAPATHYT",
+          "url": "https://www.youtube.com/@THEALPHAPATHYT"
+        }
+      ]
+    },
+    {
+      "topic": "Preparedness, Sicherheit & Survival",
+      "weight": 1.3,
       "channels": [
         {
           "name": "BlackScoutSurvival",
@@ -121,15 +227,11 @@
         {
           "name": "preppernewsflash",
           "url": "https://www.youtube.com/@preppernewsflash"
-        },
-        {
-          "name": "judgingfreedom",
-          "url": "https://www.youtube.com/@judgingfreedom"
         }
       ]
     },
     {
-      "topic": "Finanzen & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
       "weight": 1.2,
       "channels": [
         {
@@ -147,6 +249,10 @@
         {
           "name": "MarcFriedrich7",
           "url": "https://www.youtube.com/@MarcFriedrich7"
+        },
+        {
+          "name": "ErnstWolffOffiziell",
+          "url": "https://www.youtube.com/@ErnstWolffOffiziell"
         }
       ]
     }
