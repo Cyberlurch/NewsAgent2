@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import os, re
 import html as html_module
 from collections import Counter
@@ -135,6 +136,107 @@ def _normalize_detail_block_headings(text: str) -> str:
     text = re.sub(r"(?im)^\s*#{1,2}\s*Key takeaways\s*$", "#### Key takeaways", text)
     text = re.sub(r"(?im)^\s*#{1,2}\s*Details\s*&\s*reasoning\s*$", "#### Details & reasoning", text)
     return text
+
+
+def _topic_from_item(item: Dict[str, Any]) -> str:
+    primary = str(item.get("topic_primary") or "").strip()
+    if primary:
+        return primary
+    topic = str(item.get("topic") or "").strip()
+    if topic:
+        return topic
+    topics = item.get("topics")
+    if isinstance(topics, list):
+        for t in topics:
+            ts = str(t).strip()
+            if ts:
+                return ts
+    return "Other"
+
+
+def _to_clean_text(value: Any) -> str:
+    if isinstance(value, list):
+        return "; ".join(str(v).strip() for v in value[:3] if str(v).strip())
+    if isinstance(value, dict):
+        pairs = [f"{k}: {v}" for k, v in value.items() if str(v).strip()]
+        return "; ".join(pairs[:3])
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    if text.startswith("[") and text.endswith("]"):
+        try:
+            parsed = ast.literal_eval(text)
+            if isinstance(parsed, list):
+                return "; ".join(str(v).strip() for v in parsed[:3] if str(v).strip())
+        except Exception:
+            text = text.strip("[]").replace("'", "").replace('"', "")
+            return re.sub(r"\s*,\s*", "; ", text).strip()
+    return text
+
+
+def _extract_first_useful_paragraph(detail_block: str) -> str:
+    for para in re.split(r"\n\s*\n", detail_block or ""):
+        p = para.strip()
+        low = p.lower()
+        if not p:
+            continue
+        if low.startswith("#") or low.startswith("title:") or low.startswith("channel:") or low.startswith("published:") or "watch on youtube" in low:
+            continue
+        if low.startswith("bottom line:") or low.startswith("**bottom line:**"):
+            continue
+        return p
+    return ""
+
+
+def _cyberlurch_topic_bullet(item: Dict[str, Any], detail_block: str) -> str:
+    content = (
+        _to_clean_text(item.get("transcript_full_summary"))
+        or _to_clean_text(item.get("important_details"))
+        or _to_clean_text(item.get("editorial_relevance"))
+        or _to_clean_text(item.get("summary") or item.get("bottom_line"))
+        or _to_clean_text(_extract_first_useful_paragraph(detail_block))
+        or _to_clean_text(item.get("title"))
+        or "No summary available"
+    )
+    relevance = (
+        _to_clean_text(item.get("editorial_relevance"))
+        or _to_clean_text(item.get("important_details"))
+        or _to_clean_text(item.get("bottom_line"))
+        or "high relevance for current channel discourse"
+    )
+    content = re.sub(r"\s+", " ", content).strip().strip("-• ")
+    relevance = re.sub(r"\s+", " ", relevance).strip().strip("-• ")
+    content = content[:220]
+    relevance = relevance[:120]
+    channel_text = _md_escape_label(str(item.get("channel") or "").strip() or "Unknown channel")
+    return f"- **{channel_text}:** {content}. _Why it matters:_ {relevance}."
+
+
+def _normalize_deep_dive_headings(detail_block: str, *, item_title: str) -> str:
+    if not detail_block:
+        return detail_block
+    lines = []
+    for raw in detail_block.splitlines():
+        line = raw.strip()
+        low = line.lower()
+        if re.match(r"^#\s+title\s*$", line, flags=re.IGNORECASE):
+            continue
+        if item_title and re.match(r"^#\s+.+$", line) and re.sub(r"^#\s+", "", line).strip().lower() == item_title.strip().lower():
+            continue
+        if re.match(r"^#\s*(key takeaways|details\s*&\s*reasoning|uncertainties)\s*$", line, flags=re.IGNORECASE):
+            label = re.sub(r"^#\s*", "", line, flags=re.IGNORECASE).strip()
+            lines.append(f"#### {label}")
+            continue
+        if re.match(r"^##\s*(key takeaways|details\s*&\s*reasoning|uncertainties)\s*$", line, flags=re.IGNORECASE):
+            label = re.sub(r"^##\s*", "", line, flags=re.IGNORECASE).strip()
+            lines.append(f"#### {label}")
+            continue
+        if re.match(r"^#{1,2}\s+", line):
+            label = re.sub(r"^#{1,2}\s*", "", line).strip()
+            lines.append(f"#### {label}")
+            continue
+        lines.append(raw)
+    return "\n".join(lines).strip()
 
 def _extract_cybermed_meta_block(overview_markdown: str) -> str:
     text = (overview_markdown or "").strip()
@@ -703,49 +805,40 @@ def to_markdown(
 
     if detail_items:
         if is_cyberlurch:
+            topic_candidates: dict[str, list[tuple[int, Dict[str, Any]]]] = {}
+            for it in items:
+                topic = _topic_from_item(it)
+                score = 0
+                if str(it.get("transcript_processing") or "").strip() == "direct_full_transcript":
+                    score += 100
+                if _to_clean_text(it.get("transcript_full_summary")):
+                    score += 80
+                if it.get("id") in {d.get("id") for d in detail_items}:
+                    score += 50
+                score += int(float(it.get("cyberlurch_deep_dive_score") or 0.0) * 10)
+                if str(it.get("content_status") or "").strip() == "metadata_only":
+                    score -= 1000
+                topic_candidates.setdefault(topic, []).append((score, it))
+
             topic_points: dict[str, list[str]] = {}
-            for it in detail_items:
-                topic = _flatten_text_field(it.get("topic") or it.get("topics") or "").strip()
-                if not topic:
-                    topic = _flatten_text_field(it.get("topic_bucket") or "").strip()
-                if not topic:
-                    topic = "Other"
-                summary_text = _flatten_text_field(it.get("transcript_full_summary") or "")
-                details_text = _flatten_text_field(it.get("important_details") or it.get("editorial_relevance") or "")
-                deepdive_text = _flatten_text_field(it.get("deep_dive_summary") or "")
-                short_summary = str(it.get("summary") or "").strip()
-                title_text = str(it.get("title") or "").strip()
-                channel_text = str(it.get("channel") or "").strip() or "Unknown channel"
-                point_body = summary_text or details_text or deepdive_text or short_summary or f"Title focus: {title_text or 'Untitled'}."
-                summary_line = point_body.replace("\n", " ").strip()[:240]
-                point = f"Content point: {summary_line}"
-                why_text = (details_text or deepdive_text or short_summary or "").replace("\n", " ").strip()
-                if why_text:
-                    why = f"Why it matters: {why_text[:200]}"
-                elif title_text:
-                    why = f"Why it matters: intersects current debates around “{title_text[:120]}”."
-                else:
-                    why = "Why it matters: recurring channel attention indicates sustained audience relevance."
-                topic_points.setdefault(topic, [])
-                if len(topic_points[topic]) < 5:
-                    topic_points[topic].append(point)
-                if len(topic_points[topic]) < 5:
-                    topic_points[topic].append(f"Channels involved: {channel_text}.")
-                if len(topic_points[topic]) < 5:
-                    topic_points[topic].append(why)
+            for topic, scored_items in topic_candidates.items():
+                has_full_text = any(str(si[1].get("content_status") or "").strip() != "metadata_only" for si in scored_items)
+                ranked = sorted(scored_items, key=lambda t: t[0], reverse=True)
+                for _, it in ranked:
+                    if has_full_text and str(it.get("content_status") or "").strip() == "metadata_only":
+                        continue
+                    bullet = _cyberlurch_topic_bullet(it, _detail_lookup(details_by_id, it))
+                    topic_points.setdefault(topic, [])
+                    if bullet not in topic_points[topic]:
+                        topic_points[topic].append(bullet)
+                    if len(topic_points[topic]) >= 5:
+                        break
             if topic_points:
                 md.extend(["## Themenbereiche / Topic sections", ""])
                 for topic, points in sorted(topic_points.items(), key=lambda kv: (-len(kv[1]), kv[0].lower())):
                     md.append(f"### {topic}")
-                    clean_points = []
-                    for p in points:
-                        pl = p.lower()
-                        if any(bad in pl for bad in ["this paper", "clinical implication", "evidence strength", "methods not classified", "abstract keywords"]):
-                            continue
-                        if p not in clean_points:
-                            clean_points.append(p)
-                    for p in clean_points[:5]:
-                        md.append(f"- {p}")
+                    for p in points[:5]:
+                        md.append(p)
                     md.append("")
         md.extend([deep_dives_heading, ""])
         for it in detail_items:
@@ -768,6 +861,9 @@ def to_markdown(
                 detail_block = _ensure_pubmed_deep_dive_template(detail_block, best_bottom_line, lang=lang)
             if not detail_block and is_cybermed:
                 detail_block = f"**BOTTOM LINE:** {best_bottom_line}"
+            if is_cyberlurch:
+                detail_block = re.sub(r"(?im)^\s*(Title|Channel|Published|Watch on YouTube)\s*:\s*.*$", "", detail_block)
+                detail_block = _normalize_deep_dive_headings(detail_block, item_title=str(it.get("title") or "").strip())
             detail_block = _bold_bottom_line_label(detail_block)
             detail_block = _normalize_detail_block_headings(detail_block)
             md.append(detail_block)
