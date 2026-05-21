@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from .cyberlurch_editorial import infer_channel_tone_profile
 import os
 import re
 from dataclasses import dataclass
@@ -97,6 +98,7 @@ _SYS_OVERVIEW_CYBERLURCH_EN = (
     "- Items marked content_status=metadata_only have title/channel/date only; do not infer details beyond the title.\n"
     "- When content_status=metadata_only, state that transcript/caption/description content was unavailable.\n"
     "- Distinguish reported claims from established facts without repetitive warning language.\n"
+    "- Prefer phrasing like: The channel argues..., The speaker frames this as..., or The report presents....\n"
     "- For Christian/theological/apologetic content: summarize respectfully, preserve Bible references, names, arguments, and counterarguments.\n"
     "- For fringe/alien/highly speculative content: summarize what is said in a light dry tone if fitting, without presenting claims as established fact.\n"
     "- Prefer concrete statements (who/what/where/when) if present.\n"
@@ -163,6 +165,7 @@ _SYS_DETAIL_YOUTUBE_CYBERLURCH_EN = (
     "- Summarize what the speaker/channel says using only provided text; do not invent facts.\n"
     "- Keep tone intelligent and readable; avoid repetitive disclaimers.\n"
     "- Christian/theological/apologetic items must be respectful and accurate, with argument structure, claims, and counterarguments.\n"
+    "- Mainstream news: dry, factual, concise; avoid deference language.\n"
     "- Fringe/alien/absurd political items may use light dry tone, but do not promote claims as facts.\n\n"
     "Key takeaways:\n"
     "- 3–6 bullets (precise and content-grounded)\n\n"
@@ -1259,9 +1262,11 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         if item.get("fulltext_host_type"):
             meta["fulltext_host_type"] = (item.get("fulltext_host_type") or "").strip()
     else:
+        tone_profile = infer_channel_tone_profile((item.get("channel") or "").strip(), item.get("channel_topics") or {})
         meta = {
             "source": src,
             "channel": (item.get("channel") or "").strip(),
+            "tone_profile": tone_profile,
             "title": (item.get("title") or "").strip(),
             "url": (item.get("url") or "").strip(),
             "published_at": published_str,

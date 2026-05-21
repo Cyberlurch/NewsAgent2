@@ -37,6 +37,13 @@ from .state_manager import (
     save_state,
     should_skip_pubmed_item,
 )
+from .cyberlurch_editorial import (
+    PRIORITY_DAILY_CHANNELS,
+    build_trend_clusters,
+    is_deep_dive_eligible,
+    normalize_channel_name,
+    score_cyberlurch_deep_dive_candidate,
+)
 from .summarizer import (
     OPENAI_MODEL_CYBERLURCH_CHUNKS,
     OPENAI_MODEL_CYBERLURCH_DEEPDIVE,
@@ -1202,7 +1209,7 @@ def main() -> None:
         )
         detail_items_per_channel_max = _safe_int(
             "CYBERLURCH_DETAIL_ITEMS_PER_CHANNEL_MAX",
-            _safe_int("DETAIL_ITEMS_PER_CHANNEL_MAX", 2),
+            _safe_int("DETAIL_ITEMS_PER_CHANNEL_MAX", 1),
         )
     else:
         detail_items_per_day = _safe_int("DETAIL_ITEMS_PER_DAY", 8)
@@ -2062,14 +2069,28 @@ def main() -> None:
         youtube_diag.metadata_only_items_total = len(metadata_only_items)
         total_items = len(full_text_items) + len(metadata_only_items)
         youtube_diag.full_text_ratio = (len(full_text_items) / total_items) if total_items else 0.0
-        detail_items = _choose_detail_items(
-            items=full_text_items,
-            channel_topics=channel_topics,
-            topic_weights=topic_weights,
-            detail_items_per_day=detail_items_per_day,
-            detail_items_per_channel_max=detail_items_per_channel_max,
-        )
-        detail_items = detail_items[: max(0, deep_dive_limit)]
+        priority_set = {x.strip() for x in (os.getenv("CYBERLURCH_PRIORITY_DAILY_CHANNELS", "CanadianPrepper,preppernewsflash").split(",")) if x.strip()}
+        priority_norm = {normalize_channel_name(x) for x in priority_set}
+        priority_daily_items = [it for it in items_sorted if normalize_channel_name(it.get("channel") or "") in priority_norm]
+        trend_diag = build_trend_clusters(full_text_items)
+        eligible=[]
+        for it in full_text_items:
+            if is_deep_dive_eligible(it, channel_topics):
+                score_cyberlurch_deep_dive_candidate(it, full_text_items, channel_topics, state)
+                eligible.append(it)
+        eligible_sorted = sorted(eligible, key=lambda it:(float(it.get("cyberlurch_deep_dive_score") or 0.0), it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
+        detail_items=[]; used_ch=set(); dup_suppressed=0
+        for it in eligible_sorted:
+            chn=normalize_channel_name(it.get("channel") or "")
+            if chn in used_ch:
+                dup_suppressed += 1
+                continue
+            detail_items.append(it); used_ch.add(chn)
+            if len(detail_items)>=max(0, deep_dive_limit): break
+        for it in items_sorted:
+            if normalize_channel_name(it.get("channel") or "") in priority_norm and it not in overview_items:
+                overview_items.append(it)
+        overview_items = sorted(overview_items, key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
         if report_mode in {"weekly", "monthly"} and report_key.strip().lower() == "cyberlurch":
             report_items = _dedupe_items(overview_items + detail_items)
         else:
@@ -2088,6 +2109,21 @@ def main() -> None:
     for it in detail_items:
         if (it.get("source") or "").strip().lower() == "pubmed":
             it.setdefault("fulltext_source", "none")
+
+    cyberlurch_diag = {
+        "deep_dive_candidates_total": len(full_text_items) if not is_cybermed_run else 0,
+        "deep_dive_eligible_total": len(eligible) if not is_cybermed_run else 0,
+        "deep_dive_ineligible_mainstream_news_total": len([it for it in full_text_items if normalize_channel_name(it.get("channel") or "") in {"tagesschau","zdfheute","vanessawingardh"}]) if not is_cybermed_run else 0,
+        "deep_dive_ineligible_short_text_total": len([it for it in full_text_items if len((it.get("text") or "").strip()) < max(200,int((os.getenv("CYBERLURCH_DEEPDIVE_MIN_TEXT_CHARS") or "2500")))]) if not is_cybermed_run else 0,
+        "deep_dive_selected_total": len(detail_items),
+        "deep_dive_selected_channels_total": len({normalize_channel_name(it.get("channel") or "") for it in detail_items}),
+        "deep_dive_channel_duplicates_suppressed_total": dup_suppressed if not is_cybermed_run else 0,
+        "priority_daily_items_found_total": len(priority_daily_items) if not is_cybermed_run else 0,
+        "priority_daily_items_included_total": len([it for it in overview_items if normalize_channel_name(it.get("channel") or "") in priority_norm]) if not is_cybermed_run else 0,
+        "priority_daily_deep_dives_selected_total": len([it for it in detail_items if normalize_channel_name(it.get("channel") or "") in priority_norm]) if not is_cybermed_run else 0,
+        "trend_clusters_total": trend_diag.get("trend_clusters_total",0) if not is_cybermed_run else 0,
+        "trend_boosted_items_total": trend_diag.get("trend_boosted_items_total",0) if not is_cybermed_run else 0,
+    }
 
     deep_dive_diag = {
         "candidates": len([it for it in detail_items if (it.get("source") or "").strip().lower() == "pubmed"]),
@@ -2710,6 +2746,7 @@ def main() -> None:
             "active_topic_buckets_total": len([k for k, v in items_by_topic.items() if v > 0]),
             "items_by_topic": items_by_topic,
             "deep_dives_selected_total": len(detail_items),
+            **(cyberlurch_diag if report_key.strip().lower()=="cyberlurch" else {}),
             "deep_dives_by_topic": deep_dives_by_topic,
         }
         _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, extra_counts=extra_counts)

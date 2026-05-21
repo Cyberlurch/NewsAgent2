@@ -195,7 +195,7 @@ def test_transcript_success_sets_full_text_source(tmp_path, monkeypatch):
     report_dir = tmp_path / "out_tr"
     vids=[{"id":"ok1","title":"T","channel":"c","published_at":dt.datetime(2026,5,14,12,0,tzinfo=dt.timezone.utc),"url":"https://www.youtube.com/watch?v=ok1","description":""}]
     monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
-    monkeypatch.setattr(main_mod, "fetch_video_content", lambda **k: type("R", (), {"status":"success","text":"real transcript","source":"youtube_transcript_api"})())
+    monkeypatch.setattr(main_mod, "fetch_video_content", lambda **k: type("R", (), {"status":"success","text":"real transcript "*500,"source":"youtube_transcript_api"})())
     monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "sum")
     monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
     monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
