@@ -103,7 +103,7 @@ def test_main_rss_fallback_retains_metadata_only_and_count_only_diagnostics(tmp_
 
     assert "Metadata Only Title" not in captured.out
     assert "https://www.youtube.com/watch?v=fallback123" not in captured.out
-    md = next(report_dir.glob("*.md")).read_text(encoding="utf-8")
+    md = next(report_dir.glob("cyberlurch_daily_summary_*.md")).read_text(encoding="utf-8")
     assert "Metadata Only Title" in md
     assert "Transcript/caption text unavailable; listed from metadata only." in md
     diag = json.loads((report_dir / "cyberlurch_youtube_diagnostics.json").read_text(encoding="utf-8"))
@@ -138,7 +138,7 @@ def test_empty_cyberlurch_report_writes_clean_markdown_and_diagnostics_artifacts
 
     main_mod.main()
 
-    md = next(report_dir.glob("*.md")).read_text(encoding="utf-8")
+    md = next(report_dir.glob("cyberlurch_daily_summary_*.md")).read_text(encoding="utf-8")
     assert "<!-- RUN_METADATA_ATTACHMENT_START -->" not in md
     assert "## YouTube Diagnostics" not in md
     diag = json.loads((report_dir / "cyberlurch_youtube_diagnostics.json").read_text(encoding="utf-8"))
@@ -203,7 +203,7 @@ def test_transcript_success_sets_full_text_source(tmp_path, monkeypatch):
     monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s3.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
     main_mod.main()
-    md = next(report_dir.glob("*.md")).read_text(encoding="utf-8")
+    md = next(report_dir.glob("cyberlurch_daily_summary_*.md")).read_text(encoding="utf-8")
     assert "Deep dives skipped" not in md
 
 
@@ -222,7 +222,7 @@ def test_metadata_only_skips_deep_dives(tmp_path, monkeypatch):
     monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s4.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
     main_mod.main()
-    md = next(report_dir.glob("*.md")).read_text(encoding="utf-8")
+    md = next(report_dir.glob("cyberlurch_daily_summary_*.md")).read_text(encoding="utf-8")
     assert "Deep dives skipped because no transcript, caption, or description content was available." in md
     assert "Details & reasoning" not in md
     assert calls["n"] == 0
@@ -245,7 +245,7 @@ def test_chunking_failure_does_not_break_overview(tmp_path, monkeypatch):
     monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s5.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
     main_mod.main()
-    md = next(report_dir.glob("*.md")).read_text(encoding="utf-8")
+    md = next(report_dir.glob("cyberlurch_daily_summary_*.md")).read_text(encoding="utf-8")
     assert "Failed to generate overview" not in md
     diag = json.loads((report_dir / "cyberlurch_youtube_diagnostics.json").read_text(encoding="utf-8"))
     assert "transcript_chunking_attempted_total" in diag
@@ -310,5 +310,5 @@ def test_direct_digest_exception_keeps_full_text_and_excerpt_fallback(tmp_path, 
     main_mod.main()
     diag = json.loads((report_dir / "cyberlurch_youtube_diagnostics.json").read_text(encoding="utf-8"))
     assert diag["transcript_direct_error_by_kind"]["empty_output"] >= 1
-    md = next(report_dir.glob("*.md")).read_text(encoding="utf-8")
+    md = next(report_dir.glob("cyberlurch_daily_summary_*.md")).read_text(encoding="utf-8")
     assert "Source: TranscriptAPI, transcript excerpt fallback" in md

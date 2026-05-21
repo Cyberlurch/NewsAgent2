@@ -230,6 +230,8 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="## Executive Summary\n\nOverview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("### Israel, Nahost & Sicherheitslage", md)
         self.assertNotIn('["', md)
+        self.assertNotIn("Content point:", md)
+        self.assertNotIn("- Why it matters:", md)
 
     def test_deep_dive_internal_headings_demoted_to_h4(self):
         items = [{"id": "d10", "title": "Topic Video", "url": "https://example.com/topic4", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
@@ -238,6 +240,20 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="overview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("#### Key takeaways", md)
         self.assertIn("#### Details & reasoning", md)
+        self.assertNotIn("\n# Key takeaways", md)
+        self.assertNotIn("\n## Details & reasoning", md)
+
+    def test_deep_dive_removes_duplicate_title_channel_block(self):
+        items = [{"id": "d11", "title": "Topic Video", "url": "https://example.com/topic5", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
+        details = {"d11": "Title: Topic Video\nChannel: Channel T\nPublished: 2024-03-04\nWatch on YouTube: https://example.com/topic5\n\n# Title\n## Uncertainties\n- unsure"}
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="overview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertNotIn("Title: Topic Video", md)
+        self.assertNotIn("Channel: Channel T", md)
+        self.assertNotIn("Published: 2024-03-04", md)
+        self.assertNotIn("Watch on YouTube", md)
+        self.assertNotIn("# Title", md)
+        self.assertIn("#### Uncertainties", md)
 
 
 if __name__ == "__main__":

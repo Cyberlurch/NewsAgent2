@@ -231,6 +231,23 @@ def _write_channel_id_suggestions(suggestions: dict[str, str], report_dir: str) 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
         f.write("\n")
+
+
+def _annotate_cyberlurch_item_topics(items: List[Dict[str, Any]], channel_topics: Dict[str, List[str]]) -> None:
+    for it in items:
+        if not isinstance(it, dict):
+            continue
+        channel_name = str(it.get("channel") or "").strip()
+        topics_raw = channel_topics.get(channel_name, [])
+        topics = [str(t).strip() for t in topics_raw if str(t).strip()]
+        if not topics:
+            topics = ["Other"]
+        topic_primary = topics[0]
+        it["topics"] = topics
+        it["topic_primary"] = topic_primary
+        it["topic"] = topic_primary
+
+
 def _metadata_only_text(*, title: str, channel: str, published_at: Any) -> str:
     if isinstance(published_at, datetime):
         published = published_at.astimezone(timezone.utc).replace(microsecond=0).isoformat()
@@ -2770,6 +2787,10 @@ def main() -> None:
 
     for _it in report_items:
         _it.pop("_full_text_for_processing", None)
+
+    if report_key.strip().lower() == "cyberlurch":
+        _annotate_cyberlurch_item_topics(report_items, channel_topics)
+        _annotate_cyberlurch_item_topics(detail_items, channel_topics)
 
     md = to_markdown(
         report_items,
