@@ -445,6 +445,8 @@ jobs:
           path: |
             ${{ env.REPORT_DIR }}/*.md
             ${{ env.REPORT_DIR }}/*diagnostics*.json
+            ${{ env.REPORT_DIR }}/*metadata*.json
+            ${{ env.REPORT_DIR }}/*metadata*.md
           if-no-files-found: error
           retention-days: 7
 

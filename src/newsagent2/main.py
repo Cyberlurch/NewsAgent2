@@ -263,6 +263,23 @@ def _write_cyberlurch_youtube_diagnostics(
     except Exception as e:
         print(f"[diagnostics] WARN: failed to write YouTube diagnostics err_type={type(e).__name__}")
 
+
+def _write_run_metadata_artifact(report_dir: str, report_key: str, report_mode: str, run_metadata: str) -> None:
+    if (os.getenv("GITHUB_EVENT_NAME") or "").strip() != "workflow_dispatch":
+        return
+    meta = (run_metadata or "").strip()
+    if not meta:
+        return
+    try:
+        os.makedirs(report_dir, exist_ok=True)
+        safe_mode = (report_mode or "daily").strip().lower() or "daily"
+        out_path = os.path.join(report_dir, f"{report_key}_{safe_mode}_run_metadata.md")
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write(meta.rstrip() + "\n")
+        print(f"[diagnostics] Wrote run metadata artifact: {out_path}")
+    except Exception as e:
+        print(f"[diagnostics] WARN: failed to write run metadata artifact err_type={type(e).__name__}")
+
 def _parse_hours_override(raw: str) -> int | None:
     text = (raw or "").strip()
     if text == "":
@@ -2051,6 +2068,7 @@ def main() -> None:
             print("[email] No new items and SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
         if report_key.strip().lower() == "cyberlurch":
             _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag)
+            _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
         return
 
     detail_items: List[Dict[str, Any]] = []
@@ -2787,6 +2805,7 @@ def main() -> None:
             "deep_dives_by_topic": deep_dives_by_topic,
         }
         _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, extra_counts=extra_counts)
+        _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
 
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 

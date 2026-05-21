@@ -114,7 +114,7 @@ def test_main_rss_fallback_retains_metadata_only_and_count_only_diagnostics(tmp_
     assert forbidden_keys.isdisjoint(diag.keys())
 
 
-def test_empty_cyberlurch_report_keeps_metadata_attachment_and_diagnostics_file(tmp_path, monkeypatch):
+def test_empty_cyberlurch_report_writes_clean_markdown_and_diagnostics_artifacts(tmp_path, monkeypatch):
     channels_path = tmp_path / "channels.json"
     channels_path.write_text(
         json.dumps({"topic_buckets": [{"topic": "test", "channels": [{"name": "Empty", "url": "https://www.youtube.com/channel/UCabcdefghijklmnopqrstuv"}]}]}),
@@ -139,12 +139,13 @@ def test_empty_cyberlurch_report_keeps_metadata_attachment_and_diagnostics_file(
     main_mod.main()
 
     md = next(report_dir.glob("*.md")).read_text(encoding="utf-8")
-    assert "<!-- RUN_METADATA_ATTACHMENT_START -->" in md
-    assert "## YouTube Diagnostics" in md
+    assert "<!-- RUN_METADATA_ATTACHMENT_START -->" not in md
+    assert "## YouTube Diagnostics" not in md
     diag = json.loads((report_dir / "cyberlurch_youtube_diagnostics.json").read_text(encoding="utf-8"))
     assert diag["channels_attempted_total"] == 1
     assert diag["videos_listed_total"] == 0
     assert "captions_error_by_kind" in diag
+    assert (report_dir / "cyberlurch_daily_run_metadata.md").exists()
 
 
 def test_rss_primary_with_channel_id_skips_ytdlp_listing(tmp_path, monkeypatch):

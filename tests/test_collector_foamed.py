@@ -175,4 +175,4 @@ def test_audit_mode_emits_metadata(monkeypatch):
         report_mode="daily",
     )
 
-    assert "html_items_in_window" in md
+    assert "html_items_in_window" not in md
