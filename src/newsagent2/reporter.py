@@ -187,6 +187,43 @@ def _extract_first_useful_paragraph(detail_block: str) -> str:
         return p
     return ""
 
+def _trim_sentence_aware(text: str, max_chars: int) -> str:
+    normalized = re.sub(r"\s+", " ", str(text or "")).strip()
+    if not normalized or max_chars <= 0:
+        return ""
+    if len(normalized) <= max_chars:
+        return normalized
+    window = normalized[:max_chars]
+    sentence_endings = [m.end() for m in re.finditer(r"[.!?](?:['\")\]]+)?(?:\s+|$)", window)]
+    if sentence_endings:
+        trimmed = window[:sentence_endings[-1]].rstrip()
+        if trimmed:
+            return f"{trimmed}…"
+        return normalized[:max_chars].rsplit(" ", 1)[0].rstrip() + "…"
+    cut = window.rsplit(" ", 1)[0].rstrip()
+    if not cut:
+        cut = window.rstrip()
+    return f"{cut}…"
+
+def _strip_generic_summary_openers(text: str) -> str:
+    cleaned = re.sub(r"\s+", " ", str(text or "")).strip()
+    replacements = (
+        "the transcript is a discussion",
+        "transcript is a discussion",
+        "the video is about",
+        "video is about",
+        "the video is on",
+        "video is on",
+    )
+    lowered = cleaned.lower()
+    for prefix in replacements:
+        if lowered.startswith(prefix):
+            nxt = cleaned[len(prefix):].strip(" ,.-:")
+            if nxt:
+                cleaned = nxt[:1].upper() + nxt[1:]
+                lowered = cleaned.lower()
+    return cleaned
+
 
 def _cyberlurch_topic_bullet(item: Dict[str, Any], detail_block: str) -> str:
     content = (
@@ -204,10 +241,10 @@ def _cyberlurch_topic_bullet(item: Dict[str, Any], detail_block: str) -> str:
         or _to_clean_text(item.get("bottom_line"))
         or "high relevance for current channel discourse"
     )
-    content = re.sub(r"\s+", " ", content).strip().strip("-• ")
-    relevance = re.sub(r"\s+", " ", relevance).strip().strip("-• ")
-    content = content[:220]
-    relevance = relevance[:120]
+    content = _strip_generic_summary_openers(content).strip("-• ")
+    relevance = _strip_generic_summary_openers(relevance).strip("-• ")
+    content = _trim_sentence_aware(content, 220)
+    relevance = _trim_sentence_aware(relevance, 120)
     channel_text = _md_escape_label(str(item.get("channel") or "").strip() or "Unknown channel")
     return f"- **{channel_text}:** {content}. _Why it matters:_ {relevance}."
 
@@ -863,6 +900,7 @@ def to_markdown(
                 detail_block = f"**BOTTOM LINE:** {best_bottom_line}"
             if is_cyberlurch:
                 detail_block = re.sub(r"(?im)^\s*(Title|Channel|Published|Watch on YouTube)\s*:\s*.*$", "", detail_block)
+                detail_block = re.sub(r"(?im)^\s*\[?\s*Watch on YouTube\s*\]?\s*(?:\([^)]*\)|:\s*.+)?\s*$", "", detail_block)
                 detail_block = _normalize_deep_dive_headings(detail_block, item_title=str(it.get("title") or "").strip())
             detail_block = _bold_bottom_line_label(detail_block)
             detail_block = _normalize_detail_block_headings(detail_block)
