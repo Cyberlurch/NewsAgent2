@@ -259,7 +259,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         text = "Sentence one is complete. Sentence two is also complete and should be selected."
         trimmed = reporter._trim_sentence_aware(text, 50)
         self.assertTrue(trimmed.endswith("…"))
-        self.assertIn("Sentence one is complete.", trimmed)
+        self.assertIn("Sentence one is complete", trimmed)
         self.assertNotIn("shou…", trimmed)
 
     def test_topic_bullet_avoids_generic_transcript_opening_when_better_fields_exist(self):
@@ -270,8 +270,39 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             "editorial_relevance": "It connects strategy choices to downstream regional risk.",
         }
         bullet = reporter._cyberlurch_topic_bullet(item, "")
-        self.assertNotIn("The transcript is a discussion", bullet)
+        self.assertNotIn("The transcript is", bullet)
+        self.assertNotIn("The transcript provides", bullet)
         self.assertIn("hosts about policy posture", bullet)
+
+    def test_topic_bullet_rewrites_video_is_about_when_digest_fields_exist(self):
+        item = {
+            "channel": "Channel X",
+            "transcript_full_summary": "The video is about NATO planning and air defense coordination under pressure",
+            "editorial_relevance": "The transcript provides insight into cross-border escalation risk.",
+        }
+        bullet = reporter._cyberlurch_topic_bullet(item, "")
+        self.assertNotIn("The video is about", bullet)
+        self.assertNotIn("The transcript provides", bullet)
+        self.assertIn("NATO planning", bullet)
+
+    def test_ensure_sentence_end_adds_punctuation_only_when_needed(self):
+        self.assertEqual("A complete sentence.", reporter._ensure_sentence_end("A complete sentence"))
+        self.assertEqual("Already done.", reporter._ensure_sentence_end("Already done."))
+        self.assertEqual("Already clipped…", reporter._ensure_sentence_end("Already clipped…"))
+
+    def test_topic_bullet_no_duplicate_ellipsis_punctuation(self):
+        long_text = (
+            "The transcript provides insight into " + ("networked deterrence signals " * 20).strip() + "."
+        )
+        item = {"channel": "Channel Y", "transcript_full_summary": long_text, "editorial_relevance": long_text}
+        bullet = reporter._cyberlurch_topic_bullet(item, "")
+        self.assertNotIn("….", bullet)
+        self.assertNotIn("...", bullet)
+
+    def test_trim_sentence_aware_does_not_cut_inside_words(self):
+        text = "Alpha beta gamma deltaword"
+        trimmed = reporter._trim_sentence_aware(text, 19)
+        self.assertEqual("Alpha beta gamma…", trimmed)
 
     def test_deep_dive_cleanup_removes_standalone_watch_on_youtube_lines_only(self):
         items = [{"id": "d12", "title": "Topic Video", "url": "https://example.com/topic6", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
@@ -281,6 +312,30 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertNotIn("[Watch on YouTube]", md)
         self.assertNotIn("\nWatch on YouTube\n", md)
         self.assertIn("#### Key takeaways", md)
+
+    def test_deep_dive_cleanup_removes_leading_metadata_block_and_keeps_substance(self):
+        items = [{"id": "d13", "title": "Generated Title", "url": "https://example.com/topic7", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
+        details = {
+            "d13": "#### Generated Title\n**Channel:** Channel T\nPublished: 2024-03-04\nURL: https://example.com/topic7\n[Watch here](https://example.com/topic7)\n---\n\n## Key takeaways\n- keep this\n\n# Details & reasoning\nParagraph."
+        }
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="overview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertNotIn("#### Generated Title", md)
+        self.assertNotIn("**Channel:**", md)
+        self.assertNotIn("Published:", md)
+        self.assertNotIn("URL:", md)
+        self.assertNotIn("[Watch here]", md)
+        self.assertIn("#### Key takeaways", md)
+        self.assertIn("#### Details & reasoning", md)
+
+    def test_cybermed_formatting_unchanged_by_cyberlurch_cleanup(self):
+        items = [{"id": "pm1", "title": "Paper", "url": "https://pubmed.example/1", "channel": "PubMed: Journal", "source": "pubmed", "cybermed_included": True, "cybermed_deep_dive": True}]
+        details = {"pm1": "# Key takeaways\n- point\n\n## Details & reasoning\n- detail"}
+        with patch.dict(os.environ, {"REPORT_KEY": "cybermed"}):
+            md = reporter.to_markdown(items, overview_markdown="", details_by_id=details, report_title="Cybermed Daily", report_language="en", report_mode="daily")
+        self.assertIn("### PubMed: Journal: [Paper](https://pubmed.example/1)", md)
+        self.assertIn("**BOTTOM LINE:**", md)
+        self.assertNotIn("[Watch here]", md)
 
 
 if __name__ == "__main__":

@@ -30,6 +30,22 @@ class CybermedMetadataRenderingTests(TestCase):
         self.assertNotIn("<!-- RUN_METADATA_ATTACHMENT_START -->", rendered)
         self.assertNotIn("<!-- RUN_METADATA_ATTACHMENT_END -->", rendered)
 
+    def test_cyberlurch_readable_report_has_no_inline_run_metadata(self):
+        items = [{"id": "x1", "title": "Video", "url": "https://example.com/v", "channel": "Channel", "topic": "Ops"}]
+        details = {"x1": "#### Key takeaways\n- item"}
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch", "REPORT_MODE": "daily"}, clear=False):
+            rendered = reporter.to_markdown(
+                items,
+                "## Executive Summary\n\nText",
+                details,
+                report_title="Cyberlurch Daily",
+                report_language="en",
+                report_mode="daily",
+            )
+        self.assertNotIn("## Run Metadata", rendered)
+        self.assertNotIn("<!-- RUN_METADATA_ATTACHMENT_START -->", rendered)
+        self.assertNotIn("<!-- RUN_METADATA_ATTACHMENT_END -->", rendered)
+
 
 if __name__ == "__main__":
     import unittest
