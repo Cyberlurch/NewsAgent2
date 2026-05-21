@@ -217,6 +217,28 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             self.assertNotIn(bad, md)
         self.assertNotIn("What it says:", md)
 
+    def test_topic_sections_keep_real_bucket_name_and_clean_list_formatting(self):
+        items = [{
+            "id": "d9", "title": "Topic Video", "url": "https://example.com/topic3",
+            "channel": "Channel T", "published_at": datetime(2024, 3, 4),
+            "topic": "Israel, Nahost & Sicherheitslage",
+            "transcript_full_summary": ["Point A", "Point B"],
+            "important_details": ["Detail 1", "Detail 2"],
+        }]
+        details = {"d9": "detail"}
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="## Executive Summary\n\nOverview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertIn("### Israel, Nahost & Sicherheitslage", md)
+        self.assertNotIn('["', md)
+
+    def test_deep_dive_internal_headings_demoted_to_h4(self):
+        items = [{"id": "d10", "title": "Topic Video", "url": "https://example.com/topic4", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
+        details = {"d10": "# Key takeaways\n- a\n## Details & reasoning\n- b"}
+        with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
+            md = reporter.to_markdown(items, overview_markdown="overview", details_by_id=details, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
+        self.assertIn("#### Key takeaways", md)
+        self.assertIn("#### Details & reasoning", md)
+
 
 if __name__ == "__main__":
     unittest.main()

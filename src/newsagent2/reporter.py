@@ -120,6 +120,22 @@ def _bold_bottom_line_label(text: str) -> str:
 
     return re.sub(r"(?im)^(\s*)(?:\*\*)?BOTTOM LINE:(?:\*\*)?", _repl, text)
 
+
+def _flatten_text_field(value: Any) -> str:
+    if isinstance(value, list):
+        return "; ".join(str(v).strip() for v in value if str(v).strip())
+    if isinstance(value, dict):
+        return "; ".join(f"{k}: {v}" for k, v in value.items() if str(v).strip())
+    return str(value or "").strip()
+
+
+def _normalize_detail_block_headings(text: str) -> str:
+    if not text:
+        return text
+    text = re.sub(r"(?im)^\s*#{1,2}\s*Key takeaways\s*$", "#### Key takeaways", text)
+    text = re.sub(r"(?im)^\s*#{1,2}\s*Details\s*&\s*reasoning\s*$", "#### Details & reasoning", text)
+    return text
+
 def _extract_cybermed_meta_block(overview_markdown: str) -> str:
     text = (overview_markdown or "").strip()
     if not text:
@@ -689,10 +705,14 @@ def to_markdown(
         if is_cyberlurch:
             topic_points: dict[str, list[str]] = {}
             for it in detail_items:
-                topic = str(it.get("topic") or "").strip() or "Other"
-                summary_text = str(it.get("transcript_full_summary") or "").strip()
-                details_text = str(it.get("important_details") or it.get("editorial_relevance") or "").strip()
-                deepdive_text = str(it.get("deep_dive_summary") or "").strip()
+                topic = _flatten_text_field(it.get("topic") or it.get("topics") or "").strip()
+                if not topic:
+                    topic = _flatten_text_field(it.get("topic_bucket") or "").strip()
+                if not topic:
+                    topic = "Other"
+                summary_text = _flatten_text_field(it.get("transcript_full_summary") or "")
+                details_text = _flatten_text_field(it.get("important_details") or it.get("editorial_relevance") or "")
+                deepdive_text = _flatten_text_field(it.get("deep_dive_summary") or "")
                 short_summary = str(it.get("summary") or "").strip()
                 title_text = str(it.get("title") or "").strip()
                 channel_text = str(it.get("channel") or "").strip() or "Unknown channel"
@@ -749,6 +769,7 @@ def to_markdown(
             if not detail_block and is_cybermed:
                 detail_block = f"**BOTTOM LINE:** {best_bottom_line}"
             detail_block = _bold_bottom_line_label(detail_block)
+            detail_block = _normalize_detail_block_headings(detail_block)
             md.append(detail_block)
             md.append("")
 
@@ -822,7 +843,7 @@ def to_markdown(
                 elif text_source in src_map:
                     label = src_map[text_source]
                     md.append(f"  - Source: {label}")
-                if it.get("content_status") == "metadata_only":
+                if (it.get("content_status") == "metadata_only") or (text_source == "metadata_only"):
                     md.append("  - Transcript/caption text unavailable; listed from metadata only.")
                 if is_cyberlurch_periodic:
                     bottom_line = (it.get("bottom_line") or "").strip()
@@ -846,27 +867,6 @@ def to_markdown(
                 src_lines.append(f"- {title_lbl}: {url}")
             md.extend([sources_heading, ""])
             md.extend(src_lines if src_lines else ["- (keine)" if lang == "de" else "- (none)"])
-            md.append("")
-
-    if is_cybermed:
-        extra_meta = _format_cybermed_metadata(items, meta_only, foamed_stats, cybermed_stats)
-        meta_blocks = [block.strip() for block in (meta_only, extra_meta) if block.strip()]
-        if meta_blocks:
-            if md and md[-1] != "":
-                md.append("")
-            meta_content = "\n\n".join(meta_blocks)
-            md.append("<!-- RUN_METADATA_ATTACHMENT_START -->")
-            md.append(meta_content)
-            md.append("<!-- RUN_METADATA_ATTACHMENT_END -->")
-            md.append("")
-    elif run_metadata:
-        meta_content = str(run_metadata or "").strip()
-        if meta_content:
-            if md and md[-1] != "":
-                md.append("")
-            md.append("<!-- RUN_METADATA_ATTACHMENT_START -->")
-            md.append(meta_content)
-            md.append("<!-- RUN_METADATA_ATTACHMENT_END -->")
             md.append("")
 
     return "\n".join(md)

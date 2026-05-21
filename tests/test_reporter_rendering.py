@@ -10,7 +10,7 @@ from newsagent2 import reporter
 
 
 class CybermedMetadataRenderingTests(TestCase):
-    def test_cybermed_run_metadata_section_is_minimal_but_contains_markers(self):
+    def test_cybermed_readable_report_has_no_inline_metadata_markers(self):
         overview_md = "**Cybermed report metadata**\nLookback window: 24 hours\n"
         with patch.dict(
             os.environ, {"REPORT_KEY": "cybermed", "REPORT_MODE": "daily"}, clear=False
@@ -27,8 +27,8 @@ class CybermedMetadataRenderingTests(TestCase):
         self.assertNotIn("Run Metadata Summary", rendered)
         self.assertNotIn("## Run Metadata", rendered)
         self.assertNotIn("Run Metadata (click to expand)", rendered)
-        self.assertIn("<!-- RUN_METADATA_ATTACHMENT_START -->", rendered)
-        self.assertIn("<!-- RUN_METADATA_ATTACHMENT_END -->", rendered)
+        self.assertNotIn("<!-- RUN_METADATA_ATTACHMENT_START -->", rendered)
+        self.assertNotIn("<!-- RUN_METADATA_ATTACHMENT_END -->", rendered)
 
 
 if __name__ == "__main__":
