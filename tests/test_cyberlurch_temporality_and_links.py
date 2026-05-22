@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / 'src'))
 
-from newsagent2.cyberlurch_editorial import classify_cyberlurch_item_temporality
+from newsagent2.cyberlurch_cadence import classify_cyberlurch_item_temporality
 from newsagent2.reporter import to_markdown
 
 
