@@ -1657,6 +1657,27 @@ def main() -> None:
     items: List[Dict[str, Any]] = []
     skipped_by_state = 0
     youtube_diag = YouTubeDiagnosticsCounters()
+    weekly_digest_items_total = 0
+    weekly_digest_used_total = 0
+    weekly_digest_supplemental_collection_items_total = 0
+    weekly_digest_full_text_ratio = 0.0
+    monthly_digest_items_total = 0
+    monthly_digest_used_total = 0
+    monthly_digest_supplemental_collection_items_total = 0
+    monthly_digest_period_start = ""
+    monthly_digest_period_end = ""
+    weekly_digest_fallback_collection_used = False
+    monthly_digest_fallback_collection_used = False
+    digest_store_loaded_total = 0
+    digest_store_selected_total = 0
+    digest_store_used_as_primary = False
+    digest_store_collection_skipped_due_to_primary = False
+    digest_store_collection_fallback_used = False
+    digest_store_collection_supplement_used = False
+    cyberlurch_digest_invalid_records_removed_total = 0
+    cyberlurch_digest_invalid_records_skipped_total = 0
+    use_digest_store_primary = False
+    collect_with_digest_supplement = False
     youtube_diag.yt_dlp_version = get_yt_dlp_version()
     youtube_diag.channels_file_used = args.channels
 
@@ -1671,251 +1692,302 @@ def main() -> None:
     channel_id_cache = _load_youtube_channel_id_cache()
     discovered_channel_ids: dict[str, str] = {}
 
-    for ch in channels:
-        cname = ch["name"]
-        source = (ch.get("source") or "youtube").strip().lower()
-        curl = (ch.get("url") or "").strip()
-        query = (ch.get("query") or "").strip()
-        is_poplar = _is_poplar_channel(ch)
-        is_blackscout = _is_blackscout_channel(ch)
+    if not is_cybermed_run and report_key.strip().lower() == "cyberlurch" and report_mode in {"weekly", "monthly"}:
+        use_digest = _env_bool("CYBERLURCH_WEEKLY_USE_DIGEST_STORE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_USE_DIGEST_STORE", True)
+        collect_if_digest = _env_bool("CYBERLURCH_WEEKLY_COLLECT_IF_DIGEST_AVAILABLE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_COLLECT_IF_DIGEST_AVAILABLE", False)
+        supplement = _env_bool("CYBERLURCH_WEEKLY_SUPPLEMENT_WITH_COLLECTION" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_SUPPLEMENT_WITH_COLLECTION", False)
+        if use_digest:
+            dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
+            dstate, removed_invalid = sanitize_cyberlurch_digest_state(dstate)
+            cyberlurch_digest_invalid_records_removed_total += removed_invalid
+            digest_store_loaded_total = len(dstate.get("digests", []))
+            now = datetime.now(timezone.utc)
+            selected = []
+            for d in dstate.get("digests", []):
+                if not _is_valid_cyberlurch_digest_record(d):
+                    continue
+                pub = _parse_iso_utc(str(d.get("published_at") or ""))
+                if not pub:
+                    continue
+                if report_mode == "weekly" and pub >= now - timedelta(days=7):
+                    selected.append(d)
+                elif report_mode == "monthly":
+                    mk = determine_monthly_rollup_month(datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME", ""), os.getenv("ROLLUP_MONTH_OVERRIDE"))
+                    monthly_digest_period_start = f"{mk}-01"
+                    monthly_digest_period_end = f"{mk}-31"
+                    if pub.astimezone(STO).strftime("%Y-%m") == mk:
+                        selected.append(d)
+            selected = sorted(selected, key=lambda x: _parse_iso_utc(str(x.get("published_at") or "")) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+            digest_store_selected_total = len(selected)
+            weekly_digest_items_total = len(selected) if report_mode == "weekly" else 0
+            monthly_digest_items_total = len(selected) if report_mode == "monthly" else 0
+            full_text = sum(1 for d in selected if str(d.get("text_source") or "").strip() not in {"", "metadata_only"})
+            weekly_digest_full_text_ratio = (full_text / len(selected)) if (report_mode == "weekly" and selected) else 0.0
+            if selected:
+                items = [_item_from_digest_record(d) for d in selected]
+                use_digest_store_primary = True
+                digest_store_used_as_primary = True
+                weekly_digest_used_total = len(items) if report_mode == "weekly" else 0
+                monthly_digest_used_total = len(items) if report_mode == "monthly" else 0
+                if supplement or collect_if_digest:
+                    collect_with_digest_supplement = True
+                    digest_store_collection_supplement_used = True
+                    print(f"[digest-store] {report_mode} supplement collection enabled; collecting supplemental items.")
+                else:
+                    digest_store_collection_skipped_due_to_primary = True
+                    print(f"[digest-store] {report_mode} using {len(selected)} digest records as primary source; skipping fresh collection.")
+            else:
+                weekly_digest_fallback_collection_used = report_mode == "weekly"
+                monthly_digest_fallback_collection_used = report_mode == "monthly"
+                digest_store_collection_fallback_used = True
+                print(f"[digest-store] {report_mode} no digest records available; using collection fallback.")
 
-        if source == "youtube":
-            youtube_diag.channels_attempted_total += 1
-            cache_key = _channel_cache_key(ch)
-            cached_channel_id = str(channel_id_cache.get("channels", {}).get(cache_key, {}).get("channel_id") or "").strip()
-            if cached_channel_id and not str(ch.get("channel_id") or "").strip():
-                ch = dict(ch)
-                ch["channel_id"] = cached_channel_id
-            vids: List[Dict[str, Any]] = []
-            ytdlp_failed = False
-            used_rss_primary = False
-            if str(ch.get("channel_id") or "").strip():
-                youtube_diag.rss_primary_attempted_total += 1
-                try:
-                    rss_primary = list_recent_videos_rss(
-                        ch, hours=args.hours, max_items=max_items_per_channel, diagnostics=youtube_diag.__dict__
-                    )
-                    if rss_primary:
-                        youtube_diag.rss_primary_success_total += 1
+    if (not use_digest_store_primary) or collect_with_digest_supplement:
+        for ch in channels:
+            cname = ch["name"]
+            source = (ch.get("source") or "youtube").strip().lower()
+            curl = (ch.get("url") or "").strip()
+            query = (ch.get("query") or "").strip()
+            is_poplar = _is_poplar_channel(ch)
+            is_blackscout = _is_blackscout_channel(ch)
+
+            if source == "youtube":
+                youtube_diag.channels_attempted_total += 1
+                cache_key = _channel_cache_key(ch)
+                cached_channel_id = str(channel_id_cache.get("channels", {}).get(cache_key, {}).get("channel_id") or "").strip()
+                if cached_channel_id and not str(ch.get("channel_id") or "").strip():
+                    ch = dict(ch)
+                    ch["channel_id"] = cached_channel_id
+                vids: List[Dict[str, Any]] = []
+                ytdlp_failed = False
+                used_rss_primary = False
+                if str(ch.get("channel_id") or "").strip():
+                    youtube_diag.rss_primary_attempted_total += 1
+                    try:
+                        rss_primary = list_recent_videos_rss(
+                            ch, hours=args.hours, max_items=max_items_per_channel, diagnostics=youtube_diag.__dict__
+                        )
+                        if rss_primary:
+                            youtube_diag.rss_primary_success_total += 1
+                            youtube_diag.channels_success_total += 1
+                            vids = rss_primary
+                            used_rss_primary = True
+                        else:
+                            youtube_diag.rss_primary_empty_total += 1
+                    except Exception:
+                        youtube_diag.rss_primary_error_total += 1
+
+                if not used_rss_primary:
+                    try:
+                        vids = list_recent_videos(
+                            curl,
+                            hours=args.hours,
+                            max_items=max_items_per_channel,
+                            diagnostics=youtube_diag.__dict__,
+                            force_full_metadata=force_ytdlp_full_metadata if "force_ytdlp_full_metadata" in locals() else False,
+                        )
                         youtube_diag.channels_success_total += 1
-                        vids = rss_primary
-                        used_rss_primary = True
-                    else:
-                        youtube_diag.rss_primary_empty_total += 1
-                except Exception:
-                    youtube_diag.rss_primary_error_total += 1
+                    except Exception as e:
+                        ytdlp_failed = True
+                        youtube_diag.channels_error_total += 1
+                        print(f"[collect] ERROR source=youtube: list_recent_videos failed err_type={type(e).__name__}")
 
-            if not used_rss_primary:
-                try:
-                    vids = list_recent_videos(
-                        curl,
+                if _env_bool("YOUTUBE_METADATA_FALLBACK", True) and (ytdlp_failed or not vids):
+                    rss_items = list_recent_videos_rss(
+                        ch,
                         hours=args.hours,
                         max_items=max_items_per_channel,
                         diagnostics=youtube_diag.__dict__,
-                        force_full_metadata=force_ytdlp_full_metadata if "force_ytdlp_full_metadata" in locals() else False,
                     )
-                    youtube_diag.channels_success_total += 1
-                except Exception as e:
-                    ytdlp_failed = True
-                    youtube_diag.channels_error_total += 1
-                    print(f"[collect] ERROR source=youtube: list_recent_videos failed err_type={type(e).__name__}")
+                    if rss_items and ytdlp_failed:
+                        youtube_diag.channels_success_total += 1
+                    vids = _dedupe_videos_by_id(list(vids) + list(rss_items))
 
-            if _env_bool("YOUTUBE_METADATA_FALLBACK", True) and (ytdlp_failed or not vids):
-                rss_items = list_recent_videos_rss(
-                    ch,
-                    hours=args.hours,
-                    max_items=max_items_per_channel,
-                    diagnostics=youtube_diag.__dict__,
-                )
-                if rss_items and ytdlp_failed:
-                    youtube_diag.channels_success_total += 1
-                vids = _dedupe_videos_by_id(list(vids) + list(rss_items))
-
-            if not vids:
-                continue
-
-            api_key = (os.getenv("YOUTUBE_API_KEY") or "").strip()
-            api_enabled = _env_bool("YOUTUBE_API_METADATA", True) and bool(api_key)
-            force_ytdlp_full_metadata = _env_bool("YTDLP_FULL_METADATA_ENRICHMENT", False)
-            api_max_videos = max(1, _safe_int("YOUTUBE_API_MAX_VIDEOS_PER_RUN", 150))
-            snippets: dict[str, dict[str, Any]] = {}
-            if api_enabled:
-                id_batch = [str(v.get("id") or "").strip() for v in vids if str(v.get("id") or "").strip()][:api_max_videos]
-                for i in range(0, len(id_batch), 50):
-                    snippets.update(fetch_video_snippets(id_batch[i : i + 50], api_key, youtube_diag.__dict__))
-
-            for v in vids:
-                snippet = snippets.get(str(v.get("id") or "").strip()) or {}
-                if snippet:
-                    if snippet.get("title"):
-                        v["title"] = snippet["title"]
-                    if snippet.get("description"):
-                        v["description"] = snippet["description"]
-                    if snippet.get("channel"):
-                        v["channel"] = snippet["channel"]
-                    if snippet.get("published_at"):
-                        v["published_at"] = _parse_iso_utc(snippet.get("published_at")) or v.get("published_at")
-                    pub_after = v.get("published_at")
-                    if isinstance(pub_after, datetime):
-                        if pub_after.tzinfo is None:
-                            pub_after = pub_after.replace(tzinfo=timezone.utc)
-                        if pub_after < report_since_utc:
-                            youtube_diag.youtube_api_post_enrichment_date_skipped_total = int(
-                                getattr(youtube_diag, "youtube_api_post_enrichment_date_skipped_total", 0)
-                            ) + 1
-                            v["_skip_after_enrichment"] = True
-                    channel_id = str(snippet.get("channel_id") or "").strip()
-                    if channel_id.startswith("UC"):
-                        discovered_channel_ids[cache_key] = channel_id
-                        youtube_diag.youtube_api_channel_ids_discovered_total += 1
-                        channel_id_cache.setdefault("channels", {})[cache_key] = {
-                            "channel_id": channel_id,
-                            "source": "youtube_api",
-                            "updated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-                        }
-
-            for v in vids:
-                if v.get("_skip_after_enrichment"):
-                    continue
-                vid = str(v.get("id") or "").strip()
-                if not vid:
+                if not vids:
                     continue
 
-                force_reprocess = _env_bool("FORCE_REPROCESS", False)
-                already_processed = is_processed(state, report_key, "youtube", vid)
-                if not read_only_mode and already_processed and not force_reprocess:
-                    skipped_by_state += 1
-                    continue
+                api_key = (os.getenv("YOUTUBE_API_KEY") or "").strip()
+                api_enabled = _env_bool("YOUTUBE_API_METADATA", True) and bool(api_key)
+                force_ytdlp_full_metadata = _env_bool("YTDLP_FULL_METADATA_ENRICHMENT", False)
+                api_max_videos = max(1, _safe_int("YOUTUBE_API_MAX_VIDEOS_PER_RUN", 150))
+                snippets: dict[str, dict[str, Any]] = {}
+                if api_enabled:
+                    id_batch = [str(v.get("id") or "").strip() for v in vids if str(v.get("id") or "").strip()][:api_max_videos]
+                    for i in range(0, len(id_batch), 50):
+                        snippets.update(fetch_video_snippets(id_batch[i : i + 50], api_key, youtube_diag.__dict__))
 
-                youtube_diag.videos_total += 1
-                if is_poplar:
-                    youtube_diag.poplar_total += 1
-                if is_blackscout:
-                    youtube_diag.blackscout_total += 1
-                desc = (v.get("description") or "").strip()
-                allow_managed_reprocess = _env_bool("FORCE_REPROCESS_ALLOW_MANAGED_TRANSCRIPTS", False)
-                providers_override = None
-                if force_reprocess and not allow_managed_reprocess and already_processed:
-                    providers_override = "youtube_transcript_api,description,timedtext,yt_dlp_captions,metadata_only"
-                    youtube_diag.managed_transcript_skipped_force_reprocess_cost_guard_total = int(
-                        getattr(youtube_diag, "managed_transcript_skipped_force_reprocess_cost_guard_total", 0)
-                    ) + 1
-                provider_result = fetch_video_content(
-                    video_id=vid,
-                    video_url=(v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}",
-                    description=desc,
-                    diagnostics=youtube_diag.__dict__,
-                    providers_override=providers_override,
-                )
-                text = (provider_result.text or "").strip()
-                text_source = provider_result.source
-                content_status = "full_text" if text_source in {"managed_transcript", "youtube_transcript_api", "description", "timedtext", "yt_dlp_captions"} and bool(text) else "metadata_only"
-                if not text:
-                    youtube_diag.metadata_only_total += 1
-                    text_source = "metadata_only"
-                    text = _metadata_only_text(
-                        title=(v.get("title") or "").strip(),
-                        channel=cname,
-                        published_at=v.get("published_at"),
+                for v in vids:
+                    snippet = snippets.get(str(v.get("id") or "").strip()) or {}
+                    if snippet:
+                        if snippet.get("title"):
+                            v["title"] = snippet["title"]
+                        if snippet.get("description"):
+                            v["description"] = snippet["description"]
+                        if snippet.get("channel"):
+                            v["channel"] = snippet["channel"]
+                        if snippet.get("published_at"):
+                            v["published_at"] = _parse_iso_utc(snippet.get("published_at")) or v.get("published_at")
+                        pub_after = v.get("published_at")
+                        if isinstance(pub_after, datetime):
+                            if pub_after.tzinfo is None:
+                                pub_after = pub_after.replace(tzinfo=timezone.utc)
+                            if pub_after < report_since_utc:
+                                youtube_diag.youtube_api_post_enrichment_date_skipped_total = int(
+                                    getattr(youtube_diag, "youtube_api_post_enrichment_date_skipped_total", 0)
+                                ) + 1
+                                v["_skip_after_enrichment"] = True
+                        channel_id = str(snippet.get("channel_id") or "").strip()
+                        if channel_id.startswith("UC"):
+                            discovered_channel_ids[cache_key] = channel_id
+                            youtube_diag.youtube_api_channel_ids_discovered_total += 1
+                            channel_id_cache.setdefault("channels", {})[cache_key] = {
+                                "channel_id": channel_id,
+                                "source": "youtube_api",
+                                "updated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+                            }
+
+                for v in vids:
+                    if v.get("_skip_after_enrichment"):
+                        continue
+                    vid = str(v.get("id") or "").strip()
+                    if not vid:
+                        continue
+
+                    force_reprocess = _env_bool("FORCE_REPROCESS", False)
+                    already_processed = is_processed(state, report_key, "youtube", vid)
+                    if not read_only_mode and already_processed and not force_reprocess:
+                        skipped_by_state += 1
+                        continue
+
+                    youtube_diag.videos_total += 1
+                    if is_poplar:
+                        youtube_diag.poplar_total += 1
+                    if is_blackscout:
+                        youtube_diag.blackscout_total += 1
+                    desc = (v.get("description") or "").strip()
+                    allow_managed_reprocess = _env_bool("FORCE_REPROCESS_ALLOW_MANAGED_TRANSCRIPTS", False)
+                    providers_override = None
+                    if force_reprocess and not allow_managed_reprocess and already_processed:
+                        providers_override = "youtube_transcript_api,description,timedtext,yt_dlp_captions,metadata_only"
+                        youtube_diag.managed_transcript_skipped_force_reprocess_cost_guard_total = int(
+                            getattr(youtube_diag, "managed_transcript_skipped_force_reprocess_cost_guard_total", 0)
+                        ) + 1
+                    provider_result = fetch_video_content(
+                        video_id=vid,
+                        video_url=(v.get("url") or "").strip() or f"https://www.youtube.com/watch?v={vid}",
+                        description=desc,
+                        diagnostics=youtube_diag.__dict__,
+                        providers_override=providers_override,
                     )
-
-                full_text_for_processing = ""
-                if text_source == "managed_transcript" and text:
-                    full_text_for_processing = text
-                if len(text) > max_text_chars_per_item:
-                    text = text[:max_text_chars_per_item].rstrip()
-
-                item_payload = {
-                        "source": "youtube",
-                        "id": vid,
-                        "channel": cname,
-                        "title": (v.get("title") or "").strip(),
-                        "url": (v.get("url") or "").strip(),
-                        "published_at": v.get("published_at"),
-                        "description": desc,
-                        "text": text,
-                        "content_status": content_status,
-                        "text_source": text_source,
-                    }
-                if full_text_for_processing:
-                    item_payload["_full_text_for_processing"] = full_text_for_processing
-                items.append(item_payload)
-                if content_status == "full_text":
-                    youtube_diag.full_text_items_total += 1
-                else:
-                    youtube_diag.metadata_only_items_total += 1
-
-        elif source == "pubmed":
-            if is_cybermed_run:
-                pubmed_queries_used.append((cname, query))
-            try:
-                arts = search_recent_pubmed(term=query, hours=args.hours, max_items=max_items_per_channel)
-            except Exception as e:
-                print(f"[collect] ERROR source=pubmed channel={cname!r}: search_recent_pubmed failed: {e!r}")
-                if is_cybermed_run:
-                    pubmed_query_failures += 1
-                continue
-
-            if is_cybermed_run:
-                pubmed_candidates_total += len(arts)
-                pubmed_candidates_by_channel[cname] = len(arts)
-
-            for a in arts:
-                pmid = str(a.get("id") or "").strip()
-                if not pmid:
-                    continue
-
-                skip_by_state = False
-                if not read_only_mode:
-                    if is_cybermed_run:
-                        skip_by_state, skip_reason = should_skip_pubmed_item(
-                            state,
-                            report_key,
-                            pmid,
-                            overview_cooldown_hours=sent_cooldown_hours,
-                            reconsider_unsent_hours=reconsider_unsent_hours,
+                    text = (provider_result.text or "").strip()
+                    text_source = provider_result.source
+                    content_status = "full_text" if text_source in {"managed_transcript", "youtube_transcript_api", "description", "timedtext", "yt_dlp_captions"} and bool(text) else "metadata_only"
+                    if not text:
+                        youtube_diag.metadata_only_total += 1
+                        text_source = "metadata_only"
+                        text = _metadata_only_text(
+                            title=(v.get("title") or "").strip(),
+                            channel=cname,
+                            published_at=v.get("published_at"),
                         )
-                        if skip_by_state:
-                            pubmed_state_skip_reasons[skip_reason] = pubmed_state_skip_reasons.get(skip_reason, 0) + 1
+
+                    full_text_for_processing = ""
+                    if text_source == "managed_transcript" and text:
+                        full_text_for_processing = text
+                    if len(text) > max_text_chars_per_item:
+                        text = text[:max_text_chars_per_item].rstrip()
+
+                    item_payload = {
+                            "source": "youtube",
+                            "id": vid,
+                            "channel": cname,
+                            "title": (v.get("title") or "").strip(),
+                            "url": (v.get("url") or "").strip(),
+                            "published_at": v.get("published_at"),
+                            "description": desc,
+                            "text": text,
+                            "content_status": content_status,
+                            "text_source": text_source,
+                        }
+                    if full_text_for_processing:
+                        item_payload["_full_text_for_processing"] = full_text_for_processing
+                    items.append(item_payload)
+                    if content_status == "full_text":
+                        youtube_diag.full_text_items_total += 1
                     else:
-                        skip_by_state = is_processed(state, report_key, "pubmed", pmid)
+                        youtube_diag.metadata_only_items_total += 1
 
-                if skip_by_state:
-                    skipped_by_state += 1
+            elif source == "pubmed":
+                if is_cybermed_run:
+                    pubmed_queries_used.append((cname, query))
+                try:
+                    arts = search_recent_pubmed(term=query, hours=args.hours, max_items=max_items_per_channel)
+                except Exception as e:
+                    print(f"[collect] ERROR source=pubmed channel={cname!r}: search_recent_pubmed failed: {e!r}")
                     if is_cybermed_run:
-                        pubmed_skipped_by_state += 1
+                        pubmed_query_failures += 1
                     continue
 
-                text = (a.get("text") or "").strip()
-                if not text:
-                    continue
+                if is_cybermed_run:
+                    pubmed_candidates_total += len(arts)
+                    pubmed_candidates_by_channel[cname] = len(arts)
 
-                if len(text) > max_text_chars_per_item:
-                    text = text[:max_text_chars_per_item].rstrip()
+                for a in arts:
+                    pmid = str(a.get("id") or "").strip()
+                    if not pmid:
+                        continue
 
-                items.append(
-                    {
-                        "source": "pubmed",
-                        "id": pmid,
-                        "channel": cname,
-                        "title": (a.get("title") or "").strip(),
-                        "url": (a.get("url") or "").strip() or curl,
-                        "published_at": a.get("published_at"),
-                        "year": (a.get("published_at").year if a.get("published_at") else ""),
-                        "journal": (a.get("journal") or "").strip(),
-                        "journal_iso_abbrev": (a.get("journal_iso_abbrev") or "").strip(),
-                        "journal_medline_ta": (a.get("journal_medline_ta") or "").strip(),
-                        "doi": (a.get("doi") or "").strip(),
-                        "description": (a.get("journal") or "").strip(),
-                        "pmid": pmid,
-                        "text": text,
-                        "abstract": (a.get("abstract") or "").strip(),
-                    }
-                )
+                    skip_by_state = False
+                    if not read_only_mode:
+                        if is_cybermed_run:
+                            skip_by_state, skip_reason = should_skip_pubmed_item(
+                                state,
+                                report_key,
+                                pmid,
+                                overview_cooldown_hours=sent_cooldown_hours,
+                                reconsider_unsent_hours=reconsider_unsent_hours,
+                            )
+                            if skip_by_state:
+                                pubmed_state_skip_reasons[skip_reason] = pubmed_state_skip_reasons.get(skip_reason, 0) + 1
+                        else:
+                            skip_by_state = is_processed(state, report_key, "pubmed", pmid)
 
-        else:
-            print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
-            continue
+                    if skip_by_state:
+                        skipped_by_state += 1
+                        if is_cybermed_run:
+                            pubmed_skipped_by_state += 1
+                        continue
+
+                    text = (a.get("text") or "").strip()
+                    if not text:
+                        continue
+
+                    if len(text) > max_text_chars_per_item:
+                        text = text[:max_text_chars_per_item].rstrip()
+
+                    items.append(
+                        {
+                            "source": "pubmed",
+                            "id": pmid,
+                            "channel": cname,
+                            "title": (a.get("title") or "").strip(),
+                            "url": (a.get("url") or "").strip() or curl,
+                            "published_at": a.get("published_at"),
+                            "year": (a.get("published_at").year if a.get("published_at") else ""),
+                            "journal": (a.get("journal") or "").strip(),
+                            "journal_iso_abbrev": (a.get("journal_iso_abbrev") or "").strip(),
+                            "journal_medline_ta": (a.get("journal_medline_ta") or "").strip(),
+                            "doi": (a.get("doi") or "").strip(),
+                            "description": (a.get("journal") or "").strip(),
+                            "pmid": pmid,
+                            "text": text,
+                            "abstract": (a.get("abstract") or "").strip(),
+                        }
+                    )
+
+            else:
+                print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
+                continue
 
     _save_youtube_channel_id_cache(channel_id_cache, read_only_mode=read_only_mode)
     _write_channel_id_suggestions(discovered_channel_ids, report_dir)
@@ -2239,74 +2311,6 @@ def main() -> None:
         }
 
 
-    weekly_digest_items_total = 0
-    weekly_digest_used_total = 0
-    weekly_digest_supplemental_collection_items_total = 0
-    weekly_digest_full_text_ratio = 0.0
-    monthly_digest_items_total = 0
-    monthly_digest_used_total = 0
-    monthly_digest_supplemental_collection_items_total = 0
-    monthly_digest_period_start = ""
-    monthly_digest_period_end = ""
-    weekly_digest_fallback_collection_used = False
-    monthly_digest_fallback_collection_used = False
-    digest_store_loaded_total = 0
-    digest_store_selected_total = 0
-    digest_store_used_as_primary = False
-    digest_store_collection_skipped_due_to_primary = False
-    digest_store_collection_fallback_used = False
-    digest_store_collection_supplement_used = False
-    cyberlurch_digest_invalid_records_removed_total = 0
-    cyberlurch_digest_invalid_records_skipped_total = 0
-    if not is_cybermed_run and report_key.strip().lower() == "cyberlurch" and report_mode in {"weekly", "monthly"}:
-        use_digest = _env_bool("CYBERLURCH_WEEKLY_USE_DIGEST_STORE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_USE_DIGEST_STORE", True)
-        min_items = _safe_int("CYBERLURCH_WEEKLY_MIN_DIGEST_ITEMS" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_MIN_DIGEST_ITEMS", 5 if report_mode=="weekly" else 10)
-        supplement = _env_bool("CYBERLURCH_WEEKLY_COLLECT_IF_DIGEST_AVAILABLE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_COLLECT_IF_DIGEST_AVAILABLE", False)
-        if use_digest:
-            dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
-            dstate, removed_invalid = sanitize_cyberlurch_digest_state(dstate)
-            cyberlurch_digest_invalid_records_removed_total += removed_invalid
-            digest_store_loaded_total = len(dstate.get("digests", []))
-            now = datetime.now(timezone.utc)
-            selected=[]
-            for d in dstate.get("digests", []):
-                if not _is_valid_cyberlurch_digest_record(d):
-                    continue
-                pub = _parse_iso_utc(str(d.get("published_at") or ""))
-                if not pub:
-                    continue
-                if report_mode=="weekly" and pub >= now - timedelta(days=7):
-                    selected.append(d)
-                elif report_mode=="monthly":
-                    mk = determine_monthly_rollup_month(datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME",""), os.getenv("ROLLUP_MONTH_OVERRIDE"))
-                    monthly_digest_period_start = f"{mk}-01"
-                    monthly_digest_period_end = f"{mk}-31"
-                    if pub.astimezone(STO).strftime("%Y-%m") == mk:
-                        selected.append(d)
-            selected=sorted(selected,key=lambda x:_parse_iso_utc(str(x.get("published_at") or "")) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
-            digest_store_selected_total = len(selected)
-            digest_items = [_item_from_digest_record(d) for d in selected]
-            if len(selected) >= 1:
-                items = digest_items
-                digest_store_used_as_primary = True
-                if len(selected) < min_items and supplement:
-                    digest_store_collection_supplement_used = True
-                    if report_mode=="weekly":
-                        weekly_digest_supplemental_collection_items_total = len(items)
-                    else:
-                        monthly_digest_supplemental_collection_items_total = len(items)
-                else:
-                    digest_store_collection_skipped_due_to_primary = True
-            else:
-                weekly_digest_fallback_collection_used = report_mode=="weekly"
-                monthly_digest_fallback_collection_used = report_mode=="monthly"
-                digest_store_collection_fallback_used = True
-            weekly_digest_items_total = len(selected) if report_mode=="weekly" else 0
-            weekly_digest_used_total = len(items) if report_mode=="weekly" else 0
-            monthly_digest_items_total = len(selected) if report_mode=="monthly" else 0
-            monthly_digest_used_total = len(items) if report_mode=="monthly" else 0
-            full_text = sum(1 for d in selected if str(d.get("text_source") or "").strip() not in {"", "metadata_only"})
-            weekly_digest_full_text_ratio = (full_text / len(selected)) if (report_mode=="weekly" and selected) else 0.0
     if is_cybermed_run:
         report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
     else:
