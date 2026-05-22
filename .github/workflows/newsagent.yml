@@ -451,7 +451,7 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-      - name: Commit updated state (processed_items.json) if changed
+      - name: Commit updated state files if changed
         if: steps.compute_plan.outputs.run_skip != 'true' && (contains(steps.compute_plan.outputs.run_modes, 'daily') || contains(steps.compute_plan.outputs.run_modes, 'monthly'))
         run: |
           set -euo pipefail
@@ -459,10 +459,11 @@ jobs:
           mkdir -p state
           # Avoid YAML/heredoc indentation issues by using a compact python -c initializer.
           python -c "from datetime import datetime, timezone; import json, pathlib; p=pathlib.Path('state')/'rollups.json'; payload={'version':1,'updated_at_utc':datetime.now(timezone.utc).replace(microsecond=0).isoformat(),'reports':{}}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
+          python -c "import json, pathlib; p=pathlib.Path('state')/'cyberlurch_digests.json'; payload={'version':1,'updated_at_utc':'','digests':[]}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
 
           # Collect only existing state files (avoid git add pathspec failures)
           FILES=()
-          for f in state/processed_items.json state/rollups.json; do
+          for f in state/processed_items.json state/rollups.json state/cyberlurch_digests.json; do
             if [ -f "$f" ]; then
               FILES+=("$f")
             fi
