@@ -76,16 +76,19 @@ CYBERMED_WEEKLY_MAX_FOAMED_CANDIDATES = 15
 CYBERMED_MONTHLY_MAX_FOAMED_CANDIDATES = 12
 CYBERLURCH_WEEKLY_MAX_VIDEOS = 10
 CYBERLURCH_MONTHLY_MAX_VIDEOS = 8
+CYBERLURCH_WEEKLY_TOP_LINKS_MAX = 20
+CYBERLURCH_MONTHLY_REPRESENTATIVE_LINKS_PER_TOPIC = 3
+CYBERLURCH_YEARLY_REPRESENTATIVE_LINKS_PER_THEME = 3
 WEEKLY_MAX_DEEP_DIVES = 3
 MONTHLY_MAX_DEEP_DIVES = 2
 
 def cyberlurch_cadence_profile(report_mode: str) -> Dict[str, Any]:
     mode = (report_mode or "daily").strip().lower()
     profiles = {
-        "daily": {"focus": "item-focused", "deep_dives": "strongest_current_items"},
-        "weekly": {"focus": "week-focused", "deep_dives": "selected_complex_current_items"},
-        "monthly": {"focus": "trend-focused", "deep_dives": "evergreen_and_major_developments"},
-        "yearly": {"focus": "annual_analysis", "deep_dives": "evergreen_essays_only"},
+        "daily": {"name":"daily","focus":"new_items","report_style":"item-focused, fast overview, current relevance","allow_item_deep_dives":True,"allow_evergreen_deep_dives":True,"source_link_style":"top_videos"},
+        "weekly": {"name":"weekly","focus":"week_in_review","report_style":"topic clusters, developments during the week, selected representative items","allow_item_deep_dives":True,"allow_evergreen_deep_dives":True,"source_link_style":"capped_top_videos"},
+        "monthly": {"name":"monthly","focus":"trend_report","report_style":"trend map, topic streams, narrative shifts, crisis/development trajectories, evergreen highlights","allow_item_deep_dives":False,"allow_evergreen_deep_dives":True,"source_link_style":"representative_links_by_topic"},
+        "yearly": {"name":"yearly","focus":"annual_analysis","report_style":"annual themes, crisis trajectories, recurring narratives, topic/channel weights, evergreen highlights","allow_item_deep_dives":False,"allow_evergreen_deep_dives":True,"source_link_style":"representative_links_by_theme"},
     }
     return profiles.get(mode, profiles["daily"])
 
@@ -955,11 +958,11 @@ def _curate_top_items(
 
 def _mode_deep_dive_cap(report_mode: str, base_cap: int) -> int:
     if report_mode == "weekly":
-        return min(base_cap, WEEKLY_MAX_DEEP_DIVES)
+        return min(base_cap, _safe_int("CYBERLURCH_WEEKLY_DETAIL_ITEMS_PER_PERIOD", 8))
     if report_mode == "monthly":
-        return min(base_cap, MONTHLY_MAX_DEEP_DIVES)
+        return min(base_cap, _safe_int("CYBERLURCH_MONTHLY_DETAIL_ITEMS_PER_PERIOD", 6))
     if report_mode == "yearly":
-        return 0
+        return _safe_int("CYBERLURCH_YEARLY_EVERGREEN_DEEPDIVES", 5)
     return base_cap
 
 
@@ -1612,6 +1615,7 @@ def main() -> None:
         detail_items_per_channel_max = min(detail_items_per_channel_max, 2)
 
     deep_dive_limit = _mode_deep_dive_cap(report_mode, detail_items_per_day)
+    cadence = cyberlurch_cadence_profile(report_mode)
 
     foamed_sources: List[Dict[str, Any]] = []
     foamed_candidates: List[Dict[str, Any]] = []
@@ -2422,6 +2426,11 @@ def main() -> None:
         for it in full_text_items:
             if is_deep_dive_eligible(it, channel_topics):
                 score_cyberlurch_deep_dive_candidate(it, full_text_items, channel_topics, state)
+                temporality = str(it.get("temporality") or "current_affairs")
+                if report_mode == "monthly" and temporality in {"breaking_news", "current_affairs"}:
+                    it["cyberlurch_deep_dive_score"] = float(it.get("cyberlurch_deep_dive_score") or 0.0) - 2.5
+                if report_mode == "yearly" and temporality not in {"evergreen", "mixed", "trend_analysis"}:
+                    continue
                 eligible.append(it)
         eligible_sorted = sorted(eligible, key=lambda it:(float(it.get("cyberlurch_deep_dive_score") or 0.0), it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
         detail_items=[]; used_ch=set(); dup_suppressed=0
@@ -2468,6 +2477,14 @@ def main() -> None:
         "priority_daily_deep_dives_selected_total": len([it for it in detail_items if normalize_channel_name(it.get("channel") or "") in priority_norm]) if not is_cybermed_run else 0,
         "trend_clusters_total": trend_diag.get("trend_clusters_total",0) if not is_cybermed_run else 0,
         "trend_boosted_items_total": trend_diag.get("trend_boosted_items_total",0) if not is_cybermed_run else 0,
+        "items_by_temporality": {
+            "breaking_news": len([it for it in report_items if str(it.get("temporality") or "") == "breaking_news"]),
+            "current_affairs": len([it for it in report_items if str(it.get("temporality") or "") == "current_affairs"]),
+            "trend_analysis": len([it for it in report_items if str(it.get("temporality") or "") == "trend_analysis"]),
+            "evergreen": len([it for it in report_items if str(it.get("temporality") or "") == "evergreen"]),
+            "mixed": len([it for it in report_items if str(it.get("temporality") or "") == "mixed"]),
+        },
+        "cadence_profile": cadence,
     }
 
     deep_dive_diag = {

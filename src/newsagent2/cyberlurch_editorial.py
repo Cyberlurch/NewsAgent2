@@ -35,9 +35,9 @@ def classify_cyberlurch_item_temporality(item:Dict[str,Any])->str:
     text = " ".join([title, topic, str(item.get("editorial_relevance") or "").lower()])
     if channel in MAINSTREAM_NEWS_CHANNELS:
         return "current_affairs"
-    if any(k in text for k in ["breaking", "eilmeldung", "live", "heute", "today"]):
+    if any(k in text for k in ["breaking", "eilmeldung", "alert", "live", "heute", "today", "war update", "news", "attack"]):
         return "breaking_news"
-    if any(k in text for k in ["bibel", "christ", "apolog", "theolog", "glaube", "worldview", "philosophy"]):
+    if any(k in text for k in ["bibel", "bible", "christ", "apolog", "theolog", "old testament", "glaube", "worldview", "philosophy", "existence of god"]):
         if any(k in text for k in ["krieg", "wahl", "breaking", "heute", "news"]):
             return "mixed"
         return "evergreen"
