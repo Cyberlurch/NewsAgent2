@@ -2365,16 +2365,50 @@ def main() -> None:
         for source_name, source_stats in (foamed_meta_stats.get("per_source") or {}).items():
             if not isinstance(source_stats, dict):
                 continue
+            error_val = source_stats.get("error")
+            error_class = ""
+            if isinstance(error_val, BaseException):
+                error_class = type(error_val).__name__
+            elif isinstance(error_val, str) and error_val.strip():
+                error_class = error_val.split(":", 1)[0].strip()[:80]
             foamed_per_source.append(
                 {
                     "name": source_name,
-                    "source_health": (source_stats.get("source_health") or source_stats.get("status") or "").strip(),
-                    "status": (source_stats.get("status") or source_stats.get("source_health") or "").strip(),
-                    "rss_attempted": int(source_stats.get("rss_attempted", 0) or 0),
-                    "html_fallback_attempted": int(source_stats.get("html_fallback_attempted", 0) or 0),
-                    "raw_count": int(source_stats.get("raw_count", 0) or 0),
-                    "kept_count": int(source_stats.get("kept_count", 0) or 0),
-                    **({"failure_class": str(source_stats.get("failure_class"))} if source_stats.get("failure_class") else {}),
+                    "health": (source_stats.get("health") or "").strip(),
+                    "method": (source_stats.get("method") or "").strip(),
+                    "why": (source_stats.get("why") or "").strip(),
+                    "feed_ok": int(source_stats.get("feed_ok", 0) or 0),
+                    "feed_failed": int(source_stats.get("feed_failed", 0) or 0),
+                    "html_fallback_used": int(source_stats.get("html_fallback_used", 0) or 0),
+                    "entries_total": int(source_stats.get("entries_total", 0) or 0),
+                    "entries_with_date": int(source_stats.get("entries_with_date", 0) or 0),
+                    "items_raw": int(source_stats.get("items_raw", 0) or 0),
+                    "items_with_date": int(source_stats.get("items_with_date", 0) or 0),
+                    "items_date_unknown": int(source_stats.get("items_date_unknown", 0) or 0),
+                    "kept_in_window_count": int(source_stats.get("kept_last24h", 0) or 0),
+                    "feed_status_code": int(source_stats.get("feed_status_code", 0) or 0),
+                    "homepage_status_code": int(source_stats.get("homepage_status_code", 0) or 0),
+                    "candidates_found": int(source_stats.get("candidates_found", 0) or 0),
+                    "pages_fetched": int(source_stats.get("pages_fetched", 0) or 0),
+                    **({"error_class": error_class} if error_class else {}),
+                }
+            )
+        foamed_health_state = state.get("foamed_source_health") if isinstance(state, dict) else {}
+        if not isinstance(foamed_health_state, dict):
+            foamed_health_state = {}
+        disabled_sources = []
+        for source_name, source_health in foamed_health_state.items():
+            if not isinstance(source_health, dict):
+                continue
+            disabled_until = source_health.get("disabled_until")
+            if not disabled_until:
+                continue
+            disabled_sources.append(
+                {
+                    "name": str(source_name),
+                    "last_health": str(source_health.get("last_health") or ""),
+                    "consecutive_failures": int(source_health.get("consecutive_failures", 0) or 0),
+                    "disabled_until_utc": str(disabled_until),
                 }
             )
         pubmed_state_skip_reasons = {}
@@ -2404,6 +2438,13 @@ def main() -> None:
             "pubmed_state_skip_reasons": pubmed_state_skip_reasons,
             "pubmed_per_channel": pubmed_per_channel,
             "foamed_sources_total": int(foamed_meta_stats.get("sources_total", 0) or 0),
+            "foamed_sources_config_total": len(foamed_sources),
+            "foamed_sources_processed_total": int(foamed_meta_stats.get("sources_total", 0) or 0),
+            "foamed_sources_skipped_disabled_total": max(0, len(foamed_sources) - int(foamed_meta_stats.get("sources_total", 0) or 0)),
+            "foamed_auto_disable_enabled": bool(foamed_auto_disable_enabled),
+            "foamed_auto_disable_disabled_active_count": len(disabled_sources),
+            "foamed_auto_disable_newly_disabled_count": int(foamed_meta_stats.get("newly_disabled_count", 0) or 0),
+            "foamed_disabled_sources": disabled_sources[:10],
             "foamed_sources_ok_total": int(foamed_meta_stats.get("sources_ok", 0) or 0),
             "foamed_sources_failed_total": int(foamed_meta_stats.get("sources_failed", 0) or 0),
             "foamed_items_raw_total": int(foamed_meta_stats.get("items_raw", 0) or 0),
