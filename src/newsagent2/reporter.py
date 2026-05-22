@@ -786,13 +786,24 @@ def render_cyberlurch_monthly_trend_report(items, *, title, generated_at, diagno
     lines += [f"- {len(items)} curated items across {len(by_topic)} active topics.", f"- Top channels were {', '.join([c for c,_ in top_channels.most_common(3)]) or 'limited coverage'}.", "- Coverage blended current affairs, trend analysis, and evergreen material.", "- Repeated themes clustered around major topic streams rather than isolated clips.", "- Representative links are compacted by topic for readability."]
     lines += ["", "## Monthly trend map", ""]
     for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
+        count = len(grouped)
         ch = ", ".join([c for c,_ in Counter(str(i.get('channel') or 'Unknown') for i in grouped).most_common(3)])
-        lines.append(f"- **{t}**: {len(grouped)} items; main channels: {ch}; trend: discussion persisted across the month.")
+        trend_status = "single representative item" if count == 1 else "repeated topic stream"
+        summary_seed = next((str(i.get("transcript_full_summary") or i.get("editorial_relevance") or "").strip() for i in grouped if str(i.get("transcript_full_summary") or i.get("editorial_relevance") or "").strip()), "")
+        summary_note = _trim_sentence_aware(summary_seed, 180) if summary_seed else "No concise item summary available."
+        item_word = "item" if count == 1 else "items"
+        lines.append(f"- **{t}**: {count} {item_word}; main channels: {ch}; trend status: {trend_status}; summary: {summary_note}")
     lines += ["", "## Topic streams", ""]
     for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
+        count = len(grouped)
+        item_word = "item" if count == 1 else "items"
         lines.append(f"### {t}")
-        lines.append(f"- Discussed: recurring analysis and updates across {len(grouped)} items.")
-        lines.append("- Changed/repeated: narratives were iterative rather than one-off.")
+        if count == 1:
+            lines.append("- Discussed: single representative item this month.")
+            lines.append("- Pattern status: not yet a repeated monthly pattern; included as a representative item rather than a trend.")
+        else:
+            lines.append(f"- Discussed: recurring analysis and updates across {count} {item_word}.")
+            lines.append("- Changed/repeated: narratives were iterative rather than one-off.")
         lines.append(f"- Representative channels: {', '.join([c for c,_ in Counter(str(i.get('channel') or 'Unknown') for i in grouped).most_common(3)])}.")
         for it in grouped[:cap]:
             if it.get('url'): lines.append(f"- [{it.get('title') or 'Untitled'}]({it.get('url')})")
@@ -810,10 +821,21 @@ def render_cyberlurch_yearly_analysis(rollups, *, target_year, generated_at) -> 
     cap = max(1, int((os.getenv("CYBERLURCH_YEARLY_REPRESENTATIVE_LINKS_PER_THEME", "3") or "3").strip() or "3"))
     rollups = [r for r in (rollups or []) if isinstance(r, dict)]
     by_month = sorted(rollups, key=lambda r: str(r.get('month') or ''))
-    limited = "limited historical rollup detail available" if any(not r.get('topic_summaries') for r in by_month) else ""
+    limited = any(not r.get('topic_summaries') for r in by_month)
     lines=[f"# The Cyberlurch Year in Review — {target_year}","", "## Executive Summary", "", f"- {len(by_month)} monthly rollups analyzed."]
-    if limited: lines.append(f"- {limited}.")
-    lines += ["", "## Key themes across the year", "", "- Themes were derived from monthly topic and channel patterns.", "", "## Crisis trajectories", "", "- Repeated crisis streams are summarized as trajectories, not stale item recaps.", "", "## Recurring narratives", "", "- Narratives were tracked across months and channels.", "", "## Topic and channel weights", "", "- Weighting reflects frequency across available rollups.", "", "## Evergreen highlights", "", "- Evergreen theological/philosophical items retained analytical value.", "", "## By month", ""]
+    if limited:
+        lines.append("- Earlier months contain thinner rollup data; themes below are based on available monthly titles, channels and summaries.")
+    lines += ["", "## Key themes across the year", ""]
+    if any(r.get("top_themes") for r in by_month):
+        lines.append("- Themes are aggregated from enriched monthly top_themes and topic_summaries.")
+    else:
+        lines.append("- Themes are synthesized from available monthly titles, channels and summaries.")
+    lines += ["", "## Crisis trajectories", "", "- Repeated crisis streams are summarized as trajectories, not stale item recaps.", "", "## Recurring narratives", "", "- Narratives were tracked across months and channels.", "", "## Topic and channel weights", "", "- Weighting reflects frequency across available rollups.", "", "## Evergreen highlights", ""]
+    if any(r.get("evergreen_highlights") for r in by_month):
+        lines.append("- Evergreen highlights come from enriched monthly evergreen_highlights when available.")
+    else:
+        lines.append("- Evergreen highlights are inferred from available monthly summaries and representative items.")
+    lines += ["", "## By month", ""]
     for r in by_month:
         m = str(r.get('month') or 'Unknown month')
         try:

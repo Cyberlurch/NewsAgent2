@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import re
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 from statistics import median
 from typing import Any, Dict, List, Set, Tuple
@@ -2401,6 +2402,7 @@ def main() -> None:
             key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
             reverse=True,
         )
+        annotate_cyberlurch_temporality(items_sorted)
         curated_overview = _curate_cyberlurch_overview(items_sorted, report_mode, overview_items_max)
         overview_items = curated_overview
         full_text_items = [

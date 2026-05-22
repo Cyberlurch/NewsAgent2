@@ -11,6 +11,26 @@ from newsagent2 import reporter
 
 
 class CyberlurchPeriodicRenderingTests(unittest.TestCase):
+    def test_monthly_one_item_topic_uses_single_item_language(self):
+        items = [{
+            "id": "m1", "title": "Only item", "url": "https://example.com/only", "channel": "Channel A",
+            "topic": "Topic One", "transcript_full_summary": "Single summary point.",
+        }]
+        md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
+        self.assertIn("1 item", md)
+        self.assertIn("single representative item", md)
+        self.assertNotIn("discussion persisted across the month", md)
+        self.assertNotIn("iterative rather than one-off", md)
+
+    def test_monthly_multi_item_topic_allows_repeated_language(self):
+        items = [
+            {"id": "m2", "title": "A", "url": "https://example.com/a", "channel": "Channel A", "topic": "Topic Two", "editorial_relevance": "A"},
+            {"id": "m3", "title": "B", "url": "https://example.com/b", "channel": "Channel B", "topic": "Topic Two", "editorial_relevance": "B"},
+        ]
+        md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
+        self.assertIn("repeated topic stream", md)
+        self.assertIn("recurring analysis and updates across 2 items", md)
+
     def test_weekly_top_videos_are_links_and_sources_removed(self):
         items = [
             {
@@ -67,7 +87,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
                 report_mode="monthly",
             )
 
-        self.assertIn("## Top videos (this period)", md)
+        self.assertIn("## Monthly trend map", md)
         self.assertIn("[Video Three](https://example.com/three)", md)
         self.assertNotIn("## Sources", md)
 

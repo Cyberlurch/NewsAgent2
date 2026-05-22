@@ -225,7 +225,7 @@ jobs:
           echo "run_skip=false" >> "$GITHUB_OUTPUT"
           echo "run_modes=$run_modes" >> "$GITHUB_OUTPUT"
           echo "run_which_report=$run_which_report" >> "$GITHUB_OUTPUT"
-          echo "Run plan: modes=[$run_modes], which_report=$run_which_report"
+          printf 'Run plan: modes=[%s] which_report=%s\n' "$run_modes" "$run_which_report"
 
       - name: Set up Python
         if: steps.compute_plan.outputs.run_skip != 'true'
