@@ -16,7 +16,7 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
             "Disabled One": {
                 "last_health": "failed",
                 "consecutive_failures": 5,
-                "disabled_until": "2026-05-30T00:00:00+00:00"
+                "disabled_until_utc": "2026-05-30T00:00:00+00:00"
             }
         }
     }), encoding="utf-8")
@@ -64,17 +64,52 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
     assert "pubmed_items_with_keywords_total" in diag
     assert "pubmed_items_with_abstract_sections_total" in diag
     assert "pubmed_publication_type_counts" in diag
+    assert "pubmed_raw_items_with_publication_types_total" in diag
+    assert "pubmed_raw_items_with_mesh_headings_total" in diag
+    assert "pubmed_raw_items_with_keywords_total" in diag
+    assert "pubmed_raw_items_with_abstract_sections_total" in diag
+    assert "pubmed_raw_publication_type_counts" in diag
+    assert "pubmed_raw_evidence_tag_counts" in diag
+    assert "pubmed_raw_mesh_heading_top_counts" in diag
+    assert "pubmed_raw_keyword_top_counts" in diag
     assert "pubmed_evidence_tag_counts" in diag
     assert "pubmed_mesh_heading_top_counts" in diag
     assert "pubmed_keyword_top_counts" in diag
     assert len(diag["pubmed_publication_type_counts"]) <= 20
     assert len(diag["pubmed_evidence_tag_counts"]) <= 30
+    assert len(diag["pubmed_raw_publication_type_counts"]) <= 20
+    assert len(diag["pubmed_raw_evidence_tag_counts"]) <= 30
+    assert len(diag["pubmed_raw_mesh_heading_top_counts"]) <= 30
+    assert len(diag["pubmed_raw_keyword_top_counts"]) <= 30
+    assert diag["pubmed_raw_items_with_publication_types_total"] >= diag["pubmed_items_with_publication_types_total"]
     assert diag["foamed_sources_config_total"] == 2
     assert diag["foamed_sources_processed_total"] == 1
     assert diag["foamed_sources_skipped_disabled_total"] == 1
     assert diag["foamed_auto_disable_disabled_active_count"] == 1
     assert diag["foamed_disabled_sources"][0]["name"] == "Disabled One"
     assert "selection_counts" in diag
+    assert "selection_diagnostics" in diag
+    sd = diag["selection_diagnostics"]
+    for key in [
+        "excluded_overview_offtopic",
+        "below_threshold_overview",
+        "excluded_by_allowlist",
+        "publication_type_penalty_hits",
+        "title_penalty_hits",
+        "tier_counts",
+        "domain_signal_counts",
+        "clinical_intent_counts",
+        "top_candidate_score_preview",
+    ]:
+        assert key in sd
+    assert len(sd["top_candidate_score_preview"]) <= 10
+    if sd["top_candidate_score_preview"]:
+        preview_blob = json.dumps(sd["top_candidate_score_preview"])
+        assert "title" not in preview_blob
+        assert "abstract" not in preview_blob
+        assert "url" not in preview_blob
+        assert "doi" not in preview_blob
+        assert "pmid" not in preview_blob
     assert diag["pubmed_items_skipped_by_state_total"] == 0
     assert diag["foamed_items_after_state_filter_total"] == 0
     assert "pubmed_window" in diag
@@ -88,7 +123,7 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
     assert fs["html_fallback_used"] == 0
 
     as_text = json.dumps(diag)
-    forbidden = ["SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON", "raw_html", "full_text", "transcript", "abstract text", "@"]
+    forbidden = ["SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON", "raw_xml", "raw_html", "full_text", "transcript", "abstract text", "@"]
     for key in forbidden:
         assert key not in as_text
 
