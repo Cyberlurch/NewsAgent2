@@ -2377,29 +2377,43 @@ def main() -> None:
                     **({"failure_class": str(source_stats.get("failure_class"))} if source_stats.get("failure_class") else {}),
                 }
             )
+        pubmed_state_skip_reasons = {}
+        if isinstance(selection_stats, dict):
+            state_reasons = selection_stats.get("state_skip_reasons") or {}
+            if isinstance(state_reasons, dict):
+                pubmed_state_skip_reasons = {str(k): int(v or 0) for k, v in state_reasons.items()}
+
         cybermed_diagnostics_payload = {
             "report_mode": report_mode,
             "effective_hours": int(args.hours),
             "pubmed_date_type": pubmed_datetype,
+            "pubmed_window": {"mindate_utc": mindate, "maxdate_utc": maxdate},
             "pubmed_channels_total": len(pubmed_queries_used),
             "pubmed_queries_attempted_total": len(pubmed_queries_used),
             "pubmed_query_failures_total": pubmed_query_failures,
+            "pubmed_journals": journals,
             "pubmed_items_raw_total": pubmed_candidates_total,
             "pubmed_items_after_state_filter_total": len(pubmed_new_items),
+            "pubmed_items_skipped_by_state_total": int(pubmed_skipped_by_state),
             "pubmed_items_selected_overview_total": len(pubmed_overview_items),
             "pubmed_items_selected_deep_dive_total": len(pubmed_deep_dive_items),
             "pubmed_items_missing_abstract_total": len([it for it in pubmed_new_items if not (it.get("abstract") or "").strip()]),
             "pubmed_items_with_abstract_total": len([it for it in pubmed_new_items if (it.get("abstract") or "").strip()]),
             "pubmed_items_with_doi_total": len([it for it in pubmed_new_items if (it.get("doi") or "").strip()]),
             "pubmed_items_with_publication_types_total": len([it for it in pubmed_new_items if it.get("publication_types")]),
+            "pubmed_state_skip_reasons": pubmed_state_skip_reasons,
             "pubmed_per_channel": pubmed_per_channel,
             "foamed_sources_total": int(foamed_meta_stats.get("sources_total", 0) or 0),
             "foamed_sources_ok_total": int(foamed_meta_stats.get("sources_ok", 0) or 0),
             "foamed_sources_failed_total": int(foamed_meta_stats.get("sources_failed", 0) or 0),
             "foamed_items_raw_total": int(foamed_meta_stats.get("items_raw", 0) or 0),
+            "foamed_items_after_state_filter_total": int(foamed_after_state),
+            "foamed_items_skipped_by_state_total": int(foamed_skipped_by_state),
             "foamed_items_with_date_total": int(foamed_meta_stats.get("items_with_date", 0) or 0),
             "foamed_items_date_unknown_total": int(foamed_meta_stats.get("items_date_unknown", 0) or 0),
             "foamed_items_kept_in_window_total": int(foamed_meta_stats.get("kept_last24h", 0) or 0),
+            "foamed_items_selected_overview_total": len(foamed_overview_items),
+            "foamed_items_selected_top_pick_total": len(foamed_top_picks),
             "foamed_per_source": foamed_per_source,
             "selection_counts": selection_count_only,
         }
