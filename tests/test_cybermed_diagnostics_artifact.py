@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from newsagent2 import main
 
 
-def test_cybermed_run_writes_count_only_diagnostics_and_cyberlurch_unchanged(tmp_path, monkeypatch):
+def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchanged(tmp_path, monkeypatch):
     report_dir = tmp_path / "out"
     monkeypatch.setenv("REPORT_KEY", "cybermed")
     monkeypatch.setenv("REPORT_MODE", "daily")
@@ -46,6 +46,10 @@ def test_cybermed_run_writes_count_only_diagnostics_and_cyberlurch_unchanged(tmp
     assert "pubmed_items_raw_total" in diag
     assert "foamed_sources_total" in diag
     assert "selection_counts" in diag
+    assert diag["pubmed_items_skipped_by_state_total"] == 0
+    assert diag["foamed_items_after_state_filter_total"] == 0
+    assert "pubmed_window" in diag
+    assert isinstance(diag.get("pubmed_journals"), list)
 
     as_text = json.dumps(diag)
     forbidden = ["SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON", "raw_html", "full_text", "abstract text", "@"]
