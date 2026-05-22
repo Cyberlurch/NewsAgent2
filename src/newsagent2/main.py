@@ -2015,8 +2015,15 @@ def main() -> None:
                             "doi": (a.get("doi") or "").strip(),
                             "description": (a.get("journal") or "").strip(),
                             "pmid": pmid,
+                            "pmcid": (a.get("pmcid") or "").strip(),
+                            "pii": (a.get("pii") or "").strip(),
                             "text": text,
                             "abstract": (a.get("abstract") or "").strip(),
+                            "publication_types": list(a.get("publication_types") or []),
+                            "mesh_headings": list(a.get("mesh_headings") or []),
+                            "keywords": list(a.get("keywords") or []),
+                            "abstract_sections": list(a.get("abstract_sections") or []),
+                            "evidence_tags": list(a.get("evidence_tags") or []),
                         }
                     )
 
