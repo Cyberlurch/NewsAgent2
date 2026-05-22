@@ -455,6 +455,25 @@ def _write_run_metadata_artifact(report_dir: str, report_key: str, report_mode: 
         print(f"[diagnostics] WARN: failed to write run metadata artifact err_type={type(e).__name__}")
 
 
+def _write_cybermed_diagnostics(
+    report_dir: str,
+    report_mode: str,
+    diagnostics_payload: Dict[str, Any],
+) -> None:
+    if (os.getenv("GITHUB_EVENT_NAME") or "").strip() != "workflow_dispatch":
+        return
+    try:
+        os.makedirs(report_dir, exist_ok=True)
+        safe_mode = (report_mode or "daily").strip().lower() or "daily"
+        out_path = os.path.join(report_dir, f"cybermed_{safe_mode}_diagnostics.json")
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(diagnostics_payload, f, ensure_ascii=False, indent=2, sort_keys=True)
+            f.write("\n")
+        print(f"[diagnostics] Wrote count-only Cybermed diagnostics: {out_path}")
+    except Exception as e:
+        print(f"[diagnostics] WARN: failed to write Cybermed diagnostics err_type={type(e).__name__}")
+
+
 def _report_output_path(report_dir: str, report_key: str, report_mode: str) -> str:
     mode = (report_mode or "daily").strip().lower() or "daily"
     if mode == "yearly":
@@ -1700,6 +1719,7 @@ def main() -> None:
     pubmed_candidates_total = 0
     pubmed_skipped_by_state = 0
     pubmed_query_failures = 0
+    pubmed_failed_channels: Set[str] = set()
     pubmed_candidates_by_channel: Dict[str, int] = {}
     pubmed_queries_used: List[Tuple[str, str]] = []  # (channel_name, term)
     pubmed_state_skip_reasons: Dict[str, int] = {}
@@ -1940,6 +1960,7 @@ def main() -> None:
                     print(f"[collect] ERROR source=pubmed channel={cname!r}: search_recent_pubmed failed: {e!r}")
                     if is_cybermed_run:
                         pubmed_query_failures += 1
+                        pubmed_failed_channels.add(cname)
                     continue
 
                 if is_cybermed_run:
@@ -2211,6 +2232,7 @@ def main() -> None:
     # Cybermed in-report transparency header (MUST be based on the real pipeline).
     cybermed_meta_block = ""
     cybermed_run_stats: Dict[str, Any] = {}
+    cybermed_diagnostics_payload: Dict[str, Any] = {}
     if is_cybermed_run:
         pubmed_selected = len(pubmed_overview_items)
         pubmed_new_unique = len(pubmed_new_items)
@@ -2310,6 +2332,78 @@ def main() -> None:
             lines.append(f"- {cname}: `{term}`")
 
         cybermed_meta_block = "\n".join(lines).strip() + "\n\n"
+        selection_count_only = {
+            "cybermed_overview_candidates_total": len(pubmed_new_items),
+            "cybermed_overview_selected_total": len(pubmed_overview_items),
+            "cybermed_deep_dive_candidates_total": len(pubmed_deep_dive_items),
+            "cybermed_deep_dive_selected_total": min(len(pubmed_deep_dive_items), max(0, deep_dive_limit)),
+            "cybermed_top_pick_total": len([it for it in pubmed_overview_items if it.get("top_pick")]),
+            "cybermed_foamed_candidates_total": len(foamed_candidates),
+            "cybermed_foamed_selected_total": len(foamed_overview_items),
+            "cybermed_foamed_top_pick_total": len(foamed_top_picks),
+        }
+        pubmed_per_channel = []
+        for cname, _term in pubmed_queries_used:
+            topic = ""
+            for cfg in channels:
+                if (cfg.get("name") or "").strip() == cname:
+                    topic = (cfg.get("topic") or "").strip()
+                    break
+            pubmed_per_channel.append(
+                {
+                    "name": cname,
+                    "topic": topic,
+                    "raw_count": int(pubmed_candidates_by_channel.get(cname, 0)),
+                    "accepted_count": int(pubmed_candidates_by_channel.get(cname, 0)),
+                    "selected_count": int(
+                        len([it for it in pubmed_overview_items if (it.get("channel") or "").strip() == cname])
+                    ),
+                    **({"failure_class": "pubmed_query_failed"} if cname in pubmed_failed_channels else {}),
+                }
+            )
+        foamed_per_source = []
+        for source_name, source_stats in (foamed_meta_stats.get("per_source") or {}).items():
+            if not isinstance(source_stats, dict):
+                continue
+            foamed_per_source.append(
+                {
+                    "name": source_name,
+                    "source_health": (source_stats.get("source_health") or source_stats.get("status") or "").strip(),
+                    "status": (source_stats.get("status") or source_stats.get("source_health") or "").strip(),
+                    "rss_attempted": int(source_stats.get("rss_attempted", 0) or 0),
+                    "html_fallback_attempted": int(source_stats.get("html_fallback_attempted", 0) or 0),
+                    "raw_count": int(source_stats.get("raw_count", 0) or 0),
+                    "kept_count": int(source_stats.get("kept_count", 0) or 0),
+                    **({"failure_class": str(source_stats.get("failure_class"))} if source_stats.get("failure_class") else {}),
+                }
+            )
+        cybermed_diagnostics_payload = {
+            "report_mode": report_mode,
+            "effective_hours": int(args.hours),
+            "pubmed_date_type": pubmed_datetype,
+            "pubmed_channels_total": len(pubmed_queries_used),
+            "pubmed_queries_attempted_total": len(pubmed_queries_used),
+            "pubmed_query_failures_total": pubmed_query_failures,
+            "pubmed_items_raw_total": pubmed_candidates_total,
+            "pubmed_items_after_state_filter_total": len(pubmed_new_items),
+            "pubmed_items_selected_overview_total": len(pubmed_overview_items),
+            "pubmed_items_selected_deep_dive_total": len(pubmed_deep_dive_items),
+            "pubmed_items_missing_abstract_total": len([it for it in pubmed_new_items if not (it.get("abstract") or "").strip()]),
+            "pubmed_items_with_abstract_total": len([it for it in pubmed_new_items if (it.get("abstract") or "").strip()]),
+            "pubmed_items_with_doi_total": len([it for it in pubmed_new_items if (it.get("doi") or "").strip()]),
+            "pubmed_items_with_publication_types_total": len([it for it in pubmed_new_items if it.get("publication_types")]),
+            "pubmed_per_channel": pubmed_per_channel,
+            "foamed_sources_total": int(foamed_meta_stats.get("sources_total", 0) or 0),
+            "foamed_sources_ok_total": int(foamed_meta_stats.get("sources_ok", 0) or 0),
+            "foamed_sources_failed_total": int(foamed_meta_stats.get("sources_failed", 0) or 0),
+            "foamed_items_raw_total": int(foamed_meta_stats.get("items_raw", 0) or 0),
+            "foamed_items_with_date_total": int(foamed_meta_stats.get("items_with_date", 0) or 0),
+            "foamed_items_date_unknown_total": int(foamed_meta_stats.get("items_date_unknown", 0) or 0),
+            "foamed_items_kept_in_window_total": int(foamed_meta_stats.get("kept_last24h", 0) or 0),
+            "foamed_per_source": foamed_per_source,
+            "selection_counts": selection_count_only,
+        }
+
         cybermed_run_stats = {
             "pubmed": {
                 "candidates_total": pubmed_candidates_total,
@@ -2377,6 +2471,8 @@ def main() -> None:
         if report_key.strip().lower() == "cyberlurch":
             _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode)
             _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
+        if report_key.strip().lower() == "cybermed":
+            _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
         return
 
     detail_items: List[Dict[str, Any]] = []
@@ -3230,6 +3326,8 @@ def main() -> None:
         print(f"[digest-store] upserted={upserted} pruned={pruned} total={youtube_diag.cyberlurch_digest_store_total} path={cyberlurch_digest_state_path}")
     if report_key.strip().lower() == "cyberlurch":
         _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode, extra_counts=extra_counts)
+    if report_key.strip().lower() == "cybermed":
+        _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
 
     _update_state_after_run(
         state_path=state_path,
