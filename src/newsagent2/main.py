@@ -1422,6 +1422,8 @@ def main() -> None:
                 effective_hours = max(args.hours, 72)
 
     args.hours = effective_hours
+    now_utc = datetime.now(timezone.utc)
+    report_since_utc = now_utc - timedelta(hours=args.hours)
 
     print("=== NewsAgent2 run ===")
     print(f"[config] report_mode={report_mode} read_only={read_only_mode}")
@@ -1645,8 +1647,12 @@ def main() -> None:
                         v["published_at"] = _parse_iso_utc(snippet.get("published_at")) or v.get("published_at")
                     pub_after = v.get("published_at")
                     if isinstance(pub_after, datetime):
-                        if pub_after < since_utc:
-                            youtube_diag.youtube_api_post_enrichment_date_skipped_total = int(getattr(youtube_diag, "youtube_api_post_enrichment_date_skipped_total", 0)) + 1
+                        if pub_after.tzinfo is None:
+                            pub_after = pub_after.replace(tzinfo=timezone.utc)
+                        if pub_after < report_since_utc:
+                            youtube_diag.youtube_api_post_enrichment_date_skipped_total = int(
+                                getattr(youtube_diag, "youtube_api_post_enrichment_date_skipped_total", 0)
+                            ) + 1
                             v["_skip_after_enrichment"] = True
                     channel_id = str(snippet.get("channel_id") or "").strip()
                     if channel_id.startswith("UC"):
@@ -2011,11 +2017,11 @@ def main() -> None:
         pubmed_new_unique = len(pubmed_new_items)
 
         # PubMed date filtering is applied using UTC date boundaries (YYYY/MM/DD), not hour-resolution.
-        now_utc = datetime.now(timezone.utc)
-        since_utc = now_utc - timedelta(hours=args.hours)
+        pubmed_now_utc = datetime.now(timezone.utc)
+        pubmed_since_utc = pubmed_now_utc - timedelta(hours=args.hours)
         pubmed_datetype = (os.getenv("PUBMED_DATE_TYPE", "pdat") or "pdat").strip().lower()
-        mindate = _date_yyyymmdd_utc(since_utc)
-        maxdate = _date_yyyymmdd_utc(now_utc)
+        mindate = _date_yyyymmdd_utc(pubmed_since_utc)
+        maxdate = _date_yyyymmdd_utc(pubmed_now_utc)
 
         # Derive journals list from the actual configured PubMed queries (best-effort).
         journals: List[str] = []
