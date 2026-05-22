@@ -216,6 +216,13 @@ def _sanitize_item(it: Dict[str, Any]) -> Dict[str, Any]:
         "top_pick": top_pick,
         "date": date_val,
         "bottom_line": bottom_line,
+        "topic_primary": (it.get("topic_primary") or "").strip(),
+        "topics": it.get("topics") or [],
+        "text_source": (it.get("text_source") or "").strip(),
+        "content_status": (it.get("content_status") or "").strip(),
+        "transcript_processing": (it.get("transcript_processing") or "").strip(),
+        "editorial_relevance": (it.get("editorial_relevance") or "").strip(),
+        "transcript_full_summary_short": re.sub(r"\s+", " ", str(it.get("transcript_full_summary_short") or "").strip())[:600],
     }
 
 

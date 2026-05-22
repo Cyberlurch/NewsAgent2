@@ -190,8 +190,12 @@ CYBERLURCH_DIGEST_SAFE_FIELDS = [
     "cyberlurch_deep_dive_score","cyberlurch_deep_dive_reasons","top_pick",
 ]
 
+def _item_from_digest_record(d: Dict[str, Any]) -> Dict[str, Any]:
+    return {"source":"youtube","id":d.get("video_id"),"title":d.get("title"),"url":d.get("url"),"channel":d.get("channel"),"published_at":_parse_iso_utc(str(d.get("published_at") or "")),"text_source":d.get("text_source"),"content_status":d.get("content_status"),"transcript_processing":d.get("transcript_processing"),"transcript_full_summary":d.get("transcript_full_summary"),"transcript_key_points":d.get("transcript_key_points"),"transcript_notable_claims":d.get("transcript_notable_claims"),"transcript_uncertainties":d.get("transcript_uncertainties"),"important_details":d.get("important_details"),"editorial_relevance":d.get("editorial_relevance"),"bottom_line":d.get("bottom_line"),"topic_primary":d.get("topic_primary"),"topics":d.get("topics") or [],"cyberlurch_deep_dive_score":d.get("cyberlurch_deep_dive_score") or 0,"cyberlurch_deep_dive_reasons":d.get("cyberlurch_deep_dive_reasons") or [],"top_pick":bool(d.get("top_pick")),"text":str(d.get("transcript_full_summary") or d.get("bottom_line") or "")}
+
 
 def _load_cyberlurch_digest_state(path: str) -> Dict[str, Any]:
+    default = {"version": 1, "updated_at_utc": "", "digests": []}
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -199,7 +203,11 @@ def _load_cyberlurch_digest_state(path: str) -> Dict[str, Any]:
             return data
     except Exception:
         pass
-    return {"version": 1, "updated_at_utc": "", "digests": []}
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(default, f, ensure_ascii=False, indent=2, sort_keys=True)
+        f.write("\n")
+    return default
 
 
 def _save_cyberlurch_digest_state(path: str, state: Dict[str, Any], *, read_only_mode: bool) -> None:
@@ -1135,6 +1143,13 @@ def _rollup_items_for_month(
                     "published_at": published,
                     "top_pick": bool(it.get("top_pick")),
                     "bottom_line": (it.get("bottom_line") or "").strip(),
+                    "topic_primary": (it.get("topic_primary") or "").strip(),
+                    "topics": it.get("topics") or [],
+                    "text_source": (it.get("text_source") or "").strip(),
+                    "content_status": (it.get("content_status") or "").strip(),
+                    "transcript_processing": (it.get("transcript_processing") or "").strip(),
+                    "editorial_relevance": (it.get("editorial_relevance") or "").strip(),
+                    "transcript_full_summary_short": str(it.get("transcript_full_summary") or "").strip()[:600],
                 }
             )
 
@@ -1160,6 +1175,13 @@ def _rollup_items_for_month(
                 "source": it.get("source") or "",
                 "top_pick": bool(it.get("top_pick")),
                 "bottom_line": (it.get("bottom_line") or "").strip(),
+                "topic_primary": (it.get("topic_primary") or "").strip(),
+                "topics": it.get("topics") or [],
+                "text_source": (it.get("text_source") or "").strip(),
+                "content_status": (it.get("content_status") or "").strip(),
+                "transcript_processing": (it.get("transcript_processing") or "").strip(),
+                "editorial_relevance": (it.get("editorial_relevance") or "").strip(),
+                "transcript_full_summary_short": (it.get("transcript_full_summary_short") or "").strip()[:600],
                 "date": (
                     it["published_at"].astimezone(timezone.utc).strftime("%Y-%m-%d")
                     if isinstance(it.get("published_at"), datetime)
@@ -2130,12 +2152,20 @@ def main() -> None:
 
 
     weekly_digest_items_total = 0
+    weekly_digest_used_total = 0
+    weekly_digest_supplemental_collection_items_total = 0
+    weekly_digest_full_text_ratio = 0.0
     monthly_digest_items_total = 0
+    monthly_digest_used_total = 0
+    monthly_digest_supplemental_collection_items_total = 0
+    monthly_digest_period_start = ""
+    monthly_digest_period_end = ""
     weekly_digest_fallback_collection_used = False
     monthly_digest_fallback_collection_used = False
     if not is_cybermed_run and report_key.strip().lower() == "cyberlurch" and report_mode in {"weekly", "monthly"}:
         use_digest = _env_bool("CYBERLURCH_WEEKLY_USE_DIGEST_STORE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_USE_DIGEST_STORE", True)
         min_items = _safe_int("CYBERLURCH_WEEKLY_MIN_DIGEST_ITEMS" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_MIN_DIGEST_ITEMS", 5 if report_mode=="weekly" else 10)
+        supplement = _env_bool("CYBERLURCH_WEEKLY_SUPPLEMENT_WITH_COLLECTION" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_SUPPLEMENT_WITH_COLLECTION", True)
         if use_digest:
             dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
             now = datetime.now(timezone.utc)
@@ -2148,16 +2178,26 @@ def main() -> None:
                     selected.append(d)
                 elif report_mode=="monthly":
                     mk = determine_monthly_rollup_month(datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME",""), os.getenv("ROLLUP_MONTH_OVERRIDE"))
+                    monthly_digest_period_start = f"{mk}-01"
+                    monthly_digest_period_end = f"{mk}-31"
                     if pub.astimezone(STO).strftime("%Y-%m") == mk:
                         selected.append(d)
             selected=sorted(selected,key=lambda x:_parse_iso_utc(str(x.get("published_at") or "")) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
-            if len(selected) >= min_items:
-                items = [{"source":"youtube","id":d.get("video_id"),"title":d.get("title"),"url":d.get("url"),"channel":d.get("channel"),"published_at":_parse_iso_utc(str(d.get("published_at") or "")),"text_source":d.get("text_source"),"content_status":d.get("content_status"),"transcript_processing":d.get("transcript_processing"),"transcript_full_summary":d.get("transcript_full_summary"),"transcript_key_points":d.get("transcript_key_points"),"transcript_notable_claims":d.get("transcript_notable_claims"),"transcript_uncertainties":d.get("transcript_uncertainties"),"important_details":d.get("important_details"),"editorial_relevance":d.get("editorial_relevance"),"bottom_line":d.get("bottom_line"),"topic_primary":d.get("topic_primary"),"topics":d.get("topics") or [],"cyberlurch_deep_dive_score":d.get("cyberlurch_deep_dive_score") or 0,"cyberlurch_deep_dive_reasons":d.get("cyberlurch_deep_dive_reasons") or [],"top_pick":bool(d.get("top_pick")),"text":str(d.get("transcript_full_summary") or d.get("bottom_line") or "")} for d in selected]
+            digest_items = [_item_from_digest_record(d) for d in selected]
+            if len(selected) >= 1:
+                items = digest_items
+                if len(selected) < min_items and supplement:
+                    weekly_digest_fallback_collection_used = report_mode=="weekly"
+                    monthly_digest_fallback_collection_used = report_mode=="monthly"
             else:
                 weekly_digest_fallback_collection_used = report_mode=="weekly"
                 monthly_digest_fallback_collection_used = report_mode=="monthly"
             weekly_digest_items_total = len(selected) if report_mode=="weekly" else 0
+            weekly_digest_used_total = len(items) if report_mode=="weekly" else 0
             monthly_digest_items_total = len(selected) if report_mode=="monthly" else 0
+            monthly_digest_used_total = len(items) if report_mode=="monthly" else 0
+            full_text = sum(1 for d in selected if str(d.get("text_source") or "").strip() not in {"", "metadata_only"})
+            weekly_digest_full_text_ratio = (full_text / len(selected)) if (report_mode=="weekly" and selected) else 0.0
     if is_cybermed_run:
         report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
     else:
@@ -2945,8 +2985,18 @@ def main() -> None:
             "deep_dives_selected_total": len(detail_items),
             **(cyberlurch_diag if report_key.strip().lower()=="cyberlurch" else {}),
             "deep_dives_by_topic": deep_dives_by_topic,
+            "weekly_digest_items_total": weekly_digest_items_total,
+            "weekly_digest_used_total": weekly_digest_used_total,
+            "weekly_digest_fallback_collection_used": weekly_digest_fallback_collection_used,
+            "weekly_digest_supplemental_collection_items_total": weekly_digest_supplemental_collection_items_total,
+            "weekly_digest_full_text_ratio": weekly_digest_full_text_ratio,
+            "monthly_digest_items_total": monthly_digest_items_total,
+            "monthly_digest_used_total": monthly_digest_used_total,
+            "monthly_digest_fallback_collection_used": monthly_digest_fallback_collection_used,
+            "monthly_digest_supplemental_collection_items_total": monthly_digest_supplemental_collection_items_total,
+            "monthly_digest_period_start": monthly_digest_period_start,
+            "monthly_digest_period_end": monthly_digest_period_end,
         }
-        _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, extra_counts=extra_counts)
         _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
 
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
@@ -2961,6 +3011,8 @@ def main() -> None:
             candidates = overview_items + detail_items + foamed_overview_items
             _ensure_bottom_lines_for_rollup(candidates, language=report_language)
             rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items)
+            if report_key.strip().lower() == "cyberlurch":
+                rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items, max_items=30)
             executive_summary = derive_monthly_summary(
                 overview_body,
                 top_items=rollup_items,
@@ -2986,11 +3038,15 @@ def main() -> None:
 
     if report_key.strip().lower() == "cyberlurch" and report_mode == "daily":
         dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
-        upserted, pruned = _upsert_cyberlurch_digests(dstate, overview_items + detail_items, cyberlurch_digest_retention_days)
+        upsert_source = _dedupe_items(items_all_new + report_items + overview_items + detail_items)
+        upserted, pruned = _upsert_cyberlurch_digests(dstate, upsert_source, cyberlurch_digest_retention_days)
         _save_cyberlurch_digest_state(cyberlurch_digest_state_path, dstate, read_only_mode=read_only_mode)
         youtube_diag.cyberlurch_digest_upserted_total = upserted
         youtube_diag.cyberlurch_digest_pruned_total = pruned
         youtube_diag.cyberlurch_digest_store_total = len(dstate.get("digests", []))
+        print(f"[digest-store] upserted={upserted} pruned={pruned} total={youtube_diag.cyberlurch_digest_store_total} path={cyberlurch_digest_state_path}")
+    if report_key.strip().lower() == "cyberlurch":
+        _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, extra_counts=extra_counts)
 
     _update_state_after_run(
         state_path=state_path,
