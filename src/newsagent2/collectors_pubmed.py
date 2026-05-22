@@ -266,6 +266,91 @@ def _extract_abstract(article: ET.Element) -> str:
     return "\n".join(parts).strip()
 
 
+def _extract_abstract_sections(article: ET.Element, max_section_chars: int = 1200) -> List[Dict[str, str]]:
+    sections: List[Dict[str, str]] = []
+    for ab in article.findall(".//Abstract/AbstractText"):
+        text = _normalize_itertext(ab)
+        if not text:
+            continue
+        label = (ab.attrib.get("Label") or ab.attrib.get("NlmCategory") or "").strip()
+        if max_section_chars > 0 and len(text) > max_section_chars:
+            text = text[:max_section_chars].rstrip() + "…"
+        sections.append({"label": label, "text": text})
+    return sections
+
+
+def _extract_unique_values(xpath_values: List[str]) -> List[str]:
+    out: List[str] = []
+    seen: set[str] = set()
+    for raw in xpath_values:
+        norm = " ".join((raw or "").split()).strip()
+        if not norm:
+            continue
+        key = norm.casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(norm)
+    return out
+
+
+def _derive_evidence_tags(
+    *,
+    publication_types: List[str],
+    mesh_headings: List[str],
+    keywords: List[str],
+    title: str,
+    abstract: str,
+) -> List[str]:
+    haystack = " ".join(
+        [title or "", abstract or "", " ".join(mesh_headings), " ".join(keywords), " ".join(publication_types)]
+    ).lower()
+    pub_types_cf = {p.casefold() for p in publication_types}
+    tags: List[str] = []
+
+    def _add(tag: str) -> None:
+        if tag not in tags:
+            tags.append(tag)
+
+    if "randomized controlled trial" in pub_types_cf or " randomiz" in f" {haystack} ":
+        _add("randomized_trial")
+    if "clinical trial" in pub_types_cf or " clinical trial" in haystack:
+        _add("clinical_trial")
+    if "systematic review" in pub_types_cf or "systematic review" in haystack:
+        _add("systematic_review")
+    if "meta-analysis" in pub_types_cf or "meta analysis" in haystack or "meta-analysis" in haystack:
+        _add("meta_analysis")
+    if "practice guideline" in pub_types_cf or "practice guideline" in haystack:
+        _add("practice_guideline")
+    if "guideline" in pub_types_cf or "guideline" in haystack:
+        _add("guideline")
+    if "observational study" in pub_types_cf or "observational" in haystack:
+        _add("observational")
+    if " cohort " in f" {haystack} ":
+        _add("cohort")
+    if "case reports" in pub_types_cf or " case report" in haystack:
+        _add("case_report")
+    if {"editorial", "comment", "letter"} & pub_types_cf:
+        _add("editorial_or_comment")
+    if "animals" in haystack or "animal model" in haystack or "preclinical" in haystack:
+        _add("animal_or_preclinical")
+    if ("machine learning" in haystack or "artificial intelligence" in haystack or "prediction model" in haystack):
+        _add("ai_prediction_model")
+    if ("diagnostic accuracy" in haystack or "sensitivity" in haystack and "specificity" in haystack):
+        _add("diagnostic_accuracy")
+    if "resuscitation" in haystack or "cardiopulmonary resuscitation" in haystack:
+        _add("resuscitation")
+    if "intensive care" in haystack or "icu" in f" {haystack} ":
+        _add("intensive_care")
+    if "anesthesia" in haystack or "anaesthesia" in haystack:
+        _add("anesthesia")
+    if "emergency medicine" in haystack or "emergency department" in haystack:
+        _add("emergency_medicine")
+    if "pain" in haystack and ("regional" in haystack or "nerve block" in haystack):
+        _add("pain_regional")
+    return tags
+
+
 def _parse_pub_date(article: ET.Element) -> datetime:
     now = _utc_now()
 
@@ -339,11 +424,30 @@ def _parse_pubmed_xml(xml_text: str, max_items: int) -> List[Dict[str, Any]]:
 
         pub_dt = _parse_pub_date(art)
 
-        doi = ""
+        article_ids: Dict[str, str] = {}
         for aid in art.findall(".//ArticleIdList/ArticleId"):
-            if (aid.attrib.get("IdType") or "").lower() == "doi":
-                doi = (aid.text or "").strip()
-                break
+            id_type = (aid.attrib.get("IdType") or "").lower().strip()
+            value = (aid.text or "").strip()
+            if id_type and value and id_type not in article_ids:
+                article_ids[id_type] = value
+        doi = article_ids.get("doi", "")
+        pmcid = article_ids.get("pmc", "") or article_ids.get("pmcid", "")
+        pii = article_ids.get("pii", "")
+        publication_types = _extract_unique_values(
+            [_extract_text(pt) for pt in art.findall(".//PublicationTypeList/PublicationType")]
+        )
+        mesh_headings = _extract_unique_values(
+            [_extract_text(mh) for mh in art.findall(".//MeshHeadingList/MeshHeading/DescriptorName")]
+        )
+        keywords = _extract_unique_values([_extract_text(kw) for kw in art.findall(".//KeywordList/Keyword")])
+        abstract_sections = _extract_abstract_sections(art)
+        evidence_tags = _derive_evidence_tags(
+            publication_types=publication_types,
+            mesh_headings=mesh_headings,
+            keywords=keywords,
+            title=title,
+            abstract=abstract,
+        )
 
         url = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
 
@@ -370,6 +474,13 @@ def _parse_pubmed_xml(xml_text: str, max_items: int) -> List[Dict[str, Any]]:
                 "journal_iso_abbrev": journal_iso_abbrev.strip() if journal_iso_abbrev else "",
                 "journal_medline_ta": journal_medline_ta.strip() if journal_medline_ta else "",
                 "doi": doi,
+                "pmcid": pmcid,
+                "pii": pii,
+                "publication_types": publication_types,
+                "mesh_headings": mesh_headings,
+                "keywords": keywords,
+                "abstract_sections": abstract_sections,
+                "evidence_tags": evidence_tags,
                 "text": "\n".join(text_chunks).strip(),
                 "abstract": abstract,
             }
