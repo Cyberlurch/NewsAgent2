@@ -499,11 +499,13 @@ def search_recent_pubmed(
     hours: int = 24,
     max_items: int = 5,
     timeout_s: int = 25,
-) -> List[Dict[str, Any]]:
+    return_metadata: bool = False,
+) -> Any:
     term = (term or "").strip()
     if not term:
         print("[pubmed] WARN: empty term -> returning 0 items")
-        return []
+        empty_meta = {"query_term": "", "retmax": int(max_items), "esearch_count_total": 0, "idlist_count": 0, "fetched_xml_count": 0, "parsed_article_count": 0, "possibly_truncated": False}
+        return ([], empty_meta) if return_metadata else []
 
     now = _utc_now()
     since = now - timedelta(hours=hours)
@@ -525,14 +527,22 @@ def search_recent_pubmed(
     )
 
     data = _request_json(PUBMED_ESEARCH_URL, params, timeout_s=timeout_s)
-    idlist = data.get("esearchresult", {}).get("idlist", []) if isinstance(data, dict) else []
+    esearch = data.get("esearchresult", {}) if isinstance(data, dict) else {}
+    idlist = esearch.get("idlist", []) if isinstance(esearch, dict) else []
+    try:
+        esearch_count_total = int(str((esearch.get("count") if isinstance(esearch, dict) else 0) or 0))
+    except Exception:
+        esearch_count_total = 0
     if not idlist:
-        return []
+        meta = {"query_term": term, "retmax": int(max_items), "esearch_count_total": esearch_count_total, "idlist_count": 0, "fetched_xml_count": 0, "parsed_article_count": 0, "possibly_truncated": esearch_count_total > 0}
+        return ([], meta) if return_metadata else []
 
     ids = ",".join(idlist)
     fetch_params = {"db": "pubmed", "id": ids, "retmode": "xml"}
     xml_text = _request_text(PUBMED_EFETCH_URL, fetch_params, timeout_s=max(35, timeout_s))
-    return _parse_pubmed_xml(xml_text, max_items=max_items)
+    parsed = _parse_pubmed_xml(xml_text, max_items=max_items)
+    meta = {"query_term": term, "retmax": int(max_items), "esearch_count_total": esearch_count_total, "idlist_count": len(idlist), "fetched_xml_count": len(idlist), "parsed_article_count": len(parsed), "possibly_truncated": esearch_count_total > len(idlist)}
+    return (parsed, meta) if return_metadata else parsed
 
 
 def fetch_pubmed_abstracts(pmids: List[str], timeout_s: int = 25) -> Dict[str, str]:

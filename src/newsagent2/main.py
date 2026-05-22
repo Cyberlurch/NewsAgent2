@@ -1467,6 +1467,7 @@ def main() -> None:
     send_empty_email = (os.getenv("SEND_EMPTY_REPORT_EMAIL", "1") or "1").strip()
 
     max_items_per_channel = _safe_int("MAX_ITEMS_PER_CHANNEL", 5)
+    cybermed_max_items_per_channel = _safe_int("CYBERMED_MAX_ITEMS_PER_CHANNEL", max_items_per_channel if max_items_per_channel > 0 else 25)
     if report_key.strip().lower() == "cyberlurch":
         detail_items_per_day = _safe_int(
             "CYBERLURCH_DETAIL_ITEMS_PER_DAY",
@@ -1722,6 +1723,8 @@ def main() -> None:
     pubmed_failed_channels: Set[str] = set()
     pubmed_candidates_by_channel: Dict[str, int] = {}
     pubmed_queries_used: List[Tuple[str, str]] = []  # (channel_name, term)
+    all_pubmed_raw_items: List[Dict[str, Any]] = []
+    pubmed_channel_completeness: Dict[str, Dict[str, Any]] = {}
     pubmed_state_skip_reasons: Dict[str, int] = {}
     channel_id_cache = _load_youtube_channel_id_cache()
     discovered_channel_ids: dict[str, str] = {}
@@ -1954,8 +1957,13 @@ def main() -> None:
             elif source == "pubmed":
                 if is_cybermed_run:
                     pubmed_queries_used.append((cname, query))
+                pubmed_max_items = cybermed_max_items_per_channel if is_cybermed_run else max_items_per_channel
                 try:
-                    arts = search_recent_pubmed(term=query, hours=args.hours, max_items=max_items_per_channel)
+                    if is_cybermed_run:
+                        arts, pubmed_meta = search_recent_pubmed(term=query, hours=args.hours, max_items=pubmed_max_items, return_metadata=True)
+                    else:
+                        arts = search_recent_pubmed(term=query, hours=args.hours, max_items=pubmed_max_items)
+                        pubmed_meta = {}
                 except Exception as e:
                     print(f"[collect] ERROR source=pubmed channel={cname!r}: search_recent_pubmed failed: {e!r}")
                     if is_cybermed_run:
@@ -1966,6 +1974,21 @@ def main() -> None:
                 if is_cybermed_run:
                     pubmed_candidates_total += len(arts)
                     pubmed_candidates_by_channel[cname] = len(arts)
+                    all_pubmed_raw_items.extend(arts)
+                    pubmed_channel_completeness[cname] = {
+                        "raw_count": int(len(arts)),
+                        "esearch_count_total": int(pubmed_meta.get("esearch_count_total", 0) or 0),
+                        "retmax": int(pubmed_meta.get("retmax", pubmed_max_items) or pubmed_max_items),
+                        "idlist_count": int(pubmed_meta.get("idlist_count", 0) or 0),
+                        "parsed_article_count": int(pubmed_meta.get("parsed_article_count", len(arts)) or len(arts)),
+                        "possibly_truncated": bool(pubmed_meta.get("possibly_truncated", False)),
+                        "publication_types_count": len([it for it in arts if it.get("publication_types")]),
+                        "mesh_headings_count": len([it for it in arts if it.get("mesh_headings")]),
+                        "keywords_count": len([it for it in arts if it.get("keywords")]),
+                        "abstract_sections_count": len([it for it in arts if it.get("abstract_sections")]),
+                        "abstract_count": len([it for it in arts if (it.get("abstract") or "").strip()]),
+                        "doi_count": len([it for it in arts if (it.get("doi") or "").strip()]),
+                    }
 
                 for a in arts:
                     pmid = str(a.get("id") or "").strip()
@@ -2361,6 +2384,17 @@ def main() -> None:
                     "name": cname,
                     "topic": topic,
                     "raw_count": int(pubmed_candidates_by_channel.get(cname, 0)),
+                    "esearch_count_total": int((pubmed_channel_completeness.get(cname, {}) or {}).get("esearch_count_total", 0) or 0),
+                    "retmax": int((pubmed_channel_completeness.get(cname, {}) or {}).get("retmax", 0) or 0),
+                    "idlist_count": int((pubmed_channel_completeness.get(cname, {}) or {}).get("idlist_count", 0) or 0),
+                    "parsed_article_count": int((pubmed_channel_completeness.get(cname, {}) or {}).get("parsed_article_count", 0) or 0),
+                    "possibly_truncated": bool((pubmed_channel_completeness.get(cname, {}) or {}).get("possibly_truncated", False)),
+                    "publication_types_count": int((pubmed_channel_completeness.get(cname, {}) or {}).get("publication_types_count", 0) or 0),
+                    "mesh_headings_count": int((pubmed_channel_completeness.get(cname, {}) or {}).get("mesh_headings_count", 0) or 0),
+                    "keywords_count": int((pubmed_channel_completeness.get(cname, {}) or {}).get("keywords_count", 0) or 0),
+                    "abstract_sections_count": int((pubmed_channel_completeness.get(cname, {}) or {}).get("abstract_sections_count", 0) or 0),
+                    "abstract_count": int((pubmed_channel_completeness.get(cname, {}) or {}).get("abstract_count", 0) or 0),
+                    "doi_count": int((pubmed_channel_completeness.get(cname, {}) or {}).get("doi_count", 0) or 0),
                     "accepted_count": int(pubmed_candidates_by_channel.get(cname, 0)),
                     "selected_count": int(
                         len([it for it in pubmed_overview_items if (it.get("channel") or "").strip() == cname])
@@ -2431,7 +2465,7 @@ def main() -> None:
         pubmed_raw_evidence_tag_counts = Counter()
         pubmed_raw_mesh_heading_counts = Counter()
         pubmed_raw_keyword_counts = Counter()
-        for it in arts:
+        for it in all_pubmed_raw_items:
             pubmed_raw_publication_type_counts.update(str(v) for v in (it.get("publication_types") or []) if str(v).strip())
             pubmed_raw_evidence_tag_counts.update(str(v) for v in (it.get("evidence_tags") or []) if str(v).strip())
             pubmed_raw_mesh_heading_counts.update(str(v) for v in (it.get("mesh_headings") or []) if str(v).strip())
@@ -2463,10 +2497,12 @@ def main() -> None:
             "pubmed_items_with_mesh_headings_total": len([it for it in pubmed_new_items if it.get("mesh_headings")]),
             "pubmed_items_with_keywords_total": len([it for it in pubmed_new_items if it.get("keywords")]),
             "pubmed_items_with_abstract_sections_total": len([it for it in pubmed_new_items if it.get("abstract_sections")]),
-            "pubmed_raw_items_with_publication_types_total": len([it for it in arts if it.get("publication_types")]),
-            "pubmed_raw_items_with_mesh_headings_total": len([it for it in arts if it.get("mesh_headings")]),
-            "pubmed_raw_items_with_keywords_total": len([it for it in arts if it.get("keywords")]),
-            "pubmed_raw_items_with_abstract_sections_total": len([it for it in arts if it.get("abstract_sections")]),
+            "pubmed_raw_items_with_publication_types_total": len([it for it in all_pubmed_raw_items if it.get("publication_types")]),
+            "pubmed_raw_items_with_mesh_headings_total": len([it for it in all_pubmed_raw_items if it.get("mesh_headings")]),
+            "pubmed_raw_items_with_keywords_total": len([it for it in all_pubmed_raw_items if it.get("keywords")]),
+            "pubmed_raw_items_with_abstract_sections_total": len([it for it in all_pubmed_raw_items if it.get("abstract_sections")]),
+            "pubmed_raw_items_with_abstract_total": len([it for it in all_pubmed_raw_items if (it.get("abstract") or "").strip()]),
+            "pubmed_raw_items_with_doi_total": len([it for it in all_pubmed_raw_items if (it.get("doi") or "").strip()]),
             "pubmed_publication_type_counts": dict(pubmed_publication_type_counts.most_common(20)),
             "pubmed_evidence_tag_counts": dict(pubmed_evidence_tag_counts.most_common(30)),
             "pubmed_mesh_heading_top_counts": dict(pubmed_mesh_heading_counts.most_common(30)),
@@ -2496,9 +2532,32 @@ def main() -> None:
             "foamed_items_selected_overview_total": len(foamed_overview_items),
             "foamed_items_selected_top_pick_total": len(foamed_top_picks),
             "foamed_per_source": foamed_per_source,
+            "foamed_audit_enabled": bool(((foamed_meta_stats.get("audit") or {}).get("enabled", False))),
+            "foamed_sources_with_rss_total": len([1 for _n,st in (foamed_meta_stats.get("per_source") or {}).items() if isinstance(st, dict) and str(st.get("method") or "") in {"rss", "discovered_feed"}]),
+            "foamed_sources_with_html_fallback_total": len([1 for _n,st in (foamed_meta_stats.get("per_source") or {}).items() if isinstance(st, dict) and st.get("html_fallback_used")]),
+            "foamed_sources_html_failed_total": len([1 for _n,st in (foamed_meta_stats.get("per_source") or {}).items() if isinstance(st, dict) and str(st.get("health") or "") in {"blocked_403", "not_found_404", "parse_failed", "other"} and st.get("html_fallback_used")]),
+            "foamed_sources_rss_excerpt_only_total": len([1 for _n,st in ((foamed_meta_stats.get("audit") or {}).get("sources") or {}).items() if isinstance(st, dict) and str(st.get("content_mode") or "") == "rss_excerpt"]),
+            "foamed_sources_possible_partial_content_total": len([1 for _n,st in ((foamed_meta_stats.get("audit") or {}).get("sources") or {}).items() if isinstance(st, dict) and bool(st.get("completeness_warning"))]),
+            "foamed_audit_summary": [
+                {"name": str(n), "rss_items_seen": int((st or {}).get("rss_items_seen",0) or 0), "rss_items_in_window": int((st or {}).get("rss_items_in_window",0) or 0), "html_candidates_seen": int((st or {}).get("html_candidates_seen",0) or 0), "html_items_in_window": int((st or {}).get("html_items_in_window",0) or 0), "html_not_in_rss_count": int((st or {}).get("html_not_in_rss_count",0) or 0), "rss_not_in_html_count": int((st or {}).get("rss_not_in_html_count",0) or 0), "audit_pages_fetched": int((st or {}).get("audit_pages_fetched",0) or 0), "content_mode": str((st or {}).get("content_mode", "unknown") or "unknown"), "completeness_warning": list((st or {}).get("completeness_warning") or [])}
+                for n, st in (((foamed_meta_stats.get("audit") or {}).get("sources") or {}).items()) if isinstance(st, dict)
+            ],
+            "pubmed_channels_possibly_truncated_total": len([1 for _n,st in pubmed_channel_completeness.items() if bool(st.get("possibly_truncated"))]),
+            "pubmed_channels_with_zero_results_total": len([1 for _n,st in pubmed_channel_completeness.items() if int(st.get("raw_count",0) or 0) == 0]),
+            "pubmed_raw_items_missing_abstract_total": len([it for it in all_pubmed_raw_items if not (it.get("abstract") or "").strip()]),
+            "pubmed_raw_items_missing_publication_types_total": len([it for it in all_pubmed_raw_items if not it.get("publication_types")]),
+            "pubmed_raw_completeness_warnings": [],
             "selection_counts": selection_count_only,
             "selection_diagnostics": (selection_stats.get("selection_diagnostics") if isinstance(selection_stats, dict) else {}),
         }
+
+
+        warnings = []
+        if cybermed_diagnostics_payload.get("pubmed_channels_possibly_truncated_total", 0): warnings.append("channel_hit_retmax_cap")
+        if cybermed_diagnostics_payload.get("pubmed_channels_with_zero_results_total", 0): warnings.append("zero_result_channel")
+        if cybermed_diagnostics_payload.get("pubmed_raw_items_missing_publication_types_total", 0): warnings.append("metadata_missing_publication_types")
+        if cybermed_diagnostics_payload.get("pubmed_raw_items_missing_abstract_total", 0) > max(3, len(all_pubmed_raw_items)//2): warnings.append("many_items_missing_abstract")
+        cybermed_diagnostics_payload["pubmed_raw_completeness_warnings"] = warnings
 
         cybermed_run_stats = {
             "pubmed": {
