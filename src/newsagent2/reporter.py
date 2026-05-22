@@ -917,6 +917,10 @@ def to_markdown(
 
     if detail_items:
         if is_cyberlurch:
+            if normalized_mode == "monthly":
+                md.extend(["## Monthly trend map", "", "## Topic streams", "", "## Crisis/development trajectories", "", "## Evergreen / long-shelf-life items", "", "## Representative items", "", "## Source/channel summary", ""])
+            elif normalized_mode == "yearly":
+                md.extend(["## Key themes across the year", "", "## Crisis trajectories", "", "## Recurring narratives", "", "## Topic and channel weights", "", "## Evergreen highlights", "", "## By month", "", "## Representative links", ""])
             topic_candidates: dict[str, list[tuple[int, Dict[str, Any]]]] = {}
             for it in items:
                 topic = _topic_from_item(it)
@@ -996,9 +1000,18 @@ def to_markdown(
                 md.append("")
             seen_urls = set()
             periodic_cap = None
+            grouped_links: dict[str, list[dict[str, Any]]] = {}
+            for it in items:
+                grouped_links.setdefault(str(it.get("topic_primary") or "General").strip() or "General", []).append(it)
             if normalized_mode == "weekly":
                 periodic_cap = max(1, int((os.getenv("CYBERLURCH_WEEKLY_TOP_LINKS_MAX", "20") or "20").strip() or "20"))
-            for it in items:
+            per_topic_cap = 999
+            if normalized_mode == "monthly":
+                per_topic_cap = max(1, int((os.getenv("CYBERLURCH_MONTHLY_REPRESENTATIVE_LINKS_PER_TOPIC", "3") or "3").strip() or "3"))
+            elif normalized_mode == "yearly":
+                per_topic_cap = max(1, int((os.getenv("CYBERLURCH_YEARLY_REPRESENTATIVE_LINKS_PER_THEME", "3") or "3").strip() or "3"))
+            for _, grouped in sorted(grouped_links.items(), key=lambda kv: len(kv[1]), reverse=True):
+              for it in grouped[:per_topic_cap]:
                 if periodic_cap is not None and len(seen_urls) >= periodic_cap:
                     break
                 url = str(it.get("url") or "").strip()
