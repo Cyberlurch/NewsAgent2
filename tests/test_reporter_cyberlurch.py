@@ -31,6 +31,26 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertIn("repeated topic stream", md)
         self.assertIn("recurring analysis and updates across 2 items", md)
 
+    def test_monthly_crisis_section_no_placeholder_and_concrete_fallback(self):
+        items = [{"id": "m1", "title": "Only item", "url": "https://example.com/only", "channel": "Channel A", "topic": "Topic One"}]
+        md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
+        self.assertIn("No multi-item crisis trajectory was detected in this period; current-affairs items are represented under Topic streams.", md)
+        self.assertNotIn("Focused on repeated current-affairs/trend clusters and month-over-month directionality.", md)
+
+    def test_monthly_evergreen_section_lists_items(self):
+        items = [{
+            "id": "e1", "title": "Evergreen item", "url": "https://example.com/e1", "channel": "Channel E",
+            "topic": "Topic E", "temporality": "evergreen", "transcript_full_summary": "Long shelf life summary.",
+        }]
+        md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
+        self.assertIn("Evergreen item", md)
+        self.assertIn("Long shelf life summary.", md)
+
+    def test_monthly_evergreen_section_no_items_line(self):
+        items = [{"id": "n1", "title": "No evergreen", "url": "https://example.com/n1", "channel": "Channel N"}]
+        md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
+        self.assertIn("No clear evergreen items were detected in this period.", md)
+
     def test_weekly_top_videos_are_links_and_sources_removed(self):
         items = [
             {

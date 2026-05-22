@@ -14,6 +14,16 @@ def _digest_state(p):
     now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
     p.write_text(json.dumps({"version":1,"updated_at_utc":now,"digests":[{"video_id":"d1","title":"Digest one","channel":"tagesschau","url":"https://www.youtube.com/watch?v=d1","published_at":now,"summary":"s","text_source":"managed_transcript","topic_primary":"intel","topics":["intel"]}]}, indent=2), encoding="utf-8")
 
+def _digest_state_mixed_temporality(p):
+    p.parent.mkdir(parents=True, exist_ok=True)
+    now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+    digests = [
+        {"video_id":"d1","title":"Digest one","channel":"tagesschau","url":"https://www.youtube.com/watch?v=d1","published_at":now,"summary":"s","text_source":"managed_transcript","topic_primary":"intel","topics":["intel"],"temporality":"current_affairs"},
+        {"video_id":"d2","title":"Christian apologetics worldview","channel":"tagesschau","url":"https://www.youtube.com/watch?v=d2","published_at":now,"summary":"s","text_source":"managed_transcript","topic_primary":"intel","topics":["intel"],"temporality":"evergreen"},
+        {"video_id":"d3","title":"Geopolitik und Machtblöcke","channel":"tagesschau","url":"https://www.youtube.com/watch?v=d3","published_at":now,"summary":"s","text_source":"managed_transcript","topic_primary":"intel","topics":["intel"],"temporality":"trend_analysis"},
+    ]
+    p.write_text(json.dumps({"version":1,"updated_at_utc":now,"digests":digests}, indent=2), encoding="utf-8")
+
 def _common(monkeypatch, tmp_path, mode):
     monkeypatch.setenv("REPORT_KEY","cyberlurch"); monkeypatch.setenv("REPORT_MODE",mode); monkeypatch.setenv("REPORT_DIR",str(tmp_path/"out")); monkeypatch.setenv("STATE_PATH",str(tmp_path/"s.json")); monkeypatch.setenv("SEND_EMAIL","0"); monkeypatch.setenv("GITHUB_EVENT_NAME","workflow_dispatch")
     monkeypatch.setenv("CYBERLURCH_DIGEST_STATE_PATH", str(tmp_path/"state"/"cyberlurch_digests.json"))
@@ -104,3 +114,32 @@ def test_monthly_rollup_enrichment_contains_temporality_channels_themes(tmp_path
     assert isinstance(latest.get("top_channels"), list)
     assert isinstance(latest.get("top_themes"), list)
     assert isinstance(latest.get("items_by_temporality"), dict)
+
+
+def test_daily_diagnostics_include_digest_counters_when_zero(tmp_path, monkeypatch):
+    ch = tmp_path / "channels.json"; _channels(ch)
+    _common(monkeypatch, tmp_path, "daily")
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: [])
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(ch), "--hours", "36"])
+    main_mod.main()
+    d = json.loads((tmp_path/"out"/"cyberlurch_daily_youtube_diagnostics.json").read_text(encoding="utf-8"))
+    assert d.get("cyberlurch_digest_upserted_total") == 0
+    assert d.get("cyberlurch_digest_pruned_total") == 0
+    assert d.get("cyberlurch_digest_store_total") == 0
+    assert d.get("cyberlurch_digest_invalid_records_removed_total") == 0
+    assert d.get("cyberlurch_digest_invalid_records_skipped_total") == 0
+
+
+def test_monthly_rollup_preserves_temporality_counts(tmp_path, monkeypatch):
+    ch = tmp_path / "channels.json"; _channels(ch)
+    _digest_state_mixed_temporality(tmp_path/"state"/"cyberlurch_digests.json")
+    _common(monkeypatch, tmp_path, "monthly")
+    monkeypatch.setenv("ROLLUPS_STATE_PATH", str(tmp_path/"state"/"rollups.json"))
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: (_ for _ in ()).throw(AssertionError("should not collect")))
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(ch), "--hours", "36"])
+    main_mod.main()
+    rollups = json.loads((tmp_path/"state"/"rollups.json").read_text(encoding="utf-8"))
+    latest = rollups["reports"]["cyberlurch"][-1]
+    t = latest.get("items_by_temporality", {})
+    assert t.get("evergreen", 0) > 0
+    assert t.get("trend_analysis", 0) > 0

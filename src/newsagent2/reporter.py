@@ -808,7 +808,31 @@ def render_cyberlurch_monthly_trend_report(items, *, title, generated_at, diagno
         for it in grouped[:cap]:
             if it.get('url'): lines.append(f"- [{it.get('title') or 'Untitled'}]({it.get('url')})")
         lines.append("")
-    lines += ["## Crisis and development trajectories", "", "- Focused on repeated current-affairs/trend clusters and month-over-month directionality.", "", "## Evergreen / long-shelf-life items", "", "- Long-shelf-life theological/philosophical/apologetics content remained relevant for deep interpretation.", "", "## Representative links", ""]
+    lines += ["## Crisis and development trajectories", ""]
+    trajectory_topics: list[tuple[str, list[dict]]] = []
+    for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
+        temps = {str(i.get("temporality") or "").strip() for i in grouped}
+        if len(grouped) >= 2 and temps.intersection({"current_affairs", "trend_analysis", "mixed"}):
+            trajectory_topics.append((t, grouped))
+    if trajectory_topics:
+        for t, grouped in trajectory_topics[:5]:
+            channels = ", ".join([c for c, _ in Counter(str(i.get("channel") or "Unknown") for i in grouped).most_common(3)])
+            concrete_sentence = next((str(i.get("transcript_full_summary") or i.get("editorial_relevance") or "").strip() for i in grouped if str(i.get("transcript_full_summary") or i.get("editorial_relevance") or "").strip()), "")
+            concrete_sentence = _trim_sentence_aware(concrete_sentence, 180) if concrete_sentence else "No concise item summary available."
+            lines.append(f"- **{t}**: {len(grouped)} related items across {channels}. {concrete_sentence}")
+    else:
+        lines.append("- No multi-item crisis trajectory was detected in this period; current-affairs items are represented under Topic streams.")
+
+    lines += ["", "## Evergreen / long-shelf-life items", ""]
+    evergreen_items = [it for it in items if str(it.get("temporality") or "").strip() == "evergreen"]
+    if evergreen_items:
+        for it in evergreen_items[:5]:
+            summary = _trim_sentence_aware(str(it.get("transcript_full_summary") or it.get("editorial_relevance") or "").strip(), 180) or "No concise item summary available."
+            lines.append(f"- **{it.get('channel') or 'Unknown'}** — {it.get('title') or 'Untitled'}: {summary}")
+    else:
+        lines.append("- No clear evergreen items were detected in this period.")
+
+    lines += ["", "## Representative links", ""]
     for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
         lines.append(f"### {t}")
         for it in grouped[:cap]:
@@ -824,17 +848,41 @@ def render_cyberlurch_yearly_analysis(rollups, *, target_year, generated_at) -> 
     limited = any(not r.get('topic_summaries') for r in by_month)
     lines=[f"# The Cyberlurch Year in Review — {target_year}","", "## Executive Summary", "", f"- {len(by_month)} monthly rollups analyzed."]
     if limited:
-        lines.append("- Earlier months contain thinner rollup data; themes below are based on available monthly titles, channels and summaries.")
+        lines.append("- Some earlier months contain thinner rollup detail; summaries below use the available monthly titles, channels and derived summaries.")
     lines += ["", "## Key themes across the year", ""]
-    if any(r.get("top_themes") for r in by_month):
-        lines.append("- Themes are aggregated from enriched monthly top_themes and topic_summaries.")
+    themes = Counter()
+    channels = Counter()
+    trajectories: list[str] = []
+    evergreen: list[str] = []
+    for r in by_month:
+        for th in (r.get("top_themes") or []):
+            if isinstance(th, dict) and th.get("theme"):
+                themes[str(th.get("theme"))] += int(th.get("count") or 1)
+        for ch in (r.get("top_channels") or []):
+            if isinstance(ch, dict) and ch.get("channel"):
+                channels[str(ch.get("channel"))] += int(ch.get("count") or 1)
+        trajectories.extend([str(x) for x in (r.get("topic_trajectories") or []) if str(x).strip()])
+        evergreen.extend([str(x) for x in (r.get("evergreen_highlights") or []) if str(x).strip()])
+    lines.append(f"- Leading themes: {', '.join([t for t, _ in themes.most_common(6)]) or 'No enriched theme data available.'}")
+    lines += ["", "## Crisis trajectories", ""]
+    if trajectories:
+        for tr in trajectories[:8]:
+            lines.append(f"- {tr}")
     else:
-        lines.append("- Themes are synthesized from available monthly titles, channels and summaries.")
-    lines += ["", "## Crisis trajectories", "", "- Repeated crisis streams are summarized as trajectories, not stale item recaps.", "", "## Recurring narratives", "", "- Narratives were tracked across months and channels.", "", "## Topic and channel weights", "", "- Weighting reflects frequency across available rollups.", "", "## Evergreen highlights", ""]
-    if any(r.get("evergreen_highlights") for r in by_month):
-        lines.append("- Evergreen highlights come from enriched monthly evergreen_highlights when available.")
+        lines.append("- No multi-month crisis trajectory was strongly repeated in available rollups.")
+    lines += ["", "## Recurring narratives", ""]
+    topic_summaries = [str(s) for r in by_month for s in (r.get("topic_summaries") or []) if str(s).strip()]
+    if topic_summaries:
+        for s in topic_summaries[:8]:
+            lines.append(f"- {s}")
     else:
-        lines.append("- Evergreen highlights are inferred from available monthly summaries and representative items.")
+        lines.append("- Recurring narratives were sparse in stored monthly summaries.")
+    lines += ["", "## Topic and channel weights", "", f"- Top channels: {', '.join([c for c, _ in channels.most_common(8)]) or 'No enriched channel counts available.'}", "", "## Evergreen highlights", ""]
+    if evergreen:
+        for ev in evergreen[:8]:
+            lines.append(f"- {ev}")
+    else:
+        lines.append("- No clear evergreen highlights were captured in monthly rollups.")
     lines += ["", "## By month", ""]
     for r in by_month:
         m = str(r.get('month') or 'Unknown month')

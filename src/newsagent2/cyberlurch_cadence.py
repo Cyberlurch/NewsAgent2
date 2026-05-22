@@ -78,5 +78,9 @@ def classify_cyberlurch_item_temporality(item: dict) -> str:
 
 def annotate_cyberlurch_temporality(items: List[dict]) -> List[dict]:
     for item in items:
+        existing = str(item.get("temporality") or "").strip()
+        if existing:
+            item["temporality"] = existing
+            continue
         item["temporality"] = classify_cyberlurch_item_temporality(item)
     return items
