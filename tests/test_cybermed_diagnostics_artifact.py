@@ -40,6 +40,10 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
             "text": "summary text",
             "abstract": "short abstract",
             "publication_types": ["Journal Article"],
+            "mesh_headings": ["Intensive Care Units"],
+            "keywords": ["resuscitation"],
+            "abstract_sections": [{"label": "Background", "text": "x"}],
+            "evidence_tags": ["intensive_care", "resuscitation"],
         }]
 
     monkeypatch.setattr(main, "load_channels_config", fake_channels)
@@ -56,6 +60,15 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
     assert "pubmed_items_raw_total" in diag
     assert "foamed_sources_total" in diag
     assert "pubmed_items_with_publication_types_total" in diag
+    assert "pubmed_items_with_mesh_headings_total" in diag
+    assert "pubmed_items_with_keywords_total" in diag
+    assert "pubmed_items_with_abstract_sections_total" in diag
+    assert "pubmed_publication_type_counts" in diag
+    assert "pubmed_evidence_tag_counts" in diag
+    assert "pubmed_mesh_heading_top_counts" in diag
+    assert "pubmed_keyword_top_counts" in diag
+    assert len(diag["pubmed_publication_type_counts"]) <= 20
+    assert len(diag["pubmed_evidence_tag_counts"]) <= 30
     assert diag["foamed_sources_config_total"] == 2
     assert diag["foamed_sources_processed_total"] == 1
     assert diag["foamed_sources_skipped_disabled_total"] == 1

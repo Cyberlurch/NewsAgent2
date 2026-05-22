@@ -2416,6 +2416,15 @@ def main() -> None:
             state_reasons = selection_stats.get("state_skip_reasons") or {}
             if isinstance(state_reasons, dict):
                 pubmed_state_skip_reasons = {str(k): int(v or 0) for k, v in state_reasons.items()}
+        pubmed_publication_type_counts = Counter()
+        pubmed_evidence_tag_counts = Counter()
+        pubmed_mesh_heading_counts = Counter()
+        pubmed_keyword_counts = Counter()
+        for it in pubmed_new_items:
+            pubmed_publication_type_counts.update(str(v) for v in (it.get("publication_types") or []) if str(v).strip())
+            pubmed_evidence_tag_counts.update(str(v) for v in (it.get("evidence_tags") or []) if str(v).strip())
+            pubmed_mesh_heading_counts.update(str(v) for v in (it.get("mesh_headings") or []) if str(v).strip())
+            pubmed_keyword_counts.update(str(v) for v in (it.get("keywords") or []) if str(v).strip())
 
         cybermed_diagnostics_payload = {
             "report_mode": report_mode,
@@ -2435,6 +2444,13 @@ def main() -> None:
             "pubmed_items_with_abstract_total": len([it for it in pubmed_new_items if (it.get("abstract") or "").strip()]),
             "pubmed_items_with_doi_total": len([it for it in pubmed_new_items if (it.get("doi") or "").strip()]),
             "pubmed_items_with_publication_types_total": len([it for it in pubmed_new_items if it.get("publication_types")]),
+            "pubmed_items_with_mesh_headings_total": len([it for it in pubmed_new_items if it.get("mesh_headings")]),
+            "pubmed_items_with_keywords_total": len([it for it in pubmed_new_items if it.get("keywords")]),
+            "pubmed_items_with_abstract_sections_total": len([it for it in pubmed_new_items if it.get("abstract_sections")]),
+            "pubmed_publication_type_counts": dict(pubmed_publication_type_counts.most_common(20)),
+            "pubmed_evidence_tag_counts": dict(pubmed_evidence_tag_counts.most_common(30)),
+            "pubmed_mesh_heading_top_counts": dict(pubmed_mesh_heading_counts.most_common(30)),
+            "pubmed_keyword_top_counts": dict(pubmed_keyword_counts.most_common(30)),
             "pubmed_state_skip_reasons": pubmed_state_skip_reasons,
             "pubmed_per_channel": pubmed_per_channel,
             "foamed_sources_total": int(foamed_meta_stats.get("sources_total", 0) or 0),
