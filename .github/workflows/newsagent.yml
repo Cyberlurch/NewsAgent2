@@ -201,11 +201,12 @@ jobs:
             month=$(TZ=Europe/Stockholm date +"%m")
 
             modes=()
-            if [ "$month" = "01" ] && [ "$dom" = "01" ]; then
-              modes+=("yearly")
-            fi
             if [ "$dom" = "01" ]; then
               modes+=("monthly")
+              # On Jan 1, monthly must run before yearly so December rollup exists for Year in Review.
+              if [ "$month" = "01" ]; then
+                modes+=("yearly")
+              fi
             fi
             if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then
               modes+=("daily")
