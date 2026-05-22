@@ -857,16 +857,21 @@
         ]
       },
       {
-        "evergreen_highlights": [],
+        "evergreen_highlights": [
+          "HOPE THAT CAN'T BE EXTINGUISHED",
+          "Great Books #11:  Dante's Revolution"
+        ],
         "executive_summary": [
           "Highlights derived from top items.",
           "⭐ Demokratie im Stresstest – Zeit für ein Update? | Lanz + Precht, Folge 246",
           "⭐ Äldre kvinna vädjade till SD-toppen: personalen talar inte svenska"
         ],
         "full_text_count": 8,
-        "generated_at": "2026-05-22T12:10:44+00:00",
+        "generated_at": "2026-05-22T12:37:34+00:00",
         "items_by_temporality": {
-          "current_affairs": 8
+          "current_affairs": 3,
+          "evergreen": 2,
+          "trend_analysis": 3
         },
         "metadata_only_count": 0,
         "month": "2026-05",
@@ -876,8 +881,9 @@
             "channel": "ZDFheute",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "Der Podcast bietet eine aktuelle Analyse der politischen Lage in Deutschland und diskutiert strukturelle Herausforderungen der Demokratie. Die Einordnung durch historische Vergleiche und die Diskussion möglicher Reformen sind für ein politisch interessiertes Publikum relevant. Die Warnung vor den Gefahren bei ausbleibenden Reformen sowie der Hinweis auf Chancen durch Krisen bieten Anknüpfungspunkte für weiterführende gesellschaftliche Debatten.",
+            "editorial_relevance": "Der Podcast bietet eine differenzierte Analyse der aktuellen politischen Situation in Deutschland, beleuchtet strukturelle Herausforderungen der Demokratie und diskutiert Reformoptionen. Die Diskussion ist relevant für ein Publikum, das sich für politische Entwicklungen, Reformdebatten und gesellschaftliche Dynamiken in Deutschland interessiert.",
             "source": "youtube",
+            "temporality": "current_affairs",
             "text_source": "managed_transcript",
             "title": "Demokratie im Stresstest – Zeit für ein Update? | Lanz + Precht, Folge 246",
             "top_pick": true,
@@ -885,7 +891,7 @@
             "topics": [
               "Mainstream DE/SE News"
             ],
-            "transcript_full_summary_short": "Markus Lanz und Richard David Precht beginnen den Podcast mit persönlichen Naturerlebnissen, insbesondere Prechts Begegnungen mit Uhus in der Eifel. Danach wenden sie sich gesellschaftlichen und politischen Themen in Deutschland zu. Sie analysieren die aktuelle politische Lage, insbesondere die sinkende Zustimmung zur Bundesregierung, die Rolle von Friedrich Merz, strukturelle Probleme des politischen Systems und die Fragmentierung der politischen Mitte. Historische Vergleiche, etwa mit der Weimarer Republik, werden herangezogen. Die Gesprächspartner diskutieren die Rolle der AfD und mögliche",
+            "transcript_full_summary_short": "Markus Lanz und Richard David Precht beginnen den Podcast mit persönlichen Naturerlebnissen, insbesondere Prechts Begegnungen mit Uhus in der Eifel. Danach wenden sie sich gesellschaftlichen und politischen Themen in Deutschland zu. Sie analysieren die aktuelle politische Lage, darunter die sinkende Zustimmung zur Bundesregierung, die Rolle von Friedrich Merz, strukturelle Probleme des politischen Systems sowie historische Vergleiche, etwa mit der Weimarer Republik. Weitere Themen sind die Fragmentierung der politischen Mitte, das Erstarken der AfD und mögliche Reformoptionen wie Minderheitsre",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=OY-OGuzpvsw"
           },
@@ -894,8 +900,9 @@
             "channel": "Riks",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for understanding political debates in Sweden regarding elderly care, integration, and labor policy. It highlights concerns about language barriers and care quality in elderly facilities, as well as the intersection of local and national governance. The discussion reflects ongoing political discourse about immigration, integration, and public service standards.",
+            "editorial_relevance": "The transcript is relevant for understanding the Sweden Democrats' perspective on elderly care, particularly regarding the employment of foreign-born caregivers and language proficiency requirements. It highlights political debates about resource allocation, integration policies, and legislative changes in Sweden's elderly care sector. The interview provides insight into how elderly care may become a significant political issue in Sweden.",
             "source": "youtube",
+            "temporality": "trend_analysis",
             "text_source": "managed_transcript",
             "title": "Äldre kvinna vädjade till SD-toppen: personalen talar inte svenska",
             "top_pick": true,
@@ -903,7 +910,7 @@
             "topics": [
               "Gesellschaft, Medienkritik & Debatte"
             ],
-            "transcript_full_summary_short": "The interview features Linda Lindberg, group leader for the Sweden Democrats, discussing her visit to an elderly care facility in a Social Democrat-led municipality in Skåne, Sweden. Lindberg recounts interactions with elderly residents, focusing on one woman's distress over being cared for by multiple male caregivers in a single day, none of whom she could communicate with due to language barriers. Lindberg attributes these problems to the employment of foreign-born caregivers lacking sufficient Swedish language skills and training. She criticizes the current system, which she describes as an",
+            "transcript_full_summary_short": "The transcript is an interview with Linda Lindberg, group leader for the Sweden Democrats, focusing on her recent visit to an elderly care facility in a Social Democrat-led municipality in Skåne, Sweden. Lindberg describes her interactions with elderly residents, particularly highlighting a case where an elderly woman expressed distress about being cared for by multiple male caregivers with whom she could not communicate due to language barriers. Lindberg attributes such issues to the employment of foreign-born caregivers lacking sufficient language skills and training. She criticizes the curr",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=ZxmFY5UaMfI"
           },
@@ -912,8 +919,9 @@
             "channel": "DTBM",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for those studying Christian eschatology, doctrinal teachings on perseverance, and the interpretation of biblical apocalyptic language. It provides insight into how religious leaders may encourage hope and practical faithfulness in the context of end-times prophecy, without making sensational or contemporary predictions.",
+            "editorial_relevance": "The transcript is relevant for those interested in Christian theology, especially interpretations of biblical prophecy and doctrines such as perseverance of the saints. It provides insight into how apocalyptic scripture can be applied to contemporary faith practice, but does not make sensational or specific predictions about current events.",
             "source": "youtube",
+            "temporality": "evergreen",
             "text_source": "managed_transcript",
             "title": "HOPE THAT CAN'T BE EXTINGUISHED",
             "top_pick": true,
@@ -921,7 +929,7 @@
             "topics": [
               "Christlicher Glaube, Bibel & Apologetik"
             ],
-            "transcript_full_summary_short": "The speaker delivers a sermon centered on Matthew 24, discussing Jesus' prophecy about the end times. The message emphasizes that these prophecies are intended to inspire hope and perseverance among believers, regardless of their current circumstances. The sermon highlights the doctrine of the perseverance of the saints, suggesting that true believers will maintain their faith until the end. The speaker interprets apocalyptic imagery, such as 'the stars will fall from heaven,' by considering how such language would have been understood by ancient audiences. The overall message is one of reassu",
+            "transcript_full_summary_short": "The speaker delivers a sermon based on Matthew 24, focusing on the hope that believers receive through salvation. He interprets Jesus' prophecy about the end times as a message intended to inspire hope and perseverance in the present, regardless of circumstances. The sermon highlights the doctrine of perseverance of the saints, suggesting that true believers will maintain their faith until the end. The speaker discusses the apocalyptic imagery in Matthew 24, such as 'the stars will fall from heaven,' and explains it in terms of how ancient audiences would have understood such language. He reas",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=EkSfamvZS_4"
           },
@@ -932,6 +940,7 @@
             "date": "2026-05-22",
             "editorial_relevance": "",
             "source": "youtube",
+            "temporality": "trend_analysis",
             "text_source": "description",
             "title": "Feed Our Future Fraud, Son of Sam Predicts Heaven, John 15",
             "top_pick": false,
@@ -948,8 +957,9 @@
             "channel": "tagesschau",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for understanding the current status, challenges, and institutional perspectives on Germany's climate policy. It provides insights into sector-specific progress, expert analysis, and innovative approaches, making it pertinent for audiences interested in environmental policy, energy transition, and climate action in Germany.",
+            "editorial_relevance": "The transcript provides a balanced overview of Germany's climate policy progress, highlighting both achievements and ongoing challenges. It is relevant for understanding the complexities of climate governance, the roles of different monitoring bodies, and the practical realities of implementing emission reduction measures in various sectors. The inclusion of expert opinion and real-world case studies adds depth and context to the discussion.",
             "source": "youtube",
+            "temporality": "current_affairs",
             "text_source": "managed_transcript",
             "title": "Expertenrat für Klimafragen stellt Prüfbericht vor | KlimaZeit vom 12.12.2025",
             "top_pick": false,
@@ -957,7 +967,7 @@
             "topics": [
               "Mainstream DE/SE News"
             ],
-            "transcript_full_summary_short": "The transcript is from a German program examining the progress and challenges of Germany's climate policy. It discusses the country's strategies for reducing greenhouse gas emissions, including building insulation, expanding renewable energy, and promoting changes in transportation and diet. The German Climate Protection Act aims for climate neutrality by 2045. The Umweltbundesamt (Federal Environment Agency) and the Expertenrat für Klimafragen (Expert Council on Climate Issues) are responsible for monitoring and reporting on progress. The transcript notes that while sectors like industry have",
+            "transcript_full_summary_short": "The transcript is from a German program analyzing the progress and challenges of Germany's climate policy. It discusses efforts to reduce greenhouse gas emissions through measures such as building insulation, expanding renewable energy, and encouraging changes in transportation and diet. The German Climate Protection Act sets a goal of achieving climate neutrality by 2045. The Federal Environment Agency (Umweltbundesamt) and the Expert Council on Climate Issues (Expertenrat für Klimafragen) are responsible for monitoring and reporting on progress. The transcript notes that while sectors like i",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=Ti7LfyVJ4y8"
           },
@@ -966,8 +976,9 @@
             "channel": "tagesschau",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for understanding how federal special funds are allocated and utilized at the municipal level, the decision-making process for local infrastructure projects, and the community's perspectives on government funding and debt. It provides insight into both the practical and political considerations involved in local public spending.",
+            "editorial_relevance": "The transcript is relevant for understanding how federal special funds are allocated and used at the municipal level in Germany, the types of projects prioritized by local governments, and the community's response to such funding. It also touches on broader issues of public finance, government debt, and local traditions, providing insight into the intersection of policy, infrastructure, and community values.",
             "source": "youtube",
+            "temporality": "current_affairs",
             "text_source": "managed_transcript",
             "title": "Woltersdorf: Wohin soll das Sondervermögen in fließen? | tagesthemen mittendrin",
             "top_pick": false,
@@ -975,7 +986,7 @@
             "topics": [
               "Mainstream DE/SE News"
             ],
-            "transcript_full_summary_short": "The transcript covers the allocation of 3.166 million euros from a federal special fund to the municipality of Woltersdorf. Local officials and residents discuss their satisfaction with the funding and consider various infrastructure projects, such as rebuilding an observation tower, repairing bridge pillars, and improving accessibility at streetcar stops. The mayor outlines the restrictions on the use of the funds, noting they cannot be used for personnel costs or to cover budget deficits, and that eligible projects must exceed 50,000 euros. The funding process is described as relatively unbu",
+            "transcript_full_summary_short": "The transcript covers the allocation of 3.166 million euros from a federal special fund to the municipality of Woltersdorf. Local politicians, residents, and businesspeople discuss their reactions, potential uses for the funds, and the conditions attached. Suggested projects include rebuilding an observation tower, repairing bridge pillars, and improving accessibility at streetcar stops. The mayor outlines the requirements for fund usage, emphasizing that funds cannot be used for personnel costs or to cover budget deficits, and that eligible projects must exceed 50,000 euros. The process for a",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=vRzRs5UcQwU"
           },
@@ -984,8 +995,9 @@
             "channel": "PredictiveHistory",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The lecture provides a scholarly overview of the philosophical and historical significance of Dante's Divine Comedy, particularly its treatment of human nature, love, and salvation. It is relevant for students and readers interested in medieval literature, philosophy, and the evolution of Western thought. The analysis offers interpretive insights into the text's structure and characters, contributing to a deeper understanding of its enduring influence.",
+            "editorial_relevance": "The lecture provides a comparative analysis of philosophical perspectives in Dante's Divine Comedy, relevant for understanding the evolution of ideas about human nature, love, and salvation in Western thought. It is particularly useful for students and scholars of literature, philosophy, and religious studies interested in the interplay between classical and medieval worldviews.",
             "source": "youtube",
+            "temporality": "evergreen",
             "text_source": "managed_transcript",
             "title": "Great Books #11:  Dante's Revolution",
             "top_pick": false,
@@ -993,7 +1005,7 @@
             "topics": [
               "Prophetie, Endzeit & Weltdeutung"
             ],
-            "transcript_full_summary_short": "The lecture is the first in a two-part series examining Dante's Divine Comedy, with a focus on its historical impact and philosophical themes. The lecturer explores Dante's optimistic perspective on human nature, emphasizing the importance of individual intuition and love, and contrasts this with Virgil's more skeptical and hierarchical worldview, which reflects traditional medieval Catholic doctrine. The lecture analyzes the structure and purpose of Purgatory in the Divine Comedy, detailing the process by which souls are cleansed of sin. It also delves into the philosophical dialogue between",
+            "transcript_full_summary_short": "The lecture is the first in a two-part series examining Dante's Divine Comedy, with a focus on its historical impact and philosophical themes. The lecturer contrasts Dante's optimistic perspective on human nature, emphasizing individual intuition and love, with Virgil's more skeptical and hierarchical worldview that aligns with medieval Catholic doctrine. The lecture explores the structure of Purgatory as depicted in the Divine Comedy, detailing the process by which souls are cleansed of sin. It also delves into the philosophical dialogue between Dante and Virgil regarding love, free will, and",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=otyUpKhpTYM"
           },
@@ -1002,8 +1014,9 @@
             "channel": "Riks",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for understanding current Swedish political debates, particularly regarding leadership, party dynamics, and responses to international crises. It provides insight into criticisms of the Social Democrats and their approach to major policy issues, which may inform public and political discourse ahead of the next election.",
+            "editorial_relevance": "The transcript is relevant for understanding current criticisms of the Social Democrats' leadership and policy positions in Sweden, particularly regarding national security and energy policy. It provides insight into opposition perspectives and the political narrative ahead of the next election.",
             "source": "youtube",
+            "temporality": "trend_analysis",
             "text_source": "managed_transcript",
             "title": "Magdalena Anderssons fulfinger till alla andra partier",
             "top_pick": false,
@@ -1011,7 +1024,7 @@
             "topics": [
               "Gesellschaft, Medienkritik & Debatte"
             ],
-            "transcript_full_summary_short": "The transcript documents a press conference featuring Magdalena Andersson and Mikael Damberg, with a focus on Andersson's call for strong leadership amid uncertain times. The speaker, who is critical of the Social Democrats, reviews Andersson's leadership record, especially during the Russian invasion of Ukraine, and expresses skepticism about her effectiveness and rhetoric. The discussion covers the Social Democrats' positions on NATO membership, internal party dynamics, and nuclear power policy. Andersson announces an intention to pursue broad cross-party cooperation on major issues if her p",
+            "transcript_full_summary_short": "The transcript documents a press conference with Magdalena Andersson and Mikael Damberg, focusing on Andersson's call for strong leadership amid uncertain times. The speaker, who is critical of the Social Democrats, reviews Andersson's leadership during the Russian invasion of Ukraine, critiques her rhetoric and crisis management, and questions her party's positions on NATO membership and nuclear power. Andersson announces intentions for broad cross-party cooperation if her party wins the next election. The speaker expresses skepticism about Andersson's leadership, suggesting she is politicall",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=FJNhphbviak"
           }
@@ -1048,7 +1061,7 @@
             "channel": "ZDFheute",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "Der Podcast bietet eine aktuelle Analyse der politischen Lage in Deutschland und diskutiert strukturelle Herausforderungen der Demokratie. Die Einordnung durch historische Vergleiche und die Diskussion möglicher Reformen sind für ein politisch interessiertes Publikum relevant. Die Warnung vor den Gefahren bei ausbleibenden Reformen sowie der Hinweis auf Chancen durch Krisen bieten Anknüpfungspunkte für weiterführende gesellschaftliche Debatten.",
+            "editorial_relevance": "Der Podcast bietet eine differenzierte Analyse der aktuellen politischen Situation in Deutschland, beleuchtet strukturelle Herausforderungen der Demokratie und diskutiert Reformoptionen. Die Diskussion ist relevant für ein Publikum, das sich für politische Entwicklungen, Reformdebatten und gesellschaftliche Dynamiken in Deutschland interessiert.",
             "source": "youtube",
             "text_source": "managed_transcript",
             "title": "Demokratie im Stresstest – Zeit für ein Update? | Lanz + Precht, Folge 246",
@@ -1057,7 +1070,7 @@
             "topics": [
               "Mainstream DE/SE News"
             ],
-            "transcript_full_summary_short": "Markus Lanz und Richard David Precht beginnen den Podcast mit persönlichen Naturerlebnissen, insbesondere Prechts Begegnungen mit Uhus in der Eifel. Danach wenden sie sich gesellschaftlichen und politischen Themen in Deutschland zu. Sie analysieren die aktuelle politische Lage, insbesondere die sinkende Zustimmung zur Bundesregierung, die Rolle von Friedrich Merz, strukturelle Probleme des politischen Systems und die Fragmentierung der politischen Mitte. Historische Vergleiche, etwa mit der Weimarer Republik, werden herangezogen. Die Gesprächspartner diskutieren die Rolle der AfD und mögliche",
+            "transcript_full_summary_short": "Markus Lanz und Richard David Precht beginnen den Podcast mit persönlichen Naturerlebnissen, insbesondere Prechts Begegnungen mit Uhus in der Eifel. Danach wenden sie sich gesellschaftlichen und politischen Themen in Deutschland zu. Sie analysieren die aktuelle politische Lage, darunter die sinkende Zustimmung zur Bundesregierung, die Rolle von Friedrich Merz, strukturelle Probleme des politischen Systems sowie historische Vergleiche, etwa mit der Weimarer Republik. Weitere Themen sind die Fragmentierung der politischen Mitte, das Erstarken der AfD und mögliche Reformoptionen wie Minderheitsre",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=OY-OGuzpvsw"
           },
@@ -1066,7 +1079,7 @@
             "channel": "Riks",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for understanding political debates in Sweden regarding elderly care, integration, and labor policy. It highlights concerns about language barriers and care quality in elderly facilities, as well as the intersection of local and national governance. The discussion reflects ongoing political discourse about immigration, integration, and public service standards.",
+            "editorial_relevance": "The transcript is relevant for understanding the Sweden Democrats' perspective on elderly care, particularly regarding the employment of foreign-born caregivers and language proficiency requirements. It highlights political debates about resource allocation, integration policies, and legislative changes in Sweden's elderly care sector. The interview provides insight into how elderly care may become a significant political issue in Sweden.",
             "source": "youtube",
             "text_source": "managed_transcript",
             "title": "Äldre kvinna vädjade till SD-toppen: personalen talar inte svenska",
@@ -1075,7 +1088,7 @@
             "topics": [
               "Gesellschaft, Medienkritik & Debatte"
             ],
-            "transcript_full_summary_short": "The interview features Linda Lindberg, group leader for the Sweden Democrats, discussing her visit to an elderly care facility in a Social Democrat-led municipality in Skåne, Sweden. Lindberg recounts interactions with elderly residents, focusing on one woman's distress over being cared for by multiple male caregivers in a single day, none of whom she could communicate with due to language barriers. Lindberg attributes these problems to the employment of foreign-born caregivers lacking sufficient Swedish language skills and training. She criticizes the current system, which she describes as an",
+            "transcript_full_summary_short": "The transcript is an interview with Linda Lindberg, group leader for the Sweden Democrats, focusing on her recent visit to an elderly care facility in a Social Democrat-led municipality in Skåne, Sweden. Lindberg describes her interactions with elderly residents, particularly highlighting a case where an elderly woman expressed distress about being cared for by multiple male caregivers with whom she could not communicate due to language barriers. Lindberg attributes such issues to the employment of foreign-born caregivers lacking sufficient language skills and training. She criticizes the curr",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=ZxmFY5UaMfI"
           },
@@ -1084,7 +1097,7 @@
             "channel": "DTBM",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for those studying Christian eschatology, doctrinal teachings on perseverance, and the interpretation of biblical apocalyptic language. It provides insight into how religious leaders may encourage hope and practical faithfulness in the context of end-times prophecy, without making sensational or contemporary predictions.",
+            "editorial_relevance": "The transcript is relevant for those interested in Christian theology, especially interpretations of biblical prophecy and doctrines such as perseverance of the saints. It provides insight into how apocalyptic scripture can be applied to contemporary faith practice, but does not make sensational or specific predictions about current events.",
             "source": "youtube",
             "text_source": "managed_transcript",
             "title": "HOPE THAT CAN'T BE EXTINGUISHED",
@@ -1093,7 +1106,7 @@
             "topics": [
               "Christlicher Glaube, Bibel & Apologetik"
             ],
-            "transcript_full_summary_short": "The speaker delivers a sermon centered on Matthew 24, discussing Jesus' prophecy about the end times. The message emphasizes that these prophecies are intended to inspire hope and perseverance among believers, regardless of their current circumstances. The sermon highlights the doctrine of the perseverance of the saints, suggesting that true believers will maintain their faith until the end. The speaker interprets apocalyptic imagery, such as 'the stars will fall from heaven,' by considering how such language would have been understood by ancient audiences. The overall message is one of reassu",
+            "transcript_full_summary_short": "The speaker delivers a sermon based on Matthew 24, focusing on the hope that believers receive through salvation. He interprets Jesus' prophecy about the end times as a message intended to inspire hope and perseverance in the present, regardless of circumstances. The sermon highlights the doctrine of perseverance of the saints, suggesting that true believers will maintain their faith until the end. The speaker discusses the apocalyptic imagery in Matthew 24, such as 'the stars will fall from heaven,' and explains it in terms of how ancient audiences would have understood such language. He reas",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=EkSfamvZS_4"
           },
@@ -1120,7 +1133,7 @@
             "channel": "tagesschau",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for understanding the current status, challenges, and institutional perspectives on Germany's climate policy. It provides insights into sector-specific progress, expert analysis, and innovative approaches, making it pertinent for audiences interested in environmental policy, energy transition, and climate action in Germany.",
+            "editorial_relevance": "The transcript provides a balanced overview of Germany's climate policy progress, highlighting both achievements and ongoing challenges. It is relevant for understanding the complexities of climate governance, the roles of different monitoring bodies, and the practical realities of implementing emission reduction measures in various sectors. The inclusion of expert opinion and real-world case studies adds depth and context to the discussion.",
             "source": "youtube",
             "text_source": "managed_transcript",
             "title": "Expertenrat für Klimafragen stellt Prüfbericht vor | KlimaZeit vom 12.12.2025",
@@ -1129,7 +1142,7 @@
             "topics": [
               "Mainstream DE/SE News"
             ],
-            "transcript_full_summary_short": "The transcript is from a German program examining the progress and challenges of Germany's climate policy. It discusses the country's strategies for reducing greenhouse gas emissions, including building insulation, expanding renewable energy, and promoting changes in transportation and diet. The German Climate Protection Act aims for climate neutrality by 2045. The Umweltbundesamt (Federal Environment Agency) and the Expertenrat für Klimafragen (Expert Council on Climate Issues) are responsible for monitoring and reporting on progress. The transcript notes that while sectors like industry have",
+            "transcript_full_summary_short": "The transcript is from a German program analyzing the progress and challenges of Germany's climate policy. It discusses efforts to reduce greenhouse gas emissions through measures such as building insulation, expanding renewable energy, and encouraging changes in transportation and diet. The German Climate Protection Act sets a goal of achieving climate neutrality by 2045. The Federal Environment Agency (Umweltbundesamt) and the Expert Council on Climate Issues (Expertenrat für Klimafragen) are responsible for monitoring and reporting on progress. The transcript notes that while sectors like i",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=Ti7LfyVJ4y8"
           },
@@ -1138,7 +1151,7 @@
             "channel": "tagesschau",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for understanding how federal special funds are allocated and utilized at the municipal level, the decision-making process for local infrastructure projects, and the community's perspectives on government funding and debt. It provides insight into both the practical and political considerations involved in local public spending.",
+            "editorial_relevance": "The transcript is relevant for understanding how federal special funds are allocated and used at the municipal level in Germany, the types of projects prioritized by local governments, and the community's response to such funding. It also touches on broader issues of public finance, government debt, and local traditions, providing insight into the intersection of policy, infrastructure, and community values.",
             "source": "youtube",
             "text_source": "managed_transcript",
             "title": "Woltersdorf: Wohin soll das Sondervermögen in fließen? | tagesthemen mittendrin",
@@ -1147,7 +1160,7 @@
             "topics": [
               "Mainstream DE/SE News"
             ],
-            "transcript_full_summary_short": "The transcript covers the allocation of 3.166 million euros from a federal special fund to the municipality of Woltersdorf. Local officials and residents discuss their satisfaction with the funding and consider various infrastructure projects, such as rebuilding an observation tower, repairing bridge pillars, and improving accessibility at streetcar stops. The mayor outlines the restrictions on the use of the funds, noting they cannot be used for personnel costs or to cover budget deficits, and that eligible projects must exceed 50,000 euros. The funding process is described as relatively unbu",
+            "transcript_full_summary_short": "The transcript covers the allocation of 3.166 million euros from a federal special fund to the municipality of Woltersdorf. Local politicians, residents, and businesspeople discuss their reactions, potential uses for the funds, and the conditions attached. Suggested projects include rebuilding an observation tower, repairing bridge pillars, and improving accessibility at streetcar stops. The mayor outlines the requirements for fund usage, emphasizing that funds cannot be used for personnel costs or to cover budget deficits, and that eligible projects must exceed 50,000 euros. The process for a",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=vRzRs5UcQwU"
           },
@@ -1156,7 +1169,7 @@
             "channel": "PredictiveHistory",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The lecture provides a scholarly overview of the philosophical and historical significance of Dante's Divine Comedy, particularly its treatment of human nature, love, and salvation. It is relevant for students and readers interested in medieval literature, philosophy, and the evolution of Western thought. The analysis offers interpretive insights into the text's structure and characters, contributing to a deeper understanding of its enduring influence.",
+            "editorial_relevance": "The lecture provides a comparative analysis of philosophical perspectives in Dante's Divine Comedy, relevant for understanding the evolution of ideas about human nature, love, and salvation in Western thought. It is particularly useful for students and scholars of literature, philosophy, and religious studies interested in the interplay between classical and medieval worldviews.",
             "source": "youtube",
             "text_source": "managed_transcript",
             "title": "Great Books #11:  Dante's Revolution",
@@ -1165,7 +1178,7 @@
             "topics": [
               "Prophetie, Endzeit & Weltdeutung"
             ],
-            "transcript_full_summary_short": "The lecture is the first in a two-part series examining Dante's Divine Comedy, with a focus on its historical impact and philosophical themes. The lecturer explores Dante's optimistic perspective on human nature, emphasizing the importance of individual intuition and love, and contrasts this with Virgil's more skeptical and hierarchical worldview, which reflects traditional medieval Catholic doctrine. The lecture analyzes the structure and purpose of Purgatory in the Divine Comedy, detailing the process by which souls are cleansed of sin. It also delves into the philosophical dialogue between",
+            "transcript_full_summary_short": "The lecture is the first in a two-part series examining Dante's Divine Comedy, with a focus on its historical impact and philosophical themes. The lecturer contrasts Dante's optimistic perspective on human nature, emphasizing individual intuition and love, with Virgil's more skeptical and hierarchical worldview that aligns with medieval Catholic doctrine. The lecture explores the structure of Purgatory as depicted in the Divine Comedy, detailing the process by which souls are cleansed of sin. It also delves into the philosophical dialogue between Dante and Virgil regarding love, free will, and",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=otyUpKhpTYM"
           },
@@ -1174,7 +1187,7 @@
             "channel": "Riks",
             "content_status": "full_text",
             "date": "2026-05-22",
-            "editorial_relevance": "The transcript is relevant for understanding current Swedish political debates, particularly regarding leadership, party dynamics, and responses to international crises. It provides insight into criticisms of the Social Democrats and their approach to major policy issues, which may inform public and political discourse ahead of the next election.",
+            "editorial_relevance": "The transcript is relevant for understanding current criticisms of the Social Democrats' leadership and policy positions in Sweden, particularly regarding national security and energy policy. It provides insight into opposition perspectives and the political narrative ahead of the next election.",
             "source": "youtube",
             "text_source": "managed_transcript",
             "title": "Magdalena Anderssons fulfinger till alla andra partier",
@@ -1183,7 +1196,7 @@
             "topics": [
               "Gesellschaft, Medienkritik & Debatte"
             ],
-            "transcript_full_summary_short": "The transcript documents a press conference featuring Magdalena Andersson and Mikael Damberg, with a focus on Andersson's call for strong leadership amid uncertain times. The speaker, who is critical of the Social Democrats, reviews Andersson's leadership record, especially during the Russian invasion of Ukraine, and expresses skepticism about her effectiveness and rhetoric. The discussion covers the Social Democrats' positions on NATO membership, internal party dynamics, and nuclear power policy. Andersson announces an intention to pursue broad cross-party cooperation on major issues if her p",
+            "transcript_full_summary_short": "The transcript documents a press conference with Magdalena Andersson and Mikael Damberg, focusing on Andersson's call for strong leadership amid uncertain times. The speaker, who is critical of the Social Democrats, reviews Andersson's leadership during the Russian invasion of Ukraine, critiques her rhetoric and crisis management, and questions her party's positions on NATO membership and nuclear power. Andersson announces intentions for broad cross-party cooperation if her party wins the next election. The speaker expresses skepticism about Andersson's leadership, suggesting she is politicall",
             "transcript_processing": "direct_full_transcript",
             "url": "https://www.youtube.com/watch?v=FJNhphbviak"
           }
@@ -2636,6 +2649,6 @@
       }
     ]
   },
-  "updated_at_utc": "2026-05-22T12:10:44+00:00",
+  "updated_at_utc": "2026-05-22T12:37:34+00:00",
   "version": 1
 }
