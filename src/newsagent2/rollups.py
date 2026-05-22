@@ -5,6 +5,8 @@ import os
 from datetime import datetime, timezone
 import re
 from typing import Any, Dict, List, Sequence
+
+from .reporter import render_cyberlurch_yearly_analysis
 from zoneinfo import ZoneInfo
 
 STO = ZoneInfo("Europe/Stockholm")
@@ -243,6 +245,7 @@ def upsert_monthly_rollup(
     generated_at: str,
     executive_summary: Sequence[str],
     top_items: Sequence[Dict[str, Any]],
+    extra_fields: Dict[str, Any] | None = None,
 ) -> Dict[str, Any]:
     if not isinstance(state, dict):
         raise TypeError(f"upsert_monthly_rollup expects dict state, got {type(state)!r}")
@@ -276,6 +279,8 @@ def upsert_monthly_rollup(
         "executive_summary": sanitized_exec[:8],
         "top_items": sanitized_items,
     }
+    if isinstance(extra_fields, dict):
+        payload.update(extra_fields)
 
     replaced = False
     for idx, entry in enumerate(rollups):
@@ -606,6 +611,8 @@ def render_yearly_markdown(
     lang = (report_language or "en").strip().lower()
     is_de = lang.startswith("de")
     is_cyberlurch = "cyberlurch" in (report_title or "").strip().lower()
+    if is_cyberlurch:
+        return render_cyberlurch_yearly_analysis(rollups, target_year=year, generated_at=datetime.now(tz=STO))
     now_str = datetime.now(tz=STO).strftime("%Y-%m-%d %H:%M") + (" Uhr" if is_de else "")
 
     def _month_label(month_value: str) -> str:

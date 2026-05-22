@@ -2,8 +2,7 @@ import pathlib, sys
 from datetime import datetime, timezone, timedelta
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / 'src'))
 
-from newsagent2.main import cyberlurch_cadence_profile
-from newsagent2.cyberlurch_editorial import classify_cyberlurch_item_temporality
+from newsagent2.cyberlurch_cadence import cyberlurch_cadence_profile, classify_cyberlurch_item_temporality
 from newsagent2.reporter import to_markdown
 
 def test_cadence_profile_modes():

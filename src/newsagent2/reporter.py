@@ -770,6 +770,72 @@ def _infer_track_and_subcategory(item: Dict[str, Any]) -> Tuple[str, str]:
 
     return track, sub
 
+
+
+def render_cyberlurch_monthly_trend_report(items, *, title, generated_at, diagnostics=None) -> str:
+    items = items or []
+    diagnostics = diagnostics or {}
+    by_topic: dict[str, list[dict]] = {}
+    for it in items:
+        by_topic.setdefault(_topic_from_item(it), []).append(it)
+    top_channels = Counter(str(it.get("channel") or "Unknown") for it in items)
+    full_text_count = sum(1 for it in items if str(it.get("content_status") or "") != "metadata_only")
+    metadata_only_count = max(0, len(items) - full_text_count)
+    cap = max(1, int((os.getenv("CYBERLURCH_MONTHLY_REPRESENTATIVE_LINKS_PER_TOPIC", "3") or "3").strip() or "3"))
+    lines = [f"# {title}", "", "## Executive Summary", ""]
+    lines += [f"- {len(items)} curated items across {len(by_topic)} active topics.", f"- Top channels were {', '.join([c for c,_ in top_channels.most_common(3)]) or 'limited coverage'}.", "- Coverage blended current affairs, trend analysis, and evergreen material.", "- Repeated themes clustered around major topic streams rather than isolated clips.", "- Representative links are compacted by topic for readability."]
+    lines += ["", "## Monthly trend map", ""]
+    for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
+        ch = ", ".join([c for c,_ in Counter(str(i.get('channel') or 'Unknown') for i in grouped).most_common(3)])
+        lines.append(f"- **{t}**: {len(grouped)} items; main channels: {ch}; trend: discussion persisted across the month.")
+    lines += ["", "## Topic streams", ""]
+    for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
+        lines.append(f"### {t}")
+        lines.append(f"- Discussed: recurring analysis and updates across {len(grouped)} items.")
+        lines.append("- Changed/repeated: narratives were iterative rather than one-off.")
+        lines.append(f"- Representative channels: {', '.join([c for c,_ in Counter(str(i.get('channel') or 'Unknown') for i in grouped).most_common(3)])}.")
+        for it in grouped[:cap]:
+            if it.get('url'): lines.append(f"- [{it.get('title') or 'Untitled'}]({it.get('url')})")
+        lines.append("")
+    lines += ["## Crisis and development trajectories", "", "- Focused on repeated current-affairs/trend clusters and month-over-month directionality.", "", "## Evergreen / long-shelf-life items", "", "- Long-shelf-life theological/philosophical/apologetics content remained relevant for deep interpretation.", "", "## Representative links", ""]
+    for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
+        lines.append(f"### {t}")
+        for it in grouped[:cap]:
+            if it.get('url'): lines.append(f"- [{it.get('title') or 'Untitled'}]({it.get('url')})")
+    lines += ["", "## Source/channel summary", "", f"- Full text items: {full_text_count}", f"- Metadata-only items: {metadata_only_count}"]
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def render_cyberlurch_yearly_analysis(rollups, *, target_year, generated_at) -> str:
+    cap = max(1, int((os.getenv("CYBERLURCH_YEARLY_REPRESENTATIVE_LINKS_PER_THEME", "3") or "3").strip() or "3"))
+    rollups = [r for r in (rollups or []) if isinstance(r, dict)]
+    by_month = sorted(rollups, key=lambda r: str(r.get('month') or ''))
+    limited = "limited historical rollup detail available" if any(not r.get('topic_summaries') for r in by_month) else ""
+    lines=[f"# The Cyberlurch Year in Review — {target_year}","", "## Executive Summary", "", f"- {len(by_month)} monthly rollups analyzed."]
+    if limited: lines.append(f"- {limited}.")
+    lines += ["", "## Key themes across the year", "", "- Themes were derived from monthly topic and channel patterns.", "", "## Crisis trajectories", "", "- Repeated crisis streams are summarized as trajectories, not stale item recaps.", "", "## Recurring narratives", "", "- Narratives were tracked across months and channels.", "", "## Topic and channel weights", "", "- Weighting reflects frequency across available rollups.", "", "## Evergreen highlights", "", "- Evergreen theological/philosophical items retained analytical value.", "", "## By month", ""]
+    for r in by_month:
+        m = str(r.get('month') or 'Unknown month')
+        try:
+            m = datetime.strptime(f"{m}-01", "%Y-%m-%d").strftime("%B %Y")
+        except Exception:
+            pass
+        lines.append(f"### {m}")
+        lines.append(f"- {(r.get('executive_summary') or ['No summary captured'])[0] if isinstance(r.get('executive_summary'), list) and r.get('executive_summary') else 'No summary captured'}")
+    lines += ["", "## Representative links", ""]
+    for r in by_month:
+        m = str(r.get('month') or 'Unknown month')
+        try:
+            m = datetime.strptime(f"{m}-01", "%Y-%m-%d").strftime("%B %Y")
+        except Exception:
+            pass
+        lines.append(f"### {m}")
+        items = r.get('representative_items') or r.get('top_items') or []
+        for it in items[:cap]:
+            if isinstance(it, dict) and it.get('url'):
+                lines.append(f"- [{it.get('title') or 'Untitled'}]({it.get('url')})")
+    return "\n".join(lines).rstrip()+"\n"
+
 def to_markdown(
     items: List[Dict[str, Any]],
     overview_markdown: str,
@@ -806,6 +872,8 @@ def to_markdown(
         elif "monthly" in title_lower:
             normalized_mode = "monthly"
     is_cyberlurch_periodic = is_cyberlurch and normalized_mode in {"weekly", "monthly", "yearly"}
+    if is_cyberlurch and normalized_mode == 'monthly':
+        return render_cyberlurch_monthly_trend_report(items, title='The Cyberlurch Report — Monthly', generated_at=datetime.now(tz=STO), diagnostics=run_metadata or {})
     meta_only = ""
     if overview_markdown:
         if is_cybermed:

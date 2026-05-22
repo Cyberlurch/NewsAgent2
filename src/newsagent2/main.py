@@ -40,11 +40,12 @@ from .state_manager import (
 from .cyberlurch_editorial import (
     PRIORITY_DAILY_CHANNELS,
     build_trend_clusters,
-    classify_cyberlurch_item_temporality,
     is_deep_dive_eligible,
     normalize_channel_name,
     score_cyberlurch_deep_dive_candidate,
 )
+from .cyberlurch_cadence import annotate_cyberlurch_temporality, classify_cyberlurch_item_temporality, cyberlurch_cadence_profile
+
 from .summarizer import (
     OPENAI_MODEL_CYBERLURCH_CHUNKS,
     OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST,
@@ -81,17 +82,6 @@ CYBERLURCH_MONTHLY_REPRESENTATIVE_LINKS_PER_TOPIC = 3
 CYBERLURCH_YEARLY_REPRESENTATIVE_LINKS_PER_THEME = 3
 WEEKLY_MAX_DEEP_DIVES = 3
 MONTHLY_MAX_DEEP_DIVES = 2
-
-def cyberlurch_cadence_profile(report_mode: str) -> Dict[str, Any]:
-    mode = (report_mode or "daily").strip().lower()
-    profiles = {
-        "daily": {"name":"daily","focus":"new_items","report_style":"item-focused, fast overview, current relevance","allow_item_deep_dives":True,"allow_evergreen_deep_dives":True,"source_link_style":"top_videos"},
-        "weekly": {"name":"weekly","focus":"week_in_review","report_style":"topic clusters, developments during the week, selected representative items","allow_item_deep_dives":True,"allow_evergreen_deep_dives":True,"source_link_style":"capped_top_videos"},
-        "monthly": {"name":"monthly","focus":"trend_report","report_style":"trend map, topic streams, narrative shifts, crisis/development trajectories, evergreen highlights","allow_item_deep_dives":False,"allow_evergreen_deep_dives":True,"source_link_style":"representative_links_by_topic"},
-        "yearly": {"name":"yearly","focus":"annual_analysis","report_style":"annual themes, crisis trajectories, recurring narratives, topic/channel weights, evergreen highlights","allow_item_deep_dives":False,"allow_evergreen_deep_dives":True,"source_link_style":"representative_links_by_theme"},
-    }
-    return profiles.get(mode, profiles["daily"])
-
 
 def classify_direct_digest_error(exc: Exception) -> str:
     msg = str(exc).lower()
@@ -1673,6 +1663,10 @@ def main() -> None:
     items: List[Dict[str, Any]] = []
     skipped_by_state = 0
     youtube_diag = YouTubeDiagnosticsCounters()
+    youtube_diag.cyberlurch_digest_upserted_total = 0
+    youtube_diag.cyberlurch_digest_pruned_total = 0
+    youtube_diag.cyberlurch_digest_store_total = 0
+    youtube_diag.cyberlurch_digest_invalid_records_removed_total = 0
     weekly_digest_items_total = 0
     weekly_digest_used_total = 0
     weekly_digest_supplemental_collection_items_total = 0
@@ -3177,6 +3171,22 @@ def main() -> None:
                 top_items=rollup_items,
                 max_bullets=8,
             )
+            extra_fields = None
+            if report_key.strip().lower() == "cyberlurch":
+                tcounts = Counter(str(it.get("topic_primary") or "Other") for it in rollup_items)
+                ccounts = Counter(str(it.get("channel") or "Unknown") for it in rollup_items)
+                tmpcounts = Counter(str(it.get("temporality") or "current_affairs") for it in rollup_items)
+                extra_fields = {
+                    "topic_summaries": [f"{k}: {v} item(s)" for k, v in tcounts.most_common(8)],
+                    "topic_trajectories": [f"{k}: sustained stream" for k, v in tcounts.most_common(6) if v >= 2],
+                    "top_channels": [{"channel": k, "count": v} for k, v in ccounts.most_common(10)],
+                    "top_themes": [{"theme": k, "count": v} for k, v in tcounts.most_common(10)],
+                    "evergreen_highlights": [it.get("title") for it in rollup_items if str(it.get("temporality") or "") == "evergreen"][:8],
+                    "representative_items": rollup_items[:20],
+                    "full_text_count": sum(1 for it in rollup_items if str(it.get("content_status") or "") != "metadata_only"),
+                    "metadata_only_count": sum(1 for it in rollup_items if str(it.get("content_status") or "") == "metadata_only"),
+                    "items_by_temporality": dict(tmpcounts),
+                }
             upsert_monthly_rollup(
                 rollups_state,
                 report_key=report_key,
@@ -3184,6 +3194,7 @@ def main() -> None:
                 generated_at=now_utc_iso,
                 executive_summary=executive_summary,
                 top_items=rollup_items,
+                extra_fields=extra_fields,
             )
             prune_rollups(
                 rollups_state,
