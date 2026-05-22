@@ -6,6 +6,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 
 from newsagent2 import main
+from newsagent2 import reporter
 
 
 def test_year_in_review_target_year_selection():
@@ -81,3 +82,13 @@ def test_yearly_manual_empty_still_sends(monkeypatch, tmp_path):
 
     assert len(calls) == 1
     assert list(report_dir.glob("cyberlurch_yearly_review_*.md"))
+
+
+def test_yearly_thin_rollup_uses_single_limitation_note():
+    md = reporter.render_cyberlurch_yearly_analysis(
+        [{"month": "2026-01", "executive_summary": ["Only summary"], "top_items": [{"title": "x", "url": "https://example.com"}]}],
+        target_year=2026,
+        generated_at="2026-05-22",
+    )
+    expected = "Earlier months contain thinner rollup data; themes below are based on available monthly titles, channels and summaries."
+    assert md.count(expected) == 1

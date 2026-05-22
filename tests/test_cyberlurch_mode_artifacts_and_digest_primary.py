@@ -47,6 +47,9 @@ def test_monthly_digest_primary_skips_collection(tmp_path, monkeypatch):
     d = json.loads((tmp_path/"out"/"cyberlurch_monthly_youtube_diagnostics.json").read_text(encoding="utf-8"))
     assert d["digest_store_used_as_primary"] is True
     assert d["digest_store_collection_skipped_due_to_primary"] is True
+    assert d.get("managed_transcript_attempted_total", 0) == 0
+    t = d.get("items_by_temporality", {})
+    assert sum(int(v) for v in t.values()) > 0
 
 
 def test_monthly_digest_empty_falls_back_collection(tmp_path, monkeypatch):
@@ -81,3 +84,23 @@ def test_weekly_digest_supplement_allows_collection(tmp_path, monkeypatch):
 def test_workflow_has_no_pull_rebase_pattern():
     yml = pathlib.Path('.github/workflows/newsagent.yml').read_text(encoding='utf-8')
     assert 'pull --rebase' not in yml
+
+
+def test_workflow_run_plan_log_formatting():
+    yml = pathlib.Path('.github/workflows/newsagent.yml').read_text(encoding='utf-8')
+    assert "printf 'Run plan: modes=[%s] which_report=%s\\n' \"$run_modes\" \"$run_which_report\"" in yml
+
+
+def test_monthly_rollup_enrichment_contains_temporality_channels_themes(tmp_path, monkeypatch):
+    ch = tmp_path / "channels.json"; _channels(ch)
+    _digest_state(tmp_path/"state"/"cyberlurch_digests.json")
+    _common(monkeypatch, tmp_path, "monthly")
+    monkeypatch.setenv("ROLLUPS_STATE_PATH", str(tmp_path/"state"/"rollups.json"))
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: (_ for _ in ()).throw(AssertionError("should not collect")))
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(ch), "--hours", "36"])
+    main_mod.main()
+    rollups = json.loads((tmp_path/"state"/"rollups.json").read_text(encoding="utf-8"))
+    latest = rollups["reports"]["cyberlurch"][-1]
+    assert isinstance(latest.get("top_channels"), list)
+    assert isinstance(latest.get("top_themes"), list)
+    assert isinstance(latest.get("items_by_temporality"), dict)
