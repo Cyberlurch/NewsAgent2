@@ -28,7 +28,8 @@ NewsAgent2 is a private automation project that generates and emails two newslet
   - **Yearly**: Jan 1 (reads monthly rollups for the prior year).
   - Verification: weekly mode is triggered on Fridays (`dow=5`) in the workflow run-plan logic.
 - Manual runs (`workflow_dispatch`):
-  - Choose `report_mode` (`daily` / `weekly` / `monthly` / `yearly`).
+  - Choose `report_mode` (`daily` / `weekly` / `monthly` / `yearly` / `all`).
+  - `all` runs `daily weekly monthly yearly` sequentially in one job.
   - Choose `which_report` (`both` / `cybermed` / `cyberlurch`).
   - Optional: override `lookback_hours`.
   - Optional (yearly only): set `year_in_review_year` to force a specific target year.

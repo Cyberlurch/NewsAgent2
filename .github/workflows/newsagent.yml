@@ -13,6 +13,7 @@ on:
         default: daily
         type: choice
         options:
+          - all
           - daily
           - weekly
           - monthly
@@ -193,7 +194,11 @@ jobs:
           schedule_expr="${{ github.event.schedule || '' }}"
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            run_modes="${{ env.REPORT_MODE }}"
+            if [ "${{ env.REPORT_MODE }}" = "all" ]; then
+              run_modes="daily weekly monthly yearly"
+            else
+              run_modes="${{ env.REPORT_MODE }}"
+            fi
           else
             run_which_report="both"
             dow=$(TZ=Europe/Stockholm date +"%u")
@@ -291,7 +296,7 @@ jobs:
           RECIPIENTS_CONFIG_JSON: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_CONFIG_JSON || '' }}
           RECIPIENTS_JSON: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON || '' }}
           TEST_RECIPIENTS_CONFIG_JSON: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') == 'test' && secrets.TEST_RECIPIENTS_CONFIG_JSON || '' }}
-          YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && env.REPORT_MODE == 'yearly' && github.event.inputs.year_in_review_year || '' }}
+          YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.year_in_review_year || '' }}
         run: |
           set -euo pipefail
           LOG_PATH="${RUN_LOG_PATH:-out/run.log}"

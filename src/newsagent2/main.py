@@ -190,6 +190,60 @@ CYBERLURCH_DIGEST_SAFE_FIELDS = [
     "cyberlurch_deep_dive_score","cyberlurch_deep_dive_reasons","top_pick",
 ]
 
+
+CYBERLURCH_SYNTHETIC_VIDEO_IDS = {"fallback123", "v1", "id1", "id2", "ok1", "m1", "new1", "c2", "c3", "c9"}
+CYBERLURCH_SYNTHETIC_TITLES = {"Metadata Only Title", "t", "A", "B", "T", "Meta", "Newer title", "Short", "Long", "FailDirect"}
+
+
+def _is_youtube_url(url: str) -> bool:
+    u = (url or "").strip().lower()
+    return u.startswith("https://www.youtube.com/") or u.startswith("http://www.youtube.com/") or u.startswith("https://youtu.be/") or u.startswith("http://youtu.be/")
+
+
+def _is_valid_cyberlurch_digest_record(record: Dict[str, Any], known_channels: Optional[Set[str]] = None) -> bool:
+    if not isinstance(record, dict):
+        return False
+    video_id = str(record.get("video_id") or "").strip()
+    url = str(record.get("url") or "").strip()
+    channel = str(record.get("channel") or "").strip()
+    topic_primary = str(record.get("topic_primary") or "").strip().lower()
+    title = str(record.get("title") or "").strip()
+    topics = record.get("topics") or []
+    topics_norm = {str(t).strip().lower() for t in topics if str(t).strip()}
+
+    if not video_id or video_id in CYBERLURCH_SYNTHETIC_VIDEO_IDS:
+        return False
+    if not url or not _is_youtube_url(url):
+        return False
+    if not channel or channel in {"C", "Test Channel"}:
+        return False
+    if topic_primary in {"t", "test"}:
+        return False
+    if title in CYBERLURCH_SYNTHETIC_TITLES:
+        return False
+    if "test" in topics_norm or "t" in topics_norm:
+        return False
+    if known_channels:
+        # Prefer known channels while keeping backward compatibility.
+        _ = channel in known_channels
+    return True
+
+
+def sanitize_cyberlurch_digest_state(state: Dict[str, Any], known_channels: Optional[Set[str]] = None) -> tuple[Dict[str, Any], int]:
+    digests = state.get("digests") if isinstance(state, dict) else None
+    if not isinstance(digests, list):
+        return {"version": 1, "updated_at_utc": "", "digests": []}, 0
+    kept = []
+    removed = 0
+    for d in digests:
+        if _is_valid_cyberlurch_digest_record(d, known_channels=known_channels):
+            kept.append(_sanitize_cyberlurch_digest_record(d))
+        else:
+            removed += 1
+    state["digests"] = kept
+    return state, removed
+
+
 def _item_from_digest_record(d: Dict[str, Any]) -> Dict[str, Any]:
     return {"source":"youtube","id":d.get("video_id"),"title":d.get("title"),"url":d.get("url"),"channel":d.get("channel"),"published_at":_parse_iso_utc(str(d.get("published_at") or "")),"text_source":d.get("text_source"),"content_status":d.get("content_status"),"transcript_processing":d.get("transcript_processing"),"transcript_full_summary":d.get("transcript_full_summary"),"transcript_key_points":d.get("transcript_key_points"),"transcript_notable_claims":d.get("transcript_notable_claims"),"transcript_uncertainties":d.get("transcript_uncertainties"),"important_details":d.get("important_details"),"editorial_relevance":d.get("editorial_relevance"),"bottom_line":d.get("bottom_line"),"topic_primary":d.get("topic_primary"),"topics":d.get("topics") or [],"cyberlurch_deep_dive_score":d.get("cyberlurch_deep_dive_score") or 0,"cyberlurch_deep_dive_reasons":d.get("cyberlurch_deep_dive_reasons") or [],"top_pick":bool(d.get("top_pick")),"text":str(d.get("transcript_full_summary") or d.get("bottom_line") or "")}
 
@@ -200,6 +254,7 @@ def _load_cyberlurch_digest_state(path: str) -> Dict[str, Any]:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
         if isinstance(data, dict) and isinstance(data.get("digests"), list):
+            data, _ = sanitize_cyberlurch_digest_state(data)
             return data
     except Exception:
         pass
@@ -214,6 +269,7 @@ def _save_cyberlurch_digest_state(path: str, state: Dict[str, Any], *, read_only
     if read_only_mode:
         return
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    state, _ = sanitize_cyberlurch_digest_state(state)
     state["updated_at_utc"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     with open(path, "w", encoding="utf-8") as f:
         json.dump(state, f, ensure_ascii=False, indent=2, sort_keys=True)
@@ -240,7 +296,10 @@ def _upsert_cyberlurch_digests(state: Dict[str, Any], items: List[Dict[str, Any]
         payload = dict(it)
         payload["video_id"] = vid
         payload["processed_at_utc"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-        existing[vid] = _sanitize_cyberlurch_digest_record(payload)
+        sanitized = _sanitize_cyberlurch_digest_record(payload)
+        if not _is_valid_cyberlurch_digest_record(sanitized):
+            continue
+        existing[vid] = sanitized
         upserted += 1
     cutoff = datetime.now(timezone.utc) - timedelta(days=max(1, retention_days))
     pruned = 0
@@ -2162,15 +2221,21 @@ def main() -> None:
     monthly_digest_period_end = ""
     weekly_digest_fallback_collection_used = False
     monthly_digest_fallback_collection_used = False
+    cyberlurch_digest_invalid_records_removed_total = 0
+    cyberlurch_digest_invalid_records_skipped_total = 0
     if not is_cybermed_run and report_key.strip().lower() == "cyberlurch" and report_mode in {"weekly", "monthly"}:
         use_digest = _env_bool("CYBERLURCH_WEEKLY_USE_DIGEST_STORE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_USE_DIGEST_STORE", True)
         min_items = _safe_int("CYBERLURCH_WEEKLY_MIN_DIGEST_ITEMS" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_MIN_DIGEST_ITEMS", 5 if report_mode=="weekly" else 10)
         supplement = _env_bool("CYBERLURCH_WEEKLY_SUPPLEMENT_WITH_COLLECTION" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_SUPPLEMENT_WITH_COLLECTION", True)
         if use_digest:
             dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
+            dstate, removed_invalid = sanitize_cyberlurch_digest_state(dstate)
+            cyberlurch_digest_invalid_records_removed_total += removed_invalid
             now = datetime.now(timezone.utc)
             selected=[]
             for d in dstate.get("digests", []):
+                if not _is_valid_cyberlurch_digest_record(d):
+                    continue
                 pub = _parse_iso_utc(str(d.get("published_at") or ""))
                 if not pub:
                     continue
@@ -2189,6 +2254,10 @@ def main() -> None:
                 if len(selected) < min_items and supplement:
                     weekly_digest_fallback_collection_used = report_mode=="weekly"
                     monthly_digest_fallback_collection_used = report_mode=="monthly"
+                    if report_mode=="weekly":
+                        weekly_digest_supplemental_collection_items_total = len(items)
+                    else:
+                        monthly_digest_supplemental_collection_items_total = len(items)
             else:
                 weekly_digest_fallback_collection_used = report_mode=="weekly"
                 monthly_digest_fallback_collection_used = report_mode=="monthly"
@@ -2996,6 +3065,8 @@ def main() -> None:
             "monthly_digest_supplemental_collection_items_total": monthly_digest_supplemental_collection_items_total,
             "monthly_digest_period_start": monthly_digest_period_start,
             "monthly_digest_period_end": monthly_digest_period_end,
+            "cyberlurch_digest_invalid_records_removed_total": cyberlurch_digest_invalid_records_removed_total,
+            "cyberlurch_digest_invalid_records_skipped_total": cyberlurch_digest_invalid_records_skipped_total,
         }
         _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
 
@@ -3038,12 +3109,16 @@ def main() -> None:
 
     if report_key.strip().lower() == "cyberlurch" and report_mode == "daily":
         dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
+        dstate, removed_invalid = sanitize_cyberlurch_digest_state(dstate)
+        cyberlurch_digest_invalid_records_removed_total += removed_invalid
         upsert_source = _dedupe_items(items_all_new + report_items + overview_items + detail_items)
         upserted, pruned = _upsert_cyberlurch_digests(dstate, upsert_source, cyberlurch_digest_retention_days)
         _save_cyberlurch_digest_state(cyberlurch_digest_state_path, dstate, read_only_mode=read_only_mode)
         youtube_diag.cyberlurch_digest_upserted_total = upserted
         youtube_diag.cyberlurch_digest_pruned_total = pruned
         youtube_diag.cyberlurch_digest_store_total = len(dstate.get("digests", []))
+        youtube_diag.cyberlurch_digest_invalid_records_removed_total = cyberlurch_digest_invalid_records_removed_total
+        youtube_diag.cyberlurch_digest_invalid_records_skipped_total = cyberlurch_digest_invalid_records_skipped_total
         print(f"[digest-store] upserted={upserted} pruned={pruned} total={youtube_diag.cyberlurch_digest_store_total} path={cyberlurch_digest_state_path}")
     if report_key.strip().lower() == "cyberlurch":
         _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, extra_counts=extra_counts)

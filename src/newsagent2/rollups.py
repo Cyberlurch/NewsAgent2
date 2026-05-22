@@ -605,6 +605,7 @@ def render_yearly_markdown(
 ) -> str:
     lang = (report_language or "en").strip().lower()
     is_de = lang.startswith("de")
+    is_cyberlurch = "cyberlurch" in (report_title or "").strip().lower()
     now_str = datetime.now(tz=STO).strftime("%Y-%m-%d %H:%M") + (" Uhr" if is_de else "")
 
     def _month_label(month_value: str) -> str:
@@ -663,6 +664,8 @@ def render_yearly_markdown(
         revisit_label = "Quick revisit (Top 3)" if not is_de else "Schnellüberblick (Top 3)"
         md.append(f"- {coverage_label}: {rollup_count} month(s) captured.")
         themes = _derive_themes(top_ten)
+        if is_cyberlurch and themes == ["Mixed clinical topics"]:
+            themes = ["General Cyberlurch items"]
         md.append(f"- {themes_label}: {', '.join(themes) if themes else ('(none detected)' if not is_de else '(keine erkannt)')}")
         md.append(f"- {revisit_label}:")
         if top_ten:
@@ -696,12 +699,12 @@ def render_yearly_markdown(
                 line = line.replace("[]()", "")  # guard against empty markdown links if url missing
             md.append(line)
             bottom_line_text = _short_bottom_line(item.get("bottom_line") or "", max_len=220)
-            unavailable = (
-                "(not available in rollup; re-run monthly to capture)"
-                if not is_de
-                else "(nicht verfügbar; monatliche Zusammenfassung erneut ausführen)"
-            )
-            md.append(f"  - **BOTTOM LINE:** {bottom_line_text or unavailable}")
+            if bottom_line_text:
+                md.append(f"  - **BOTTOM LINE:** {bottom_line_text}")
+            else:
+                fallback_topic = str(item.get("topic_primary") or "").strip() or "General Cyberlurch items"
+                fallback_parts = [p for p in [item.get("title"), item.get("channel"), fallback_topic] if str(p or "").strip()]
+                md.append(f"  - **BOTTOM LINE:** {' — '.join(str(p).strip() for p in fallback_parts)}")
     md.append("")
 
     md.append("## By month" if not is_de else "## Nach Monaten")

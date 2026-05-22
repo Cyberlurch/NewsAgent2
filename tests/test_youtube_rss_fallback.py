@@ -4,6 +4,7 @@ import datetime as dt
 import json
 import pathlib
 import sys
+import pytest
 
 SRC = pathlib.Path(__file__).resolve().parents[1] / "src"
 if str(SRC) not in sys.path:
@@ -11,6 +12,9 @@ if str(SRC) not in sys.path:
 
 from newsagent2.collectors_youtube_rss import parse_youtube_rss
 from newsagent2 import main as main_mod
+
+
+pytestmark = pytest.mark.usefixtures("safe_main_state_paths")
 
 
 SAMPLE_RSS = """<?xml version="1.0" encoding="UTF-8"?>
