@@ -406,19 +406,26 @@ def _write_cyberlurch_youtube_diagnostics(
     report_dir: str,
     diag: YouTubeDiagnosticsCounters,
     *,
+    report_mode: str = "daily",
     extra_counts: dict[str, Any] | None = None,
 ) -> None:
     if (os.getenv("GITHUB_EVENT_NAME") or "").strip() != "workflow_dispatch":
         return
     try:
         os.makedirs(report_dir, exist_ok=True)
-        out_path = os.path.join(report_dir, "cyberlurch_youtube_diagnostics.json")
+        safe_mode = (report_mode or "daily").strip().lower() or "daily"
+        out_path = os.path.join(report_dir, f"cyberlurch_{safe_mode}_youtube_diagnostics.json")
         payload = diag.to_count_only_dict()
         if extra_counts:
             payload.update(extra_counts)
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False, indent=2, sort_keys=True)
             f.write("\n")
+        if safe_mode == "daily":
+            legacy_path = os.path.join(report_dir, "cyberlurch_youtube_diagnostics.json")
+            with open(legacy_path, "w", encoding="utf-8") as f:
+                json.dump(payload, f, ensure_ascii=False, indent=2, sort_keys=True)
+                f.write("\n")
         print(f"[diagnostics] Wrote count-only YouTube diagnostics: {out_path}")
     except Exception as e:
         print(f"[diagnostics] WARN: failed to write YouTube diagnostics err_type={type(e).__name__}")
@@ -439,6 +446,19 @@ def _write_run_metadata_artifact(report_dir: str, report_key: str, report_mode: 
         print(f"[diagnostics] Wrote run metadata artifact: {out_path}")
     except Exception as e:
         print(f"[diagnostics] WARN: failed to write run metadata artifact err_type={type(e).__name__}")
+
+
+def _report_output_path(report_dir: str, report_key: str, report_mode: str) -> str:
+    mode = (report_mode or "daily").strip().lower() or "daily"
+    if mode == "yearly":
+        year = datetime.now(tz=STO).strftime("%Y")
+        return os.path.join(report_dir, f"{report_key}_yearly_review_{year}.md")
+    suffix = "daily"
+    if mode == "weekly":
+        suffix = "weekly"
+    elif mode == "monthly":
+        suffix = "monthly"
+    return datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_{suffix}_summary_%Y-%m-%d_%H-%M-%S.md")
 
 def _parse_hours_override(raw: str) -> int | None:
     text = (raw or "").strip()
@@ -1301,6 +1321,15 @@ def _run_yearly_report(
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
     print(f"[report] Wrote yearly report to {out_path}")
+    yearly_meta = "\n".join(
+        [
+            f"target_year: {target_year}",
+            f"monthly_rollups_found: {len(entries)}",
+            f"enriched_rollups_used_total: {len([e for e in entries if (e.get('top_items') or [])])}",
+            f"thin_rollups_used_total: {len([e for e in entries if not (e.get('top_items') or [])])}",
+        ]
+    )
+    _write_run_metadata_artifact(report_dir, report_key, "yearly", yearly_meta)
 
     try:
         send_markdown(report_subject, md)
@@ -1592,7 +1621,7 @@ def main() -> None:
             overview = f"## Executive Summary\n\n**Error:** Failed to load channels configuration: `{e!r}`\n"
         else:
             overview = f"## Kurzüberblick\n\n**Fehler:** Konnte Channels-Konfiguration nicht laden: `{e!r}`\n"
-        out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
+        out_path = _report_output_path(report_dir, report_key, report_mode)
         md = to_markdown(
             [],
             overview,
@@ -2221,16 +2250,23 @@ def main() -> None:
     monthly_digest_period_end = ""
     weekly_digest_fallback_collection_used = False
     monthly_digest_fallback_collection_used = False
+    digest_store_loaded_total = 0
+    digest_store_selected_total = 0
+    digest_store_used_as_primary = False
+    digest_store_collection_skipped_due_to_primary = False
+    digest_store_collection_fallback_used = False
+    digest_store_collection_supplement_used = False
     cyberlurch_digest_invalid_records_removed_total = 0
     cyberlurch_digest_invalid_records_skipped_total = 0
     if not is_cybermed_run and report_key.strip().lower() == "cyberlurch" and report_mode in {"weekly", "monthly"}:
         use_digest = _env_bool("CYBERLURCH_WEEKLY_USE_DIGEST_STORE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_USE_DIGEST_STORE", True)
         min_items = _safe_int("CYBERLURCH_WEEKLY_MIN_DIGEST_ITEMS" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_MIN_DIGEST_ITEMS", 5 if report_mode=="weekly" else 10)
-        supplement = _env_bool("CYBERLURCH_WEEKLY_SUPPLEMENT_WITH_COLLECTION" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_SUPPLEMENT_WITH_COLLECTION", True)
+        supplement = _env_bool("CYBERLURCH_WEEKLY_COLLECT_IF_DIGEST_AVAILABLE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_COLLECT_IF_DIGEST_AVAILABLE", False)
         if use_digest:
             dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
             dstate, removed_invalid = sanitize_cyberlurch_digest_state(dstate)
             cyberlurch_digest_invalid_records_removed_total += removed_invalid
+            digest_store_loaded_total = len(dstate.get("digests", []))
             now = datetime.now(timezone.utc)
             selected=[]
             for d in dstate.get("digests", []):
@@ -2248,19 +2284,23 @@ def main() -> None:
                     if pub.astimezone(STO).strftime("%Y-%m") == mk:
                         selected.append(d)
             selected=sorted(selected,key=lambda x:_parse_iso_utc(str(x.get("published_at") or "")) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+            digest_store_selected_total = len(selected)
             digest_items = [_item_from_digest_record(d) for d in selected]
             if len(selected) >= 1:
                 items = digest_items
+                digest_store_used_as_primary = True
                 if len(selected) < min_items and supplement:
-                    weekly_digest_fallback_collection_used = report_mode=="weekly"
-                    monthly_digest_fallback_collection_used = report_mode=="monthly"
+                    digest_store_collection_supplement_used = True
                     if report_mode=="weekly":
                         weekly_digest_supplemental_collection_items_total = len(items)
                     else:
                         monthly_digest_supplemental_collection_items_total = len(items)
+                else:
+                    digest_store_collection_skipped_due_to_primary = True
             else:
                 weekly_digest_fallback_collection_used = report_mode=="weekly"
                 monthly_digest_fallback_collection_used = report_mode=="monthly"
+                digest_store_collection_fallback_used = True
             weekly_digest_items_total = len(selected) if report_mode=="weekly" else 0
             weekly_digest_used_total = len(items) if report_mode=="weekly" else 0
             monthly_digest_items_total = len(selected) if report_mode=="monthly" else 0
@@ -2277,7 +2317,7 @@ def main() -> None:
             overview = cybermed_meta_block + "## Executive Summary\n\nNo new content in the last 24 hours.\n"
         else:
             overview = cybermed_meta_block + "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n"
-        out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
+        out_path = _report_output_path(report_dir, report_key, report_mode)
         md = to_markdown(
             [],
             overview,
@@ -2314,7 +2354,7 @@ def main() -> None:
         else:
             print("[email] No new items and SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
         if report_key.strip().lower() == "cyberlurch":
-            _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag)
+            _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode)
             _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
         return
 
@@ -2971,7 +3011,7 @@ def main() -> None:
             f"bl_chars(min/med/max)={_stats(lengths)}"
         )
 
-    out_path = datetime.now(tz=STO).strftime(f"{report_dir}/{report_key}_daily_summary_%Y-%m-%d_%H-%M-%S.md")
+    out_path = _report_output_path(report_dir, report_key, report_mode)
 
     if not is_cybermed_run:
         for it in overview_items:
@@ -3067,6 +3107,12 @@ def main() -> None:
             "monthly_digest_period_end": monthly_digest_period_end,
             "cyberlurch_digest_invalid_records_removed_total": cyberlurch_digest_invalid_records_removed_total,
             "cyberlurch_digest_invalid_records_skipped_total": cyberlurch_digest_invalid_records_skipped_total,
+            "digest_store_loaded_total": digest_store_loaded_total,
+            "digest_store_selected_total": digest_store_selected_total,
+            "digest_store_used_as_primary": digest_store_used_as_primary,
+            "digest_store_collection_skipped_due_to_primary": digest_store_collection_skipped_due_to_primary,
+            "digest_store_collection_fallback_used": digest_store_collection_fallback_used,
+            "digest_store_collection_supplement_used": digest_store_collection_supplement_used,
         }
         _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
 
@@ -3121,7 +3167,7 @@ def main() -> None:
         youtube_diag.cyberlurch_digest_invalid_records_skipped_total = cyberlurch_digest_invalid_records_skipped_total
         print(f"[digest-store] upserted={upserted} pruned={pruned} total={youtube_diag.cyberlurch_digest_store_total} path={cyberlurch_digest_state_path}")
     if report_key.strip().lower() == "cyberlurch":
-        _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, extra_counts=extra_counts)
+        _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode, extra_counts=extra_counts)
 
     _update_state_after_run(
         state_path=state_path,
