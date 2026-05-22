@@ -238,6 +238,57 @@ def test_chunking_failure_does_not_break_overview(tmp_path, monkeypatch):
     monkeypatch.setattr(main_mod, "fetch_video_content", lambda **k: type("R", (), {"status":"success","text":long_text,"source":"managed_transcript"})())
     monkeypatch.setenv("CYBERLURCH_DIRECT_TRANSCRIPT_MAX_CHARS", "8000")
     monkeypatch.setenv("CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS", "8000")
+
+
+def test_youtube_api_post_enrichment_date_filter_is_robust_and_skips_old(tmp_path, monkeypatch):
+    channels_path = tmp_path / "channels.json"
+    channels_path.write_text(json.dumps({"topic_buckets":[{"topic":"t","channels":[{"name":"C","url":"https://youtube.com/@c"}]}]}), encoding="utf-8")
+    report_dir = tmp_path / "out_api_old"
+    vids=[{"id":"old1","title":"Old","channel":"c","published_at":dt.datetime.now(dt.timezone.utc),"url":"https://www.youtube.com/watch?v=old1","description":""}]
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
+    monkeypatch.setattr(
+        main_mod,
+        "fetch_video_snippets",
+        lambda *a, **k: {"old1": {"published_at": "2020-01-01T00:00:00Z", "title": "Older title"}},
+    )
+    calls = {"n": 0}
+    def _fetch_video_content(**k):
+        calls["n"] += 1
+        return type("R", (), {"status":"success","text":"ok","source":"description"})()
+    monkeypatch.setattr(main_mod, "fetch_video_content", _fetch_video_content)
+    monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "sum")
+    monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
+    monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
+    monkeypatch.setenv("YOUTUBE_API_KEY", "x")
+    monkeypatch.setenv("YOUTUBE_API_METADATA", "1")
+    monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s_api_old.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
+    main_mod.main()
+    assert calls["n"] == 0
+
+
+def test_youtube_api_post_enrichment_keeps_in_window_and_handles_naive_datetime(tmp_path, monkeypatch):
+    channels_path = tmp_path / "channels.json"
+    channels_path.write_text(json.dumps({"topic_buckets":[{"topic":"t","channels":[{"name":"C","url":"https://youtube.com/@c"}]}]}), encoding="utf-8")
+    report_dir = tmp_path / "out_api_new"
+    recent_naive = dt.datetime.now() - dt.timedelta(hours=1)
+    vids=[{"id":"new1","title":"New","channel":"c","published_at":recent_naive,"url":"https://www.youtube.com/watch?v=new1","description":""}]
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: vids)
+    monkeypatch.setattr(main_mod, "fetch_video_snippets", lambda *a, **k: {"new1": {"title": "Newer title"}})
+    calls = {"n": 0}
+    def _fetch_video_content(**k):
+        calls["n"] += 1
+        return type("R", (), {"status":"success","text":"ok","source":"description"})()
+    monkeypatch.setattr(main_mod, "fetch_video_content", _fetch_video_content)
+    monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "sum")
+    monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
+    monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
+    monkeypatch.setenv("YOUTUBE_API_KEY", "x")
+    monkeypatch.setenv("YOUTUBE_API_METADATA", "1")
+    monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "daily"); monkeypatch.setenv("REPORT_DIR", str(report_dir)); monkeypatch.setenv("STATE_PATH", str(tmp_path / "s_api_new.json")); monkeypatch.setenv("SEND_EMAIL", "0"); monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(channels_path), "--hours", "36"])
+    main_mod.main()
+    assert calls["n"] == 1
     monkeypatch.setattr(main_mod, "summarize_youtube_transcript_chunks", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("boom")))
     monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "## Executive Summary\n\nok")
     monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
