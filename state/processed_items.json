@@ -137,7 +137,7 @@
       "last_seen_utc": "2026-05-22T07:10:01+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-05-22T11:14:22+00:00",
+  "last_successful_daily_run_utc": "2026-05-22T11:29:04+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -3333,6 +3333,12 @@
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
             "title": "Abraham – Teil 30 (1. Mose 23,1-20): Sarahs Tod und Begräbnis in der Höhle Machpela",
             "url": "https://www.youtube.com/watch?v=utPbBs2XRyA"
+          },
+          "vRzRs5UcQwU": {
+            "channel": "tagesschau",
+            "processed_at_utc": "2026-05-22T11:29:04+00:00",
+            "title": "Woltersdorf: Wohin soll das Sondervermögen in fließen? | tagesthemen mittendrin",
+            "url": "https://www.youtube.com/watch?v=vRzRs5UcQwU"
           },
           "vWyzOA0lwZw": {
             "channel": "Redacted",
@@ -6821,6 +6827,6 @@
       }
     }
   },
-  "updated_at_utc": "2026-05-22T11:14:22+00:00",
+  "updated_at_utc": "2026-05-22T11:29:04+00:00",
   "version": 1
 }
