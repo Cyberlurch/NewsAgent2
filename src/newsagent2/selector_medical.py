@@ -476,6 +476,11 @@ def select_cybermed_pubmed_items(
     included_core = 0
     included_high_impact = 0
     screened_candidates = len(pubmed_items)
+    publication_type_penalty_hits = 0
+    title_penalty_hits = 0
+    tier_counts: Counter[str] = Counter()
+    domain_signal_counts: Counter[str] = Counter()
+    clinical_intent_counts: Counter[str] = Counter()
 
     def _tier_priority(tier: str) -> int:
         if tier.startswith("tier1"):
@@ -499,16 +504,27 @@ def select_cybermed_pubmed_items(
         if isinstance(pub_types_raw, list):
             normalized_pub_types = {str(x).strip().lower() for x in pub_types_raw}
             pubtype_penalty_hit = any(pt.lower() in normalized_pub_types for pt in pubtype_exclusions)
+        if pubtype_penalty_hit:
+            publication_type_penalty_hits += 1
 
         title_penalty_hit = _matches_any_regex(title, [str(x) for x in deprioritize_title_patterns])
+        if title_penalty_hit:
+            title_penalty_hits += 1
 
         tier = _journal_tier(it, {"tier1_core": tier1_list, "tier2_high_impact": tier2_list, "tier3_pain_strict": tier3_list})
         if not tier and _journal_matches(it, core_set):
             tier = "tier1_core_fallback"
         elif not tier and _journal_matches(it, high_set):
             tier = "tier2_high_impact_fallback"
+        tier_counts[tier or "unclassified"] += 1
         domain_any, domain_flags = _domain_signals(hay, domain_cfg)
         clinical_intent, intent_flags = _clinical_intent(hay, intent_cfg)
+        for flag, active in domain_flags.items():
+            if active:
+                domain_signal_counts[str(flag)] += 1
+        for flag, active in intent_flags.items():
+            if active:
+                clinical_intent_counts[str(flag)] += 1
         pain_ok, pain_flags = _pain_scope(
             hay,
             sel,
@@ -704,6 +720,28 @@ def select_cybermed_pubmed_items(
         "max_selected": max_overview,
         "top_scores": [round(float(it.get("cybermed_score", 0.0)), 2) for it in overview_sorted[: min(5, len(overview_sorted))]],
         "deep_dive_reason_counts": dict(reason_counter.most_common(8)),
+        "selection_diagnostics": {
+            "excluded_overview_offtopic": excluded_overview_offtopic,
+            "below_threshold_overview": below_threshold_overview,
+            "excluded_by_allowlist": excluded_by_allowlist,
+            "publication_type_penalty_hits": publication_type_penalty_hits,
+            "title_penalty_hits": title_penalty_hits,
+            "tier_counts": dict(tier_counts),
+            "domain_signal_counts": dict(domain_signal_counts),
+            "clinical_intent_counts": dict(clinical_intent_counts),
+            "top_candidate_score_preview": [
+                {
+                    "score": round(float(it.get("cybermed_score", 0.0)), 3),
+                    "deep_dive_score": round(float(it.get("cybermed_deep_dive_score", 0.0)), 3),
+                    "tier": str(it.get("cybermed_tier") or "unclassified"),
+                    "publication_types": [str(v) for v in (it.get("publication_types") or [])][:5],
+                    "evidence_tags": [str(v) for v in (it.get("evidence_tags") or [])][:5],
+                    "domain_flags": {str(k): bool(v) for k, v in (it.get("cybermed_domain_flags") or {}).items()},
+                    "reason_labels": [str(v) for v in (it.get("cybermed_selection_reasons") or [])][:8],
+                }
+                for it in overview_sorted[:10]
+            ],
+        },
     }
 
     return SelectionResult(
