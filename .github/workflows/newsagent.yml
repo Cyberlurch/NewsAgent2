@@ -495,10 +495,7 @@ jobs:
             exit 0
           }
 
-          # If your workflow already does pull --rebase to reduce non-fast-forward risk, keep it.
-          # If not present, it is OK to omit. If present, keep it exactly as before.
           if [ -n "${GITHUB_REF_NAME:-}" ]; then
-            git pull --rebase origin "${GITHUB_REF_NAME}" || true
             echo "Pushing commit to branch: ${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           else
