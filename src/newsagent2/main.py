@@ -40,6 +40,7 @@ from .state_manager import (
 from .cyberlurch_editorial import (
     PRIORITY_DAILY_CHANNELS,
     build_trend_clusters,
+    classify_cyberlurch_item_temporality,
     is_deep_dive_eligible,
     normalize_channel_name,
     score_cyberlurch_deep_dive_candidate,
@@ -77,6 +78,16 @@ CYBERLURCH_WEEKLY_MAX_VIDEOS = 10
 CYBERLURCH_MONTHLY_MAX_VIDEOS = 8
 WEEKLY_MAX_DEEP_DIVES = 3
 MONTHLY_MAX_DEEP_DIVES = 2
+
+def cyberlurch_cadence_profile(report_mode: str) -> Dict[str, Any]:
+    mode = (report_mode or "daily").strip().lower()
+    profiles = {
+        "daily": {"focus": "item-focused", "deep_dives": "strongest_current_items"},
+        "weekly": {"focus": "week-focused", "deep_dives": "selected_complex_current_items"},
+        "monthly": {"focus": "trend-focused", "deep_dives": "evergreen_and_major_developments"},
+        "yearly": {"focus": "annual_analysis", "deep_dives": "evergreen_essays_only"},
+    }
+    return profiles.get(mode, profiles["daily"])
 
 
 def classify_direct_digest_error(exc: Exception) -> str:
@@ -389,6 +400,7 @@ def _annotate_cyberlurch_item_topics(items: List[Dict[str, Any]], channel_topics
         it["topics"] = topics
         it["topic_primary"] = topic_primary
         it["topic"] = topic_primary
+        it["temporality"] = classify_cyberlurch_item_temporality(it)
 
 
 def _metadata_only_text(*, title: str, channel: str, published_at: Any) -> str:
@@ -2050,7 +2062,10 @@ def main() -> None:
 
     items = _dedupe_items(items)
     items_all_new = list(items)
-    print(f"[collect] Collected {len(items_all_new)} new unique item(s). (skipped_by_state={skipped_by_state})")
+    if use_digest_store_primary and report_mode in {"weekly", "monthly"} and not collect_with_digest_supplement:
+        print(f"[digest-store] {report_mode} loaded {len(items_all_new)} digest item(s) for report.")
+    else:
+        print(f"[collect] Collected {len(items_all_new)} new unique item(s). (skipped_by_state={skipped_by_state})")
 
     # Cybermed selection policy (PubMed only): select a subset for inclusion in the report,
     # while still marking all newly screened items as processed for memory.
@@ -3090,12 +3105,18 @@ def main() -> None:
         for it in detail_items:
             for topic in channel_topics.get(str(it.get("channel") or "").strip(), []):
                 deep_dives_by_topic[topic] = deep_dives_by_topic.get(topic, 0) + 1
+        items_by_temporality: Dict[str, int] = {}
+        for it in report_items:
+            temp = str(it.get("temporality") or "").strip() or "unknown"
+            items_by_temporality[temp] = items_by_temporality.get(temp, 0) + 1
         extra_counts = {
             "channels_config_total": len(channels),
             "topic_buckets_total": len(topic_weights),
             "active_topic_buckets_total": len([k for k, v in items_by_topic.items() if v > 0]),
             "items_by_topic": items_by_topic,
             "deep_dives_selected_total": len(detail_items),
+            "cadence_profile": cyberlurch_cadence_profile(report_mode) if report_key.strip().lower() == "cyberlurch" else {},
+            "items_by_temporality": items_by_temporality,
             **(cyberlurch_diag if report_key.strip().lower()=="cyberlurch" else {}),
             "deep_dives_by_topic": deep_dives_by_topic,
             "weekly_digest_items_total": weekly_digest_items_total,

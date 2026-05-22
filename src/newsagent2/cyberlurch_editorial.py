@@ -28,6 +28,29 @@ def infer_channel_tone_profile(channel_name:str, channel_topics:Dict[str,List[st
     if n in DRY_IRONY_ALLOWED_CHANNELS: return "fringe_absurd"
     return "general"
 
+def classify_cyberlurch_item_temporality(item:Dict[str,Any])->str:
+    title = str(item.get("title") or "").lower()
+    topic = str(item.get("topic_primary") or "").lower()
+    channel = normalize_channel_name(str(item.get("channel") or ""))
+    text = " ".join([title, topic, str(item.get("editorial_relevance") or "").lower()])
+    if channel in MAINSTREAM_NEWS_CHANNELS:
+        return "current_affairs"
+    if any(k in text for k in ["breaking", "eilmeldung", "live", "heute", "today"]):
+        return "breaking_news"
+    if any(k in text for k in ["bibel", "christ", "apolog", "theolog", "glaube", "worldview", "philosophy"]):
+        if any(k in text for k in ["krieg", "wahl", "breaking", "heute", "news"]):
+            return "mixed"
+        return "evergreen"
+    if any(k in text for k in ["prepper", "survival", "prophet", "endzeit", "weltdeutung"]):
+        return "mixed"
+    if any(k in text for k in ["finanz", "wirtschaft", "krypto", "markt"]):
+        return "trend_analysis"
+    if any(k in text for k in ["geopolit", "krieg", "israel", "nahost", "sicherheitslage", "machtbl"]):
+        return "trend_analysis"
+    if any(k in text for k in ["debatte", "medienkritik", "gesellschaft"]):
+        return "current_affairs"
+    return "current_affairs"
+
 
 def is_deep_dive_eligible(item:Dict[str,Any], channel_topics:Dict[str,List[str]])->bool:
     if item.get("content_status")=="metadata_only" or item.get("text_source")=="metadata_only": return False

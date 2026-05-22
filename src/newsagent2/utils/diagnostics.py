@@ -156,6 +156,11 @@ class YouTubeDiagnosticsCounters:
     transcript_chars_processed_total: int = 0
     transcript_full_chars_available_max: int = 0
     transcript_full_chars_available_median: int = 0
+    cyberlurch_digest_upserted_total: int = 0
+    cyberlurch_digest_pruned_total: int = 0
+    cyberlurch_digest_store_total: int = 0
+    cyberlurch_digest_invalid_records_removed_total: int = 0
+    cyberlurch_digest_invalid_records_skipped_total: int = 0
 
     def to_log_line(self) -> str:
         return (

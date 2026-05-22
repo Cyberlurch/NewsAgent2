@@ -995,7 +995,12 @@ def to_markdown(
                 )
                 md.append("")
             seen_urls = set()
+            periodic_cap = None
+            if normalized_mode == "weekly":
+                periodic_cap = max(1, int((os.getenv("CYBERLURCH_WEEKLY_TOP_LINKS_MAX", "20") or "20").strip() or "20"))
             for it in items:
+                if periodic_cap is not None and len(seen_urls) >= periodic_cap:
+                    break
                 url = str(it.get("url") or "").strip()
                 if url in seen_urls:
                     continue
