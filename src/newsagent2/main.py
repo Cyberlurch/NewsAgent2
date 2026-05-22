@@ -192,7 +192,7 @@ CYBERLURCH_DIGEST_SAFE_FIELDS = [
     "video_id","url","title","channel","published_at","processed_at_utc","topic_primary","topics",
     "text_source","content_status","transcript_processing","transcript_full_summary","transcript_key_points",
     "transcript_notable_claims","transcript_uncertainties","important_details","editorial_relevance","bottom_line",
-    "cyberlurch_deep_dive_score","cyberlurch_deep_dive_reasons","top_pick",
+    "cyberlurch_deep_dive_score","cyberlurch_deep_dive_reasons","top_pick","temporality",
 ]
 
 
@@ -250,7 +250,7 @@ def sanitize_cyberlurch_digest_state(state: Dict[str, Any], known_channels: Opti
 
 
 def _item_from_digest_record(d: Dict[str, Any]) -> Dict[str, Any]:
-    return {"source":"youtube","id":d.get("video_id"),"title":d.get("title"),"url":d.get("url"),"channel":d.get("channel"),"published_at":_parse_iso_utc(str(d.get("published_at") or "")),"text_source":d.get("text_source"),"content_status":d.get("content_status"),"transcript_processing":d.get("transcript_processing"),"transcript_full_summary":d.get("transcript_full_summary"),"transcript_key_points":d.get("transcript_key_points"),"transcript_notable_claims":d.get("transcript_notable_claims"),"transcript_uncertainties":d.get("transcript_uncertainties"),"important_details":d.get("important_details"),"editorial_relevance":d.get("editorial_relevance"),"bottom_line":d.get("bottom_line"),"topic_primary":d.get("topic_primary"),"topics":d.get("topics") or [],"cyberlurch_deep_dive_score":d.get("cyberlurch_deep_dive_score") or 0,"cyberlurch_deep_dive_reasons":d.get("cyberlurch_deep_dive_reasons") or [],"top_pick":bool(d.get("top_pick")),"text":str(d.get("transcript_full_summary") or d.get("bottom_line") or "")}
+    return {"source":"youtube","id":d.get("video_id"),"title":d.get("title"),"url":d.get("url"),"channel":d.get("channel"),"published_at":_parse_iso_utc(str(d.get("published_at") or "")),"text_source":d.get("text_source"),"content_status":d.get("content_status"),"transcript_processing":d.get("transcript_processing"),"transcript_full_summary":d.get("transcript_full_summary"),"transcript_key_points":d.get("transcript_key_points"),"transcript_notable_claims":d.get("transcript_notable_claims"),"transcript_uncertainties":d.get("transcript_uncertainties"),"important_details":d.get("important_details"),"editorial_relevance":d.get("editorial_relevance"),"bottom_line":d.get("bottom_line"),"topic_primary":d.get("topic_primary"),"topics":d.get("topics") or [],"temporality":str(d.get("temporality") or "").strip(),"cyberlurch_deep_dive_score":d.get("cyberlurch_deep_dive_score") or 0,"cyberlurch_deep_dive_reasons":d.get("cyberlurch_deep_dive_reasons") or [],"top_pick":bool(d.get("top_pick")),"text":str(d.get("transcript_full_summary") or d.get("bottom_line") or "")}
 
 
 def _load_cyberlurch_digest_state(path: str) -> Dict[str, Any]:
@@ -394,7 +394,8 @@ def _annotate_cyberlurch_item_topics(items: List[Dict[str, Any]], channel_topics
         it["topics"] = topics
         it["topic_primary"] = topic_primary
         it["topic"] = topic_primary
-        it["temporality"] = classify_cyberlurch_item_temporality(it)
+        existing_temporality = str(it.get("temporality") or "").strip()
+        it["temporality"] = existing_temporality or classify_cyberlurch_item_temporality(it)
 
 
 def _metadata_only_text(*, title: str, channel: str, published_at: Any) -> str:
@@ -1234,6 +1235,7 @@ def _rollup_items_for_month(
                     "content_status": (it.get("content_status") or "").strip(),
                     "transcript_processing": (it.get("transcript_processing") or "").strip(),
                     "editorial_relevance": (it.get("editorial_relevance") or "").strip(),
+                    "temporality": (it.get("temporality") or "").strip(),
                     "transcript_full_summary_short": str(it.get("transcript_full_summary") or "").strip()[:600],
                 }
             )
@@ -1266,6 +1268,7 @@ def _rollup_items_for_month(
                 "content_status": (it.get("content_status") or "").strip(),
                 "transcript_processing": (it.get("transcript_processing") or "").strip(),
                 "editorial_relevance": (it.get("editorial_relevance") or "").strip(),
+                "temporality": (it.get("temporality") or "").strip(),
                 "transcript_full_summary_short": (it.get("transcript_full_summary_short") or "").strip()[:600],
                 "date": (
                     it["published_at"].astimezone(timezone.utc).strftime("%Y-%m-%d")
@@ -3168,6 +3171,7 @@ def main() -> None:
             rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items)
             if report_key.strip().lower() == "cyberlurch":
                 rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items, max_items=30)
+                annotate_cyberlurch_temporality(rollup_items)
             executive_summary = derive_monthly_summary(
                 overview_body,
                 top_items=rollup_items,
@@ -3177,7 +3181,10 @@ def main() -> None:
             if report_key.strip().lower() == "cyberlurch":
                 tcounts = Counter(str(it.get("topic_primary") or "Other") for it in rollup_items)
                 ccounts = Counter(str(it.get("channel") or "Unknown") for it in rollup_items)
-                tmpcounts = Counter(str(it.get("temporality") or "current_affairs") for it in rollup_items)
+                tmpcounts: Counter[str] = Counter()
+                for it in rollup_items:
+                    temporality_value = str(it.get("temporality") or "").strip() or "current_affairs"
+                    tmpcounts[temporality_value] += 1
                 extra_fields = {
                     "topic_summaries": [f"{k}: {v} item(s)" for k, v in tcounts.most_common(8)],
                     "topic_trajectories": [f"{k}: sustained stream" for k, v in tcounts.most_common(6) if v >= 2],

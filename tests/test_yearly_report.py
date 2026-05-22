@@ -90,5 +90,28 @@ def test_yearly_thin_rollup_uses_single_limitation_note():
         target_year=2026,
         generated_at="2026-05-22",
     )
-    expected = "Earlier months contain thinner rollup data; themes below are based on available monthly titles, channels and summaries."
+    expected = "Some earlier months contain thinner rollup detail; summaries below use the available monthly titles, channels and derived summaries."
     assert md.count(expected) == 1
+
+
+def test_yearly_avoids_generic_filler_and_uses_enriched_data():
+    md = reporter.render_cyberlurch_yearly_analysis(
+        [{
+            "month": "2026-01",
+            "executive_summary": ["Summary one"],
+            "top_themes": [{"theme": "AI policy", "count": 3}],
+            "top_channels": [{"channel": "Channel A", "count": 4}],
+            "topic_summaries": ["AI policy: 3 item(s)"],
+            "topic_trajectories": ["AI policy: sustained stream"],
+            "evergreen_highlights": ["Evergreen explainer"],
+            "representative_items": [{"title": "x", "url": "https://example.com"}],
+        }],
+        target_year=2026,
+        generated_at="2026-05-22",
+    )
+    assert "Themes are aggregated from enriched monthly top_themes and topic_summaries." not in md
+    assert "Repeated crisis streams are summarized as trajectories." not in md
+    assert "Narratives were tracked across months and channels." not in md
+    assert "AI policy" in md
+    assert "Channel A" in md
+    assert "January 2026" in md
