@@ -1552,9 +1552,7 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
     """
 
     lang = _norm_language(language)
-    text = (item.get("text") or "").strip()
-    if src != "pubmed" and (item.get("transcript_full_summary") or "").strip():
-        text = f"{(item.get("transcript_full_summary") or "").strip()}\n\nKey points:\n{(item.get("transcript_key_points") or "").strip()}".strip()
+    text = ((item.get("text") or item.get("abstract") or "")).strip()
     if len(text) > 2000:
         text = text[:2000].rstrip()
 
@@ -1567,8 +1565,8 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
     meta = {
         "title": (item.get("title") or "").strip(),
         "journal": (item.get("journal") or "").strip(),
-        "year": item.get("year"),
         "pmid": (item.get("pmid") or item.get("id") or "").strip(),
+        "doi": (item.get("doi") or "").strip(),
         "published_at": published_str,
         "text": text,
     }
@@ -1618,6 +1616,7 @@ def summarize_cyberlurch_bottom_line(item: Dict[str, Any], *, language: str = "e
     """
 
     lang = _norm_language(language)
+    src = (item.get("source") or item.get("type") or item.get("kind") or "").strip().lower()
     text = (item.get("text") or "").strip()
     if src != "pubmed" and (item.get("transcript_full_summary") or "").strip():
         text = f"{(item.get("transcript_full_summary") or "").strip()}\n\nKey points:\n{(item.get("transcript_key_points") or "").strip()}".strip()
@@ -1687,9 +1686,7 @@ def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
     """
 
     lang = _norm_language(language)
-    text = (item.get("text") or "").strip()
-    if src != "pubmed" and (item.get("transcript_full_summary") or "").strip():
-        text = f"{(item.get("transcript_full_summary") or "").strip()}\n\nKey points:\n{(item.get("transcript_key_points") or "").strip()}".strip()
+    text = ((item.get("text") or item.get("abstract") or "")).strip()
     if len(text) > 1500:
         text = text[:1500].rstrip()
 
