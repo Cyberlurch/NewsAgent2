@@ -181,6 +181,82 @@ def _env_bool(env_name: str, default: bool) -> bool:
 
 
 
+
+
+CYBERLURCH_DIGEST_SAFE_FIELDS = [
+    "video_id","url","title","channel","published_at","processed_at_utc","topic_primary","topics",
+    "text_source","content_status","transcript_processing","transcript_full_summary","transcript_key_points",
+    "transcript_notable_claims","transcript_uncertainties","important_details","editorial_relevance","bottom_line",
+    "cyberlurch_deep_dive_score","cyberlurch_deep_dive_reasons","top_pick",
+]
+
+
+def _load_cyberlurch_digest_state(path: str) -> Dict[str, Any]:
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict) and isinstance(data.get("digests"), list):
+            return data
+    except Exception:
+        pass
+    return {"version": 1, "updated_at_utc": "", "digests": []}
+
+
+def _save_cyberlurch_digest_state(path: str, state: Dict[str, Any], *, read_only_mode: bool) -> None:
+    if read_only_mode:
+        return
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    state["updated_at_utc"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=2, sort_keys=True)
+        f.write("\n")
+
+
+def _sanitize_cyberlurch_digest_record(item: Dict[str, Any]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+    for k in CYBERLURCH_DIGEST_SAFE_FIELDS:
+        v = item.get(k)
+        if k == "published_at" and isinstance(v, datetime):
+            v = v.astimezone(timezone.utc).replace(microsecond=0).isoformat()
+        out[k] = v
+    return out
+
+
+def _upsert_cyberlurch_digests(state: Dict[str, Any], items: List[Dict[str, Any]], retention_days: int) -> tuple[int, int]:
+    existing = {str(d.get("video_id") or ""): d for d in state.get("digests", []) if isinstance(d, dict) and str(d.get("video_id") or "")}
+    upserted = 0
+    for it in items:
+        vid = str(it.get("id") or it.get("video_id") or "").strip()
+        if not vid:
+            continue
+        payload = dict(it)
+        payload["video_id"] = vid
+        payload["processed_at_utc"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+        existing[vid] = _sanitize_cyberlurch_digest_record(payload)
+        upserted += 1
+    cutoff = datetime.now(timezone.utc) - timedelta(days=max(1, retention_days))
+    pruned = 0
+    kept = []
+    for d in existing.values():
+        pub = _parse_iso_utc(str(d.get("published_at") or ""))
+        if pub and pub < cutoff:
+            pruned += 1
+            continue
+        kept.append(d)
+    state["digests"] = kept
+    return upserted, pruned
+
+
+def determine_monthly_rollup_month(now_sto: datetime, event_name: str, override_month: str | None) -> str:
+    override = (override_month or "").strip()
+    if override and re.match(r"^\d{4}-\d{2}$", override):
+        return override
+    event = (event_name or "").strip().lower()
+    if event == "schedule" and now_sto.day == 1:
+        prev = (now_sto.replace(day=1) - timedelta(days=1))
+        return prev.strftime("%Y-%m")
+    return now_sto.strftime("%Y-%m")
+
 def _dedupe_videos_by_id(videos: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     out: List[Dict[str, Any]] = []
     seen: Set[str] = set()
@@ -1287,6 +1363,8 @@ def main() -> None:
     rollups_state_path = (os.getenv("ROLLUPS_STATE_PATH", "state/rollups.json") or "state/rollups.json").strip()
     retention_days = _safe_int("STATE_RETENTION_DAYS", 20)
     rollups_max_months = _safe_int("ROLLUPS_MAX_MONTHS", 24)
+    cyberlurch_digest_state_path = (os.getenv("CYBERLURCH_DIGEST_STATE_PATH", "state/cyberlurch_digests.json") or "state/cyberlurch_digests.json").strip()
+    cyberlurch_digest_retention_days = _safe_int("CYBERLURCH_DIGEST_RETENTION_DAYS", 400)
     foamed_sources_path = (os.getenv("CYBERMED_FOAMED_SOURCES", "data/cybermed_foamed_sources.json") or "data/cybermed_foamed_sources.json").strip()
     foamed_auto_disable_enabled = _env_bool("FOAMED_AUTO_DISABLE", True)
     foamed_disable_after_403 = _safe_int("FOAMED_DISABLE_AFTER_403", 3)
@@ -1565,6 +1643,11 @@ def main() -> None:
                         v["channel"] = snippet["channel"]
                     if snippet.get("published_at"):
                         v["published_at"] = _parse_iso_utc(snippet.get("published_at")) or v.get("published_at")
+                    pub_after = v.get("published_at")
+                    if isinstance(pub_after, datetime):
+                        if pub_after < since_utc:
+                            youtube_diag.youtube_api_post_enrichment_date_skipped_total = int(getattr(youtube_diag, "youtube_api_post_enrichment_date_skipped_total", 0)) + 1
+                            v["_skip_after_enrichment"] = True
                     channel_id = str(snippet.get("channel_id") or "").strip()
                     if channel_id.startswith("UC"):
                         discovered_channel_ids[cache_key] = channel_id
@@ -1576,6 +1659,8 @@ def main() -> None:
                         }
 
             for v in vids:
+                if v.get("_skip_after_enrichment"):
+                    continue
                 vid = str(v.get("id") or "").strip()
                 if not vid:
                     continue
@@ -2037,6 +2122,36 @@ def main() -> None:
             "foamed": foamed_meta_stats or {},
         }
 
+
+    weekly_digest_items_total = 0
+    monthly_digest_items_total = 0
+    weekly_digest_fallback_collection_used = False
+    monthly_digest_fallback_collection_used = False
+    if not is_cybermed_run and report_key.strip().lower() == "cyberlurch" and report_mode in {"weekly", "monthly"}:
+        use_digest = _env_bool("CYBERLURCH_WEEKLY_USE_DIGEST_STORE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_USE_DIGEST_STORE", True)
+        min_items = _safe_int("CYBERLURCH_WEEKLY_MIN_DIGEST_ITEMS" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_MIN_DIGEST_ITEMS", 5 if report_mode=="weekly" else 10)
+        if use_digest:
+            dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
+            now = datetime.now(timezone.utc)
+            selected=[]
+            for d in dstate.get("digests", []):
+                pub = _parse_iso_utc(str(d.get("published_at") or ""))
+                if not pub:
+                    continue
+                if report_mode=="weekly" and pub >= now - timedelta(days=7):
+                    selected.append(d)
+                elif report_mode=="monthly":
+                    mk = determine_monthly_rollup_month(datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME",""), os.getenv("ROLLUP_MONTH_OVERRIDE"))
+                    if pub.astimezone(STO).strftime("%Y-%m") == mk:
+                        selected.append(d)
+            selected=sorted(selected,key=lambda x:_parse_iso_utc(str(x.get("published_at") or "")) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+            if len(selected) >= min_items:
+                items = [{"source":"youtube","id":d.get("video_id"),"title":d.get("title"),"url":d.get("url"),"channel":d.get("channel"),"published_at":_parse_iso_utc(str(d.get("published_at") or "")),"text_source":d.get("text_source"),"content_status":d.get("content_status"),"transcript_processing":d.get("transcript_processing"),"transcript_full_summary":d.get("transcript_full_summary"),"transcript_key_points":d.get("transcript_key_points"),"transcript_notable_claims":d.get("transcript_notable_claims"),"transcript_uncertainties":d.get("transcript_uncertainties"),"important_details":d.get("important_details"),"editorial_relevance":d.get("editorial_relevance"),"bottom_line":d.get("bottom_line"),"topic_primary":d.get("topic_primary"),"topics":d.get("topics") or [],"cyberlurch_deep_dive_score":d.get("cyberlurch_deep_dive_score") or 0,"cyberlurch_deep_dive_reasons":d.get("cyberlurch_deep_dive_reasons") or [],"top_pick":bool(d.get("top_pick")),"text":str(d.get("transcript_full_summary") or d.get("bottom_line") or "")} for d in selected]
+            else:
+                weekly_digest_fallback_collection_used = report_mode=="weekly"
+                monthly_digest_fallback_collection_used = report_mode=="monthly"
+            weekly_digest_items_total = len(selected) if report_mode=="weekly" else 0
+            monthly_digest_items_total = len(selected) if report_mode=="monthly" else 0
     if is_cybermed_run:
         report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
     else:
@@ -2834,12 +2949,9 @@ def main() -> None:
         try:
             rollups_state = load_rollups_state(rollups_state_path)
             override = (os.getenv("ROLLUP_MONTH_OVERRIDE") or "").strip()
-            month_key = datetime.now(tz=STO).strftime("%Y-%m")
-            if override:
-                if re.match(r"^\d{4}-\d{2}$", override):
-                    month_key = override
-                else:
-                    print(f"[rollups] WARN: invalid ROLLUP_MONTH_OVERRIDE={override!r}; expected YYYY-MM")
+            month_key = determine_monthly_rollup_month(datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME", ""), override)
+            if override and month_key != override:
+                print(f"[rollups] WARN: invalid ROLLUP_MONTH_OVERRIDE={override!r}; expected YYYY-MM")
             candidates = overview_items + detail_items + foamed_overview_items
             _ensure_bottom_lines_for_rollup(candidates, language=report_language)
             rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items)
@@ -2865,6 +2977,14 @@ def main() -> None:
             save_rollups_state(rollups_state_path, rollups_state)
         except Exception as e:
             print(f"[rollups] WARN: failed to persist monthly rollup: {e!r}")
+
+    if report_key.strip().lower() == "cyberlurch" and report_mode == "daily":
+        dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
+        upserted, pruned = _upsert_cyberlurch_digests(dstate, overview_items + detail_items, cyberlurch_digest_retention_days)
+        _save_cyberlurch_digest_state(cyberlurch_digest_state_path, dstate, read_only_mode=read_only_mode)
+        youtube_diag.cyberlurch_digest_upserted_total = upserted
+        youtube_diag.cyberlurch_digest_pruned_total = pruned
+        youtube_diag.cyberlurch_digest_store_total = len(dstate.get("digests", []))
 
     _update_state_after_run(
         state_path=state_path,
