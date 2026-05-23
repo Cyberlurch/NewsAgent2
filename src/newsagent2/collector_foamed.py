@@ -441,6 +441,57 @@ def _run_html_pass(
     return items, stats
 
 
+def _text_len_stats(source_items: List[Dict[str, Any]]) -> Dict[str, int]:
+    lengths = sorted(len((it.get("text") or "").strip()) for it in source_items if (it.get("text") or "").strip())
+    if not lengths:
+        return {
+            "text_len_min": 0,
+            "text_len_median": 0,
+            "text_len_max": 0,
+            "items_with_text_total": 0,
+            "items_title_only_total": len(source_items),
+            "possible_excerpt_total": 0,
+            "possible_full_content_total": 0,
+        }
+    mid = len(lengths) // 2
+    median = lengths[mid] if len(lengths) % 2 else (lengths[mid - 1] + lengths[mid]) // 2
+    possible_excerpt_total = len([n for n in lengths if n < 280])
+    return {
+        "text_len_min": lengths[0],
+        "text_len_median": median,
+        "text_len_max": lengths[-1],
+        "items_with_text_total": len(lengths),
+        "items_title_only_total": max(0, len(source_items) - len(lengths)),
+        "possible_excerpt_total": possible_excerpt_total,
+        "possible_full_content_total": max(0, len(lengths) - possible_excerpt_total),
+    }
+
+
+def _classify_content_mode(
+    *,
+    health: str,
+    rss_items_in_window: int,
+    html_items_in_window: int,
+    rss_text_len_median: int,
+    html_text_len_median: int,
+) -> str:
+    if health in {"blocked_403", "not_found_404", "parse_failed", "other"} and rss_items_in_window == 0 and html_items_in_window == 0:
+        return "unavailable"
+    if rss_items_in_window == 0 and html_items_in_window == 0:
+        return "no_recent_content"
+    if rss_items_in_window > 0:
+        if rss_text_len_median >= 600:
+            return "rss_full_content"
+        if rss_text_len_median >= 80:
+            return "rss_excerpt"
+        return "rss_title_only"
+    if html_items_in_window > 0:
+        if html_text_len_median >= 600:
+            return "html_content"
+        return "html_excerpt"
+    return "unknown"
+
+
 def collect_foamed_items(
     sources_config: List[Dict[str, Any]],
     now_utc: datetime,
@@ -571,6 +622,7 @@ def collect_foamed_items(
             "discovered_feed_url": None,
             "forced_html_fallback": False,
             "audit": None,
+            "content_mode": "unknown",
         }
         rss_urls_in_window: List[str] = []
 
@@ -869,6 +921,23 @@ def collect_foamed_items(
             health = "parse_failed"
 
         per_source["health"] = health
+        source_items = [it for it in items if (it.get("foamed_source") or "").strip() == name]
+        tstats = _text_len_stats(source_items)
+        per_source.update(tstats)
+
+        rss_in_window = len(rss_urls_in_window)
+        html_in_window = len([it for it in source_items if str(it.get("published_field") or "").startswith("html_fallback")])
+        rss_lengths = [len((it.get("text") or "").strip()) for it in source_items if not str(it.get("published_field") or "").startswith("html_fallback")]
+        html_lengths = [len((it.get("text") or "").strip()) for it in source_items if str(it.get("published_field") or "").startswith("html_fallback")]
+        rss_med = sorted(rss_lengths)[len(rss_lengths)//2] if rss_lengths else 0
+        html_med = sorted(html_lengths)[len(html_lengths)//2] if html_lengths else 0
+        per_source["content_mode"] = _classify_content_mode(
+            health=health,
+            rss_items_in_window=rss_in_window,
+            html_items_in_window=html_in_window,
+            rss_text_len_median=rss_med,
+            html_text_len_median=html_med,
+        )
         if isinstance(stats.get("source_health"), dict):
             stats["source_health"][health] = int(stats["source_health"].get(health, 0) or 0) + 1
 
@@ -878,6 +947,39 @@ def collect_foamed_items(
             stats["sources_failed"] += 1
 
         stats["per_source"][name] = per_source
+        if audit_enabled:
+            a = per_source.get("audit") or {}
+            if not isinstance(a, dict):
+                a = {}
+            warnings: List[str] = []
+            mode = per_source.get("content_mode") or "unknown"
+            if mode == "unavailable":
+                warnings.append("source_unavailable")
+            if mode == "rss_title_only":
+                warnings.append("rss_title_only")
+            if mode == "rss_excerpt":
+                warnings.append("rss_excerpt_only")
+            if mode == "no_recent_content":
+                warnings.append("no_recent_content")
+            if mode == "unknown":
+                warnings.append("content_mode_unknown")
+            if per_source.get("html_fallback_used") and not ok_html:
+                warnings.append("html_failed")
+            if (a.get("items_found_in_html_not_in_rss") or {}).get("count", 0) > 0:
+                warnings.append("html_found_items_not_in_rss")
+            if (a.get("items_found_in_rss_not_in_html") or {}).get("count", 0) > 0:
+                warnings.append("rss_recent_items_not_found_in_html")
+            a.update({
+                "health": health,
+                "method": per_source.get("method"),
+                "content_mode": mode,
+                "html_not_in_rss_count": int(((a.get("items_found_in_html_not_in_rss") or {}).get("count", 0) or 0)),
+                "rss_not_in_html_count": int(((a.get("items_found_in_rss_not_in_html") or {}).get("count", 0) or 0)),
+                "text_len_median": int(tstats.get("text_len_median", 0) or 0),
+                "completeness_warning": sorted(set(warnings)),
+            })
+            per_source["audit"] = a
+            stats["audit"]["sources"][name] = a
         print(
             f"[foamed] source={name!r}: method={per_source.get('method') or 'n/a'} "
             f"why={per_source.get('why') or 'n/a'} health={per_source.get('health') or 'n/a'} "

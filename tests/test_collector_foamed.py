@@ -176,3 +176,25 @@ def test_audit_mode_emits_metadata(monkeypatch):
     )
 
     assert "html_items_in_window" not in md
+    assert audit["content_mode"] in {"rss_excerpt", "rss_full_content", "rss_title_only", "html_content", "html_excerpt", "no_recent_content", "unavailable"}
+    assert isinstance(audit["completeness_warning"], list)
+
+
+@pytest.mark.parametrize(
+    "text_len,expected_mode",
+    [
+        (10, "rss_title_only"),
+        (120, "rss_excerpt"),
+        (900, "rss_full_content"),
+    ],
+)
+def test_content_mode_classifies_rss(monkeypatch, text_len, expected_mode):
+    now = datetime.now(timezone.utc)
+    feed_url = "https://example.com/feed"
+    body = "x" * text_len
+    pub_date = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    rss = f"""<rss><channel><item><title>T</title><link>https://example.com/p</link><pubDate>{pub_date}</pubDate><description>{body}</description></item></channel></rss>""".encode()
+    monkeypatch.setenv("FOAMED_AUDIT", "1")
+    monkeypatch.setattr(collector_foamed, "_fetch_url", lambda *a, **k: collector_foamed._FetchResult(ok=True, status_code=200, content=rss, final_url=feed_url, error=None))
+    _, stats = collector_foamed.collect_foamed_items([{"name": "S", "feed_url": feed_url, "homepage": "https://example.com"}], now, 24)
+    assert stats["per_source"]["S"]["content_mode"] == expected_mode
