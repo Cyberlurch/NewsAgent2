@@ -364,6 +364,67 @@ def _extract_excerpt(soup: BeautifulSoup) -> str:
     return ""
 
 
+
+def _apply_article_fetch(
+    *,
+    session: requests.Session,
+    item_url: str,
+    base_text: str,
+    timeout_s: int,
+    headers: Optional[Dict[str, str]],
+    article_fetch_enabled: bool,
+    article_fetch_done: int,
+    article_fetch_max: int,
+    per_source: Dict[str, Any],
+    stats: Dict[str, Any],
+) -> Tuple[str, str, str, str, int, Optional[int], str, int]:
+    text = base_text or ""
+    article_text = ""
+    content_source = "rss_full_content" if len(text) >= 600 else ("rss_excerpt" if len(text) >= 80 else "rss_title_only")
+    extraction_method = "rss"
+    article_fetch_status_code = None
+    article_fetch_error_class = ""
+
+    if not article_fetch_enabled or article_fetch_done >= article_fetch_max:
+        return text, article_text, content_source, extraction_method, len(article_text), article_fetch_status_code, article_fetch_error_class, article_fetch_done
+
+    article_fetch_done += 1
+    per_source["article_fetch_attempted"] += 1
+    stats["foamed_article_fetch_attempted_total"] += 1
+    fr_item = _fetch_url(session, item_url, timeout_s=timeout_s, headers=headers or None)
+    article_fetch_status_code = fr_item.status_code
+    if fr_item.status_code in (401, 403, 429):
+        article_fetch_error_class = "blocked_or_rate_limited"
+        per_source["article_fetch_blocked"] += 1
+        stats["foamed_article_fetch_blocked_total"] += 1
+    if fr_item.error and "ssl" in fr_item.error.lower():
+        article_fetch_error_class = "ssl_error"
+        per_source["article_fetch_ssl_error"] += 1
+        stats["foamed_article_fetch_ssl_error_total"] += 1
+    if fr_item.error and "timeout" in fr_item.error.lower():
+        article_fetch_error_class = "timeout"
+        per_source["article_fetch_timeout"] += 1
+        stats["foamed_article_fetch_timeout_total"] += 1
+    if fr_item.ok and fr_item.content:
+        html_blob = fr_item.content.decode("utf-8", errors="ignore")
+        if _detect_possible_bot_challenge(html_blob):
+            article_fetch_error_class = "possible_bot_challenge"
+        article_text, extraction_method = _extract_article_text(html_blob)
+        per_source["article_fetch_success"] += 1
+        stats["foamed_article_fetch_success_total"] += 1
+    else:
+        per_source["article_fetch_failed"] += 1
+        stats["foamed_article_fetch_failed_total"] += 1
+    if len(article_text) > max(len(text) + 120, int(len(text) * 1.5)):
+        text = article_text
+        content_source = "article_full_text" if len(article_text) >= 600 else "article_excerpt"
+        per_source["article_fetch_improved_text"] += 1
+        stats["foamed_article_fetch_improved_text_total"] += 1
+    elif content_source.startswith("rss"):
+        content_source = "article_excerpt" if len(text) < 600 else "article_full_text"
+
+    return text, article_text, content_source, extraction_method, len(article_text), article_fetch_status_code, article_fetch_error_class, article_fetch_done
+
 def _run_html_pass(
     session: requests.Session,
     *,
@@ -710,6 +771,10 @@ def collect_foamed_items(
         },
         "forced_html_fallback_sources": [],
         "foamed_article_fetch_enabled": article_fetch_enabled,
+        "foamed_html_only_article_fetch_attempted_total": 0,
+        "foamed_html_only_article_fetch_success_total": 0,
+        "foamed_html_only_article_fetch_failed_total": 0,
+        "foamed_html_only_article_fetch_improved_text_total": 0,
         "foamed_article_fetch_attempted_total": 0,
         "foamed_article_fetch_success_total": 0,
         "foamed_article_fetch_failed_total": 0,
@@ -974,41 +1039,18 @@ def collect_foamed_items(
             content_source = "rss_full_content" if len(rss_text) >= 600 else ("rss_excerpt" if len(rss_text) >= 80 else "rss_title_only")
             discovery_content_mode = content_source
             extraction_method = "rss"
-            article_fetch_status_code = None
-            article_fetch_error_class = ""
-            if article_fetch_enabled and article_fetch_done < article_fetch_max:
-                article_fetch_done += 1
-                per_source["article_fetch_attempted"] += 1
-                stats["foamed_article_fetch_attempted_total"] += 1
-                fr_item = _fetch_url(session, url, timeout_s=timeout_html_s, headers=headers or None)
-                article_fetch_status_code = fr_item.status_code
-                if fr_item.status_code in (401, 403, 429):
-                    article_fetch_error_class = "blocked_or_rate_limited"
-                    per_source["article_fetch_blocked"] += 1
-                    stats["foamed_article_fetch_blocked_total"] += 1
-                if fr_item.error and "ssl" in fr_item.error.lower():
-                    article_fetch_error_class = "ssl_error"
-                    per_source["article_fetch_ssl_error"] += 1
-                    stats["foamed_article_fetch_ssl_error_total"] += 1
-                if fr_item.error and "timeout" in fr_item.error.lower():
-                    article_fetch_error_class = "timeout"
-                    per_source["article_fetch_timeout"] += 1
-                    stats["foamed_article_fetch_timeout_total"] += 1
-                if fr_item.ok and fr_item.content:
-                    html_blob = fr_item.content.decode("utf-8", errors="ignore")
-                    if _detect_possible_bot_challenge(html_blob):
-                        article_fetch_error_class = "possible_bot_challenge"
-                    article_text, extraction_method = _extract_article_text(html_blob)
-                    per_source["article_fetch_success"] += 1
-                    stats["foamed_article_fetch_success_total"] += 1
-                else:
-                    per_source["article_fetch_failed"] += 1
-                    stats["foamed_article_fetch_failed_total"] += 1
-                if len(article_text) > max(len(rss_text) + 120, int(len(rss_text) * 1.5)):
-                    text = article_text
-                    content_source = "article_full_text" if len(article_text) >= 600 else "article_excerpt"
-                    per_source["article_fetch_improved_text"] += 1
-                    stats["foamed_article_fetch_improved_text_total"] += 1
+            text, article_text, content_source, extraction_method, _, article_fetch_status_code, article_fetch_error_class, article_fetch_done = _apply_article_fetch(
+                session=session,
+                item_url=url,
+                base_text=text,
+                timeout_s=timeout_html_s,
+                headers=headers or None,
+                article_fetch_enabled=article_fetch_enabled,
+                article_fetch_done=article_fetch_done,
+                article_fetch_max=article_fetch_max,
+                per_source=per_source,
+                stats=stats,
+            )
 
             candidate_item = {
                     "source": "foamed",
@@ -1113,6 +1155,50 @@ def collect_foamed_items(
                     per_source["items_raw"] += 1
                     stats["items_with_date"] += 1
                     per_source["items_with_date"] += 1
+                    item_url = str(item.get("url") or item.get("id") or "").strip()
+                    base_text = str(item.get("text") or "")
+                    should_fetch_html_article = bool(item_url) and (strategy == "html_only" or bool(src.get("force_html_fallback")))
+                    extraction_method = "html_fallback"
+                    article_text = ""
+                    content_source = "html_content" if len(base_text) >= 600 else "html_excerpt"
+                    article_fetch_status_code = None
+                    article_fetch_error_class = ""
+                    text = base_text
+                    if should_fetch_html_article:
+                        text, article_text, content_source, extraction_method, _, article_fetch_status_code, article_fetch_error_class, article_fetch_done = _apply_article_fetch(
+                            session=session,
+                            item_url=item_url,
+                            base_text=base_text,
+                            timeout_s=timeout_html_s,
+                            headers=headers or None,
+                            article_fetch_enabled=article_fetch_enabled,
+                            article_fetch_done=article_fetch_done,
+                            article_fetch_max=article_fetch_max,
+                            per_source=per_source,
+                            stats=stats,
+                        )
+                    item.update(
+                        {
+                            "text": text,
+                            "content_source": content_source,
+                            "discovery_content_mode": "html_excerpt" if len(base_text) < 600 else "html_content",
+                            "final_content_source": content_source,
+                            "extraction_method": extraction_method,
+                            "text_length": len(text),
+                            "rss_text_length": 0,
+                            "article_text_length": len(article_text),
+                            "article_fetch_status_code": article_fetch_status_code,
+                            "article_fetch_error_class": article_fetch_error_class,
+                        }
+                    )
+                    per_source["extraction_method_counts"][extraction_method] = int(per_source["extraction_method_counts"].get(extraction_method, 0)) + 1
+                    per_source["content_source_counts"][content_source] = int(per_source["content_source_counts"].get(content_source, 0)) + 1
+                    stats["foamed_article_extraction_method_counts"][extraction_method] = int(stats["foamed_article_extraction_method_counts"].get(extraction_method, 0)) + 1
+                    stats["foamed_content_source_counts"][content_source] = int(stats["foamed_content_source_counts"].get(content_source, 0)) + 1
+                    stats["foamed_discovery_content_mode_counts"]["html_excerpt" if len(base_text) < 600 else "html_content"] = int(stats["foamed_discovery_content_mode_counts"].get("html_excerpt" if len(base_text) < 600 else "html_content", 0)) + 1
+                    stats["foamed_final_content_source_counts"][content_source] = int(stats["foamed_final_content_source_counts"].get(content_source, 0)) + 1
+                    per_source["article_text_lengths"].append(len(article_text))
+                    per_source["final_text_lengths"].append(len(text))
                     if not audit_only_strategy:
                         record_item(item)
                         stats["foamed_strategy_items_returned_total"] += 1
@@ -1246,6 +1332,11 @@ def collect_foamed_items(
             stats["sources_ok"] += 1
         else:
             stats["sources_failed"] += 1
+        if strategy == "html_only":
+            stats["foamed_html_only_article_fetch_attempted_total"] += int(per_source.get("article_fetch_attempted", 0) or 0)
+            stats["foamed_html_only_article_fetch_success_total"] += int(per_source.get("article_fetch_success", 0) or 0)
+            stats["foamed_html_only_article_fetch_improved_text_total"] += int(per_source.get("article_fetch_improved_text", 0) or 0)
+            stats["foamed_html_only_article_fetch_failed_total"] += int(per_source.get("article_fetch_failed", 0) or 0)
 
         stats["per_source"][name] = per_source
         wp_stats = {"wp_rest_available": False, "wp_rest_items_seen": 0, "wp_rest_items_in_window": 0}
