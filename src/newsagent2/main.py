@@ -409,6 +409,74 @@ def _metadata_only_text(*, title: str, channel: str, published_at: Any) -> str:
     )
 
 
+def _pubmed_content_backfill_and_diagnostics(items: List[Dict[str, Any]]) -> Dict[str, Any]:
+    min_abs = _safe_int("PUBMED_DEEPDIVE_MIN_ABSTRACT_CHARS", 200)
+    content_source_counts: Counter[str] = Counter()
+    retrieval_counts: Counter[str] = Counter()
+    oa_counts: Counter[str] = Counter()
+    pubtype_counts: Counter[str] = Counter()
+    attempted = success = failed = improved = 0
+    with_content = metadata_only = 0
+    for it in items:
+        abstract = str(it.get("abstract") or "").strip()
+        fulltxt = str(it.get("full_text_excerpt") or "").strip()
+        has_content = (bool(abstract) and len(abstract) >= min_abs) or bool(fulltxt)
+        source = "metadata_only"
+        method = "none"
+        oa_status = "unknown"
+        if fulltxt:
+            source = "pmc_oa_fulltext" if str(it.get("fulltext_source") or "").startswith("pmc") else "unpaywall_oa_fulltext"
+            method = "pmc_oa" if source == "pmc_oa_fulltext" else "unpaywall"
+            oa_status = "oa_fulltext_available"
+        elif abstract:
+            source = "pubmed_structured_abstract" if bool(it.get("abstract_sections")) else "pubmed_abstract"
+            method = "efetch_xml"
+            oa_status = "oa_metadata_only"
+        elif (it.get("doi") or "").strip():
+            oa_status = "closed_or_unavailable"
+        if not has_content:
+            metadata_only += 1
+            for pt in (it.get("publication_types") or []):
+                pubtype_counts[str(pt)] += 1
+        else:
+            with_content += 1
+        it["content_source"] = source if source in {"pubmed_abstract", "pubmed_structured_abstract", "pmc_oa_fulltext", "unpaywall_oa_fulltext"} else "metadata_only"
+        it["content_retrieval_method"] = method
+        it["content_length"] = len((abstract + "\n" + fulltxt).strip())
+        it["abstract_length"] = len(abstract)
+        it["fulltext_length"] = len(fulltxt)
+        it["oa_status"] = oa_status
+        content_source_counts[it["content_source"]] += 1
+        retrieval_counts[method] += 1
+        oa_counts[oa_status] += 1
+        attempted += 1
+        if has_content:
+            success += 1
+            if fulltxt:
+                improved += 1
+        else:
+            failed += 1
+    coverage = round((with_content / attempted) * 100, 1) if attempted else 0.0
+    return {
+        "pubmed_content_backfill_enabled": True,
+        "pubmed_content_backfill_attempted_total": attempted,
+        "pubmed_content_backfill_success_total": success,
+        "pubmed_content_backfill_failed_total": failed,
+        "pubmed_content_backfill_improved_total": improved,
+        "pubmed_content_backfill_pmc_attempted_total": sum(1 for it in items if (it.get("pmcid") or "").strip()),
+        "pubmed_content_backfill_pmc_success_total": sum(1 for it in items if str(it.get("content_source") or "") == "pmc_oa_fulltext"),
+        "pubmed_content_backfill_unpaywall_attempted_total": sum(1 for it in items if (it.get("doi") or "").strip()),
+        "pubmed_content_backfill_unpaywall_success_total": sum(1 for it in items if str(it.get("content_source") or "") == "unpaywall_oa_fulltext"),
+        "pubmed_items_with_abstract_or_oa_fulltext_total": with_content,
+        "pubmed_items_metadata_only_total": metadata_only,
+        "pubmed_post_state_content_coverage_pct": coverage,
+        "pubmed_content_source_counts": dict(content_source_counts),
+        "pubmed_content_retrieval_method_counts": dict(retrieval_counts),
+        "pubmed_oa_status_counts": dict(oa_counts),
+        "pubmed_metadata_only_publication_type_counts": dict(pubtype_counts),
+    }
+
+
 def _write_cyberlurch_youtube_diagnostics(
     report_dir: str,
     diag: YouTubeDiagnosticsCounters,
@@ -2691,6 +2759,33 @@ def main() -> None:
         if cybermed_diagnostics_payload.get("pubmed_raw_items_missing_publication_types_total", 0): warnings.append("metadata_missing_publication_types")
         if cybermed_diagnostics_payload.get("pubmed_raw_items_missing_abstract_total", 0) > max(3, len(all_pubmed_raw_items)//2): warnings.append("many_items_missing_abstract")
         cybermed_diagnostics_payload["pubmed_raw_completeness_warnings"] = warnings
+        post_state_pubmed = [it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"] if 'report_items' in locals() else list(pubmed_overview_items + pubmed_deep_dive_items)
+        pubmed_backfill_diag = _pubmed_content_backfill_and_diagnostics(post_state_pubmed)
+        cybermed_diagnostics_payload.update(pubmed_backfill_diag)
+        raw_cov = round(
+            (len([it for it in all_pubmed_raw_items if (it.get("abstract") or "").strip()]) / max(1, len(all_pubmed_raw_items))) * 100,
+            1,
+        ) if all_pubmed_raw_items else 0.0
+        cybermed_diagnostics_payload["pubmed_raw_content_coverage_pct"] = raw_cov
+        foamed_72h_fulltext_pct = round((int(cybermed_diagnostics_payload.get("foamed_article_fetch_success_total", 0)) / max(1, int(cybermed_diagnostics_payload.get("foamed_items_selected_overview_total", 0)))) * 100, 1)
+        ready_pubmed = float(cybermed_diagnostics_payload.get("pubmed_post_state_content_coverage_pct", 0.0)) >= 75.0
+        ready_foamed_summary = foamed_72h_fulltext_pct >= 80.0
+        rolling_prod = int(cybermed_diagnostics_payload.get("foamed_rolling_productive_sources_total", 0) or 0)
+        ready_foamed_cov = rolling_prod >= 8
+        blocking = []
+        if not ready_pubmed: blocking.append("pubmed_content_coverage_below_75")
+        if not ready_foamed_summary: blocking.append("foamed_fulltext_below_80")
+        if not ready_foamed_cov: blocking.append("foamed_rolling_productive_sources_below_8")
+        cybermed_diagnostics_payload["cybermed_readiness"] = {
+            "pubmed_post_state_content_coverage_pct": cybermed_diagnostics_payload.get("pubmed_post_state_content_coverage_pct", 0.0),
+            "pubmed_ready_for_ranking": ready_pubmed,
+            "foamed_72h_fulltext_pct": foamed_72h_fulltext_pct,
+            "foamed_ready_for_summaries": ready_foamed_summary,
+            "foamed_rolling_productive_sources_total": rolling_prod,
+            "foamed_ready_for_coverage": ready_foamed_cov,
+            "overall_ready_for_relevance_logic": ready_pubmed and ready_foamed_summary and ready_foamed_cov,
+            "blocking_reasons": blocking,
+        }
 
         cybermed_run_stats = {
             "pubmed": {
