@@ -95,6 +95,28 @@ class TestFoamedAutoDisable(unittest.TestCase):
         self.assertTrue(entry.get("last_ok_utc"))
         self.assertFalse(main._foamed_source_disabled(entry, now))
 
+    def test_disabled_source_strategy_override_in_audit(self):
+        now = datetime(2024, 1, 1, tzinfo=timezone.utc)
+        state = {
+            "foamed_source_health": {
+                "journalfeed": {"disabled_until_utc": (now + timedelta(days=3)).isoformat()}
+            }
+        }
+        sources = [{
+            "name": "journalfeed",
+            "feed_url": "https://example.com/feed",
+            "homepage": "https://example.com",
+            "extraction_strategy": "html_only",
+            "ignore_auto_disable_if_strategy_viable": True,
+        }]
+        import os
+        os.environ["FOAMED_AUDIT"] = "1"
+        filtered, stats = main._filter_disabled_foamed_sources(sources, state, now, auto_disable_enabled=True)
+        self.assertEqual(len(filtered), 1)
+        self.assertTrue(filtered[0]["strategy_override_disabled"])
+        self.assertTrue(filtered[0]["disabled_state_present"])
+        self.assertEqual(stats.get("strategy_override_disabled_count"), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

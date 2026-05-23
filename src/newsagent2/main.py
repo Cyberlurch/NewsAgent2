@@ -734,9 +734,11 @@ def _filter_disabled_foamed_sources(
     auto_disable_enabled: bool,
 ) -> Tuple[List[Dict[str, Any]], Dict[str, int]]:
     health = _foamed_health_bucket(state)
+    foamed_audit_enabled = _env_bool("FOAMED_AUDIT", False)
     filtered: List[Dict[str, Any]] = []
     skipped = 0
     active_disabled = 0
+    strategy_overrides = 0
 
     for src in sources:
         name = (src.get("name") or "").strip()
@@ -745,12 +747,19 @@ def _filter_disabled_foamed_sources(
         entry = health.get(name) or {}
         if _foamed_source_disabled(entry, now_utc):
             active_disabled += 1
+            strategy = str(src.get("extraction_strategy") or "").strip().lower()
+            explicit_viable_strategy = strategy in {"html_only", "rss_then_article"}
+            override_allowed = bool(src.get("ignore_auto_disable_if_strategy_viable")) and explicit_viable_strategy and foamed_audit_enabled
+            if override_allowed:
+                strategy_overrides += 1
+                filtered.append(dict(src, strategy_override_disabled=True, disabled_state_present=True))
+                continue
             if auto_disable_enabled:
                 skipped += 1
                 continue
-        filtered.append(src)
+        filtered.append(dict(src, strategy_override_disabled=False, disabled_state_present=bool(_foamed_source_disabled(entry, now_utc))))
 
-    return filtered, {"skipped_disabled_count": skipped, "disabled_active_count": active_disabled}
+    return filtered, {"skipped_disabled_count": skipped, "disabled_active_count": active_disabled, "strategy_override_disabled_count": strategy_overrides}
 
 
 def _update_foamed_health_state(
