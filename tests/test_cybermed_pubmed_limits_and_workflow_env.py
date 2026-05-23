@@ -73,6 +73,10 @@ def test_cybermed_config_logging_and_no_recipient_or_secret_dump(monkeypatch, tm
     _configure_common(monkeypatch, tmp_path, report_key="cybermed")
     monkeypatch.setenv("CYBERMED_MAX_ITEMS_PER_CHANNEL", "29")
     monkeypatch.setenv("FOAMED_AUDIT", "1")
+    monkeypatch.setenv("FOAMED_AUDIT_CHECK_DISABLED", "1")
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH", "1")
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", "17")
+    monkeypatch.setenv("FOAMED_RENDER_FALLBACK", "1")
     monkeypatch.setenv("RECIPIENTS_JSON_CYBERMED", '["doctor@example.com"]')
     monkeypatch.setenv("SMTP_PASS", "super-secret")
     seen = []
@@ -83,6 +87,10 @@ def test_cybermed_config_logging_and_no_recipient_or_secret_dump(monkeypatch, tm
     out = capsys.readouterr().out
     assert "CYBERMED_MAX_ITEMS_PER_CHANNEL=29" in out
     assert "FOAMED_AUDIT=True" in out
+    assert "FOAMED_AUDIT_CHECK_DISABLED=True" in out
+    assert "FOAMED_ARTICLE_FETCH=True" in out
+    assert "FOAMED_ARTICLE_FETCH_MAX_PER_RUN=17" in out
+    assert "FOAMED_RENDER_FALLBACK=True" in out
     assert "doctor@example.com" not in out
     assert "super-secret" not in out
 
@@ -91,3 +99,7 @@ def test_workflow_exposes_cybermed_intake_audit_env_vars():
     text = pathlib.Path(".github/workflows/newsagent.yml").read_text(encoding="utf-8")
     assert "CYBERMED_MAX_ITEMS_PER_CHANNEL: ${{ vars.CYBERMED_MAX_ITEMS_PER_CHANNEL || '25' }}" in text
     assert "FOAMED_AUDIT: ${{ vars.FOAMED_AUDIT || '0' }}" in text
+    assert "FOAMED_AUDIT_CHECK_DISABLED: ${{ vars.FOAMED_AUDIT_CHECK_DISABLED || '0' }}" in text
+    assert "FOAMED_ARTICLE_FETCH: ${{ vars.FOAMED_ARTICLE_FETCH || '0' }}" in text
+    assert "FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}" in text
+    assert "FOAMED_RENDER_FALLBACK: ${{ vars.FOAMED_RENDER_FALLBACK || '0' }}" in text

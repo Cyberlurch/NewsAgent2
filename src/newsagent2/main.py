@@ -1605,8 +1605,19 @@ def main() -> None:
     print(f"[rollups] path={rollups_state_path!r} max_months={rollups_max_months}")
     if _is_cybermed(report_key, report_profile):
         foamed_audit_enabled = _env_bool("FOAMED_AUDIT", False)
+        foamed_audit_check_disabled = _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False)
+        foamed_article_fetch_enabled_cfg = _env_bool("FOAMED_ARTICLE_FETCH", False)
+        foamed_article_fetch_max_per_run = _safe_int("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", 25)
+        foamed_render_fallback = _env_bool("FOAMED_RENDER_FALLBACK", False)
         print(f"[config] cybermed_limits: CYBERMED_MAX_ITEMS_PER_CHANNEL={cybermed_max_items_per_channel}")
-        print(f"[config] cybermed_audit: FOAMED_AUDIT={foamed_audit_enabled}")
+        print(
+            "[config] cybermed_foamed: "
+            f"FOAMED_AUDIT={foamed_audit_enabled} "
+            f"FOAMED_AUDIT_CHECK_DISABLED={foamed_audit_check_disabled} "
+            f"FOAMED_ARTICLE_FETCH={foamed_article_fetch_enabled_cfg} "
+            f"FOAMED_ARTICLE_FETCH_MAX_PER_RUN={foamed_article_fetch_max_per_run} "
+            f"FOAMED_RENDER_FALLBACK={foamed_render_fallback}"
+        )
         print(f"[foamed] sources_config={foamed_sources_path!r}")
 
     selection_cfg: Dict[str, Any] = {}
@@ -2144,13 +2155,24 @@ def main() -> None:
                         "completeness_warning": list((((st or {}).get("audit") or {}).get("completeness_warning") or (["source_unavailable"] if str((st or {}).get("health") or "") not in {"ok_rss", "ok_html"} else []))),
                     })
                 foamed_disabled_audit_stats = {
+                    "foamed_disabled_audit_enabled": True,
                     "foamed_disabled_sources_checked_total": len(summary),
                     "foamed_disabled_sources_reachable_total": reachable,
                     "foamed_disabled_sources_still_blocked_total": blocked,
                     "foamed_disabled_audit_summary": summary[:10],
                 }
+            elif _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False):
+                foamed_disabled_audit_stats = {
+                    "foamed_disabled_audit_enabled": True,
+                    "foamed_disabled_audit_not_implemented_reason": "FOAMED_AUDIT must be enabled to run disabled-source audit checks.",
+                }
         else:
             print("[foamed] WARN: no FOAMed sources configured; skipping FOAMed collection.")
+            if _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False):
+                foamed_disabled_audit_stats = {
+                    "foamed_disabled_audit_enabled": True,
+                    "foamed_disabled_audit_not_implemented_reason": "No FOAMed sources configured for disabled-source audit checks.",
+                }
 
     items = _dedupe_items(items)
     items_all_new = list(items)
