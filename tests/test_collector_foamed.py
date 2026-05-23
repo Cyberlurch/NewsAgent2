@@ -326,13 +326,22 @@ def test_html_only_handles_feed_failure_and_returns_items(monkeypatch):
             return collector_foamed._FetchResult(True, 200, f'<a href="{post}">x</a>'.encode(), url, None)
         return collector_foamed._FetchResult(True, 200, f'<meta property="article:published_time" content="{post_date}"/><p>hi</p>'.encode(), url, None)
 
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH", "1")
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", "25")
+    monkeypatch.setattr(collector_foamed, "_extract_article_text", lambda _h: ("Y" * 900, "trafilatura"))
     monkeypatch.setattr(collector_foamed, "_fetch_url", fake_fetch)
     items, stats = collector_foamed.collect_foamed_items(cfg, now, 24)
     assert len(items) == 1
+    assert items[0]["final_content_source"] == "article_full_text"
+    assert items[0]["extraction_method"] == "trafilatura"
     s = stats["per_source"]["JournalFeed (Critical Care)"]
     assert s["source_strategy"] == "html_only"
     assert s["feed_status_code"] is None
     assert s["homepage_status_code"] == 200
+    assert s["article_fetch_attempted"] > 0
+    assert s["article_fetch_success"] > 0
+    assert stats["foamed_html_only_article_fetch_attempted_total"] > 0
+    assert stats["foamed_html_only_article_fetch_success_total"] > 0
     assert s["source_status"] in {"usable_html_only", "usable_fulltext"}
 
 
@@ -346,3 +355,25 @@ def test_audit_only_returns_no_items(monkeypatch):
     serialized = str(stats)
     for banned in ["raw_html", "SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON", "@"]:
         assert banned not in serialized
+
+
+def test_html_only_fetch_runs_before_state_filtering_audit_shape(monkeypatch):
+    now = datetime.now(timezone.utc)
+    cfg = [{"name": "JournalFeed (Critical Care)", "feed_url": "https://example.com/feed", "homepage": "https://example.com/", "extraction_strategy": "html_only", "force_html_fallback": True}]
+    post = "https://example.com/post-1"
+    post_date = now.strftime("%Y-%m-%dT%H:%M:%S%z")
+
+    def fake_fetch(_s, url, **_k):
+        if "feed" in url:
+            return collector_foamed._FetchResult(False, 403, b"", url, None)
+        if url.rstrip("/") == "https://example.com":
+            return collector_foamed._FetchResult(True, 200, f'<a href="{post}">x</a>'.encode(), url, None)
+        return collector_foamed._FetchResult(True, 200, f'<meta property="article:published_time" content="{post_date}"/><p>tiny</p>'.encode(), url, None)
+
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH", "1")
+    monkeypatch.setattr(collector_foamed, "_extract_article_text", lambda _h: ("Z" * 650, "trafilatura"))
+    monkeypatch.setattr(collector_foamed, "_fetch_url", fake_fetch)
+    items, stats = collector_foamed.collect_foamed_items(cfg, now, 24)
+    assert len(items) == 1
+    assert stats["per_source"]["JournalFeed (Critical Care)"]["article_fetch_attempted"] == 1
+    assert stats["foamed_html_only_article_fetch_improved_text_total"] == 1

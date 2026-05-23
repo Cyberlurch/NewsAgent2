@@ -748,7 +748,7 @@ def _filter_disabled_foamed_sources(
         if _foamed_source_disabled(entry, now_utc):
             active_disabled += 1
             strategy = str(src.get("extraction_strategy") or "").strip().lower()
-            explicit_viable_strategy = strategy in {"html_only", "rss_then_article"}
+            explicit_viable_strategy = strategy == "html_only"
             override_allowed = bool(src.get("ignore_auto_disable_if_strategy_viable")) and explicit_viable_strategy and foamed_audit_enabled
             if override_allowed:
                 strategy_overrides += 1
