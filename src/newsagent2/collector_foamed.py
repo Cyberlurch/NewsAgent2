@@ -5,6 +5,7 @@ import html
 import json
 import re
 import os
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
@@ -490,6 +491,57 @@ def _run_html_pass(
     return items, stats
 
 
+def _wp_rest_audit(session: requests.Session, url: str, timeout_s: int, headers: Optional[Dict[str, str]], cutoff: datetime, now_utc: datetime) -> Dict[str, int | bool]:
+    result: Dict[str, int | bool] = {"wp_rest_available": False, "wp_rest_items_seen": 0, "wp_rest_items_in_window": 0}
+    if not url:
+        return result
+    fr = _fetch_url(session, url, timeout_s=timeout_s, headers=headers)
+    if not fr.ok or not fr.content:
+        return result
+    try:
+        payload = json.loads(fr.content.decode("utf-8", errors="ignore"))
+    except Exception:
+        return result
+    if not isinstance(payload, list):
+        return result
+    result["wp_rest_available"] = True
+    result["wp_rest_items_seen"] = len(payload)
+    in_window = 0
+    for post in payload:
+        if not isinstance(post, dict):
+            continue
+        dt = _safe_parse_date(str(post.get("date_gmt") or post.get("modified_gmt") or post.get("date") or ""))
+        if dt and cutoff <= dt <= now_utc + timedelta(minutes=5):
+            in_window += 1
+    result["wp_rest_items_in_window"] = in_window
+    return result
+
+
+def _sitemap_audit(session: requests.Session, url: str, timeout_s: int, headers: Optional[Dict[str, str]], cutoff: datetime, now_utc: datetime) -> Dict[str, int | bool]:
+    result: Dict[str, int | bool] = {"sitemap_available": False, "sitemap_items_seen": 0, "sitemap_items_in_window": 0}
+    if not url:
+        return result
+    fr = _fetch_url(session, url, timeout_s=timeout_s, headers=headers)
+    if not fr.ok or not fr.content:
+        return result
+    try:
+        root = ET.fromstring(fr.content)
+    except Exception:
+        return result
+    ns = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    urls = root.findall(".//sm:url", ns) or root.findall(".//url")
+    result["sitemap_available"] = True
+    result["sitemap_items_seen"] = len(urls)
+    in_window = 0
+    for node in urls:
+        lastmod = node.find("sm:lastmod", ns) or node.find("lastmod")
+        dt = _safe_parse_date((lastmod.text if lastmod is not None else "") or "")
+        if dt and cutoff <= dt <= now_utc + timedelta(minutes=5):
+            in_window += 1
+    result["sitemap_items_in_window"] = in_window
+    return result
+
+
 def _text_len_stats(source_items: List[Dict[str, Any]]) -> Dict[str, int]:
     lengths = sorted(len((it.get("text") or "").strip()) for it in source_items if (it.get("text") or "").strip())
     if not lengths:
@@ -539,6 +591,28 @@ def _classify_content_mode(
             return "html_content"
         return "html_excerpt"
     return "unknown"
+
+
+def _source_status_from(per_source: Dict[str, Any], *, has_recent_items: bool, strategy: str, audit_only: bool) -> str:
+    if audit_only or strategy in {"audit_only", "disabled"}:
+        return "audit_only"
+    if per_source.get("blocked"):
+        return "blocked"
+    err = str(per_source.get("error") or "").lower()
+    if "timeout" in err or "ssl" in err:
+        return "tls_or_timeout_problem"
+    if per_source.get("feed_status_code") in (404, 410) or per_source.get("homepage_status_code") in (404, 410):
+        return "stale_or_broken_url"
+    if strategy == "html_only":
+        return "usable_html_only" if has_recent_items else "no_recent_content"
+    if has_recent_items:
+        mode = str(per_source.get("content_mode") or "")
+        if mode == "rss_excerpt":
+            return "usable_excerpt_only"
+        if mode in {"rss_title_only", "html_excerpt"}:
+            return "usable_discovery_only"
+        return "usable_fulltext"
+    return "no_recent_content"
 
 
 def collect_foamed_items(
@@ -609,8 +683,9 @@ def collect_foamed_items(
         "foamed_article_fetch_blocked_total": 0,
         "foamed_article_fetch_timeout_total": 0,
         "foamed_article_fetch_ssl_error_total": 0,
-        "foamed_article_extraction_method_counts": {},
-        "foamed_content_source_counts": {},
+        "foamed_extraction_method_counts": {},
+        "foamed_discovery_content_mode_counts": {},
+        "foamed_final_content_source_counts": {},
     }
 
     for src in sources_config or []:
@@ -685,6 +760,10 @@ def collect_foamed_items(
             "forced_html_fallback": False,
             "audit": None,
             "content_mode": "unknown",
+            "discovery_content_mode": "unknown",
+            "final_content_source": "unknown",
+            "source_status": "no_recent_content",
+            "source_strategy": str(src.get("extraction_strategy") or "rss_then_article"),
             "article_fetch_attempted": 0,
             "article_fetch_success": 0,
             "article_fetch_failed": 0,
@@ -833,6 +912,7 @@ def collect_foamed_items(
             rss_text = text
             article_text = ""
             content_source = "rss_full_content" if len(rss_text) >= 600 else ("rss_excerpt" if len(rss_text) >= 80 else "rss_title_only")
+            discovery_content_mode = content_source
             extraction_method = "rss"
             article_fetch_status_code = None
             article_fetch_error_class = ""
@@ -885,6 +965,8 @@ def collect_foamed_items(
                     "date_unknown": False,
                     "text": text,
                     "content_source": content_source,
+                    "discovery_content_mode": discovery_content_mode,
+                    "final_content_source": "article_full_text" if content_source.startswith("article_") else "rss_feed_text",
                     "extraction_method": extraction_method,
                     "text_length": len(text),
                     "rss_text_length": len(rss_text),
@@ -895,8 +977,10 @@ def collect_foamed_items(
             )
             per_source["extraction_method_counts"][extraction_method] = int(per_source["extraction_method_counts"].get(extraction_method, 0)) + 1
             per_source["content_source_counts"][content_source] = int(per_source["content_source_counts"].get(content_source, 0)) + 1
-            stats["foamed_article_extraction_method_counts"][extraction_method] = int(stats["foamed_article_extraction_method_counts"].get(extraction_method, 0)) + 1
-            stats["foamed_content_source_counts"][content_source] = int(stats["foamed_content_source_counts"].get(content_source, 0)) + 1
+            stats["foamed_extraction_method_counts"][extraction_method] = int(stats["foamed_extraction_method_counts"].get(extraction_method, 0)) + 1
+            stats["foamed_discovery_content_mode_counts"][content_source] = int(stats["foamed_discovery_content_mode_counts"].get(content_source, 0)) + 1
+            final_src = "article_full_text" if content_source.startswith("article_") else "rss_feed_text"
+            stats["foamed_final_content_source_counts"][final_src] = int(stats["foamed_final_content_source_counts"].get(final_src, 0)) + 1
             per_source["article_text_lengths"].append(len(article_text))
             per_source["final_text_lengths"].append(len(text))
 

@@ -137,6 +137,13 @@
     "homepage": "https://journalfeed.org/topic/critical-care/",
     "feed_url": "https://journalfeed.org/topic/critical-care/feed/",
     "type": "rss",
-    "notes_optional": "Critical care tagged posts"
+    "notes_optional": "Critical care tagged posts",
+    "extraction_strategy": "audit_only",
+    "allow_feed_failure_if_html_ok": true,
+    "force_html_fallback": true,
+    "article_fetch_required": false,
+    "wp_rest_url": "https://journalfeed.org/wp-json/wp/v2/posts?per_page=20",
+    "sitemap_url": "https://journalfeed.org/sitemap_index.xml",
+    "notes_diagnostic": "Feed often 403; use homepage/html and audit paths."
   }
 ]
