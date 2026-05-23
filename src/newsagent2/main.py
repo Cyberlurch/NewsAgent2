@@ -1467,7 +1467,7 @@ def main() -> None:
     send_empty_email = (os.getenv("SEND_EMPTY_REPORT_EMAIL", "1") or "1").strip()
 
     max_items_per_channel = _safe_int("MAX_ITEMS_PER_CHANNEL", 5)
-    cybermed_max_items_per_channel = _safe_int("CYBERMED_MAX_ITEMS_PER_CHANNEL", max_items_per_channel if max_items_per_channel > 0 else 25)
+    cybermed_max_items_per_channel = _safe_int("CYBERMED_MAX_ITEMS_PER_CHANNEL", 25)
     if report_key.strip().lower() == "cyberlurch":
         detail_items_per_day = _safe_int(
             "CYBERLURCH_DETAIL_ITEMS_PER_DAY",
@@ -1604,6 +1604,9 @@ def main() -> None:
     print(f"[state] path={state_path!r} retention_days={retention_days}")
     print(f"[rollups] path={rollups_state_path!r} max_months={rollups_max_months}")
     if _is_cybermed(report_key, report_profile):
+        foamed_audit_enabled = _env_bool("FOAMED_AUDIT", False)
+        print(f"[config] cybermed_limits: CYBERMED_MAX_ITEMS_PER_CHANNEL={cybermed_max_items_per_channel}")
+        print(f"[config] cybermed_audit: FOAMED_AUDIT={foamed_audit_enabled}")
         print(f"[foamed] sources_config={foamed_sources_path!r}")
 
     selection_cfg: Dict[str, Any] = {}
