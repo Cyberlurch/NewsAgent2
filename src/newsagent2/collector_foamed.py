@@ -722,6 +722,11 @@ def collect_foamed_items(
         "foamed_discovery_content_mode_counts": {},
         "foamed_final_content_source_counts": {},
         "foamed_source_strategy_summary": [],
+        "foamed_strategy_override_disabled_total": 0,
+        "foamed_html_only_sources_total": 0,
+        "foamed_audit_only_sources_total": 0,
+        "foamed_strategy_items_returned_total": 0,
+        "foamed_strategy_items_audit_only_total": 0,
     }
 
     for src in sources_config or []:
@@ -769,6 +774,16 @@ def collect_foamed_items(
         if not headers:
             headers = dict(DEFAULT_FOAMED_HEADERS)
 
+        strategy = str(src.get("extraction_strategy") or "rss_then_article").strip().lower() or "rss_then_article"
+        if strategy not in {"rss_then_article", "html_only", "rss_only", "audit_only", "disabled"}:
+            strategy = "rss_then_article"
+        if strategy == "html_only":
+            stats["foamed_html_only_sources_total"] += 1
+        if strategy == "audit_only":
+            stats["foamed_audit_only_sources_total"] += 1
+        if bool(src.get("strategy_override_disabled")):
+            stats["foamed_strategy_override_disabled_total"] += 1
+
         per_source = {
             "items_raw": 0,
             "items_with_date": 0,
@@ -799,7 +814,11 @@ def collect_foamed_items(
             "discovery_content_mode": "unknown",
             "final_content_source": "unknown",
             "source_status": "no_recent_content",
-            "source_strategy": str(src.get("extraction_strategy") or "rss_then_article"),
+            "source_strategy": strategy,
+            "strategy_override_disabled": bool(src.get("strategy_override_disabled")),
+            "disabled_state_present": bool(src.get("disabled_state_present")),
+            "ignore_auto_disable_if_strategy_viable": bool(src.get("ignore_auto_disable_if_strategy_viable")),
+            "notes_diagnostic": str(src.get("notes_diagnostic") or ""),
             "article_fetch_attempted": 0,
             "article_fetch_success": 0,
             "article_fetch_failed": 0,
@@ -835,7 +854,12 @@ def collect_foamed_items(
             per_source["why"] = "forced_html_fallback"
             stats["forced_html_fallback_sources"].append(name)
 
-        if feed_url and not forced_fallback:
+        run_rss_stage = strategy in {"rss_then_article", "rss_only"}
+        run_html_stage = strategy in {"rss_then_article", "html_only"}
+        audit_only_strategy = strategy == "audit_only"
+        disabled_strategy = strategy == "disabled"
+
+        if feed_url and not forced_fallback and run_rss_stage:
             fr = _fetch_url(session, feed_url, timeout_s=timeout_feed_s, headers=headers or None)
             per_source["feed_status_code"] = fr.status_code
             if fr.status_code == 403:
@@ -861,7 +885,7 @@ def collect_foamed_items(
                     per_source["error"] = "feed_unavailable"
 
         # --- Feed autodiscovery (homepage) ---------------------------------
-        if (not entries or not per_source["feed_ok"]) and homepage and not forced_fallback:
+        if (not entries or not per_source["feed_ok"]) and homepage and not forced_fallback and run_rss_stage:
             hr = _fetch_url(session, homepage, timeout_s=timeout_html_s, headers=headers or None)
             per_source["homepage_status_code"] = hr.status_code
             if hr.status_code == 403:
@@ -986,8 +1010,7 @@ def collect_foamed_items(
                     per_source["article_fetch_improved_text"] += 1
                     stats["foamed_article_fetch_improved_text_total"] += 1
 
-            record_item(
-                {
+            candidate_item = {
                     "source": "foamed",
                     "foamed_source": name,
                     "channel": name,
@@ -1010,7 +1033,11 @@ def collect_foamed_items(
                     "article_fetch_status_code": article_fetch_status_code,
                     "article_fetch_error_class": article_fetch_error_class,
                 }
-            )
+            if not audit_only_strategy:
+                record_item(candidate_item)
+                stats["foamed_strategy_items_returned_total"] += 1
+            else:
+                stats["foamed_strategy_items_audit_only_total"] += 1
             per_source["extraction_method_counts"][extraction_method] = int(per_source["extraction_method_counts"].get(extraction_method, 0)) + 1
             per_source["content_source_counts"][content_source] = int(per_source["content_source_counts"].get(content_source, 0)) + 1
             stats["foamed_article_extraction_method_counts"][extraction_method] = int(stats["foamed_article_extraction_method_counts"].get(extraction_method, 0)) + 1
@@ -1024,7 +1051,7 @@ def collect_foamed_items(
 
         # --- HTML fallback --------------------------------------------------
         needs_html = False
-        if homepage:
+        if homepage and run_html_stage:
             if not entries or not per_source["feed_ok"]:
                 needs_html = True
             elif entries and entries_with_date == 0:
@@ -1086,7 +1113,11 @@ def collect_foamed_items(
                     per_source["items_raw"] += 1
                     stats["items_with_date"] += 1
                     per_source["items_with_date"] += 1
-                    record_item(item)
+                    if not audit_only_strategy:
+                        record_item(item)
+                        stats["foamed_strategy_items_returned_total"] += 1
+                    else:
+                        stats["foamed_strategy_items_audit_only_total"] += 1
 
             except Exception as e:
                 per_source["errors"] += 1
@@ -1103,7 +1134,7 @@ def collect_foamed_items(
             per_source["newest_entry_datetime"] = newest_entry_dt.astimezone(timezone.utc).isoformat()
 
         # --- Audit mode (RSS completeness check) --------------------------
-        if audit_enabled and per_source.get("feed_ok") and homepage and not forced_fallback:
+        if audit_enabled and per_source.get("feed_ok") and homepage and not forced_fallback and run_html_stage:
             audit_seed_urls = src.get("fallback_urls") or [homepage]
             if isinstance(audit_seed_urls, str) and audit_seed_urls.strip():
                 audit_seed_urls = [audit_seed_urls.strip()]
@@ -1185,7 +1216,7 @@ def collect_foamed_items(
         )
         per_source["median_article_text_length"] = _median(per_source.pop("article_text_lengths", []))
         per_source["median_final_text_length"] = _median(per_source.pop("final_text_lengths", []))
-        per_source["discovery_content_mode"] = _best_content_mode(per_source, per_source.get("content_mode", "unknown"))
+        per_source["discovery_content_mode"] = per_source.get("content_mode", "unknown")
         per_source["final_content_source"] = _best_content_mode(per_source, per_source.get("content_mode", "unknown"))
         feed_status = per_source.get("feed_status_code")
         home_status = per_source.get("homepage_status_code")
@@ -1206,7 +1237,7 @@ def collect_foamed_items(
             per_source,
             has_recent_items=bool(per_source.get("kept_last24h", 0)),
             strategy=str(per_source.get("source_strategy") or "rss_then_article"),
-            audit_only=bool(src.get("disabled", False)),
+            audit_only=bool(audit_only_strategy or disabled_strategy),
         )
         if isinstance(stats.get("source_health"), dict):
             stats["source_health"][health] = int(stats["source_health"].get(health, 0) or 0) + 1
@@ -1232,6 +1263,9 @@ def collect_foamed_items(
                 "source_status": per_source.get("source_status"),
                 "health": per_source.get("health"),
                 "method": per_source.get("method"),
+                "ignore_auto_disable_if_strategy_viable": per_source.get("ignore_auto_disable_if_strategy_viable"),
+                "disabled_state_present": per_source.get("disabled_state_present"),
+                "strategy_override_disabled": per_source.get("strategy_override_disabled"),
                 "discovery_content_mode": per_source.get("discovery_content_mode", per_source.get("content_mode", "unknown")),
                 "final_content_source": per_source.get("final_content_source", per_source.get("content_mode", "unknown")),
                 "content_mode": per_source.get("content_mode"),
@@ -1247,6 +1281,7 @@ def collect_foamed_items(
                 **wp_stats,
                 **sm_stats,
                 "alternative_path": per_source.get("alternative_path"),
+                "notes_diagnostic": per_source.get("notes_diagnostic"),
             }
         )
         if audit_enabled:

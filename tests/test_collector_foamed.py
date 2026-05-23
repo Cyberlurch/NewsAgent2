@@ -310,3 +310,39 @@ def test_disabled_source_alternative_paths_and_modes(monkeypatch):
         assert per["alternative_path"] == alt
         status = collector_foamed._source_status_from(per, has_recent_items=False, strategy="rss_then_article", audit_only=True)
         assert status in statuses
+
+
+def test_html_only_handles_feed_failure_and_returns_items(monkeypatch):
+    now = datetime.now(timezone.utc)
+    homepage = "https://example.com/"
+    post = "https://example.com/h1"
+    post_date = now.strftime("%Y-%m-%dT%H:%M:%S%z")
+    cfg = [{"name": "JournalFeed (Critical Care)", "feed_url": "https://example.com/feed", "homepage": homepage, "extraction_strategy": "html_only"}]
+
+    def fake_fetch(_s, url, **_k):
+        if "feed" in url:
+            return collector_foamed._FetchResult(False, 403, b"", url, None)
+        if url.rstrip("/") == homepage.rstrip("/"):
+            return collector_foamed._FetchResult(True, 200, f'<a href="{post}">x</a>'.encode(), url, None)
+        return collector_foamed._FetchResult(True, 200, f'<meta property="article:published_time" content="{post_date}"/><p>hi</p>'.encode(), url, None)
+
+    monkeypatch.setattr(collector_foamed, "_fetch_url", fake_fetch)
+    items, stats = collector_foamed.collect_foamed_items(cfg, now, 24)
+    assert len(items) == 1
+    s = stats["per_source"]["JournalFeed (Critical Care)"]
+    assert s["source_strategy"] == "html_only"
+    assert s["feed_status_code"] is None
+    assert s["homepage_status_code"] == 200
+    assert s["source_status"] in {"usable_html_only", "usable_fulltext"}
+
+
+def test_audit_only_returns_no_items(monkeypatch):
+    now = datetime.now(timezone.utc)
+    cfg = [{"name": "ALiEM", "feed_url": "https://example.com/feed", "homepage": "https://example.com", "extraction_strategy": "audit_only"}]
+    monkeypatch.setattr(collector_foamed, "_fetch_url", lambda *_a, **_k: collector_foamed._FetchResult(False, 403, b"", "u", None))
+    items, stats = collector_foamed.collect_foamed_items(cfg, now, 24)
+    assert items == []
+    assert stats["foamed_strategy_items_audit_only_total"] >= 0
+    serialized = str(stats)
+    for banned in ["raw_html", "SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON", "@"]:
+        assert banned not in serialized

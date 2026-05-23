@@ -18,7 +18,13 @@
     "homepage": "https://www.criticalcarereviews.com/",
     "feed_url": "https://www.criticalcarereviews.com/feed/",
     "type": "rss",
-    "notes_optional": "Annual critical care evidence updates"
+    "notes_optional": "Annual critical care evidence updates",
+    "extraction_strategy": "html_only",
+    "force_html_fallback": true,
+    "allow_feed_failure_if_html_ok": true,
+    "article_fetch_required": true,
+    "ignore_auto_disable_if_strategy_viable": true,
+    "notes_diagnostic": "Feed 404 but homepage HTML yields candidates; keep under HTML audit."
   },
   {
     "name": "The Bottom Line",
@@ -67,7 +73,9 @@
     "homepage": "https://rebelem.com/category/critical-care/",
     "feed_url": "https://rebelem.com/category/critical-care/feed/",
     "type": "rss",
-    "notes_optional": "Critical care-focused posts from REBEL EM"
+    "notes_optional": "Critical care-focused posts from REBEL EM",
+    "extraction_strategy": "audit_only",
+    "notes_diagnostic": "Feed and homepage return 404; likely stale/broken URL."
   },
   {
     "name": "St Emlyn's",
@@ -109,7 +117,9 @@
     "homepage": "https://www.aliem.com/",
     "feed_url": "https://www.aliem.com/feed/",
     "type": "rss",
-    "notes_optional": "Academic Life in Emergency Medicine"
+    "notes_optional": "Academic Life in Emergency Medicine",
+    "extraction_strategy": "audit_only",
+    "notes_diagnostic": "Feed and homepage return 403; likely WAF/bot block."
   },
   {
     "name": "SMACC",
@@ -138,12 +148,13 @@
     "feed_url": "https://journalfeed.org/topic/critical-care/feed/",
     "type": "rss",
     "notes_optional": "Critical care tagged posts",
-    "extraction_strategy": "audit_only",
+    "extraction_strategy": "html_only",
     "allow_feed_failure_if_html_ok": true,
     "force_html_fallback": true,
-    "article_fetch_required": false,
+    "article_fetch_required": true,
+    "ignore_auto_disable_if_strategy_viable": true,
     "wp_rest_url": "https://journalfeed.org/wp-json/wp/v2/posts?per_page=20",
     "sitemap_url": "https://journalfeed.org/sitemap_index.xml",
-    "notes_diagnostic": "Feed often 403; use homepage/html and audit paths."
+    "notes_diagnostic": "RSS 403 but homepage HTML yields current critical-care candidates."
   }
 ]
