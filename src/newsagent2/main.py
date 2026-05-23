@@ -1644,6 +1644,7 @@ def main() -> None:
     foamed_top_picks: List[Dict[str, Any]] = []
     foamed_meta_stats: Dict[str, Any] = {}
     foamed_collection_stats: Dict[str, Any] = {}
+    foamed_disabled_audit_stats: Dict[str, Any] = {}
 
     run_metadata = ""
 
@@ -2113,6 +2114,41 @@ def main() -> None:
 
             foamed_after_state = len(foamed_candidates)
             items.extend(foamed_candidates)
+            if _env_bool("FOAMED_AUDIT", False) and _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False):
+                enabled_names = {(s.get("name") or "").strip() for s in foamed_sources_filtered if isinstance(s, dict)}
+                disabled_cfg = [s for s in foamed_sources if isinstance(s, dict) and (s.get("name") or "").strip() not in enabled_names]
+                disabled_items, disabled_stats = collect_foamed_items(disabled_cfg, now_utc, lookback_hours=args.hours)
+                _ = disabled_items
+                per_source_disabled = disabled_stats.get("per_source") or {}
+                summary = []
+                reachable = 0
+                blocked = 0
+                for src_cfg in disabled_cfg:
+                    name = str((src_cfg or {}).get("name") or "").strip()
+                    if not name:
+                        continue
+                    st = per_source_disabled.get(name) if isinstance(per_source_disabled, dict) else {}
+                    hs = ((state.get("foamed_source_health") or {}) if isinstance(state, dict) else {}).get(name, {})
+                    if isinstance(st, dict) and str(st.get("health") or "") in {"ok_rss", "ok_html"}:
+                        reachable += 1
+                    else:
+                        blocked += 1
+                    summary.append({
+                        "name": name,
+                        "last_health": str((hs or {}).get("last_health") or ""),
+                        "disabled_until_utc": str((hs or {}).get("disabled_until_utc") or (hs or {}).get("disabled_until") or ""),
+                        "audit_health": str((st or {}).get("health") or ""),
+                        "feed_status_code": int((st or {}).get("feed_status_code", 0) or 0),
+                        "homepage_status_code": int((st or {}).get("homepage_status_code", 0) or 0),
+                        "content_mode": str((st or {}).get("content_mode") or "unknown"),
+                        "completeness_warning": list((((st or {}).get("audit") or {}).get("completeness_warning") or (["source_unavailable"] if str((st or {}).get("health") or "") not in {"ok_rss", "ok_html"} else []))),
+                    })
+                foamed_disabled_audit_stats = {
+                    "foamed_disabled_sources_checked_total": len(summary),
+                    "foamed_disabled_sources_reachable_total": reachable,
+                    "foamed_disabled_sources_still_blocked_total": blocked,
+                    "foamed_disabled_audit_summary": summary[:10],
+                }
         else:
             print("[foamed] WARN: no FOAMed sources configured; skipping FOAMed collection.")
 
@@ -2434,6 +2470,14 @@ def main() -> None:
                     "homepage_status_code": int(source_stats.get("homepage_status_code", 0) or 0),
                     "candidates_found": int(source_stats.get("candidates_found", 0) or 0),
                     "pages_fetched": int(source_stats.get("pages_fetched", 0) or 0),
+                    "content_mode": str(source_stats.get("content_mode") or "unknown"),
+                    "text_len_min": int(source_stats.get("text_len_min", 0) or 0),
+                    "text_len_median": int(source_stats.get("text_len_median", 0) or 0),
+                    "text_len_max": int(source_stats.get("text_len_max", 0) or 0),
+                    "items_with_text_total": int(source_stats.get("items_with_text_total", 0) or 0),
+                    "items_title_only_total": int(source_stats.get("items_title_only_total", 0) or 0),
+                    "possible_excerpt_total": int(source_stats.get("possible_excerpt_total", 0) or 0),
+                    "possible_full_content_total": int(source_stats.get("possible_full_content_total", 0) or 0),
                     **({"error_class": error_class} if error_class else {}),
                 }
             )
@@ -2542,7 +2586,7 @@ def main() -> None:
             "foamed_sources_rss_excerpt_only_total": len([1 for _n,st in ((foamed_meta_stats.get("audit") or {}).get("sources") or {}).items() if isinstance(st, dict) and str(st.get("content_mode") or "") == "rss_excerpt"]),
             "foamed_sources_possible_partial_content_total": len([1 for _n,st in ((foamed_meta_stats.get("audit") or {}).get("sources") or {}).items() if isinstance(st, dict) and bool(st.get("completeness_warning"))]),
             "foamed_audit_summary": [
-                {"name": str(n), "rss_items_seen": int((st or {}).get("rss_items_seen",0) or 0), "rss_items_in_window": int((st or {}).get("rss_items_in_window",0) or 0), "html_candidates_seen": int((st or {}).get("html_candidates_seen",0) or 0), "html_items_in_window": int((st or {}).get("html_items_in_window",0) or 0), "html_not_in_rss_count": int((st or {}).get("html_not_in_rss_count",0) or 0), "rss_not_in_html_count": int((st or {}).get("rss_not_in_html_count",0) or 0), "audit_pages_fetched": int((st or {}).get("audit_pages_fetched",0) or 0), "content_mode": str((st or {}).get("content_mode", "unknown") or "unknown"), "completeness_warning": list((st or {}).get("completeness_warning") or [])}
+                {"name": str(n), "health": str((st or {}).get("health") or ""), "method": str((st or {}).get("method") or ""), "rss_items_seen": int((st or {}).get("rss_items_seen",0) or 0), "rss_items_in_window": int((st or {}).get("rss_items_in_window",0) or 0), "html_candidates_seen": int((st or {}).get("html_candidates_seen",0) or 0), "html_items_in_window": int((st or {}).get("html_items_in_window",0) or 0), "html_not_in_rss_count": int((st or {}).get("html_not_in_rss_count",0) or 0), "rss_not_in_html_count": int((st or {}).get("rss_not_in_html_count",0) or 0), "audit_pages_fetched": int((st or {}).get("audit_pages_fetched",0) or 0), "content_mode": str((st or {}).get("content_mode", "unknown") or "unknown"), "text_len_median": int((st or {}).get("text_len_median",0) or 0), "completeness_warning": list((st or {}).get("completeness_warning") or [])}
                 for n, st in (((foamed_meta_stats.get("audit") or {}).get("sources") or {}).items()) if isinstance(st, dict)
             ],
             "pubmed_channels_possibly_truncated_total": len([1 for _n,st in pubmed_channel_completeness.items() if bool(st.get("possibly_truncated"))]),
@@ -2552,6 +2596,7 @@ def main() -> None:
             "pubmed_raw_completeness_warnings": [],
             "selection_counts": selection_count_only,
             "selection_diagnostics": (selection_stats.get("selection_diagnostics") if isinstance(selection_stats, dict) else {}),
+            **foamed_disabled_audit_stats,
         }
 
 

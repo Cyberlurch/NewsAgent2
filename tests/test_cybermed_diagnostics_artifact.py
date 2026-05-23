@@ -149,3 +149,35 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
         assert key not in as_text
 
     assert not (report_dir / "cyberlurch_daily_youtube_diagnostics.json").exists()
+
+
+def test_foamed_audit_check_disabled_non_destructive(tmp_path, monkeypatch):
+    report_dir = tmp_path / "out"
+    monkeypatch.setenv("REPORT_KEY", "cybermed")
+    monkeypatch.setenv("REPORT_MODE", "daily")
+    monkeypatch.setenv("REPORT_DIR", str(report_dir))
+    monkeypatch.setenv("STATE_PATH", str(tmp_path / "state.json"))
+    (tmp_path / "state.json").write_text(json.dumps({"foamed_source_health": {"Disabled": {"last_health": "blocked_403", "disabled_until_utc": "2026-06-01T00:00:00+00:00"}}}), encoding="utf-8")
+    monkeypatch.setenv("SEND_EMAIL", "0")
+    monkeypatch.setenv("EMAIL_MODE", "none")
+    monkeypatch.setenv("FOAMED_AUDIT", "1")
+    monkeypatch.setenv("FOAMED_AUDIT_CHECK_DISABLED", "1")
+    monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
+    monkeypatch.setattr(main, "load_channels_config", lambda _p: ([], {}, {}))
+    monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: [])
+    monkeypatch.setattr(main, "load_foamed_sources_config", lambda _p: [{"name": "Enabled", "rss_url": "https://x/rss"}, {"name": "Disabled", "rss_url": "https://x/rss2"}])
+    calls = {"n": 0}
+    def fake_collect(sources, *_a, **_k):
+        calls["n"] += 1
+        name = (sources[0].get("name") if sources else "")
+        if name == "Enabled":
+            return ([], {"sources_total": 1, "sources_ok": 1, "sources_failed": 0, "items_raw": 0, "items_with_date": 0, "items_date_unknown": 0, "kept_last24h": 0, "per_source": {"Enabled": {"health": "ok_rss", "method": "rss", "content_mode": "no_recent_content"}}, "audit": {"enabled": True, "sources": {}}})
+        return ([], {"sources_total": 1, "sources_ok": 0, "sources_failed": 1, "items_raw": 0, "items_with_date": 0, "items_date_unknown": 0, "kept_last24h": 0, "per_source": {"Disabled": {"health": "blocked_403", "feed_status_code": 403, "homepage_status_code": 403, "content_mode": "unavailable", "audit": {"completeness_warning": ["source_unavailable"]}}}, "audit": {"enabled": True, "sources": {}}})
+    monkeypatch.setattr(main, "collect_foamed_items", fake_collect)
+    main.main()
+    diag = json.loads((report_dir / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert calls["n"] == 2
+    assert diag["foamed_disabled_sources_checked_total"] == 1
+    assert diag["foamed_disabled_sources_reachable_total"] == 0
+    assert diag["foamed_disabled_sources_still_blocked_total"] == 1
