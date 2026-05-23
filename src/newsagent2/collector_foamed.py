@@ -596,17 +596,35 @@ def _classify_content_mode(
 def _source_status_from(per_source: Dict[str, Any], *, has_recent_items: bool, strategy: str, audit_only: bool) -> str:
     if audit_only or strategy in {"audit_only", "disabled"}:
         return "audit_only"
-    if per_source.get("blocked"):
-        return "blocked"
     err = str(per_source.get("error") or "").lower()
     if "timeout" in err or "ssl" in err:
         return "tls_or_timeout_problem"
-    if per_source.get("feed_status_code") in (404, 410) or per_source.get("homepage_status_code") in (404, 410):
+    feed_status = per_source.get("feed_status_code")
+    home_status = per_source.get("homepage_status_code")
+    candidates = int(per_source.get("candidates_found") or 0)
+    mode = str(per_source.get("content_mode") or "")
+
+    if feed_status in (401, 403, 429) and home_status == 200 and candidates > 0:
+        if has_recent_items and mode in {"html_content", "rss_full_content"}:
+            return "usable_html_only"
+        if has_recent_items and mode in {"html_excerpt", "rss_excerpt", "rss_title_only"}:
+            return "usable_discovery_only"
+        return "no_recent_content"
+    if feed_status in (404, 410) and home_status == 200 and candidates > 0:
+        if has_recent_items and mode in {"html_content", "rss_full_content"}:
+            return "usable_html_only"
+        if has_recent_items and mode in {"html_excerpt", "rss_excerpt", "rss_title_only"}:
+            return "usable_discovery_only"
+        return "no_recent_content"
+    if feed_status == 403 and home_status == 403:
+        return "blocked"
+    if feed_status in (404, 410) and home_status in (404, 410):
         return "stale_or_broken_url"
+    if per_source.get("blocked"):
+        return "blocked"
     if strategy == "html_only":
         return "usable_html_only" if has_recent_items else "no_recent_content"
     if has_recent_items:
-        mode = str(per_source.get("content_mode") or "")
         if mode == "rss_excerpt":
             return "usable_excerpt_only"
         if mode in {"rss_title_only", "html_excerpt"}:
@@ -683,9 +701,11 @@ def collect_foamed_items(
         "foamed_article_fetch_blocked_total": 0,
         "foamed_article_fetch_timeout_total": 0,
         "foamed_article_fetch_ssl_error_total": 0,
-        "foamed_extraction_method_counts": {},
+        "foamed_article_extraction_method_counts": {},
+        "foamed_content_source_counts": {},
         "foamed_discovery_content_mode_counts": {},
         "foamed_final_content_source_counts": {},
+        "foamed_source_strategy_summary": [],
     }
 
     for src in sources_config or []:
@@ -966,7 +986,7 @@ def collect_foamed_items(
                     "text": text,
                     "content_source": content_source,
                     "discovery_content_mode": discovery_content_mode,
-                    "final_content_source": "article_full_text" if content_source.startswith("article_") else "rss_feed_text",
+                    "final_content_source": content_source,
                     "extraction_method": extraction_method,
                     "text_length": len(text),
                     "rss_text_length": len(rss_text),
@@ -977,10 +997,10 @@ def collect_foamed_items(
             )
             per_source["extraction_method_counts"][extraction_method] = int(per_source["extraction_method_counts"].get(extraction_method, 0)) + 1
             per_source["content_source_counts"][content_source] = int(per_source["content_source_counts"].get(content_source, 0)) + 1
-            stats["foamed_extraction_method_counts"][extraction_method] = int(stats["foamed_extraction_method_counts"].get(extraction_method, 0)) + 1
-            stats["foamed_discovery_content_mode_counts"][content_source] = int(stats["foamed_discovery_content_mode_counts"].get(content_source, 0)) + 1
-            final_src = "article_full_text" if content_source.startswith("article_") else "rss_feed_text"
-            stats["foamed_final_content_source_counts"][final_src] = int(stats["foamed_final_content_source_counts"].get(final_src, 0)) + 1
+            stats["foamed_article_extraction_method_counts"][extraction_method] = int(stats["foamed_article_extraction_method_counts"].get(extraction_method, 0)) + 1
+            stats["foamed_content_source_counts"][content_source] = int(stats["foamed_content_source_counts"].get(content_source, 0)) + 1
+            stats["foamed_discovery_content_mode_counts"][discovery_content_mode] = int(stats["foamed_discovery_content_mode_counts"].get(discovery_content_mode, 0)) + 1
+            stats["foamed_final_content_source_counts"][content_source] = int(stats["foamed_final_content_source_counts"].get(content_source, 0)) + 1
             per_source["article_text_lengths"].append(len(article_text))
             per_source["final_text_lengths"].append(len(text))
 
@@ -1149,6 +1169,27 @@ def collect_foamed_items(
         )
         per_source["median_article_text_length"] = _median(per_source.pop("article_text_lengths", []))
         per_source["median_final_text_length"] = _median(per_source.pop("final_text_lengths", []))
+        feed_status = per_source.get("feed_status_code")
+        home_status = per_source.get("homepage_status_code")
+        candidates = int(per_source.get("candidates_found") or 0)
+        alt_path = "none"
+        if "timeout" in str(per_source.get("error") or "").lower() or "ssl" in str(per_source.get("error") or "").lower():
+            alt_path = "tls_or_timeout_problem"
+        elif feed_status in (401, 403, 429) and home_status == 200 and candidates > 0:
+            alt_path = "feed_blocked_but_html_ok"
+        elif feed_status in (404, 410) and home_status == 200 and candidates > 0:
+            alt_path = "feed_broken_but_html_ok"
+        elif feed_status == 403 and home_status == 403:
+            alt_path = "blocked"
+        elif feed_status in (404, 410) and home_status in (404, 410):
+            alt_path = "stale_or_broken_url"
+        per_source["alternative_path"] = alt_path
+        per_source["source_status"] = _source_status_from(
+            per_source,
+            has_recent_items=bool(per_source.get("kept_last24h", 0)),
+            strategy=str(per_source.get("source_strategy") or "rss_then_article"),
+            audit_only=bool(src.get("disabled", False)),
+        )
         if isinstance(stats.get("source_health"), dict):
             stats["source_health"][health] = int(stats["source_health"].get(health, 0) or 0) + 1
 
@@ -1158,6 +1199,32 @@ def collect_foamed_items(
             stats["sources_failed"] += 1
 
         stats["per_source"][name] = per_source
+        stats["foamed_source_strategy_summary"].append(
+            {
+                "name": name,
+                "extraction_strategy": per_source.get("source_strategy"),
+                "source_status": per_source.get("source_status"),
+                "health": per_source.get("health"),
+                "method": per_source.get("method"),
+                "discovery_content_mode": per_source.get("discovery_content_mode", per_source.get("content_mode", "unknown")),
+                "final_content_source": max(per_source.get("content_source_counts", {"unknown": 0}), key=lambda k: per_source.get("content_source_counts", {}).get(k, 0)) if per_source.get("content_source_counts") else per_source.get("content_mode", "unknown"),
+                "content_mode": per_source.get("content_mode"),
+                "feed_status_code": per_source.get("feed_status_code"),
+                "homepage_status_code": per_source.get("homepage_status_code"),
+                "candidates_found": int(per_source.get("candidates_found", 0) or 0),
+                "kept_in_window_count": int(per_source.get("kept_last24h", 0) or 0),
+                "article_fetch_attempted": int(per_source.get("article_fetch_attempted", 0) or 0),
+                "article_fetch_success": int(per_source.get("article_fetch_success", 0) or 0),
+                "article_fetch_improved_text": int(per_source.get("article_fetch_improved_text", 0) or 0),
+                "extraction_method_counts": dict(per_source.get("extraction_method_counts") or {}),
+                "content_source_counts": dict(per_source.get("content_source_counts") or {}),
+                "wp_rest_available": False,
+                "wp_rest_items_in_window": 0,
+                "sitemap_available": False,
+                "sitemap_items_in_window": 0,
+                "alternative_path": per_source.get("alternative_path"),
+            }
+        )
         if audit_enabled:
             a = per_source.get("audit") or {}
             if not isinstance(a, dict):

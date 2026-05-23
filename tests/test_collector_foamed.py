@@ -242,19 +242,38 @@ def test_article_fetch_blocked_timeout_ssl_classification(monkeypatch):
     assert stats["foamed_article_fetch_blocked_total"] == 1
     assert stats["foamed_article_fetch_timeout_total"] == 1
     assert stats["foamed_article_fetch_ssl_error_total"] == 1
-from datetime import datetime, timezone
-from src.newsagent2 import collector_foamed
+def test_global_counts_and_content_source_semantics(monkeypatch):
+    now = datetime.now(timezone.utc)
+    feed = "https://example.com/feed"
+    post1 = "https://example.com/p1"
+    post2 = "https://example.com/p2"
+    pub = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    rss = f"""<rss><channel>
+    <item><title>A</title><link>{post1}</link><pubDate>{pub}</pubDate><description>short</description></item>
+    <item><title>B</title><link>{post2}</link><pubDate>{pub}</pubDate><description>{'x'*900}</description></item>
+    </channel></rss>""".encode()
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH", "1")
+    def fake_extract(_html):
+        return ("X"*1000, "trafilatura")
+    monkeypatch.setattr(collector_foamed, "_extract_article_text", fake_extract)
+    monkeypatch.setattr(collector_foamed, "_fetch_url", lambda _s, url, **_k: collector_foamed._FetchResult(True, 200, rss if url == feed else b"<html></html>", url, None))
+    items, stats = collector_foamed.collect_foamed_items([{"name": "S", "feed_url": feed, "homepage": "https://example.com"}], now, 24)
+    assert len(items) == 2
+    assert stats["foamed_article_extraction_method_counts"]["trafilatura"] >= 1
+    assert stats["foamed_content_source_counts"]["article_full_text"] >= 1
+    assert (
+        stats["foamed_discovery_content_mode_counts"].get("rss_excerpt", 0)
+        + stats["foamed_discovery_content_mode_counts"].get("rss_title_only", 0)
+        + stats["foamed_discovery_content_mode_counts"].get("rss_full_content", 0)
+    ) >= 1
+    assert stats["foamed_final_content_source_counts"]["article_full_text"] >= 1
+    assert items[0]["discovery_content_mode"] in {"rss_excerpt", "rss_full_content", "rss_title_only"}
+    assert items[0]["final_content_source"] == items[0]["content_source"]
 
-def test_discovery_and_final_content_are_separate(monkeypatch):
-    now=datetime.now(timezone.utc)
-    feed='https://e/feed'
-    post='https://e/p'
-    pub=now.strftime('%a, %d %b %Y %H:%M:%S GMT')
-    rss=f'<rss><channel><item><title>T</title><link>{post}</link><pubDate>{pub}</pubDate><description>short</description></item></channel></rss>'.encode()
-    monkeypatch.setenv('FOAMED_ARTICLE_FETCH','1')
-    monkeypatch.setattr(collector_foamed,'_extract_article_text',lambda _h:('X'*900,'trafilatura'))
-    monkeypatch.setattr(collector_foamed,'_fetch_url',lambda _s,url,**_k: collector_foamed._FetchResult(True,200,rss if url==feed else b'<html></html>',url,None))
-    items,stats=collector_foamed.collect_foamed_items([{'name':'S','feed_url':feed,'homepage':'https://e'}],now,24)
-    assert items[0]['discovery_content_mode']=='rss_title_only'
-    assert items[0]['final_content_source']=='article_full_text'
-    assert stats['foamed_extraction_method_counts']['trafilatura']==1
+
+def test_status_classifications(monkeypatch):
+    assert collector_foamed._source_status_from({"feed_status_code": 403, "homepage_status_code": 403, "blocked": True, "content_mode": "unavailable", "candidates_found": 0}, has_recent_items=False, strategy="rss_then_article", audit_only=False) == "blocked"
+    assert collector_foamed._source_status_from({"feed_status_code": 404, "homepage_status_code": 404, "content_mode": "unavailable", "candidates_found": 0}, has_recent_items=False, strategy="rss_then_article", audit_only=False) == "stale_or_broken_url"
+    assert collector_foamed._source_status_from({"feed_status_code": 403, "homepage_status_code": 200, "content_mode": "html_excerpt", "candidates_found": 3}, has_recent_items=True, strategy="rss_then_article", audit_only=False) == "usable_discovery_only"
+    assert collector_foamed._source_status_from({"feed_status_code": 404, "homepage_status_code": 200, "content_mode": "html_content", "candidates_found": 3}, has_recent_items=True, strategy="rss_then_article", audit_only=False) == "usable_html_only"
+    assert collector_foamed._source_status_from({"error": "request_exception:ConnectTimeout"}, has_recent_items=False, strategy="rss_then_article", audit_only=False) == "tls_or_timeout_problem"
