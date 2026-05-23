@@ -56,7 +56,7 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
     monkeypatch.setattr(main, "load_channels_config", fake_channels)
     monkeypatch.setattr(main, "search_recent_pubmed", fake_pubmed)
     monkeypatch.setattr(main, "load_foamed_sources_config", lambda _p: [{"name": "Src", "rss_url": "https://example.com/rss"}, {"name": "Disabled One", "rss_url": "https://example.com/rss2"}])
-    foamed_stats = {"sources_total": 1, "sources_ok": 1, "sources_failed": 0, "items_raw": 0, "items_with_date": 0, "items_date_unknown": 0, "kept_last24h": 0, "newly_disabled_count": 0, "per_source": {"Src": {"health": "ok", "method": "feed", "why": "fresh", "feed_ok": 1, "feed_failed": 0, "html_fallback_used": 0, "entries_total": 5, "entries_with_date": 4, "items_raw": 4, "items_with_date": 4, "items_date_unknown": 0, "kept_last24h": 2, "feed_status_code": 200, "homepage_status_code": 200, "candidates_found": 2, "pages_fetched": 1, "error": ""}}, "audit": {"enabled": True, "sources": {"Src": {"rss_items_seen": 5, "rss_items_in_window": 2, "html_candidates_seen": 1, "html_items_in_window": 1, "html_not_in_rss_count": 0, "rss_not_in_html_count": 1, "audit_pages_fetched": 1, "content_mode": "rss_excerpt", "completeness_warning": ["rss_excerpt_only"]}}}}
+    foamed_stats = {"sources_total": 1, "sources_ok": 1, "sources_failed": 0, "items_raw": 0, "items_with_date": 0, "items_date_unknown": 0, "kept_last24h": 0, "newly_disabled_count": 0, "foamed_article_fetch_enabled": True, "foamed_article_fetch_attempted_total": 3, "foamed_article_fetch_success_total": 2, "foamed_article_fetch_failed_total": 1, "per_source": {"Src": {"health": "ok", "method": "feed", "why": "fresh", "feed_ok": 1, "feed_failed": 0, "html_fallback_used": 0, "entries_total": 5, "entries_with_date": 4, "items_raw": 4, "items_with_date": 4, "items_date_unknown": 0, "kept_last24h": 2, "feed_status_code": 200, "homepage_status_code": 200, "candidates_found": 2, "pages_fetched": 1, "error": ""}}, "audit": {"enabled": True, "sources": {"Src": {"rss_items_seen": 5, "rss_items_in_window": 2, "html_candidates_seen": 1, "html_items_in_window": 1, "html_not_in_rss_count": 0, "rss_not_in_html_count": 1, "audit_pages_fetched": 1, "content_mode": "rss_excerpt", "completeness_warning": ["rss_excerpt_only"]}}}}
     monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([], foamed_stats))
 
 
@@ -135,6 +135,7 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
         assert k in pc
     assert diag.get("foamed_audit_enabled") is True
     assert "foamed_audit_summary" in diag
+    assert diag["foamed_article_fetch_enabled"] is True
 
     fs = diag["foamed_per_source"][0]
     assert fs["health"] == "ok"
@@ -181,3 +182,25 @@ def test_foamed_audit_check_disabled_non_destructive(tmp_path, monkeypatch):
     assert diag["foamed_disabled_sources_checked_total"] == 1
     assert diag["foamed_disabled_sources_reachable_total"] == 0
     assert diag["foamed_disabled_sources_still_blocked_total"] == 1
+
+
+def test_foamed_disabled_audit_status_explicit_when_foamed_audit_is_off(tmp_path, monkeypatch):
+    report_dir = tmp_path / "out"
+    monkeypatch.setenv("REPORT_KEY", "cybermed")
+    monkeypatch.setenv("REPORT_MODE", "daily")
+    monkeypatch.setenv("REPORT_DIR", str(report_dir))
+    monkeypatch.setenv("STATE_PATH", str(tmp_path / "state.json"))
+    monkeypatch.setenv("SEND_EMAIL", "0")
+    monkeypatch.setenv("EMAIL_MODE", "none")
+    monkeypatch.setenv("FOAMED_AUDIT", "0")
+    monkeypatch.setenv("FOAMED_AUDIT_CHECK_DISABLED", "1")
+    monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
+    monkeypatch.setattr(main, "load_channels_config", lambda _p: ([], {}, {}))
+    monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: [])
+    monkeypatch.setattr(main, "load_foamed_sources_config", lambda _p: [])
+    monkeypatch.setattr(main, "collect_foamed_items", lambda *_a, **_k: ([], {"per_source": {}, "audit": {"enabled": False, "sources": {}}}))
+    main.main()
+    diag = json.loads((report_dir / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["foamed_disabled_audit_enabled"] is True
+    assert "foamed_disabled_audit_not_implemented_reason" in diag
