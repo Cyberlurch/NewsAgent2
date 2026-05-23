@@ -15,7 +15,15 @@ import feedparser
 import requests
 from bs4 import BeautifulSoup
 from dateutil import parser as dateparser
+try:
+    from readability import Document
+except Exception:  # pragma: no cover
+    Document = None
 from requests.adapters import HTTPAdapter
+try:
+    import trafilatura
+except Exception:  # pragma: no cover
+    trafilatura = None
 from urllib3.util.retry import Retry
 
 TRACKING_KEYS = {
@@ -49,6 +57,47 @@ class _FetchResult:
     content: Optional[bytes]
     final_url: Optional[str]
     error: Optional[str]
+
+
+def _median(vals: List[int]) -> int:
+    xs = sorted(int(v) for v in vals if int(v) >= 0)
+    if not xs:
+        return 0
+    mid = len(xs) // 2
+    return xs[mid] if len(xs) % 2 else (xs[mid - 1] + xs[mid]) // 2
+
+
+def _detect_possible_bot_challenge(text: str) -> bool:
+    t = (text or "").lower()
+    markers = ["cloudflare", "attention required", "captcha", "verify you are human", "challenge"]
+    return any(m in t for m in markers)
+
+
+def _extract_article_text(html_text: str) -> Tuple[str, str]:
+    cleaned = ""
+    method = "none"
+    if trafilatura is not None:
+        try:
+            cleaned = (trafilatura.extract(html_text, include_comments=False, include_tables=False) or "").strip()
+        except Exception:
+            cleaned = ""
+    if len(cleaned) >= 500:
+        return cleaned, "trafilatura"
+    if Document is not None:
+        try:
+            doc = Document(html_text)
+            summary = doc.summary() or ""
+            cleaned = _strip_html(summary)
+        except Exception:
+            cleaned = ""
+    if len(cleaned) >= 300:
+        return cleaned, "readability_lxml"
+    soup = BeautifulSoup(html_text, "html.parser")
+    paras = [_strip_html(p.get_text(" ")) for p in soup.find_all("p")]
+    paras = [p for p in paras if p]
+    if paras:
+        return "\n".join(paras[:30]).strip(), "beautifulsoup_fallback"
+    return "", method
 
 
 def _clean_url(url: str) -> str:
@@ -526,6 +575,9 @@ def collect_foamed_items(
         for s in (os.getenv("FOAMED_FORCE_FALLBACK_SOURCES", "") or "").split(",")
         if s.strip()
     }
+    article_fetch_enabled = (os.getenv("FOAMED_ARTICLE_FETCH", "0") or "0").strip() == "1"
+    article_fetch_max = max(0, int((os.getenv("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", "25") or "25").strip() or 25))
+    article_fetch_done = 0
     items: List[Dict[str, Any]] = []
     stats: Dict[str, Any] = {
         "sources_total": 0,
@@ -549,6 +601,16 @@ def collect_foamed_items(
             "sources": {},
         },
         "forced_html_fallback_sources": [],
+        "foamed_article_fetch_enabled": article_fetch_enabled,
+        "foamed_article_fetch_attempted_total": 0,
+        "foamed_article_fetch_success_total": 0,
+        "foamed_article_fetch_failed_total": 0,
+        "foamed_article_fetch_improved_text_total": 0,
+        "foamed_article_fetch_blocked_total": 0,
+        "foamed_article_fetch_timeout_total": 0,
+        "foamed_article_fetch_ssl_error_total": 0,
+        "foamed_article_extraction_method_counts": {},
+        "foamed_content_source_counts": {},
     }
 
     for src in sources_config or []:
@@ -623,6 +685,17 @@ def collect_foamed_items(
             "forced_html_fallback": False,
             "audit": None,
             "content_mode": "unknown",
+            "article_fetch_attempted": 0,
+            "article_fetch_success": 0,
+            "article_fetch_failed": 0,
+            "article_fetch_improved_text": 0,
+            "article_fetch_blocked": 0,
+            "article_fetch_timeout": 0,
+            "article_fetch_ssl_error": 0,
+            "extraction_method_counts": {},
+            "content_source_counts": {},
+            "article_text_lengths": [],
+            "final_text_lengths": [],
         }
         rss_urls_in_window: List[str] = []
 
@@ -757,6 +830,45 @@ def collect_foamed_items(
             text = _strip_html(content_val)
             if not text:
                 text = "(No excerpt provided)"
+            rss_text = text
+            article_text = ""
+            content_source = "rss_full_content" if len(rss_text) >= 600 else ("rss_excerpt" if len(rss_text) >= 80 else "rss_title_only")
+            extraction_method = "rss"
+            article_fetch_status_code = None
+            article_fetch_error_class = ""
+            if article_fetch_enabled and article_fetch_done < article_fetch_max:
+                article_fetch_done += 1
+                per_source["article_fetch_attempted"] += 1
+                stats["foamed_article_fetch_attempted_total"] += 1
+                fr_item = _fetch_url(session, url, timeout_s=timeout_html_s, headers=headers or None)
+                article_fetch_status_code = fr_item.status_code
+                if fr_item.status_code in (401, 403, 429):
+                    article_fetch_error_class = "blocked_or_rate_limited"
+                    per_source["article_fetch_blocked"] += 1
+                    stats["foamed_article_fetch_blocked_total"] += 1
+                if fr_item.error and "ssl" in fr_item.error.lower():
+                    article_fetch_error_class = "ssl_error"
+                    per_source["article_fetch_ssl_error"] += 1
+                    stats["foamed_article_fetch_ssl_error_total"] += 1
+                if fr_item.error and "timeout" in fr_item.error.lower():
+                    article_fetch_error_class = "timeout"
+                    per_source["article_fetch_timeout"] += 1
+                    stats["foamed_article_fetch_timeout_total"] += 1
+                if fr_item.ok and fr_item.content:
+                    html_blob = fr_item.content.decode("utf-8", errors="ignore")
+                    if _detect_possible_bot_challenge(html_blob):
+                        article_fetch_error_class = "possible_bot_challenge"
+                    article_text, extraction_method = _extract_article_text(html_blob)
+                    per_source["article_fetch_success"] += 1
+                    stats["foamed_article_fetch_success_total"] += 1
+                else:
+                    per_source["article_fetch_failed"] += 1
+                    stats["foamed_article_fetch_failed_total"] += 1
+                if len(article_text) > max(len(rss_text) + 120, int(len(rss_text) * 1.5)):
+                    text = article_text
+                    content_source = "article_full_text" if len(article_text) >= 600 else "article_excerpt"
+                    per_source["article_fetch_improved_text"] += 1
+                    stats["foamed_article_fetch_improved_text_total"] += 1
 
             record_item(
                 {
@@ -772,8 +884,21 @@ def collect_foamed_items(
                     "published_field": date_field,
                     "date_unknown": False,
                     "text": text,
+                    "content_source": content_source,
+                    "extraction_method": extraction_method,
+                    "text_length": len(text),
+                    "rss_text_length": len(rss_text),
+                    "article_text_length": len(article_text),
+                    "article_fetch_status_code": article_fetch_status_code,
+                    "article_fetch_error_class": article_fetch_error_class,
                 }
             )
+            per_source["extraction_method_counts"][extraction_method] = int(per_source["extraction_method_counts"].get(extraction_method, 0)) + 1
+            per_source["content_source_counts"][content_source] = int(per_source["content_source_counts"].get(content_source, 0)) + 1
+            stats["foamed_article_extraction_method_counts"][extraction_method] = int(stats["foamed_article_extraction_method_counts"].get(extraction_method, 0)) + 1
+            stats["foamed_content_source_counts"][content_source] = int(stats["foamed_content_source_counts"].get(content_source, 0)) + 1
+            per_source["article_text_lengths"].append(len(article_text))
+            per_source["final_text_lengths"].append(len(text))
 
         per_source["entries_with_date"] = entries_with_date
 
@@ -938,6 +1063,8 @@ def collect_foamed_items(
             rss_text_len_median=rss_med,
             html_text_len_median=html_med,
         )
+        per_source["median_article_text_length"] = _median(per_source.pop("article_text_lengths", []))
+        per_source["median_final_text_length"] = _median(per_source.pop("final_text_lengths", []))
         if isinstance(stats.get("source_health"), dict):
             stats["source_health"][health] = int(stats["source_health"].get(health, 0) or 0) + 1
 

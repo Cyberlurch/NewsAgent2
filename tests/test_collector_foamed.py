@@ -198,3 +198,47 @@ def test_content_mode_classifies_rss(monkeypatch, text_len, expected_mode):
     monkeypatch.setattr(collector_foamed, "_fetch_url", lambda *a, **k: collector_foamed._FetchResult(ok=True, status_code=200, content=rss, final_url=feed_url, error=None))
     _, stats = collector_foamed.collect_foamed_items([{"name": "S", "feed_url": feed_url, "homepage": "https://example.com"}], now, 24)
     assert stats["per_source"]["S"]["content_mode"] == expected_mode
+
+
+def test_article_fetch_improves_excerpt_and_sets_trafilatura(monkeypatch):
+    now = datetime.now(timezone.utc)
+    feed_url = "https://example.com/feed"
+    post = "https://example.com/p"
+    pub_date = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    rss = f"""<rss><channel><item><title>T</title><link>{post}</link><pubDate>{pub_date}</pubDate><description>short</description></item></channel></rss>""".encode()
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH", "1")
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", "25")
+    monkeypatch.setattr(collector_foamed, "_extract_article_text", lambda html: ("X" * 900, "trafilatura"))
+    def fake_fetch(_s, url, **_k):
+        if url == feed_url:
+            return collector_foamed._FetchResult(True, 200, rss, url, None)
+        return collector_foamed._FetchResult(True, 200, b"<html><body>ok</body></html>", url, None)
+    monkeypatch.setattr(collector_foamed, "_fetch_url", fake_fetch)
+    items, stats = collector_foamed.collect_foamed_items([{"name": "S", "feed_url": feed_url, "homepage": "https://example.com"}], now, 24)
+    assert items[0]["content_source"] == "article_full_text"
+    assert items[0]["extraction_method"] == "trafilatura"
+    assert stats["foamed_article_fetch_improved_text_total"] == 1
+
+
+def test_article_fetch_blocked_timeout_ssl_classification(monkeypatch):
+    now = datetime.now(timezone.utc)
+    feed_url = "https://example.com/feed"
+    pub_date = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    rss = f"""<rss><channel><item><title>A</title><link>https://example.com/a</link><pubDate>{pub_date}</pubDate></item><item><title>B</title><link>https://example.com/b</link><pubDate>{pub_date}</pubDate></item><item><title>C</title><link>https://example.com/c</link><pubDate>{pub_date}</pubDate></item></channel></rss>""".encode()
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH", "1")
+    seq = {"n": 0}
+    def fake_fetch(_s, url, **_k):
+        if url == feed_url:
+            return collector_foamed._FetchResult(True, 200, rss, url, None)
+        seq["n"] += 1
+        if seq["n"] == 1:
+            return collector_foamed._FetchResult(False, 403, b"", url, None)
+        if seq["n"] == 2:
+            return collector_foamed._FetchResult(False, None, None, None, "request_exception:ConnectTimeout")
+        return collector_foamed._FetchResult(False, None, None, None, "request_exception:SSLError")
+    monkeypatch.setattr(collector_foamed, "_fetch_url", fake_fetch)
+    items, stats = collector_foamed.collect_foamed_items([{"name": "S", "feed_url": feed_url, "homepage": "https://example.com"}], now, 24)
+    assert len(items) == 3
+    assert stats["foamed_article_fetch_blocked_total"] == 1
+    assert stats["foamed_article_fetch_timeout_total"] == 1
+    assert stats["foamed_article_fetch_ssl_error_total"] == 1
