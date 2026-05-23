@@ -242,3 +242,19 @@ def test_article_fetch_blocked_timeout_ssl_classification(monkeypatch):
     assert stats["foamed_article_fetch_blocked_total"] == 1
     assert stats["foamed_article_fetch_timeout_total"] == 1
     assert stats["foamed_article_fetch_ssl_error_total"] == 1
+from datetime import datetime, timezone
+from src.newsagent2 import collector_foamed
+
+def test_discovery_and_final_content_are_separate(monkeypatch):
+    now=datetime.now(timezone.utc)
+    feed='https://e/feed'
+    post='https://e/p'
+    pub=now.strftime('%a, %d %b %Y %H:%M:%S GMT')
+    rss=f'<rss><channel><item><title>T</title><link>{post}</link><pubDate>{pub}</pubDate><description>short</description></item></channel></rss>'.encode()
+    monkeypatch.setenv('FOAMED_ARTICLE_FETCH','1')
+    monkeypatch.setattr(collector_foamed,'_extract_article_text',lambda _h:('X'*900,'trafilatura'))
+    monkeypatch.setattr(collector_foamed,'_fetch_url',lambda _s,url,**_k: collector_foamed._FetchResult(True,200,rss if url==feed else b'<html></html>',url,None))
+    items,stats=collector_foamed.collect_foamed_items([{'name':'S','feed_url':feed,'homepage':'https://e'}],now,24)
+    assert items[0]['discovery_content_mode']=='rss_title_only'
+    assert items[0]['final_content_source']=='article_full_text'
+    assert stats['foamed_extraction_method_counts']['trafilatura']==1
