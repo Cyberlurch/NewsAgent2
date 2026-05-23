@@ -594,8 +594,6 @@ def _classify_content_mode(
 
 
 def _source_status_from(per_source: Dict[str, Any], *, has_recent_items: bool, strategy: str, audit_only: bool) -> str:
-    if audit_only or strategy in {"audit_only", "disabled"}:
-        return "audit_only"
     err = str(per_source.get("error") or "").lower()
     if "timeout" in err or "ssl" in err:
         return "tls_or_timeout_problem"
@@ -603,14 +601,25 @@ def _source_status_from(per_source: Dict[str, Any], *, has_recent_items: bool, s
     home_status = per_source.get("homepage_status_code")
     candidates = int(per_source.get("candidates_found") or 0)
     mode = str(per_source.get("content_mode") or "")
+    html_viable = candidates > 0 or mode.startswith("html")
+    if audit_only or strategy in {"audit_only", "disabled"}:
+        if feed_status == 403 and home_status == 403:
+            return "blocked"
+        if feed_status in (404, 410) and home_status in (404, 410):
+            return "stale_or_broken_url"
+        if feed_status in (401, 403, 429) and home_status == 200 and html_viable:
+            return "audit_only" if not has_recent_items else "usable_html_only"
+        if feed_status in (404, 410) and home_status == 200 and html_viable:
+            return "audit_only" if not has_recent_items else "usable_html_only"
+        return "audit_only"
 
-    if feed_status in (401, 403, 429) and home_status == 200 and candidates > 0:
+    if feed_status in (401, 403, 429) and home_status == 200 and html_viable:
         if has_recent_items and mode in {"html_content", "rss_full_content"}:
             return "usable_html_only"
         if has_recent_items and mode in {"html_excerpt", "rss_excerpt", "rss_title_only"}:
             return "usable_discovery_only"
         return "no_recent_content"
-    if feed_status in (404, 410) and home_status == 200 and candidates > 0:
+    if feed_status in (404, 410) and home_status == 200 and html_viable:
         if has_recent_items and mode in {"html_content", "rss_full_content"}:
             return "usable_html_only"
         if has_recent_items and mode in {"html_excerpt", "rss_excerpt", "rss_title_only"}:
@@ -631,6 +640,13 @@ def _source_status_from(per_source: Dict[str, Any], *, has_recent_items: bool, s
             return "usable_discovery_only"
         return "usable_fulltext"
     return "no_recent_content"
+
+
+def _best_content_mode(per_source: Dict[str, Any], fallback: str = "unknown") -> str:
+    counts = per_source.get("content_source_counts") or {}
+    if isinstance(counts, dict) and counts:
+        return str(max(counts, key=lambda k: counts.get(k, 0)))
+    return str(per_source.get("content_mode") or fallback or "unknown")
 
 
 def collect_foamed_items(
@@ -1169,20 +1185,22 @@ def collect_foamed_items(
         )
         per_source["median_article_text_length"] = _median(per_source.pop("article_text_lengths", []))
         per_source["median_final_text_length"] = _median(per_source.pop("final_text_lengths", []))
+        per_source["discovery_content_mode"] = _best_content_mode(per_source, per_source.get("content_mode", "unknown"))
+        per_source["final_content_source"] = _best_content_mode(per_source, per_source.get("content_mode", "unknown"))
         feed_status = per_source.get("feed_status_code")
         home_status = per_source.get("homepage_status_code")
         candidates = int(per_source.get("candidates_found") or 0)
         alt_path = "none"
         if "timeout" in str(per_source.get("error") or "").lower() or "ssl" in str(per_source.get("error") or "").lower():
             alt_path = "tls_or_timeout_problem"
-        elif feed_status in (401, 403, 429) and home_status == 200 and candidates > 0:
+        elif feed_status in (401, 403, 429) and home_status == 200 and (candidates > 0 or str(per_source.get("content_mode") or "").startswith("html")):
             alt_path = "feed_blocked_but_html_ok"
-        elif feed_status in (404, 410) and home_status == 200 and candidates > 0:
+        elif feed_status in (404, 410) and home_status == 200 and (candidates > 0 or str(per_source.get("content_mode") or "").startswith("html")):
             alt_path = "feed_broken_but_html_ok"
         elif feed_status == 403 and home_status == 403:
-            alt_path = "blocked"
+            alt_path = "none"
         elif feed_status in (404, 410) and home_status in (404, 410):
-            alt_path = "stale_or_broken_url"
+            alt_path = "none"
         per_source["alternative_path"] = alt_path
         per_source["source_status"] = _source_status_from(
             per_source,
@@ -1199,6 +1217,14 @@ def collect_foamed_items(
             stats["sources_failed"] += 1
 
         stats["per_source"][name] = per_source
+        wp_stats = {"wp_rest_available": False, "wp_rest_items_seen": 0, "wp_rest_items_in_window": 0}
+        sm_stats = {"sitemap_available": False, "sitemap_items_seen": 0, "sitemap_items_in_window": 0}
+        if homepage and (audit_enabled or bool(src.get("disabled", False))):
+            wp_stats = _wp_rest_audit(session, homepage, timeout_html_s, headers or None, cutoff, now_utc)
+            sitemap_url = str(src.get("sitemap_url") or homepage).strip()
+            sm_stats = _sitemap_audit(session, sitemap_url, timeout_html_s, headers or None, cutoff, now_utc)
+        per_source.update(wp_stats)
+        per_source.update(sm_stats)
         stats["foamed_source_strategy_summary"].append(
             {
                 "name": name,
@@ -1207,7 +1233,7 @@ def collect_foamed_items(
                 "health": per_source.get("health"),
                 "method": per_source.get("method"),
                 "discovery_content_mode": per_source.get("discovery_content_mode", per_source.get("content_mode", "unknown")),
-                "final_content_source": max(per_source.get("content_source_counts", {"unknown": 0}), key=lambda k: per_source.get("content_source_counts", {}).get(k, 0)) if per_source.get("content_source_counts") else per_source.get("content_mode", "unknown"),
+                "final_content_source": per_source.get("final_content_source", per_source.get("content_mode", "unknown")),
                 "content_mode": per_source.get("content_mode"),
                 "feed_status_code": per_source.get("feed_status_code"),
                 "homepage_status_code": per_source.get("homepage_status_code"),
@@ -1218,10 +1244,8 @@ def collect_foamed_items(
                 "article_fetch_improved_text": int(per_source.get("article_fetch_improved_text", 0) or 0),
                 "extraction_method_counts": dict(per_source.get("extraction_method_counts") or {}),
                 "content_source_counts": dict(per_source.get("content_source_counts") or {}),
-                "wp_rest_available": False,
-                "wp_rest_items_in_window": 0,
-                "sitemap_available": False,
-                "sitemap_items_in_window": 0,
+                **wp_stats,
+                **sm_stats,
                 "alternative_path": per_source.get("alternative_path"),
             }
         )

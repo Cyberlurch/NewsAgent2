@@ -277,3 +277,36 @@ def test_status_classifications(monkeypatch):
     assert collector_foamed._source_status_from({"feed_status_code": 403, "homepage_status_code": 200, "content_mode": "html_excerpt", "candidates_found": 3}, has_recent_items=True, strategy="rss_then_article", audit_only=False) == "usable_discovery_only"
     assert collector_foamed._source_status_from({"feed_status_code": 404, "homepage_status_code": 200, "content_mode": "html_content", "candidates_found": 3}, has_recent_items=True, strategy="rss_then_article", audit_only=False) == "usable_html_only"
     assert collector_foamed._source_status_from({"error": "request_exception:ConnectTimeout"}, has_recent_items=False, strategy="rss_then_article", audit_only=False) == "tls_or_timeout_problem"
+    assert collector_foamed._source_status_from({"feed_status_code": 403, "homepage_status_code": 200, "content_mode": "html_excerpt", "candidates_found": 2}, has_recent_items=False, strategy="rss_then_article", audit_only=True) == "audit_only"
+    assert collector_foamed._source_status_from({"feed_status_code": 404, "homepage_status_code": 200, "content_mode": "html_content", "candidates_found": 2}, has_recent_items=True, strategy="rss_then_article", audit_only=True) == "usable_html_only"
+    assert collector_foamed._source_status_from({"feed_status_code": 403, "homepage_status_code": 403, "content_mode": "unavailable", "candidates_found": 0}, has_recent_items=False, strategy="rss_then_article", audit_only=True) == "blocked"
+    assert collector_foamed._source_status_from({"feed_status_code": 404, "homepage_status_code": 404, "content_mode": "unavailable", "candidates_found": 0}, has_recent_items=False, strategy="rss_then_article", audit_only=True) == "stale_or_broken_url"
+
+
+def test_disabled_source_alternative_paths_and_modes(monkeypatch):
+    now = datetime.now(timezone.utc)
+    monkeypatch.setenv("FOAMED_AUDIT", "1")
+    scenarios = [
+        ("JournalFeed", 403, 200, 2, "html_excerpt", "feed_blocked_but_html_ok", {"usable_html_only", "audit_only"}),
+        ("Critical Care Reviews", 404, 200, 1, "html_content", "feed_broken_but_html_ok", {"usable_html_only", "audit_only"}),
+        ("ALiEM", 403, 403, 0, "unavailable", "none", {"blocked"}),
+        ("REBEL", 404, 404, 0, "unavailable", "none", {"stale_or_broken_url"}),
+    ]
+    for name, feed_code, home_code, cands, mode, alt, statuses in scenarios:
+        per = {
+            "items_raw": 0, "items_with_date": 0, "items_date_unknown": 0, "kept_last24h": 0, "errors": 0,
+            "feed_ok": False, "feed_failed": True, "discovered_feed_used": False, "html_fallback_used": False,
+            "method": "html_fallback", "why": "feed_failed", "health": "other", "entries_total": 0, "entries_with_date": 0,
+            "newest_entry_datetime": None, "error": f"feed_http_{feed_code}", "candidates_found": cands, "pages_fetched": 0,
+            "pages_with_date": 0, "blocked": feed_code == 403 and home_code == 403, "feed_status_code": feed_code,
+            "homepage_status_code": home_code, "discovered_feed_url": None, "forced_html_fallback": False, "audit": None,
+            "content_mode": mode, "discovery_content_mode": mode, "final_content_source": mode, "source_status": "no_recent_content",
+            "source_strategy": "rss_then_article", "article_fetch_attempted": 0, "article_fetch_success": 0, "article_fetch_failed": 0,
+            "article_fetch_improved_text": 0, "article_fetch_blocked": 0, "article_fetch_timeout": 0, "article_fetch_ssl_error": 0,
+            "extraction_method_counts": {}, "content_source_counts": {}, "median_article_text_length": 0, "median_final_text_length": 0,
+            "wp_rest_available": False, "wp_rest_items_seen": 0, "wp_rest_items_in_window": 0,
+            "sitemap_available": False, "sitemap_items_seen": 0, "sitemap_items_in_window": 0, "alternative_path": alt,
+        }
+        assert per["alternative_path"] == alt
+        status = collector_foamed._source_status_from(per, has_recent_items=False, strategy="rss_then_article", audit_only=True)
+        assert status in statuses
