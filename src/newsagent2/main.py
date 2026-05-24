@@ -1751,6 +1751,7 @@ def main() -> None:
 
     foamed_sources: List[Dict[str, Any]] = []
     foamed_candidates: List[Dict[str, Any]] = []
+    foamed_collected: List[Dict[str, Any]] = []
     foamed_screened_total = 0
     foamed_after_state = 0
     foamed_skipped_by_state = 0
@@ -2823,11 +2824,11 @@ def main() -> None:
         if cybermed_diagnostics_payload.get("pubmed_raw_items_missing_publication_types_total", 0): warnings.append("metadata_missing_publication_types")
         if cybermed_diagnostics_payload.get("pubmed_raw_items_missing_abstract_total", 0) > max(3, len(all_pubmed_raw_items)//2): warnings.append("many_items_missing_abstract")
         cybermed_diagnostics_payload["pubmed_raw_completeness_warnings"] = warnings
-        post_state_pubmed = [it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"] if 'report_items' in locals() else list(pubmed_overview_items + pubmed_deep_dive_items)
+        post_state_pubmed = list(pubmed_new_items)
         pubmed_backfill_diag = _pubmed_content_backfill_and_diagnostics(post_state_pubmed)
         cybermed_diagnostics_payload.update(pubmed_backfill_diag)
         foamed_min_chars = _safe_int("FOAMED_MIN_USABLE_TEXT_CHARS", 400)
-        cybermed_diagnostics_payload.update(_foamed_72h_text_diagnostics(list(foamed_candidates), foamed_min_chars))
+        cybermed_diagnostics_payload.update(_foamed_72h_text_diagnostics(list(foamed_collected), foamed_min_chars))
         raw_cov = round(
             (len([it for it in all_pubmed_raw_items if (it.get("abstract") or "").strip()]) / max(1, len(all_pubmed_raw_items))) * 100,
             1,
