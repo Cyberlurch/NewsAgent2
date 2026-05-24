@@ -2889,11 +2889,14 @@ def main() -> None:
         ready_pubmed = float(cybermed_diagnostics_payload.get("pubmed_post_state_content_coverage_pct", 0.0)) >= 75.0
         ready_foamed_summary = float(cybermed_diagnostics_payload.get("foamed_72h_usable_text_pct", 0.0) or 0.0) >= 80.0
         rolling_prod = int(cybermed_diagnostics_payload.get("foamed_rolling_productive_sources_total", 0) or 0)
-        ready_foamed_cov = rolling_prod >= 8
+        heavy_audit_mode = _env_bool("CYBERMED_HEAVY_AUDIT_MODE", False)
+        ready_foamed_cov = (rolling_prod >= 8) if heavy_audit_mode else "not_evaluated"
         blocking = []
         if not ready_pubmed: blocking.append("pubmed_content_coverage_below_75")
         if not ready_foamed_summary: blocking.append("foamed_usable_text_below_80")
-        if not ready_foamed_cov: blocking.append("foamed_rolling_productive_sources_below_8")
+        if heavy_audit_mode and not (rolling_prod >= 8): blocking.append("foamed_rolling_productive_sources_below_8")
+        if not heavy_audit_mode:
+            cybermed_diagnostics_payload["foamed_ready_for_coverage_not_evaluated_reason"] = "heavy_audit_mode_disabled"
         cybermed_diagnostics_payload["cybermed_readiness"] = {
             "pubmed_post_state_content_coverage_pct": cybermed_diagnostics_payload.get("pubmed_post_state_content_coverage_pct", 0.0),
             "pubmed_ready_for_ranking": ready_pubmed,
@@ -2902,7 +2905,7 @@ def main() -> None:
             "foamed_ready_for_summaries": ready_foamed_summary,
             "foamed_rolling_productive_sources_total": rolling_prod,
             "foamed_ready_for_coverage": ready_foamed_cov,
-            "overall_ready_for_relevance_logic": ready_pubmed and ready_foamed_summary and ready_foamed_cov,
+            "overall_ready_for_relevance_logic": ready_pubmed and ready_foamed_summary and ((rolling_prod >= 8) if heavy_audit_mode else True),
             "blocking_reasons": blocking,
         }
 

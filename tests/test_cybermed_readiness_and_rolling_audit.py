@@ -87,3 +87,7 @@ def test_rolling_audit_gated_when_heavy_mode_disabled(tmp_path, monkeypatch):
     assert diag['foamed_rolling_audit_requested_days'] == 30
     assert diag['foamed_rolling_audit_enabled'] is False
     assert diag['foamed_rolling_audit_skipped_reason'] == 'heavy_audit_mode_disabled'
+    readiness = diag["cybermed_readiness"]
+    assert readiness["foamed_ready_for_coverage"] == "not_evaluated"
+    assert "foamed_rolling_productive_sources_below_8" not in readiness["blocking_reasons"]
+    assert diag["foamed_ready_for_coverage_not_evaluated_reason"] == "heavy_audit_mode_disabled"

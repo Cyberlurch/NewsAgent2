@@ -668,6 +668,7 @@ def select_cybermed_pubmed_items(
         pub_types = _pub_types(it)
         has_real_evidence_pubtype = _has_real_evidence_pubtype(pub_types)
         low_priority_only = _low_priority_only(pub_types)
+        is_correction_or_commentary, floor_block_reasons = _is_correction_or_commentary_item(title, pub_types)
         strong_domain_and_usable = any(domain_flags.values()) and has_usable_content
         floor_reasons: List[str] = []
         if float(v1_scores.get("evidence", 0.0)) > 0:
@@ -680,6 +681,10 @@ def select_cybermed_pubmed_items(
             floor_reasons.append("real_evidence_publication_type")
         if strong_domain_and_usable:
             floor_reasons.append("strong_domain_plus_usable_content")
+        if float(v1_scores.get("practice",0.0)) > 0 and float(v1_scores.get("clinical",0.0)) > 0 and has_usable_content:
+            floor_reasons.append("practice_and_clinical_with_content")
+        if float(v1_scores.get("clinical",0.0)) >= 3 and has_usable_content and ("journal article" in {p.lower() for p in pub_types}) and not low_priority_only:
+            floor_reasons.append("very_strong_clinical_journal_article")
         type_floor_passed = bool(floor_reasons)
         low_evidence_radar = (
             low_priority_only
@@ -709,14 +714,20 @@ def select_cybermed_pubmed_items(
             hard_excluded_total += 1
             exclusion_reason_counts[v1_hard_exclusion] += 1
             continue
-        if low_evidence_radar:
-            exclusion_reason_counts["low_evidence_news_or_commentary"] += 1
+        allow_despite_commentary = has_real_evidence_pubtype or (
+            float(v1_scores.get("practice", 0.0)) > 0 and float(v1_scores.get("clinical", 0.0)) > 0 and has_usable_content
+        )
+        if (is_correction_or_commentary and not allow_despite_commentary) or low_evidence_radar:
+            low_evidence_radar_candidates_total += 1
+            for rr in (floor_block_reasons or ["low_evidence_commentary"]): exclusion_reason_counts[rr] += 1
+            if float(v1_scores.get("evidence",0.0)) <= 0 and "review" in title.lower(): exclusion_reason_counts["low_evidence_narrative_review"] += 1
+            if not floor_reasons: exclusion_reason_counts["no_primary_evidence_signal"] += 1
             overview_excluded_by_type_floor_total += 1
             low_priority_publication_type_excluded_total += 1
             continue
         if not type_floor_passed:
             overview_excluded_by_type_floor_total += 1
-            exclusion_reason_counts["type_floor_failed"] += 1
+            exclusion_reason_counts["no_primary_evidence_signal"] += 1
             continue
         overview_eligible_after_type_floor_total += 1
 
@@ -813,7 +824,8 @@ def select_cybermed_pubmed_items(
         enriched["type_floor_passed"] = type_floor_passed
         enriched["overview_eligible"] = type_floor_passed and not low_evidence_radar
         enriched["low_evidence_radar"] = low_evidence_radar
-        enriched["floor_rejection_reason"] = "" if enriched["overview_eligible"] else ("low_evidence_news_or_commentary" if low_evidence_radar else "type_floor_failed")
+        enriched["floor_rejection_reason"] = "" if enriched["overview_eligible"] else (floor_block_reasons[0] if floor_block_reasons else ("low_evidence_commentary" if low_evidence_radar else "no_primary_evidence_signal"))
+        _attach_evidence_hint_labels(enriched, foamed=False)
 
         enriched["cybermed_deep_dive_hard_excluded"] = _matches_any_regex(
             hay, [str(x) for x in hard_exclude_deep]
@@ -857,7 +869,7 @@ def select_cybermed_pubmed_items(
             and float(cand.get("clinical_relevance_score",0.0)) >= 2.0
             and str(cand.get("content_length_bucket")) != "none"
         )
-        if top_pick and (cand.get("low_evidence_radar") or not cand.get("type_floor_passed")):
+        if top_pick and (cand.get("low_evidence_radar") or not cand.get("type_floor_passed") or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0]):
             top_pick = False
             top_pick_floor_rejection_counts["type_floor"] += 1
         if top_pick and float(cand.get("evidence_strength_score",0.0)) <= 0:
@@ -894,7 +906,7 @@ def select_cybermed_pubmed_items(
 
         if cand.get("cybermed_deep_dive_hard_excluded"):
             continue
-        if cand.get("low_evidence_radar"):
+        if cand.get("low_evidence_radar") or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0]:
             deep_dive_floor_rejection_counts["low_evidence_news_or_commentary"] += 1
             continue
 
@@ -907,11 +919,11 @@ def select_cybermed_pubmed_items(
             continue
 
         domain_counts[domain_key] = domain_counts.get(domain_key, 0) + 1
-        if float(cand.get("evidence_strength_score",0.0)) < 1.5:
+        if float(cand.get("evidence_strength_score",0.0)) <= 0:
             excluded_deep_dive_low_score += 1
             deep_dive_floor_rejection_counts["evidence_strength_score"] += 1
             continue
-        if float(cand.get("practice_changing_score",0.0)) < 1.2 and float(cand.get("clinical_relevance_score",0.0)) < 2.5:
+        if float(cand.get("practice_changing_score",0.0)) <= 0 and float(cand.get("clinical_relevance_score",0.0)) <= 0:
             excluded_deep_dive_low_score += 1
             deep_dive_floor_rejection_counts["clinical_or_practice"] += 1
             continue
@@ -997,6 +1009,9 @@ def select_cybermed_pubmed_items(
             "pubmed_low_evidence_radar_candidates_total": low_evidence_radar_candidates_total,
             "pubmed_low_evidence_radar_reason_counts": dict(low_evidence_radar_reason_counts),
             "pubmed_low_priority_publication_type_excluded_total": low_priority_publication_type_excluded_total,
+            "pubmed_context_radar_candidates_total": low_evidence_radar_candidates_total,
+            "pubmed_context_radar_reason_counts": dict(low_evidence_radar_reason_counts),
+            "pubmed_context_radar_publication_type_counts": dict(Counter(str(pt) for it in pubmed_items for pt in (it.get("publication_types") or []))),
             "pubmed_overview_eligible_after_type_floor_total": overview_eligible_after_type_floor_total,
             "pubmed_overview_excluded_by_type_floor_total": overview_excluded_by_type_floor_total,
             "pubmed_raw_selection_audit_total": raw_selection_audit_total,
@@ -1039,6 +1054,44 @@ def select_cybermed_pubmed_items(
     )
 
 
+
+
+def _is_correction_or_commentary_item(title: str, pub_types: List[str]) -> Tuple[bool, List[str]]:
+    tl = (title or '').lower()
+    pts = {str(x).strip().lower() for x in (pub_types or [])}
+    reasons=[]
+    if any(x in pts for x in {'published erratum','erratum','correction'} ) or 'correction to:' in tl:
+        reasons.append('correction_or_erratum')
+    if 'comment on' in tl:
+        reasons.append('comment_on_article')
+    if any(x in pts for x in {'letter','comment','editorial','news'}):
+        reasons.append('low_evidence_editorial_letter')
+    return (len(reasons)>0,reasons)
+
+
+def _attach_evidence_hint_labels(item: Dict[str, Any], *, foamed: bool=False) -> None:
+    """Attach display-ready heuristic labels (not official GRADE).
+
+    True GRADE is a body-of-evidence framework; these are article-level evidence strength hints only.
+    """
+    if foamed:
+        item['source_quality_label']=str(item.get('source_quality_label') or ('core' if 'core' in str(item.get('foamed_source','')).lower() else 'important'))
+        item['text_confidence_label']='high' if str(item.get('content_length_bucket')) in {'long','very_long'} else ('moderate' if str(item.get('content_length_bucket')) in {'medium','short'} else 'low')
+        item['clinical_usefulness_1_5']=max(1,min(5,int(round(float(item.get('clinical_relevance_score',0.0))+1))))
+        item['practice_relevance_1_5']=max(1,min(5,int(round(float(item.get('practice_changing_score',0.0))+1))))
+        return
+    ev=float(item.get('evidence_strength_score',0.0) or 0.0)
+    if ev>=4: lbl='A'
+    elif ev>=3: lbl='B'
+    elif ev>=2: lbl='C'
+    elif ev>0: lbl='D'
+    else: lbl='E'
+    item['evidence_strength_label']=lbl
+    item['evidence_strength_score_0_5']=max(0,min(5,int(round(ev))))
+    item['clinical_relevance_1_5']=max(1,min(5,int(round(float(item.get('clinical_relevance_score',0.0))+1))))
+    item['practice_change_potential_1_5']=max(1,min(5,int(round(float(item.get('practice_changing_score',0.0))+1))))
+    item['text_confidence_label']='high' if str(item.get('content_length_bucket')) in {'long','very_long'} else ('moderate' if str(item.get('content_length_bucket')) in {'medium','short'} else 'low')
+    item['evidence_label_reason']='GRADE-like evidence hint from article-level signals'
 def _foamed_domain_score(hay: str) -> Tuple[float, Dict[str, bool], bool]:
     """
     Lightweight clinical relevance signals for FOAMed/blog posts.
@@ -1337,4 +1390,6 @@ def select_cybermed_foamed_items(
         "fallback_candidates": len(fallback_candidates),
     }
 
+    for _it in overview_items:
+        _attach_evidence_hint_labels(_it, foamed=True)
     return FoamedSelection(overview_items=overview_items, top_picks=top_picks, stats=stats)
