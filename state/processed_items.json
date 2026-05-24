@@ -4,8 +4,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "ALiEM": {
       "consecutive_failures": 22,
@@ -17,15 +17,15 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "Anesthesiology News": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "CanadiEM": {
       "consecutive_failures": 3,
@@ -37,112 +37,112 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "Critical Care Practitioner": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "Critical Care Reviews": {
-      "consecutive_failures": 12,
+      "consecutive_failures": 13,
       "disabled_until_utc": "2026-05-31T06:29:34+00:00",
       "last_health": "parse_failed",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "Deranged Physiology": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "Don't Forget the Bubbles": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "EM Cases": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "EMCrit": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "EMOttawa Blog": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "First10EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "Intensive Care Network": {
-      "consecutive_failures": 30,
+      "consecutive_failures": 31,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "JournalFeed (Critical Care)": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_html",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "LITFL": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "NYSORA": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "OpenAnesthesia": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "PulmCCM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "REBEL EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "REBEL EM Critical Care": {
       "consecutive_failures": 6,
@@ -151,18 +151,18 @@
       "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "SMACC": {
-      "consecutive_failures": 30,
+      "consecutive_failures": 31,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "St Emlyn's": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "Taming the SRU": {
       "consecutive_failures": 2,
@@ -174,46 +174,46 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "The Bottom Line": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "The Resus Room": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "Thinking Critical Care": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "WFSA Anaesthesia Tutorial of the Week": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     },
     "emDocs": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:22:28+00:00",
-      "last_seen_utc": "2026-05-24T06:22:28+00:00"
+      "last_ok_utc": "2026-05-24T06:38:13+00:00",
+      "last_seen_utc": "2026-05-24T06:38:13+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-05-24T06:28:16+00:00",
+  "last_successful_daily_run_utc": "2026-05-24T06:43:48+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -746,12 +746,6 @@
             "title": "Game Theory #24:  The AI Apocalypse",
             "url": "https://www.youtube.com/watch?v=8nsxuB3Vsts"
           },
-          "8qeZ-vxsBvE": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "Regierung plant 4-fach-Angriff auf unser Geld!",
-            "url": "https://www.youtube.com/watch?v=8qeZ-vxsBvE"
-          },
           "8rznXKs86cI": {
             "channel": "IsraelEnglishNews",
             "processed_at_utc": "2026-05-21T07:13:26+00:00",
@@ -919,12 +913,6 @@
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
             "title": "There is NO Rapture (Christians Won't Like This)",
             "url": "https://www.youtube.com/watch?v=BFAavfri7xw"
-          },
-          "BGDjUCuYpr8": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "Zeitenwende: Pistorius kann nicht erklären, wo die 100 Milliarden geblieben sind!",
-            "url": "https://www.youtube.com/watch?v=BGDjUCuYpr8"
           },
           "BIl5vJn6ohI": {
             "channel": "PredictiveHistory",
@@ -1400,12 +1388,6 @@
             "title": "Moving to Israel? Everything You Need to Know Before Making Aliyah",
             "url": "https://www.youtube.com/watch?v=KLhHBlybRTc"
           },
-          "KM-B7__JJ-U": {
-            "channel": "The Poplar Report",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "🚨🚨ALERT: Some Stores ALREADY Out! - Watchmen Updates",
-            "url": "https://www.youtube.com/watch?v=KM-B7__JJ-U"
-          },
           "KU3p5DkZhno": {
             "channel": "BlackScoutSurvival",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
@@ -1483,12 +1465,6 @@
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
             "title": "Muslims Are Waiting For Jesus To Do WHAT!?",
             "url": "https://www.youtube.com/watch?v=LW3WinRbXO4"
-          },
-          "LibG-YWJWIE": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "Trump zieht 5.000 US-Soldaten aus Deutschland ab und verkündet +25% Zölle!",
-            "url": "https://www.youtube.com/watch?v=LibG-YWJWIE"
           },
           "LmRCkX0u5Fc": {
             "channel": "profjiangclips",
@@ -2095,18 +2071,6 @@
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
             "title": "Achtung: Deutschland VERBIETET Geld aus der EU rauszuschaffen (Ich wurde angeklagt!)",
             "url": "https://www.youtube.com/watch?v=WhxaeAcw030"
-          },
-          "WjV4fmTd2Bc": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "Correctiv greift mich an & blamiert sich bis auf die Knochen!",
-            "url": "https://www.youtube.com/watch?v=WjV4fmTd2Bc"
-          },
-          "WltWcnd9amE": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "Super-Gau bei Miosga-Interview. Dieser Patzer beendet Merz Kanzlerschaft!",
-            "url": "https://www.youtube.com/watch?v=WltWcnd9amE"
           },
           "WtBffmjGXZ0": {
             "channel": "Riks",
@@ -2888,12 +2852,6 @@
             "title": "I asked A.I. if it Would Convert to Christianity... Here's What It Said",
             "url": "https://www.youtube.com/watch?v=j9ZFkrK5Gkw"
           },
-          "jB5XlpC8zDY": {
-            "channel": "The Poplar Report",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "🚨🚨ALERT: President BEING Briefed RIGHT NOW… Watchmen Updates",
-            "url": "https://www.youtube.com/watch?v=jB5XlpC8zDY"
-          },
           "jNSzJxdsJ2Y": {
             "channel": "Vermietertagebuch",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
@@ -3031,12 +2989,6 @@
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
             "title": "\"What is the Deep State Hiding?\" Senator Ron Johnson on the CIA Fauci Covid Scandal | Redacted",
             "url": "https://www.youtube.com/watch?v=mTKuqT2P2GE"
-          },
-          "m_yiwXmJVx8": {
-            "channel": "The Poplar Report",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "🚨🚨ALERT: Japan Is PANIC SELLING US Dollars- Watchmen Updates",
-            "url": "https://www.youtube.com/watch?v=m_yiwXmJVx8"
           },
           "my8UPzMuOJw": {
             "channel": "IsraelEnglishNews",
@@ -3458,23 +3410,11 @@
             "title": "ILTV INSIDER | RETURN TO MULTI-FRONT WAR",
             "url": "https://www.youtube.com/watch?v=v_LWINLpbc4"
           },
-          "vk5Sf9mkUq4": {
-            "channel": "The Poplar Report",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "🚨🚨BREAKING: US Warship Catches FIRE… Watchmen Updates",
-            "url": "https://www.youtube.com/watch?v=vk5Sf9mkUq4"
-          },
           "vo2lZKvNpF4": {
             "channel": "tagesschau",
             "processed_at_utc": "2026-05-20T11:12:09+00:00",
             "title": "Wann Open Source statt Microsoft? Digitalminister Wildberger über Deutschlands digitale Zukunft",
             "url": "https://www.youtube.com/watch?v=vo2lZKvNpF4"
-          },
-          "vqlm0rdgjYg": {
-            "channel": "The Poplar Report",
-            "processed_at_utc": "2026-05-04T06:26:31+00:00",
-            "title": "🚨🚨The PAIN Is Going To Be REAL…",
-            "url": "https://www.youtube.com/watch?v=vqlm0rdgjYg"
           },
           "vvgW2gZikjw": {
             "channel": "tagesschau",
@@ -3770,6 +3710,12 @@
     "cybermed": {
       "foamed": {
         "processed": {
+          "https://derangedphysiology.com/main/required-reading/neurological-intensive-care/Chapter-1504/complications-following-endovascular-clot-retrieval-stroke": {
+            "channel": "Deranged Physiology",
+            "processed_at_utc": "2026-05-24T06:43:48+00:00",
+            "title": "Complications following endovascular clot retrieval for stroke",
+            "url": "https://derangedphysiology.com/main/required-reading/neurological-intensive-care/Chapter-1504/complications-following-endovascular-clot-retrieval-stroke"
+          },
           "https://emcrit.org/emcrit/airway-triage-debate/": {
             "channel": "EMCrit",
             "processed_at_utc": "2026-05-15T06:49:42+00:00",
@@ -3829,12 +3775,6 @@
             "processed_at_utc": "2026-05-19T07:07:18+00:00",
             "title": "History of Spinal Needles",
             "url": "https://litfl.com/history-of-spinal-needles/"
-          },
-          "https://litfl.com/presence-purpose-and-recovery/": {
-            "channel": "LITFL",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "Presence, Purpose, and Recovery",
-            "url": "https://litfl.com/presence-purpose-and-recovery/"
           },
           "https://www.anesthesiologynews.com/Clinical-Anesthesiology/Article/05-26/Blood-Transfusion-Effective-for-Anemic-Trauma-Patients/80482": {
             "channel": "Anesthesiology News",
@@ -3919,90 +3859,6 @@
             "sent_overview_at_utc": "2026-05-23T21:50:44+00:00",
             "title": "Procedural Techniques, Airway Management, and Specimen Acquisition for Peripheral Lung Transbronchial and Endobronchial Ultrasound-Guided Cryobiopsy: A Modified Delphi Consensus Statement.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/41956150/"
-          },
-          "42069039": {
-            "channel": "PubMed: Resuscitation",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_deep_dive_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "Prediction of Shock-refractory Ventricular Fibrillation in Patients with Out-of-Hospital Cardiac Arrest: External Validation of an ECG-based Approach.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069039/"
-          },
-          "42069040": {
-            "channel": "PubMed: Resuscitation",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "A systematic review of mortality and severe morbidities following newborn chest compressions at birth.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069040/"
-          },
-          "42069041": {
-            "channel": "PubMed: Resuscitation",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_deep_dive_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "NEUROLOGICAL OUTCOME OF OUT-OF-HOSPITAL CARDIAC ARREST PATIENTS VENTILATED WITH CONTINUOUS FLOW INSUFFLATION OF OXYGEN: A MULTICENTER OBSERVATIONAL STUDY.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069041/"
-          },
-          "42069042": {
-            "channel": "PubMed: Resuscitation",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "Combined short- and mid-latency SSEP amplitudes for early prediction of favorable neurological recovery after cardiac arrest.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069042/"
-          },
-          "42069043": {
-            "channel": "PubMed: Resuscitation",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_deep_dive_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "Rhythm-specific association of epinephrine with outcomes in non-shockable cardiac arrest: A nationwide propensity-matched study.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069043/"
-          },
-          "42069462": {
-            "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_deep_dive_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "Effect of individualised versus routine intraoperative blood pressure management on acute kidney injury in noncardiac surgery: a GRADE-assessed meta-analysis of randomised controlled trials.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069462/"
-          },
-          "42069463": {
-            "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "What we used, what we saw, what we did: towards a shared language for videolaryngoscopy.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069463/"
-          },
-          "42069464": {
-            "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "Clinical effectiveness of perioperative oxygen therapy strategies in children. Comment on Br J Anaesth 2026; 136: 1307-18.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069464/"
-          },
-          "42069465": {
-            "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "Morphine requirements and chronic beta-blocker use in lower limb surgery: a propensity score matched cohort study.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069465/"
-          },
-          "42069650": {
-            "channel": "PubMed: Critical Care",
-            "processed_at_utc": "2026-05-04T06:28:47+00:00",
-            "screened_at_utc": "2026-05-04T06:28:47+00:00",
-            "sent_overview_at_utc": "2026-05-04T06:28:47+00:00",
-            "title": "Renal replacement therapy in patients under extracorporeal membrane oxygenation: a narrative review.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42069650/"
           },
           "42076933": {
             "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
@@ -6845,8 +6701,8 @@
           },
           "42166572": {
             "channel": "PubMed: Science (medizin/biomed breit)",
-            "processed_at_utc": "2026-05-24T06:28:16+00:00",
-            "screened_at_utc": "2026-05-24T06:28:16+00:00",
+            "processed_at_utc": "2026-05-24T06:43:48+00:00",
+            "screened_at_utc": "2026-05-24T06:43:48+00:00",
             "title": "Scientists play catch-up to startling Ebola outbreak.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42166572/"
           },
@@ -6876,8 +6732,8 @@
           },
           "42166795": {
             "channel": "PubMed: Anesthesiology",
-            "processed_at_utc": "2026-05-24T06:28:16+00:00",
-            "screened_at_utc": "2026-05-24T06:28:16+00:00",
+            "processed_at_utc": "2026-05-24T06:43:48+00:00",
+            "screened_at_utc": "2026-05-24T06:43:48+00:00",
             "title": "Outflow Tract Patency and Ventricular Compression as Determinants of CPR Hemodynamics in a TEE-Guided Swine Model of Cardiac Arrest.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42166795/"
           },
@@ -7145,8 +7001,8 @@
           },
           "42173713": {
             "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-05-24T06:28:16+00:00",
-            "screened_at_utc": "2026-05-24T06:28:16+00:00",
+            "processed_at_utc": "2026-05-24T06:43:48+00:00",
+            "screened_at_utc": "2026-05-24T06:43:48+00:00",
             "title": "Nucleus raphe magnus serotonin neurones bidirectionally control spinal nociceptive transmission in mice.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42173713/"
           },
@@ -7162,6 +7018,6 @@
       }
     }
   },
-  "updated_at_utc": "2026-05-24T06:28:16+00:00",
+  "updated_at_utc": "2026-05-24T06:43:48+00:00",
   "version": 1
 }
