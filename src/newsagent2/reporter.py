@@ -87,6 +87,50 @@ def _prefix_star(text: str) -> str:
         return text
     return f"⭐ {text}" if text else "⭐"
 
+def _label_text(value: Any) -> str:
+    txt = str(value or "").strip()
+    return txt.capitalize() if txt else ""
+
+
+def _join_compact_segments(segments: List[str]) -> str:
+    clean = [seg.strip() for seg in segments if str(seg or "").strip()]
+    return " · ".join(clean)
+
+
+def _pubmed_compact_line(item: Dict[str, Any]) -> str:
+    segs: List[str] = []
+    ev = _label_text(item.get("evidence_strength_label"))
+    if ev:
+        segs.append(f"Evidence {ev}")
+    rel = item.get("clinical_relevance_1_5")
+    if rel not in {None, ""}:
+        segs.append(f"Relevance {int(rel)}/5")
+    impact = item.get("practice_change_potential_1_5")
+    if impact not in {None, ""}:
+        segs.append(f"Practice impact {int(impact)}/5")
+    conf = _label_text(item.get("text_confidence_label"))
+    if conf:
+        segs.append(f"Confidence {conf}")
+    return _join_compact_segments(segs)
+
+
+def _foamed_compact_line(item: Dict[str, Any]) -> str:
+    segs: List[str] = []
+    quality = _label_text(item.get("source_quality_label"))
+    if quality:
+        segs.append(f"Source quality {quality}")
+    useful = item.get("clinical_usefulness_1_5")
+    if useful not in {None, ""}:
+        segs.append(f"Usefulness {int(useful)}/5")
+    pr = item.get("practice_relevance_1_5")
+    if pr not in {None, ""}:
+        segs.append(f"Practice relevance {int(pr)}/5")
+    conf = _label_text(item.get("text_confidence_label"))
+    if conf:
+        segs.append(f"Confidence {conf}")
+    return _join_compact_segments(segs)
+
+
 def _is_cybermed_report(report_title: str, report_language: str) -> bool:
     rk = (os.getenv("REPORT_KEY") or "").strip().lower()
     if rk == "cybermed":
@@ -992,13 +1036,18 @@ def to_markdown(
                         iid = str(it.get("id") or "").strip()
                         url = str(it.get("url") or "").strip()
                         title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
-                        display_title = _prefix_star(title_lbl) if it.get("top_pick") else title_lbl
+                        display_title = title_lbl
                         label = _md_escape_label(_build_source_label(it))
                         detail = _detail_lookup(details_by_id, it)
                         bottom = _best_bottom_line(it, detail)
                         md.append(
                             f"- [{display_title}]({url}) — *{label}*" if url else f"- {display_title} — *{label}*"
                         )
+                        compact = _pubmed_compact_line(it)
+                        if it.get("top_pick"):
+                            compact = _join_compact_segments(["⭐ Top pick", compact])
+                        if compact:
+                            md.append(f"  - {compact}")
                         md.append(f"  - **BOTTOM LINE:** {bottom}" if bottom else f"  - **BOTTOM LINE:** {_fallback_bottom_line(it)}")
                     md.append("")
         else:
@@ -1024,9 +1073,14 @@ def to_markdown(
                 title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
                 url = str(it.get("url") or "").strip()
                 source_name = _md_escape_label(str(it.get("foamed_source") or it.get("channel") or "FOAMed"))
-                display_title = _prefix_star(title_lbl) if it.get("top_pick") else title_lbl
+                display_title = title_lbl
                 line = f"- [{display_title}]({url}) — {source_name}" if url else f"- {display_title} — {source_name}"
                 md.append(line)
+                compact = _foamed_compact_line(it)
+                if it.get("top_pick"):
+                    compact = _join_compact_segments(["⭐ Top pick", compact])
+                if compact:
+                    md.append(f"  - {compact}")
                 bottom_line = (it.get("bottom_line") or "").strip()
                 if bottom_line and not bottom_line.lower().startswith("bottom line"):
                     bottom_line = f"BOTTOM LINE: {bottom_line}"

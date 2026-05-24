@@ -2747,6 +2747,33 @@ def main() -> None:
             pubmed_raw_evidence_tag_counts.update(str(v) for v in (it.get("evidence_tags") or []) if str(v).strip())
             pubmed_raw_mesh_heading_counts.update(str(v) for v in (it.get("mesh_headings") or []) if str(v).strip())
             pubmed_raw_keyword_counts.update(str(v) for v in (it.get("keywords") or []) if str(v).strip())
+        presentation_missing_label_counts = {
+            "pubmed_evidence_strength_label_missing_total": len([it for it in pubmed_overview_items if not str(it.get("evidence_strength_label") or "").strip()]),
+            "pubmed_clinical_relevance_1_5_missing_total": len([it for it in pubmed_overview_items if it.get("clinical_relevance_1_5") in {None, ""}]),
+            "pubmed_practice_change_potential_1_5_missing_total": len([it for it in pubmed_overview_items if it.get("practice_change_potential_1_5") in {None, ""}]),
+            "pubmed_text_confidence_label_missing_total": len([it for it in pubmed_overview_items if not str(it.get("text_confidence_label") or "").strip()]),
+            "foamed_source_quality_label_missing_total": len([it for it in foamed_overview_items if not str(it.get("source_quality_label") or "").strip()]),
+            "foamed_clinical_usefulness_1_5_missing_total": len([it for it in foamed_overview_items if it.get("clinical_usefulness_1_5") in {None, ""}]),
+            "foamed_practice_relevance_1_5_missing_total": len([it for it in foamed_overview_items if it.get("practice_relevance_1_5") in {None, ""}]),
+            "foamed_text_confidence_label_missing_total": len([it for it in foamed_overview_items if not str(it.get("text_confidence_label") or "").strip()]),
+        }
+        pubmed_items_with_presentation_labels_total = len([
+            it for it in pubmed_overview_items if any([
+                str(it.get("evidence_strength_label") or "").strip(),
+                it.get("clinical_relevance_1_5") not in {None, ""},
+                it.get("practice_change_potential_1_5") not in {None, ""},
+                str(it.get("text_confidence_label") or "").strip(),
+            ])
+        ])
+        foamed_items_with_presentation_labels_total = len([
+            it for it in foamed_overview_items if any([
+                str(it.get("source_quality_label") or "").strip(),
+                it.get("clinical_usefulness_1_5") not in {None, ""},
+                it.get("practice_relevance_1_5") not in {None, ""},
+                str(it.get("text_confidence_label") or "").strip(),
+            ])
+        ])
+        top_pick_items_rendered_total = len([it for it in (pubmed_overview_items + foamed_overview_items) if it.get("top_pick")])
         for it in pubmed_new_items:
             pubmed_publication_type_counts.update(str(v) for v in (it.get("publication_types") or []) if str(v).strip())
             pubmed_evidence_tag_counts.update(str(v) for v in (it.get("evidence_tags") or []) if str(v).strip())
@@ -2867,6 +2894,11 @@ def main() -> None:
             "pubmed_raw_completeness_warnings": [],
             "selection_counts": selection_count_only,
             "selection_diagnostics": (selection_stats.get("selection_diagnostics") if isinstance(selection_stats, dict) else {}),
+            "cybermed_presentation_v1_enabled": True,
+            "pubmed_items_with_presentation_labels_total": int(pubmed_items_with_presentation_labels_total),
+            "foamed_items_with_presentation_labels_total": int(foamed_items_with_presentation_labels_total),
+            "top_pick_items_rendered_total": int(top_pick_items_rendered_total),
+            "presentation_missing_label_counts": presentation_missing_label_counts,
             "runtime_total_seconds": round(max(0.0, time.monotonic() - runtime_start), 6),
             "runtime_pubmed_collect_seconds": round(runtime_pubmed_collect_seconds, 6),
             "runtime_pubmed_backfill_seconds": round(runtime_pubmed_backfill_seconds, 6),

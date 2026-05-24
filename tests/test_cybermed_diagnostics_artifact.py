@@ -113,6 +113,11 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
     assert diag["foamed_disabled_sources"][0]["name"] == "Disabled One"
     assert "selection_counts" in diag
     assert "selection_diagnostics" in diag
+    assert diag["cybermed_presentation_v1_enabled"] is True
+    assert "pubmed_items_with_presentation_labels_total" in diag
+    assert "foamed_items_with_presentation_labels_total" in diag
+    assert "top_pick_items_rendered_total" in diag
+    assert "presentation_missing_label_counts" in diag
     sd = diag["selection_diagnostics"]
     for key in [
         "excluded_overview_offtopic",
