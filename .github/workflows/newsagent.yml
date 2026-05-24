@@ -113,6 +113,7 @@ jobs:
       FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}
       FOAMED_RENDER_FALLBACK: ${{ vars.FOAMED_RENDER_FALLBACK || '0' }}
       FOAMED_ROLLING_AUDIT_DAYS: ${{ vars.FOAMED_ROLLING_AUDIT_DAYS || '0' }}
+      FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN || '60' }}
       REPORT_DIR: out
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}

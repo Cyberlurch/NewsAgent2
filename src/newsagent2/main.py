@@ -410,17 +410,17 @@ def _metadata_only_text(*, title: str, channel: str, published_at: Any) -> str:
 
 
 def _pubmed_content_backfill_and_diagnostics(items: List[Dict[str, Any]]) -> Dict[str, Any]:
-    min_abs = _safe_int("PUBMED_DEEPDIVE_MIN_ABSTRACT_CHARS", 200)
+    min_fulltxt = _safe_int("PUBMED_DEEPDIVE_MIN_FULLTEXT_CHARS", 1200)
     content_source_counts: Counter[str] = Counter()
     retrieval_counts: Counter[str] = Counter()
     oa_counts: Counter[str] = Counter()
     pubtype_counts: Counter[str] = Counter()
     attempted = success = failed = improved = 0
     with_content = metadata_only = 0
+    backfill_needed = 0
     for it in items:
         abstract = str(it.get("abstract") or "").strip()
         fulltxt = str(it.get("full_text_excerpt") or "").strip()
-        has_content = (bool(abstract) and len(abstract) >= min_abs) or bool(fulltxt)
         source = "metadata_only"
         method = "none"
         oa_status = "unknown"
@@ -434,48 +434,75 @@ def _pubmed_content_backfill_and_diagnostics(items: List[Dict[str, Any]]) -> Dic
             oa_status = "oa_metadata_only"
         elif (it.get("doi") or "").strip():
             oa_status = "closed_or_unavailable"
-        if not has_content:
-            metadata_only += 1
-            for pt in (it.get("publication_types") or []):
-                pubtype_counts[str(pt)] += 1
-        else:
-            with_content += 1
         it["content_source"] = source if source in {"pubmed_abstract", "pubmed_structured_abstract", "pmc_oa_fulltext", "unpaywall_oa_fulltext"} else "metadata_only"
         it["content_retrieval_method"] = method
         it["content_length"] = len((abstract + "\n" + fulltxt).strip())
         it["abstract_length"] = len(abstract)
         it["fulltext_length"] = len(fulltxt)
         it["oa_status"] = oa_status
+        has_content = _is_pubmed_item_content_usable(it, min_fulltxt)
+        needs_backfill = (not abstract) or (len(abstract) < _safe_int("PUBMED_DEEPDIVE_MIN_ABSTRACT_CHARS", 200))
+        if needs_backfill and ((it.get("pmcid") or "").strip() or (it.get("doi") or "").strip()):
+            backfill_needed += 1
+        if not has_content:
+            metadata_only += 1
+            for pt in (it.get("publication_types") or []):
+                pubtype_counts[str(pt)] += 1
+        else:
+            with_content += 1
         content_source_counts[it["content_source"]] += 1
         retrieval_counts[method] += 1
         oa_counts[oa_status] += 1
-        attempted += 1
-        if has_content:
-            success += 1
-            if fulltxt:
-                improved += 1
-        else:
-            failed += 1
-    coverage = round((with_content / attempted) * 100, 1) if attempted else 0.0
-    return {
-        "pubmed_content_backfill_enabled": True,
-        "pubmed_content_backfill_attempted_total": attempted,
-        "pubmed_content_backfill_success_total": success,
-        "pubmed_content_backfill_failed_total": failed,
-        "pubmed_content_backfill_improved_total": improved,
-        "pubmed_content_backfill_pmc_attempted_total": sum(1 for it in items if (it.get("pmcid") or "").strip()),
-        "pubmed_content_backfill_pmc_success_total": sum(1 for it in items if str(it.get("content_source") or "") == "pmc_oa_fulltext"),
-        "pubmed_content_backfill_unpaywall_attempted_total": sum(1 for it in items if (it.get("doi") or "").strip()),
-        "pubmed_content_backfill_unpaywall_success_total": sum(1 for it in items if str(it.get("content_source") or "") == "unpaywall_oa_fulltext"),
-        "pubmed_items_with_abstract_or_oa_fulltext_total": with_content,
-        "pubmed_items_metadata_only_total": metadata_only,
-        "pubmed_post_state_content_coverage_pct": coverage,
-        "pubmed_content_source_counts": dict(content_source_counts),
-        "pubmed_content_retrieval_method_counts": dict(retrieval_counts),
-        "pubmed_oa_status_counts": dict(oa_counts),
-        "pubmed_metadata_only_publication_type_counts": dict(pubtype_counts),
-    }
+    attempted = backfill_needed
+    success = sum(1 for it in items if str(it.get("content_source") or "") in {"pmc_oa_fulltext", "unpaywall_oa_fulltext"})
+    improved = success
+    failed = max(0, attempted - success)
+    coverage = round((with_content / max(1,len(items))) * 100, 1) if items else 0.0
+    out={"pubmed_content_backfill_enabled": True,"pubmed_content_backfill_attempted_total": attempted,"pubmed_content_backfill_success_total": success,"pubmed_content_backfill_failed_total": failed,"pubmed_content_backfill_improved_total": improved,"pubmed_content_backfill_pmc_attempted_total": sum(1 for it in items if (it.get("pmcid") or "").strip()),"pubmed_content_backfill_pmc_success_total": sum(1 for it in items if str(it.get("content_source") or "") == "pmc_oa_fulltext"),"pubmed_content_backfill_unpaywall_attempted_total": sum(1 for it in items if (it.get("doi") or "").strip()),"pubmed_content_backfill_unpaywall_success_total": sum(1 for it in items if str(it.get("content_source") or "") == "unpaywall_oa_fulltext"),"pubmed_items_with_abstract_or_oa_fulltext_total": with_content,"pubmed_items_metadata_only_total": metadata_only,"pubmed_post_state_content_coverage_pct": coverage,"pubmed_content_source_counts": dict(content_source_counts),"pubmed_content_retrieval_method_counts": dict(retrieval_counts),"pubmed_oa_status_counts": dict(oa_counts),"pubmed_metadata_only_publication_type_counts": dict(pubtype_counts)}
+    if attempted == 0 and items:
+        out["pubmed_content_backfill_not_attempted_reason"] = "all_post_state_items_already_have_usable_content"
+    return out
 
+
+
+def _is_pubmed_item_content_usable(item: Dict[str, Any], min_fulltext_chars: int) -> bool:
+    abstract = str(item.get("abstract") or "").strip()
+    text = str(item.get("text") or "").strip()
+    src = str(item.get("content_source") or "").strip()
+    fulltext_length = int(item.get("fulltext_length") or 0)
+    if abstract:
+        return True
+    if src in {"pubmed_abstract", "pubmed_structured_abstract", "pmc_oa_fulltext", "unpaywall_oa_fulltext"}:
+        return True
+    if fulltext_length >= max(1, int(min_fulltext_chars)):
+        return True
+    if text and not text.startswith("METADATA_ONLY:") and len(text) >= 120:
+        return True
+    return False
+
+
+def _foamed_72h_text_diagnostics(items: List[Dict[str, Any]], min_chars: int) -> Dict[str, Any]:
+    total = len(items)
+    fulltext = [it for it in items if str(it.get("final_content_source") or it.get("content_source") or "") == "article_full_text"]
+    excerpt = [it for it in items if str(it.get("final_content_source") or it.get("content_source") or "") == "article_excerpt"]
+    usable_sources = {"article_full_text", "article_excerpt", "rss_full_content", "html_content"}
+    usable = [it for it in items if str(it.get("final_content_source") or it.get("content_source") or "") in usable_sources and len(str(it.get("text") or "").strip()) >= min_chars]
+    lens = sorted([len(str((it.get("text") or "")).strip()) for it in items if str((it.get("text") or "")).strip()])
+    exc_lens = sorted([len(str((it.get("text") or "")).strip()) for it in excerpt if str((it.get("text") or "")).strip()])
+    med = lens[len(lens)//2] if lens else 0
+    exc_med = exc_lens[len(exc_lens)//2] if exc_lens else 0
+    return {
+        "foamed_72h_items_total": total,
+        "foamed_72h_article_fulltext_total": len(fulltext),
+        "foamed_72h_article_excerpt_total": len(excerpt),
+        "foamed_72h_usable_text_total": len(usable),
+        "foamed_72h_article_fulltext_pct": round((len(fulltext)/max(1,total))*100,1),
+        "foamed_72h_usable_text_pct": round((len(usable)/max(1,total))*100,1),
+        "foamed_72h_text_length_min": (lens[0] if lens else 0),
+        "foamed_72h_text_length_median": med,
+        "foamed_72h_text_length_max": (lens[-1] if lens else 0),
+        "foamed_72h_article_excerpt_text_length_median": exc_med,
+    }
 
 def _write_cyberlurch_youtube_diagnostics(
     report_dir: str,
@@ -2202,6 +2229,42 @@ def main() -> None:
 
             foamed_after_state = len(foamed_candidates)
             items.extend(foamed_candidates)
+
+            rolling_days = _safe_int("FOAMED_ROLLING_AUDIT_DAYS", 0)
+            foamed_rolling_diag: Dict[str, Any] = {
+                "foamed_rolling_audit_enabled": False,
+                "foamed_rolling_audit_days": rolling_days,
+            }
+            if rolling_days > 0:
+                prev_max = os.getenv("FOAMED_ARTICLE_FETCH_MAX_PER_RUN")
+                os.environ["FOAMED_ARTICLE_FETCH_MAX_PER_RUN"] = str(_safe_int("FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN", 60))
+                try:
+                    rolling_items, rolling_stats = collect_foamed_items(foamed_sources, now_utc, lookback_hours=rolling_days * 24)
+                finally:
+                    if prev_max is None:
+                        os.environ.pop("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", None)
+                    else:
+                        os.environ["FOAMED_ARTICLE_FETCH_MAX_PER_RUN"] = prev_max
+                min_chars = _safe_int("FOAMED_MIN_USABLE_TEXT_CHARS", 400)
+                bysrc=[]
+                productive=0
+                for sm in list((rolling_stats.get("foamed_source_strategy_summary") or [])):
+                    n=str((sm or {}).get("name") or "")
+                    src_items=[it for it in rolling_items if str(it.get("foamed_source") or "")==n]
+                    seen=len(src_items)
+                    full=sum(1 for it in src_items if str(it.get("final_content_source") or it.get("content_source") or "")=="article_full_text")
+                    exc=sum(1 for it in src_items if str(it.get("final_content_source") or it.get("content_source") or "")=="article_excerpt")
+                    usable=sum(1 for it in src_items if str(it.get("final_content_source") or it.get("content_source") or "") in {"article_full_text","article_excerpt","rss_full_content","html_content"} and len(str(it.get("text") or "").strip())>=min_chars)
+                    st=str((sm or {}).get("source_status") or "")
+                    prod=usable>=1 and st not in {"blocked","stale_or_broken_url","audit_only"}
+                    if prod: productive+=1
+                    bysrc.append({"name":n,"domain_group":str((sm or {}).get("domain_group") or "mixed"),"priority_tier":str((sm or {}).get("priority_tier") or "2 important"),"extraction_strategy":str((sm or {}).get("extraction_strategy") or ""),"source_status":st,"items_seen_30d":seen,"items_fulltext_30d":full,"items_excerpt_30d":exc,"items_usable_text_30d":usable,"article_fetch_success_30d":int((sm or {}).get("article_fetch_success",0) or 0),"last_seen_date":None,"blocked_or_failed_reason":(st if st in {"blocked","stale_or_broken_url"} else ""),"productive_source":prod})
+                seen_total=sum(x['items_seen_30d'] for x in bysrc)
+                full_total=sum(x['items_fulltext_30d'] for x in bysrc)
+                excerpt_total=sum(x['items_excerpt_30d'] for x in bysrc)
+                usable_total=sum(x['items_usable_text_30d'] for x in bysrc)
+                rolling_total=len(bysrc)
+                foamed_rolling_diag={"foamed_rolling_audit_enabled":True,"foamed_rolling_audit_days":rolling_days,"foamed_rolling_sources_total":rolling_total,"foamed_rolling_sources_with_recent_items_total":sum(1 for x in bysrc if x['items_seen_30d']>0),"foamed_rolling_sources_with_fulltext_items_total":sum(1 for x in bysrc if x['items_fulltext_30d']>0),"foamed_rolling_sources_blocked_total":sum(1 for x in bysrc if x['source_status']=='blocked'),"foamed_rolling_sources_broken_total":sum(1 for x in bysrc if x['source_status']=='stale_or_broken_url'),"foamed_rolling_sources_no_recent_content_total":sum(1 for x in bysrc if x['items_seen_30d']==0),"foamed_rolling_productive_sources_total":productive,"foamed_rolling_productive_sources_pct":round((productive/max(1,rolling_total))*100,1),"foamed_rolling_items_seen_total":seen_total,"foamed_rolling_items_fulltext_total":full_total,"foamed_rolling_items_excerpt_total":excerpt_total,"foamed_rolling_items_usable_text_total":usable_total,"foamed_rolling_items_fulltext_pct":round((full_total/max(1,seen_total))*100,1),"foamed_rolling_items_usable_text_pct":round((usable_total/max(1,seen_total))*100,1),"foamed_rolling_by_source_summary":bysrc}
             if _env_bool("FOAMED_AUDIT", False) and _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False):
                 enabled_names = {(s.get("name") or "").strip() for s in foamed_sources_filtered if isinstance(s, dict)}
                 disabled_cfg = [s for s in foamed_sources if isinstance(s, dict) and (s.get("name") or "").strip() not in enabled_names]
@@ -2750,6 +2813,7 @@ def main() -> None:
             "selection_counts": selection_count_only,
             "selection_diagnostics": (selection_stats.get("selection_diagnostics") if isinstance(selection_stats, dict) else {}),
             **foamed_disabled_audit_stats,
+            **(foamed_rolling_diag if "foamed_rolling_diag" in locals() else {}),
         }
 
 
@@ -2762,24 +2826,27 @@ def main() -> None:
         post_state_pubmed = [it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"] if 'report_items' in locals() else list(pubmed_overview_items + pubmed_deep_dive_items)
         pubmed_backfill_diag = _pubmed_content_backfill_and_diagnostics(post_state_pubmed)
         cybermed_diagnostics_payload.update(pubmed_backfill_diag)
+        foamed_min_chars = _safe_int("FOAMED_MIN_USABLE_TEXT_CHARS", 400)
+        cybermed_diagnostics_payload.update(_foamed_72h_text_diagnostics(list(foamed_candidates), foamed_min_chars))
         raw_cov = round(
             (len([it for it in all_pubmed_raw_items if (it.get("abstract") or "").strip()]) / max(1, len(all_pubmed_raw_items))) * 100,
             1,
         ) if all_pubmed_raw_items else 0.0
         cybermed_diagnostics_payload["pubmed_raw_content_coverage_pct"] = raw_cov
-        foamed_72h_fulltext_pct = round((int(cybermed_diagnostics_payload.get("foamed_article_fetch_success_total", 0)) / max(1, int(cybermed_diagnostics_payload.get("foamed_items_selected_overview_total", 0)))) * 100, 1)
+        foamed_72h_article_fulltext_pct = float(cybermed_diagnostics_payload.get("foamed_72h_article_fulltext_pct", 0.0) or 0.0)
         ready_pubmed = float(cybermed_diagnostics_payload.get("pubmed_post_state_content_coverage_pct", 0.0)) >= 75.0
-        ready_foamed_summary = foamed_72h_fulltext_pct >= 80.0
+        ready_foamed_summary = float(cybermed_diagnostics_payload.get("foamed_72h_usable_text_pct", 0.0) or 0.0) >= 80.0
         rolling_prod = int(cybermed_diagnostics_payload.get("foamed_rolling_productive_sources_total", 0) or 0)
         ready_foamed_cov = rolling_prod >= 8
         blocking = []
         if not ready_pubmed: blocking.append("pubmed_content_coverage_below_75")
-        if not ready_foamed_summary: blocking.append("foamed_fulltext_below_80")
+        if not ready_foamed_summary: blocking.append("foamed_usable_text_below_80")
         if not ready_foamed_cov: blocking.append("foamed_rolling_productive_sources_below_8")
         cybermed_diagnostics_payload["cybermed_readiness"] = {
             "pubmed_post_state_content_coverage_pct": cybermed_diagnostics_payload.get("pubmed_post_state_content_coverage_pct", 0.0),
             "pubmed_ready_for_ranking": ready_pubmed,
-            "foamed_72h_fulltext_pct": foamed_72h_fulltext_pct,
+            "foamed_72h_article_fulltext_pct": foamed_72h_article_fulltext_pct,
+            "foamed_72h_usable_text_pct": float(cybermed_diagnostics_payload.get("foamed_72h_usable_text_pct", 0.0) or 0.0),
             "foamed_ready_for_summaries": ready_foamed_summary,
             "foamed_rolling_productive_sources_total": rolling_prod,
             "foamed_ready_for_coverage": ready_foamed_cov,

@@ -8,7 +8,7 @@ def test_pubmed_backfill_tags_and_counts():
         {"id": "3", "abstract": "", "doi": "10.1/x", "publication_types": ["Letter"]},
     ]
     d = _pubmed_content_backfill_and_diagnostics(items)
-    assert d["pubmed_content_backfill_attempted_total"] == 3
+    assert d["pubmed_content_backfill_attempted_total"] == 2
     assert d["pubmed_items_metadata_only_total"] == 1
     assert items[0]["content_source"] == "pubmed_structured_abstract"
     assert items[1]["content_source"] == "pmc_oa_fulltext"
