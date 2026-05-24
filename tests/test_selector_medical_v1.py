@@ -1,4 +1,4 @@
-from newsagent2.selector_medical import select_cybermed_pubmed_items, select_cybermed_foamed_items
+from newsagent2.selector_medical import select_cybermed_pubmed_items, select_cybermed_foamed_items, _attach_evidence_hint_labels
 
 
 def _cfg(tmp_path):
@@ -98,3 +98,20 @@ def test_selected_pubmed_items_have_display_ready_labels(tmp_path):
     assert 1 <= it["clinical_relevance_1_5"] <= 5
     assert 1 <= it["practice_change_potential_1_5"] <= 5
     assert it["text_confidence_label"] in {"high", "moderate", "low"}
+    assert it["evidence_strength_label_basis"]
+
+
+def test_evidence_label_calibration_cases(tmp_path):
+    def lbl(item):
+        _attach_evidence_hint_labels(item, foamed=False)
+        return item["evidence_strength_label"]
+    assert lbl({"text": "practice guideline ICU mortality recommendations", "publication_types": ["Practice Guideline"]}) == "A"
+    assert lbl({"text": "consensus recommendation perioperative safety", "publication_types": ["Guideline"]}) in {"A", "B"}
+    assert lbl({"text": "meta-analysis randomized trials mortality", "publication_types": ["Meta-Analysis"]}) in {"A", "B"}
+    assert lbl({"text": "phase 3 randomized trial intubation outcome", "publication_types": ["Randomized Controlled Trial"]}) in {"A", "B"}
+    assert lbl({"text": "randomized trial surrogate biomarker", "publication_types": ["Randomized Controlled Trial"]}) in {"B", "C"}
+    assert lbl({"text": "prospective cohort registry sepsis mortality", "publication_types": ["Journal Article"]}) in {"B", "C"}
+    assert lbl({"text": "retrospective cohort analysis", "publication_types": ["Journal Article"]}) == "C"
+    assert lbl({"text": "how i do it expert opinion", "publication_types": ["Review"]}) == "D"
+    assert lbl({"text": "editorial comment", "publication_types": ["Editorial"]}) == "E"
+    assert lbl({"text": "", "abstract": "", "publication_types": ["Journal Article"]}) == "E"

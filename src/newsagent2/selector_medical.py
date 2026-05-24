@@ -1081,17 +1081,53 @@ def _attach_evidence_hint_labels(item: Dict[str, Any], *, foamed: bool=False) ->
         item['practice_relevance_1_5']=max(1,min(5,int(round(float(item.get('practice_changing_score',0.0))+1))))
         return
     ev=float(item.get('evidence_strength_score',0.0) or 0.0)
-    if ev>=4: lbl='A'
+    pub_types = {str(v).strip().lower() for v in (item.get("publication_types") or []) if str(v).strip()}
+    ev_tags = {str(v).strip().lower() for v in (item.get("evidence_tags") or []) if str(v).strip()}
+    hay = f"{item.get('title') or ''} {item.get('abstract') or ''} {item.get('text') or ''}".lower()
+    has_patient_outcome = any(k in hay for k in ["mortality", "intubation", "ventilation", "shock", "sepsis", "cardiac arrest", "safety", "patient-centered", "patient centred"])
+    has_guideline = any(x in pub_types for x in {"practice guideline", "guideline"}) or ("consensus" in hay and "recommend" in hay)
+    is_meta_or_sr = any(x in pub_types for x in {"meta-analysis", "systematic review"}) or any(x in hay for x in ["meta-analysis", "meta analysis", "systematic review"])
+    is_rct = ("randomized controlled trial" in pub_types) or ("randomized" in hay and "trial" in hay) or ("phase 3" in hay or "phase iii" in hay)
+    is_observational = any(x in hay for x in ["prospective cohort", "retrospective cohort", "registry", "observational", "secondary analysis", "interrupted time series", "before-after"])
+    is_low_evidence_type = any(x in pub_types for x in {"editorial", "letter", "comment", "news", "published erratum", "erratum", "correction"})
+    is_metadata_only = not str(item.get("text") or "").strip() and not str(item.get("abstract") or "").strip()
+    is_narrative_or_expert = any(x in hay for x in ["narrative review", "how i do it", "expert opinion", "expert synthesis", "physiology"])
+    basis = "score_fallback"
+    if is_metadata_only:
+        lbl, basis = "E", "metadata_only"
+    elif is_low_evidence_type:
+        lbl, basis = "E", "low_evidence_publication_type"
+    elif has_guideline:
+        lbl, basis = ("A" if has_patient_outcome else "B"), "guideline_or_consensus"
+    elif is_meta_or_sr:
+        lbl, basis = ("A" if (has_patient_outcome or is_rct) else "B"), "meta_analysis_clinical"
+    elif is_rct:
+        lbl, basis = ("A" if has_patient_outcome else "B"), "randomized_trial_clinical"
+    elif is_observational:
+        lbl, basis = ("B" if ("prospective cohort" in hay or "registry" in hay) and has_patient_outcome else "C"), "observational_clinical"
+    elif is_narrative_or_expert:
+        lbl, basis = "D", "expert_review"
+    elif ev>=4: lbl='A'
     elif ev>=3: lbl='B'
     elif ev>=2: lbl='C'
     elif ev>0: lbl='D'
     else: lbl='E'
     item['evidence_strength_label']=lbl
+    item['evidence_strength_label_basis']=basis
     item['evidence_strength_score_0_5']=max(0,min(5,int(round(ev))))
-    item['clinical_relevance_1_5']=max(1,min(5,int(round(float(item.get('clinical_relevance_score',0.0))+1))))
-    item['practice_change_potential_1_5']=max(1,min(5,int(round(float(item.get('practice_changing_score',0.0))+1))))
+    rel_base = float(item.get('clinical_relevance_score',0.0) or 0.0)
+    impact_base = float(item.get('practice_changing_score',0.0) or 0.0)
+    direct_clinical_bonus = 0.4 if any(k in hay for k in ["icu", "critical care", "emergency", "anesthesia", "anaesthesia", "perioperative", "bedside"]) else 0.0
+    outcome_bonus = 0.5 if has_patient_outcome else 0.0
+    rel = int(round(rel_base + 1 + direct_clinical_bonus + outcome_bonus))
+    impact_bonus = 0.5 if (has_guideline or is_meta_or_sr or is_rct) and has_patient_outcome else (0.2 if is_observational and has_patient_outcome else 0.0)
+    if is_narrative_or_expert:
+        impact_bonus -= 0.4
+    impact = int(round(impact_base + 1 + impact_bonus))
+    item['clinical_relevance_1_5']=max(1,min(5,rel))
+    item['practice_change_potential_1_5']=max(1,min(5,impact))
     item['text_confidence_label']='high' if str(item.get('content_length_bucket')) in {'long','very_long'} else ('moderate' if str(item.get('content_length_bucket')) in {'medium','short'} else 'low')
-    item['evidence_label_reason']='GRADE-like evidence hint from article-level signals'
+    item['evidence_label_reason']=f"article-level heuristic: {basis}"
 def _foamed_domain_score(hay: str) -> Tuple[float, Dict[str, bool], bool]:
     """
     Lightweight clinical relevance signals for FOAMed/blog posts.
