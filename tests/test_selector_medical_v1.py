@@ -115,3 +115,35 @@ def test_evidence_label_calibration_cases(tmp_path):
     assert lbl({"text": "how i do it expert opinion", "publication_types": ["Review"]}) == "D"
     assert lbl({"text": "editorial comment", "publication_types": ["Editorial"]}) == "E"
     assert lbl({"text": "", "abstract": "", "publication_types": ["Journal Article"]}) == "E"
+
+
+def test_correspondence_title_patterns_and_evidence_floors(tmp_path):
+    items = [
+        {"title": "Reply to prior trial", "text": "icu mortality context", "publication_types": ["Journal Article"], "content_length": 250},
+        {"title": "Response to prior trial", "text": "icu mortality context", "publication_types": ["Journal Article"], "content_length": 250},
+        {"title": "In reply: comments", "text": "icu mortality context", "publication_types": ["Journal Article"], "content_length": 250},
+        {"title": "Clinical Commentary update", "text": "icu review mortality", "publication_types": ["Journal Article"], "content_length": 250},
+        {"title": "Commentary with RCT data", "text": "randomized controlled trial mortality", "publication_types": ["Randomized Controlled Trial"], "content_length": 320},
+        {"title": "Journal Article weak", "text": "brief editorial style", "publication_types": ["Journal Article"], "content_length": 220},
+        {"title": "Evidence D high relevance", "text": "expert review ICU mortality patient practical bedside", "publication_types": ["Journal Article"], "content_length": 350, "evidence_strength_score": 1.0},
+        {"title": "Evidence A RCT", "text": "randomized controlled trial ICU mortality patient outcome", "publication_types": ["Randomized Controlled Trial"], "content_length": 350},
+        {"title": "Systematic review", "text": "systematic review meta-analysis ICU mortality", "publication_types": ["Systematic Review"], "content_length": 350},
+        {"title": "Guideline", "text": "practice guideline ICU mortality patient recommendations", "publication_types": ["Practice Guideline"], "content_length": 350},
+    ]
+    res = select_cybermed_pubmed_items(items, config_path=_cfg(tmp_path))
+    titles = {it["title"] for it in res.overview_items}
+    assert "Reply to prior trial" not in titles
+    assert "Response to prior trial" not in titles
+    assert "In reply: comments" not in titles
+    assert "Clinical Commentary update" not in titles
+    assert "Commentary with RCT data" in titles
+    assert "Journal Article weak" not in titles
+    assert "Evidence A RCT" in titles
+    assert "Systematic review" in titles
+    assert "Guideline" in titles
+    assert all(not (it["title"] == "Evidence D high relevance" and it.get("top_pick")) for it in res.overview_items)
+    assert all(not (it["title"] == "Evidence D high relevance") for it in res.deep_dive_items)
+    diag = res.stats["selection_diagnostics"]
+    assert diag["pubmed_correspondence_reply_excluded_total"] >= 1
+    assert diag["pubmed_evidence_e_excluded_from_papers_total"] >= 1
+    assert "pubmed_evidence_d_context_radar_total" in diag

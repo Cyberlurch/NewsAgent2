@@ -669,6 +669,8 @@ def select_cybermed_pubmed_items(
         has_real_evidence_pubtype = _has_real_evidence_pubtype(pub_types)
         low_priority_only = _low_priority_only(pub_types)
         is_correction_or_commentary, floor_block_reasons = _is_correction_or_commentary_item(title, pub_types)
+        title_floor_reasons = _title_correspondence_or_commentary_reasons(title)
+        title_floor_blocked = bool(title_floor_reasons) and not has_real_evidence_pubtype
         strong_domain_and_usable = any(domain_flags.values()) and has_usable_content
         floor_reasons: List[str] = []
         if float(v1_scores.get("evidence", 0.0)) > 0:
@@ -724,6 +726,14 @@ def select_cybermed_pubmed_items(
             if not floor_reasons: exclusion_reason_counts["no_primary_evidence_signal"] += 1
             overview_excluded_by_type_floor_total += 1
             low_priority_publication_type_excluded_total += 1
+            continue
+        if title_floor_blocked:
+            low_evidence_radar_candidates_total += 1
+            overview_excluded_by_type_floor_total += 1
+            low_priority_publication_type_excluded_total += 1
+            for rr in title_floor_reasons:
+                low_evidence_radar_reason_counts[rr] += 1
+                exclusion_reason_counts[rr] += 1
             continue
         if not type_floor_passed:
             overview_excluded_by_type_floor_total += 1
@@ -826,6 +836,28 @@ def select_cybermed_pubmed_items(
         enriched["low_evidence_radar"] = low_evidence_radar
         enriched["floor_rejection_reason"] = "" if enriched["overview_eligible"] else (floor_block_reasons[0] if floor_block_reasons else ("low_evidence_commentary" if low_evidence_radar else "no_primary_evidence_signal"))
         _attach_evidence_hint_labels(enriched, foamed=False)
+        label = str(enriched.get("evidence_strength_label") or "").upper()
+        d_label = label == "D"
+        e_label = label == "E"
+        if d_label:
+            if not (
+                int(enriched.get("clinical_relevance_1_5") or 0) >= 4
+                and int(enriched.get("practice_change_potential_1_5") or 0) >= 3
+                and has_usable_content
+                and not title_floor_blocked
+                and not is_correction_or_commentary
+            ):
+                enriched["low_evidence_radar"] = True
+                enriched["overview_eligible"] = False
+                enriched["floor_rejection_reason"] = "evidence_d_context_radar"
+                low_evidence_radar_reason_counts["evidence_d_context_radar"] += 1
+        if e_label and not has_real_evidence_pubtype:
+            enriched["low_evidence_radar"] = True
+            enriched["overview_eligible"] = False
+            enriched["floor_rejection_reason"] = "evidence_e_not_normal_paper"
+            if "evidence_e_not_normal_paper" not in enriched.get("reason_labels", []):
+                enriched["reason_labels"] = list(enriched.get("reason_labels", [])) + ["evidence_e_not_normal_paper"]
+            low_evidence_radar_reason_counts["evidence_e_not_normal_paper"] += 1
 
         enriched["cybermed_deep_dive_hard_excluded"] = _matches_any_regex(
             hay, [str(x) for x in hard_exclude_deep]
@@ -869,7 +901,10 @@ def select_cybermed_pubmed_items(
             and float(cand.get("clinical_relevance_score",0.0)) >= 2.0
             and str(cand.get("content_length_bucket")) != "none"
         )
-        if top_pick and (cand.get("low_evidence_radar") or not cand.get("type_floor_passed") or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0]):
+        ev_label = str(cand.get("evidence_strength_label") or "").upper()
+        has_real_evidence_pubtype = _has_real_evidence_pubtype(_pub_types(cand))
+        title_floor_blocked = bool(_title_correspondence_or_commentary_reasons(str(cand.get("title") or ""))) and not has_real_evidence_pubtype
+        if top_pick and (ev_label not in {"A", "B", "C"} or cand.get("low_evidence_radar") or not cand.get("type_floor_passed") or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0] or title_floor_blocked):
             top_pick = False
             top_pick_floor_rejection_counts["type_floor"] += 1
         if top_pick and float(cand.get("evidence_strength_score",0.0)) <= 0:
@@ -906,7 +941,10 @@ def select_cybermed_pubmed_items(
 
         if cand.get("cybermed_deep_dive_hard_excluded"):
             continue
-        if cand.get("low_evidence_radar") or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0]:
+        ev_label = str(cand.get("evidence_strength_label") or "").upper()
+        has_real_evidence_pubtype = _has_real_evidence_pubtype(_pub_types(cand))
+        title_floor_blocked = bool(_title_correspondence_or_commentary_reasons(str(cand.get("title") or ""))) and not has_real_evidence_pubtype
+        if cand.get("low_evidence_radar") or ev_label not in {"A", "B", "C"} or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0] or title_floor_blocked:
             deep_dive_floor_rejection_counts["low_evidence_news_or_commentary"] += 1
             continue
 
@@ -1011,6 +1049,9 @@ def select_cybermed_pubmed_items(
             "pubmed_low_priority_publication_type_excluded_total": low_priority_publication_type_excluded_total,
             "pubmed_context_radar_candidates_total": low_evidence_radar_candidates_total,
             "pubmed_context_radar_reason_counts": dict(low_evidence_radar_reason_counts),
+            "pubmed_correspondence_reply_excluded_total": int(low_evidence_radar_reason_counts.get("correspondence_or_reply", 0) + low_evidence_radar_reason_counts.get("commentary_title_pattern", 0)),
+            "pubmed_evidence_e_excluded_from_papers_total": int(low_evidence_radar_reason_counts.get("evidence_e_not_normal_paper", 0)),
+            "pubmed_evidence_d_context_radar_total": int(low_evidence_radar_reason_counts.get("evidence_d_context_radar", 0)),
             "pubmed_context_radar_publication_type_counts": dict(Counter(str(pt) for it in pubmed_items for pt in (it.get("publication_types") or []))),
             "pubmed_overview_eligible_after_type_floor_total": overview_eligible_after_type_floor_total,
             "pubmed_overview_excluded_by_type_floor_total": overview_excluded_by_type_floor_total,
@@ -1037,6 +1078,8 @@ def select_cybermed_pubmed_items(
                     "type_floor_passed": bool(it.get("type_floor_passed")),
                     "overview_eligible": bool(it.get("overview_eligible")),
                     "low_evidence_radar": bool(it.get("low_evidence_radar")),
+                    "evidence_strength_label": str(it.get("evidence_strength_label") or ""),
+                    "evidence_strength_label_basis": str(it.get("evidence_strength_label_basis") or ""),
                     "floor_rejection_reason": str(it.get("floor_rejection_reason") or ""),
                     "reason_labels": [str(v) for v in (it.get("reason_labels") or [])][:10],
                     "exclusion_reason": str(it.get("exclusion_reason") or ""),
@@ -1067,6 +1110,33 @@ def _is_correction_or_commentary_item(title: str, pub_types: List[str]) -> Tuple
     if any(x in pts for x in {'letter','comment','editorial','news'}):
         reasons.append('low_evidence_editorial_letter')
     return (len(reasons)>0,reasons)
+
+
+def _title_correspondence_or_commentary_reasons(title: str) -> List[str]:
+    tl = (title or "").lower()
+    correspondence_patterns = [
+        "reply to ",
+        "response to ",
+        "in reply",
+        "author reply",
+        "reply:",
+    ]
+    commentary_patterns = [
+        "comment on",
+        "commentary",
+        "correspondence",
+        "letter to the editor",
+        "correction to:",
+        "erratum",
+        "corrigendum",
+        "editorial",
+    ]
+    reasons: List[str] = []
+    if any(p in tl for p in correspondence_patterns):
+        reasons.append("correspondence_or_reply")
+    if any(p in tl for p in commentary_patterns):
+        reasons.append("commentary_title_pattern")
+    return reasons
 
 
 def _attach_evidence_hint_labels(item: Dict[str, Any], *, foamed: bool=False) -> None:
