@@ -13,14 +13,32 @@ def test_pubmed_coverage_with_abstracts_and_backfill_reason():
     assert d["pubmed_post_state_content_coverage_pct"] == 100.0
     assert d["pubmed_content_backfill_attempted_total"] == 0
     assert d["pubmed_content_backfill_not_attempted_reason"] == "all_post_state_items_already_have_usable_content"
+    assert d["pubmed_content_source_counts"]["pubmed_abstract"] == 3
+    assert d["pubmed_content_retrieval_method_counts"]["efetch_xml"] == 3
+
+
+def test_pubmed_coverage_threshold_and_metadata_only_mix():
+    items = [
+        {"abstract": "A" * 280, "doi": "10.1/a"},
+        {"full_text_excerpt": "F" * 1300, "fulltext_source": "pmc:123", "pmcid": "PMC1"},
+        {"title": "metadata only"},
+        {"title": "metadata only 2"},
+    ]
+    d = _pubmed_content_backfill_and_diagnostics(items)
+    assert d["pubmed_items_with_abstract_or_oa_fulltext_total"] == 2
+    assert d["pubmed_items_metadata_only_total"] == 2
+    assert d["pubmed_post_state_content_coverage_pct"] == 50.0
 
 
 def test_foamed_pct_scaling_and_usable_text_threshold():
     items = [{"final_content_source": "article_full_text", "text": "x"*600} for _ in range(5)] + [{"final_content_source": "article_excerpt", "text": "y"*300} for _ in range(5)]
     d = _foamed_72h_text_diagnostics(items, min_chars=400)
+    assert d["foamed_72h_items_total"] == 10
+    assert d["foamed_72h_article_fulltext_total"] == 5
+    assert d["foamed_72h_article_excerpt_total"] == 5
     assert d["foamed_72h_article_fulltext_pct"] == 50.0
     assert d["foamed_72h_usable_text_pct"] == 50.0
-    assert "foamed_72h_text_length_median" in d
+    assert d["foamed_72h_text_length_median"] > 0
 
 
 def test_rolling_audit_fields_present(tmp_path, monkeypatch):
