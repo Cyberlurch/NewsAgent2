@@ -144,8 +144,6 @@ jobs:
 
           schedule_expr="${{ github.event.schedule || '' }}"
           offset=$(TZ=Europe/Stockholm date +%z)
-          dow=$(TZ=Europe/Stockholm date +%u)
-          dom=$(TZ=Europe/Stockholm date +%d)
 
           expected_cron="30 3 * * *"
           if [ "$offset" = "+0100" ]; then
@@ -162,16 +160,11 @@ jobs:
             reasons+=("cron-mismatch")
           fi
 
-          if [ "$dow" -ge 6 ] && [ "$dom" != "01" ]; then
-            should_run=false
-            reasons+=("weekend-nonfirst")
-          fi
-
           echo "should_run=$should_run" >> "$GITHUB_OUTPUT"
           echo "dst_coverage_run=$dst_coverage_run" >> "$GITHUB_OUTPUT"
 
           reason_text="${reasons[*]:-none}"
-          echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' dow=${dow} dom=${dom} should_run=${should_run} reasons=${reason_text}"
+          echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' should_run=${should_run} reasons=${reason_text}"
 
           if [ "$should_run" != "true" ]; then
             exit 0
@@ -189,13 +182,11 @@ jobs:
           if [ "${{ github.event_name }}" = "schedule" ] && [ "$gate_decision" != "true" ]; then
             echo "run_skip=true" >> "$GITHUB_OUTPUT"
             echo "run_modes=" >> "$GITHUB_OUTPUT"
+            echo "run_modes_cybermed=" >> "$GITHUB_OUTPUT"
+            echo "run_modes_cyberlurch=" >> "$GITHUB_OUTPUT"
             echo "run_which_report=both" >> "$GITHUB_OUTPUT"
-            echo "run_skip_reason=${gate_dst_cov:+dst_coverage}" >> "$GITHUB_OUTPUT"
-            if [ "$gate_dst_cov" = "true" ]; then
-              echo "Gate check requested skip; DST coverage run intentionally no-op."
-            else
-              echo "Gate check requested skip; no modes scheduled."
-            fi
+            echo "run_skip_reason=dst_coverage" >> "$GITHUB_OUTPUT"
+            echo "Gate check requested skip; DST coverage run intentionally no-op."
             exit 0
           fi
 
@@ -216,15 +207,37 @@ jobs:
             json_out=$(python - <<'PY'
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from src.newsagent2.scheduler import compute_scheduled_run_plan
 import json
-d = datetime.now(tz=ZoneInfo("Europe/Stockholm")).date()
-print(json.dumps({"date": str(d), **compute_scheduled_run_plan(d)}))
+
+try:
+    from src.newsagent2.scheduler import compute_scheduled_run_plan
+except Exception as exc:
+    raise SystemExit(f"ERROR: failed to import scheduler for scheduled planning: {exc}")
+
+try:
+    d = datetime.now(tz=ZoneInfo("Europe/Stockholm")).date()
+    print(json.dumps({"date": str(d), **compute_scheduled_run_plan(d)}))
+except Exception as exc:
+    raise SystemExit(f"ERROR: scheduled run planning failed: {exc}")
 PY
 )
             run_modes_cybermed="$(python -c 'import json,sys; print(\" \".join(json.loads(sys.argv[1])[\"cybermed_modes\"]))' "$json_out")"
             run_modes_cyberlurch="$(python -c 'import json,sys; print(\" \".join(json.loads(sys.argv[1])[\"cyberlurch_modes\"]))' "$json_out")"
             run_modes="$run_modes_cyberlurch"
+            if [ -n "$run_modes_cybermed" ]; then
+              run_modes="$run_modes $run_modes_cybermed"
+            fi
+            run_modes="$(echo "$run_modes" | xargs)"
+            if [ -z "$run_modes" ]; then
+              echo "run_skip=true" >> "$GITHUB_OUTPUT"
+              echo "run_modes=" >> "$GITHUB_OUTPUT"
+              echo "run_modes_cybermed=" >> "$GITHUB_OUTPUT"
+              echo "run_modes_cyberlurch=" >> "$GITHUB_OUTPUT"
+              echo "run_which_report=both" >> "$GITHUB_OUTPUT"
+              echo "run_skip_reason=no_modes_scheduled" >> "$GITHUB_OUTPUT"
+              echo "Scheduled planner returned no modes for both reports; skipping run."
+              exit 0
+            fi
             echo "local_date_stockholm=$(python -c 'import json,sys; print(json.loads(sys.argv[1])[\"date\"])' "$json_out")"
             echo "cybermed_modes=$run_modes_cybermed"
             echo "cyberlurch_modes=$run_modes_cyberlurch"
@@ -345,7 +358,12 @@ PY
           fi
 
           if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cyberlurch" ]; then
-            for mode in ${RUN_MODES_CYBERLURCH:-$RUN_MODES}; do
+            cyberlurch_modes="${RUN_MODES_CYBERLURCH:-}"
+            if [ -z "$cyberlurch_modes" ]; then cyberlurch_modes="${RUN_MODES:-}"; fi
+            if [ -z "$cyberlurch_modes" ]; then
+              echo "Skipping Cyberlurch: no run modes resolved."
+            else
+            for mode in $cyberlurch_modes; do
               echo "--- Running Cyberlurch cadence: $mode ---"
               export REPORT_MODE="$mode"
               CHFILE="data/channels.json"
@@ -372,10 +390,16 @@ PY
               SEND_EMPTY_REPORT_EMAIL="1" \
               python -m src.newsagent2.main --channels "$CHFILE" --hours 24
             done
+            fi
           fi
 
           if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cybermed" ]; then
-            for mode in ${RUN_MODES_CYBERMED:-$RUN_MODES}; do
+            cybermed_modes="${RUN_MODES_CYBERMED:-}"
+            if [ -z "$cybermed_modes" ]; then cybermed_modes="${RUN_MODES:-}"; fi
+            if [ -z "$cybermed_modes" ]; then
+              echo "Skipping Cybermed: no run modes resolved."
+            else
+            for mode in $cybermed_modes; do
               echo "--- Running Cybermed cadence: $mode ---"
               export REPORT_MODE="$mode"
               REPORT_KEY=cybermed \
@@ -388,12 +412,15 @@ PY
               CYBERMED_CALENDAR_LOCAL_DATE_STOCKHOLM="$(TZ=Europe/Stockholm date +%F)" \
               python -m src.newsagent2.main --channels "data/cybermed_channels.json" --hours 24
             done
+            fi
           fi
 
       - name: Verify reports and email attempts
         if: steps.compute_plan.outputs.run_skip != 'true'
         env:
           RUN_MODES: ${{ steps.compute_plan.outputs.run_modes }}
+          RUN_MODES_CYBERMED: ${{ steps.compute_plan.outputs.run_modes_cybermed }}
+          RUN_MODES_CYBERLURCH: ${{ steps.compute_plan.outputs.run_modes_cyberlurch }}
           RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}
           REPORT_DIR: ${{ env.REPORT_DIR }}
           RUN_LOG_PATH: out/run.log
@@ -405,43 +432,33 @@ PY
           report_dir="${REPORT_DIR:-out}"
           log_path="${RUN_LOG_PATH:-out/run.log}"
 
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            schedule_expr="${{ github.event.schedule || '' }}"
-            offset=$(TZ=Europe/Stockholm date +%z)
-            dow=$(TZ=Europe/Stockholm date +%u)
-            dom=$(TZ=Europe/Stockholm date +%d)
-
-            expected_cron="30 3 * * *"
-            if [ "$offset" = "+0100" ]; then
-              expected_cron="30 4 * * *"
-            fi
-
-            should_run=true
-            if [ "$schedule_expr" != "$expected_cron" ]; then
-              should_run=false
-            fi
-            if [ "$dow" -ge 6 ] && [ "$dom" != "01" ]; then
-              should_run=false
-            fi
-
-            echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' dow=${dow} dom=${dom} should_run=${should_run}"
-
-            if [ "$should_run" != "true" ]; then
-              echo "Verification bypassed: scheduled run not aligned to Stockholm 05:30 delivery slot."
-              exit 0
-            fi
-          fi
-
           if [ ! -f "$log_path" ]; then
             echo "ERROR: Run log not found at $log_path"
             exit 1
           fi
 
-          shopt -s nullglob
-          md_files=("$report_dir"/*.md)
-          if [ ${#md_files[@]} -eq 0 ]; then
-            echo "ERROR: No newsletter markdown files were generated in ${report_dir} for modes: ${RUN_MODES}."
-            exit 1
+          expected_any=0
+          if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cyberlurch" ]; then
+            cyberlurch_modes="${RUN_MODES_CYBERLURCH:-}"
+            if [ -z "$cyberlurch_modes" ]; then cyberlurch_modes="${RUN_MODES:-}"; fi
+            if [ -n "$cyberlurch_modes" ]; then expected_any=1; fi
+          fi
+          if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cybermed" ]; then
+            cybermed_modes="${RUN_MODES_CYBERMED:-}"
+            if [ -z "$cybermed_modes" ]; then cybermed_modes="${RUN_MODES:-}"; fi
+            if [ -n "$cybermed_modes" ]; then expected_any=1; fi
+          fi
+
+          if [ "$expected_any" -eq 1 ]; then
+            shopt -s nullglob
+            md_files=("$report_dir"/*.md)
+            if [ ${#md_files[@]} -eq 0 ]; then
+              echo "ERROR: No newsletter markdown files were generated in ${report_dir} for expected modes."
+              exit 1
+            fi
+          else
+            echo "Verification passed: no report modes expected."
+            exit 0
           fi
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${EMAIL_MODE:-none}" = "none" ]; then
