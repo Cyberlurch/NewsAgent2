@@ -67,3 +67,34 @@ def test_foamed_top_pick_prefers_strong_text():
     res=select_cybermed_foamed_items(items, max_overview=10, max_top_picks=1)
     assert len(res.overview_items) >= 1
     assert len(res.top_picks) == 1
+    assert res.overview_items[0]["source_quality_label"] in {"core", "important", "optional"}
+    assert res.overview_items[0]["text_confidence_label"] in {"high", "moderate", "low"}
+
+
+def test_correction_and_comment_titles_excluded_and_radar(tmp_path):
+    items = [
+        {"title": "Correction to: ICU trial", "text": "small", "publication_types": ["Journal Article"], "content_length": 80},
+        {"title": "Comment on major RCT", "text": "short comment", "publication_types": ["Comment"], "content_length": 80},
+        {"title": "Actual RCT", "text": "randomized controlled trial ICU mortality patients", "publication_types": ["Randomized Controlled Trial"], "content_length": 300},
+    ]
+    res = select_cybermed_pubmed_items(items, config_path=_cfg(tmp_path))
+    titles = {it["title"] for it in res.overview_items}
+    assert "Correction to: ICU trial" not in titles
+    assert "Comment on major RCT" not in titles
+    assert "Actual RCT" in titles
+    diag = res.stats["selection_diagnostics"]
+    assert diag["pubmed_context_radar_candidates_total"] >= 1
+
+
+def test_selected_pubmed_items_have_display_ready_labels(tmp_path):
+    items = [
+        {"title": "Practice Guideline ICU", "text": "practice guideline ICU mortality patient recommendations", "publication_types": ["Practice Guideline"], "content_source":"pubmed_abstract", "content_length": 350}
+    ]
+    res = select_cybermed_pubmed_items(items, config_path=_cfg(tmp_path))
+    assert res.overview_items
+    it = res.overview_items[0]
+    assert it["evidence_strength_label"] in {"A", "B", "C", "D", "E"}
+    assert 0 <= it["evidence_strength_score_0_5"] <= 5
+    assert 1 <= it["clinical_relevance_1_5"] <= 5
+    assert 1 <= it["practice_change_potential_1_5"] <= 5
+    assert it["text_confidence_label"] in {"high", "moderate", "low"}
