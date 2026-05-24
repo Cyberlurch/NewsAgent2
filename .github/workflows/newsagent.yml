@@ -120,6 +120,7 @@ jobs:
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
       WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'cyberlurch') || 'both' }}
       EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') || 'real' }}
+      CYBERMED_QA_REPLAY_MODE: ${{ vars.CYBERMED_QA_REPLAY_MODE || '0' }}
       CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.cyberlurch_channels_file || '') || '' }}
       MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.managed_transcript_provider || 'default') || 'default' }}
 

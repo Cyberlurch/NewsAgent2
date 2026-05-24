@@ -1,8 +1,11 @@
 import pathlib
 import sys
+import json
 from datetime import datetime, timezone
+from types import SimpleNamespace
 
 from newsagent2 import main
+from newsagent2 import selector_medical
 
 
 def _fake_channels(_path):
@@ -103,3 +106,39 @@ def test_workflow_exposes_cybermed_intake_audit_env_vars():
     assert "FOAMED_ARTICLE_FETCH: ${{ vars.FOAMED_ARTICLE_FETCH || '0' }}" in text
     assert "FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}" in text
     assert "FOAMED_RENDER_FALLBACK: ${{ vars.FOAMED_RENDER_FALLBACK || '0' }}" in text
+    assert "CYBERMED_QA_REPLAY_MODE: ${{ vars.CYBERMED_QA_REPLAY_MODE || '0' }}" in text
+
+
+def test_cybermed_qa_replay_safety_and_state_behavior(monkeypatch, tmp_path):
+    _configure_common(monkeypatch, tmp_path, report_key="cybermed")
+    state_path = tmp_path / "state.json"
+    state_path.write_text(json.dumps({"cybermed": {"pubmed": {"123": {"processed_at_utc": "2026-01-01T00:00:00+00:00"}}}}), encoding="utf-8")
+    monkeypatch.setenv("CYBERMED_QA_REPLAY_MODE", "1")
+    monkeypatch.setattr(main, "search_recent_pubmed", _fake_pubmed_factory([]))
+    monkeypatch.setattr(
+        selector_medical,
+        "select_cybermed_pubmed_items",
+        lambda items: SimpleNamespace(overview_items=list(items), deep_dive_items=list(items), stats={"selection_diagnostics": {}}),
+    )
+
+    main.main()
+
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_qa_replay_enabled"] is True
+    assert diag["cybermed_qa_replay_safety_passed"] is True
+    assert diag["cybermed_qa_replay_state_mutation_disabled"] is True
+    assert diag["cybermed_qa_replay_email_disabled_confirmed"] is True
+    assert diag["cybermed_qa_replay_state_bypass_pubmed_total"] >= 1
+    after = json.loads(state_path.read_text(encoding="utf-8"))
+    assert after == {"cybermed": {"pubmed": {"123": {"processed_at_utc": "2026-01-01T00:00:00+00:00"}}}}
+
+
+def test_cybermed_qa_replay_ignored_when_send_email_enabled(monkeypatch, tmp_path):
+    _configure_common(monkeypatch, tmp_path, report_key="cybermed")
+    monkeypatch.setenv("SEND_EMAIL", "1")
+    monkeypatch.setenv("CYBERMED_QA_REPLAY_MODE", "1")
+    monkeypatch.setattr(main, "search_recent_pubmed", _fake_pubmed_factory([]))
+    main.main()
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_qa_replay_enabled"] is False
+    assert "send_email_not_zero" in diag["cybermed_qa_replay_skipped_reason"]
