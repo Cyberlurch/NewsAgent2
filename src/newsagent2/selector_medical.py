@@ -6,7 +6,7 @@ import re
 from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Set
 
 
 @dataclass(frozen=True)
@@ -321,6 +321,84 @@ def _deep_dive_score(
     return score, reasons
 
 
+
+
+LOW_PRIORITY_PUB_TYPES = {"editorial", "letter", "comment", "news", "erratum"}
+HIGH_EVIDENCE_PUB_TYPES = {
+    "randomized controlled trial",
+    "clinical trial",
+    "systematic review",
+    "meta-analysis",
+    "practice guideline",
+    "guideline",
+}
+
+def _content_length_bucket(length: int) -> str:
+    if length <= 0:
+        return "none"
+    if length < 160:
+        return "short"
+    if length < 600:
+        return "medium"
+    return "long"
+
+def _pubmed_v1_scores(item: Dict[str, Any], hay: str, domain_flags: Dict[str, bool]) -> Tuple[Dict[str, float], List[str], List[str], str | None, bool]:
+    reasons: List[str] = []
+    penalties: List[str] = []
+    hard_exclusion: str | None = None
+    pub_types = {str(x).strip().lower() for x in (item.get("publication_types") or []) if str(x).strip()}
+    evidence_tags = {str(x).strip().lower() for x in (item.get("evidence_tags") or []) if str(x).strip()}
+    journal = str(item.get("journal") or "").lower()
+    text = str(item.get("text") or "")
+    has_content = bool(text.strip())
+    content_length = int(item.get("content_length") or len(text.strip()))
+    has_structured = bool(item.get("abstract_sections"))
+    source = str(item.get("content_source") or "")
+
+    evidence = 0.0
+    clinical = 0.0
+    practice = 0.0
+    text_conf = 0.0
+
+    if pub_types & HIGH_EVIDENCE_PUB_TYPES or (evidence_tags & HIGH_EVIDENCE_PUB_TYPES):
+        evidence += 3.0; reasons.append("high_evidence_publication_type")
+    if _contains_any_keyword(hay,["prospective cohort","diagnostic accuracy","randomized","clinical trial"]):
+        evidence += 1.5
+    if pub_types & LOW_PRIORITY_PUB_TYPES:
+        evidence -= 1.5; penalties.append("publication_type_low_priority")
+    if _contains_any_keyword(hay,["animal","murine","in vitro","preclinical","basic science"]):
+        evidence -= 1.5; penalties.append("possible_offtopic")
+
+    clinical_terms=["mortality","intubation","airway","ventilation","ards","sepsis","septic shock","vasopressor","resuscitation","cardiac arrest","trauma","anesthesia safety","perioperative","regional anesthesia","analgesia","icu length of stay","delirium","sedation","antimicrobial","infection","hemodynamic"]
+    clinical_hits=sum(1 for t in clinical_terms if t in hay)
+    clinical += min(4.0, clinical_hits*0.7)
+    if any(domain_flags.values()): clinical += 1.0; reasons.append("strong_clinical_relevance")
+    if clinical < 1.0: penalties.append("low_clinical_relevance")
+
+    if _contains_any_keyword(hay,["guideline","consensus","recommendation"]): practice += 2.0; reasons.append("guideline_or_consensus")
+    if _contains_any_keyword(hay,["randomized","rct"]): practice += 1.5; reasons.append("randomized_trial")
+    if _contains_any_keyword(hay,["systematic review","meta-analysis"]): practice += 1.5; reasons.append("systematic_review_or_meta_analysis")
+    if _contains_any_keyword(hay,["mortality","length of stay","safety","adverse event"]): practice += 1.0; reasons.append("patient_centered_outcomes")
+    if _contains_any_keyword(journal,["nejm","jama","lancet","bmj"]): practice += 0.8; reasons.append("high_impact_journal")
+
+    if has_content: text_conf += 1.0
+    if source in {"pubmed_abstract","pmc_oa_fulltext","unpaywall_fulltext"}: text_conf += 0.7
+    if has_structured: text_conf += 0.5
+    if content_length >= 200: text_conf += 0.6
+    elif content_length < 80: text_conf -= 0.8; penalties.append("insufficient_text")
+    if not has_content: text_conf -= 1.2; penalties.append("insufficient_text")
+
+    if not any(domain_flags.values()) and clinical_hits==0:
+        penalties.append("weak_domain_signal")
+    if evidence <= 0.5:
+        penalties.append("low_evidence_strength")
+
+    if _contains_any_keyword(hay,["marketing","stock market","sports betting","cryptocurrency"]):
+        hard_exclusion="clearly_non_clinical"
+
+    total = evidence + clinical + practice + text_conf
+    return {"evidence":evidence,"clinical":clinical,"practice":practice,"text":text_conf,"total":total}, reasons, penalties, hard_exclusion, has_content
+
 def _domain_key_for_quota(flags: Dict[str, bool]) -> str:
     active = [k for k, v in flags.items() if v]
     return active[0] if active else "general"
@@ -481,6 +559,15 @@ def select_cybermed_pubmed_items(
     tier_counts: Counter[str] = Counter()
     domain_signal_counts: Counter[str] = Counter()
     clinical_intent_counts: Counter[str] = Counter()
+    soft_penalty_counts: Counter[str] = Counter()
+    exclusion_reason_counts: Counter[str] = Counter()
+    top_pick_reason_counts: Counter[str] = Counter()
+    deep_dive_reason_counts_v1: Counter[str] = Counter()
+    relevance_dist: Counter[str] = Counter()
+    evidence_dist: Counter[str] = Counter()
+    practice_dist: Counter[str] = Counter()
+    hard_excluded_total = 0
+    kept_after_soft_screen = 0
 
     def _tier_priority(tier: str) -> int:
         if tier.startswith("tier1"):
@@ -496,6 +583,8 @@ def select_cybermed_pubmed_items(
 
         if _matches_any_regex(hay, [str(x) for x in hard_exclude_overview]):
             excluded_overview_offtopic += 1
+            hard_excluded_total += 1
+            exclusion_reason_counts["configured_hard_exclusion"] += 1
             continue
 
         title = str(it.get("title") or "")
@@ -533,7 +622,18 @@ def select_cybermed_pubmed_items(
             requires_keywords=pain_requires_keywords,
         )
 
+        v1_scores, v1_reasons, v1_penalties, v1_hard_exclusion, has_usable_content = _pubmed_v1_scores(it, hay, domain_flags)
+        if v1_hard_exclusion:
+            excluded_overview_offtopic += 1
+            hard_excluded_total += 1
+            exclusion_reason_counts[v1_hard_exclusion] += 1
+            continue
+
         score, reasons = _score_item(it, cfg, haystack=hay)
+        score += float(v1_scores.get("total",0.0))
+        reasons.extend(v1_reasons)
+        for pen in v1_penalties:
+            soft_penalty_counts[pen] += 1
         sc = cfg.get("scoring", {}) if isinstance(cfg.get("scoring"), dict) else {}
         if pubtype_penalty_hit:
             penalty = float(sc.get("publication_type_penalty", -1.5))
@@ -579,12 +679,16 @@ def select_cybermed_pubmed_items(
 
         if not include_by_tier:
             excluded_overview_offtopic += 1
-            continue
+            score -= 1.0
+            soft_penalty_counts["possible_offtopic"] += 1
+            reasons.append("possible_offtopic")
 
         threshold = None if tier in ("tier1_core", "tier1_core_clinical") else min_score_overview
         if threshold is not None and score < threshold:
             below_threshold_overview += 1
+            exclusion_reason_counts["below_threshold_overview"] += 1
             continue
+        kept_after_soft_screen += 1
 
         selection_reasons = list(reasons)
         if tier_reason:
@@ -608,6 +712,11 @@ def select_cybermed_pubmed_items(
         enriched["cybermed_domain_flags"] = domain_flags
         enriched["cybermed_clinical_intent"] = intent_flags
         enriched["cybermed_pain_flags"] = pain_flags
+        enriched["evidence_strength_score"] = round(float(v1_scores.get("evidence",0.0)),3)
+        enriched["clinical_relevance_score"] = round(float(v1_scores.get("clinical",0.0)),3)
+        enriched["practice_changing_score"] = round(float(v1_scores.get("practice",0.0)),3)
+        enriched["content_length_bucket"] = _content_length_bucket(int(it.get("content_length") or len(str(it.get("text") or "").strip())))
+        enriched["reason_labels"] = list(dict.fromkeys((selection_reasons+v1_reasons+v1_penalties)))[:12]
 
         enriched["cybermed_deep_dive_hard_excluded"] = _matches_any_regex(
             hay, [str(x) for x in hard_exclude_deep]
@@ -615,6 +724,10 @@ def select_cybermed_pubmed_items(
         if enriched["cybermed_deep_dive_hard_excluded"]:
             deep_dive_hard_excluded += 1
             enriched["cybermed_deep_dive_reasons"].append("hard_exclude_deep_dive")
+
+        relevance_dist[str(int(score))] += 1
+        evidence_dist[str(int(float(enriched.get("evidence_strength_score",0.0))))] += 1
+        practice_dist[str(int(float(enriched.get("practice_changing_score",0.0))))] += 1
 
         if tier in ("tier1_core", "tier1_core_clinical"):
             included_core += 1
@@ -639,6 +752,20 @@ def select_cybermed_pubmed_items(
             break
         cand["cybermed_rank"] = idx
         overview_items.append(cand)
+
+    for cand in overview_items:
+        top_pick = (
+            float(cand.get("cybermed_score",0.0)) >= max(min_score_overview+2.5,6.0)
+            and float(cand.get("evidence_strength_score",0.0)) >= 2.0
+            and float(cand.get("clinical_relevance_score",0.0)) >= 2.0
+            and str(cand.get("content_length_bucket")) != "none"
+        )
+        cand["top_pick"] = bool(top_pick)
+        star_reasons=[r for r in cand.get("reason_labels",[]) if r in {"guideline_or_consensus","randomized_trial","systematic_review_or_meta_analysis","high_impact_journal","patient_centered_outcomes","strong_clinical_relevance"}]
+        if top_pick and not star_reasons:
+            star_reasons=["practice_changing_signal"]
+        cand["star_reasons"] = star_reasons
+        for sr in star_reasons: top_pick_reason_counts[sr]+=1
 
     deep_dive_items: List[Dict[str, Any]] = []
     reason_counter: Counter[str] = Counter()
@@ -671,9 +798,26 @@ def select_cybermed_pubmed_items(
             continue
 
         domain_counts[domain_key] = domain_counts.get(domain_key, 0) + 1
+        if float(cand.get("evidence_strength_score",0.0)) < 1.5:
+            excluded_deep_dive_low_score += 1
+            continue
+        if float(cand.get("practice_changing_score",0.0)) < 1.2 and float(cand.get("clinical_relevance_score",0.0)) < 2.5:
+            excluded_deep_dive_low_score += 1
+            continue
         cand["cybermed_deep_dive"] = True
         cand["cybermed_deep_dive_rank"] = len(deep_dive_items) + 1
         deep_dive_items.append(cand)
+        compact=[]
+        if "randomized_trial" in cand.get("reason_labels",[]): compact.append("RCT")
+        if "guideline_or_consensus" in cand.get("reason_labels",[]): compact.append("guideline")
+        if "systematic_review_or_meta_analysis" in cand.get("reason_labels",[]): compact.append("systematic_review")
+        if "high_impact_journal" in cand.get("reason_labels",[]): compact.append("high_impact_journal")
+        if "patient_centered_outcomes" in cand.get("reason_labels",[]): compact.append("patient_centered_outcome")
+        if cand.get("cybermed_domain_flags",{}).get("icu_ccm"): compact.append("strong_ICU_relevance")
+        if cand.get("cybermed_domain_flags",{}).get("emergency_resus"): compact.append("strong_EM_relevance")
+        if cand.get("cybermed_domain_flags",{}).get("anesthesia_periop"): compact.append("strong_anesthesia_relevance")
+        cand["deep_dive_reasons"] = compact
+        for r in compact: deep_dive_reason_counts_v1[r]+=1
         for r in cand.get("cybermed_deep_dive_reasons", []):
             reason_counter[str(r)] += 1
 
@@ -729,15 +873,30 @@ def select_cybermed_pubmed_items(
             "tier_counts": dict(tier_counts),
             "domain_signal_counts": dict(domain_signal_counts),
             "clinical_intent_counts": dict(clinical_intent_counts),
+            "pubmed_relevance_score_distribution": dict(relevance_dist),
+            "pubmed_evidence_strength_score_distribution": dict(evidence_dist),
+            "pubmed_practice_changing_score_distribution": dict(practice_dist),
+            "pubmed_domain_signal_counts": dict(domain_signal_counts),
+            "pubmed_exclusion_reason_counts": dict(exclusion_reason_counts),
+            "pubmed_soft_penalty_reason_counts": dict(soft_penalty_counts),
+            "pubmed_top_pick_reason_counts": dict(top_pick_reason_counts),
+            "pubmed_deep_dive_reason_counts": dict(deep_dive_reason_counts_v1),
+            "pubmed_candidates_kept_after_soft_screen_total": kept_after_soft_screen,
+            "pubmed_candidates_hard_excluded_total": hard_excluded_total,
             "top_candidate_score_preview": [
                 {
                     "score": round(float(it.get("cybermed_score", 0.0)), 3),
+                    "evidence_strength_score": round(float(it.get("evidence_strength_score", 0.0)), 3),
+                    "clinical_relevance_score": round(float(it.get("clinical_relevance_score", 0.0)), 3),
+                    "practice_changing_score": round(float(it.get("practice_changing_score", 0.0)), 3),
                     "deep_dive_score": round(float(it.get("cybermed_deep_dive_score", 0.0)), 3),
                     "tier": str(it.get("cybermed_tier") or "unclassified"),
                     "publication_types": [str(v) for v in (it.get("publication_types") or [])][:5],
                     "evidence_tags": [str(v) for v in (it.get("evidence_tags") or [])][:5],
-                    "domain_flags": {str(k): bool(v) for k, v in (it.get("cybermed_domain_flags") or {}).items()},
-                    "reason_labels": [str(v) for v in (it.get("cybermed_selection_reasons") or [])][:8],
+                    "content_source": str(it.get("content_source") or ""),
+                    "content_length_bucket": str(it.get("content_length_bucket") or "none"),
+                    "reason_labels": [str(v) for v in (it.get("reason_labels") or [])][:10],
+                    "exclusion_reason": str(it.get("exclusion_reason") or ""),
                 }
                 for it in overview_sorted[:10]
             ],
