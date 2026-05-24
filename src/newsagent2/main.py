@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import re
+import time
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 from statistics import median
@@ -1836,6 +1837,16 @@ def main() -> None:
     youtube_diag.channels_file_used = args.channels
 
     # Cybermed observability (used to build an in-report transparency header).
+    runtime_start = time.monotonic()
+    runtime_pubmed_collect_seconds = 0.0
+    runtime_pubmed_backfill_seconds = 0.0
+    runtime_foamed_collect_seconds = 0.0
+    runtime_foamed_article_fetch_seconds = 0.0
+    runtime_foamed_rolling_audit_seconds = 0.0
+    runtime_selection_seconds = 0.0
+    runtime_summarization_seconds = 0.0
+    runtime_report_render_seconds = 0.0
+    runtime_email_seconds = 0.0
     is_cybermed_run = _is_cybermed(report_key, report_profile)
     pubmed_candidates_total = 0
     pubmed_skipped_by_state = 0
@@ -2079,11 +2090,14 @@ def main() -> None:
                     pubmed_queries_used.append((cname, query))
                 pubmed_max_items = cybermed_max_items_per_channel if is_cybermed_run else max_items_per_channel
                 try:
+                    pubmed_collect_start = time.monotonic()
                     if is_cybermed_run:
                         arts, pubmed_meta = search_recent_pubmed(term=query, hours=args.hours, max_items=pubmed_max_items, return_metadata=True)
                     else:
                         arts = search_recent_pubmed(term=query, hours=args.hours, max_items=pubmed_max_items)
                         pubmed_meta = {}
+                    if is_cybermed_run:
+                        runtime_pubmed_collect_seconds += max(0.0, time.monotonic() - pubmed_collect_start)
                 except Exception as e:
                     print(f"[collect] ERROR source=pubmed channel={cname!r}: search_recent_pubmed failed: {e!r}")
                     if is_cybermed_run:
@@ -2177,7 +2191,8 @@ def main() -> None:
     _save_youtube_channel_id_cache(channel_id_cache, read_only_mode=read_only_mode)
     _write_channel_id_suggestions(discovered_channel_ids, report_dir)
     youtube_diag.managed_transcript_billable_success_estimate = youtube_diag.managed_transcript_success_total
-    print(f"[collect] youtube_diagnostics: {youtube_diag.to_log_line()}")
+    if report_key.strip().lower() == "cyberlurch" or youtube_diag.channels_attempted_total > 0:
+        print(f"[collect] youtube_diagnostics: {youtube_diag.to_log_line()}")
 
     run_metadata = ""
     if report_key.strip().lower() == "cyberlurch":
@@ -2193,7 +2208,10 @@ def main() -> None:
                 now_utc,
                 auto_disable_enabled=foamed_auto_disable_enabled,
             )
+            foamed_collect_start = time.monotonic()
             foamed_collected, foamed_collection_stats = collect_foamed_items(foamed_sources_filtered, now_utc, lookback_hours=args.hours)
+            runtime_foamed_collect_seconds += max(0.0, time.monotonic() - foamed_collect_start)
+            runtime_foamed_article_fetch_seconds += float((foamed_collection_stats or {}).get("article_fetch_duration_seconds", 0.0) or 0.0)
             foamed_screened_total = len(foamed_collected)
             auto_disable_meta = _update_foamed_health_state(
                 state,
@@ -2232,15 +2250,22 @@ def main() -> None:
             items.extend(foamed_candidates)
 
             rolling_days = _safe_int("FOAMED_ROLLING_AUDIT_DAYS", 0)
+            heavy_audit_mode = _env_bool("CYBERMED_HEAVY_AUDIT_MODE", False)
             foamed_rolling_diag: Dict[str, Any] = {
+                "foamed_rolling_audit_requested_days": rolling_days,
                 "foamed_rolling_audit_enabled": False,
                 "foamed_rolling_audit_days": rolling_days,
+                "foamed_rolling_audit_skipped_reason": "",
             }
-            if rolling_days > 0:
+            if rolling_days > 0 and not heavy_audit_mode:
+                foamed_rolling_diag["foamed_rolling_audit_skipped_reason"] = "heavy_audit_mode_disabled"
+            if rolling_days > 0 and heavy_audit_mode:
                 prev_max = os.getenv("FOAMED_ARTICLE_FETCH_MAX_PER_RUN")
                 os.environ["FOAMED_ARTICLE_FETCH_MAX_PER_RUN"] = str(_safe_int("FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN", 60))
                 try:
+                    rolling_start = time.monotonic()
                     rolling_items, rolling_stats = collect_foamed_items(foamed_sources, now_utc, lookback_hours=rolling_days * 24)
+                    runtime_foamed_rolling_audit_seconds += max(0.0, time.monotonic() - rolling_start)
                 finally:
                     if prev_max is None:
                         os.environ.pop("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", None)
@@ -2266,6 +2291,8 @@ def main() -> None:
                 usable_total=sum(x['items_usable_text_30d'] for x in bysrc)
                 rolling_total=len(bysrc)
                 foamed_rolling_diag={"foamed_rolling_audit_enabled":True,"foamed_rolling_audit_days":rolling_days,"foamed_rolling_sources_total":rolling_total,"foamed_rolling_sources_with_recent_items_total":sum(1 for x in bysrc if x['items_seen_30d']>0),"foamed_rolling_sources_with_fulltext_items_total":sum(1 for x in bysrc if x['items_fulltext_30d']>0),"foamed_rolling_sources_blocked_total":sum(1 for x in bysrc if x['source_status']=='blocked'),"foamed_rolling_sources_broken_total":sum(1 for x in bysrc if x['source_status']=='stale_or_broken_url'),"foamed_rolling_sources_no_recent_content_total":sum(1 for x in bysrc if x['items_seen_30d']==0),"foamed_rolling_productive_sources_total":productive,"foamed_rolling_productive_sources_pct":round((productive/max(1,rolling_total))*100,1),"foamed_rolling_items_seen_total":seen_total,"foamed_rolling_items_fulltext_total":full_total,"foamed_rolling_items_excerpt_total":excerpt_total,"foamed_rolling_items_usable_text_total":usable_total,"foamed_rolling_items_fulltext_pct":round((full_total/max(1,seen_total))*100,1),"foamed_rolling_items_usable_text_pct":round((usable_total/max(1,seen_total))*100,1),"foamed_rolling_by_source_summary":bysrc}
+                foamed_rolling_diag["foamed_rolling_audit_requested_days"] = rolling_days
+                foamed_rolling_diag["foamed_rolling_audit_skipped_reason"] = ""
             if _env_bool("FOAMED_AUDIT", False) and _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False):
                 enabled_names = {(s.get("name") or "").strip() for s in foamed_sources_filtered if isinstance(s, dict)}
                 disabled_cfg = [s for s in foamed_sources if isinstance(s, dict) and (s.get("name") or "").strip() not in enabled_names]
@@ -2344,6 +2371,7 @@ def main() -> None:
     selection_result = None
 
     if is_cybermed_run:
+        selection_start = time.monotonic()
         non_pubmed_items: List[Dict[str, Any]] = [
             it for it in items_all_new if (it.get("source") or "").strip().lower() != "pubmed"
         ]
@@ -2455,6 +2483,7 @@ def main() -> None:
                 seen_pubmed_ids.add(iid)
 
             pubmed_deep_dive_items = _curate_top_items(deep_candidates, deep_dive_limit)
+        runtime_selection_seconds += max(0.0, time.monotonic() - selection_start)
     else:
         items = items_all_new
 
@@ -2712,6 +2741,16 @@ def main() -> None:
         cybermed_diagnostics_payload = {
             "report_mode": report_mode,
             "effective_hours": int(args.hours),
+            "effective_runtime_config": {
+                "FOAMED_AUDIT": _env_bool("FOAMED_AUDIT", False),
+                "FOAMED_AUDIT_CHECK_DISABLED": _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False),
+                "FOAMED_ARTICLE_FETCH": _env_bool("FOAMED_ARTICLE_FETCH", False),
+                "FOAMED_ARTICLE_FETCH_MAX_PER_RUN": _safe_int("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", 0),
+                "FOAMED_ROLLING_AUDIT_DAYS": _safe_int("FOAMED_ROLLING_AUDIT_DAYS", 0),
+                "FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN": _safe_int("FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN", 60),
+                "CYBERMED_RUNTIME_DIAGNOSTICS": _env_bool("CYBERMED_RUNTIME_DIAGNOSTICS", True),
+                "CYBERMED_HEAVY_AUDIT_MODE": _env_bool("CYBERMED_HEAVY_AUDIT_MODE", False),
+            },
             "pubmed_date_type": pubmed_datetype,
             "pubmed_window": {"mindate_utc": mindate, "maxdate_utc": maxdate},
             "pubmed_channels_total": len(pubmed_queries_used),
@@ -2813,6 +2852,16 @@ def main() -> None:
             "pubmed_raw_completeness_warnings": [],
             "selection_counts": selection_count_only,
             "selection_diagnostics": (selection_stats.get("selection_diagnostics") if isinstance(selection_stats, dict) else {}),
+            "runtime_total_seconds": round(max(0.0, time.monotonic() - runtime_start), 6),
+            "runtime_pubmed_collect_seconds": round(runtime_pubmed_collect_seconds, 6),
+            "runtime_pubmed_backfill_seconds": round(runtime_pubmed_backfill_seconds, 6),
+            "runtime_foamed_collect_seconds": round(runtime_foamed_collect_seconds, 6),
+            "runtime_foamed_article_fetch_seconds": round(runtime_foamed_article_fetch_seconds, 6),
+            "runtime_foamed_rolling_audit_seconds": round(runtime_foamed_rolling_audit_seconds, 6),
+            "runtime_selection_seconds": round(runtime_selection_seconds, 6),
+            "runtime_summarization_seconds": round(runtime_summarization_seconds, 6),
+            "runtime_report_render_seconds": round(runtime_report_render_seconds, 6),
+            "runtime_email_seconds": round(runtime_email_seconds, 6),
             **foamed_disabled_audit_stats,
             **(foamed_rolling_diag if "foamed_rolling_diag" in locals() else {}),
         }
@@ -2825,7 +2874,9 @@ def main() -> None:
         if cybermed_diagnostics_payload.get("pubmed_raw_items_missing_abstract_total", 0) > max(3, len(all_pubmed_raw_items)//2): warnings.append("many_items_missing_abstract")
         cybermed_diagnostics_payload["pubmed_raw_completeness_warnings"] = warnings
         post_state_pubmed = list(pubmed_new_items)
+        pubmed_backfill_start = time.monotonic()
         pubmed_backfill_diag = _pubmed_content_backfill_and_diagnostics(post_state_pubmed)
+        runtime_pubmed_backfill_seconds += max(0.0, time.monotonic() - pubmed_backfill_start)
         cybermed_diagnostics_payload.update(pubmed_backfill_diag)
         foamed_min_chars = _safe_int("FOAMED_MIN_USABLE_TEXT_CHARS", 400)
         cybermed_diagnostics_payload.update(_foamed_72h_text_diagnostics(list(foamed_collected), foamed_min_chars))
@@ -3190,7 +3241,9 @@ def main() -> None:
                         else:
                             youtube_diag.managed_transcript_full_within_limit_total += 1
                             youtube_diag.transcript_processing_not_needed_total += 1
+                summarize_start = time.monotonic()
                 overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
+                runtime_summarization_seconds += max(0.0, time.monotonic() - summarize_start)
             except Exception as e:
                 print(f"[summarize] ERROR: summarize() failed: {e!r}")
                 if report_language.lower().startswith("en"):
@@ -3644,6 +3697,7 @@ def main() -> None:
         _annotate_cyberlurch_item_topics(report_items, channel_topics)
         _annotate_cyberlurch_item_topics(detail_items, channel_topics)
 
+    report_render_start = time.monotonic()
     md = to_markdown(
         report_items,
         overview_body,
@@ -3656,6 +3710,7 @@ def main() -> None:
         run_metadata=run_metadata,
     )
 
+    runtime_report_render_seconds += max(0.0, time.monotonic() - report_render_start)
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
     print(f"[report] Wrote {out_path}")
@@ -3778,6 +3833,19 @@ def main() -> None:
     if report_key.strip().lower() == "cyberlurch":
         _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode, extra_counts=extra_counts)
     if report_key.strip().lower() == "cybermed":
+        runtime_total_seconds = max(0.0, time.monotonic() - runtime_start)
+        cybermed_diagnostics_payload.update({
+            "runtime_total_seconds": round(runtime_total_seconds, 6),
+            "runtime_pubmed_collect_seconds": round(runtime_pubmed_collect_seconds, 6),
+            "runtime_pubmed_backfill_seconds": round(runtime_pubmed_backfill_seconds, 6),
+            "runtime_foamed_collect_seconds": round(runtime_foamed_collect_seconds, 6),
+            "runtime_foamed_article_fetch_seconds": round(runtime_foamed_article_fetch_seconds, 6),
+            "runtime_foamed_rolling_audit_seconds": round(runtime_foamed_rolling_audit_seconds, 6),
+            "runtime_selection_seconds": round(runtime_selection_seconds, 6),
+            "runtime_summarization_seconds": round(runtime_summarization_seconds, 6),
+            "runtime_report_render_seconds": round(runtime_report_render_seconds, 6),
+            "runtime_email_seconds": round(runtime_email_seconds, 6),
+        })
         _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
 
     _update_state_after_run(
@@ -3794,7 +3862,9 @@ def main() -> None:
     )
 
     try:
+        email_start = time.monotonic()
         send_markdown(report_subject, md)
+        runtime_email_seconds += max(0.0, time.monotonic() - email_start)
     except Exception as e:
         print(f"[email] WARN: failed to send email (report was generated and state saved): {e!r}")
 
