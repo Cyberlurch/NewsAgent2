@@ -4,8 +4,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "ALiEM": {
       "consecutive_failures": 22,
@@ -17,15 +17,15 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "Anesthesiology News": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "CanadiEM": {
       "consecutive_failures": 3,
@@ -37,112 +37,112 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "Critical Care Practitioner": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "Critical Care Reviews": {
-      "consecutive_failures": 11,
+      "consecutive_failures": 12,
       "disabled_until_utc": "2026-05-31T06:29:34+00:00",
       "last_health": "parse_failed",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "Deranged Physiology": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "Don't Forget the Bubbles": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "EM Cases": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "EMCrit": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "EMOttawa Blog": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "First10EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "Intensive Care Network": {
-      "consecutive_failures": 29,
+      "consecutive_failures": 30,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "JournalFeed (Critical Care)": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_html",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "LITFL": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "NYSORA": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "OpenAnesthesia": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "PulmCCM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "REBEL EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "REBEL EM Critical Care": {
       "consecutive_failures": 6,
@@ -151,18 +151,18 @@
       "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "SMACC": {
-      "consecutive_failures": 29,
+      "consecutive_failures": 30,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "St Emlyn's": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "Taming the SRU": {
       "consecutive_failures": 2,
@@ -174,46 +174,46 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "The Bottom Line": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "The Resus Room": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "Thinking Critical Care": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "WFSA Anaesthesia Tutorial of the Week": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     },
     "emDocs": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-24T06:08:13+00:00",
-      "last_seen_utc": "2026-05-24T06:08:13+00:00"
+      "last_ok_utc": "2026-05-24T06:22:28+00:00",
+      "last_seen_utc": "2026-05-24T06:22:28+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-05-24T06:11:00+00:00",
+  "last_successful_daily_run_utc": "2026-05-24T06:28:16+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -6845,8 +6845,8 @@
           },
           "42166572": {
             "channel": "PubMed: Science (medizin/biomed breit)",
-            "processed_at_utc": "2026-05-24T06:11:00+00:00",
-            "screened_at_utc": "2026-05-24T06:11:00+00:00",
+            "processed_at_utc": "2026-05-24T06:28:16+00:00",
+            "screened_at_utc": "2026-05-24T06:28:16+00:00",
             "title": "Scientists play catch-up to startling Ebola outbreak.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42166572/"
           },
@@ -6876,8 +6876,8 @@
           },
           "42166795": {
             "channel": "PubMed: Anesthesiology",
-            "processed_at_utc": "2026-05-24T06:11:00+00:00",
-            "screened_at_utc": "2026-05-24T06:11:00+00:00",
+            "processed_at_utc": "2026-05-24T06:28:16+00:00",
+            "screened_at_utc": "2026-05-24T06:28:16+00:00",
             "title": "Outflow Tract Patency and Ventricular Compression as Determinants of CPR Hemodynamics in a TEE-Guided Swine Model of Cardiac Arrest.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42166795/"
           },
@@ -7145,8 +7145,8 @@
           },
           "42173713": {
             "channel": "PubMed: British Journal of Anaesthesia",
-            "processed_at_utc": "2026-05-24T06:11:00+00:00",
-            "screened_at_utc": "2026-05-24T06:11:00+00:00",
+            "processed_at_utc": "2026-05-24T06:28:16+00:00",
+            "screened_at_utc": "2026-05-24T06:28:16+00:00",
             "title": "Nucleus raphe magnus serotonin neurones bidirectionally control spinal nociceptive transmission in mice.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42173713/"
           },
@@ -7162,6 +7162,6 @@
       }
     }
   },
-  "updated_at_utc": "2026-05-24T06:11:00+00:00",
+  "updated_at_utc": "2026-05-24T06:28:16+00:00",
   "version": 1
 }
