@@ -208,3 +208,31 @@ def test_top_pick_and_deep_dive_final_invariant_counts(tmp_path):
     diag = res.stats["selection_diagnostics"]
     assert "pubmed_final_top_pick_floor_rejection_counts" in diag
     assert "pubmed_final_deep_dive_floor_rejection_counts" in diag
+
+def test_foamed_label_and_top_pick_floor_and_diagnostics():
+    items = [
+        {"title":"RCT practice update ICU", "text":"randomized trial guideline practice update ICU ventilation management "*20, "foamed_source":"CoreSrc", "priority_tier":"1 core", "final_content_source":"article_full_text", "article_text_length":1200, "url":"https://x.com/post1"},
+        {"title":"Personal reflection", "text":"personal reflection podcast no new data", "foamed_source":"ImportantSrc", "priority_tier":"2 important", "final_content_source":"article_excerpt", "article_text_length":120, "url":"https://x.com/category/abc"},
+    ]
+    res = select_cybermed_foamed_items(items, max_overview=10, max_top_picks=2)
+    assert any(it.get("top_pick") for it in res.overview_items)
+    low = next(it for it in res.overview_items if "reflection" in it["title"].lower()) if any("reflection" in it.get("title","").lower() for it in res.overview_items) else None
+    assert low is None
+    d = res.stats
+    assert "foamed_top_pick_floor_rejection_counts" in d
+    assert "foamed_duplicates_suppressed_total" in d
+    assert "foamed_final_selected_preview" in d
+    for row in d["foamed_final_selected_preview"]:
+        for bad in ["title","url","raw_html","full_text","article_body","SMTP_PASS","OPENAI_API_KEY","RECIPIENTS_CONFIG_JSON"]:
+            assert bad not in row
+
+
+def test_foamed_dedupe_prefers_specific_high_confidence():
+    items = [
+        {"title":"JournalFeed Sepsis Update", "text":"clinical review sepsis ICU management"*20, "foamed_source":"JournalFeed", "final_content_source":"article_excerpt", "article_text_length":350, "url":"https://jf.com/category/sepsis"},
+        {"title":"JournalFeed Sepsis Update", "text":"clinical review sepsis ICU management"*40, "foamed_source":"JournalFeed", "final_content_source":"article_full_text", "article_text_length":1200, "url":"https://jf.com/post/sepsis-2026"},
+    ]
+    res = select_cybermed_foamed_items(items, max_overview=10, max_top_picks=1)
+    assert len(res.overview_items) == 1
+    assert "post/sepsis" in str(res.overview_items[0].get("url") or "")
+    assert res.stats["foamed_duplicates_suppressed_total"] >= 1

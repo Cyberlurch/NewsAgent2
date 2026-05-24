@@ -1228,10 +1228,53 @@ def _attach_evidence_hint_labels(item: Dict[str, Any], *, foamed: bool=False) ->
     True GRADE is a body-of-evidence framework; these are article-level evidence strength hints only.
     """
     if foamed:
-        item['source_quality_label']=str(item.get('source_quality_label') or ('core' if 'core' in str(item.get('foamed_source','')).lower() else 'important'))
-        item['text_confidence_label']='high' if str(item.get('content_length_bucket')) in {'long','very_long'} else ('moderate' if str(item.get('content_length_bucket')) in {'medium','short'} else 'low')
-        item['clinical_usefulness_1_5']=max(1,min(5,int(round(float(item.get('clinical_relevance_score',0.0))+1))))
-        item['practice_relevance_1_5']=max(1,min(5,int(round(float(item.get('practice_changing_score',0.0))+1))))
+        source_name = str(item.get("foamed_source") or item.get("channel") or item.get("source") or "").lower()
+        tier = str(item.get("priority_tier") or item.get("source_quality") or "").lower()
+        if "core" in tier or "tier 1" in tier or "1" in tier[:1] or "core" in source_name:
+            item["source_quality_label"] = "core"
+        elif "important" in tier or "tier 2" in tier or "2" in tier[:1]:
+            item["source_quality_label"] = "important"
+        else:
+            item["source_quality_label"] = "optional"
+
+        text = str(item.get("text") or item.get("summary") or "")
+        title = str(item.get("title") or "")
+        hay = f"{title} {text}".lower()
+        length = int(item.get("article_text_length") or item.get("text_length") or len(text))
+        content_source = str(item.get("final_content_source") or item.get("content_source") or "").lower()
+        extraction_method = str(item.get("extraction_method") or "").lower()
+        weak_extract = any(k in extraction_method for k in ["fallback", "title", "unknown", "weak"]) 
+        if (content_source in {"article_full_text", "rss_full_content"} and length >= 700 and not weak_extract):
+            conf = "high"
+        elif (content_source in {"article_excerpt", "html_content", "rss_excerpt"} and length >= 300) or length >= 450:
+            conf = "moderate"
+        else:
+            conf = "low"
+        item["text_confidence_label"] = conf
+
+        evidence = any(k in hay for k in ["randomized trial","randomized controlled trial","rct","systematic review","meta-analysis","meta analysis","guideline","consensus","cohort","diagnostic accuracy"])
+        practice_update = any(k in hay for k in ["practice update","management update","clinical update"])
+        clinical_review = any(k in hay for k in ["clinical review","evidence appraisal","case-based educational review","case based educational review"])
+        education = any(k in hay for k in ["high-yield","high yield","teaching","educational","bedside pearl"]) 
+        low_value = any(k in hay for k in ["historical","history of","personal reflection","reflection","podcast","general commentary","opinion"]) 
+        nonclinical_commentary = low_value or any(k in hay for k in ["no new data","general reflection"])
+        direct_clinical = any(k in hay for k in ["icu","critical care","emergency","anesthesia","anaesthesia","airway","sepsis","shock","ventilation"])
+
+        usefulness = 1
+        relevance = 1
+        if evidence and direct_clinical:
+            usefulness, relevance = 5, 5
+        elif (evidence and (clinical_review or practice_update)) or (practice_update and direct_clinical):
+            usefulness, relevance = 4, 4
+        elif clinical_review or education:
+            usefulness, relevance = 3, (3 if direct_clinical else 2)
+        elif direct_clinical:
+            usefulness, relevance = 3, 3
+        if nonclinical_commentary or length < 160:
+            usefulness = min(usefulness, 2 if direct_clinical else 1)
+            relevance = min(relevance, 2 if direct_clinical else 1)
+        item["clinical_usefulness_1_5"] = max(1, min(5, usefulness))
+        item["practice_relevance_1_5"] = max(1, min(5, relevance))
         return
     ev=float(item.get('evidence_strength_score',0.0) or 0.0)
     pub_types = {str(v).strip().lower() for v in (item.get("publication_types") or []) if str(v).strip()}
@@ -1419,166 +1462,119 @@ def select_cybermed_foamed_items(
     max_overview: int = 40,
     max_top_picks: int = 2,
 ) -> FoamedSelection:
-    """
-    Broad-but-relevant selector for FOAMed/blog content.
-
-    - Includes items with any domain signal (anesthesia/ICU/resus/airway/infection/hemodynamics).
-    - Excludes clearly off-domain or promotional posts.
-    - Applies stricter pain gating (pain topics must have perioperative/regional/ICU context).
-    - Marks up to `max_top_picks` items as top picks by score.
-    """
-
     now = datetime.now(timezone.utc)
-    screened_candidates = len(foamed_items)
-    excluded_offdomain = 0
-    foamed_excluded_offtopic = 0
-    foamed_excluded_no_signal = 0
-    excluded_pain_context = 0
-
-    scored: List[Dict[str, Any]] = []
-    fallback_candidates: List[Dict[str, Any]] = []
-    off_domain_patterns = [
-        r"\b(job|jobs|career|vacancy)\b",
-        r"sponsor",
-        r"advertisement",
-        r"promo",
-        r"\b(ad|ads)\b",
-        r"\bsponsor",
-        r"site update",
-        r"tickets?",
-        r"conference",
-        r"course",
-        r"webinar registration",
-        r"merch",
-        r"store",
-        r"shop",
-        r"newsletter",
-    ]
-    weak_medical_cues = [
-        "icu",
-        "intensive care",
-        "ventilation",
-        "ventilator",
-        "airway",
-        "sepsis",
-        "shock",
-        "anesthesia",
-        "anaesthesia",
-        "analgesia",
-        "block",
-        "resuscitation",
-        "ecmo",
-        "sedation",
-        "vasopressor",
-        "vasopressors",
-        "perioperative",
-        "trauma",
-    ]
-    curated_sources = _load_curated_foamed_sources()
-    if not curated_sources:
-        curated_sources = {
-            str(it.get("foamed_source") or it.get("channel") or it.get("source") or "").strip().lower()
-            for it in foamed_items
-            if (it.get("foamed_source") or it.get("channel") or it.get("source"))
-        }
-
+    selected_reason_counts: Counter[str] = Counter()
+    excluded_reason_counts: Counter[str] = Counter()
+    top_pick_rejection_counts: Counter[str] = Counter()
+    dup_reason_counts: Counter[str] = Counter()
+    dup_total = 0
+    enriched: List[Dict[str, Any]] = []
     for it in foamed_items:
-        hay = _text_haystack(it)
-        title = str(it.get("title") or "")
-        excerpt = str(it.get("text") or "")
-        if not excerpt.strip():
-            hay = (title or "").lower()
-        source_name = str(it.get("foamed_source") or it.get("channel") or it.get("source") or "").strip().lower()
-        is_curated_source = source_name in curated_sources
+        row = dict(it)
+        _attach_evidence_hint_labels(row, foamed=True)
+        row["reason_labels"] = list(row.get("reason_labels") or [])
+        hay = _text_haystack(row)
+        score, flags, _ = _foamed_domain_score(hay)
+        row["foamed_flags"] = flags
+        row["foamed_score"] = float(score)
+        enriched.append(row)
 
-        if _matches_any_regex(hay, off_domain_patterns):
-            excluded_offdomain += 1
-            foamed_excluded_offtopic += 1
+    def _norm_title(t: str) -> str:
+        return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]+", " ", (t or "").lower())).strip()
+    def _url_score(u: str) -> int:
+        u=(u or "").lower()
+        if any(x in u for x in ["/category/","/tag/","/index","/page/"]):
+            return 0
+        return 1
+    def _keep_score(it: Dict[str, Any]) -> tuple:
+        conf = {"high":2,"moderate":1,"low":0}.get(str(it.get("text_confidence_label") or "low"),0)
+        return (_url_score(str(it.get("canonical_url") or it.get("url") or "")), 1 if str(it.get("final_content_source") or "")=="article_full_text" else 0, int(it.get("clinical_usefulness_1_5") or 1), int(it.get("practice_relevance_1_5") or 1), conf, int(it.get("article_text_length") or it.get("text_length") or len(str(it.get("text") or ""))))
+
+    grouped: Dict[tuple, Dict[str, Any]] = {}
+    for it in enriched:
+        key=(str(it.get("foamed_source") or it.get("channel") or "").lower(), _norm_title(str(it.get("title") or ""))[:90])
+        if key not in grouped:
+            grouped[key]=it
             continue
+        best=grouped[key]
+        if _keep_score(it) > _keep_score(best):
+            grouped[key]=it
+            dup_total += 1
+            dup_reason_counts["preferred_more_specific_or_higher_quality"] += 1
+        else:
+            dup_total += 1
+            dup_reason_counts["suppressed_duplicate"] += 1
 
-        score, flags, pain_blocked = _foamed_domain_score(hay)
-        weak_signal = _contains_any_keyword(hay, weak_medical_cues)
-        has_signal = score > 0 or weak_signal
-        default_include = is_curated_source and weak_signal
-
-        if pain_blocked and not default_include:
-            excluded_pain_context += 1
-            foamed_excluded_no_signal += 1
+    overview_candidates=[]
+    for it in grouped.values():
+        usefulness=int(it.get("clinical_usefulness_1_5") or 1)
+        relevance=int(it.get("practice_relevance_1_5") or 1)
+        conf=str(it.get("text_confidence_label") or "low")
+        hay=_text_haystack(it)
+        nonclinical=any(k in hay for k in ["historical","personal reflection","general commentary","podcast"]) 
+        if nonclinical:
+            excluded_reason_counts["foamed_excluded_nonclinical_commentary"] += 1
             continue
-
-        if not has_signal:
-            foamed_excluded_no_signal += 1
-            fallback_candidates.append(dict(it))
+        if usefulness <=1 and relevance <=1:
+            excluded_reason_counts["foamed_excluded_low_usefulness"] += 1
+            excluded_reason_counts["foamed_excluded_low_relevance"] += 1
             continue
+        if usefulness <2:
+            excluded_reason_counts["foamed_excluded_low_usefulness"] += 1
+            continue
+        if relevance <2:
+            excluded_reason_counts["foamed_excluded_low_relevance"] += 1
+            continue
+        if conf=="low" and str(it.get("source_quality_label"))!="core":
+            excluded_reason_counts["foamed_excluded_low_confidence"] += 1
+            continue
+        if any(k in hay for k in ["randomized","systematic review","meta-analysis","guideline","consensus"]):
+            it["reason_labels"].append("foamed_selected_evidence_summary")
+            selected_reason_counts["foamed_selected_evidence_summary"] += 1
+        elif any(k in hay for k in ["clinical review","evidence appraisal"]):
+            it["reason_labels"].append("foamed_selected_clinical_review")
+            selected_reason_counts["foamed_selected_clinical_review"] += 1
+        elif any(k in hay for k in ["practice update","clinical update"]):
+            it["reason_labels"].append("foamed_selected_practice_update")
+            selected_reason_counts["foamed_selected_practice_update"] += 1
+        else:
+            it["reason_labels"].append("foamed_selected_high_yield_education")
+            selected_reason_counts["foamed_selected_high_yield_education"] += 1
+        overview_candidates.append(it)
 
-        published = it.get("published_at")
-        if isinstance(published, datetime) and published.tzinfo is None:
-            published = published.replace(tzinfo=timezone.utc)
+    overview_candidates.sort(key=lambda x: (-float(x.get("foamed_score",0.0)), -int(x.get("clinical_usefulness_1_5") or 1), -int(x.get("practice_relevance_1_5") or 1)))
+    overview_items = overview_candidates[:max_overview]
+    top_picks=[]
+    for it in overview_items:
+        it["top_pick"]=False
+        use=int(it.get("clinical_usefulness_1_5") or 1); rel=int(it.get("practice_relevance_1_5") or 1); conf=str(it.get("text_confidence_label") or "low")
+        sq=str(it.get("source_quality_label") or "optional")
+        hay=_text_haystack(it)
+        if use <3: top_pick_rejection_counts["foamed_top_pick_floor_rejected_low_usefulness"] += 1; continue
+        if rel <3: top_pick_rejection_counts["foamed_top_pick_floor_rejected_low_relevance"] += 1; continue
+        if conf not in {"high","moderate"}: top_pick_rejection_counts["foamed_top_pick_floor_rejected_low_confidence"] += 1; continue
+        if sq not in {"core","important"} or any(k in hay for k in ["historical","personal reflection","general commentary","no new data"]):
+            top_pick_rejection_counts["foamed_top_pick_floor_rejected_nonclinical_commentary"] += 1; continue
+        if len(top_picks) < max_top_picks:
+            it["top_pick"]=True
+            top_picks.append(it)
 
-        recency_bonus = 0.0
-        age_hours = None
-        if isinstance(published, datetime):
-            age_hours = (now - published).total_seconds() / 3600.0
-            if age_hours < 6:
-                recency_bonus = 0.6
-            elif age_hours < 12:
-                recency_bonus = 0.4
-            elif age_hours < 24:
-                recency_bonus = 0.2
-
-        base_score = score if score > 0 else 0.3 if default_include else 0.0
-        total_score = base_score + recency_bonus
-        enriched = dict(it)
-        enriched["foamed_score"] = round(total_score, 3)
-        enriched["foamed_flags"] = flags
-        enriched["foamed_age_hours"] = age_hours
-        enriched["foamed_default_include"] = default_include
-        scored.append(enriched)
-
-    overview_sorted = sorted(
-        scored,
-        key=lambda x: (
-            -float(x.get("foamed_score", 0.0)),
-            x.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
-        ),
-    )
-
-    overview_items: List[Dict[str, Any]] = []
-    for cand in overview_sorted:
-        if len(overview_items) >= max_overview:
-            break
-        overview_items.append(cand)
-
-    fallback_used = False
-    if not overview_items and fallback_candidates:
-        fallback_used = True
-        fallback_sorted = sorted(
-            fallback_candidates,
-            key=lambda x: x.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
-            reverse=True,
-        )
-        overview_items.extend(fallback_sorted[:max_overview])
-
-    top_picks: List[Dict[str, Any]] = []
-    for cand in overview_items[:max_top_picks]:
-        cand["top_pick"] = True
-        top_picks.append(cand)
-
-    stats = {
-        "screened_candidates": screened_candidates,
-        "excluded_offdomain": excluded_offdomain,
-        "excluded_pain_context": excluded_pain_context,
+    stats={
+        "screened_candidates": len(foamed_items),
         "included_overview": len(overview_items),
         "top_picks": len(top_picks),
-        "max_overview_items": max_overview,
-        "max_top_picks": max_top_picks,
-        "foamed_included": len(overview_items),
-        "foamed_excluded_offtopic": foamed_excluded_offtopic,
-        "foamed_excluded_no_signal": foamed_excluded_no_signal,
-        "fallback_used": fallback_used,
-        "fallback_candidates": len(fallback_candidates),
+        "foamed_final_selected_overview_total": len(overview_items),
+        "foamed_final_selected_top_pick_total": len(top_picks),
+        "foamed_final_selected_source_quality_counts": dict(Counter(str(i.get("source_quality_label") or "optional") for i in overview_items)),
+        "foamed_final_selected_text_confidence_counts": dict(Counter(str(i.get("text_confidence_label") or "low") for i in overview_items)),
+        "foamed_final_selected_clinical_usefulness_distribution": dict(Counter(str(i.get("clinical_usefulness_1_5") or 1) for i in overview_items)),
+        "foamed_final_selected_practice_relevance_distribution": dict(Counter(str(i.get("practice_relevance_1_5") or 1) for i in overview_items)),
+        "foamed_top_pick_floor_rejection_counts": dict(top_pick_rejection_counts),
+        "foamed_selected_reason_counts": dict(selected_reason_counts),
+        "foamed_exclusion_reason_counts": dict(excluded_reason_counts),
+        "foamed_duplicates_suppressed_total": dup_total,
+        "foamed_duplicates_suppressed_reason_counts": dict(dup_reason_counts),
     }
-
-    for _it in overview_items:
-        _attach_evidence_hint_labels(_it, foamed=True)
+    stats["foamed_final_selected_preview"]=[{k:it.get(k) for k in ["source_quality_label","text_confidence_label","clinical_usefulness_1_5","practice_relevance_1_5","top_pick","final_content_source","extraction_method","domain_group","priority_tier","reason_labels"]} for it in overview_items[:10]]
     return FoamedSelection(overview_items=overview_items, top_picks=top_picks, stats=stats)
+
