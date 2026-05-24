@@ -828,6 +828,7 @@ def select_cybermed_pubmed_items(
         enriched["clinical_relevance_score"] = round(float(v1_scores.get("clinical",0.0)),3)
         enriched["practice_changing_score"] = round(float(v1_scores.get("practice",0.0)),3)
         enriched["content_length_bucket"] = _content_length_bucket(int(it.get("content_length") or len(str(it.get("text") or "").strip())))
+        enriched["has_usable_content"] = bool(has_usable_content)
         enriched["reason_labels"] = list(dict.fromkeys((selection_reasons+v1_reasons+v1_penalties)))[:12]
         if low_priority_only and not has_real_evidence_pubtype and ("clinical_trial" in _evidence_tags(it)):
             enriched["reason_labels"] = list(dict.fromkeys(enriched["reason_labels"] + ["evidence_tag_overridden_by_publication_type"]))
@@ -888,10 +889,26 @@ def select_cybermed_pubmed_items(
     )
 
     overview_items: List[Dict[str, Any]] = []
+    final_context_radar_items: List[Dict[str, Any]] = []
+    final_excluded_by_floor_reason_counts: Counter[str] = Counter()
     for idx, cand in enumerate(overview_sorted, start=1):
-        if len(overview_items) >= max_overview:
-            break
         cand["cybermed_rank"] = idx
+        floor_reasons = _final_floor_reasons(cand)
+        cand["final_context_floor_reasons"] = floor_reasons
+        if floor_reasons:
+            cand["overview_eligible"] = False
+            cand["low_evidence_radar"] = True
+            if "evidence_d_context_radar" in floor_reasons:
+                cand["floor_rejection_reason"] = "evidence_d_context_radar"
+            elif not str(cand.get("floor_rejection_reason") or "").strip():
+                cand["floor_rejection_reason"] = floor_reasons[0]
+            for r in floor_reasons:
+                final_excluded_by_floor_reason_counts[r] += 1
+                low_evidence_radar_reason_counts[r] += 1
+            final_context_radar_items.append(cand)
+            continue
+        if len(overview_items) >= max_overview:
+            continue
         overview_items.append(cand)
 
     for cand in overview_items:
@@ -904,7 +921,7 @@ def select_cybermed_pubmed_items(
         ev_label = str(cand.get("evidence_strength_label") or "").upper()
         has_real_evidence_pubtype = _has_real_evidence_pubtype(_pub_types(cand))
         title_floor_blocked = bool(_title_correspondence_or_commentary_reasons(str(cand.get("title") or ""))) and not has_real_evidence_pubtype
-        if top_pick and (ev_label not in {"A", "B", "C"} or cand.get("low_evidence_radar") or not cand.get("type_floor_passed") or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0] or title_floor_blocked):
+        if top_pick and (ev_label not in {"A", "B", "C"} or cand.get("low_evidence_radar") or not cand.get("type_floor_passed") or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0] or title_floor_blocked or str(cand.get("floor_rejection_reason") or "").strip()):
             top_pick = False
             top_pick_floor_rejection_counts["type_floor"] += 1
         if top_pick and float(cand.get("evidence_strength_score",0.0)) <= 0:
@@ -944,7 +961,7 @@ def select_cybermed_pubmed_items(
         ev_label = str(cand.get("evidence_strength_label") or "").upper()
         has_real_evidence_pubtype = _has_real_evidence_pubtype(_pub_types(cand))
         title_floor_blocked = bool(_title_correspondence_or_commentary_reasons(str(cand.get("title") or ""))) and not has_real_evidence_pubtype
-        if cand.get("low_evidence_radar") or ev_label not in {"A", "B", "C"} or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0] or title_floor_blocked:
+        if cand.get("low_evidence_radar") or ev_label not in {"A", "B", "C"} or _is_correction_or_commentary_item(str(cand.get("title") or ""), _pub_types(cand))[0] or title_floor_blocked or str(cand.get("floor_rejection_reason") or "").strip() or not bool(cand.get("has_usable_content")):
             deep_dive_floor_rejection_counts["low_evidence_news_or_commentary"] += 1
             continue
 
@@ -1063,6 +1080,32 @@ def select_cybermed_pubmed_items(
             "pubmed_raw_selection_audit_reason_counts": dict(raw_selection_audit_reason_counts),
             "pubmed_candidates_kept_after_soft_screen_total": kept_after_soft_screen,
             "pubmed_candidates_hard_excluded_total": hard_excluded_total,
+            "pubmed_final_selected_overview_total": len(overview_items),
+            "pubmed_final_selected_evidence_label_counts": dict(Counter(str(it.get("evidence_strength_label") or "") for it in overview_items)),
+            "pubmed_final_selected_evidence_label_basis_counts": dict(Counter(str(it.get("evidence_strength_label_basis") or "") for it in overview_items)),
+            "pubmed_final_selected_context_floor_violations_total": sum(1 for it in overview_items if it.get("final_context_floor_reasons")),
+            "pubmed_final_selected_context_floor_violation_counts": dict(Counter(r for it in overview_items for r in (it.get("final_context_floor_reasons") or []))),
+            "pubmed_final_excluded_by_evidence_floor_total": len(final_context_radar_items),
+            "pubmed_final_excluded_by_evidence_floor_reason_counts": dict(final_excluded_by_floor_reason_counts),
+            "pubmed_final_context_radar_candidates_total": len(final_context_radar_items),
+            "pubmed_final_top_pick_floor_rejection_counts": dict(top_pick_floor_rejection_counts),
+            "pubmed_final_deep_dive_floor_rejection_counts": dict(deep_dive_floor_rejection_counts),
+            "pubmed_final_selected_preview": [
+                {
+                    "evidence_strength_label": str(it.get("evidence_strength_label") or ""),
+                    "evidence_strength_label_basis": str(it.get("evidence_strength_label_basis") or ""),
+                    "publication_types": [str(v) for v in (it.get("publication_types") or [])][:5],
+                    "evidence_tags": [str(v) for v in (it.get("evidence_tags") or [])][:5],
+                    "content_source": str(it.get("content_source") or ""),
+                    "content_length_bucket": str(it.get("content_length_bucket") or "none"),
+                    "clinical_relevance_1_5": int(it.get("clinical_relevance_1_5") or 0),
+                    "practice_change_potential_1_5": int(it.get("practice_change_potential_1_5") or 0),
+                    "text_confidence_label": str(it.get("text_confidence_label") or ""),
+                    "top_pick": bool(it.get("top_pick")),
+                    "deep_dive_candidate": bool(it.get("cybermed_deep_dive")),
+                }
+                for it in overview_items[:10]
+            ],
             "top_candidate_score_preview": [
                 {
                     "score": round(float(it.get("cybermed_score", 0.0)), 3),
@@ -1097,6 +1140,46 @@ def select_cybermed_pubmed_items(
     )
 
 
+def _final_floor_reasons(item: Dict[str, Any]) -> List[str]:
+    reasons: List[str] = []
+    ev_label = str(item.get("evidence_strength_label") or "").upper()
+    ev_basis = str(item.get("evidence_strength_label_basis") or "")
+    ev_score = float(item.get("evidence_strength_score", 0.0) or 0.0)
+    reason_labels = {str(r) for r in (item.get("reason_labels") or [])}
+    blocked_labels = {
+        "evidence_e_not_normal_paper",
+        "correspondence_or_reply",
+        "commentary_title_pattern",
+        "correction_or_erratum",
+        "comment_on_article",
+        "low_evidence_news_or_commentary",
+        "low_evidence_editorial_letter",
+        "no_primary_evidence_signal",
+    }
+    if ev_label == "E":
+        reasons.append("evidence_label_e")
+    if ev_basis in {"low_evidence_publication_type", "metadata_only"}:
+        reasons.append(f"evidence_basis_{ev_basis}")
+    if ev_basis == "score_fallback" and ev_score <= 0:
+        reasons.append("evidence_score_fallback_non_positive")
+    if str(item.get("floor_rejection_reason") or "").strip():
+        reasons.append("floor_rejection_reason")
+    if bool(item.get("low_evidence_radar")):
+        reasons.append("low_evidence_radar")
+    for lbl in sorted(blocked_labels & reason_labels):
+        reasons.append(lbl)
+
+    if ev_label == "D":
+        d_ok = (
+            bool(item.get("has_usable_content"))
+            and int(item.get("clinical_relevance_1_5") or 0) >= 4
+            and int(item.get("practice_change_potential_1_5") or 0) >= 3
+            and ev_basis not in {"low_evidence_publication_type", "metadata_only"}
+            and not (blocked_labels & reason_labels)
+        )
+        if not d_ok:
+            reasons.append("evidence_d_context_radar")
+    return list(dict.fromkeys(reasons))
 
 
 def _is_correction_or_commentary_item(title: str, pub_types: List[str]) -> Tuple[bool, List[str]]:

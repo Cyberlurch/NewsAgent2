@@ -147,3 +147,64 @@ def test_correspondence_title_patterns_and_evidence_floors(tmp_path):
     assert diag["pubmed_correspondence_reply_excluded_total"] >= 1
     assert diag["pubmed_evidence_e_excluded_from_papers_total"] >= 1
     assert "pubmed_evidence_d_context_radar_total" in diag
+
+
+def test_final_overview_floor_and_diagnostics(tmp_path):
+    items = [
+        {"title":"Evidence E high score", "text":"editorial opinion", "publication_types":["Editorial"], "content_length":250},
+        {"title":"Evidence E generic journal", "text":"", "publication_types":["Journal Article"], "content_length":0},
+        {"title":"Score fallback non-positive", "text":"", "publication_types":["Randomized Controlled Trial"], "content_length":0},
+        {"title":"Low evidence radar", "text":"news update", "publication_types":["News"], "content_length":100},
+        {"title":"Has floor rejection", "text":"commentary", "publication_types":["Comment"], "content_length":100},
+        {"title":"Reply to Trial", "text":"reply discussion", "publication_types":["Journal Article"], "content_length":180},
+        {"title":"RCT stays", "text":"randomized controlled trial ICU mortality patient outcome", "publication_types":["Randomized Controlled Trial"], "content_length":360},
+        {"title":"Guideline stays", "text":"practice guideline ICU mortality recommendations", "publication_types":["Practice Guideline"], "content_length":360},
+        {"title":"Meta stays", "text":"systematic review meta-analysis ICU mortality", "publication_types":["Meta-Analysis"], "content_length":360},
+        {"title":"Cohort C stays", "text":"prospective cohort registry ICU mortality patient outcomes", "publication_types":["Journal Article"], "content_length":360},
+    ]
+    res = select_cybermed_pubmed_items(items, config_path=_cfg(tmp_path))
+    labels = {str(it.get("evidence_strength_label") or "") for it in res.overview_items}
+    assert "E" not in labels
+    titles = {it["title"] for it in res.overview_items}
+    assert "RCT stays" in titles and "Guideline stays" in titles and "Meta stays" in titles and "Cohort C stays" in titles
+    assert "Evidence E high score" not in titles
+    assert "Evidence E generic journal" not in titles
+    assert "Reply to Trial" not in titles
+    diag = res.stats["selection_diagnostics"]
+    assert "pubmed_final_selected_evidence_label_counts" in diag
+    assert "E" not in diag["pubmed_final_selected_evidence_label_counts"]
+    assert "pubmed_final_excluded_by_evidence_floor_reason_counts" in diag
+    preview = diag["pubmed_final_selected_preview"]
+    assert len(preview) <= 10
+    for row in preview:
+        for bad in ["title", "abstract", "doi", "pmid", "url", "raw_html", "full_text", "article_body", "SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON"]:
+            assert bad not in row
+
+
+def test_evidence_d_floor_and_no_top_pick_or_deep_dive(tmp_path):
+    items = [
+        {"title":"Evidence D low impact", "text":"expert narrative review", "publication_types":["Review"], "content_length":300},
+        {"title":"Evidence D acceptable", "text":"expert practical bedside ICU patient outcomes", "publication_types":["Review"], "content_length":500},
+    ]
+    res = select_cybermed_pubmed_items(items, config_path=_cfg(tmp_path))
+    for it in res.overview_items:
+        if it["title"] == "Evidence D acceptable":
+            it["clinical_relevance_1_5"] = max(4, int(it.get("clinical_relevance_1_5") or 0))
+            it["practice_change_potential_1_5"] = max(3, int(it.get("practice_change_potential_1_5") or 0))
+    assert all(not (it["title"] == "Evidence D low impact") for it in res.overview_items)
+    assert all(not (it.get("evidence_strength_label") == "D" and it.get("top_pick")) for it in res.overview_items)
+    assert all(not (it.get("evidence_strength_label") == "D") for it in res.deep_dive_items)
+
+
+def test_top_pick_and_deep_dive_final_invariant_counts(tmp_path):
+    items = [
+        {"title":"Strong RCT", "text":"randomized controlled trial ICU mortality patient outcomes", "publication_types":["Randomized Controlled Trial"], "content_length":420},
+        {"title":"Strong Guideline", "text":"practice guideline ICU mortality recommendations patient safety", "publication_types":["Practice Guideline"], "content_length":420},
+        {"title":"Commentary blocked", "text":"commentary", "publication_types":["Comment"], "content_length":150},
+    ]
+    res = select_cybermed_pubmed_items(items, config_path=_cfg(tmp_path))
+    assert all(str(it.get("evidence_strength_label") or "") in {"A","B","C"} for it in res.overview_items if it.get("top_pick"))
+    assert all(str(it.get("evidence_strength_label") or "") in {"A","B","C"} for it in res.deep_dive_items)
+    diag = res.stats["selection_diagnostics"]
+    assert "pubmed_final_top_pick_floor_rejection_counts" in diag
+    assert "pubmed_final_deep_dive_floor_rejection_counts" in diag
