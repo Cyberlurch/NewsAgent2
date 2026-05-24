@@ -47,6 +47,7 @@ def test_rolling_audit_fields_present(tmp_path, monkeypatch):
     monkeypatch.setenv('STATE_PATH', str(tmp_path / 'state.json')); (tmp_path / 'state.json').write_text('{}', encoding='utf-8')
     monkeypatch.setenv('SEND_EMAIL', '0'); monkeypatch.setenv('EMAIL_MODE', 'none'); monkeypatch.setenv('GITHUB_EVENT_NAME', 'workflow_dispatch')
     monkeypatch.setenv('FOAMED_ROLLING_AUDIT_DAYS', '30')
+    monkeypatch.setenv('CYBERMED_HEAVY_AUDIT_MODE', '1')
     monkeypatch.setattr(sys, 'argv', ['newsagent2-main'])
     monkeypatch.setattr(main, 'load_channels_config', lambda _p: ([], {}, {}))
     monkeypatch.setattr(main, 'search_recent_pubmed', lambda *a, **k: [])
@@ -61,3 +62,28 @@ def test_rolling_audit_fields_present(tmp_path, monkeypatch):
     assert diag['foamed_rolling_audit_enabled'] is True
     assert diag['foamed_rolling_audit_days'] == 30
     assert diag['foamed_rolling_productive_sources_total'] >= 1
+
+
+def test_rolling_audit_gated_when_heavy_mode_disabled(tmp_path, monkeypatch):
+    report_dir = tmp_path / 'out'
+    monkeypatch.setenv('REPORT_KEY', 'cybermed'); monkeypatch.setenv('REPORT_MODE', 'daily'); monkeypatch.setenv('REPORT_DIR', str(report_dir))
+    monkeypatch.setenv('STATE_PATH', str(tmp_path / 'state.json')); (tmp_path / 'state.json').write_text('{}', encoding='utf-8')
+    monkeypatch.setenv('SEND_EMAIL', '0'); monkeypatch.setenv('EMAIL_MODE', 'none'); monkeypatch.setenv('GITHUB_EVENT_NAME', 'workflow_dispatch')
+    monkeypatch.setenv('FOAMED_ROLLING_AUDIT_DAYS', '30')
+    monkeypatch.setenv('CYBERMED_HEAVY_AUDIT_MODE', '0')
+    monkeypatch.setattr(sys, 'argv', ['newsagent2-main'])
+    monkeypatch.setattr(main, 'load_channels_config', lambda _p: ([], {}, {}))
+    monkeypatch.setattr(main, 'search_recent_pubmed', lambda *a, **k: [])
+    cfg = [{'name': 'S1', 'homepage': 'https://x', 'feed_url': 'https://x/feed'}]
+    monkeypatch.setattr(main, 'load_foamed_sources_config', lambda _p: cfg)
+    calls = {"n": 0}
+    def fake_collect(*a, **k):
+        calls["n"] += 1
+        return ([], {"sources_total": 1, "per_source": {}, "audit": {"enabled": True, "sources": {}}, "foamed_source_strategy_summary": []})
+    monkeypatch.setattr(main, 'collect_foamed_items', fake_collect)
+    main.main()
+    diag = json.loads((report_dir / 'cybermed_daily_diagnostics.json').read_text())
+    assert calls["n"] == 1
+    assert diag['foamed_rolling_audit_requested_days'] == 30
+    assert diag['foamed_rolling_audit_enabled'] is False
+    assert diag['foamed_rolling_audit_skipped_reason'] == 'heavy_audit_mode_disabled'

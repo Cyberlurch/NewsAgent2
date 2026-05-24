@@ -68,6 +68,20 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
 
     assert seen_max_items.get("value") == 25
     assert "pubmed_items_raw_total" in diag
+    for key in [
+        "runtime_total_seconds",
+        "runtime_pubmed_collect_seconds",
+        "runtime_pubmed_backfill_seconds",
+        "runtime_foamed_collect_seconds",
+        "runtime_foamed_article_fetch_seconds",
+        "runtime_foamed_rolling_audit_seconds",
+        "runtime_selection_seconds",
+        "runtime_summarization_seconds",
+        "runtime_report_render_seconds",
+        "runtime_email_seconds",
+    ]:
+        assert key in diag
+        assert isinstance(diag[key], (int, float))
     assert "foamed_sources_total" in diag
     assert "pubmed_items_with_publication_types_total" in diag
     assert "pubmed_items_with_mesh_headings_total" in diag
@@ -136,6 +150,18 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
     assert diag.get("foamed_audit_enabled") is True
     assert "foamed_audit_summary" in diag
     assert diag["foamed_article_fetch_enabled"] is True
+    assert "effective_runtime_config" in diag
+    for cfg_key in [
+        "FOAMED_AUDIT",
+        "FOAMED_AUDIT_CHECK_DISABLED",
+        "FOAMED_ARTICLE_FETCH",
+        "FOAMED_ARTICLE_FETCH_MAX_PER_RUN",
+        "FOAMED_ROLLING_AUDIT_DAYS",
+        "FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN",
+        "CYBERMED_RUNTIME_DIAGNOSTICS",
+        "CYBERMED_HEAVY_AUDIT_MODE",
+    ]:
+        assert cfg_key in diag["effective_runtime_config"]
 
     fs = diag["foamed_per_source"][0]
     assert fs["health"] == "ok"
