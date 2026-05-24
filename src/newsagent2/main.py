@@ -2774,6 +2774,28 @@ def main() -> None:
             ])
         ])
         top_pick_items_rendered_total = len([it for it in (pubmed_overview_items + foamed_overview_items) if it.get("top_pick")])
+        pubmed_evidence_strength_label_counts = Counter(str(it.get("evidence_strength_label") or "") for it in pubmed_overview_items if str(it.get("evidence_strength_label") or "").strip())
+        pubmed_evidence_strength_label_basis_counts = Counter(str(it.get("evidence_strength_label_basis") or "") for it in pubmed_overview_items if str(it.get("evidence_strength_label_basis") or "").strip())
+        pubmed_clinical_relevance_label_distribution = Counter(str(it.get("clinical_relevance_1_5")) for it in pubmed_overview_items if it.get("clinical_relevance_1_5") not in {None, ""})
+        pubmed_practice_impact_label_distribution = Counter(str(it.get("practice_change_potential_1_5")) for it in pubmed_overview_items if it.get("practice_change_potential_1_5") not in {None, ""})
+        foamed_source_quality_label_counts = Counter(str(it.get("source_quality_label") or "") for it in foamed_overview_items if str(it.get("source_quality_label") or "").strip())
+        foamed_text_confidence_label_counts = Counter(str(it.get("text_confidence_label") or "") for it in foamed_overview_items if str(it.get("text_confidence_label") or "").strip())
+        foamed_clinical_usefulness_distribution = Counter(str(it.get("clinical_usefulness_1_5")) for it in foamed_overview_items if it.get("clinical_usefulness_1_5") not in {None, ""})
+        foamed_practice_relevance_distribution = Counter(str(it.get("practice_relevance_1_5")) for it in foamed_overview_items if it.get("practice_relevance_1_5") not in {None, ""})
+        pubmed_label_calibration_preview = [
+            {
+                "evidence_strength_label": str(it.get("evidence_strength_label") or ""),
+                "evidence_strength_label_basis": str(it.get("evidence_strength_label_basis") or ""),
+                "publication_types": [str(v) for v in (it.get("publication_types") or [])][:5],
+                "evidence_tags": [str(v) for v in (it.get("evidence_tags") or [])][:5],
+                "content_source": str(it.get("content_source") or ""),
+                "content_length_bucket": str(it.get("content_length_bucket") or "none"),
+                "clinical_relevance_1_5": int(it.get("clinical_relevance_1_5", 0) or 0),
+                "practice_change_potential_1_5": int(it.get("practice_change_potential_1_5", 0) or 0),
+                "text_confidence_label": str(it.get("text_confidence_label") or ""),
+            }
+            for it in pubmed_overview_items[:10]
+        ]
         for it in pubmed_new_items:
             pubmed_publication_type_counts.update(str(v) for v in (it.get("publication_types") or []) if str(v).strip())
             pubmed_evidence_tag_counts.update(str(v) for v in (it.get("evidence_tags") or []) if str(v).strip())
@@ -2899,6 +2921,15 @@ def main() -> None:
             "foamed_items_with_presentation_labels_total": int(foamed_items_with_presentation_labels_total),
             "top_pick_items_rendered_total": int(top_pick_items_rendered_total),
             "presentation_missing_label_counts": presentation_missing_label_counts,
+            "pubmed_evidence_strength_label_counts": dict(pubmed_evidence_strength_label_counts),
+            "pubmed_evidence_strength_label_basis_counts": dict(pubmed_evidence_strength_label_basis_counts),
+            "pubmed_clinical_relevance_label_distribution": dict(pubmed_clinical_relevance_label_distribution),
+            "pubmed_practice_impact_label_distribution": dict(pubmed_practice_impact_label_distribution),
+            "foamed_source_quality_label_counts": dict(foamed_source_quality_label_counts),
+            "foamed_text_confidence_label_counts": dict(foamed_text_confidence_label_counts),
+            "foamed_clinical_usefulness_distribution": dict(foamed_clinical_usefulness_distribution),
+            "foamed_practice_relevance_distribution": dict(foamed_practice_relevance_distribution),
+            "pubmed_label_calibration_preview": pubmed_label_calibration_preview,
             "runtime_total_seconds": round(max(0.0, time.monotonic() - runtime_start), 6),
             "runtime_pubmed_collect_seconds": round(runtime_pubmed_collect_seconds, 6),
             "runtime_pubmed_backfill_seconds": round(runtime_pubmed_backfill_seconds, 6),

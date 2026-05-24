@@ -118,6 +118,18 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
     assert "foamed_items_with_presentation_labels_total" in diag
     assert "top_pick_items_rendered_total" in diag
     assert "presentation_missing_label_counts" in diag
+    for key in [
+        "pubmed_evidence_strength_label_counts",
+        "pubmed_evidence_strength_label_basis_counts",
+        "pubmed_clinical_relevance_label_distribution",
+        "pubmed_practice_impact_label_distribution",
+        "foamed_source_quality_label_counts",
+        "foamed_text_confidence_label_counts",
+        "foamed_clinical_usefulness_distribution",
+        "foamed_practice_relevance_distribution",
+        "pubmed_label_calibration_preview",
+    ]:
+        assert key in diag
     sd = diag["selection_diagnostics"]
     for key in [
         "excluded_overview_offtopic",
@@ -179,6 +191,10 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
     forbidden = ["SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON", "raw_xml", "raw_html", "full_text", "transcript", "abstract text", "@"]
     for key in forbidden:
         assert key not in as_text
+    if diag["pubmed_label_calibration_preview"]:
+        preview_blob = json.dumps(diag["pubmed_label_calibration_preview"])
+        for bad in ["title", "abstract", "doi", "pmid", "url", "raw_html", "full_text", "article_body", "SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON", "@"]:
+            assert bad not in preview_blob
 
     assert not (report_dir / "cyberlurch_daily_youtube_diagnostics.json").exists()
 
