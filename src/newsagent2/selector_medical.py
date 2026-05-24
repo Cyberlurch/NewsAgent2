@@ -333,6 +333,32 @@ HIGH_EVIDENCE_PUB_TYPES = {
     "guideline",
 }
 
+REAL_EVIDENCE_TYPES = {
+    "randomized controlled trial",
+    "clinical trial",
+    "systematic review",
+    "meta-analysis",
+    "practice guideline",
+    "guideline",
+    "observational clinical study",
+}
+
+
+def _pub_types(item: Dict[str, Any]) -> Set[str]:
+    return {str(x).strip().lower() for x in (item.get("publication_types") or []) if str(x).strip()}
+
+
+def _evidence_tags(item: Dict[str, Any]) -> Set[str]:
+    return {str(x).strip().lower() for x in (item.get("evidence_tags") or []) if str(x).strip()}
+
+
+def _low_priority_only(pub_types: Set[str]) -> bool:
+    return bool(pub_types) and pub_types.issubset(LOW_PRIORITY_PUB_TYPES)
+
+
+def _has_real_evidence_pubtype(pub_types: Set[str]) -> bool:
+    return bool(pub_types & REAL_EVIDENCE_TYPES)
+
 def _content_length_bucket(length: int) -> str:
     if length <= 0:
         return "none"
@@ -346,8 +372,8 @@ def _pubmed_v1_scores(item: Dict[str, Any], hay: str, domain_flags: Dict[str, bo
     reasons: List[str] = []
     penalties: List[str] = []
     hard_exclusion: str | None = None
-    pub_types = {str(x).strip().lower() for x in (item.get("publication_types") or []) if str(x).strip()}
-    evidence_tags = {str(x).strip().lower() for x in (item.get("evidence_tags") or []) if str(x).strip()}
+    pub_types = _pub_types(item)
+    evidence_tags = _evidence_tags(item)
     journal = str(item.get("journal") or "").lower()
     text = str(item.get("text") or "")
     has_content = bool(text.strip())
@@ -361,7 +387,10 @@ def _pubmed_v1_scores(item: Dict[str, Any], hay: str, domain_flags: Dict[str, bo
     text_conf = 0.0
 
     if pub_types & HIGH_EVIDENCE_PUB_TYPES or (evidence_tags & HIGH_EVIDENCE_PUB_TYPES):
-        evidence += 3.0; reasons.append("high_evidence_publication_type")
+        if _low_priority_only(pub_types) and not _has_real_evidence_pubtype(pub_types):
+            penalties.append("evidence_tag_overridden_by_publication_type")
+        else:
+            evidence += 3.0; reasons.append("high_evidence_publication_type")
     if _contains_any_keyword(hay,["prospective cohort","diagnostic accuracy","randomized","clinical trial"]):
         evidence += 1.5
     if pub_types & LOW_PRIORITY_PUB_TYPES:
@@ -562,12 +591,25 @@ def select_cybermed_pubmed_items(
     soft_penalty_counts: Counter[str] = Counter()
     exclusion_reason_counts: Counter[str] = Counter()
     top_pick_reason_counts: Counter[str] = Counter()
+    top_pick_floor_rejection_counts: Counter[str] = Counter()
     deep_dive_reason_counts_v1: Counter[str] = Counter()
+    deep_dive_floor_rejection_counts: Counter[str] = Counter()
+    low_evidence_radar_reason_counts: Counter[str] = Counter()
+    raw_selection_audit_reason_counts: Counter[str] = Counter()
     relevance_dist: Counter[str] = Counter()
     evidence_dist: Counter[str] = Counter()
     practice_dist: Counter[str] = Counter()
     hard_excluded_total = 0
     kept_after_soft_screen = 0
+    low_priority_publication_type_excluded_total = 0
+    overview_eligible_after_type_floor_total = 0
+    overview_excluded_by_type_floor_total = 0
+    low_evidence_radar_candidates_total = 0
+    raw_selection_audit_total = len(pubmed_items)
+    raw_selection_audit_overview_eligible_total = 0
+    raw_selection_audit_low_evidence_radar_total = 0
+    raw_selection_audit_top_pick_candidate_total = 0
+    raw_selection_audit_deep_dive_candidate_total = 0
 
     def _tier_priority(tier: str) -> int:
         if tier.startswith("tier1"):
@@ -623,11 +665,60 @@ def select_cybermed_pubmed_items(
         )
 
         v1_scores, v1_reasons, v1_penalties, v1_hard_exclusion, has_usable_content = _pubmed_v1_scores(it, hay, domain_flags)
+        pub_types = _pub_types(it)
+        has_real_evidence_pubtype = _has_real_evidence_pubtype(pub_types)
+        low_priority_only = _low_priority_only(pub_types)
+        strong_domain_and_usable = any(domain_flags.values()) and has_usable_content
+        floor_reasons: List[str] = []
+        if float(v1_scores.get("evidence", 0.0)) > 0:
+            floor_reasons.append("evidence_strength_positive")
+        if float(v1_scores.get("clinical", 0.0)) > 0:
+            floor_reasons.append("clinical_relevance_positive")
+        if float(v1_scores.get("practice", 0.0)) > 0:
+            floor_reasons.append("practice_changing_positive")
+        if has_real_evidence_pubtype:
+            floor_reasons.append("real_evidence_publication_type")
+        if strong_domain_and_usable:
+            floor_reasons.append("strong_domain_plus_usable_content")
+        type_floor_passed = bool(floor_reasons)
+        low_evidence_radar = (
+            low_priority_only
+            and float(v1_scores.get("evidence", 0.0)) <= 0
+            and float(v1_scores.get("clinical", 0.0)) <= 0
+            and float(v1_scores.get("practice", 0.0)) <= 0
+        )
+        if low_evidence_radar:
+            low_evidence_radar_candidates_total += 1
+            low_evidence_radar_reason_counts["low_evidence_news_or_commentary"] += 1
+        if low_priority_only and not has_real_evidence_pubtype and ("clinical_trial" in _evidence_tags(it)):
+            low_evidence_radar_reason_counts["evidence_tag_overridden_by_publication_type"] += 1
+        if type_floor_passed:
+            raw_selection_audit_overview_eligible_total += 1
+        if low_evidence_radar:
+            raw_selection_audit_low_evidence_radar_total += 1
+        if (
+            type_floor_passed and has_usable_content and float(v1_scores.get("evidence", 0.0)) > 0
+            and (float(v1_scores.get("clinical", 0.0)) > 0 or float(v1_scores.get("practice", 0.0)) > 0)
+            and not low_priority_only
+        ):
+            raw_selection_audit_top_pick_candidate_total += 1
+            raw_selection_audit_deep_dive_candidate_total += 1
+        raw_selection_audit_reason_counts["type_floor_passed" if type_floor_passed else "type_floor_failed"] += 1
         if v1_hard_exclusion:
             excluded_overview_offtopic += 1
             hard_excluded_total += 1
             exclusion_reason_counts[v1_hard_exclusion] += 1
             continue
+        if low_evidence_radar:
+            exclusion_reason_counts["low_evidence_news_or_commentary"] += 1
+            overview_excluded_by_type_floor_total += 1
+            low_priority_publication_type_excluded_total += 1
+            continue
+        if not type_floor_passed:
+            overview_excluded_by_type_floor_total += 1
+            exclusion_reason_counts["type_floor_failed"] += 1
+            continue
+        overview_eligible_after_type_floor_total += 1
 
         score, reasons = _score_item(it, cfg, haystack=hay)
         score += float(v1_scores.get("total",0.0))
@@ -717,6 +808,12 @@ def select_cybermed_pubmed_items(
         enriched["practice_changing_score"] = round(float(v1_scores.get("practice",0.0)),3)
         enriched["content_length_bucket"] = _content_length_bucket(int(it.get("content_length") or len(str(it.get("text") or "").strip())))
         enriched["reason_labels"] = list(dict.fromkeys((selection_reasons+v1_reasons+v1_penalties)))[:12]
+        if low_priority_only and not has_real_evidence_pubtype and ("clinical_trial" in _evidence_tags(it)):
+            enriched["reason_labels"] = list(dict.fromkeys(enriched["reason_labels"] + ["evidence_tag_overridden_by_publication_type"]))
+        enriched["type_floor_passed"] = type_floor_passed
+        enriched["overview_eligible"] = type_floor_passed and not low_evidence_radar
+        enriched["low_evidence_radar"] = low_evidence_radar
+        enriched["floor_rejection_reason"] = "" if enriched["overview_eligible"] else ("low_evidence_news_or_commentary" if low_evidence_radar else "type_floor_failed")
 
         enriched["cybermed_deep_dive_hard_excluded"] = _matches_any_regex(
             hay, [str(x) for x in hard_exclude_deep]
@@ -760,6 +857,15 @@ def select_cybermed_pubmed_items(
             and float(cand.get("clinical_relevance_score",0.0)) >= 2.0
             and str(cand.get("content_length_bucket")) != "none"
         )
+        if top_pick and (cand.get("low_evidence_radar") or not cand.get("type_floor_passed")):
+            top_pick = False
+            top_pick_floor_rejection_counts["type_floor"] += 1
+        if top_pick and float(cand.get("evidence_strength_score",0.0)) <= 0:
+            top_pick = False
+            top_pick_floor_rejection_counts["evidence_strength_score"] += 1
+        if top_pick and not (float(cand.get("clinical_relevance_score",0.0)) > 0 or float(cand.get("practice_changing_score",0.0)) > 0):
+            top_pick = False
+            top_pick_floor_rejection_counts["clinical_or_practice"] += 1
         cand["top_pick"] = bool(top_pick)
         star_reasons=[r for r in cand.get("reason_labels",[]) if r in {"guideline_or_consensus","randomized_trial","systematic_review_or_meta_analysis","high_impact_journal","patient_centered_outcomes","strong_clinical_relevance"}]
         if top_pick and not star_reasons:
@@ -788,6 +894,9 @@ def select_cybermed_pubmed_items(
 
         if cand.get("cybermed_deep_dive_hard_excluded"):
             continue
+        if cand.get("low_evidence_radar"):
+            deep_dive_floor_rejection_counts["low_evidence_news_or_commentary"] += 1
+            continue
 
         if float(cand.get("cybermed_deep_dive_score", 0.0)) < min_score_deep_dive:
             excluded_deep_dive_low_score += 1
@@ -800,9 +909,11 @@ def select_cybermed_pubmed_items(
         domain_counts[domain_key] = domain_counts.get(domain_key, 0) + 1
         if float(cand.get("evidence_strength_score",0.0)) < 1.5:
             excluded_deep_dive_low_score += 1
+            deep_dive_floor_rejection_counts["evidence_strength_score"] += 1
             continue
         if float(cand.get("practice_changing_score",0.0)) < 1.2 and float(cand.get("clinical_relevance_score",0.0)) < 2.5:
             excluded_deep_dive_low_score += 1
+            deep_dive_floor_rejection_counts["clinical_or_practice"] += 1
             continue
         cand["cybermed_deep_dive"] = True
         cand["cybermed_deep_dive_rank"] = len(deep_dive_items) + 1
@@ -880,7 +991,20 @@ def select_cybermed_pubmed_items(
             "pubmed_exclusion_reason_counts": dict(exclusion_reason_counts),
             "pubmed_soft_penalty_reason_counts": dict(soft_penalty_counts),
             "pubmed_top_pick_reason_counts": dict(top_pick_reason_counts),
+            "pubmed_top_pick_floor_rejection_counts": dict(top_pick_floor_rejection_counts),
             "pubmed_deep_dive_reason_counts": dict(deep_dive_reason_counts_v1),
+            "pubmed_deep_dive_floor_rejection_counts": dict(deep_dive_floor_rejection_counts),
+            "pubmed_low_evidence_radar_candidates_total": low_evidence_radar_candidates_total,
+            "pubmed_low_evidence_radar_reason_counts": dict(low_evidence_radar_reason_counts),
+            "pubmed_low_priority_publication_type_excluded_total": low_priority_publication_type_excluded_total,
+            "pubmed_overview_eligible_after_type_floor_total": overview_eligible_after_type_floor_total,
+            "pubmed_overview_excluded_by_type_floor_total": overview_excluded_by_type_floor_total,
+            "pubmed_raw_selection_audit_total": raw_selection_audit_total,
+            "pubmed_raw_selection_audit_overview_eligible_total": raw_selection_audit_overview_eligible_total,
+            "pubmed_raw_selection_audit_low_evidence_radar_total": raw_selection_audit_low_evidence_radar_total,
+            "pubmed_raw_selection_audit_top_pick_candidate_total": raw_selection_audit_top_pick_candidate_total,
+            "pubmed_raw_selection_audit_deep_dive_candidate_total": raw_selection_audit_deep_dive_candidate_total,
+            "pubmed_raw_selection_audit_reason_counts": dict(raw_selection_audit_reason_counts),
             "pubmed_candidates_kept_after_soft_screen_total": kept_after_soft_screen,
             "pubmed_candidates_hard_excluded_total": hard_excluded_total,
             "top_candidate_score_preview": [
@@ -895,6 +1019,10 @@ def select_cybermed_pubmed_items(
                     "evidence_tags": [str(v) for v in (it.get("evidence_tags") or [])][:5],
                     "content_source": str(it.get("content_source") or ""),
                     "content_length_bucket": str(it.get("content_length_bucket") or "none"),
+                    "type_floor_passed": bool(it.get("type_floor_passed")),
+                    "overview_eligible": bool(it.get("overview_eligible")),
+                    "low_evidence_radar": bool(it.get("low_evidence_radar")),
+                    "floor_rejection_reason": str(it.get("floor_rejection_reason") or ""),
                     "reason_labels": [str(v) for v in (it.get("reason_labels") or [])][:10],
                     "exclusion_reason": str(it.get("exclusion_reason") or ""),
                 }
