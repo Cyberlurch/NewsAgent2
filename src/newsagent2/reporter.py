@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import os, re
 import html as html_module
+import os
 from collections import Counter
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
@@ -952,6 +953,11 @@ def to_markdown(
             md.extend([overview_markdown, ""])
 
     if is_cybermed:
+        greeting_enabled = str(os.getenv("CYBERMED_SEASONAL_GREETING", "1")).strip().lower() not in {"0", "false", "off", "no"}
+        greeting = (os.getenv("CYBERMED_SEASONAL_GREETING_TEXT", "") or "").strip()
+        if greeting_enabled and greeting:
+            md.append(f"*{greeting}*")
+            md.append("")
         if normalized_mode in {"weekly", "monthly"}:
             pubmed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "pubmed")
             foamed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "foamed")

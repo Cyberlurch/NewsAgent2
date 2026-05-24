@@ -115,6 +115,7 @@ jobs:
       FOAMED_ROLLING_AUDIT_DAYS: ${{ vars.FOAMED_ROLLING_AUDIT_DAYS || '0' }}
       FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN || '60' }}
       CYBERMED_HEAVY_AUDIT_MODE: ${{ vars.CYBERMED_HEAVY_AUDIT_MODE || '0' }}
+      CYBERMED_SEASONAL_GREETING: ${{ vars.CYBERMED_SEASONAL_GREETING || '1' }}
       REPORT_DIR: out
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
@@ -199,6 +200,8 @@ jobs:
           fi
 
           run_modes=""
+          run_modes_cybermed=""
+          run_modes_cyberlurch=""
           run_which_report="${{ env.WHICH_REPORT }}"
           schedule_expr="${{ github.event.schedule || '' }}"
 
@@ -210,29 +213,29 @@ jobs:
             fi
           else
             run_which_report="both"
-            dow=$(TZ=Europe/Stockholm date +"%u")
-            dom=$(TZ=Europe/Stockholm date +"%d")
-            month=$(TZ=Europe/Stockholm date +"%m")
-
-            modes=()
-            if [ "$dom" = "01" ]; then
-              modes+=("monthly")
-              # On Jan 1, monthly must run before yearly so December rollup exists for Year in Review.
-              if [ "$month" = "01" ]; then
-                modes+=("yearly")
-              fi
-            fi
-            if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then
-              modes+=("daily")
-            fi
-            if [ "$dow" = "5" ]; then
-              modes+=("weekly")
-            fi
-            run_modes="${modes[*]}"
+            json_out=$(python - <<'PY'
+from datetime import datetime
+from zoneinfo import ZoneInfo
+from src.newsagent2.scheduler import compute_scheduled_run_plan
+import json
+d = datetime.now(tz=ZoneInfo("Europe/Stockholm")).date()
+print(json.dumps({"date": str(d), **compute_scheduled_run_plan(d)}))
+PY
+)
+            run_modes_cybermed="$(python -c 'import json,sys; print(\" \".join(json.loads(sys.argv[1])[\"cybermed_modes\"]))' "$json_out")"
+            run_modes_cyberlurch="$(python -c 'import json,sys; print(\" \".join(json.loads(sys.argv[1])[\"cyberlurch_modes\"]))' "$json_out")"
+            run_modes="$run_modes_cyberlurch"
+            echo "local_date_stockholm=$(python -c 'import json,sys; print(json.loads(sys.argv[1])[\"date\"])' "$json_out")"
+            echo "cybermed_modes=$run_modes_cybermed"
+            echo "cyberlurch_modes=$run_modes_cyberlurch"
+            echo "cybermed_holiday_name=$(python -c 'import json,sys; print(json.loads(sys.argv[1]).get(\"holiday_name\") or \"\")' "$json_out")"
+            echo "cybermed_greeting=$(python -c 'import json,sys; print(json.loads(sys.argv[1]).get(\"greeting\") or \"\")' "$json_out")"
           fi
 
           echo "run_skip=false" >> "$GITHUB_OUTPUT"
           echo "run_modes=$run_modes" >> "$GITHUB_OUTPUT"
+          echo "run_modes_cybermed=$run_modes_cybermed" >> "$GITHUB_OUTPUT"
+          echo "run_modes_cyberlurch=$run_modes_cyberlurch" >> "$GITHUB_OUTPUT"
           echo "run_which_report=$run_which_report" >> "$GITHUB_OUTPUT"
           printf 'Run plan: modes=[%s] which_report=%s\n' "$run_modes" "$run_which_report"
 
@@ -269,6 +272,8 @@ jobs:
         if: steps.compute_plan.outputs.run_skip != 'true'
         env:
           RUN_MODES: ${{ steps.compute_plan.outputs.run_modes }}
+          RUN_MODES_CYBERMED: ${{ steps.compute_plan.outputs.run_modes_cybermed }}
+          RUN_MODES_CYBERLURCH: ${{ steps.compute_plan.outputs.run_modes_cyberlurch }}
           RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}
           LOOKBACK_HOURS_OVERRIDE: ${{ env.LOOKBACK_HOURS_OVERRIDE }}
           REPORT_DIR: ${{ env.REPORT_DIR }}
@@ -339,11 +344,10 @@ jobs:
             echo "Manual email mode: ${EMAIL_MODE:-none}"
           fi
 
-          for mode in $RUN_MODES; do
-            echo "--- Running cadence: $mode (which_report=$RUN_WHICH_REPORT) ---"
-            export REPORT_MODE="$mode"
-
-            if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cyberlurch" ]; then
+          if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cyberlurch" ]; then
+            for mode in ${RUN_MODES_CYBERLURCH:-$RUN_MODES}; do
+              echo "--- Running Cyberlurch cadence: $mode ---"
+              export REPORT_MODE="$mode"
               CHFILE="data/channels.json"
               if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${CYBERLURCH_CHANNELS_FILE_OVERRIDE:-}" ]; then
                 case "${CYBERLURCH_CHANNELS_FILE_OVERRIDE}" in
@@ -367,18 +371,24 @@ jobs:
               REPORT_PROFILE=general \
               SEND_EMPTY_REPORT_EMAIL="1" \
               python -m src.newsagent2.main --channels "$CHFILE" --hours 24
-            fi
+            done
+          fi
 
-            if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cybermed" ]; then
+          if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cybermed" ]; then
+            for mode in ${RUN_MODES_CYBERMED:-$RUN_MODES}; do
+              echo "--- Running Cybermed cadence: $mode ---"
+              export REPORT_MODE="$mode"
               REPORT_KEY=cybermed \
               REPORT_TITLE="Cybermed Report" \
               REPORT_SUBJECT="Cybermed Report" \
               REPORT_LANGUAGE=en \
               REPORT_PROFILE=medical \
               SEND_EMPTY_REPORT_EMAIL="1" \
+              CYBERMED_CALENDAR_POLICY_ENABLED="1" \
+              CYBERMED_CALENDAR_LOCAL_DATE_STOCKHOLM="$(TZ=Europe/Stockholm date +%F)" \
               python -m src.newsagent2.main --channels "data/cybermed_channels.json" --hours 24
-            fi
-          done
+            done
+          fi
 
       - name: Verify reports and email attempts
         if: steps.compute_plan.outputs.run_skip != 'true'

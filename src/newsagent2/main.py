@@ -166,6 +166,21 @@ def _date_yyyymmdd_utc(dt: datetime) -> str:
     return dt.astimezone(timezone.utc).strftime("%Y/%m/%d")
 
 
+
+
+def _calendar_env_metadata() -> Dict[str, Any]:
+    return {
+        "calendar_policy_enabled": _env_bool("CYBERMED_CALENDAR_POLICY_ENABLED", False),
+        "calendar_local_date": (os.getenv("CYBERMED_CALENDAR_LOCAL_DATE_STOCKHOLM", "") or "").strip(),
+        "calendar_no_send_today": _env_bool("CYBERMED_CALENDAR_NO_SEND_TODAY", False),
+        "calendar_holiday_name": (os.getenv("CYBERMED_CALENDAR_HOLIDAY_NAME", "") or "").strip(),
+        "calendar_mode_shifted": _env_bool("CYBERMED_CALENDAR_MODE_SHIFTED", False),
+        "calendar_shifted_from": (os.getenv("CYBERMED_CALENDAR_SHIFTED_FROM", "") or "").strip(),
+        "calendar_shifted_to": (os.getenv("CYBERMED_CALENDAR_SHIFTED_TO", "") or "").strip(),
+        "calendar_shift_reason": (os.getenv("CYBERMED_CALENDAR_SHIFT_REASON", "") or "").strip(),
+        "seasonal_greeting": (os.getenv("CYBERMED_SEASONAL_GREETING_TEXT", "") or "").strip(),
+    }
+
 def _safe_int(env_name: str, default: int) -> int:
     raw = (os.getenv(env_name, "") or "").strip()
     if raw == "":
@@ -2865,6 +2880,7 @@ def main() -> None:
             **foamed_disabled_audit_stats,
             **(foamed_rolling_diag if "foamed_rolling_diag" in locals() else {}),
         }
+        cybermed_diagnostics_payload.update(_calendar_env_metadata())
 
 
         warnings = []
