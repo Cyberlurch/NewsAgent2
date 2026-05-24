@@ -6,5 +6,5 @@ def test_workflow_wires_seasonal_greeting_and_per_report_modes():
     assert 'CYBERMED_SEASONAL_GREETING' in y
     assert 'RUN_MODES_CYBERMED' in y
     assert 'RUN_MODES_CYBERLURCH' in y
-    assert 'for mode in ${RUN_MODES_CYBERLURCH' in y
-    assert 'for mode in ${RUN_MODES_CYBERMED' in y
+    assert 'cyberlurch_modes="${RUN_MODES_CYBERLURCH:-}"' in y
+    assert 'cybermed_modes="${RUN_MODES_CYBERMED:-}"' in y
