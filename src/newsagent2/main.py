@@ -62,6 +62,7 @@ from .summarizer import (
     extract_pubmed_abstract,
     summarize_youtube_transcript_chunks,
     summarize_youtube_transcript_direct,
+    _parse_structured_pubmed_abstract_sections,
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
 from .unpaywall import fetch_best_oa_fulltext, lookup_unpaywall, pick_best_oa_url
@@ -819,6 +820,75 @@ def _select_pubmed_deep_dives_with_content(
 
     return selected
 
+
+_NEGATIVE_CUES = ("no significant", "did not", "no benefit", "not significant", "no difference")
+_POSITIVE_CUES = ("reduced", "improved", "beneficial", "benefit", "safe", "practice-changing")
+_HARM_CUES = ("increased harm", "worse", "higher adverse", "more adverse")
+
+
+def _build_pubmed_shared_synopsis(item: Dict[str, Any]) -> Dict[str, Any]:
+    abstract = str(item.get("abstract") or "").strip()
+    sections = _parse_structured_pubmed_abstract_sections(abstract)
+    design = str(sections.get("design") or "").strip()
+    setting = str(sections.get("setting") or "").strip()
+    subjects = str(sections.get("subjects") or "").strip()
+    interventions = str(sections.get("interventions") or "").strip()
+    measurements = str(sections.get("measurements") or "").strip()
+    results = str(sections.get("results") or "").strip()
+    conclusions = str(sections.get("conclusions") or "").strip()
+    objective = str(sections.get("objectives") or "").strip()
+    primary_source = measurements or objective or results
+    low_primary = primary_source.lower()
+    low_results = results.lower()
+    direction = "unclear"
+    significance = "not_reported"
+    if any(c in low_primary for c in _NEGATIVE_CUES):
+        direction = "negative_or_null"
+        significance = "not_significant"
+    elif "p<" in low_primary or "significant" in low_primary:
+        direction = "positive" if any(c in low_primary for c in ("reduced", "improved", "lower")) else "mixed_or_unclear"
+        significance = "significant_or_reported"
+    elif "borderline" in low_primary or "trend" in low_primary:
+        direction = "mixed_or_unclear"
+        significance = "borderline"
+    if "composite" in low_results and ("mixed" in low_results or "individual" in low_results):
+        direction = "mixed_or_unclear"
+    if not design and str(item.get("publication_types") or ""):
+        design = ", ".join(str(x) for x in (item.get("publication_types") or [])[:2])
+    bottom_line = str(item.get("bottom_line") or "").strip()
+    if not bottom_line:
+        if direction == "negative_or_null":
+            bottom_line = "Primary endpoint was not significantly improved; any secondary signals should be interpreted cautiously."
+        elif direction == "mixed_or_unclear":
+            bottom_line = "Results were mixed; interpret potential benefits cautiously and prioritize the primary endpoint."
+        else:
+            bottom_line = "Findings suggest potential benefit, but interpretation should stay aligned with reported endpoints and study limits."
+    return {
+        "study_type": design,
+        "population_setting": "; ".join([x for x in (setting, subjects) if x]),
+        "intervention_or_exposure": interventions,
+        "comparator": "",
+        "primary_endpoint": objective or measurements,
+        "primary_result_direction": direction,
+        "primary_result_significance": significance,
+        "key_secondary_results": results,
+        "limitations": "Not explicitly stated in abstract." if not conclusions else "",
+        "clinical_interpretation": conclusions or bottom_line,
+        "bottom_line": bottom_line,
+    }
+
+
+def _detect_pubmed_bottom_line_conflicts(overview: str, deep: str) -> List[str]:
+    ov = (overview or "").lower()
+    dd = (deep or "").lower()
+    conflicts: List[str] = []
+    if any(c in ov for c in _NEGATIVE_CUES) and any(c in dd for c in ("reduced", "improved", "beneficial")):
+        conflicts.append("negative_overview_vs_positive_deep_dive")
+    if any(c in ov for c in _HARM_CUES) and any(c in dd for c in ("safe", "no harm")):
+        conflicts.append("harm_overview_vs_safe_deep_dive")
+    if ("primary endpoint" in ov and any(c in ov for c in _NEGATIVE_CUES)) and "practice-changing" in dd:
+        conflicts.append("negative_primary_vs_unqualified_practice_changing")
+    return conflicts
 
 def _foamed_health_bucket(state: Dict[str, Any]) -> Dict[str, Any]:
     if not isinstance(state, dict):
@@ -2930,6 +3000,14 @@ def main() -> None:
             "foamed_clinical_usefulness_distribution": dict(foamed_clinical_usefulness_distribution),
             "foamed_practice_relevance_distribution": dict(foamed_practice_relevance_distribution),
             "pubmed_label_calibration_preview": pubmed_label_calibration_preview,
+            "pubmed_summary_consistency_enabled": True,
+            "pubmed_summary_consistency_checked_total": 0,
+            "pubmed_summary_consistency_conflict_total": 0,
+            "pubmed_summary_consistency_conflict_type_counts": {},
+            "pubmed_summary_consistency_resolved_total": 0,
+            "pubmed_shared_synopsis_generated_total": 0,
+            "pubmed_shared_synopsis_failed_total": 0,
+            "pubmed_summary_consistency_preview": [],
             "runtime_total_seconds": round(max(0.0, time.monotonic() - runtime_start), 6),
             "runtime_pubmed_collect_seconds": round(runtime_pubmed_collect_seconds, 6),
             "runtime_pubmed_backfill_seconds": round(runtime_pubmed_backfill_seconds, 6),
@@ -3181,6 +3259,12 @@ def main() -> None:
         "placeholder_value_high_count": 0,
         "structured_rescue_used_count": 0,
     }
+    pubmed_shared_synopsis: Dict[str, Dict[str, Any]] = {}
+    consistency_preview: List[Dict[str, Any]] = []
+    consistency_conflict_type_counts: Counter = Counter()
+    consistency_checked_total = 0
+    consistency_conflict_total = 0
+    consistency_resolved_total = 0
 
     for it in overview_items:
         src = (it.get("source") or "").strip().lower()
@@ -3192,6 +3276,9 @@ def main() -> None:
             it["bottom_line"] = bl
         except Exception as e:
             print(f"[summarize] WARN: summarize_pubmed_bottom_line failed for pubmed:{iid!r}: {e!r}")
+        synopsis = _build_pubmed_shared_synopsis(it)
+        pubmed_shared_synopsis[iid] = synopsis
+        it["pubmed_shared_synopsis"] = synopsis
 
     if foamed_overview_items:
         for it in foamed_overview_items:
@@ -3201,6 +3288,14 @@ def main() -> None:
                 it["bottom_line"] = bl
             except Exception as e:
                 print(f"[summarize] WARN: summarize_foamed_bottom_line failed for foamed item {url_lbl!r}: {e!r}")
+    for it in detail_items:
+        if (it.get("source") or "").strip().lower() != "pubmed":
+            continue
+        iid = str(it.get("id") or "").strip()
+        if iid and iid not in pubmed_shared_synopsis:
+            synopsis = _build_pubmed_shared_synopsis(it)
+            pubmed_shared_synopsis[iid] = synopsis
+            it["pubmed_shared_synopsis"] = synopsis
 
     overview_body = ""
     if is_cybermed_run and not overview_items and foamed_overview_items:
@@ -3614,6 +3709,44 @@ def main() -> None:
             if it.get("_deep_dive_structured_rescue_used"):
                 deep_dive_diag["structured_rescue_used_count"] += 1
 
+    if is_cybermed_run:
+        overview_map = {str(it.get("id") or "").strip(): it for it in overview_items if (it.get("source") or "").strip().lower() == "pubmed"}
+        for it in detail_items:
+            if (it.get("source") or "").strip().lower() != "pubmed":
+                continue
+            iid = str(it.get("id") or "").strip()
+            if not iid or iid not in overview_map:
+                continue
+            consistency_checked_total += 1
+            ov_item = overview_map[iid]
+            synopsis = pubmed_shared_synopsis.get(iid) or _build_pubmed_shared_synopsis(ov_item)
+            shared_bottom_line = str(synopsis.get("bottom_line") or "").strip()
+            overview_bl = str(ov_item.get("bottom_line") or "").strip()
+            deep_text = str(details_for_report.get(iid) or details_by_id.get(f"pubmed:{iid}") or "").strip()
+            conflicts = _detect_pubmed_bottom_line_conflicts(overview_bl, deep_text)
+            status = "consistent"
+            action = ""
+            if conflicts:
+                consistency_conflict_total += 1
+                consistency_conflict_type_counts.update(conflicts)
+                ov_item["bottom_line"] = shared_bottom_line or overview_bl
+                if shared_bottom_line:
+                    details_for_report[iid] = f"**BOTTOM LINE:** {shared_bottom_line}\n\n{deep_text}"
+                consistency_resolved_total += 1
+                status = "resolved_conflict"
+                action = "replace_overview_bottom_line_with_shared_synopsis"
+            consistency_preview.append({
+                "evidence_strength_label": str(ov_item.get("evidence_strength_label") or ""),
+                "evidence_strength_label_basis": str(ov_item.get("evidence_strength_label_basis") or ""),
+                "study_type_present": bool(str(synopsis.get("study_type") or "").strip()),
+                "primary_endpoint_present": bool(str(synopsis.get("primary_endpoint") or "").strip()),
+                "primary_result_direction": str(synopsis.get("primary_result_direction") or ""),
+                "primary_result_significance": str(synopsis.get("primary_result_significance") or ""),
+                "consistency_status": status,
+                "conflict_types": conflicts,
+                "resolution_action": action,
+            })
+
     deep_dive_diag["enriched_fulltext_count"] = len(
         [
             it
@@ -3927,6 +4060,14 @@ def main() -> None:
             "runtime_summarization_seconds": round(runtime_summarization_seconds, 6),
             "runtime_report_render_seconds": round(runtime_report_render_seconds, 6),
             "runtime_email_seconds": round(runtime_email_seconds, 6),
+            "pubmed_summary_consistency_enabled": True,
+            "pubmed_summary_consistency_checked_total": consistency_checked_total,
+            "pubmed_summary_consistency_conflict_total": consistency_conflict_total,
+            "pubmed_summary_consistency_conflict_type_counts": dict(consistency_conflict_type_counts),
+            "pubmed_summary_consistency_resolved_total": consistency_resolved_total,
+            "pubmed_shared_synopsis_generated_total": len(pubmed_shared_synopsis),
+            "pubmed_shared_synopsis_failed_total": 0,
+            "pubmed_summary_consistency_preview": consistency_preview[:10],
         })
         _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
 

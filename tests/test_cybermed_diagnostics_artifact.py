@@ -152,6 +152,17 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
         assert "doi" not in preview_blob
         assert "pmid" not in preview_blob
     assert diag["pubmed_items_skipped_by_state_total"] == 0
+    for key in [
+        "pubmed_summary_consistency_enabled",
+        "pubmed_summary_consistency_checked_total",
+        "pubmed_summary_consistency_conflict_total",
+        "pubmed_summary_consistency_conflict_type_counts",
+        "pubmed_summary_consistency_resolved_total",
+        "pubmed_shared_synopsis_generated_total",
+        "pubmed_shared_synopsis_failed_total",
+        "pubmed_summary_consistency_preview",
+    ]:
+        assert key in diag
     assert diag["foamed_items_after_state_filter_total"] == 0
     assert "pubmed_window" in diag
     assert isinstance(diag.get("pubmed_journals"), list)
@@ -195,6 +206,10 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
         preview_blob = json.dumps(diag["pubmed_label_calibration_preview"])
         for bad in ["title", "abstract", "doi", "pmid", "url", "raw_html", "full_text", "article_body", "SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON", "@"]:
             assert bad not in preview_blob
+    if diag["pubmed_summary_consistency_preview"]:
+        consistency_blob = json.dumps(diag["pubmed_summary_consistency_preview"]).lower()
+        for bad in ["title", "abstract", "doi", "pmid", "url", "raw_html", "full_text", "article body", "smtp_pass", "openai_api_key", "recipients_config_json", "@"]:
+            assert bad not in consistency_blob
 
     assert not (report_dir / "cyberlurch_daily_youtube_diagnostics.json").exists()
 
