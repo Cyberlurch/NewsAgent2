@@ -1933,6 +1933,42 @@ def main() -> None:
     runtime_report_render_seconds = 0.0
     runtime_email_seconds = 0.0
     is_cybermed_run = _is_cybermed(report_key, report_profile)
+    qa_replay_requested = _env_bool("CYBERMED_QA_REPLAY_MODE", False)
+    qa_replay_enabled = False
+    qa_replay_safety_passed = False
+    qa_replay_skipped_reason = ""
+    qa_replay_state_bypass_pubmed_total = 0
+    qa_replay_state_bypass_foamed_total = 0
+    qa_replay_state_mutation_disabled = False
+    qa_replay_email_disabled_confirmed = False
+    if qa_replay_requested:
+        event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
+        email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
+        send_email = (os.getenv("SEND_EMAIL", "") or "").strip()
+        failed_checks: List[str] = []
+        if not is_cybermed_run:
+            failed_checks.append("report_key_not_cybermed")
+        if email_mode != "none":
+            failed_checks.append("email_mode_not_none")
+        if send_email != "0":
+            failed_checks.append("send_email_not_zero")
+        if event_name not in {"workflow_dispatch", "manual"}:
+            failed_checks.append("manual_context_unavailable")
+        if report_mode != "daily" and event_name not in {"workflow_dispatch", "manual"}:
+            failed_checks.append("report_mode_not_manual_or_daily")
+        if event_name == "schedule":
+            failed_checks.append("scheduled_delivery")
+        qa_replay_safety_passed = not failed_checks
+        if qa_replay_safety_passed:
+            qa_replay_enabled = True
+            qa_replay_state_mutation_disabled = True
+            qa_replay_email_disabled_confirmed = True
+            print("[cybermed-qa-replay] requested=1 safety=passed state_bypass=active state_mutation=disabled email_disabled=confirmed")
+        else:
+            qa_replay_skipped_reason = "safety_failed:" + ",".join(failed_checks)
+            print(f"[cybermed-qa-replay] requested=1 safety=failed reason={qa_replay_skipped_reason} state_bypass=inactive")
+    else:
+        print("[cybermed-qa-replay] requested=0 state_bypass=inactive")
     pubmed_candidates_total = 0
     pubmed_skipped_by_state = 0
     pubmed_query_failures = 0
@@ -2215,7 +2251,7 @@ def main() -> None:
                         continue
 
                     skip_by_state = False
-                    if not read_only_mode:
+                    if not read_only_mode and not qa_replay_enabled:
                         if is_cybermed_run:
                             skip_by_state, skip_reason = should_skip_pubmed_item(
                                 state,
@@ -2234,6 +2270,8 @@ def main() -> None:
                         if is_cybermed_run:
                             pubmed_skipped_by_state += 1
                         continue
+                    if qa_replay_enabled and is_cybermed_run:
+                        qa_replay_state_bypass_pubmed_total += 1
 
                     text = (a.get("text") or "").strip()
                     if not text:
@@ -2320,9 +2358,11 @@ def main() -> None:
                 iid = str(it.get("id") or it.get("url") or "").strip()
                 if not iid:
                     continue
-                if not read_only_mode and is_processed(state, report_key, "foamed", iid):
+                if not read_only_mode and not qa_replay_enabled and is_processed(state, report_key, "foamed", iid):
                     foamed_skipped_by_state += 1
                     continue
+                if qa_replay_enabled:
+                    qa_replay_state_bypass_foamed_total += 1
 
                 text_val = (it.get("text") or "").strip()
                 if len(text_val) > max_text_chars_per_item:
@@ -3008,6 +3048,14 @@ def main() -> None:
             "pubmed_shared_synopsis_generated_total": 0,
             "pubmed_shared_synopsis_failed_total": 0,
             "pubmed_summary_consistency_preview": [],
+            "cybermed_qa_replay_requested": bool(qa_replay_requested),
+            "cybermed_qa_replay_enabled": bool(qa_replay_enabled),
+            "cybermed_qa_replay_safety_passed": bool(qa_replay_safety_passed),
+            "cybermed_qa_replay_skipped_reason": str(qa_replay_skipped_reason or ""),
+            "cybermed_qa_replay_state_bypass_pubmed_total": int(qa_replay_state_bypass_pubmed_total),
+            "cybermed_qa_replay_state_bypass_foamed_total": int(qa_replay_state_bypass_foamed_total),
+            "cybermed_qa_replay_state_mutation_disabled": bool(qa_replay_state_mutation_disabled),
+            "cybermed_qa_replay_email_disabled_confirmed": bool(qa_replay_email_disabled_confirmed),
             "runtime_total_seconds": round(max(0.0, time.monotonic() - runtime_start), 6),
             "runtime_pubmed_collect_seconds": round(runtime_pubmed_collect_seconds, 6),
             "runtime_pubmed_backfill_seconds": round(runtime_pubmed_backfill_seconds, 6),
@@ -3120,7 +3168,7 @@ def main() -> None:
             report_key=report_key,
             report_mode=report_mode,
             now_utc_iso=now_utc_iso,
-            read_only=read_only_mode,
+            read_only=(read_only_mode or qa_replay_enabled),
         )
 
         if send_empty_email == "1":
@@ -4081,7 +4129,7 @@ def main() -> None:
         report_key=report_key,
         report_mode=report_mode,
         now_utc_iso=now_utc_iso,
-        read_only=read_only_mode,
+        read_only=(read_only_mode or qa_replay_enabled),
     )
 
     try:
