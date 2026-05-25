@@ -2059,11 +2059,17 @@ def main() -> None:
     cybermed_weekly_diag: Dict[str, Any] = {}
     cybermed_weekly_digest_only = False
     cybermed_weekly_qa_fixture_mode = False
+    cybermed_weekly_qa_fixture_requested = False
+    cybermed_weekly_qa_fixture_safety_passed = False
+    cybermed_weekly_qa_fixture_skipped_reason = ""
+    cybermed_weekly_qa_fixture_path = ""
     if is_cybermed_run and report_mode == "weekly":
         cybermed_weekly_digest_only = True
         digest_store_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
         fixture_mode_requested = _env_bool("CYBERMED_WEEKLY_QA_FIXTURE_MODE", False)
         fixture_path = (os.getenv("CYBERMED_WEEKLY_QA_FIXTURE_PATH", "tests/fixtures/cybermed_weekly_digest_store_nonempty.json") or "").strip()
+        cybermed_weekly_qa_fixture_requested = fixture_mode_requested
+        cybermed_weekly_qa_fixture_path = fixture_path
         event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
         fixture_safety = (
             fixture_mode_requested
@@ -2074,6 +2080,22 @@ def main() -> None:
             and (event_name in {"workflow_dispatch", "manual"} or event_name == "")
             and fixture_path != ""
         )
+        cybermed_weekly_qa_fixture_safety_passed = fixture_safety
+        if fixture_mode_requested and not fixture_safety:
+            failed_checks: List[str] = []
+            if (report_key.strip().lower() != "cybermed"):
+                failed_checks.append("report_key_not_cybermed")
+            if report_mode != "weekly":
+                failed_checks.append("report_mode_not_weekly")
+            if ((os.getenv("EMAIL_MODE", "") or "").strip().lower() != "none"):
+                failed_checks.append("email_mode_not_none")
+            if ((os.getenv("SEND_EMAIL", "") or "").strip() != "0"):
+                failed_checks.append("send_email_not_zero")
+            if not (event_name in {"workflow_dispatch", "manual"} or event_name == ""):
+                failed_checks.append("event_not_manual")
+            if fixture_path == "":
+                failed_checks.append("fixture_path_empty")
+            cybermed_weekly_qa_fixture_skipped_reason = "safety_failed:" + ",".join(failed_checks)
         if fixture_safety:
             cybermed_weekly_qa_fixture_mode = True
             digest_store_path = fixture_path
@@ -2145,8 +2167,11 @@ def main() -> None:
             "cybermed_weekly_collection_skipped_reason": "weekly_from_daily_digests",
             "cybermed_weekly_digest_store_path": digest_store_path,
             "cybermed_weekly_ranking_enabled": True,
+            "cybermed_weekly_qa_fixture_requested": cybermed_weekly_qa_fixture_requested,
             "cybermed_weekly_qa_fixture_mode": cybermed_weekly_qa_fixture_mode,
-            "cybermed_weekly_qa_fixture_path": digest_store_path if cybermed_weekly_qa_fixture_mode else "",
+            "cybermed_weekly_qa_fixture_path": cybermed_weekly_qa_fixture_path,
+            "cybermed_weekly_qa_fixture_safety_passed": cybermed_weekly_qa_fixture_safety_passed,
+            "cybermed_weekly_qa_fixture_skipped_reason": cybermed_weekly_qa_fixture_skipped_reason,
             "cybermed_weekly_qa_fixture_state_mutation_disabled": cybermed_weekly_qa_fixture_mode,
             "cybermed_weekly_period_start": str(min([d.get("run_date") for d in daily], default="")),
             "cybermed_weekly_period_end": str(max([d.get("run_date") for d in daily], default="")),
