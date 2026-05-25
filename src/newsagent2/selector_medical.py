@@ -1229,10 +1229,13 @@ def _attach_evidence_hint_labels(item: Dict[str, Any], *, foamed: bool=False) ->
     """
     if foamed:
         source_name = str(item.get("foamed_source") or item.get("channel") or item.get("source") or "").lower()
-        tier = str(item.get("priority_tier") or item.get("source_quality") or "").lower()
-        if "core" in tier or "tier 1" in tier or "1" in tier[:1] or "core" in source_name:
+        tier_raw = item.get("priority_tier")
+        tier = str(tier_raw if tier_raw is not None else item.get("source_quality") or "").strip().lower()
+        if isinstance(tier_raw, (int, float)):
+            tier = str(int(tier_raw))
+        if tier.startswith("1") or "core" in tier or "tier 1" in tier or "core" in source_name:
             item["source_quality_label"] = "core"
-        elif "important" in tier or "tier 2" in tier or "2" in tier[:1]:
+        elif tier.startswith("2") or "important" in tier or "tier 2" in tier:
             item["source_quality_label"] = "important"
         else:
             item["source_quality_label"] = "optional"
@@ -1481,6 +1484,11 @@ def select_cybermed_foamed_items(
 
     def _norm_title(t: str) -> str:
         return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]+", " ", (t or "").lower())).strip()
+    def _norm_text(t: str) -> str:
+        return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]+", " ", (t or "").lower())).strip()
+    def _content_fingerprint(it: Dict[str, Any]) -> str:
+        seed = str(it.get("bottom_line") or it.get("text") or "")[:500]
+        return _norm_text(seed)
     def _url_score(u: str) -> int:
         u=(u or "").lower()
         if any(x in u for x in ["/category/","/tag/","/index","/page/"]):
@@ -1492,21 +1500,47 @@ def select_cybermed_foamed_items(
 
     grouped: Dict[tuple, Dict[str, Any]] = {}
     for it in enriched:
-        key=(str(it.get("foamed_source") or it.get("channel") or "").lower(), _norm_title(str(it.get("title") or ""))[:90])
-        if key not in grouped:
-            grouped[key]=it
+        src = str(it.get("foamed_source") or it.get("channel") or "").lower()
+        title_key = _norm_title(str(it.get("title") or ""))[:120]
+        canon_key = _norm_text(str(it.get("canonical_url") or it.get("url") or ""))
+        pmid = _norm_text(str(it.get("pmid") or ""))
+        fp = _content_fingerprint(it)
+        keys = [("title", src, title_key), ("canon", src, canon_key), ("fp", src, fp)]
+        if pmid:
+            keys.append(("pmid", src, pmid))
+        if src == "journalfeed" and ("/category/" in canon_key or "/blog/" in canon_key) and (pmid or fp):
+            keys.append(("jf_overlap", src, pmid or fp))
+        prior = None
+        prior_reason = None
+        for tag, s, kval in keys:
+            if not kval:
+                continue
+            k = (tag, s, kval)
+            if k in grouped:
+                prior = grouped[k]
+                prior_reason = {
+                    "title":"duplicate_same_normalized_title",
+                    "canon":"duplicate_same_canonical_url",
+                    "pmid":"duplicate_same_pmid",
+                    "fp":"duplicate_same_content_fingerprint",
+                    "jf_overlap":"duplicate_journalfeed_category_overlap",
+                }[tag]
+                break
+        if prior is None:
+            for tag, s, kval in keys:
+                if kval:
+                    grouped[(tag, s, kval)] = it
             continue
-        best=grouped[key]
-        if _keep_score(it) > _keep_score(best):
-            grouped[key]=it
-            dup_total += 1
-            dup_reason_counts["preferred_more_specific_or_higher_quality"] += 1
-        else:
-            dup_total += 1
-            dup_reason_counts["suppressed_duplicate"] += 1
+        winner, loser = (it, prior) if _keep_score(it) > _keep_score(prior) else (prior, it)
+        for mk, mv in list(grouped.items()):
+            if mv is prior or mv is it:
+                grouped[mk] = winner
+        dup_total += 1
+        dup_reason_counts[prior_reason or "duplicate_same_normalized_title"] += 1
 
     overview_candidates=[]
-    for it in grouped.values():
+    unique_grouped = list({id(v): v for v in grouped.values()}.values())
+    for it in unique_grouped:
         usefulness=int(it.get("clinical_usefulness_1_5") or 1)
         relevance=int(it.get("practice_relevance_1_5") or 1)
         conf=str(it.get("text_confidence_label") or "low")
@@ -1528,6 +1562,9 @@ def select_cybermed_foamed_items(
         if conf=="low" and str(it.get("source_quality_label"))!="core":
             excluded_reason_counts["foamed_excluded_low_confidence"] += 1
             continue
+        if str(it.get("source_quality_label")) == "optional" and (usefulness < 3 or relevance < 3):
+            excluded_reason_counts["foamed_excluded_optional_low_value"] += 1
+            continue
         if any(k in hay for k in ["randomized","systematic review","meta-analysis","guideline","consensus"]):
             it["reason_labels"].append("foamed_selected_evidence_summary")
             selected_reason_counts["foamed_selected_evidence_summary"] += 1
@@ -1537,6 +1574,9 @@ def select_cybermed_foamed_items(
         elif any(k in hay for k in ["practice update","clinical update"]):
             it["reason_labels"].append("foamed_selected_practice_update")
             selected_reason_counts["foamed_selected_practice_update"] += 1
+        elif any(k in hay for k in ["commentary","editorial","practice change","bedside implication"]):
+            it["reason_labels"].append("foamed_selected_clinically_actionable_commentary")
+            selected_reason_counts["foamed_selected_clinically_actionable_commentary"] += 1
         else:
             it["reason_labels"].append("foamed_selected_high_yield_education")
             selected_reason_counts["foamed_selected_high_yield_education"] += 1
@@ -1550,10 +1590,13 @@ def select_cybermed_foamed_items(
         use=int(it.get("clinical_usefulness_1_5") or 1); rel=int(it.get("practice_relevance_1_5") or 1); conf=str(it.get("text_confidence_label") or "low")
         sq=str(it.get("source_quality_label") or "optional")
         hay=_text_haystack(it)
+        if sq not in {"core","important"}: top_pick_rejection_counts["foamed_top_pick_floor_rejected_optional_source"] += 1; continue
         if use <3: top_pick_rejection_counts["foamed_top_pick_floor_rejected_low_usefulness"] += 1; continue
         if rel <3: top_pick_rejection_counts["foamed_top_pick_floor_rejected_low_relevance"] += 1; continue
         if conf not in {"high","moderate"}: top_pick_rejection_counts["foamed_top_pick_floor_rejected_low_confidence"] += 1; continue
-        if sq not in {"core","important"} or any(k in hay for k in ["historical","personal reflection","general commentary","no new data"]):
+        if str(it.get("final_content_source") or "") not in {"article_full_text","article_excerpt","rss_full_content","html_content"} or int(it.get("article_text_length") or it.get("text_length") or 0) < 180:
+            top_pick_rejection_counts["foamed_top_pick_floor_rejected_weak_content"] += 1; continue
+        if any(k in hay for k in ["historical","personal reflection","general commentary","no new data"]):
             top_pick_rejection_counts["foamed_top_pick_floor_rejected_nonclinical_commentary"] += 1; continue
         if len(top_picks) < max_top_picks:
             it["top_pick"]=True
@@ -1575,6 +1618,7 @@ def select_cybermed_foamed_items(
         "foamed_duplicates_suppressed_total": dup_total,
         "foamed_duplicates_suppressed_reason_counts": dict(dup_reason_counts),
     }
+    stats["foamed_final_selected_optional_top_pick_violations_total"] = sum(1 for i in overview_items if i.get("top_pick") and str(i.get("source_quality_label")) == "optional")
+    stats["foamed_final_selected_low_label_top_pick_violations_total"] = sum(1 for i in overview_items if i.get("top_pick") and (int(i.get("clinical_usefulness_1_5") or 0) < 3 or int(i.get("practice_relevance_1_5") or 0) < 3 or str(i.get("text_confidence_label") or "") == "low"))
     stats["foamed_final_selected_preview"]=[{k:it.get(k) for k in ["source_quality_label","text_confidence_label","clinical_usefulness_1_5","practice_relevance_1_5","top_pick","final_content_source","extraction_method","domain_group","priority_tier","reason_labels"]} for it in overview_items[:10]]
     return FoamedSelection(overview_items=overview_items, top_picks=top_picks, stats=stats)
-
