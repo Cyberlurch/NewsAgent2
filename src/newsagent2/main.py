@@ -2052,7 +2052,9 @@ def main() -> None:
     discovered_channel_ids: dict[str, str] = {}
 
     cybermed_weekly_diag: Dict[str, Any] = {}
+    cybermed_weekly_digest_only = False
     if is_cybermed_run and report_mode == "weekly":
+        cybermed_weekly_digest_only = True
         digest_store_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
         store = load_cybermed_daily_digest_store(digest_store_path)
         daily = select_cybermed_daily_digests_for_week(store, datetime.now(tz=STO).date())
@@ -2089,6 +2091,9 @@ def main() -> None:
             items.append(row)
         cybermed_weekly_diag = {
             "cybermed_weekly_from_daily_digests_enabled": True,
+            "cybermed_weekly_digest_only_mode": True,
+            "cybermed_weekly_collection_skipped": True,
+            "cybermed_weekly_collection_skipped_reason": "weekly_from_daily_digests",
             "cybermed_weekly_digest_store_path": digest_store_path,
             "cybermed_weekly_daily_digests_found_total": summary["daily_digests_found_total"],
             "cybermed_weekly_daily_digests_with_items_total": summary["daily_digests_with_items_total"],
@@ -2440,7 +2445,7 @@ def main() -> None:
     if report_key.strip().lower() == "cyberlurch":
         run_metadata = youtube_diag.to_metadata_section()
 
-    if is_cybermed_run:
+    if is_cybermed_run and not cybermed_weekly_digest_only:
         foamed_sources = load_foamed_sources_config(foamed_sources_path)
         if foamed_sources:
             now_utc = datetime.now(timezone.utc)
@@ -3264,7 +3269,12 @@ def main() -> None:
         }
 
 
-    if is_cybermed_run:
+    if is_cybermed_run and cybermed_weekly_digest_only:
+        pubmed_overview_items = [it for it in items if (it.get("source") or "").strip().lower() == "pubmed"]
+        foamed_overview_items = [it for it in items if (it.get("source") or "").strip().lower() == "foamed"]
+        pubmed_deep_dive_items = list(week_deep if "week_deep" in locals() else [])
+        report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
+    elif is_cybermed_run:
         report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
     else:
         report_items = list(items)
@@ -3300,7 +3310,7 @@ def main() -> None:
             report_key=report_key,
             report_mode=report_mode,
             now_utc_iso=now_utc_iso,
-            read_only=(read_only_mode or qa_replay_enabled),
+            read_only=(read_only_mode or qa_replay_enabled or cybermed_weekly_digest_only),
         )
 
         if send_empty_email == "1":
@@ -3368,6 +3378,11 @@ def main() -> None:
                         skip_reason = "write_verification_failed"
                         write_error_class = e.__class__.__name__
                         print(f"[cybermed-digest-store] WARN: write failed/verification error: {e!r}")
+                elif skip_reason == "digest_already_exists":
+                    verified_state = _load_cybermed_daily_digest_state(digest_path)
+                    verified_digests = list(verified_state.get("digests") or [])
+                    digest_count_after_write = len(verified_digests)
+                    expected_digest_present = any(str((d or {}).get("digest_id") or "") == digest_id for d in verified_digests)
                 cybermed_diagnostics_payload.update({
                     "cybermed_digest_store_enabled": True,
                     "cybermed_digest_store_path": digest_path,
@@ -3386,6 +3401,18 @@ def main() -> None:
                     "cybermed_digest_store_digest_count_after_write": digest_count_after_write,
                     "cybermed_digest_store_expected_digest_present": expected_digest_present,
                     "cybermed_digest_store_write_error_class": write_error_class,
+                })
+            if cybermed_weekly_digest_only:
+                rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
+                rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
+                rendered_deep_dives_total = 0
+                rendered_top_picks_total = len([it for it in report_items if it.get("top_pick")])
+                cybermed_weekly_diag.update({
+                    "cybermed_weekly_rendered_pubmed_items_total": rendered_pubmed_total,
+                    "cybermed_weekly_rendered_foamed_items_total": rendered_foamed_total,
+                    "cybermed_weekly_rendered_deep_dives_total": rendered_deep_dives_total,
+                    "cybermed_weekly_rendered_top_picks_total": rendered_top_picks_total,
+                    "cybermed_weekly_report_matches_digest_inputs": rendered_pubmed_total == int(cybermed_weekly_diag.get("cybermed_weekly_pubmed_items_loaded_total", 0) or 0) and rendered_foamed_total == int(cybermed_weekly_diag.get("cybermed_weekly_foamed_items_loaded_total", 0) or 0),
                 })
             cybermed_diagnostics_payload.update(cybermed_weekly_diag)
         _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
@@ -4445,6 +4472,15 @@ def main() -> None:
                         print(f"[cybermed-digest-store] WARN: write failed/verification error: {e!r}")
         if skip_reason:
             cybermed_digest_diag["cybermed_digest_store_skipped_reason"] = skip_reason
+            if skip_reason == "digest_already_exists":
+                verified_state = _load_cybermed_daily_digest_state(cybermed_digest_state_path)
+                verified_digests = list(verified_state.get("digests") or [])
+                cybermed_digest_diag["cybermed_digest_store_digest_count_after_write"] = len(verified_digests)
+                cybermed_digest_diag["cybermed_digest_store_expected_digest_present"] = any(
+                    str((d or {}).get("digest_id") or "") == digest_id for d in verified_digests
+                )
+                cybermed_digest_diag["cybermed_digest_store_write_verified"] = False
+                cybermed_digest_diag["cybermed_digest_store_written"] = False
         print(
             f"[cybermed-digest-store] written={cybermed_digest_diag['cybermed_digest_store_written']} "
             f"skipped_reason={cybermed_digest_diag['cybermed_digest_store_skipped_reason'] or 'none'} "
@@ -4476,6 +4512,18 @@ def main() -> None:
             "pubmed_summary_consistency_preview": consistency_preview[:10],
         })
         cybermed_diagnostics_payload.update(cybermed_digest_diag)
+        if cybermed_weekly_digest_only:
+            rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
+            rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
+            rendered_deep_dives_total = len(detail_items)
+            rendered_top_picks_total = len([it for it in report_items if it.get("top_pick")])
+            cybermed_weekly_diag.update({
+                "cybermed_weekly_rendered_pubmed_items_total": rendered_pubmed_total,
+                "cybermed_weekly_rendered_foamed_items_total": rendered_foamed_total,
+                "cybermed_weekly_rendered_deep_dives_total": rendered_deep_dives_total,
+                "cybermed_weekly_rendered_top_picks_total": rendered_top_picks_total,
+                "cybermed_weekly_report_matches_digest_inputs": rendered_pubmed_total == int(cybermed_weekly_diag.get("cybermed_weekly_pubmed_items_loaded_total", 0) or 0) and rendered_foamed_total == int(cybermed_weekly_diag.get("cybermed_weekly_foamed_items_loaded_total", 0) or 0),
+            })
         cybermed_diagnostics_payload.update(cybermed_weekly_diag)
         _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
 
@@ -4489,7 +4537,7 @@ def main() -> None:
         report_key=report_key,
         report_mode=report_mode,
         now_utc_iso=now_utc_iso,
-        read_only=(read_only_mode or qa_replay_enabled),
+        read_only=(read_only_mode or qa_replay_enabled or cybermed_weekly_digest_only),
     )
 
     try:
