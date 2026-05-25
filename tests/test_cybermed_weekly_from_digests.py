@@ -1,6 +1,11 @@
 from datetime import date
 
-from newsagent2.cybermed_digest_store import load_cybermed_daily_digest_store, select_cybermed_daily_digests_for_week, summarize_cybermed_weekly_digest_inputs
+from newsagent2.cybermed_digest_store import (
+    load_cybermed_daily_digest_store,
+    select_cybermed_daily_digests_for_week,
+    summarize_cybermed_weekly_digest_inputs,
+    dedupe_weekly_digest_items,
+)
 
 
 def test_loader_missing_file(tmp_path):
@@ -25,3 +30,15 @@ def test_week_select_and_summary(tmp_path):
     assert len(selected) == 2
     assert summary['pubmed_items_loaded_total'] == 1
     assert summary['foamed_items_loaded_total'] == 1
+
+
+def test_dedupe_prefers_stronger_duplicate():
+    items = [
+        {"source_type": "pubmed", "pmid": "1", "evidence_strength_label": "C", "clinical_relevance_1_5": 2, "practice_change_potential_1_5": 2, "text_confidence_label": "low", "top_pick": False, "bottom_line": ""},
+        {"source_type": "pubmed", "pmid": "1", "evidence_strength_label": "A", "clinical_relevance_1_5": 5, "practice_change_potential_1_5": 5, "text_confidence_label": "high", "top_pick": True, "bottom_line": "ok"},
+    ]
+    deduped, suppressed, reasons = dedupe_weekly_digest_items(items)
+    assert len(deduped) == 1
+    assert deduped[0]["evidence_strength_label"] == "A"
+    assert suppressed == 1
+    assert sum(reasons.values()) == 1
