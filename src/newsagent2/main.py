@@ -30,6 +30,7 @@ from .rollups import (
     upsert_monthly_rollup,
 )
 from .reporter import to_markdown
+from .cybermed_digest_store import load_cybermed_daily_digest_store, select_cybermed_daily_digests_for_week, summarize_cybermed_weekly_digest_inputs, dedupe_key
 from .state_manager import (
     is_processed,
     mark_screened,
@@ -2050,6 +2051,55 @@ def main() -> None:
     channel_id_cache = _load_youtube_channel_id_cache()
     discovered_channel_ids: dict[str, str] = {}
 
+    cybermed_weekly_diag: Dict[str, Any] = {}
+    if is_cybermed_run and report_mode == "weekly":
+        digest_store_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
+        store = load_cybermed_daily_digest_store(digest_store_path)
+        daily = select_cybermed_daily_digests_for_week(store, datetime.now(tz=STO).date())
+        summary = summarize_cybermed_weekly_digest_inputs(daily)
+        digest_store_used_as_primary = True
+        digest_store_collection_skipped_due_to_primary = True
+        use_digest_store_primary = True
+        digest_store_loaded_total = len(store.get("digests", []))
+        digest_store_selected_total = len(daily)
+        week_pubmed = []
+        week_foamed = []
+        week_deep = []
+        week_top = []
+        for d in daily:
+            items_d = d.get("items") or {}
+            week_pubmed.extend(items_d.get("pubmed") or [])
+            week_foamed.extend(items_d.get("foamed") or [])
+            week_deep.extend(d.get("deep_dives") or [])
+            week_top.extend(d.get("top_picks") or [])
+        merged = week_pubmed + week_foamed
+        best = {}
+        suppressed = 0
+        for it in merged:
+            k = dedupe_key(it)
+            if k in best:
+                suppressed += 1
+                continue
+            best[k] = it
+        items = []
+        for it in best.values():
+            row = dict(it)
+            row["id"] = row.get("item_id") or row.get("id")
+            row["source"] = row.get("source_type") or row.get("source")
+            items.append(row)
+        cybermed_weekly_diag = {
+            "cybermed_weekly_from_daily_digests_enabled": True,
+            "cybermed_weekly_digest_store_path": digest_store_path,
+            "cybermed_weekly_daily_digests_found_total": summary["daily_digests_found_total"],
+            "cybermed_weekly_daily_digests_with_items_total": summary["daily_digests_with_items_total"],
+            "cybermed_weekly_pubmed_items_loaded_total": summary["pubmed_items_loaded_total"],
+            "cybermed_weekly_foamed_items_loaded_total": summary["foamed_items_loaded_total"],
+            "cybermed_weekly_deep_dives_loaded_total": summary["deep_dives_loaded_total"],
+            "cybermed_weekly_top_picks_loaded_total": summary["top_picks_loaded_total"],
+            "cybermed_weekly_duplicates_suppressed_total": suppressed,
+            "cybermed_weekly_empty_reason": "" if items else ("No Cybermed daily digests were available for this weekly period." if not daily else "Daily digests were processed, but no items passed selection this week."),
+        }
+
     if not is_cybermed_run and report_key.strip().lower() == "cyberlurch" and report_mode in {"weekly", "monthly"}:
         use_digest = _env_bool("CYBERLURCH_WEEKLY_USE_DIGEST_STORE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_USE_DIGEST_STORE", True)
         collect_if_digest = _env_bool("CYBERLURCH_WEEKLY_COLLECT_IF_DIGEST_AVAILABLE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_COLLECT_IF_DIGEST_AVAILABLE", False)
@@ -3337,7 +3387,8 @@ def main() -> None:
                     "cybermed_digest_store_expected_digest_present": expected_digest_present,
                     "cybermed_digest_store_write_error_class": write_error_class,
                 })
-            _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
+            cybermed_diagnostics_payload.update(cybermed_weekly_diag)
+        _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
         return
 
     detail_items: List[Dict[str, Any]] = []
@@ -4425,6 +4476,7 @@ def main() -> None:
             "pubmed_summary_consistency_preview": consistency_preview[:10],
         })
         cybermed_diagnostics_payload.update(cybermed_digest_diag)
+        cybermed_diagnostics_payload.update(cybermed_weekly_diag)
         _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
 
     _update_state_after_run(
