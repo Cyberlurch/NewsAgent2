@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+from pathlib import Path
 import re
 import time
 from collections import Counter
@@ -1759,6 +1760,8 @@ def main() -> None:
     rollups_max_months = _safe_int("ROLLUPS_MAX_MONTHS", 24)
     cyberlurch_digest_state_path = (os.getenv("CYBERLURCH_DIGEST_STATE_PATH", "state/cyberlurch_digests.json") or "state/cyberlurch_digests.json").strip()
     cybermed_digest_state_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
+    cybermed_digest_state_path = cybermed_digest_state_path or "state/cybermed_daily_digests.json"
+    cybermed_digest_state_abs_path = str(Path(cybermed_digest_state_path).resolve())
     cyberlurch_digest_retention_days = _safe_int("CYBERLURCH_DIGEST_RETENTION_DAYS", 400)
     foamed_sources_path = (os.getenv("CYBERMED_FOAMED_SOURCES", "data/cybermed_foamed_sources.json") or "data/cybermed_foamed_sources.json").strip()
     foamed_auto_disable_enabled = _env_bool("FOAMED_AUTO_DISABLE", True)
@@ -3263,6 +3266,8 @@ def main() -> None:
         if report_key.strip().lower() == "cybermed":
             if report_mode == "daily":
                 digest_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
+                digest_path = digest_path or "state/cybermed_daily_digests.json"
+                digest_abs_path = str(Path(digest_path).resolve())
                 digest_id = f"cybermed_daily_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
                 email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
                 send_email = (os.getenv("SEND_EMAIL", "1") or "1").strip()
@@ -3270,6 +3275,7 @@ def main() -> None:
                 overwrite_requested = _env_bool("CYBERMED_DIGEST_STORE_OVERWRITE", False)
                 overwrite_allowed = overwrite_requested and email_mode == "none" and send_email == "0" and event_name in {"workflow_dispatch", "manual"}
                 skip_reason = ""
+                write_error_class = ""
                 if qa_replay_enabled and not _env_bool("CYBERMED_DIGEST_STORE_ALLOW_QA_REPLAY", False):
                     skip_reason = "qa_replay_mode"
                 if not skip_reason:
@@ -3286,13 +3292,37 @@ def main() -> None:
                             digests.append(payload)
                         dstate["schema_version"] = 1
                         dstate["digests"] = digests
-                        with open(digest_path, "w", encoding="utf-8") as f:
-                            json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
-                            f.write("\n")
+                        try:
+                            with open(digest_path, "w", encoding="utf-8") as f:
+                                json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
+                                f.write("\n")
+                        except Exception as e:
+                            skip_reason = "write_verification_failed"
+                            write_error_class = e.__class__.__name__
+                            print(f"[cybermed-digest-store] WARN: write failed/verification error: {e!r}")
+                write_verified = False
+                file_exists_after_write = os.path.exists(digest_path)
+                digest_count_after_write = 0
+                expected_digest_present = False
+                if skip_reason == "":
+                    try:
+                        verified_state = _load_cybermed_daily_digest_state(digest_path)
+                        verified_digests = list(verified_state.get("digests") or [])
+                        digest_count_after_write = len(verified_digests)
+                        expected_digest_present = any(str((d or {}).get("digest_id") or "") == digest_id for d in verified_digests)
+                        write_verified = file_exists_after_write and expected_digest_present
+                        if not write_verified:
+                            skip_reason = "write_verification_failed"
+                            print("[cybermed-digest-store] WARN: write verification failed")
+                    except Exception as e:
+                        skip_reason = "write_verification_failed"
+                        write_error_class = e.__class__.__name__
+                        print(f"[cybermed-digest-store] WARN: write failed/verification error: {e!r}")
                 cybermed_diagnostics_payload.update({
                     "cybermed_digest_store_enabled": True,
                     "cybermed_digest_store_path": digest_path,
-                    "cybermed_digest_store_written": skip_reason == "",
+                    "cybermed_digest_store_abs_path": digest_abs_path,
+                    "cybermed_digest_store_written": skip_reason == "" and write_verified,
                     "cybermed_digest_store_skipped_reason": skip_reason,
                     "cybermed_digest_store_digest_id": digest_id,
                     "cybermed_digest_store_items_pubmed_total": 0,
@@ -3301,6 +3331,11 @@ def main() -> None:
                     "cybermed_digest_store_top_picks_total": 0,
                     "cybermed_digest_store_overwrite": overwrite_allowed,
                     "cybermed_digest_store_schema_version": 1,
+                    "cybermed_digest_store_write_verified": write_verified,
+                    "cybermed_digest_store_file_exists_after_write": file_exists_after_write,
+                    "cybermed_digest_store_digest_count_after_write": digest_count_after_write,
+                    "cybermed_digest_store_expected_digest_present": expected_digest_present,
+                    "cybermed_digest_store_write_error_class": write_error_class,
                 })
             _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
         return
@@ -4216,6 +4251,7 @@ def main() -> None:
     cybermed_digest_diag = {
         "cybermed_digest_store_enabled": False,
         "cybermed_digest_store_path": cybermed_digest_state_path,
+        "cybermed_digest_store_abs_path": cybermed_digest_state_abs_path,
         "cybermed_digest_store_written": False,
         "cybermed_digest_store_skipped_reason": "",
         "cybermed_digest_store_digest_id": "",
@@ -4225,6 +4261,11 @@ def main() -> None:
         "cybermed_digest_store_top_picks_total": 0,
         "cybermed_digest_store_overwrite": False,
         "cybermed_digest_store_schema_version": 1,
+        "cybermed_digest_store_write_verified": False,
+        "cybermed_digest_store_file_exists_after_write": False,
+        "cybermed_digest_store_digest_count_after_write": 0,
+        "cybermed_digest_store_expected_digest_present": False,
+        "cybermed_digest_store_write_error_class": "",
     }
     if report_key.strip().lower() == "cybermed" and report_mode == "daily":
         email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
@@ -4239,7 +4280,7 @@ def main() -> None:
             "cybermed_digest_store_digest_id": digest_id,
             "cybermed_digest_store_overwrite": overwrite_allowed,
         })
-        print(f"[cybermed-digest-store] enabled=True digest_id={digest_id} overwrite_allowed={overwrite_allowed}")
+        print(f"[cybermed-digest-store] enabled=True digest_id={digest_id} overwrite_allowed={overwrite_allowed} path={cybermed_digest_state_path} abs_path={cybermed_digest_state_abs_path}")
         skip_reason = ""
         if qa_replay_enabled and not qa_replay_allow:
             skip_reason = "qa_replay_mode"
@@ -4310,18 +4351,47 @@ def main() -> None:
                     digests.append(digest_payload)
                 dstate["schema_version"] = 1
                 dstate["digests"] = digests
-                if not read_only_mode:
-                    os.makedirs(os.path.dirname(cybermed_digest_state_path) or ".", exist_ok=True)
-                    with open(cybermed_digest_state_path, "w", encoding="utf-8") as f:
-                        json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
-                        f.write("\n")
-                    cybermed_digest_diag["cybermed_digest_store_written"] = True
                 cybermed_digest_diag.update({
                     "cybermed_digest_store_items_pubmed_total": len(pubmed_items),
                     "cybermed_digest_store_items_foamed_total": len(foamed_items),
                     "cybermed_digest_store_deep_dives_total": len(deep_dives),
                     "cybermed_digest_store_top_picks_total": len(top_picks),
                 })
+                if not read_only_mode:
+                    try:
+                        os.makedirs(os.path.dirname(cybermed_digest_state_path) or ".", exist_ok=True)
+                        with open(cybermed_digest_state_path, "w", encoding="utf-8") as f:
+                            json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
+                            f.write("\n")
+                        cybermed_digest_diag["cybermed_digest_store_file_exists_after_write"] = os.path.exists(cybermed_digest_state_path)
+                        verified_state = _load_cybermed_daily_digest_state(cybermed_digest_state_path)
+                        verified_digests = list(verified_state.get("digests") or [])
+                        cybermed_digest_diag["cybermed_digest_store_digest_count_after_write"] = len(verified_digests)
+                        verified_digest = next((d for d in verified_digests if str((d or {}).get("digest_id") or "") == digest_id), None)
+                        expected_present = verified_digest is not None
+                        cybermed_digest_diag["cybermed_digest_store_expected_digest_present"] = expected_present
+                        counts_match = True
+                        if verified_digest is not None:
+                            stored_items = (verified_digest.get("items") or {})
+                            if len(pubmed_items) > 0:
+                                counts_match = counts_match and len(list(stored_items.get("pubmed") or [])) == len(pubmed_items)
+                            if len(foamed_items) > 0:
+                                counts_match = counts_match and len(list(stored_items.get("foamed") or [])) == len(foamed_items)
+                            if len(deep_dives) > 0:
+                                counts_match = counts_match and len(list(verified_digest.get("deep_dives") or [])) == len(deep_dives)
+                            if len(top_picks) > 0:
+                                counts_match = counts_match and len(list(verified_digest.get("top_picks") or [])) == len(top_picks)
+                        write_verified = cybermed_digest_diag["cybermed_digest_store_file_exists_after_write"] and expected_present and counts_match
+                        cybermed_digest_diag["cybermed_digest_store_write_verified"] = bool(write_verified)
+                        if write_verified:
+                            cybermed_digest_diag["cybermed_digest_store_written"] = True
+                        else:
+                            cybermed_digest_diag["cybermed_digest_store_skipped_reason"] = "write_verification_failed"
+                            print("[cybermed-digest-store] WARN: write verification failed")
+                    except Exception as e:
+                        cybermed_digest_diag["cybermed_digest_store_write_error_class"] = e.__class__.__name__
+                        cybermed_digest_diag["cybermed_digest_store_skipped_reason"] = "write_verification_failed"
+                        print(f"[cybermed-digest-store] WARN: write failed/verification error: {e!r}")
         if skip_reason:
             cybermed_digest_diag["cybermed_digest_store_skipped_reason"] = skip_reason
         print(
