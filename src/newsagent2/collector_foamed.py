@@ -1076,6 +1076,11 @@ def collect_foamed_items(
                     "article_text_length": len(article_text),
                     "article_fetch_status_code": article_fetch_status_code,
                     "article_fetch_error_class": article_fetch_error_class,
+                    "source_name": name,
+                    "domain_group": str(src.get("domain_group") or "mixed"),
+                    "priority_tier": str(src.get("priority_tier") or ""),
+                    "extraction_strategy": strategy,
+                    "notes_diagnostic": str(src.get("notes_diagnostic") or ""),
                 }
             if not audit_only_strategy:
                 record_item(candidate_item)
@@ -1191,6 +1196,11 @@ def collect_foamed_items(
                             "article_text_length": len(article_text),
                             "article_fetch_status_code": article_fetch_status_code,
                             "article_fetch_error_class": article_fetch_error_class,
+                            "source_name": name,
+                            "domain_group": str(src.get("domain_group") or "mixed"),
+                            "priority_tier": str(src.get("priority_tier") or ""),
+                            "extraction_strategy": strategy,
+                            "notes_diagnostic": str(src.get("notes_diagnostic") or ""),
                         }
                     )
                     per_source["extraction_method_counts"][extraction_method] = int(per_source["extraction_method_counts"].get(extraction_method, 0)) + 1

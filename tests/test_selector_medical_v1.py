@@ -61,7 +61,7 @@ def test_diagnostics_preview_sanitized_and_audit_present(tmp_path):
 
 def test_foamed_top_pick_prefers_strong_text():
     items=[
-        {"title":"Resuscitation appraisal", "text":"critical care resuscitation ventilation sedation appraisal "*20, "foamed_source":"Core ICU"},
+        {"title":"Resuscitation appraisal", "text":"critical care resuscitation ventilation sedation appraisal "*20, "foamed_source":"Core ICU", "final_content_source":"article_full_text", "article_text_length":1200},
         {"title":"Short comment", "text":"nice post", "foamed_source":"Core ICU"},
     ]
     res=select_cybermed_foamed_items(items, max_overview=10, max_top_picks=1)
@@ -236,3 +236,33 @@ def test_foamed_dedupe_prefers_specific_high_confidence():
     assert len(res.overview_items) == 1
     assert "post/sepsis" in str(res.overview_items[0].get("url") or "")
     assert res.stats["foamed_duplicates_suppressed_total"] >= 1
+
+
+def test_foamed_source_quality_normalization_and_top_pick_floor():
+    items = [
+        {"title":"Core post", "text":"clinical review ICU airway " * 40, "foamed_source":"A", "priority_tier":"1 core", "final_content_source":"article_full_text", "article_text_length":1000},
+        {"title":"Important post", "text":"clinical review ICU airway " * 40, "foamed_source":"B", "priority_tier":"2 important", "final_content_source":"article_full_text", "article_text_length":1000},
+        {"title":"Optional post", "text":"clinical review ICU airway " * 40, "foamed_source":"C", "priority_tier":"3 audit_optional", "final_content_source":"article_full_text", "article_text_length":1000},
+    ]
+    res = select_cybermed_foamed_items(items, max_overview=10, max_top_picks=3)
+    by_title = {it["title"]: it for it in res.overview_items}
+    assert by_title["Core post"]["source_quality_label"] == "core"
+    assert by_title["Important post"]["source_quality_label"] == "important"
+    assert by_title["Optional post"]["source_quality_label"] == "optional"
+    assert by_title["Optional post"]["top_pick"] is False
+
+
+def test_foamed_journalfeed_category_duplicate_overlap_and_diag_preview_sanitized():
+    items = [
+        {"title":"JournalFeed VL in trauma", "text":"bottom line pmid 12345 trauma intubation airway ICU video laryngoscopy " * 20, "pmid":"12345", "foamed_source":"JournalFeed", "url":"https://journalfeed.org/category/airway/", "canonical_url":"https://journalfeed.org/category/airway/", "final_content_source":"article_excerpt", "article_text_length":400, "priority_tier":"2 important"},
+        {"title":"JournalFeed VL in trauma", "text":"bottom line pmid 12345 trauma intubation airway ICU video laryngoscopy " * 30, "pmid":"12345", "foamed_source":"JournalFeed", "url":"https://journalfeed.org/article/vl-trauma/", "canonical_url":"https://journalfeed.org/article/vl-trauma/", "final_content_source":"article_full_text", "article_text_length":900, "priority_tier":"2 important"},
+    ]
+    res = select_cybermed_foamed_items(items, max_overview=10, max_top_picks=2)
+    assert len(res.overview_items) == 1
+    assert "/article/" in str(res.overview_items[0].get("url") or "")
+    assert res.stats["foamed_duplicates_suppressed_total"] >= 1
+    assert res.stats["foamed_final_selected_optional_top_pick_violations_total"] == 0
+    assert res.stats["foamed_final_selected_low_label_top_pick_violations_total"] == 0
+    for row in res.stats["foamed_final_selected_preview"]:
+        for bad in ["title", "url", "raw_html", "full_text", "article_body", "SMTP_PASS", "OPENAI_API_KEY", "RECIPIENTS_CONFIG_JSON", "@"]:
+            assert bad not in row

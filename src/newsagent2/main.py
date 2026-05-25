@@ -2548,13 +2548,7 @@ def main() -> None:
 
         foamed_overview_items = _trim_foamed_overview(foamed_overview_items, report_mode)
 
-        foamed_top_picks = []
-        if foamed_overview_items and not any(it.get("top_pick") for it in foamed_overview_items):
-            for it in foamed_overview_items[:2]:
-                it["top_pick"] = True
-                foamed_top_picks.append(it)
-        else:
-            foamed_top_picks = [it for it in foamed_overview_items if it.get("top_pick")]
+        foamed_top_picks = [it for it in foamed_overview_items if it.get("top_pick")]
 
         if isinstance(foamed_selection_stats, dict):
             foamed_selection_stats["top_picks"] = len(foamed_top_picks)
@@ -3069,6 +3063,25 @@ def main() -> None:
             **foamed_disabled_audit_stats,
             **(foamed_rolling_diag if "foamed_rolling_diag" in locals() else {}),
         }
+        if isinstance(foamed_selection_stats, dict):
+            for key in [
+                "foamed_final_selected_overview_total",
+                "foamed_final_selected_top_pick_total",
+                "foamed_final_selected_source_quality_counts",
+                "foamed_final_selected_text_confidence_counts",
+                "foamed_final_selected_clinical_usefulness_distribution",
+                "foamed_final_selected_practice_relevance_distribution",
+                "foamed_top_pick_floor_rejection_counts",
+                "foamed_selected_reason_counts",
+                "foamed_exclusion_reason_counts",
+                "foamed_duplicates_suppressed_total",
+                "foamed_duplicates_suppressed_reason_counts",
+                "foamed_final_selected_preview",
+                "foamed_final_selected_optional_top_pick_violations_total",
+                "foamed_final_selected_low_label_top_pick_violations_total",
+            ]:
+                if key in foamed_selection_stats:
+                    cybermed_diagnostics_payload[key] = foamed_selection_stats.get(key)
         cybermed_diagnostics_payload.update(_calendar_env_metadata())
 
 
