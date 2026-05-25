@@ -107,4 +107,7 @@ def test_manual_weekly_fixture_renders_digest_items(monkeypatch, tmp_path):
     assert diag["cybermed_weekly_top_pick_inference_violations_total"] == 0
     assert diag["cybermed_weekly_bottom_line_preservation_violations_total"] == 0
     assert "Top Picks" in md
+    assert "BL1" in md
+    assert "BL2" in md
+    assert "FBL1" in md
     assert "No abstract text was provided" not in md
