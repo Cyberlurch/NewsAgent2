@@ -121,6 +121,7 @@ jobs:
       WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'cyberlurch') || 'both' }}
       EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') || 'real' }}
       CYBERMED_QA_REPLAY_MODE: ${{ vars.CYBERMED_QA_REPLAY_MODE || '0' }}
+      CYBERMED_DIGEST_STORE_OVERWRITE: ${{ vars.CYBERMED_DIGEST_STORE_OVERWRITE || '0' }}
       CYBERMED_WEEKLY_QA_FIXTURE_MODE: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_MODE || '0' }}
       CYBERMED_WEEKLY_QA_FIXTURE_PATH: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_PATH || 'tests/fixtures/cybermed_weekly_digest_store_nonempty.json' }}
       CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.cyberlurch_channels_file || '') || '' }}

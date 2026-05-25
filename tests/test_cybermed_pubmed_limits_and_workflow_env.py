@@ -107,6 +107,7 @@ def test_workflow_exposes_cybermed_intake_audit_env_vars():
     assert "FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}" in text
     assert "FOAMED_RENDER_FALLBACK: ${{ vars.FOAMED_RENDER_FALLBACK || '0' }}" in text
     assert "CYBERMED_QA_REPLAY_MODE: ${{ vars.CYBERMED_QA_REPLAY_MODE || '0' }}" in text
+    assert "CYBERMED_DIGEST_STORE_OVERWRITE: ${{ vars.CYBERMED_DIGEST_STORE_OVERWRITE || '0' }}" in text
     assert "CYBERMED_WEEKLY_QA_FIXTURE_MODE: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_MODE || '0' }}" in text
     assert "CYBERMED_WEEKLY_QA_FIXTURE_PATH: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_PATH || 'tests/fixtures/cybermed_weekly_digest_store_nonempty.json' }}" in text
 

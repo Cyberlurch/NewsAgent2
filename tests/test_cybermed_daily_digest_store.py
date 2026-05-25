@@ -22,6 +22,15 @@ def _base_env(monkeypatch, tmp_path):
     monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([], {"sources_total": 1, "sources_ok": 1, "sources_failed": 0, "items_raw": 0, "items_with_date": 0, "items_date_unknown": 0, "kept_last24h": 0, "newly_disabled_count": 0, "per_source": {}}))
 
 
+def _with_nonempty_selection(monkeypatch):
+    import types
+    from newsagent2 import selector_medical
+    monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: ([{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u"}], {}) if k.get("return_metadata") else [{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u"}])
+    monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([{"id": "f1", "title": "F", "url": "fu"}], {"sources_total": 1, "sources_ok": 1, "sources_failed": 0, "items_raw": 1, "items_with_date": 1, "items_date_unknown": 0, "kept_last24h": 1, "newly_disabled_count": 0, "per_source": {}}))
+    monkeypatch.setattr(selector_medical, "select_cybermed_pubmed_items", lambda _items: types.SimpleNamespace(overview_items=[{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u", "top_pick": True}], deep_dive_items=[{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u"}], stats={"selection_diagnostics": {}}))
+    monkeypatch.setattr(selector_medical, "select_cybermed_foamed_items", lambda items, max_items=25: [{"id": "f1", "title": "F", "url": "fu", "top_pick": True}])
+
+
 def test_cybermed_daily_digest_store_created_and_deterministic_id(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
 
@@ -50,6 +59,7 @@ def test_cybermed_daily_digest_store_created_and_deterministic_id(tmp_path, monk
 
 def test_cybermed_daily_digest_store_skips_duplicate_without_overwrite(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
     dpath = tmp_path / "state" / "cybermed_daily_digests.json"
     dpath.parent.mkdir(parents=True, exist_ok=True)
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -63,6 +73,12 @@ def test_cybermed_daily_digest_store_skips_duplicate_without_overwrite(tmp_path,
     assert diag["cybermed_digest_store_expected_digest_present"] is True
     assert diag["cybermed_digest_store_write_verified"] is False
     assert diag["cybermed_digest_store_digest_count_after_write"] == 1
+    assert diag["cybermed_digest_store_existing_digest_empty"] is True
+    assert diag["cybermed_digest_store_current_digest_nonempty"] is True
+    assert diag["cybermed_digest_store_existing_pubmed_total"] == 0
+    assert diag["cybermed_digest_store_existing_foamed_total"] == 0
+    assert diag["cybermed_digest_store_current_pubmed_total"] > 0
+    assert diag["cybermed_digest_store_current_digest_nonempty"] is True
 
 
 def test_cybermed_daily_digest_store_skips_qa_replay_by_default(tmp_path, monkeypatch):
@@ -78,6 +94,7 @@ def test_cybermed_daily_digest_store_skips_qa_replay_by_default(tmp_path, monkey
 
 def test_cybermed_daily_digest_store_overwrite_replaces_existing(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
     monkeypatch.setenv("CYBERMED_DIGEST_STORE_OVERWRITE", "1")
     dpath = tmp_path / "state" / "cybermed_daily_digests.json"
     dpath.parent.mkdir(parents=True, exist_ok=True)
@@ -88,10 +105,70 @@ def test_cybermed_daily_digest_store_overwrite_replaces_existing(tmp_path, monke
 
     payload = json.loads(dpath.read_text(encoding="utf-8"))
     assert len(payload["digests"]) == 1
-    assert payload["digests"][0]["items"]["pubmed"] == []
+    assert len(payload["digests"][0]["items"]["pubmed"]) == 1
     diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
     assert diag["cybermed_digest_store_written"] is True
     assert diag["cybermed_digest_store_skipped_reason"] == ""
+
+
+def test_cybermed_daily_digest_store_overwrite_not_allowed_for_scheduled_real_email(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
+    monkeypatch.setenv("CYBERMED_DIGEST_STORE_OVERWRITE", "1")
+    monkeypatch.setenv("GITHUB_EVENT_NAME", "schedule")
+    monkeypatch.setenv("EMAIL_MODE", "none")
+    monkeypatch.setenv("SEND_EMAIL", "0")
+    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
+    dpath.parent.mkdir(parents=True, exist_ok=True)
+    date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    dpath.write_text(json.dumps({"schema_version": 1, "digests": [{"digest_id": f"cybermed_daily_{date}", "items": {"pubmed": [{"id": "old"}], "foamed": []}, "deep_dives": [], "top_picks": []}]}), encoding="utf-8")
+    main.main()
+    payload = json.loads(dpath.read_text(encoding="utf-8"))
+    assert payload["digests"][0]["items"]["pubmed"] == [{"id": "old"}]
+
+
+def test_cybermed_daily_digest_store_replace_empty_flag_safely_replaces(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
+    monkeypatch.setenv("CYBERMED_DIGEST_STORE_REPLACE_EMPTY", "1")
+    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
+    dpath.parent.mkdir(parents=True, exist_ok=True)
+    date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    dpath.write_text(json.dumps({"schema_version": 1, "digests": [{"digest_id": f"cybermed_daily_{date}", "items": {"pubmed": [], "foamed": []}, "deep_dives": [], "top_picks": []}]}), encoding="utf-8")
+    main.main()
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_digest_store_replace_empty_requested"] is True
+    assert diag["cybermed_digest_store_replace_empty_allowed"] is True
+    assert diag["cybermed_digest_store_written"] is True
+
+
+def test_cybermed_daily_digest_store_replace_empty_does_not_replace_nonempty_existing(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
+    monkeypatch.setenv("CYBERMED_DIGEST_STORE_REPLACE_EMPTY", "1")
+    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
+    dpath.parent.mkdir(parents=True, exist_ok=True)
+    date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    dpath.write_text(json.dumps({"schema_version": 1, "digests": [{"digest_id": f"cybermed_daily_{date}", "items": {"pubmed": [{"id": "old"}], "foamed": []}, "deep_dives": [], "top_picks": []}]}), encoding="utf-8")
+    main.main()
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_digest_store_written"] is False
+    assert diag["cybermed_digest_store_replace_empty_allowed"] is False
+    assert diag["cybermed_digest_store_skipped_reason"] == "digest_already_exists"
+
+
+def test_cybermed_daily_digest_store_replace_empty_not_allowed_for_schedule(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
+    monkeypatch.setenv("CYBERMED_DIGEST_STORE_REPLACE_EMPTY", "1")
+    monkeypatch.setenv("GITHUB_EVENT_NAME", "schedule")
+    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
+    dpath.parent.mkdir(parents=True, exist_ok=True)
+    date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    dpath.write_text(json.dumps({"schema_version": 1, "digests": [{"digest_id": f"cybermed_daily_{date}", "items": {"pubmed": [], "foamed": []}, "deep_dives": [], "top_picks": []}]}), encoding="utf-8")
+    main.main()
+    payload = json.loads(dpath.read_text(encoding="utf-8"))
+    assert payload["digests"][0]["items"]["pubmed"] == []
 
 
 def test_cybermed_daily_digest_store_write_failure_sets_verification_failed(tmp_path, monkeypatch):
