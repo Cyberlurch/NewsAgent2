@@ -336,6 +336,71 @@ def _upsert_cyberlurch_digests(state: Dict[str, Any], items: List[Dict[str, Any]
     return upserted, pruned
 
 
+def _load_cybermed_daily_digest_state(path: str) -> Dict[str, Any]:
+    default = {"schema_version": 1, "digests": []}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict) and isinstance(data.get("digests"), list):
+            data["schema_version"] = 1
+            return data
+    except Exception:
+        pass
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(default, f, ensure_ascii=False, separators=(",", ":"))
+        f.write("\n")
+    return default
+
+
+def _sanitize_cybermed_pubmed_item(item: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        "item_id": str(item.get("id") or item.get("item_id") or "").strip(),
+        "source_type": "pubmed",
+        "pmid": str(item.get("pmid") or "").strip(),
+        "doi": str(item.get("doi") or "").strip(),
+        "title": str(item.get("title") or "").strip(),
+        "journal": str(item.get("journal") or "").strip(),
+        "published_at": str(item.get("published_at") or item.get("year") or "").strip(),
+        "url": str(item.get("url") or "").strip(),
+        "domain": str(item.get("domain") or item.get("category") or "").strip(),
+        "evidence_strength_label": str(item.get("evidence_strength_label") or "").strip(),
+        "evidence_strength_label_basis": str(item.get("evidence_strength_label_basis") or "").strip(),
+        "clinical_relevance_1_5": item.get("clinical_relevance_1_5"),
+        "practice_change_potential_1_5": item.get("practice_change_potential_1_5"),
+        "text_confidence_label": str(item.get("text_confidence_label") or "").strip(),
+        "top_pick": bool(item.get("top_pick")),
+        "deep_dive_candidate": bool(item.get("deep_dive_candidate")),
+        "bottom_line": str(item.get("bottom_line") or "").strip(),
+        "reason_labels": [str(v) for v in (item.get("reason_labels") or []) if str(v).strip()],
+        "content_source": str(item.get("content_source") or "").strip(),
+        "content_length_bucket": str(item.get("content_length_bucket") or "").strip(),
+        "publication_types": [str(v) for v in (item.get("publication_types") or []) if str(v).strip()],
+        "evidence_tags": [str(v) for v in (item.get("evidence_tags") or []) if str(v).strip()],
+    }
+
+
+def _sanitize_cybermed_foamed_item(item: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        "item_id": str(item.get("id") or item.get("item_id") or "").strip(),
+        "source_type": "foamed",
+        "source_name": str(item.get("source_name") or item.get("source") or "").strip(),
+        "title": str(item.get("title") or "").strip(),
+        "url": str(item.get("url") or "").strip(),
+        "published_at": str(item.get("published_at") or "").strip(),
+        "domain_group": str(item.get("domain_group") or "").strip(),
+        "priority_tier": str(item.get("priority_tier") or "").strip(),
+        "source_quality_label": str(item.get("source_quality_label") or "").strip(),
+        "clinical_usefulness_1_5": item.get("clinical_usefulness_1_5"),
+        "practice_relevance_1_5": item.get("practice_relevance_1_5"),
+        "text_confidence_label": str(item.get("text_confidence_label") or "").strip(),
+        "final_content_source": str(item.get("final_content_source") or "").strip(),
+        "extraction_method": str(item.get("extraction_method") or "").strip(),
+        "top_pick": bool(item.get("top_pick")),
+        "bottom_line": str(item.get("bottom_line") or "").strip(),
+        "reason_labels": [str(v) for v in (item.get("reason_labels") or []) if str(v).strip()],
+    }
+
 def determine_monthly_rollup_month(now_sto: datetime, event_name: str, override_month: str | None) -> str:
     override = (override_month or "").strip()
     if override and re.match(r"^\d{4}-\d{2}$", override):
@@ -1693,6 +1758,7 @@ def main() -> None:
     retention_days = _safe_int("STATE_RETENTION_DAYS", 20)
     rollups_max_months = _safe_int("ROLLUPS_MAX_MONTHS", 24)
     cyberlurch_digest_state_path = (os.getenv("CYBERLURCH_DIGEST_STATE_PATH", "state/cyberlurch_digests.json") or "state/cyberlurch_digests.json").strip()
+    cybermed_digest_state_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
     cyberlurch_digest_retention_days = _safe_int("CYBERLURCH_DIGEST_RETENTION_DAYS", 400)
     foamed_sources_path = (os.getenv("CYBERMED_FOAMED_SOURCES", "data/cybermed_foamed_sources.json") or "data/cybermed_foamed_sources.json").strip()
     foamed_auto_disable_enabled = _env_bool("FOAMED_AUTO_DISABLE", True)
@@ -3195,6 +3261,47 @@ def main() -> None:
             _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode)
             _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
         if report_key.strip().lower() == "cybermed":
+            if report_mode == "daily":
+                digest_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
+                digest_id = f"cybermed_daily_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
+                email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
+                send_email = (os.getenv("SEND_EMAIL", "1") or "1").strip()
+                event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
+                overwrite_requested = _env_bool("CYBERMED_DIGEST_STORE_OVERWRITE", False)
+                overwrite_allowed = overwrite_requested and email_mode == "none" and send_email == "0" and event_name in {"workflow_dispatch", "manual"}
+                skip_reason = ""
+                if qa_replay_enabled and not _env_bool("CYBERMED_DIGEST_STORE_ALLOW_QA_REPLAY", False):
+                    skip_reason = "qa_replay_mode"
+                if not skip_reason:
+                    dstate = _load_cybermed_daily_digest_state(digest_path)
+                    digests = list(dstate.get("digests") or [])
+                    existing_idx = next((i for i, d in enumerate(digests) if str((d or {}).get("digest_id") or "") == digest_id), -1)
+                    if existing_idx >= 0 and not overwrite_allowed:
+                        skip_reason = "digest_already_exists"
+                    else:
+                        payload = {"digest_id": digest_id, "report_key": "cybermed", "cadence": "daily", "run_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"), "generated_at_utc": now_utc_iso, "lookback_hours": int(args.hours), "qa_replay": bool(qa_replay_enabled), "email_mode": email_mode, "items": {"pubmed": [], "foamed": []}, "deep_dives": [], "top_picks": [], "diagnostic_summary": {"pubmed_selected_total": 0, "pubmed_deep_dive_total": 0, "pubmed_evidence_label_counts": {}, "foamed_selected_total": 0, "foamed_top_pick_total": 0, "foamed_source_quality_counts": {}, "foamed_text_confidence_counts": {}, "summary_consistency_conflict_total": 0, "summary_consistency_resolved_total": 0, "qa_replay": bool(qa_replay_enabled), "state_mutation_disabled": bool(qa_replay_state_mutation_disabled)}}
+                        if existing_idx >= 0:
+                            digests[existing_idx] = payload
+                        else:
+                            digests.append(payload)
+                        dstate["schema_version"] = 1
+                        dstate["digests"] = digests
+                        with open(digest_path, "w", encoding="utf-8") as f:
+                            json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
+                            f.write("\n")
+                cybermed_diagnostics_payload.update({
+                    "cybermed_digest_store_enabled": True,
+                    "cybermed_digest_store_path": digest_path,
+                    "cybermed_digest_store_written": skip_reason == "",
+                    "cybermed_digest_store_skipped_reason": skip_reason,
+                    "cybermed_digest_store_digest_id": digest_id,
+                    "cybermed_digest_store_items_pubmed_total": 0,
+                    "cybermed_digest_store_items_foamed_total": 0,
+                    "cybermed_digest_store_deep_dives_total": 0,
+                    "cybermed_digest_store_top_picks_total": 0,
+                    "cybermed_digest_store_overwrite": overwrite_allowed,
+                    "cybermed_digest_store_schema_version": 1,
+                })
             _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
         return
 
@@ -4106,6 +4213,123 @@ def main() -> None:
         youtube_diag.cyberlurch_digest_invalid_records_removed_total = cyberlurch_digest_invalid_records_removed_total
         youtube_diag.cyberlurch_digest_invalid_records_skipped_total = cyberlurch_digest_invalid_records_skipped_total
         print(f"[digest-store] upserted={upserted} pruned={pruned} total={youtube_diag.cyberlurch_digest_store_total} path={cyberlurch_digest_state_path}")
+    cybermed_digest_diag = {
+        "cybermed_digest_store_enabled": False,
+        "cybermed_digest_store_path": cybermed_digest_state_path,
+        "cybermed_digest_store_written": False,
+        "cybermed_digest_store_skipped_reason": "",
+        "cybermed_digest_store_digest_id": "",
+        "cybermed_digest_store_items_pubmed_total": 0,
+        "cybermed_digest_store_items_foamed_total": 0,
+        "cybermed_digest_store_deep_dives_total": 0,
+        "cybermed_digest_store_top_picks_total": 0,
+        "cybermed_digest_store_overwrite": False,
+        "cybermed_digest_store_schema_version": 1,
+    }
+    if report_key.strip().lower() == "cybermed" and report_mode == "daily":
+        email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
+        send_email = (os.getenv("SEND_EMAIL", "1") or "1").strip()
+        event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
+        qa_replay_allow = _env_bool("CYBERMED_DIGEST_STORE_ALLOW_QA_REPLAY", False)
+        overwrite_requested = _env_bool("CYBERMED_DIGEST_STORE_OVERWRITE", False)
+        digest_id = f"cybermed_daily_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
+        overwrite_allowed = overwrite_requested and email_mode == "none" and send_email == "0" and event_name in {"workflow_dispatch", "manual"}
+        cybermed_digest_diag.update({
+            "cybermed_digest_store_enabled": True,
+            "cybermed_digest_store_digest_id": digest_id,
+            "cybermed_digest_store_overwrite": overwrite_allowed,
+        })
+        print(f"[cybermed-digest-store] enabled=True digest_id={digest_id} overwrite_allowed={overwrite_allowed}")
+        skip_reason = ""
+        if qa_replay_enabled and not qa_replay_allow:
+            skip_reason = "qa_replay_mode"
+        if qa_replay_enabled and qa_replay_allow and not overwrite_allowed:
+            skip_reason = "qa_replay_requires_safe_overwrite"
+        if not skip_reason:
+            dstate = _load_cybermed_daily_digest_state(cybermed_digest_state_path)
+            digests = list(dstate.get("digests") or [])
+            existing_idx = next((i for i, d in enumerate(digests) if str((d or {}).get("digest_id") or "") == digest_id), -1)
+            if existing_idx >= 0 and not overwrite_allowed:
+                skip_reason = "digest_already_exists"
+            else:
+                pubmed_items = [_sanitize_cybermed_pubmed_item(it) for it in pubmed_overview_items]
+                foamed_items = [_sanitize_cybermed_foamed_item(it) for it in foamed_overview_items]
+                deep_dives = []
+                for it in pubmed_deep_dive_items:
+                    deep_dives.append({
+                        "item_id": str(it.get("id") or "").strip(),
+                        "pmid": str(it.get("pmid") or "").strip(),
+                        "doi": str(it.get("doi") or "").strip(),
+                        "title": str(it.get("title") or "").strip(),
+                        "journal": str(it.get("journal") or "").strip(),
+                        "url": str(it.get("url") or "").strip(),
+                        "evidence_strength_label": str(it.get("evidence_strength_label") or "").strip(),
+                        "clinical_relevance_1_5": it.get("clinical_relevance_1_5"),
+                        "practice_change_potential_1_5": it.get("practice_change_potential_1_5"),
+                        "bottom_line": str(it.get("bottom_line") or "").strip(),
+                        "deep_dive_reasons": [str(v) for v in (it.get("deep_dive_reasons") or []) if str(v).strip()],
+                        "study_type": str(it.get("study_type") or "").strip(),
+                        "population_setting": str(it.get("population_setting") or "").strip(),
+                        "intervention_or_exposure": str(it.get("intervention_or_exposure") or "").strip(),
+                        "comparator": str(it.get("comparator") or "").strip(),
+                        "primary_endpoint": str(it.get("primary_endpoint") or "").strip(),
+                        "primary_result_direction": str(it.get("primary_result_direction") or "").strip(),
+                        "primary_result_significance": str(it.get("primary_result_significance") or "").strip(),
+                        "clinical_interpretation": str(it.get("clinical_interpretation") or "").strip(),
+                    })
+                top_picks = [str((it or {}).get("id") or "").strip() for it in (pubmed_overview_items + foamed_overview_items) if (it or {}).get("top_pick")]
+                digest_payload = {
+                    "digest_id": digest_id,
+                    "report_key": "cybermed",
+                    "cadence": "daily",
+                    "run_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    "generated_at_utc": now_utc_iso,
+                    "lookback_hours": int(args.hours),
+                    "qa_replay": bool(qa_replay_enabled),
+                    "email_mode": email_mode,
+                    "items": {"pubmed": pubmed_items, "foamed": foamed_items},
+                    "deep_dives": deep_dives,
+                    "top_picks": top_picks,
+                    "diagnostic_summary": {
+                        "pubmed_selected_total": len(pubmed_items),
+                        "pubmed_deep_dive_total": len(deep_dives),
+                        "pubmed_evidence_label_counts": dict(Counter(str(it.get("evidence_strength_label") or "") for it in pubmed_items if str(it.get("evidence_strength_label") or "").strip())),
+                        "foamed_selected_total": len(foamed_items),
+                        "foamed_top_pick_total": len([1 for it in foamed_items if it.get("top_pick")]),
+                        "foamed_source_quality_counts": dict(Counter(str(it.get("source_quality_label") or "") for it in foamed_items if str(it.get("source_quality_label") or "").strip())),
+                        "foamed_text_confidence_counts": dict(Counter(str(it.get("text_confidence_label") or "") for it in foamed_items if str(it.get("text_confidence_label") or "").strip())),
+                        "summary_consistency_conflict_total": int(consistency_conflict_total),
+                        "summary_consistency_resolved_total": int(consistency_resolved_total),
+                        "qa_replay": bool(qa_replay_enabled),
+                        "state_mutation_disabled": bool(qa_replay_state_mutation_disabled),
+                    },
+                }
+                if existing_idx >= 0:
+                    digests[existing_idx] = digest_payload
+                else:
+                    digests.append(digest_payload)
+                dstate["schema_version"] = 1
+                dstate["digests"] = digests
+                if not read_only_mode:
+                    os.makedirs(os.path.dirname(cybermed_digest_state_path) or ".", exist_ok=True)
+                    with open(cybermed_digest_state_path, "w", encoding="utf-8") as f:
+                        json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
+                        f.write("\n")
+                    cybermed_digest_diag["cybermed_digest_store_written"] = True
+                cybermed_digest_diag.update({
+                    "cybermed_digest_store_items_pubmed_total": len(pubmed_items),
+                    "cybermed_digest_store_items_foamed_total": len(foamed_items),
+                    "cybermed_digest_store_deep_dives_total": len(deep_dives),
+                    "cybermed_digest_store_top_picks_total": len(top_picks),
+                })
+        if skip_reason:
+            cybermed_digest_diag["cybermed_digest_store_skipped_reason"] = skip_reason
+        print(
+            f"[cybermed-digest-store] written={cybermed_digest_diag['cybermed_digest_store_written']} "
+            f"skipped_reason={cybermed_digest_diag['cybermed_digest_store_skipped_reason'] or 'none'} "
+            f"pubmed={cybermed_digest_diag['cybermed_digest_store_items_pubmed_total']} "
+            f"foamed={cybermed_digest_diag['cybermed_digest_store_items_foamed_total']}"
+        )
     if report_key.strip().lower() == "cyberlurch":
         _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode, extra_counts=extra_counts)
     if report_key.strip().lower() == "cybermed":
@@ -4130,6 +4354,7 @@ def main() -> None:
             "pubmed_shared_synopsis_failed_total": 0,
             "pubmed_summary_consistency_preview": consistency_preview[:10],
         })
+        cybermed_diagnostics_payload.update(cybermed_digest_diag)
         _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
 
     _update_state_after_run(
