@@ -997,6 +997,10 @@ def to_markdown(
             md.extend([overview_markdown, ""])
 
     if is_cybermed:
+        is_cybermed_weekly_digest_only = (
+            normalized_mode == "weekly"
+            and any((it.get("digest_derived") is True) or (it.get("cybermed_weekly_digest_only") is True) for it in items)
+        )
         if normalized_mode == "weekly":
             md[0] = "<h1 style=\"margin:0 0 4px 0; font-size:32px; line-height:1.15;\">Cybermed Weekly Report</h1>"
         greeting_enabled = str(os.getenv("CYBERMED_SEASONAL_GREETING", "1")).strip().lower() not in {"0", "false", "off", "no"}
@@ -1062,7 +1066,10 @@ def to_markdown(
                         display_title = title_lbl
                         label = _md_escape_label(_build_source_label(it))
                         detail = _detail_lookup(details_by_id, it)
-                        bottom = (it.get("bottom_line") or "").strip() if normalized_mode == "weekly" else _best_bottom_line(it, detail)
+                        if is_cybermed_weekly_digest_only:
+                            bottom = (it.get("bottom_line") or "").strip()
+                        else:
+                            bottom = (it.get("bottom_line") or "").strip() if normalized_mode == "weekly" else _best_bottom_line(it, detail)
                         md.append(
                             f"- [{display_title}]({url}) — *{label}*" if url else f"- {display_title} — *{label}*"
                         )

@@ -424,15 +424,21 @@ def _normalize_cybermed_weekly_digest_item(item: Dict[str, Any], *, deep_dive_id
     stored_bottom_line = str(row.get("bottom_line") or "").strip()
     row["bottom_line"] = stored_bottom_line
     row["top_pick"] = bool(row.get("top_pick") is True)
+    row["digest_derived"] = True
+    row["cybermed_weekly_digest_only"] = True
     if source_type == "pubmed":
+        row["source"] = "pubmed"
+        row["source_type"] = "pubmed"
         row["journal"] = str(row.get("journal") or "").strip()
         row["evidence_strength_label"] = str(row.get("evidence_strength_label") or "").strip()
         row["clinical_relevance_1_5"] = row.get("clinical_relevance_1_5")
         row["practice_change_potential_1_5"] = row.get("practice_change_potential_1_5")
         row["text_confidence_label"] = str(row.get("text_confidence_label") or "").strip()
         row["deep_dive_candidate"] = bool(row.get("deep_dive_candidate") is True)
-        row["cybermed_deep_dive"] = bool(row.get("deep_dive_candidate") is True or item_id in deep_dive_ids)
+        row["cybermed_deep_dive"] = bool((row.get("deep_dive_candidate") is True) and (item_id in deep_dive_ids))
     elif source_type == "foamed":
+        row["source"] = "foamed"
+        row["source_type"] = "foamed"
         row["source_name"] = str(row.get("source_name") or row.get("source") or "").strip()
         row["source_quality_label"] = str(row.get("source_quality_label") or "").strip()
         row["clinical_usefulness_1_5"] = row.get("clinical_usefulness_1_5")
@@ -3653,7 +3659,7 @@ def main() -> None:
     if not overview_items and detail_items:
         overview_items = list(detail_items)
 
-    if report_mode in {"weekly", "monthly"}:
+    if report_mode in {"weekly", "monthly"} and not (is_cybermed_run and cybermed_weekly_digest_only):
         for it in overview_items[: max(1, min(3, len(overview_items)))]:
             if not it.get("top_pick"):
                 it["top_pick"] = True
