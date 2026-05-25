@@ -60,6 +60,9 @@ def test_cybermed_daily_digest_store_skips_duplicate_without_overwrite(tmp_path,
     diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
     assert diag["cybermed_digest_store_written"] is False
     assert diag["cybermed_digest_store_skipped_reason"] == "digest_already_exists"
+    assert diag["cybermed_digest_store_expected_digest_present"] is True
+    assert diag["cybermed_digest_store_write_verified"] is False
+    assert diag["cybermed_digest_store_digest_count_after_write"] == 1
 
 
 def test_cybermed_daily_digest_store_skips_qa_replay_by_default(tmp_path, monkeypatch):
