@@ -30,10 +30,15 @@ def _run_weekly(monkeypatch, tmp_path, *, report_key="cybermed", report_mode="we
 
 
 def test_scheduled_weekly_fixture_requested_but_not_enabled(monkeypatch, tmp_path, capsys):
-    _run_weekly(monkeypatch, tmp_path, event_name="schedule", fixture_mode="1")
+    diag = _run_weekly(monkeypatch, tmp_path, event_name="schedule", fixture_mode="1")
     out = capsys.readouterr().out
     assert "weekly loaded 0 digest item(s) for report" in out
     assert "tests/fixtures/cybermed_weekly_digest_store_nonempty.json" not in out
+    if diag is not None:
+        assert diag["cybermed_weekly_qa_fixture_requested"] is True
+        assert diag["cybermed_weekly_qa_fixture_mode"] is False
+        assert diag["cybermed_weekly_qa_fixture_safety_passed"] is False
+        assert "event_not_manual" in diag["cybermed_weekly_qa_fixture_skipped_reason"]
 
 
 def test_manual_weekly_fixture_enabled_with_safe_settings(monkeypatch, tmp_path):
