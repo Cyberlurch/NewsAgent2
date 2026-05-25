@@ -478,7 +478,7 @@ jobs:
 
           # Collect only existing state files (avoid git add pathspec failures)
           FILES=()
-          for f in state/processed_items.json state/rollups.json state/cyberlurch_digests.json; do
+          for f in state/processed_items.json state/rollups.json state/cyberlurch_digests.json state/cybermed_daily_digests.json state/youtube_content_cache.json; do
             if [ -f "$f" ]; then
               FILES+=("$f")
             fi

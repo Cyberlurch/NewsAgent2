@@ -39,6 +39,14 @@ def test_cybermed_daily_digest_store_created_and_deterministic_id(tmp_path, monk
     assert digest["items"]["pubmed"] == []
     assert digest["items"]["foamed"] == []
 
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_digest_store_written"] is True
+    assert diag["cybermed_digest_store_write_verified"] is True
+    assert diag["cybermed_digest_store_expected_digest_present"] is True
+    assert diag["cybermed_digest_store_digest_count_after_write"] == 1
+    assert diag["cybermed_digest_store_items_pubmed_total"] == 0
+    assert diag["cybermed_digest_store_items_foamed_total"] == 0
+
 
 def test_cybermed_daily_digest_store_skips_duplicate_without_overwrite(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
@@ -63,3 +71,47 @@ def test_cybermed_daily_digest_store_skips_qa_replay_by_default(tmp_path, monkey
     diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
     assert diag["cybermed_digest_store_written"] is False
     assert diag["cybermed_digest_store_skipped_reason"] == "qa_replay_mode"
+
+
+def test_cybermed_daily_digest_store_overwrite_replaces_existing(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    monkeypatch.setenv("CYBERMED_DIGEST_STORE_OVERWRITE", "1")
+    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
+    dpath.parent.mkdir(parents=True, exist_ok=True)
+    date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    dpath.write_text(json.dumps({"schema_version": 1, "digests": [{"digest_id": f"cybermed_daily_{date}", "report_key": "cybermed", "cadence": "daily", "run_date": date, "items": {"pubmed": [{"id": "old"}], "foamed": []}}]}), encoding="utf-8")
+
+    main.main()
+
+    payload = json.loads(dpath.read_text(encoding="utf-8"))
+    assert len(payload["digests"]) == 1
+    assert payload["digests"][0]["items"]["pubmed"] == []
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_digest_store_written"] is True
+    assert diag["cybermed_digest_store_skipped_reason"] == ""
+
+
+def test_cybermed_daily_digest_store_write_failure_sets_verification_failed(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
+    dpath.parent.mkdir(parents=True, exist_ok=True)
+    dpath.write_text(json.dumps({"schema_version": 1, "digests": []}), encoding="utf-8")
+
+    import builtins
+    real_open = builtins.open
+
+    writes = {"count": 0}
+    def _failing_open(path, *args, **kwargs):
+        if str(path) == str(dpath) and "w" in (args[0] if args else kwargs.get("mode", "r")):
+            writes["count"] += 1
+            if writes["count"] >= 1:
+                raise OSError("forced failure")
+        return real_open(path, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "open", _failing_open)
+    main.main()
+
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_digest_store_written"] is False
+    assert diag["cybermed_digest_store_skipped_reason"] == "write_verification_failed"
+    assert diag["cybermed_digest_store_write_error_class"] != ""

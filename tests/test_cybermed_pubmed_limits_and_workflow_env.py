@@ -142,3 +142,15 @@ def test_cybermed_qa_replay_ignored_when_send_email_enabled(monkeypatch, tmp_pat
     diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
     assert diag["cybermed_qa_replay_enabled"] is False
     assert "send_email_not_zero" in diag["cybermed_qa_replay_skipped_reason"]
+
+
+def test_workflow_stages_safe_state_files_only_for_commit_step():
+    text = pathlib.Path(".github/workflows/newsagent.yml").read_text(encoding="utf-8")
+    assert "state/processed_items.json" in text
+    assert "state/rollups.json" in text
+    assert "state/cyberlurch_digests.json" in text
+    assert "state/cybermed_daily_digests.json" in text
+    assert "state/youtube_content_cache.json" in text
+    assert "git add -A \"${FILES[@]}\"" in text
+    assert "git add -A out" not in text
+    assert "git add -A reports" not in text
