@@ -1200,7 +1200,23 @@ def to_markdown(
             md.append("")
             detail_block = _detail_lookup(details_by_id, it)
             best_bottom_line = _best_bottom_line(it, detail_block) if is_cybermed else ""
-            if is_cybermed and str(it.get("source") or "").strip().lower() == "pubmed":
+            report_key = str(it.get("report_key") or it.get("cadence") or "").strip().lower()
+            is_digest_derived_weekly = (
+                is_cybermed
+                and normalized_mode == "weekly"
+                and (
+                    (it.get("digest_derived") is True)
+                    or (it.get("cybermed_weekly_digest_only") is True)
+                )
+                and (not report_key or ("cybermed" in report_key and "weekly" in report_key))
+            )
+            if is_digest_derived_weekly:
+                stored_bottom_line = str(it.get("stored_bottom_line") or it.get("bottom_line") or "").strip()
+                if stored_bottom_line:
+                    detail_block = f"**BOTTOM LINE:** {stored_bottom_line}\n\nNo stored deep-dive synopsis available."
+                else:
+                    detail_block = "**BOTTOM LINE:** No stored bottom line available.\n\nNo stored deep-dive synopsis available."
+            elif is_cybermed and str(it.get("source") or "").strip().lower() == "pubmed":
                 if not detail_block:
                     abstract = (it.get("abstract") or it.get("text") or "").strip()
                     if len(abstract) >= 200:
