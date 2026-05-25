@@ -423,6 +423,7 @@ def _normalize_cybermed_weekly_digest_item(item: Dict[str, Any], *, deep_dive_id
     row["published_at"] = str(row.get("published_at") or "").strip()
     stored_bottom_line = str(row.get("bottom_line") or "").strip()
     row["bottom_line"] = stored_bottom_line
+    row["stored_bottom_line"] = stored_bottom_line
     row["top_pick"] = bool(row.get("top_pick") is True)
     row["digest_derived"] = True
     row["cybermed_weekly_digest_only"] = True
@@ -435,7 +436,8 @@ def _normalize_cybermed_weekly_digest_item(item: Dict[str, Any], *, deep_dive_id
         row["practice_change_potential_1_5"] = row.get("practice_change_potential_1_5")
         row["text_confidence_label"] = str(row.get("text_confidence_label") or "").strip()
         row["deep_dive_candidate"] = bool(row.get("deep_dive_candidate") is True)
-        row["cybermed_deep_dive"] = bool((row.get("deep_dive_candidate") is True) and (item_id in deep_dive_ids))
+        if item_id in deep_dive_ids:
+            row["cybermed_deep_dive"] = True
     elif source_type == "foamed":
         row["source"] = "foamed"
         row["source_type"] = "foamed"
@@ -445,7 +447,8 @@ def _normalize_cybermed_weekly_digest_item(item: Dict[str, Any], *, deep_dive_id
         row["practice_relevance_1_5"] = row.get("practice_relevance_1_5")
         row["text_confidence_label"] = str(row.get("text_confidence_label") or "").strip()
         row["final_content_source"] = str(row.get("final_content_source") or "").strip()
-        row["cybermed_deep_dive"] = item_id in deep_dive_ids
+        if item_id in deep_dive_ids:
+            row["cybermed_deep_dive"] = True
     return row
 
 def determine_monthly_rollup_month(now_sto: datetime, event_name: str, override_month: str | None) -> str:
@@ -3718,17 +3721,20 @@ def main() -> None:
         iid = str(it.get("id") or "").strip()
         if src != "pubmed" or not iid:
             continue
-        try:
-            bl = summarize_pubmed_bottom_line(it, language=report_language)
-            it["bottom_line"] = bl
-        except Exception as e:
-            print(f"[summarize] WARN: summarize_pubmed_bottom_line failed for pubmed:{iid!r}: {e!r}")
+        if not (is_cybermed_run and cybermed_weekly_digest_only and bool(it.get("digest_derived"))):
+            try:
+                bl = summarize_pubmed_bottom_line(it, language=report_language)
+                it["bottom_line"] = bl
+            except Exception as e:
+                print(f"[summarize] WARN: summarize_pubmed_bottom_line failed for pubmed:{iid!r}: {e!r}")
         synopsis = _build_pubmed_shared_synopsis(it)
         pubmed_shared_synopsis[iid] = synopsis
         it["pubmed_shared_synopsis"] = synopsis
 
     if foamed_overview_items:
         for it in foamed_overview_items:
+            if is_cybermed_run and cybermed_weekly_digest_only and bool(it.get("digest_derived")):
+                continue
             url_lbl = (it.get("url") or it.get("id") or "")
             try:
                 bl = summarize_foamed_bottom_line(it, language=report_language)
