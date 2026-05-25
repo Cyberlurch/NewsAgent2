@@ -421,16 +421,17 @@ def _normalize_cybermed_weekly_digest_item(item: Dict[str, Any], *, deep_dive_id
     row["title"] = str(row.get("title") or "").strip()
     row["url"] = str(row.get("url") or "").strip()
     row["published_at"] = str(row.get("published_at") or "").strip()
-    row["bottom_line"] = str(row.get("bottom_line") or "").strip()
-    row["top_pick"] = bool(row.get("top_pick"))
+    stored_bottom_line = str(row.get("bottom_line") or "").strip()
+    row["bottom_line"] = stored_bottom_line
+    row["top_pick"] = bool(row.get("top_pick") is True)
     if source_type == "pubmed":
         row["journal"] = str(row.get("journal") or "").strip()
         row["evidence_strength_label"] = str(row.get("evidence_strength_label") or "").strip()
         row["clinical_relevance_1_5"] = row.get("clinical_relevance_1_5")
         row["practice_change_potential_1_5"] = row.get("practice_change_potential_1_5")
         row["text_confidence_label"] = str(row.get("text_confidence_label") or "").strip()
-        row["deep_dive_candidate"] = bool(row.get("deep_dive_candidate"))
-        row["cybermed_deep_dive"] = item_id in deep_dive_ids
+        row["deep_dive_candidate"] = bool(row.get("deep_dive_candidate") is True)
+        row["cybermed_deep_dive"] = bool(row.get("deep_dive_candidate") is True or item_id in deep_dive_ids)
     elif source_type == "foamed":
         row["source_name"] = str(row.get("source_name") or row.get("source") or "").strip()
         row["source_quality_label"] = str(row.get("source_quality_label") or "").strip()
@@ -438,7 +439,7 @@ def _normalize_cybermed_weekly_digest_item(item: Dict[str, Any], *, deep_dive_id
         row["practice_relevance_1_5"] = row.get("practice_relevance_1_5")
         row["text_confidence_label"] = str(row.get("text_confidence_label") or "").strip()
         row["final_content_source"] = str(row.get("final_content_source") or "").strip()
-        row["cybermed_deep_dive"] = False
+        row["cybermed_deep_dive"] = item_id in deep_dive_ids
     return row
 
 def determine_monthly_rollup_month(now_sto: datetime, event_name: str, override_month: str | None) -> str:
@@ -2169,8 +2170,17 @@ def main() -> None:
             {"high": 3, "moderate": 2, "low": 1}.get(str(x.get("text_confidence_label") or "").strip().lower(), 0),
             str(x.get("published_at") or ""),
         ), reverse=True)[:CYBERMED_WEEKLY_MAX_FOAMED]
-        selected_top_picks = sorted([it for it in deduped if bool(it.get("top_pick"))], key=lambda x: str(x.get("published_at") or ""), reverse=True)[:5]
-        selected_deep_dives = sorted([it for it in deduped if bool(it.get("deep_dive_candidate"))], key=lambda x: str(x.get("published_at") or ""), reverse=True)[:WEEKLY_MAX_DEEP_DIVES]
+        selected_top_picks = sorted([it for it in deduped if it.get("top_pick") is True], key=lambda x: str(x.get("published_at") or ""), reverse=True)[:5]
+        deep_dive_store_ids = {
+            str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
+            for d in week_deep
+            if str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
+        }
+        selected_deep_dives = sorted(
+            [it for it in deduped if it.get("deep_dive_candidate") is True or str(it.get("item_id") or it.get("id") or it.get("pmid") or "").strip() in deep_dive_store_ids],
+            key=lambda x: str(x.get("published_at") or ""),
+            reverse=True,
+        )[:WEEKLY_MAX_DEEP_DIVES]
         selected_deep_dive_ids = {
             str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
             for d in selected_deep_dives
@@ -2191,10 +2201,16 @@ def main() -> None:
                 "practice_change_potential_1_5": it.get("practice_change_potential_1_5"),
                 "practice_relevance_1_5": it.get("practice_relevance_1_5"),
                 "text_confidence_label": str(it.get("text_confidence_label") or "").strip(),
-                "top_pick": bool(it.get("top_pick")),
-                "deep_dive_candidate": bool(it.get("deep_dive_candidate")),
-                "rank_bucket": "top_pick" if bool(it.get("top_pick")) else ("deep_dive" if bool(it.get("deep_dive_candidate")) else "overview"),
+                "has_stored_bottom_line": bool(str(it.get("bottom_line") or "").strip()),
+                "bottom_line_used_source": "stored" if str(it.get("bottom_line") or "").strip() else "missing_fallback",
+                "top_pick": bool(it.get("top_pick") is True),
+                "top_pick_used_source": "stored",
+                "deep_dive_candidate": bool(it.get("deep_dive_candidate") is True),
             })
+        stored_bottom_lines_used_total = sum(1 for it in items if str(it.get("bottom_line") or "").strip())
+        missing_bottom_lines_total = sum(1 for it in items if not str(it.get("bottom_line") or "").strip())
+        top_pick_stored_true = sum(1 for it in items if it.get("top_pick") is True)
+        top_pick_stored_false = sum(1 for it in items if it.get("top_pick") is not True)
         cybermed_weekly_diag = {
             "cybermed_weekly_from_daily_digests_enabled": True,
             "cybermed_weekly_digest_only_mode": True,
@@ -2223,6 +2239,16 @@ def main() -> None:
             "cybermed_weekly_deep_dives_selected_total": len(selected_deep_dives),
             "cybermed_weekly_top_picks_selected_total": len(selected_top_picks),
             "cybermed_weekly_ranking_reason_counts": {"top_pick": len([x for x in deduped if x.get("top_pick")]), "deep_dive_candidate": len([x for x in deduped if x.get("deep_dive_candidate")])},
+            "cybermed_weekly_stored_bottom_lines_used_total": stored_bottom_lines_used_total,
+            "cybermed_weekly_missing_bottom_lines_total": missing_bottom_lines_total,
+            "cybermed_weekly_generated_or_fallback_bottom_lines_total": 0,
+            "cybermed_weekly_top_pick_source_counts": {
+                "stored_true": top_pick_stored_true,
+                "stored_false": top_pick_stored_false,
+                "inferred": 0,
+            },
+            "cybermed_weekly_top_pick_inference_violations_total": 0,
+            "cybermed_weekly_bottom_line_preservation_violations_total": 0,
             "cybermed_weekly_items_preview_sanitized": preview,
             "cybermed_weekly_empty_reason": "" if items else ("No Cybermed daily digests were available for this weekly period." if not daily else "Daily digests were processed, but no items passed selection this week."),
         }

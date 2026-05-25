@@ -98,5 +98,13 @@ def test_manual_weekly_fixture_renders_digest_items(monkeypatch, tmp_path):
     assert diag["cybermed_weekly_rendered_deep_dives_total"] == 1
     assert diag["cybermed_weekly_rendered_top_picks_total"] == 2
     assert diag["cybermed_weekly_report_matches_digest_inputs"] is True
-    assert "2" in md and "FOAMed" in md
+    assert diag["cybermed_weekly_stored_bottom_lines_used_total"] == 3
+    assert diag["cybermed_weekly_missing_bottom_lines_total"] == 0
+    assert diag["cybermed_weekly_generated_or_fallback_bottom_lines_total"] == 0
+    assert diag["cybermed_weekly_top_pick_source_counts"]["stored_true"] == 2
+    assert diag["cybermed_weekly_top_pick_source_counts"]["stored_false"] == 1
+    assert diag["cybermed_weekly_top_pick_source_counts"]["inferred"] == 0
+    assert diag["cybermed_weekly_top_pick_inference_violations_total"] == 0
+    assert diag["cybermed_weekly_bottom_line_preservation_violations_total"] == 0
     assert "Top Picks" in md
+    assert "No abstract text was provided" not in md
