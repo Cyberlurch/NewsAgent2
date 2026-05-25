@@ -121,6 +121,8 @@ jobs:
       WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'cyberlurch') || 'both' }}
       EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') || 'real' }}
       CYBERMED_QA_REPLAY_MODE: ${{ vars.CYBERMED_QA_REPLAY_MODE || '0' }}
+      CYBERMED_WEEKLY_QA_FIXTURE_MODE: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_MODE || '0' }}
+      CYBERMED_WEEKLY_QA_FIXTURE_PATH: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_PATH || 'tests/fixtures/cybermed_weekly_digest_store_nonempty.json' }}
       CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.cyberlurch_channels_file || '') || '' }}
       MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.managed_transcript_provider || 'default') || 'default' }}
 
@@ -507,7 +509,16 @@ jobs:
 
           if [ -n "${GITHUB_REF_NAME:-}" ]; then
             echo "Pushing commit to branch: ${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}" || {
+              echo "Initial push failed; attempting rebase onto origin/${GITHUB_REF_NAME} and retry."
+              git fetch origin "${GITHUB_REF_NAME}"
+              git rebase "origin/${GITHUB_REF_NAME}" || {
+                echo "Rebase failed; aborting rebase and leaving state unpushed."
+                git rebase --abort || true
+                exit 1
+              }
+              git push origin "HEAD:${GITHUB_REF_NAME}"
+            }
           else
             echo "GITHUB_REF_NAME not set; skipping push."
           fi
