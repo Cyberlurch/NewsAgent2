@@ -997,6 +997,8 @@ def to_markdown(
             md.extend([overview_markdown, ""])
 
     if is_cybermed:
+        if normalized_mode == "weekly":
+            md[0] = "<h1 style=\"margin:0 0 4px 0; font-size:32px; line-height:1.15;\">Cybermed Weekly Report</h1>"
         greeting_enabled = str(os.getenv("CYBERMED_SEASONAL_GREETING", "1")).strip().lower() not in {"0", "false", "off", "no"}
         greeting = (os.getenv("CYBERMED_SEASONAL_GREETING_TEXT", "") or "").strip()
         if greeting_enabled and greeting:
@@ -1005,8 +1007,29 @@ def to_markdown(
         if normalized_mode in {"weekly", "monthly"}:
             pubmed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "pubmed")
             foamed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "foamed")
-            md.append(f"Top picks (⭐) first; total included: {pubmed_count} papers, {foamed_count} FOAMed.")
+            top_pick_count = sum(1 for it in items if bool(it.get("top_pick")))
+            period_line = ""
+            if isinstance(cybermed_stats, dict):
+                start = str(cybermed_stats.get("weekly_period_start") or "").strip()
+                end = str(cybermed_stats.get("weekly_period_end") or "").strip()
+                if start or end:
+                    period_line = f"Period: {start or '?'} to {end or '?'}."
+            if period_line:
+                md.append(period_line)
+            md.append(f"Top picks (⭐) first; Daily digests used this period; total included: {pubmed_count} papers, {foamed_count} FOAMed, {top_pick_count} top picks.")
             md.append("")
+            top_items = [it for it in items if bool(it.get("top_pick"))]
+            if top_items:
+                md.extend(["## Top Picks", ""])
+                for it in top_items[:5]:
+                    title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
+                    url = str(it.get("url") or "").strip()
+                    source_name = str(it.get("source") or "").strip().lower()
+                    compact = _pubmed_compact_line(it) if source_name == "pubmed" else _foamed_compact_line(it)
+                    md.append(f"- [{'PubMed' if source_name == 'pubmed' else 'FOAMed'}] " + (f"[{title_lbl}]({url})" if url else title_lbl))
+                    if compact:
+                        md.append(f"  - {compact}")
+                md.append("")
 
         pubmed_items = [it for it in items if str(it.get("source") or "").strip().lower() == "pubmed"]
         md.extend(["## Papers", ""])
