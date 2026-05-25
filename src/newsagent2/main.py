@@ -4516,6 +4516,18 @@ def main() -> None:
         "cybermed_digest_store_digest_count_after_write": 0,
         "cybermed_digest_store_expected_digest_present": False,
         "cybermed_digest_store_write_error_class": "",
+        "cybermed_digest_store_existing_pubmed_total": 0,
+        "cybermed_digest_store_existing_foamed_total": 0,
+        "cybermed_digest_store_existing_deep_dives_total": 0,
+        "cybermed_digest_store_existing_top_picks_total": 0,
+        "cybermed_digest_store_current_pubmed_total": 0,
+        "cybermed_digest_store_current_foamed_total": 0,
+        "cybermed_digest_store_current_deep_dives_total": 0,
+        "cybermed_digest_store_current_top_picks_total": 0,
+        "cybermed_digest_store_existing_digest_empty": False,
+        "cybermed_digest_store_current_digest_nonempty": False,
+        "cybermed_digest_store_replace_empty_requested": False,
+        "cybermed_digest_store_replace_empty_allowed": False,
     }
     if report_key.strip().lower() == "cybermed" and report_mode == "daily":
         email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
@@ -4523,12 +4535,15 @@ def main() -> None:
         event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
         qa_replay_allow = _env_bool("CYBERMED_DIGEST_STORE_ALLOW_QA_REPLAY", False)
         overwrite_requested = _env_bool("CYBERMED_DIGEST_STORE_OVERWRITE", False)
+        replace_empty_requested = _env_bool("CYBERMED_DIGEST_STORE_REPLACE_EMPTY", False)
         digest_id = f"cybermed_daily_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
-        overwrite_allowed = overwrite_requested and email_mode == "none" and send_email == "0" and event_name in {"workflow_dispatch", "manual"}
+        safe_mutation_allowed = email_mode == "none" and send_email == "0" and event_name in {"workflow_dispatch", "manual"}
+        overwrite_allowed = overwrite_requested and safe_mutation_allowed
         cybermed_digest_diag.update({
             "cybermed_digest_store_enabled": True,
             "cybermed_digest_store_digest_id": digest_id,
             "cybermed_digest_store_overwrite": overwrite_allowed,
+            "cybermed_digest_store_replace_empty_requested": replace_empty_requested,
         })
         print(f"[cybermed-digest-store] enabled=True digest_id={digest_id} overwrite_allowed={overwrite_allowed} path={cybermed_digest_state_path} abs_path={cybermed_digest_state_abs_path}")
         skip_reason = ""
@@ -4540,14 +4555,11 @@ def main() -> None:
             dstate = _load_cybermed_daily_digest_state(cybermed_digest_state_path)
             digests = list(dstate.get("digests") or [])
             existing_idx = next((i for i, d in enumerate(digests) if str((d or {}).get("digest_id") or "") == digest_id), -1)
-            if existing_idx >= 0 and not overwrite_allowed:
-                skip_reason = "digest_already_exists"
-            else:
-                pubmed_items = [_sanitize_cybermed_pubmed_item(it) for it in pubmed_overview_items]
-                foamed_items = [_sanitize_cybermed_foamed_item(it) for it in foamed_overview_items]
-                deep_dives = []
-                for it in pubmed_deep_dive_items:
-                    deep_dives.append({
+            pubmed_items = [_sanitize_cybermed_pubmed_item(it) for it in pubmed_overview_items]
+            foamed_items = [_sanitize_cybermed_foamed_item(it) for it in foamed_overview_items]
+            deep_dives = []
+            for it in pubmed_deep_dive_items:
+                deep_dives.append({
                         "item_id": str(it.get("id") or "").strip(),
                         "pmid": str(it.get("pmid") or "").strip(),
                         "doi": str(it.get("doi") or "").strip(),
@@ -4568,7 +4580,50 @@ def main() -> None:
                         "primary_result_significance": str(it.get("primary_result_significance") or "").strip(),
                         "clinical_interpretation": str(it.get("clinical_interpretation") or "").strip(),
                     })
-                top_picks = [str((it or {}).get("id") or "").strip() for it in (pubmed_overview_items + foamed_overview_items) if (it or {}).get("top_pick")]
+            top_picks = [str((it or {}).get("id") or "").strip() for it in (pubmed_overview_items + foamed_overview_items) if (it or {}).get("top_pick")]
+            current_pubmed_total = len(pubmed_items)
+            current_foamed_total = len(foamed_items)
+            current_deep_dives_total = len(deep_dives)
+            current_top_picks_total = len(top_picks)
+            current_digest_nonempty = (current_pubmed_total + current_foamed_total + current_deep_dives_total + current_top_picks_total) > 0
+            cybermed_digest_diag.update({
+                "cybermed_digest_store_current_pubmed_total": current_pubmed_total,
+                "cybermed_digest_store_current_foamed_total": current_foamed_total,
+                "cybermed_digest_store_current_deep_dives_total": current_deep_dives_total,
+                "cybermed_digest_store_current_top_picks_total": current_top_picks_total,
+                "cybermed_digest_store_current_digest_nonempty": current_digest_nonempty,
+            })
+            replace_empty_allowed = False
+            if existing_idx >= 0:
+                existing_digest = digests[existing_idx] or {}
+                existing_items = existing_digest.get("items") or {}
+                existing_pubmed_total = len(list(existing_items.get("pubmed") or []))
+                existing_foamed_total = len(list(existing_items.get("foamed") or []))
+                existing_deep_dives_total = len(list(existing_digest.get("deep_dives") or []))
+                existing_top_picks_total = len(list(existing_digest.get("top_picks") or []))
+                existing_digest_empty = (existing_pubmed_total + existing_foamed_total + existing_deep_dives_total + existing_top_picks_total) == 0
+                replace_empty_allowed = (
+                    replace_empty_requested
+                    and safe_mutation_allowed
+                    and existing_digest_empty
+                    and current_digest_nonempty
+                    and (not qa_replay_enabled or qa_replay_allow)
+                )
+                cybermed_digest_diag.update({
+                    "cybermed_digest_store_existing_pubmed_total": existing_pubmed_total,
+                    "cybermed_digest_store_existing_foamed_total": existing_foamed_total,
+                    "cybermed_digest_store_existing_deep_dives_total": existing_deep_dives_total,
+                    "cybermed_digest_store_existing_top_picks_total": existing_top_picks_total,
+                    "cybermed_digest_store_existing_digest_empty": existing_digest_empty,
+                    "cybermed_digest_store_replace_empty_allowed": replace_empty_allowed,
+                    "cybermed_digest_store_items_pubmed_total": existing_pubmed_total,
+                    "cybermed_digest_store_items_foamed_total": existing_foamed_total,
+                    "cybermed_digest_store_deep_dives_total": existing_deep_dives_total,
+                    "cybermed_digest_store_top_picks_total": existing_top_picks_total,
+                })
+            if existing_idx >= 0 and not overwrite_allowed and not replace_empty_allowed:
+                skip_reason = "digest_already_exists"
+            else:
                 digest_payload = {
                     "digest_id": digest_id,
                     "report_key": "cybermed",
