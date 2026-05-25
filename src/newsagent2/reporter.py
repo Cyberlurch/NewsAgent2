@@ -1007,7 +1007,7 @@ def to_markdown(
         if normalized_mode in {"weekly", "monthly"}:
             pubmed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "pubmed")
             foamed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "foamed")
-            top_pick_count = sum(1 for it in items if bool(it.get("top_pick")))
+            top_pick_count = sum(1 for it in items if it.get("top_pick") is True)
             period_line = ""
             if isinstance(cybermed_stats, dict):
                 start = str(cybermed_stats.get("weekly_period_start") or "").strip()
@@ -1018,7 +1018,7 @@ def to_markdown(
                 md.append(period_line)
             md.append(f"Top picks (⭐) first; Daily digests used this period; total included: {pubmed_count} papers, {foamed_count} FOAMed, {top_pick_count} top picks.")
             md.append("")
-            top_items = [it for it in items if bool(it.get("top_pick"))]
+            top_items = [it for it in items if it.get("top_pick") is True]
             if top_items:
                 md.extend(["## Top Picks", ""])
                 for it in top_items[:5]:
@@ -1062,16 +1062,19 @@ def to_markdown(
                         display_title = title_lbl
                         label = _md_escape_label(_build_source_label(it))
                         detail = _detail_lookup(details_by_id, it)
-                        bottom = _best_bottom_line(it, detail)
+                        bottom = (it.get("bottom_line") or "").strip() if normalized_mode == "weekly" else _best_bottom_line(it, detail)
                         md.append(
                             f"- [{display_title}]({url}) — *{label}*" if url else f"- {display_title} — *{label}*"
                         )
                         compact = _pubmed_compact_line(it)
-                        if it.get("top_pick"):
+                        if it.get("top_pick") is True:
                             compact = _join_compact_segments(["⭐ Top pick", compact])
                         if compact:
                             md.append(f"  - {compact}")
-                        md.append(f"  - **BOTTOM LINE:** {bottom}" if bottom else f"  - **BOTTOM LINE:** {_fallback_bottom_line(it)}")
+                        if bottom:
+                            md.append(f"  - **BOTTOM LINE:** {bottom}")
+                        else:
+                            md.append("  - **BOTTOM LINE:** No stored bottom line available.")
                     md.append("")
         else:
             _, after_state = _parse_cybermed_counts(meta_only or "")
@@ -1100,7 +1103,7 @@ def to_markdown(
                 line = f"- [{display_title}]({url}) — {source_name}" if url else f"- {display_title} — {source_name}"
                 md.append(line)
                 compact = _foamed_compact_line(it)
-                if it.get("top_pick"):
+                if it.get("top_pick") is True:
                     compact = _join_compact_segments(["⭐ Top pick", compact])
                 if compact:
                     md.append(f"  - {compact}")
@@ -1108,7 +1111,7 @@ def to_markdown(
                 if bottom_line and not bottom_line.lower().startswith("bottom line"):
                     bottom_line = f"BOTTOM LINE: {bottom_line}"
                 if not bottom_line:
-                    bottom_line = "BOTTOM LINE: No summary available."
+                    bottom_line = "BOTTOM LINE: No stored bottom line available."
                 md.append(f"  - {bottom_line}")
             md.append("")
         else:
