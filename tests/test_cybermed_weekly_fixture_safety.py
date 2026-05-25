@@ -8,9 +8,12 @@ if str(SRC) not in sys.path:
 from newsagent2 import main
 
 
-def _run_weekly(monkeypatch, tmp_path, *, report_key="cybermed", report_mode="weekly", event_name="workflow_dispatch", fixture_mode="1"):
-    fixture = tmp_path / "fixture.json"
-    fixture.write_text(json.dumps({"version": 1, "updated_at_utc": "", "digests": []}), encoding="utf-8")
+def _run_weekly(monkeypatch, tmp_path, *, report_key="cybermed", report_mode="weekly", event_name="workflow_dispatch", fixture_mode="1", fixture_payload=None, fixture_path=None):
+    fixture = fixture_path or (tmp_path / "fixture.json")
+    if fixture_payload is None and not fixture_path:
+        fixture_payload = {"version": 1, "updated_at_utc": "", "digests": []}
+    if fixture_payload is not None:
+        fixture.write_text(json.dumps(fixture_payload), encoding="utf-8")
     monkeypatch.setenv("REPORT_KEY", report_key)
     monkeypatch.setenv("REPORT_MODE", report_mode)
     monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
@@ -24,13 +27,14 @@ def _run_weekly(monkeypatch, tmp_path, *, report_key="cybermed", report_mode="we
     monkeypatch.setattr(main, "send_markdown", lambda *a, **k: None)
     main.main()
     diag_path = tmp_path / "out" / "cybermed_weekly_diagnostics.json"
-    if diag_path.exists():
-        return json.loads(diag_path.read_text(encoding="utf-8"))
-    return None
+    md_candidates = sorted((tmp_path / "out").glob("cybermed_weekly_*.md"))
+    md_text = md_candidates[-1].read_text(encoding="utf-8") if md_candidates else ""
+    diag = json.loads(diag_path.read_text(encoding="utf-8")) if diag_path.exists() else None
+    return diag, md_text
 
 
 def test_scheduled_weekly_fixture_requested_but_not_enabled(monkeypatch, tmp_path, capsys):
-    diag = _run_weekly(monkeypatch, tmp_path, event_name="schedule", fixture_mode="1")
+    diag, _ = _run_weekly(monkeypatch, tmp_path, event_name="schedule", fixture_mode="1")
     out = capsys.readouterr().out
     assert "weekly loaded 0 digest item(s) for report" in out
     assert "tests/fixtures/cybermed_weekly_digest_store_nonempty.json" not in out
@@ -42,7 +46,7 @@ def test_scheduled_weekly_fixture_requested_but_not_enabled(monkeypatch, tmp_pat
 
 
 def test_manual_weekly_fixture_enabled_with_safe_settings(monkeypatch, tmp_path):
-    diag = _run_weekly(monkeypatch, tmp_path, event_name="workflow_dispatch", fixture_mode="1")
+    diag, _ = _run_weekly(monkeypatch, tmp_path, event_name="workflow_dispatch", fixture_mode="1")
     assert diag["cybermed_weekly_qa_fixture_requested"] is True
     assert diag["cybermed_weekly_qa_fixture_mode"] is True
     assert diag["cybermed_weekly_qa_fixture_safety_passed"] is True
@@ -81,3 +85,18 @@ def test_cyberlurch_ignores_weekly_fixture(monkeypatch, tmp_path):
     main.main()
     diag = json.loads(next((tmp_path / "out").glob("cyberlurch_*_youtube_diagnostics.json")).read_text(encoding="utf-8"))
     assert "cybermed_weekly_qa_fixture_mode" not in diag
+
+
+def test_manual_weekly_fixture_renders_digest_items(monkeypatch, tmp_path):
+    fixture_path = pathlib.Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "cybermed_weekly_digest_store_nonempty.json"
+    diag, md = _run_weekly(monkeypatch, tmp_path, event_name="workflow_dispatch", fixture_mode="1", fixture_path=fixture_path)
+    assert diag["cybermed_weekly_pubmed_items_selected_total"] == 2
+    assert diag["cybermed_weekly_foamed_items_selected_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_selected_total"] == 1
+    assert diag["cybermed_weekly_rendered_pubmed_items_total"] == 2
+    assert diag["cybermed_weekly_rendered_foamed_items_total"] == 1
+    assert diag["cybermed_weekly_rendered_deep_dives_total"] == 1
+    assert diag["cybermed_weekly_rendered_top_picks_total"] == 2
+    assert diag["cybermed_weekly_report_matches_digest_inputs"] is True
+    assert "2" in md and "FOAMed" in md
+    assert "Top Picks" in md

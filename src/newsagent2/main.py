@@ -408,6 +408,39 @@ def _sanitize_cybermed_foamed_item(item: Dict[str, Any]) -> Dict[str, Any]:
         "reason_labels": [str(v) for v in (item.get("reason_labels") or []) if str(v).strip()],
     }
 
+
+def _normalize_cybermed_weekly_digest_item(item: Dict[str, Any], *, deep_dive_ids: Set[str]) -> Dict[str, Any]:
+    row = dict(item or {})
+    item_id = str(row.get("item_id") or row.get("id") or row.get("pmid") or "").strip()
+    source_type = str(row.get("source_type") or row.get("source") or "").strip().lower()
+    source = source_type if source_type in {"pubmed", "foamed"} else str(row.get("source") or "").strip().lower()
+    row["id"] = item_id
+    row["item_id"] = item_id
+    row["source_type"] = source_type
+    row["source"] = source
+    row["title"] = str(row.get("title") or "").strip()
+    row["url"] = str(row.get("url") or "").strip()
+    row["published_at"] = str(row.get("published_at") or "").strip()
+    row["bottom_line"] = str(row.get("bottom_line") or "").strip()
+    row["top_pick"] = bool(row.get("top_pick"))
+    if source_type == "pubmed":
+        row["journal"] = str(row.get("journal") or "").strip()
+        row["evidence_strength_label"] = str(row.get("evidence_strength_label") or "").strip()
+        row["clinical_relevance_1_5"] = row.get("clinical_relevance_1_5")
+        row["practice_change_potential_1_5"] = row.get("practice_change_potential_1_5")
+        row["text_confidence_label"] = str(row.get("text_confidence_label") or "").strip()
+        row["deep_dive_candidate"] = bool(row.get("deep_dive_candidate"))
+        row["cybermed_deep_dive"] = item_id in deep_dive_ids
+    elif source_type == "foamed":
+        row["source_name"] = str(row.get("source_name") or row.get("source") or "").strip()
+        row["source_quality_label"] = str(row.get("source_quality_label") or "").strip()
+        row["clinical_usefulness_1_5"] = row.get("clinical_usefulness_1_5")
+        row["practice_relevance_1_5"] = row.get("practice_relevance_1_5")
+        row["text_confidence_label"] = str(row.get("text_confidence_label") or "").strip()
+        row["final_content_source"] = str(row.get("final_content_source") or "").strip()
+        row["cybermed_deep_dive"] = False
+    return row
+
 def determine_monthly_rollup_month(now_sto: datetime, event_name: str, override_month: str | None) -> str:
     override = (override_month or "").strip()
     if override and re.match(r"^\d{4}-\d{2}$", override):
@@ -2138,13 +2171,15 @@ def main() -> None:
         ), reverse=True)[:CYBERMED_WEEKLY_MAX_FOAMED]
         selected_top_picks = sorted([it for it in deduped if bool(it.get("top_pick"))], key=lambda x: str(x.get("published_at") or ""), reverse=True)[:5]
         selected_deep_dives = sorted([it for it in deduped if bool(it.get("deep_dive_candidate"))], key=lambda x: str(x.get("published_at") or ""), reverse=True)[:WEEKLY_MAX_DEEP_DIVES]
-        items = []
-        for it in pubmed_sorted + foamed_sorted:
-            row = dict(it)
-            row["id"] = row.get("item_id") or row.get("id")
-            row["source"] = row.get("source_type") or row.get("source")
-            row["cybermed_deep_dive"] = bool(row.get("deep_dive_candidate")) and row["id"] in {str(d.get("item_id") or d.get("id") or "") for d in selected_deep_dives}
-            items.append(row)
+        selected_deep_dive_ids = {
+            str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
+            for d in selected_deep_dives
+            if str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
+        }
+        items = [
+            _normalize_cybermed_weekly_digest_item(it, deep_dive_ids=selected_deep_dive_ids)
+            for it in (pubmed_sorted + foamed_sorted)
+        ]
         preview = []
         for it in (pubmed_sorted + foamed_sorted)[:10]:
             preview.append({
@@ -2706,7 +2741,19 @@ def main() -> None:
 
     selection_result = None
 
-    if is_cybermed_run:
+    if is_cybermed_run and cybermed_weekly_digest_only:
+        pubmed_overview_items = [it for it in items_all_new if (it.get("source") or "").strip().lower() == "pubmed"]
+        foamed_overview_items = [it for it in items_all_new if (it.get("source") or "").strip().lower() == "foamed"]
+        pubmed_deep_dive_items = [it for it in pubmed_overview_items if bool(it.get("cybermed_deep_dive"))]
+        selection_stats = {
+            "enabled": True,
+            "mode": "weekly_digest_only",
+            "selector_bypassed": True,
+            "included_overview": len(pubmed_overview_items),
+            "included_deep_dives": len(pubmed_deep_dive_items),
+            "foamed_included_overview": len(foamed_overview_items),
+        }
+    elif is_cybermed_run:
         selection_start = time.monotonic()
         non_pubmed_items: List[Dict[str, Any]] = [
             it for it in items_all_new if (it.get("source") or "").strip().lower() != "pubmed"
@@ -3359,7 +3406,7 @@ def main() -> None:
     if is_cybermed_run and cybermed_weekly_digest_only:
         pubmed_overview_items = [it for it in items if (it.get("source") or "").strip().lower() == "pubmed"]
         foamed_overview_items = [it for it in items if (it.get("source") or "").strip().lower() == "foamed"]
-        pubmed_deep_dive_items = list(week_deep if "week_deep" in locals() else [])
+        pubmed_deep_dive_items = [it for it in pubmed_overview_items if bool(it.get("cybermed_deep_dive"))]
         report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
     elif is_cybermed_run:
         report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
@@ -3493,7 +3540,7 @@ def main() -> None:
                 rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
                 rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
                 rendered_deep_dives_total = 0
-                rendered_top_picks_total = len([it for it in report_items if it.get("top_pick")])
+                rendered_top_picks_total = int(cybermed_weekly_diag.get("cybermed_weekly_top_picks_selected_total", 0) or 0)
                 cybermed_weekly_diag.update({
                     "cybermed_weekly_rendered_pubmed_items_total": rendered_pubmed_total,
                     "cybermed_weekly_rendered_foamed_items_total": rendered_foamed_total,
@@ -4603,7 +4650,7 @@ def main() -> None:
             rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
             rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
             rendered_deep_dives_total = len(detail_items)
-            rendered_top_picks_total = len([it for it in report_items if it.get("top_pick")])
+            rendered_top_picks_total = int(cybermed_weekly_diag.get("cybermed_weekly_top_picks_selected_total", 0) or 0)
             cybermed_weekly_diag.update({
                 "cybermed_weekly_rendered_pubmed_items_total": rendered_pubmed_total,
                 "cybermed_weekly_rendered_foamed_items_total": rendered_foamed_total,
