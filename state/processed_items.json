@@ -4,8 +4,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "ALiEM": {
       "consecutive_failures": 22,
@@ -17,15 +17,15 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "Anesthesiology News": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "CanadiEM": {
       "consecutive_failures": 3,
@@ -37,112 +37,112 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "Critical Care Practitioner": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "Critical Care Reviews": {
-      "consecutive_failures": 29,
+      "consecutive_failures": 30,
       "disabled_until_utc": "2026-05-31T06:29:34+00:00",
       "last_health": "parse_failed",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "Deranged Physiology": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "Don't Forget the Bubbles": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "EM Cases": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "EMCrit": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "EMOttawa Blog": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "First10EM": {
-      "consecutive_failures": 1,
+      "consecutive_failures": 0,
       "disabled_until_utc": "",
-      "last_health": "other",
-      "last_ok_utc": "2026-05-25T16:52:45+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_health": "ok_rss",
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "Intensive Care Network": {
-      "consecutive_failures": 47,
+      "consecutive_failures": 48,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "JournalFeed (Critical Care)": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_html",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "LITFL": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "NYSORA": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "OpenAnesthesia": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "PulmCCM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "REBEL EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "REBEL EM Critical Care": {
       "consecutive_failures": 6,
@@ -151,18 +151,18 @@
       "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "SMACC": {
-      "consecutive_failures": 47,
+      "consecutive_failures": 48,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "St Emlyn's": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "Taming the SRU": {
       "consecutive_failures": 2,
@@ -174,46 +174,46 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "The Bottom Line": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "The Resus Room": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "Thinking Critical Care": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "WFSA Anaesthesia Tutorial of the Week": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     },
     "emDocs": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-25T19:00:26+00:00",
-      "last_seen_utc": "2026-05-25T19:00:26+00:00"
+      "last_ok_utc": "2026-05-26T07:10:44+00:00",
+      "last_seen_utc": "2026-05-26T07:10:44+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-05-25T19:03:59+00:00",
+  "last_successful_daily_run_utc": "2026-05-26T07:14:14+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -278,6 +278,12 @@
             "title": "heute journal of 05/19/2026: Putin in Beijing, online child protection, forest condition report",
             "url": "https://www.youtube.com/watch?v=020YrYT0EJ4"
           },
+          "07eP6o0mRGQ": {
+            "channel": "krissyrieger",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Deshalb herrscht wirklich Krieg mit dem Iran!",
+            "url": "https://www.youtube.com/watch?v=07eP6o0mRGQ"
+          },
           "09Vf4zV4xfk": {
             "channel": "Blocktrainer",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
@@ -326,12 +332,6 @@
             "title": "The Truth About Angels is Hidden From The Public - Timothy Alberino",
             "url": "https://www.youtube.com/watch?v=0rFAIQDyzfo"
           },
-          "0uDhc7Jz84A": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "Wahnsinn: USA hat zivile Schiffe versenkt & Angriff auf Süd-Korea-Schiff ist False Flag?",
-            "url": "https://www.youtube.com/watch?v=0uDhc7Jz84A"
-          },
           "14VQeaMkhWs": {
             "channel": "sdwebbtv",
             "processed_at_utc": "2026-05-21T17:37:45+00:00",
@@ -355,6 +355,12 @@
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
             "title": "UFO Entities Warned U.S. Officials Their War on God Has Started",
             "url": "https://www.youtube.com/watch?v=1Kv2y1n3PO0"
+          },
+          "1PD2WypB_DE": {
+            "channel": "DTBM",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "THE BIRTH PANGS OF THE APOCALYPSE",
+            "url": "https://www.youtube.com/watch?v=1PD2WypB_DE"
           },
           "1TMtHNW62Ak": {
             "channel": "WesHuff",
@@ -421,12 +427,6 @@
             "processed_at_utc": "2026-05-12T11:15:56+00:00",
             "title": "Israel Daily News - May 11, 2026 | Trump Rejects Iran Response, War Looming",
             "url": "https://www.youtube.com/watch?v=2VIOidOgH5s"
-          },
-          "2Vrg1askwCc": {
-            "channel": "BlackScoutSurvival",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "America Is About To Get Hit… And Nobody Sees It",
-            "url": "https://www.youtube.com/watch?v=2Vrg1askwCc"
           },
           "2WAXg-Zv2jQ": {
             "channel": "DLMChristianLifestyle",
@@ -530,6 +530,12 @@
             "title": "Krieg verloren: Trump zieht Notbremse + Iran droht mit Atomwaffen-Tests!",
             "url": "https://www.youtube.com/watch?v=4VYLdxACp5w"
           },
+          "4_ZWlTP69hk": {
+            "channel": "Riks",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Här svarar Ludvig Aspling (SD) på Hanif Balis stenhårda kritik",
+            "url": "https://www.youtube.com/watch?v=4_ZWlTP69hk"
+          },
           "4f9ceGLmXQI": {
             "channel": "DTBM",
             "processed_at_utc": "2026-05-22T07:09:43+00:00",
@@ -541,6 +547,12 @@
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
             "title": "Billionaires Are Cutting Jobs and Taking Over the Government",
             "url": "https://www.youtube.com/watch?v=4s8sG9SCUhM"
+          },
+          "5-70ILRAPII": {
+            "channel": "tagesschau",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Streit um „Skandal im Sperrbezirk“ / Doping-Spiele / Marketinggag „bienenfreundlich“ | \"15 Minuten\"",
+            "url": "https://www.youtube.com/watch?v=5-70ILRAPII"
           },
           "55BLiw-krGg": {
             "channel": "DLMChristianLifestyle",
@@ -595,12 +607,6 @@
             "processed_at_utc": "2026-05-20T06:02:36+00:00",
             "title": "tagesschau in Einfacher Sprache 19:00 Uhr, 19.05.2026",
             "url": "https://www.youtube.com/watch?v=5VyvCpPG6V4"
-          },
-          "5lG2S4eUsNk": {
-            "channel": "BlackScoutSurvival",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "They Asked Trump About This… Watch His Reaction",
-            "url": "https://www.youtube.com/watch?v=5lG2S4eUsNk"
           },
           "5lNiq-1tA5E": {
             "channel": "Riks",
@@ -698,6 +704,12 @@
             "title": "On The Hour –  May 17, 2026 | Israel Strikes Hezbollah, Hamas Leader Killed, Iran Tensions Soar",
             "url": "https://www.youtube.com/watch?v=7XLgu9rild0"
           },
+          "7hl_gRk2zpY": {
+            "channel": "DTBM",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "MORIAH--The Sacred Geography of Redemption",
+            "url": "https://www.youtube.com/watch?v=7hl_gRk2zpY"
+          },
           "7jzDMrUtybQ": {
             "channel": "tagesschau",
             "processed_at_utc": "2026-05-19T13:32:53+00:00",
@@ -716,17 +728,17 @@
             "title": "Did Trump Back Down on Iran? Inside Tehran’s Response to “Project Freedom” Pause",
             "url": "https://www.youtube.com/watch?v=8-Spfbv5D4w"
           },
-          "82UcHsk4lLA": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "On The Hour –  May 5, 2026 | Iran Escalates in the Gulf: UAE Attacks, Israel on High Alert",
-            "url": "https://www.youtube.com/watch?v=82UcHsk4lLA"
-          },
           "86-gSB26GEI": {
             "channel": "jamiewalden756",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
             "title": "Dealing with Defamation   Craig \"Sawman\" Sawyer & Jamie Walden",
             "url": "https://www.youtube.com/watch?v=86-gSB26GEI"
+          },
+          "874slkBH4Qs": {
+            "channel": "krissyrieger",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Viele zivile Tote | War es Absicht? | USA glaubt nicht mehr an Ukraine?",
+            "url": "https://www.youtube.com/watch?v=874slkBH4Qs"
           },
           "89QJUI1bVsc": {
             "channel": "AusGlaubenLeben",
@@ -848,6 +860,12 @@
             "title": "Everybody Is Missing The Point",
             "url": "https://www.youtube.com/watch?v=9klWc6crWzw"
           },
+          "9m6Z2hCQ5Gw": {
+            "channel": "russianmediamonitor",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Vladimir Solovyov threatens Denmark, Germany and Britain, head of RT Margarita Simonyan mocks Japan",
+            "url": "https://www.youtube.com/watch?v=9m6Z2hCQ5Gw"
+          },
           "9mvbEe_3f90": {
             "channel": "ThePoplarReport",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
@@ -926,6 +944,12 @@
             "title": "Israel’s First Responders",
             "url": "https://www.youtube.com/watch?v=B95UvTd835A"
           },
+          "B9mvKs66ayA": {
+            "channel": "ZDFheute",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Italien: Pilger-Boom in Assisi",
+            "url": "https://www.youtube.com/watch?v=B9mvKs66ayA"
+          },
           "BFAavfri7xw": {
             "channel": "THEALPHAPATHYT",
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
@@ -974,6 +998,12 @@
             "title": "Trump INDICTS Cuba's Castro, SENDS AIRCRAFT CARRIER",
             "url": "https://www.youtube.com/watch?v=BdRySYY4jwk"
           },
+          "BgOinBJgxc0": {
+            "channel": "SwebbTV2",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Krönika med Karl-Olov Arnstberg - Jämlikhetsdogmen",
+            "url": "https://www.youtube.com/watch?v=BgOinBJgxc0"
+          },
           "BgT07KRhr0I": {
             "channel": "krissyrieger",
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
@@ -1009,6 +1039,12 @@
             "processed_at_utc": "2026-05-24T13:31:11+00:00",
             "title": "Uli Hoeneß: Erster Promi spricht sich für AfD-Regierung aus! Allerdings unter einer Bedienung!",
             "url": "https://www.youtube.com/watch?v=Bx30K9KRzgw"
+          },
+          "Bxtzvg_ZHzc": {
+            "channel": "Vermietertagebuch",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Russland kündigt systematischen Angriffe + Evakuierung von Kiew + NATO greift Russland mit Minen an!",
+            "url": "https://www.youtube.com/watch?v=Bxtzvg_ZHzc"
           },
           "BzHCWlWS7S8": {
             "channel": "Vermietertagebuch",
@@ -1094,12 +1130,6 @@
             "title": "6 reasons why I'm not Roman Catholic",
             "url": "https://www.youtube.com/watch?v=DpNgxsiNoOA"
           },
-          "EBCWhw1PTkY": {
-            "channel": "BlackScoutSurvival",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "The MAGA Grift Is OVER…",
-            "url": "https://www.youtube.com/watch?v=EBCWhw1PTkY"
-          },
           "EOGyDHi9tHk": {
             "channel": "CrossExamined",
             "processed_at_utc": "2026-05-22T07:09:43+00:00",
@@ -1166,6 +1196,12 @@
             "title": "Losing The Thing’s I Wanted The Most",
             "url": "https://www.youtube.com/watch?v=FA_KMiNmErg"
           },
+          "FB3KQ0eNdK0": {
+            "channel": "IsraelEnglishNews",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Israel Daily News - May 25, 2026 | Trump's Red Line For Iran",
+            "url": "https://www.youtube.com/watch?v=FB3KQ0eNdK0"
+          },
           "FCzyis4yzm4": {
             "channel": "DrJamesTour",
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
@@ -1214,6 +1250,12 @@
             "title": "TAX HAMMER: How the government is now turning the tables on EVERYTHING – sugar, cigarettes, Bitcoin!",
             "url": "https://www.youtube.com/watch?v=FqLNN6g9Rm0"
           },
+          "Fsh9VnIJlcs": {
+            "channel": "CrossExamined",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "The Biblical Evidence They Tried to Hide! Frank Teaches in Shechem",
+            "url": "https://www.youtube.com/watch?v=Fsh9VnIJlcs"
+          },
           "G70EqpUpMqI": {
             "channel": "IsraelEnglishNews",
             "processed_at_utc": "2026-05-20T11:44:54+00:00",
@@ -1256,6 +1298,12 @@
             "title": "The Jewish Matchmaker Podcast – The Soulmate Myth That Destroys Relationships",
             "url": "https://www.youtube.com/watch?v=HKue3oL0NE0"
           },
+          "HOWzj4tXDRQ": {
+            "channel": "CBNnewsonline",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Armed Service Member Finds Hope & Rediscovers His Faith | CBN NewsWatch - May 25, 2026",
+            "url": "https://www.youtube.com/watch?v=HOWzj4tXDRQ"
+          },
           "HaJ1W-riOu8": {
             "channel": "IsraelwithAline",
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
@@ -1273,12 +1321,6 @@
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
             "title": "This New Moses Information is Hard to Ignore...",
             "url": "https://www.youtube.com/watch?v=HfNBbnYDVBg"
-          },
-          "Hfvj_qr3JcQ": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "ILTV INSIDER | Israel under the uncertainty of war’s next phase",
-            "url": "https://www.youtube.com/watch?v=Hfvj_qr3JcQ"
           },
           "HgwQ7sRpg7s": {
             "channel": "krissyrieger",
@@ -1340,6 +1382,12 @@
             "title": "The Car Kill Switch Law is Agenda 2030 In Action",
             "url": "https://www.youtube.com/watch?v=J396nHHv3RU"
           },
+          "J4qgF6VuN6Y": {
+            "channel": "frihetsnytt2745",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Arne avslöjar - Vem är Gunilla von Platen och vad vill hon få ut mot Lundsberg?",
+            "url": "https://www.youtube.com/watch?v=J4qgF6VuN6Y"
+          },
           "J9fPewgubaE": {
             "channel": "klartextwinkler",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
@@ -1357,6 +1405,18 @@
             "processed_at_utc": "2026-05-19T07:03:27+00:00",
             "title": "Chang Frick rasar: Sätt vänsterpartister i arbetsläger",
             "url": "https://www.youtube.com/watch?v=JAgq3C2K7Y4"
+          },
+          "JMHmnJDoZQ8": {
+            "channel": "3of7Project",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "The State Of The World",
+            "url": "https://www.youtube.com/watch?v=JMHmnJDoZQ8"
+          },
+          "JR9wr9jTBrQ": {
+            "channel": "tagesschau",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Wie die Fleischindustrie ausländische Akademiker ausbeutet I 11KM - der tagesschau-Podcast",
+            "url": "https://www.youtube.com/watch?v=JR9wr9jTBrQ"
           },
           "JUeqviw0coo": {
             "channel": "frihetsnytt2745",
@@ -1484,6 +1544,12 @@
             "title": "Muslims Are Waiting For Jesus To Do WHAT!?",
             "url": "https://www.youtube.com/watch?v=LW3WinRbXO4"
           },
+          "LgRlIJQ1Qhc": {
+            "channel": "BlackScoutSurvival",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Most Americans Would Lose This Fight",
+            "url": "https://www.youtube.com/watch?v=LgRlIJQ1Qhc"
+          },
           "LmRCkX0u5Fc": {
             "channel": "profjiangclips",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
@@ -1519,12 +1585,6 @@
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
             "title": "Chief of Staff Eyal Zamir visits General Staff surprise exercise",
             "url": "https://www.youtube.com/watch?v=MIO59PG9MQ0"
-          },
-          "MJK1O36sKD0": {
-            "channel": "Redacted",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "Something Big is Coming! US Military Preparing Invasion of Iran | Redacted News",
-            "url": "https://www.youtube.com/watch?v=MJK1O36sKD0"
           },
           "MKxpo1Ct0vE": {
             "channel": "ZDFheute",
@@ -1694,6 +1754,12 @@
             "title": "Josiah and the Last Reformation (2026) #7: The Bones of the Prophet",
             "url": "https://www.youtube.com/watch?v=PsHxXjTJwmg"
           },
+          "PzA_tucZV5A": {
+            "channel": "CBNnewsonline",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "The Dark Side of AI Most Christians Aren’t Talking About | Faith in Culture",
+            "url": "https://www.youtube.com/watch?v=PzA_tucZV5A"
+          },
           "Q-W6gmGfBUc": {
             "channel": "VanessaWingardh",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
@@ -1718,17 +1784,17 @@
             "title": "tagesschau 20:00 Uhr, 20.05.2026",
             "url": "https://www.youtube.com/watch?v=QFuzDbffV_4"
           },
-          "QP-9HSMPNsQ": {
-            "channel": "Klartext Winkler",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "The US is pulling out! 🚨 Iran said no. What Trump is doing now should worry us all!",
-            "url": "https://www.youtube.com/watch?v=QP-9HSMPNsQ"
-          },
           "QPXzktAuqOQ": {
             "channel": "ThePoplarReport",
             "processed_at_utc": "2026-05-20T11:44:54+00:00",
             "title": "🚨🚨ALERT: Iran Will ATTACK American SOIL- Watchman Updates",
             "url": "https://www.youtube.com/watch?v=QPXzktAuqOQ"
+          },
+          "Q_JHlDV9mVQ": {
+            "channel": "IsraelEnglishNews",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Inside Tel Aviv’s Biggest Wine Festival",
+            "url": "https://www.youtube.com/watch?v=Q_JHlDV9mVQ"
           },
           "Q_O4O8P15Ic": {
             "channel": "BeardedBibleBros",
@@ -1753,6 +1819,12 @@
             "processed_at_utc": "2026-05-19T07:03:27+00:00",
             "title": "Riks avslöjar: Migrantparet hyllades i media – drog kniv mot gränspolisen",
             "url": "https://www.youtube.com/watch?v=QdFUdTeRBB4"
+          },
+          "Qi7C4F6ptuc": {
+            "channel": "ZDFheute",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Deutsches Marinejagdboot Fulda auf dem Weg in die Straße von Hormus",
+            "url": "https://www.youtube.com/watch?v=Qi7C4F6ptuc"
           },
           "Qtgi2UqoHuA": {
             "channel": "3of7Project",
@@ -1814,12 +1886,6 @@
             "title": "VERTICAL SPIRITUAL LANDSCAPES--The Topography of Jesus' Ministry",
             "url": "https://www.youtube.com/watch?v=RSAstSeECOw"
           },
-          "RYLzOam4o6U": {
-            "channel": "Redacted",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "The Scofield Bible: The Hidden History Evangelicals Were Never Told",
-            "url": "https://www.youtube.com/watch?v=RYLzOam4o6U"
-          },
           "Rdx1gjXyYz4": {
             "channel": "CanadianPrepper",
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
@@ -1831,6 +1897,12 @@
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
             "title": "King Charles just admitted the UK is COLLAPSING in real time | Redacted w Clayton Morris",
             "url": "https://www.youtube.com/watch?v=RyOBnyjFDIA"
+          },
+          "S2HIlXBy9mA": {
+            "channel": "3of7Project",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "The Meaning Of Scripture Without Historical Understanding",
+            "url": "https://www.youtube.com/watch?v=S2HIlXBy9mA"
           },
           "S51E5_xfjB0": {
             "channel": "ZDFheute",
@@ -1886,11 +1958,11 @@
             "title": "tagesthemen 22:15 Uhr, 09.03.2026",
             "url": "https://www.youtube.com/watch?v=SXR7w6V0hik"
           },
-          "SdbZQA1p3rg": {
-            "channel": "Klartext Winkler",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "Trump threatens Iran with elimination💥Ceasefire on the brink of collapse?🚨Bluff or truth?",
-            "url": "https://www.youtube.com/watch?v=SdbZQA1p3rg"
+          "SZ6w-nIfaEM": {
+            "channel": "DTBM",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "THE EVER BRIGHTER PATH",
+            "url": "https://www.youtube.com/watch?v=SZ6w-nIfaEM"
           },
           "Sg606kCs40E": {
             "channel": "Riks",
@@ -1903,6 +1975,12 @@
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
             "title": "Cambridge Philosopher Explains GOD (hard to deny)",
             "url": "https://www.youtube.com/watch?v=SiAIjznmdYU"
+          },
+          "SiJ3PBMOEB8": {
+            "channel": "Vermietertagebuch",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Israel startet Krieg: Angriffe auf Libanon & Iran + USA mit Luftangriffen + Netanyahu im Krankenhaus",
+            "url": "https://www.youtube.com/watch?v=SiJ3PBMOEB8"
           },
           "SnYPDQbDll0": {
             "channel": "tagesschau",
@@ -1921,12 +1999,6 @@
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
             "title": "heute 19:00 Uhr vom 17.05.2026 Unicef-Studie zu Kindeswohl, Ebola Ausbruch im Kongo",
             "url": "https://www.youtube.com/watch?v=StWRQb1iFro"
-          },
-          "TD0sGOZCbQM": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "ILTV News Flash – May 5, 2026",
-            "url": "https://www.youtube.com/watch?v=TD0sGOZCbQM"
           },
           "TFb9OBrstNE": {
             "channel": "CBNnewsonline",
@@ -1970,6 +2042,12 @@
             "title": "Expertenrat für Klimafragen stellt Prüfbericht vor | KlimaZeit vom 12.12.2025",
             "url": "https://www.youtube.com/watch?v=Ti7LfyVJ4y8"
           },
+          "TnMdlOshZDg": {
+            "channel": "ThePoplarReport",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "🚨🚨A BIG Poplar Update & Living In The PHILIPPINES",
+            "url": "https://www.youtube.com/watch?v=TnMdlOshZDg"
+          },
           "Tvmo3GZLGtY": {
             "channel": "IsraelEnglishNews",
             "processed_at_utc": "2026-05-19T13:13:57+00:00",
@@ -1981,6 +2059,12 @@
             "processed_at_utc": "2026-05-22T10:04:40+00:00",
             "title": "THE FINAL SIGN--The Global Hatred of Israel is the Final Prophetic Sign",
             "url": "https://www.youtube.com/watch?v=U8QMBRscs2k"
+          },
+          "U9exOTU8hrw": {
+            "channel": "tagesschau",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Enhanced Games: Kaum Weltrekordleistungen",
+            "url": "https://www.youtube.com/watch?v=U9exOTU8hrw"
           },
           "UI6RVNvAg3A": {
             "channel": "AndreiJikh",
@@ -2035,6 +2119,12 @@
             "processed_at_utc": "2026-05-20T06:02:36+00:00",
             "title": "CONFIRMED: \"Mark Fuhrman planted that glove\" OJ Simpson journalist tells all",
             "url": "https://www.youtube.com/watch?v=VIM56W_BY9w"
+          },
+          "VTQvmnQvpu8": {
+            "channel": "Riks",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Så rädda är rödgröna väljare för Vänsterpartiet i regering",
+            "url": "https://www.youtube.com/watch?v=VTQvmnQvpu8"
           },
           "VVTl-WT9pXA": {
             "channel": "krissyrieger",
@@ -2252,6 +2342,18 @@
             "title": "MEGA Churches & Money Might Not Be The Way",
             "url": "https://www.youtube.com/watch?v=YZgTy6wvvRY"
           },
+          "Ydsij0iq9Ys": {
+            "channel": "tagesschau",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "tagesschau 20:00 Uhr, 25.05.2026",
+            "url": "https://www.youtube.com/watch?v=Ydsij0iq9Ys"
+          },
+          "YfUYbWhBOfI": {
+            "channel": "Riks",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "SD Anklagas för rasism efter stopp för halal-mat: \"Uttjatat\"",
+            "url": "https://www.youtube.com/watch?v=YfUYbWhBOfI"
+          },
           "Yh8GoIHb-Lo": {
             "channel": "frihetsnytt2745",
             "processed_at_utc": "2026-05-20T06:02:36+00:00",
@@ -2360,17 +2462,23 @@
             "title": "Klima-Rat gesteht: Horror-Prognose war übertrieben",
             "url": "https://www.youtube.com/watch?v=_1Cy_K_bguI"
           },
-          "_54XI0Daf-E": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "Sensation bei Kanzler-Umfrage und in Koalitions-Umfrage!",
-            "url": "https://www.youtube.com/watch?v=_54XI0Daf-E"
-          },
           "_DxgoCpP6r8": {
             "channel": "MarcFriedrich7",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
             "title": "Kayvan Soufi-Siavash & Marc Friedrich über das kollektive Erwachen",
             "url": "https://www.youtube.com/watch?v=_DxgoCpP6r8"
+          },
+          "_E-Le5o59pg": {
+            "channel": "CanadianPrepper",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "⚡ALERT: \"RUSSIA WARNING TO USA\", LEAVE KYIV NOW, IRAN/ USA SHOTS FIRED \"MINING STRAIT! MOBILIZATION",
+            "url": "https://www.youtube.com/watch?v=_E-Le5o59pg"
+          },
+          "_FGxivvSP2s": {
+            "channel": "RedactedNews",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "HIGH ALERT! Global Financial Crisis Sentiment EXPLODING - Trump's Midterm Nightmare",
+            "url": "https://www.youtube.com/watch?v=_FGxivvSP2s"
           },
           "_TnRXckjRs4": {
             "channel": "DLMChristianLifestyle",
@@ -2420,6 +2528,12 @@
             "title": "Fehmarn: Was der Mega-Tunnelbau für die Insel bedeutet | tagesthemen mittendrin",
             "url": "https://www.youtube.com/watch?v=_xPJgYpS9QA"
           },
+          "_xl0stWrzqo": {
+            "channel": "frihetsnytt2745",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "85 miljoner kronor senare – Vad fick Sverige tillbaka från Natomötet - Arne Weinz",
+            "url": "https://www.youtube.com/watch?v=_xl0stWrzqo"
+          },
           "a1SOaqnpRoo": {
             "channel": "Vermietertagebuch",
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
@@ -2432,11 +2546,29 @@
             "title": "Hotet: Om bidragen stoppas blir de kriminella",
             "url": "https://www.youtube.com/watch?v=a1reqeaVXvg"
           },
+          "a2jxtluu6eU": {
+            "channel": "Riks",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Är islam ett hot mot Sverige? — Jessica Stegrud mot Adel Sadat",
+            "url": "https://www.youtube.com/watch?v=a2jxtluu6eU"
+          },
+          "aAszoDiOA74": {
+            "channel": "SwebbTV2",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Ryssland visar kapacitet i attacken mot Kiev, Taiwan kanske viktigare än Hormuz i Omvärldsanalys 298",
+            "url": "https://www.youtube.com/watch?v=aAszoDiOA74"
+          },
           "aEGD1R0ao0w": {
             "channel": "tagesschau",
             "processed_at_utc": "2026-05-21T07:13:26+00:00",
             "title": "Putins \"Wunderwaffen\": Atomraketen am Meeresgrund?",
             "url": "https://www.youtube.com/watch?v=aEGD1R0ao0w"
+          },
+          "aHM7NL2dE-E": {
+            "channel": "IsraelEnglishNews",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "On The Hour –  May 25, 2026 | U.S.-Iran Deal Taking Shape? Israel’s Concerns Grow",
+            "url": "https://www.youtube.com/watch?v=aHM7NL2dE-E"
           },
           "aJ_i3dBUcPY": {
             "channel": "CanadianPrepper",
@@ -2564,17 +2696,17 @@
             "title": "You can now purchase my ancient manuscript facsimiles!",
             "url": "https://www.youtube.com/watch?v=bwcA8PmbQvw"
           },
-          "c4C_p8OV9gs": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "Why Is Iran Escalating? Attacks on UAE & Strait of Hormuz Explained",
-            "url": "https://www.youtube.com/watch?v=c4C_p8OV9gs"
-          },
           "c8t33B-LE0o": {
             "channel": "RedactedNews",
             "processed_at_utc": "2026-05-20T06:02:36+00:00",
             "title": "Is The U.S. Debt Bomb About to EXPLODE?",
             "url": "https://www.youtube.com/watch?v=c8t33B-LE0o"
+          },
+          "cBzsVj1IsfM": {
+            "channel": "DTBM",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "SAVING FAITH VERIFIED--What Does Jesus Saves Really Mean?",
+            "url": "https://www.youtube.com/watch?v=cBzsVj1IsfM"
           },
           "cDdajKVRcLY": {
             "channel": "frihetsnytt2745",
@@ -2600,23 +2732,11 @@
             "title": "IDF destroys Hezbollah rocket launcher",
             "url": "https://www.youtube.com/watch?v=cONywofHjWw"
           },
-          "cS_9BUGFv5I": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "Raketen treffen US-Kriegsschiffe in Hormuz + Raketenangriff auf Dubai + Trump greift in Hormuz an!",
-            "url": "https://www.youtube.com/watch?v=cS_9BUGFv5I"
-          },
           "c_GHUC0ksdQ": {
             "channel": "IsraelNationalTV",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
             "title": "Inside a Hezbollah tunnel near the Litani River",
             "url": "https://www.youtube.com/watch?v=c_GHUC0ksdQ"
-          },
-          "cdgWGUpTFgo": {
-            "channel": "BlackScoutSurvival",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "We Were Winning… Right?",
-            "url": "https://www.youtube.com/watch?v=cdgWGUpTFgo"
           },
           "ci9QxPnRHuo": {
             "channel": "CanadianPrepper",
@@ -2636,6 +2756,12 @@
             "title": "Vladimir Solovyov downplays the importance of an attempt on Trump's life",
             "url": "https://www.youtube.com/watch?v=d-70D_K0yXk"
           },
+          "dBFlmG3vkoY": {
+            "channel": "frihetsnytt2745",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Se filmen när Frihetsnytt misshandlas av polis & förbjuds att filma Natomötet -Reportage Helsingborg",
+            "url": "https://www.youtube.com/watch?v=dBFlmG3vkoY"
+          },
           "dIRQ22aTmrs": {
             "channel": "tagesschau",
             "processed_at_utc": "2026-05-22T07:09:43+00:00",
@@ -2647,6 +2773,12 @@
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
             "title": "🚨🚨ALERT: CHINA Chooses CONFLICT",
             "url": "https://www.youtube.com/watch?v=dVzcHegjE_U"
+          },
+          "dgNOGY9T4qU": {
+            "channel": "frihetsnytt2745",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Väst faller - Detta återstår när USA besegras på front efter front - Arnes analys 18",
+            "url": "https://www.youtube.com/watch?v=dgNOGY9T4qU"
           },
           "dpeH0gPCpRw": {
             "channel": "RedactedNews",
@@ -2683,6 +2815,12 @@
             "processed_at_utc": "2026-05-21T16:31:40+00:00",
             "title": "School's Out – und jetzt?!",
             "url": "https://www.youtube.com/watch?v=e4pcNzlAxbU"
+          },
+          "e8z5GFUDqoQ": {
+            "channel": "SwebbTV2",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Hopp om fred får oljepriset att vända nedåt - Tidigare M-politiker anklagar Zelensky för svek",
+            "url": "https://www.youtube.com/watch?v=e8z5GFUDqoQ"
           },
           "eDSaZveGttk": {
             "channel": "VanessaWingardh",
@@ -2744,17 +2882,23 @@
             "title": "THE 2,600-YEAR MIRACLE--From Dry Bones to a Reborn Nation, Prophetic History from Exile to 1948",
             "url": "https://www.youtube.com/watch?v=fF8-Hfx_etc"
           },
+          "fJfD2bH-nuQ": {
+            "channel": "ZDFheute",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "heute 19:00 Uhr vom 25.05.2026 Papst warnt vor KI, Ahrtal-Hilfen laufen aus",
+            "url": "https://www.youtube.com/watch?v=fJfD2bH-nuQ"
+          },
+          "fLpWukdmmhQ": {
+            "channel": "tagesschau",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "tagesthemen 23:15 Uhr, 25.05.2026",
+            "url": "https://www.youtube.com/watch?v=fLpWukdmmhQ"
+          },
           "fPkKHkI1JCQ": {
             "channel": "DTBM",
             "processed_at_utc": "2026-05-21T14:08:41+00:00",
             "title": "MEET EZRA--THE AMAZING & GODLY ARCHITECT OF THE OLD TESTAMENT",
             "url": "https://www.youtube.com/watch?v=fPkKHkI1JCQ"
-          },
-          "fTHKkZyewjw": {
-            "channel": "Vermietertagebuch",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "Nach Großangriff auf Russland: Putin droht mit Oreshnik direkt auf Zentrum von Kiew!",
-            "url": "https://www.youtube.com/watch?v=fTHKkZyewjw"
           },
           "fcMBf69nwXI": {
             "channel": "Riks",
@@ -2786,12 +2930,6 @@
             "title": "Schüsse vor dem Weißen Haus: Was über den Vorfall in Washington bekannt ist",
             "url": "https://www.youtube.com/watch?v=fzkjqZhIOgI"
           },
-          "gKq76SuoN6c": {
-            "channel": "Israel English News",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "Israel Daily News - May 05, 2026 | U.S.-Iran Clashes In Strait Of Hormuz",
-            "url": "https://www.youtube.com/watch?v=gKq76SuoN6c"
-          },
           "gWeKjMpzdIo": {
             "channel": "Vermietertagebuch",
             "processed_at_utc": "2026-05-18T07:13:10+00:00",
@@ -2809,6 +2947,12 @@
             "processed_at_utc": "2026-05-24T13:31:11+00:00",
             "title": "Why Iran Will Never Surrender - Prof. Jiang Xueqin",
             "url": "https://www.youtube.com/watch?v=gtffF2lo0As"
+          },
+          "gwgvdD81oRg": {
+            "channel": "DTBM",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "ACTS 3--RECLAIM YOUR END OF DAYS BOLDNESS--The Eraser of Sin & The Power of Daily Surrender",
+            "url": "https://www.youtube.com/watch?v=gwgvdD81oRg"
           },
           "gypownGqJHE": {
             "channel": "COMPACTTV",
@@ -2864,6 +3008,12 @@
             "title": "Rekordangriff mit 1560 Drohnen & Raketen – kritische Schäden in Kiew! (selbst ich bin geschockt)",
             "url": "https://www.youtube.com/watch?v=h_O58Lc7BnQ"
           },
+          "hsF-xtNyze0": {
+            "channel": "Riks",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "ETC fälls efter reportage om Dumpen-Sara",
+            "url": "https://www.youtube.com/watch?v=hsF-xtNyze0"
+          },
           "hupe1TBSXPY": {
             "channel": "krissyrieger",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
@@ -2875,6 +3025,12 @@
             "processed_at_utc": "2026-05-21T17:37:45+00:00",
             "title": "Thomas Morell presenterar satsningar på luftfarten",
             "url": "https://www.youtube.com/watch?v=i0u4opQVtps"
+          },
+          "iPYlkdokN9U": {
+            "channel": "frihetsnytt2745",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "INSÄNDARE: Sverige står inför ett vägval – var med och gör skillnad",
+            "url": "https://www.youtube.com/watch?v=iPYlkdokN9U"
           },
           "iQEbeZ6GsxM": {
             "channel": "RedactedNews",
@@ -2947,6 +3103,12 @@
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
             "title": "I asked A.I. if it Would Convert to Christianity... Here's What It Said",
             "url": "https://www.youtube.com/watch?v=j9ZFkrK5Gkw"
+          },
+          "j9qwHHBKwEs": {
+            "channel": "COMPACTTV",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Kanzler am Ende: «Was halten Sie von Merz?»",
+            "url": "https://www.youtube.com/watch?v=j9qwHHBKwEs"
           },
           "jNSzJxdsJ2Y": {
             "channel": "Vermietertagebuch",
@@ -3157,6 +3319,12 @@
             "processed_at_utc": "2026-05-21T13:51:46+00:00",
             "title": "The Uncomfortable Truth Every Christian Needs to Know About Islam with Pastor @MartinSedra",
             "url": "https://www.youtube.com/watch?v=o2_jNGk2-AQ"
+          },
+          "o5-RtbpxUIA": {
+            "channel": "ZDFheute",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "heute journal vom 25.05.2026 Der Papst und die KI, Treibstoff-Krise in Kenia",
+            "url": "https://www.youtube.com/watch?v=o5-RtbpxUIA"
           },
           "oHuRFRl3mZM": {
             "channel": "ZDFheute",
@@ -3452,6 +3620,12 @@
             "title": "Publiken skrattar åt Magdalena Andersson",
             "url": "https://www.youtube.com/watch?v=tCxsrkiEI6A"
           },
+          "tN-PeI4pm20": {
+            "channel": "IsraelEnglishNews",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "ILTV News Flash – May 25, 2026",
+            "url": "https://www.youtube.com/watch?v=tN-PeI4pm20"
+          },
           "tYli1jNJ_Q0": {
             "channel": "Vermietertagebuch",
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
@@ -3463,6 +3637,12 @@
             "processed_at_utc": "2026-05-24T13:31:11+00:00",
             "title": "Isaiah, Part 112 | The Only Way",
             "url": "https://www.youtube.com/watch?v=tcZ9i7RaMeo"
+          },
+          "tfHI7fybL4I": {
+            "channel": "ZDFheute",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Cottbus wehrt sich: Der Kampf gegen rechte Gewalt | Länderspiegel",
+            "url": "https://www.youtube.com/watch?v=tfHI7fybL4I"
           },
           "thxWqoccaLg": {
             "channel": "DTBM",
@@ -3548,17 +3728,17 @@
             "title": "Woltersdorf: Wohin soll das Sondervermögen in fließen? | tagesthemen mittendrin",
             "url": "https://www.youtube.com/watch?v=vRzRs5UcQwU"
           },
-          "vWyzOA0lwZw": {
-            "channel": "Redacted",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "UFO's, Disclosure, and Earthquakes at Area 51 | Redacted News",
-            "url": "https://www.youtube.com/watch?v=vWyzOA0lwZw"
-          },
           "v_LWINLpbc4": {
             "channel": "IsraelEnglishNews",
             "processed_at_utc": "2026-05-20T06:02:36+00:00",
             "title": "ILTV INSIDER | RETURN TO MULTI-FRONT WAR",
             "url": "https://www.youtube.com/watch?v=v_LWINLpbc4"
+          },
+          "vcSw5E9Sl84": {
+            "channel": "ThePoplarReport",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "🚨🚨BREAKING: British Defense Minister’s Plane ATTACKED- Watchmen Updates",
+            "url": "https://www.youtube.com/watch?v=vcSw5E9Sl84"
           },
           "vo2lZKvNpF4": {
             "channel": "tagesschau",
@@ -3571,6 +3751,12 @@
             "processed_at_utc": "2026-05-20T12:54:56+00:00",
             "title": "tagesschau 20:00 Uhr, 15.05.2026",
             "url": "https://www.youtube.com/watch?v=vvgW2gZikjw"
+          },
+          "w0a504L8fgs": {
+            "channel": "AndreiJikh",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "China & Japan Are Dumping US Bonds",
+            "url": "https://www.youtube.com/watch?v=w0a504L8fgs"
           },
           "w0vW0kjRjkg": {
             "channel": "ZDFheute",
@@ -3740,6 +3926,12 @@
             "title": "Your Money Is Being Reprogrammed",
             "url": "https://www.youtube.com/watch?v=yNHYpCLBffw"
           },
+          "yRdOmH-ENLo": {
+            "channel": "IsraelEnglishNews",
+            "processed_at_utc": "2026-05-26T07:10:29+00:00",
+            "title": "Insights from Yael Eckstein - May 25, 2026",
+            "url": "https://www.youtube.com/watch?v=yRdOmH-ENLo"
+          },
           "yhYsOW0h35w": {
             "channel": "Israel English News",
             "processed_at_utc": "2026-05-07T06:22:44+00:00",
@@ -3769,12 +3961,6 @@
             "processed_at_utc": "2026-05-15T12:04:23+00:00",
             "title": "⚡ALERT: Russia is BURNING, Iran Blockade EXPANDS, Putin Prepares to INVADE Baltics?!",
             "url": "https://www.youtube.com/watch?v=yzl1IcGtgUc"
-          },
-          "z1s84CGE7m4": {
-            "channel": "The Poplar Report",
-            "processed_at_utc": "2026-05-06T06:17:31+00:00",
-            "title": "🚨🚨ANOTHER Attempt- WHITE HOUSE Locked Down… Watchmen Updates",
-            "url": "https://www.youtube.com/watch?v=z1s84CGE7m4"
           },
           "zC-4iTu2r2Q": {
             "channel": "Riks",
@@ -3871,6 +4057,12 @@
             "processed_at_utc": "2026-05-24T06:43:48+00:00",
             "title": "Complications following endovascular clot retrieval for stroke",
             "url": "https://derangedphysiology.com/main/required-reading/neurological-intensive-care/Chapter-1504/complications-following-endovascular-clot-retrieval-stroke"
+          },
+          "https://dontforgetthebubbles.com/extravasation-injuries/": {
+            "channel": "Don't Forget the Bubbles",
+            "processed_at_utc": "2026-05-26T07:14:14+00:00",
+            "title": "Extravasation injuries",
+            "url": "https://dontforgetthebubbles.com/extravasation-injuries/"
           },
           "https://dontforgetthebubbles.com/use-of-crrt-in-paediatric-septic-shock/": {
             "channel": "Don't Forget the Bubbles",
@@ -3991,6 +4183,12 @@
             "processed_at_utc": "2026-05-07T06:25:17+00:00",
             "title": "Free Relaxation Resources",
             "url": "https://litfl.com/free-relaxation-resources/"
+          },
+          "https://litfl.com/history-of-epidural-needles-and-catheters/": {
+            "channel": "LITFL",
+            "processed_at_utc": "2026-05-26T07:14:14+00:00",
+            "title": "History of epidural needles and catheters",
+            "url": "https://litfl.com/history-of-epidural-needles-and-catheters/"
           },
           "https://litfl.com/history-of-spinal-needles/": {
             "channel": "LITFL",
@@ -4190,232 +4388,6 @@
             "sent_overview_at_utc": "2026-05-24T16:52:59+00:00",
             "title": "Using Serious Games to Increase the Implementation of Trauma Triage Guidelines: A Randomized Clinical Trial.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42008277/"
-          },
-          "42083049": {
-            "channel": "PubMed: Critical Care",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_deep_dive_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Association between neurofilament light chain concentrations and outcomes in patients with moderate to severe traumatic brain injury: a systematic review and meta-analysis.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42083049/"
-          },
-          "42083391": {
-            "channel": "PubMed: European Journal of Anaesthesiology",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Comparative performance of GPT-4 models and expert anaesthesiologists in peri-operative antithrombotic management: A cross-sectional evaluation.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42083391/"
-          },
-          "42083722": {
-            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_deep_dive_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "An Observational Study of Changes in Renin Concentrations and Associations With Complications Following Cardiac Surgery.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42083722/"
-          },
-          "42083732": {
-            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Does Speaking the Same Language With the Caretakers Associate With a Higher Neuraxial Labor Analgesia Use Rate?",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42083732/"
-          },
-          "42084582": {
-            "channel": "PubMed: Annals of Emergency Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Observation Over Imaging: Reducing Radiation Exposure in Pediatric Blunt Abdominal Trauma.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084582/"
-          },
-          "42084583": {
-            "channel": "PubMed: Annals of Emergency Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_deep_dive_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Extracorporeal Cardiopulmonary Resuscitation for Pediatric Out-of-Hospital Cardiac Arrest.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084583/"
-          },
-          "42084584": {
-            "channel": "PubMed: Annals of Emergency Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Emergency Department Boarding for Older Adults: The Impact of Geography, Temporal Trends, and Dementia Status.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084584/"
-          },
-          "42084585": {
-            "channel": "PubMed: Annals of Emergency Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Mothership and Drip-and-Ship Strategies in Mechanical Thrombectomy for Acute Ischemic Stroke.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084585/"
-          },
-          "42084586": {
-            "channel": "PubMed: Annals of Emergency Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Emergency Medicine Residency Characteristics and ABEM Board Examination Performance: A Program-Level Analysis.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084586/"
-          },
-          "42084788": {
-            "channel": "PubMed: Intensive Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Venous air embolism following blast injury: not always imaging the worst.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084788/"
-          },
-          "42084789": {
-            "channel": "PubMed: Intensive Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Publisher Correction: Surviving Sepsis Campaign: international guidelines for management of sepsis and septic shock 2026.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084789/"
-          },
-          "42084933": {
-            "channel": "PubMed: Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "The authors reply.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084933/"
-          },
-          "42084934": {
-            "channel": "PubMed: Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Middle-Latency Evoked Potentials and Quantitative Electroencephalogram: Valuable Complements in the Prognostication of Disorders of Consciousness.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084934/"
-          },
-          "42084935": {
-            "channel": "PubMed: Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "The authors reply.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084935/"
-          },
-          "42084936": {
-            "channel": "PubMed: Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "The Virtue of Conditional Care in End-of-Life Decision-Making.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084936/"
-          },
-          "42084937": {
-            "channel": "PubMed: Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Progress, Not Just Predictions.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42084937/"
-          },
-          "42085309": {
-            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Association of Annual Exposure to Air Pollution Mixture on Asthma Hospitalizations.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42085309/"
-          },
-          "42085310": {
-            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Inhaled anti-thymic stromal lymphopoietin antibody fragment, ecleralimab, in severe asthma: A placebo-controlled, multicenter, double-blind, randomized, phase 2b clinical trial.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42085310/"
-          },
-          "42085312": {
-            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Emerging Investigators Highlight.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42085312/"
-          },
-          "42085313": {
-            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "The propensity for mucus plug formation in fatal asthma is increased by airway narrowing.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42085313/"
-          },
-          "42085333": {
-            "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "The Use of Methadone in Adult Cardiac Surgery: A Systematic Review With Narrative Synthesis.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42085333/"
-          },
-          "42085354": {
-            "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_deep_dive_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Nephrocheck for Prediction of In-Hospital Acute Kidney Injury and Major Adverse Kidney Events After Cardiac Surgery.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42085354/"
-          },
-          "42085459": {
-            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Toward Noninvasive ARDS Phenotyping: Bridging Pulmonary Transcriptomics to Bedside Tools.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42085459/"
-          },
-          "42086509": {
-            "channel": "PubMed: Anaesthesia",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Artificial intelligence-assisted peri-operative echocardiography: a multicentre observational study.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42086509/"
-          },
-          "42087010": {
-            "channel": "PubMed: Intensive Care Medicine",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Stroke or mimic? A clinical fork in the road.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42087010/"
-          },
-          "42087166": {
-            "channel": "PubMed: Critical Care",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "microGLYMPH: a conceptual translational roadmap for microdialysis‑based assessment of CSF-interstitial solute exchange in acquired brain injury.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42087166/"
-          },
-          "42087193": {
-            "channel": "PubMed: Critical Care",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "The association of early glomerular filtration kinetics and urinary urea excretion with subsequent renal replacement therapy under a delayed strategy in severe acute kidney injury.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42087193/"
-          },
-          "42087223": {
-            "channel": "PubMed: Critical Care",
-            "processed_at_utc": "2026-05-06T06:20:02+00:00",
-            "screened_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_deep_dive_at_utc": "2026-05-06T06:20:02+00:00",
-            "sent_overview_at_utc": "2026-05-06T06:20:02+00:00",
-            "title": "Prehospital resuscitative endovascular balloon occlusion of the aorta in non-traumatic out-of-hospital cardiac arrest (REBOARREST): an international, multicentre, open label, pragmatic, randomised, controlled trial.",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42087223/"
           },
           "42088145": {
             "channel": "PubMed: Annals of Intensive Care",
@@ -7296,11 +7268,61 @@
             "screened_at_utc": "2026-05-25T19:03:59+00:00",
             "title": "Clarifying Structural - Functional Coupling by FeNO Status in VESTIGE.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42178822/"
+          },
+          "42184379": {
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "processed_at_utc": "2026-05-26T07:14:14+00:00",
+            "screened_at_utc": "2026-05-26T07:14:14+00:00",
+            "title": "Decreasing Resident Stressors: It Is All in the Family.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42184379/"
+          },
+          "42184380": {
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "processed_at_utc": "2026-05-26T07:14:14+00:00",
+            "screened_at_utc": "2026-05-26T07:14:14+00:00",
+            "title": "Discordance Between Analgesia Nociception Index and Nociception Level Index Reflects Autonomic Imbalance Rather Than Monitor Unreliability.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42184380/"
+          },
+          "42184382": {
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "processed_at_utc": "2026-05-26T07:14:14+00:00",
+            "screened_at_utc": "2026-05-26T07:14:14+00:00",
+            "title": "Epidural Blood Patch Volume: Is More Better?",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42184382/"
+          },
+          "42184383": {
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "processed_at_utc": "2026-05-26T07:14:14+00:00",
+            "screened_at_utc": "2026-05-26T07:14:14+00:00",
+            "title": "Paradoxical Bispectral Index-Burst Suppression Combinations as Evidence of Neural Inertia and Multidimensional Anesthetic States.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42184383/"
+          },
+          "42184384": {
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "processed_at_utc": "2026-05-26T07:14:14+00:00",
+            "screened_at_utc": "2026-05-26T07:14:14+00:00",
+            "title": "Advancing Health Equity Research in Perioperative Medicine.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42184384/"
+          },
+          "42184385": {
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "processed_at_utc": "2026-05-26T07:14:14+00:00",
+            "screened_at_utc": "2026-05-26T07:14:14+00:00",
+            "title": "Analytical Considerations in Comparative Study of Nociception Monitoring.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42184385/"
+          },
+          "42185877": {
+            "channel": "PubMed: Journal of Intensive Care",
+            "processed_at_utc": "2026-05-26T07:14:14+00:00",
+            "screened_at_utc": "2026-05-26T07:14:14+00:00",
+            "sent_overview_at_utc": "2026-05-26T07:14:14+00:00",
+            "title": "Development of a deep-learning model for classification of intensivists' extubation decisions using ventilator graphic monitor images: a prospective observational study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42185877/"
           }
         }
       }
     }
   },
-  "updated_at_utc": "2026-05-25T19:03:59+00:00",
+  "updated_at_utc": "2026-05-26T07:14:14+00:00",
   "version": 1
 }
