@@ -2,6 +2,7 @@ from datetime import date
 
 from newsagent2.cybermed_digest_store import (
     load_cybermed_daily_digest_store,
+    select_cybermed_daily_digests_for_month,
     select_cybermed_daily_digests_for_week,
     summarize_cybermed_weekly_digest_inputs,
     dedupe_weekly_digest_items,
@@ -42,3 +43,11 @@ def test_dedupe_prefers_stronger_duplicate():
     assert deduped[0]["evidence_strength_label"] == "A"
     assert suppressed == 1
     assert sum(reasons.values()) == 1
+
+
+def test_month_select_filters_by_month_key(tmp_path):
+    p = tmp_path / 'd.json'
+    p.write_text('{"schema_version":1,"digests":[{"digest_id":"d0","run_date":"2026-04-30"},{"digest_id":"d1","run_date":"2026-05-01"},{"digest_id":"d2","run_date":"2026-05-31"},{"digest_id":"d3","run_date":"2026-06-01"}]}', encoding='utf-8')
+    store = load_cybermed_daily_digest_store(str(p))
+    selected = select_cybermed_daily_digests_for_month(store, "2026-05")
+    assert [d["digest_id"] for d in selected] == ["d1", "d2"]
