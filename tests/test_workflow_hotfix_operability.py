@@ -61,6 +61,5 @@ def test_workflow_yaml_dispatch_shape_and_schedule_crons():
         m = re.search(r'cron:\s*"([^"]+)"', line)
         if m:
             crons.append(m.group(1))
-    assert "30 2 * * *" in crons
     assert "30 3 * * *" in crons
-    assert "30 4 * * *" not in crons
+    assert "30 4 * * *" in crons

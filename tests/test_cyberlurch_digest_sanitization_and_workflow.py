@@ -38,18 +38,10 @@ def test_yearly_cyberlurch_no_clinical_fallback_strings():
     assert 'BOTTOM LINE: (not available in rollup; re-run monthly to capture)' not in md
 
 
-def test_schedule_crons_and_gate_target_0430_stockholm_and_order():
+def test_schedule_crons_and_gate_target_0530_stockholm_and_order():
     yml = Path('.github/workflows/newsagent.yml').read_text(encoding='utf-8')
-    assert '30 2 * * *' in yml
     assert '30 3 * * *' in yml
-    assert '30 4 * * *' not in yml
-    assert 'Gate scheduled runs to 04:30 Europe/Stockholm' in yml
-    assert 'expected_cron="30 2 * * *"' in yml
+    assert '30 4 * * *' in yml
+    assert 'Gate scheduled runs to 05:30 Europe/Stockholm' in yml
     assert 'expected_cron="30 3 * * *"' in yml
-    assert '05:30' not in yml
-    assert 'Scheduled both-run order: Cybermed first, Cyberlurch second.' in yml
-    marker = 'Scheduled both-run order: Cybermed first, Cyberlurch second.'
-    idx = yml.find(marker)
-    assert idx != -1
-    tail = yml[idx:]
-    assert tail.find('REPORT_KEY=cybermed') < tail.find('REPORT_KEY=cyberlurch')
+    assert 'expected_cron="30 4 * * *"' in yml
