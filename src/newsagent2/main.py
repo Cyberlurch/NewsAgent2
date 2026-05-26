@@ -2168,6 +2168,22 @@ def main() -> None:
     send_email = (os.getenv("SEND_EMAIL", "1") or "1").strip()
     digest_overwrite_requested = _env_bool("CYBERMED_DIGEST_STORE_OVERWRITE", False)
     digest_replace_empty_requested = _env_bool("CYBERMED_DIGEST_STORE_REPLACE_EMPTY", False)
+    manual_daily_none_mode = (
+        event_name in {"workflow_dispatch", "manual"}
+        and send_email == "0"
+        and email_mode == "none"
+        and report_mode == "daily"
+    )
+    manual_dry_run_state_suppressed = bool(
+        is_cybermed_run
+        and manual_daily_none_mode
+        and not backfill_enabled
+        and not qa_replay_enabled
+        and not cybermed_digest_only_mode
+        and not digest_overwrite_requested
+        and not digest_replace_empty_requested
+    )
+    state_write_suppressed_reason = "manual_email_none_dry_run" if manual_dry_run_state_suppressed else ""
     cybermed_weekly_qa_fixture_mode = False
     cybermed_weekly_qa_fixture_requested = False
     cybermed_weekly_qa_fixture_safety_passed = False
@@ -2177,6 +2193,16 @@ def main() -> None:
         cybermed_weekly_digest_only = report_mode == "weekly"
         cybermed_monthly_digest_only = report_mode == "monthly"
         cybermed_digest_only_mode = cybermed_weekly_digest_only or cybermed_monthly_digest_only
+        manual_dry_run_state_suppressed = bool(
+            is_cybermed_run
+            and manual_daily_none_mode
+            and not backfill_enabled
+            and not qa_replay_enabled
+            and not cybermed_digest_only_mode
+            and not digest_overwrite_requested
+            and not digest_replace_empty_requested
+        )
+        state_write_suppressed_reason = "manual_email_none_dry_run" if manual_dry_run_state_suppressed else ""
         digest_store_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
         fixture_mode_requested = _env_bool("CYBERMED_WEEKLY_QA_FIXTURE_MODE", False)
         fixture_path = (os.getenv("CYBERMED_WEEKLY_QA_FIXTURE_PATH", "tests/fixtures/cybermed_weekly_digest_store_nonempty.json") or "").strip()
@@ -3612,6 +3638,8 @@ def main() -> None:
                 overwrite_allowed = overwrite_requested and email_mode == "none" and send_email == "0" and event_name in {"workflow_dispatch", "manual"}
                 skip_reason = ""
                 write_error_class = ""
+                if manual_dry_run_state_suppressed:
+                    skip_reason = "manual_email_none_dry_run"
                 if qa_replay_enabled and not _env_bool("CYBERMED_DIGEST_STORE_ALLOW_QA_REPLAY", False):
                     skip_reason = "qa_replay_mode"
                 if not skip_reason:
@@ -3708,6 +3736,11 @@ def main() -> None:
         if report_mode == "monthly":
             cybermed_weekly_diag.update(_cybermed_monthly_aliases_from_weekly(cybermed_weekly_diag))
         cybermed_diagnostics_payload.update(cybermed_weekly_diag)
+        cybermed_diagnostics_payload.update({
+            "manual_dry_run_state_suppressed": bool(manual_dry_run_state_suppressed),
+            "manual_dry_run_digest_write_suppressed": bool(manual_dry_run_state_suppressed and report_mode == "daily"),
+            "state_write_suppressed_reason": state_write_suppressed_reason,
+        })
         _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
         return
 
@@ -4608,23 +4641,6 @@ def main() -> None:
             save_rollups_state(rollups_state_path, rollups_state)
         except Exception as e:
             print(f"[rollups] WARN: failed to persist monthly rollup: {e!r}")
-
-    manual_daily_none_mode = (
-        event_name in {"workflow_dispatch", "manual"}
-        and send_email == "0"
-        and email_mode == "none"
-        and report_mode == "daily"
-    )
-    manual_dry_run_state_suppressed = bool(
-        is_cybermed_run
-        and manual_daily_none_mode
-        and not backfill_enabled
-        and not qa_replay_enabled
-        and not cybermed_digest_only_mode
-        and not digest_overwrite_requested
-        and not digest_replace_empty_requested
-    )
-    state_write_suppressed_reason = "manual_email_none_dry_run" if manual_dry_run_state_suppressed else ""
 
     if report_key.strip().lower() == "cyberlurch" and report_mode == "daily":
         dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
