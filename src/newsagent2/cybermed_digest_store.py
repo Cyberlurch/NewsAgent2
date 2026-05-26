@@ -50,6 +50,20 @@ def select_cybermed_daily_digests_for_week(store: dict, today: date, timezone: s
     return sorted(selected, key=lambda x: str(x.get("run_date") or ""))
 
 
+def select_cybermed_daily_digests_for_month(
+    store: dict,
+    month_key: str,
+) -> list[dict]:
+    selected: list[dict] = []
+    for d in store.get("digests", []):
+        run_date = str(d.get("run_date") or "").strip()
+        if len(run_date) < 7:
+            continue
+        if run_date[:7] == month_key:
+            selected.append(d)
+    return sorted(selected, key=lambda x: str(x.get("run_date") or ""))
+
+
 def summarize_cybermed_weekly_digest_inputs(digests: list[dict]) -> dict:
     pubmed = []
     foamed = []

@@ -32,6 +32,7 @@ from .rollups import (
 from .reporter import to_markdown
 from .cybermed_digest_store import (
     load_cybermed_daily_digest_store,
+    select_cybermed_daily_digests_for_month,
     select_cybermed_daily_digests_for_week,
     summarize_cybermed_weekly_digest_inputs,
     dedupe_weekly_digest_items,
@@ -2147,13 +2148,17 @@ def main() -> None:
 
     cybermed_weekly_diag: Dict[str, Any] = {}
     cybermed_weekly_digest_only = False
+    cybermed_monthly_digest_only = False
+    cybermed_digest_only_mode = False
     cybermed_weekly_qa_fixture_mode = False
     cybermed_weekly_qa_fixture_requested = False
     cybermed_weekly_qa_fixture_safety_passed = False
     cybermed_weekly_qa_fixture_skipped_reason = ""
     cybermed_weekly_qa_fixture_path = ""
-    if is_cybermed_run and report_mode == "weekly":
-        cybermed_weekly_digest_only = True
+    if is_cybermed_run and report_mode in {"weekly", "monthly"}:
+        cybermed_weekly_digest_only = report_mode == "weekly"
+        cybermed_monthly_digest_only = report_mode == "monthly"
+        cybermed_digest_only_mode = cybermed_weekly_digest_only or cybermed_monthly_digest_only
         digest_store_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
         fixture_mode_requested = _env_bool("CYBERMED_WEEKLY_QA_FIXTURE_MODE", False)
         fixture_path = (os.getenv("CYBERMED_WEEKLY_QA_FIXTURE_PATH", "tests/fixtures/cybermed_weekly_digest_store_nonempty.json") or "").strip()
@@ -2191,6 +2196,13 @@ def main() -> None:
         store = load_cybermed_daily_digest_store(digest_store_path)
         if cybermed_weekly_qa_fixture_mode:
             daily = list(store.get("digests") or [])
+        elif cybermed_monthly_digest_only:
+            month_key = determine_monthly_rollup_month(
+                datetime.now(tz=STO),
+                os.getenv("GITHUB_EVENT_NAME", ""),
+                os.getenv("ROLLUP_MONTH_OVERRIDE"),
+            )
+            daily = select_cybermed_daily_digests_for_month(store, month_key)
         else:
             daily = select_cybermed_daily_digests_for_week(store, datetime.now(tz=STO).date())
         summary = summarize_cybermed_weekly_digest_inputs(daily)
@@ -2276,10 +2288,11 @@ def main() -> None:
         top_pick_stored_true = sum(1 for it in items if it.get("top_pick") is True)
         top_pick_stored_false = sum(1 for it in items if it.get("top_pick") is not True)
         cybermed_weekly_diag = {
+            "cybermed_monthly_digest_only_mode": cybermed_monthly_digest_only,
             "cybermed_weekly_from_daily_digests_enabled": True,
-            "cybermed_weekly_digest_only_mode": True,
+            "cybermed_weekly_digest_only_mode": cybermed_weekly_digest_only,
             "cybermed_weekly_collection_skipped": True,
-            "cybermed_weekly_collection_skipped_reason": "weekly_from_daily_digests",
+            "cybermed_weekly_collection_skipped_reason": "monthly_from_daily_digests" if cybermed_monthly_digest_only else "weekly_from_daily_digests",
             "cybermed_weekly_digest_store_path": digest_store_path,
             "cybermed_weekly_ranking_enabled": True,
             "cybermed_weekly_qa_fixture_requested": cybermed_weekly_qa_fixture_requested,
@@ -2662,7 +2675,7 @@ def main() -> None:
     if report_key.strip().lower() == "cyberlurch":
         run_metadata = youtube_diag.to_metadata_section()
 
-    if is_cybermed_run and not cybermed_weekly_digest_only:
+    if is_cybermed_run and not cybermed_digest_only_mode:
         foamed_sources = load_foamed_sources_config(foamed_sources_path)
         if foamed_sources:
             now_utc = datetime.now(timezone.utc)
@@ -2836,13 +2849,13 @@ def main() -> None:
 
     selection_result = None
 
-    if is_cybermed_run and cybermed_weekly_digest_only:
+    if is_cybermed_run and cybermed_digest_only_mode:
         pubmed_overview_items = [it for it in items_all_new if (it.get("source") or "").strip().lower() == "pubmed"]
         foamed_overview_items = [it for it in items_all_new if (it.get("source") or "").strip().lower() == "foamed"]
         pubmed_deep_dive_items = [it for it in pubmed_overview_items if bool(it.get("cybermed_deep_dive"))]
         selection_stats = {
             "enabled": True,
-            "mode": "weekly_digest_only",
+            "mode": "weekly_digest_only" if cybermed_weekly_digest_only else "monthly_digest_only",
             "selector_bypassed": True,
             "included_overview": len(pubmed_overview_items),
             "included_deep_dives": len(pubmed_deep_dive_items),
@@ -3514,7 +3527,7 @@ def main() -> None:
         }
 
 
-    if is_cybermed_run and cybermed_weekly_digest_only:
+    if is_cybermed_run and cybermed_digest_only_mode:
         pubmed_overview_items = [it for it in items if (it.get("source") or "").strip().lower() == "pubmed"]
         foamed_overview_items = [it for it in items if (it.get("source") or "").strip().lower() == "foamed"]
         pubmed_deep_dive_items = [it for it in pubmed_overview_items if bool(it.get("cybermed_deep_dive"))]
@@ -3555,7 +3568,7 @@ def main() -> None:
             report_key=report_key,
             report_mode=report_mode,
             now_utc_iso=now_utc_iso,
-            read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_weekly_digest_only),
+            read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode),
         )
 
         if send_empty_email == "1":
@@ -3647,7 +3660,7 @@ def main() -> None:
                     "cybermed_digest_store_expected_digest_present": expected_digest_present,
                     "cybermed_digest_store_write_error_class": write_error_class,
                 })
-            if cybermed_weekly_digest_only:
+            if cybermed_digest_only_mode:
                 rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
                 rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
                 rendered_deep_dives_total = 0
@@ -3749,7 +3762,7 @@ def main() -> None:
     if not overview_items and detail_items:
         overview_items = list(detail_items)
 
-    if report_mode in {"weekly", "monthly"} and not (is_cybermed_run and cybermed_weekly_digest_only):
+    if report_mode in {"weekly", "monthly"} and not (is_cybermed_run and cybermed_digest_only_mode):
         for it in overview_items[: max(1, min(3, len(overview_items)))]:
             if not it.get("top_pick"):
                 it["top_pick"] = True
@@ -3808,7 +3821,7 @@ def main() -> None:
         iid = str(it.get("id") or "").strip()
         if src != "pubmed" or not iid:
             continue
-        if not (is_cybermed_run and cybermed_weekly_digest_only and bool(it.get("digest_derived"))):
+        if not (is_cybermed_run and cybermed_digest_only_mode and bool(it.get("digest_derived"))):
             try:
                 bl = summarize_pubmed_bottom_line(it, language=report_language)
                 it["bottom_line"] = bl
@@ -3820,7 +3833,7 @@ def main() -> None:
 
     if foamed_overview_items:
         for it in foamed_overview_items:
-            if is_cybermed_run and cybermed_weekly_digest_only and bool(it.get("digest_derived")):
+            if is_cybermed_run and cybermed_digest_only_mode and bool(it.get("digest_derived")):
                 continue
             url_lbl = (it.get("url") or it.get("id") or "")
             try:
@@ -4842,7 +4855,7 @@ def main() -> None:
             "pubmed_summary_consistency_preview": consistency_preview[:10],
         })
         cybermed_diagnostics_payload.update(cybermed_digest_diag)
-        if cybermed_weekly_digest_only:
+        if cybermed_digest_only_mode:
             rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
             rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
             rendered_deep_dives_total = len(detail_items)
@@ -4878,7 +4891,7 @@ def main() -> None:
         report_key=report_key,
         report_mode=report_mode,
         now_utc_iso=now_utc_iso,
-        read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_weekly_digest_only),
+        read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode),
     )
 
     try:
