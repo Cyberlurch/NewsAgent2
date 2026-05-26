@@ -1012,6 +1012,18 @@ def to_markdown(
             pubmed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "pubmed")
             foamed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "foamed")
             top_pick_count = sum(1 for it in items if it.get("top_pick") is True)
+            if normalized_mode == "weekly" and isinstance(cybermed_stats, dict):
+                top_pick_count = int(
+                    cybermed_stats.get(
+                        "cybermed_weekly_rendered_top_picks_total",
+                        cybermed_stats.get(
+                            "cybermed_weekly_selected_top_picks_total",
+                            cybermed_stats.get("cybermed_weekly_top_picks_selected_total", top_pick_count),
+                        ),
+                    )
+                    or 0
+                )
+                cybermed_stats["cybermed_weekly_intro_top_picks_total"] = top_pick_count
             period_line = ""
             if isinstance(cybermed_stats, dict):
                 start = str(cybermed_stats.get("weekly_period_start") or "").strip()
@@ -1030,10 +1042,15 @@ def to_markdown(
                     url = str(it.get("url") or "").strip()
                     source_name = str(it.get("source") or "").strip().lower()
                     compact = _pubmed_compact_line(it) if source_name == "pubmed" else _foamed_compact_line(it)
-                    md.append(f"- [{'PubMed' if source_name == 'pubmed' else 'FOAMed'}] " + (f"[{title_lbl}]({url})" if url else title_lbl))
+                    md.append(
+                        f"**⭐ [{title_lbl}]({url})** — {'PubMed' if source_name == 'pubmed' else 'FOAMed'}"
+                        if url
+                        else f"**⭐ {title_lbl}** — {'PubMed' if source_name == 'pubmed' else 'FOAMed'}"
+                    )
                     if compact:
-                        md.append(f"  - {compact}")
-                md.append("")
+                        md.append("")
+                        md.append(compact)
+                    md.extend(["", "---", ""])
 
         pubmed_items = [it for it in items if str(it.get("source") or "").strip().lower() == "pubmed"]
         md.extend(["## Papers", ""])

@@ -2228,7 +2228,13 @@ def main() -> None:
             {"high": 3, "moderate": 2, "low": 1}.get(str(x.get("text_confidence_label") or "").strip().lower(), 0),
             str(x.get("published_at") or ""),
         ), reverse=True)[:CYBERMED_WEEKLY_MAX_FOAMED]
-        selected_top_picks = sorted([it for it in deduped if it.get("top_pick") is True], key=lambda x: str(x.get("published_at") or ""), reverse=True)[:5]
+        weekly_top_picks_cap = 5
+        loaded_top_picks_total = int(summary["top_picks_loaded_total"] or 0)
+        selected_top_picks = sorted(
+            [it for it in deduped if it.get("top_pick") is True],
+            key=lambda x: str(x.get("published_at") or ""),
+            reverse=True,
+        )[:weekly_top_picks_cap]
         deep_dive_store_ids = {
             str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
             for d in week_deep
@@ -2289,13 +2295,17 @@ def main() -> None:
             "cybermed_weekly_pubmed_items_loaded_total": summary["pubmed_items_loaded_total"],
             "cybermed_weekly_foamed_items_loaded_total": summary["foamed_items_loaded_total"],
             "cybermed_weekly_deep_dives_loaded_total": summary["deep_dives_loaded_total"],
-            "cybermed_weekly_top_picks_loaded_total": summary["top_picks_loaded_total"],
+            "cybermed_weekly_top_picks_loaded_total": loaded_top_picks_total,
+            "cybermed_weekly_loaded_top_picks_total": loaded_top_picks_total,
             "cybermed_weekly_duplicates_suppressed_total": suppressed,
             "cybermed_weekly_duplicates_suppressed_reason_counts": suppressed_reasons,
             "cybermed_weekly_pubmed_items_selected_total": len(pubmed_sorted),
             "cybermed_weekly_foamed_items_selected_total": len(foamed_sorted),
             "cybermed_weekly_deep_dives_selected_total": len(selected_deep_dives),
             "cybermed_weekly_top_picks_selected_total": len(selected_top_picks),
+            "cybermed_weekly_selected_top_picks_total": len(selected_top_picks),
+            "cybermed_weekly_top_picks_cap": weekly_top_picks_cap,
+            "cybermed_weekly_top_picks_capped": loaded_top_picks_total > weekly_top_picks_cap,
             "cybermed_weekly_ranking_reason_counts": {"top_pick": len([x for x in deduped if x.get("top_pick")]), "deep_dive_candidate": len([x for x in deduped if x.get("deep_dive_candidate")])},
             "cybermed_weekly_stored_bottom_lines_used_total": stored_bottom_lines_used_total,
             "cybermed_weekly_missing_bottom_lines_total": missing_bottom_lines_total,
@@ -3640,7 +3650,13 @@ def main() -> None:
                 rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
                 rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
                 rendered_deep_dives_total = 0
-                rendered_top_picks_total = int(cybermed_weekly_diag.get("cybermed_weekly_top_picks_selected_total", 0) or 0)
+                rendered_top_picks_total = int(
+                    cybermed_weekly_diag.get(
+                        "cybermed_weekly_selected_top_picks_total",
+                        cybermed_weekly_diag.get("cybermed_weekly_top_picks_selected_total", 0),
+                    )
+                    or 0
+                )
                 cybermed_weekly_diag.update({
                     "cybermed_weekly_rendered_pubmed_items_total": rendered_pubmed_total,
                     "cybermed_weekly_rendered_foamed_items_total": rendered_foamed_total,
@@ -4824,7 +4840,13 @@ def main() -> None:
             rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
             rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
             rendered_deep_dives_total = len(detail_items)
-            rendered_top_picks_total = int(cybermed_weekly_diag.get("cybermed_weekly_top_picks_selected_total", 0) or 0)
+            rendered_top_picks_total = int(
+                cybermed_weekly_diag.get(
+                    "cybermed_weekly_selected_top_picks_total",
+                    cybermed_weekly_diag.get("cybermed_weekly_top_picks_selected_total", 0),
+                )
+                or 0
+            )
             cybermed_weekly_diag.update({
                 "cybermed_weekly_rendered_pubmed_items_total": rendered_pubmed_total,
                 "cybermed_weekly_rendered_foamed_items_total": rendered_foamed_total,
