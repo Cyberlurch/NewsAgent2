@@ -2059,6 +2059,17 @@ def main() -> None:
     qa_replay_state_bypass_foamed_total = 0
     qa_replay_state_mutation_disabled = False
     qa_replay_email_disabled_confirmed = False
+    backfill_requested = _env_bool("CYBERMED_DIGEST_BACKFILL_MODE", False)
+    backfill_enabled = False
+    backfill_safety_passed = False
+    backfill_skipped_reason = ""
+    backfill_state_filter_bypassed = False
+    backfill_state_mutation_disabled = False
+    backfill_email_disabled_confirmed = False
+    backfill_run_date = ""
+    backfill_digest_id = ""
+    backfill_write_allowed = False
+    backfill_write_skipped_reason = ""
     if qa_replay_requested:
         event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
         email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
@@ -2087,6 +2098,41 @@ def main() -> None:
             print(f"[cybermed-qa-replay] requested=1 safety=failed reason={qa_replay_skipped_reason} state_bypass=inactive")
     else:
         print("[cybermed-qa-replay] requested=0 state_bypass=inactive")
+    if backfill_requested:
+        event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
+        email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
+        send_email = (os.getenv("SEND_EMAIL", "") or "").strip()
+        failed_checks: List[str] = []
+        if not is_cybermed_run:
+            failed_checks.append("report_key_not_cybermed")
+        if report_mode != "daily":
+            failed_checks.append("report_mode_not_daily")
+        if email_mode != "none":
+            failed_checks.append("email_mode_not_none")
+        if send_email != "0":
+            failed_checks.append("send_email_not_zero")
+        if not (event_name in {"workflow_dispatch", "manual"} or event_name == ""):
+            failed_checks.append("event_not_manual")
+        backfill_safety_passed = not failed_checks
+        if backfill_safety_passed:
+            backfill_enabled = True
+            backfill_state_filter_bypassed = True
+            backfill_state_mutation_disabled = True
+            backfill_email_disabled_confirmed = True
+            run_date_override = (os.getenv("CYBERMED_DIGEST_BACKFILL_RUN_DATE", "") or "").strip()
+            if run_date_override:
+                backfill_run_date = run_date_override
+            else:
+                backfill_run_date = datetime.now(tz=STO).strftime("%Y-%m-%d")
+            backfill_digest_id = f"cybermed_daily_{backfill_run_date}"
+            backfill_hours = (os.getenv("CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS", "") or "").strip()
+            if backfill_hours:
+                try:
+                    args.hours = int(backfill_hours)
+                except Exception:
+                    pass
+        else:
+            backfill_skipped_reason = "safety_failed:" + ",".join(failed_checks)
     pubmed_candidates_total = 0
     pubmed_skipped_by_state = 0
     pubmed_query_failures = 0
@@ -2143,7 +2189,10 @@ def main() -> None:
             cybermed_weekly_qa_fixture_mode = True
             digest_store_path = fixture_path
         store = load_cybermed_daily_digest_store(digest_store_path)
-        daily = select_cybermed_daily_digests_for_week(store, datetime.now(tz=STO).date())
+        if cybermed_weekly_qa_fixture_mode:
+            daily = list(store.get("digests") or [])
+        else:
+            daily = select_cybermed_daily_digests_for_week(store, datetime.now(tz=STO).date())
         summary = summarize_cybermed_weekly_digest_inputs(daily)
         digest_store_used_as_primary = True
         digest_store_collection_skipped_due_to_primary = True
@@ -2532,7 +2581,7 @@ def main() -> None:
                         continue
 
                     skip_by_state = False
-                    if not read_only_mode and not qa_replay_enabled:
+                    if not read_only_mode and not qa_replay_enabled and not backfill_enabled:
                         if is_cybermed_run:
                             skip_by_state, skip_reason = should_skip_pubmed_item(
                                 state,
@@ -2551,7 +2600,7 @@ def main() -> None:
                         if is_cybermed_run:
                             pubmed_skipped_by_state += 1
                         continue
-                    if qa_replay_enabled and is_cybermed_run:
+                    if (qa_replay_enabled or backfill_enabled) and is_cybermed_run:
                         qa_replay_state_bypass_pubmed_total += 1
 
                     text = (a.get("text") or "").strip()
@@ -2639,10 +2688,10 @@ def main() -> None:
                 iid = str(it.get("id") or it.get("url") or "").strip()
                 if not iid:
                     continue
-                if not read_only_mode and not qa_replay_enabled and is_processed(state, report_key, "foamed", iid):
+                if not read_only_mode and not qa_replay_enabled and not backfill_enabled and is_processed(state, report_key, "foamed", iid):
                     foamed_skipped_by_state += 1
                     continue
-                if qa_replay_enabled:
+                if qa_replay_enabled or backfill_enabled:
                     qa_replay_state_bypass_foamed_total += 1
 
                 text_val = (it.get("text") or "").strip()
@@ -3343,6 +3392,22 @@ def main() -> None:
             "cybermed_qa_replay_state_bypass_foamed_total": int(qa_replay_state_bypass_foamed_total),
             "cybermed_qa_replay_state_mutation_disabled": bool(qa_replay_state_mutation_disabled),
             "cybermed_qa_replay_email_disabled_confirmed": bool(qa_replay_email_disabled_confirmed),
+            "cybermed_digest_backfill_requested": bool(backfill_requested),
+            "cybermed_digest_backfill_enabled": bool(backfill_enabled),
+            "cybermed_digest_backfill_safety_passed": bool(backfill_safety_passed),
+            "cybermed_digest_backfill_skipped_reason": str(backfill_skipped_reason or ""),
+            "cybermed_digest_backfill_state_filter_bypassed": bool(backfill_state_filter_bypassed),
+            "cybermed_digest_backfill_state_mutation_disabled": bool(backfill_state_mutation_disabled),
+            "cybermed_digest_backfill_email_disabled_confirmed": bool(backfill_email_disabled_confirmed),
+            "cybermed_digest_backfill_run_date": str(backfill_run_date or ""),
+            "cybermed_digest_backfill_digest_id": str(backfill_digest_id or ""),
+            "cybermed_digest_backfill_current_pubmed_total": 0,
+            "cybermed_digest_backfill_current_foamed_total": 0,
+            "cybermed_digest_backfill_current_deep_dives_total": 0,
+            "cybermed_digest_backfill_current_top_picks_total": 0,
+            "cybermed_digest_backfill_existing_digest_empty": False,
+            "cybermed_digest_backfill_write_allowed": False,
+            "cybermed_digest_backfill_write_skipped_reason": "",
             "runtime_total_seconds": round(max(0.0, time.monotonic() - runtime_start), 6),
             "runtime_pubmed_collect_seconds": round(runtime_pubmed_collect_seconds, 6),
             "runtime_pubmed_backfill_seconds": round(runtime_pubmed_backfill_seconds, 6),
@@ -3479,7 +3544,7 @@ def main() -> None:
             report_key=report_key,
             report_mode=report_mode,
             now_utc_iso=now_utc_iso,
-            read_only=(read_only_mode or qa_replay_enabled or cybermed_weekly_digest_only),
+            read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_weekly_digest_only),
         )
 
         if send_empty_email == "1":
@@ -4536,9 +4601,10 @@ def main() -> None:
         qa_replay_allow = _env_bool("CYBERMED_DIGEST_STORE_ALLOW_QA_REPLAY", False)
         overwrite_requested = _env_bool("CYBERMED_DIGEST_STORE_OVERWRITE", False)
         replace_empty_requested = _env_bool("CYBERMED_DIGEST_STORE_REPLACE_EMPTY", False)
-        digest_id = f"cybermed_daily_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
+        digest_id = backfill_digest_id or f"cybermed_daily_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
         safe_mutation_allowed = email_mode == "none" and send_email == "0" and event_name in {"workflow_dispatch", "manual"}
         overwrite_allowed = overwrite_requested and safe_mutation_allowed
+        backfill_overwrite_empty_only = _env_bool("CYBERMED_DIGEST_BACKFILL_OVERWRITE_EMPTY_ONLY", True)
         cybermed_digest_diag.update({
             "cybermed_digest_store_enabled": True,
             "cybermed_digest_store_digest_id": digest_id,
@@ -4609,6 +4675,8 @@ def main() -> None:
                     and current_digest_nonempty
                     and (not qa_replay_enabled or qa_replay_allow)
                 )
+                if backfill_enabled and backfill_overwrite_empty_only:
+                    replace_empty_allowed = safe_mutation_allowed and existing_digest_empty and current_digest_nonempty
                 cybermed_digest_diag.update({
                     "cybermed_digest_store_existing_pubmed_total": existing_pubmed_total,
                     "cybermed_digest_store_existing_foamed_total": existing_foamed_total,
@@ -4621,17 +4689,20 @@ def main() -> None:
                     "cybermed_digest_store_deep_dives_total": existing_deep_dives_total,
                     "cybermed_digest_store_top_picks_total": existing_top_picks_total,
                 })
-            if existing_idx >= 0 and not overwrite_allowed and not replace_empty_allowed:
+            if backfill_enabled and not current_digest_nonempty:
+                skip_reason = "backfill_current_digest_empty"
+            elif existing_idx >= 0 and not overwrite_allowed and not replace_empty_allowed:
                 skip_reason = "digest_already_exists"
             else:
                 digest_payload = {
                     "digest_id": digest_id,
                     "report_key": "cybermed",
                     "cadence": "daily",
-                    "run_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    "run_date": backfill_run_date or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
                     "generated_at_utc": now_utc_iso,
                     "lookback_hours": int(args.hours),
                     "qa_replay": bool(qa_replay_enabled),
+                    "backfill_mode": bool(backfill_enabled),
                     "email_mode": email_mode,
                     "items": {"pubmed": pubmed_items, "foamed": foamed_items},
                     "deep_dives": deep_dives,
@@ -4714,6 +4785,16 @@ def main() -> None:
             f"pubmed={cybermed_digest_diag['cybermed_digest_store_items_pubmed_total']} "
             f"foamed={cybermed_digest_diag['cybermed_digest_store_items_foamed_total']}"
         )
+        if backfill_enabled:
+            cybermed_diagnostics_payload.update({
+                "cybermed_digest_backfill_current_pubmed_total": int(cybermed_digest_diag.get("cybermed_digest_store_current_pubmed_total", 0) or 0),
+                "cybermed_digest_backfill_current_foamed_total": int(cybermed_digest_diag.get("cybermed_digest_store_current_foamed_total", 0) or 0),
+                "cybermed_digest_backfill_current_deep_dives_total": int(cybermed_digest_diag.get("cybermed_digest_store_current_deep_dives_total", 0) or 0),
+                "cybermed_digest_backfill_current_top_picks_total": int(cybermed_digest_diag.get("cybermed_digest_store_current_top_picks_total", 0) or 0),
+                "cybermed_digest_backfill_existing_digest_empty": bool(cybermed_digest_diag.get("cybermed_digest_store_existing_digest_empty", False)),
+                "cybermed_digest_backfill_write_allowed": bool(skip_reason == ""),
+                "cybermed_digest_backfill_write_skipped_reason": str(skip_reason or ""),
+            })
     if report_key.strip().lower() == "cyberlurch":
         _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode, extra_counts=extra_counts)
     if report_key.strip().lower() == "cybermed":
@@ -4764,7 +4845,7 @@ def main() -> None:
         report_key=report_key,
         report_mode=report_mode,
         now_utc_iso=now_utc_iso,
-        read_only=(read_only_mode or qa_replay_enabled or cybermed_weekly_digest_only),
+        read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_weekly_digest_only),
     )
 
     try:
