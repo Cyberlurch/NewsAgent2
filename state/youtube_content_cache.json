@@ -775,5 +775,19 @@
     "fetched_at_utc": "2026-05-26T20:09:44.599917+00:00",
     "text_hash": "83a5a8eabc9e7657ceb6e93bff318b355521d080fec77c6ad2c2b68cf0e09fc7",
     "text": ""
+  },
+  "rCje6nzcnLw::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-05-26T20:52:33.112272+00:00",
+    "text_hash": "367f6a9cd65bbf0f95c92b41f4772048c92a99ff798c6b2b91f0678429c8b481",
+    "text": ""
+  },
+  "5Y7NYLmNNYI::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-05-26T20:52:36.491860+00:00",
+    "text_hash": "c660e9f8ebdab3e60b0fcaebb060f3fa7af76f85b388c867da7350c4d36933ca",
+    "text": ""
   }
 }
