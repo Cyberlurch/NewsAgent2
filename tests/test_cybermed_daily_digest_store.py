@@ -195,3 +195,24 @@ def test_cybermed_daily_digest_store_write_failure_sets_verification_failed(tmp_
     assert diag["cybermed_digest_store_written"] is False
     assert diag["cybermed_digest_store_skipped_reason"] == "write_verification_failed"
     assert diag["cybermed_digest_store_write_error_class"] != ""
+
+
+def test_cybermed_backfill_activates_only_in_safe_manual_none_mode(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_MODE", "1")
+    main.main()
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_digest_backfill_enabled"] is True
+    assert diag["cybermed_digest_backfill_safety_passed"] is True
+    assert diag["cybermed_digest_backfill_state_filter_bypassed"] is True
+    assert diag["cybermed_digest_backfill_state_mutation_disabled"] is True
+
+
+def test_cybermed_backfill_ignored_when_send_email_or_schedule(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_MODE", "1")
+    monkeypatch.setenv("SEND_EMAIL", "1")
+    main.main()
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_digest_backfill_enabled"] is False
+    assert "send_email_not_zero" in diag["cybermed_digest_backfill_skipped_reason"]
