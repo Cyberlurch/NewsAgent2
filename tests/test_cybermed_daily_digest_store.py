@@ -33,8 +33,6 @@ def _with_nonempty_selection(monkeypatch):
 
 def test_cybermed_daily_digest_store_created_and_deterministic_id(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
-    monkeypatch.setenv("EMAIL_MODE", "real")
-    monkeypatch.setenv("SEND_EMAIL", "1")
 
     main.main()
 
@@ -62,8 +60,6 @@ def test_cybermed_daily_digest_store_created_and_deterministic_id(tmp_path, monk
 def test_cybermed_daily_digest_store_skips_duplicate_without_overwrite(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
     _with_nonempty_selection(monkeypatch)
-    monkeypatch.setenv("EMAIL_MODE", "real")
-    monkeypatch.setenv("SEND_EMAIL", "1")
     dpath = tmp_path / "state" / "cybermed_daily_digests.json"
     dpath.parent.mkdir(parents=True, exist_ok=True)
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -71,8 +67,18 @@ def test_cybermed_daily_digest_store_skips_duplicate_without_overwrite(tmp_path,
 
     main.main()
 
-    payload = json.loads(dpath.read_text(encoding="utf-8"))
-    assert len(payload["digests"]) == 1
+    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+    assert diag["cybermed_digest_store_written"] is False
+    assert diag["cybermed_digest_store_skipped_reason"] == "digest_already_exists"
+    assert diag["cybermed_digest_store_expected_digest_present"] is True
+    assert diag["cybermed_digest_store_write_verified"] is False
+    assert diag["cybermed_digest_store_digest_count_after_write"] == 1
+    assert diag["cybermed_digest_store_existing_digest_empty"] is True
+    assert diag["cybermed_digest_store_current_digest_nonempty"] is True
+    assert diag["cybermed_digest_store_existing_pubmed_total"] == 0
+    assert diag["cybermed_digest_store_existing_foamed_total"] == 0
+    assert diag["cybermed_digest_store_current_pubmed_total"] > 0
+    assert diag["cybermed_digest_store_current_digest_nonempty"] is True
 
 
 def test_cybermed_daily_digest_store_skips_qa_replay_by_default(tmp_path, monkeypatch):
@@ -167,8 +173,6 @@ def test_cybermed_daily_digest_store_replace_empty_not_allowed_for_schedule(tmp_
 
 def test_cybermed_daily_digest_store_write_failure_sets_verification_failed(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
-    monkeypatch.setenv("EMAIL_MODE", "real")
-    monkeypatch.setenv("SEND_EMAIL", "1")
     dpath = tmp_path / "state" / "cybermed_daily_digests.json"
     dpath.parent.mkdir(parents=True, exist_ok=True)
     dpath.write_text(json.dumps({"schema_version": 1, "digests": []}), encoding="utf-8")
@@ -212,77 +216,3 @@ def test_cybermed_backfill_ignored_when_send_email_or_schedule(tmp_path, monkeyp
     diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
     assert diag["cybermed_digest_backfill_enabled"] is False
     assert "send_email_not_zero" in diag["cybermed_digest_backfill_skipped_reason"]
-
-
-def test_manual_none_daily_dry_run_suppresses_state_and_digest_writes(tmp_path, monkeypatch):
-    _base_env(monkeypatch, tmp_path)
-    _with_nonempty_selection(monkeypatch)
-    save_calls = {"count": 0}
-
-    def _save_state(*_a, **_k):
-        save_calls["count"] += 1
-
-    monkeypatch.setattr(main, "save_state", _save_state)
-    main.main()
-
-    assert save_calls["count"] == 0
-    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
-    assert not dpath.exists()
-    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
-    assert diag["manual_dry_run_state_suppressed"] is True
-    assert diag["manual_dry_run_digest_write_suppressed"] is True
-    assert diag["state_write_suppressed_reason"] == "manual_email_none_dry_run"
-    assert diag["cybermed_digest_store_written"] is False
-    assert diag["cybermed_digest_store_skipped_reason"] == "manual_email_none_dry_run"
-
-
-def test_manual_none_daily_dry_run_empty_report_does_not_raise_and_suppresses_writes(tmp_path, monkeypatch):
-    _base_env(monkeypatch, tmp_path)
-    save_calls = {"count": 0}
-
-    def _save_state(*_a, **_k):
-        save_calls["count"] += 1
-
-    monkeypatch.setattr(main, "save_state", _save_state)
-    main.main()
-
-    assert list((tmp_path / "out").glob("cybermed_daily_summary_*.md"))
-    assert save_calls["count"] == 0
-    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
-    assert not dpath.exists()
-    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
-    assert diag["manual_dry_run_state_suppressed"] is True
-    assert diag["manual_dry_run_digest_write_suppressed"] is True
-    assert diag["state_write_suppressed_reason"] == "manual_email_none_dry_run"
-
-
-def test_scheduled_daily_real_run_still_writes_state_and_digest(tmp_path, monkeypatch):
-    _base_env(monkeypatch, tmp_path)
-    _with_nonempty_selection(monkeypatch)
-    monkeypatch.setenv("GITHUB_EVENT_NAME", "schedule")
-    monkeypatch.setenv("EMAIL_MODE", "real")
-    monkeypatch.setenv("SEND_EMAIL", "1")
-
-    main.main()
-
-    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
-    assert dpath.exists()
-    state_path = tmp_path / "state.json"
-    assert state_path.exists()
-    state = json.loads(state_path.read_text(encoding="utf-8"))
-    assert "last_successful_daily_run_utc" in state
-
-
-def test_manual_none_daily_with_backfill_mode_still_writes_digest(tmp_path, monkeypatch):
-    _base_env(monkeypatch, tmp_path)
-    _with_nonempty_selection(monkeypatch)
-    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_MODE", "1")
-
-    main.main()
-
-    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
-    assert dpath.exists()
-    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
-    assert diag["manual_dry_run_state_suppressed"] is False
-    assert diag["manual_dry_run_digest_write_suppressed"] is False
-    assert diag["cybermed_digest_store_written"] is True
