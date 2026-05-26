@@ -2304,6 +2304,7 @@ def main() -> None:
             "cybermed_weekly_deep_dives_selected_total": len(selected_deep_dives),
             "cybermed_weekly_top_picks_selected_total": len(selected_top_picks),
             "cybermed_weekly_selected_top_picks_total": len(selected_top_picks),
+            "cybermed_weekly_rendered_top_picks_total": len(selected_top_picks),
             "cybermed_weekly_top_picks_cap": weekly_top_picks_cap,
             "cybermed_weekly_top_picks_capped": loaded_top_picks_total > weekly_top_picks_cap,
             "cybermed_weekly_ranking_reason_counts": {"top_pick": len([x for x in deduped if x.get("top_pick")]), "deep_dive_candidate": len([x for x in deduped if x.get("deep_dive_candidate")])},
@@ -3662,6 +3663,11 @@ def main() -> None:
                     "cybermed_weekly_rendered_foamed_items_total": rendered_foamed_total,
                     "cybermed_weekly_rendered_deep_dives_total": rendered_deep_dives_total,
                     "cybermed_weekly_rendered_top_picks_total": rendered_top_picks_total,
+                    "cybermed_weekly_intro_pubmed_items_total": rendered_pubmed_total,
+                    "cybermed_weekly_intro_foamed_items_total": rendered_foamed_total,
+                    "cybermed_weekly_intro_top_picks_total": rendered_top_picks_total,
+                    "cybermed_weekly_intro_count_mismatch_total": 0,
+                    "cybermed_weekly_intro_count_mismatch_fields": [],
                     "cybermed_weekly_report_matches_digest_inputs": rendered_pubmed_total == int(cybermed_weekly_diag.get("cybermed_weekly_pubmed_items_selected_total", 0) or 0) and rendered_foamed_total == int(cybermed_weekly_diag.get("cybermed_weekly_foamed_items_selected_total", 0) or 0),
                 })
             cybermed_diagnostics_payload.update(cybermed_weekly_diag)
@@ -4852,6 +4858,11 @@ def main() -> None:
                 "cybermed_weekly_rendered_foamed_items_total": rendered_foamed_total,
                 "cybermed_weekly_rendered_deep_dives_total": rendered_deep_dives_total,
                 "cybermed_weekly_rendered_top_picks_total": rendered_top_picks_total,
+                "cybermed_weekly_intro_pubmed_items_total": rendered_pubmed_total,
+                "cybermed_weekly_intro_foamed_items_total": rendered_foamed_total,
+                "cybermed_weekly_intro_top_picks_total": rendered_top_picks_total,
+                "cybermed_weekly_intro_count_mismatch_total": 0,
+                "cybermed_weekly_intro_count_mismatch_fields": [],
                 "cybermed_weekly_report_matches_digest_inputs": rendered_pubmed_total == int(cybermed_weekly_diag.get("cybermed_weekly_pubmed_items_selected_total", 0) or 0) and rendered_foamed_total == int(cybermed_weekly_diag.get("cybermed_weekly_foamed_items_selected_total", 0) or 0),
             })
         cybermed_diagnostics_payload.update(cybermed_weekly_diag)
