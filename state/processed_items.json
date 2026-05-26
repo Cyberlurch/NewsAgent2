@@ -4,8 +4,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "ALiEM": {
       "consecutive_failures": 22,
@@ -17,15 +17,15 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "Anesthesiology News": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "CanadiEM": {
       "consecutive_failures": 3,
@@ -37,112 +37,112 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "Critical Care Practitioner": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "Critical Care Reviews": {
-      "consecutive_failures": 32,
+      "consecutive_failures": 33,
       "disabled_until_utc": "2026-05-31T06:29:34+00:00",
       "last_health": "parse_failed",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "Deranged Physiology": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "Don't Forget the Bubbles": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "EM Cases": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "EMCrit": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "EMOttawa Blog": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "First10EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "Intensive Care Network": {
-      "consecutive_failures": 50,
+      "consecutive_failures": 51,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "JournalFeed (Critical Care)": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_html",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "LITFL": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "NYSORA": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "OpenAnesthesia": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "PulmCCM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "REBEL EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "REBEL EM Critical Care": {
       "consecutive_failures": 6,
@@ -151,18 +151,18 @@
       "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "SMACC": {
-      "consecutive_failures": 50,
+      "consecutive_failures": 51,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "St Emlyn's": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "Taming the SRU": {
       "consecutive_failures": 2,
@@ -174,46 +174,46 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "The Bottom Line": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "The Resus Room": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "Thinking Critical Care": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "WFSA Anaesthesia Tutorial of the Week": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     },
     "emDocs": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-05-26T13:10:54+00:00",
-      "last_seen_utc": "2026-05-26T13:10:54+00:00"
+      "last_ok_utc": "2026-05-26T20:00:58+00:00",
+      "last_seen_utc": "2026-05-26T20:00:58+00:00"
     }
   },
-  "last_successful_daily_run_utc": "2026-05-26T13:51:37+00:00",
+  "last_successful_daily_run_utc": "2026-05-26T20:04:05+00:00",
   "reports": {
     "cyberlurch": {
       "youtube": {
@@ -7410,43 +7410,43 @@
           },
           "42184379": {
             "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-05-26T13:13:48+00:00",
-            "screened_at_utc": "2026-05-26T13:13:48+00:00",
+            "processed_at_utc": "2026-05-26T20:04:05+00:00",
+            "screened_at_utc": "2026-05-26T20:04:05+00:00",
             "title": "Decreasing Resident Stressors: It Is All in the Family.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42184379/"
           },
           "42184380": {
             "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-05-26T13:13:48+00:00",
-            "screened_at_utc": "2026-05-26T13:13:48+00:00",
+            "processed_at_utc": "2026-05-26T20:04:05+00:00",
+            "screened_at_utc": "2026-05-26T20:04:05+00:00",
             "title": "Discordance Between Analgesia Nociception Index and Nociception Level Index Reflects Autonomic Imbalance Rather Than Monitor Unreliability.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42184380/"
           },
           "42184382": {
             "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-05-26T13:13:48+00:00",
-            "screened_at_utc": "2026-05-26T13:13:48+00:00",
+            "processed_at_utc": "2026-05-26T20:04:05+00:00",
+            "screened_at_utc": "2026-05-26T20:04:05+00:00",
             "title": "Epidural Blood Patch Volume: Is More Better?",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42184382/"
           },
           "42184383": {
             "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-05-26T13:13:48+00:00",
-            "screened_at_utc": "2026-05-26T13:13:48+00:00",
+            "processed_at_utc": "2026-05-26T20:04:05+00:00",
+            "screened_at_utc": "2026-05-26T20:04:05+00:00",
             "title": "Paradoxical Bispectral Index-Burst Suppression Combinations as Evidence of Neural Inertia and Multidimensional Anesthetic States.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42184383/"
           },
           "42184384": {
             "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-05-26T13:13:48+00:00",
-            "screened_at_utc": "2026-05-26T13:13:48+00:00",
+            "processed_at_utc": "2026-05-26T20:04:05+00:00",
+            "screened_at_utc": "2026-05-26T20:04:05+00:00",
             "title": "Advancing Health Equity Research in Perioperative Medicine.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42184384/"
           },
           "42184385": {
             "channel": "PubMed: Anesthesia & Analgesia",
-            "processed_at_utc": "2026-05-26T13:13:48+00:00",
-            "screened_at_utc": "2026-05-26T13:13:48+00:00",
+            "processed_at_utc": "2026-05-26T20:04:05+00:00",
+            "screened_at_utc": "2026-05-26T20:04:05+00:00",
             "title": "Analytical Considerations in Comparative Study of Nociception Monitoring.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42184385/"
           },
@@ -7491,8 +7491,8 @@
           },
           "42186034": {
             "channel": "PubMed: Critical Care",
-            "processed_at_utc": "2026-05-26T13:13:48+00:00",
-            "screened_at_utc": "2026-05-26T13:13:48+00:00",
+            "processed_at_utc": "2026-05-26T20:04:05+00:00",
+            "screened_at_utc": "2026-05-26T20:04:05+00:00",
             "title": "Relationship between negative-pressure ICU rooms and the risk of COVID-19-associated pulmonary aspergillosis: an ancillary analysis of the COVID-ICU cohort study.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42186034/"
           },
@@ -7508,6 +7508,6 @@
       }
     }
   },
-  "updated_at_utc": "2026-05-26T13:51:37+00:00",
+  "updated_at_utc": "2026-05-26T20:04:05+00:00",
   "version": 1
 }
