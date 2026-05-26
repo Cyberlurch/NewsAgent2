@@ -3,9 +3,9 @@ name: NewsAgent2 daily
 
 on:
   schedule:
-    # GitHub cron runs in UTC. Dual daily crons + local gate ensure a single 04:30 run in Europe/Stockholm (DST covered).
-    - cron: "30 2 * * *"   # 04:30 when Stockholm is UTC+2 (CEST)
-    - cron: "30 3 * * *"   # 04:30 when Stockholm is UTC+1 (CET)
+    # GitHub cron runs in UTC. Dual daily crons + local gate ensure a single 05:30 run in Europe/Stockholm (DST covered).
+    - cron: "30 3 * * *"   # 05:30 when Stockholm is UTC+2 (CEST)
+    - cron: "30 4 * * *"   # 05:30 when Stockholm is UTC+1 (CET)
   workflow_dispatch:
     inputs:
       report_mode:
@@ -135,11 +135,11 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - name: Gate scheduled runs to 04:30 Europe/Stockholm
+      - name: Gate scheduled runs to 05:30 Europe/Stockholm
         id: gate_stockholm
         run: |
           set -euo pipefail
@@ -156,9 +156,9 @@ jobs:
           dow=$(TZ=Europe/Stockholm date +%u)
           dom=$(TZ=Europe/Stockholm date +%d)
 
-          expected_cron="30 2 * * *"
+          expected_cron="30 3 * * *"
           if [ "$offset" = "+0100" ]; then
-            expected_cron="30 3 * * *"
+            expected_cron="30 4 * * *"
           fi
 
           should_run=true
@@ -186,7 +186,7 @@ jobs:
             exit 0
           fi
 
-          echo "Proceeding with scheduled run aligned to Europe/Stockholm 04:30 delivery."
+          echo "Proceeding with scheduled run aligned to Europe/Stockholm 05:30 delivery."
 
       - name: Compute run plan
         id: compute_plan
@@ -248,7 +248,7 @@ jobs:
 
       - name: Set up Python
         if: steps.compute_plan.outputs.run_skip != 'true'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -353,20 +353,6 @@ jobs:
             echo "--- Running cadence: $mode (which_report=$RUN_WHICH_REPORT) ---"
             export REPORT_MODE="$mode"
 
-            if [ "$RUN_WHICH_REPORT" = "both" ] && [ "${{ github.event_name }}" = "schedule" ]; then
-              echo "Scheduled both-run order: Cybermed first, Cyberlurch second."
-            fi
-
-            if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cybermed" ]; then
-              REPORT_KEY=cybermed \
-              REPORT_TITLE="Cybermed Report" \
-              REPORT_SUBJECT="Cybermed Report" \
-              REPORT_LANGUAGE=en \
-              REPORT_PROFILE=medical \
-              SEND_EMPTY_REPORT_EMAIL="1" \
-              python -m src.newsagent2.main --channels "data/cybermed_channels.json" --hours 24
-            fi
-
             if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cyberlurch" ]; then
               CHFILE="data/channels.json"
               if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${CYBERLURCH_CHANNELS_FILE_OVERRIDE:-}" ]; then
@@ -392,6 +378,16 @@ jobs:
               SEND_EMPTY_REPORT_EMAIL="1" \
               python -m src.newsagent2.main --channels "$CHFILE" --hours 24
             fi
+
+            if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cybermed" ]; then
+              REPORT_KEY=cybermed \
+              REPORT_TITLE="Cybermed Report" \
+              REPORT_SUBJECT="Cybermed Report" \
+              REPORT_LANGUAGE=en \
+              REPORT_PROFILE=medical \
+              SEND_EMPTY_REPORT_EMAIL="1" \
+              python -m src.newsagent2.main --channels "data/cybermed_channels.json" --hours 24
+            fi
           done
 
       - name: Verify reports and email attempts
@@ -415,9 +411,9 @@ jobs:
             dow=$(TZ=Europe/Stockholm date +%u)
             dom=$(TZ=Europe/Stockholm date +%d)
 
-            expected_cron="30 2 * * *"
+            expected_cron="30 3 * * *"
             if [ "$offset" = "+0100" ]; then
-              expected_cron="30 3 * * *"
+              expected_cron="30 4 * * *"
             fi
 
             should_run=true
@@ -431,7 +427,7 @@ jobs:
             echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' dow=${dow} dom=${dom} should_run=${should_run}"
 
             if [ "$should_run" != "true" ]; then
-              echo "Verification bypassed: scheduled run not aligned to Stockholm 04:30 delivery slot."
+              echo "Verification bypassed: scheduled run not aligned to Stockholm 05:30 delivery slot."
               exit 0
             fi
           fi
@@ -468,7 +464,7 @@ jobs:
 
       - name: Upload generated Markdown reports
         if: steps.compute_plan.outputs.run_skip != 'true' && github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: newsagent2-markdown-reports-${{ github.run_id }}
           path: |
