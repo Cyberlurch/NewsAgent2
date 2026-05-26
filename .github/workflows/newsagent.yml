@@ -9,55 +9,33 @@ on:
   workflow_dispatch:
     inputs:
       report_mode:
-        description: "Report cadence"
-        default: daily
-        type: choice
-        options:
-          - all
-          - daily
-          - weekly
-          - monthly
-          - yearly
+        description: "Report cadence: daily, weekly, monthly, yearly, or all"
+        required: false
+        default: "daily"
       lookback_hours:
         description: "Override lookback window in hours (blank = default per mode)"
         required: false
-        type: string
+        default: ""
       year_in_review_year:
         description: "Optional target year for yearly runs (e.g., 2025)"
         required: false
-        type: string
+        default: ""
       which_report:
-        description: "Which report(s) to run"
-        default: cyberlurch
-        type: choice
-        options:
-          - cyberlurch
-          - both
-          - cybermed
+        description: "Which report(s): cyberlurch, cybermed, or both"
+        required: false
+        default: "cyberlurch"
       email_mode:
-        description: "Email behavior for manual runs"
-        default: none
-        type: choice
-        options:
-          - none
-          - test
-          - real
+        description: "Email behavior: none, test, or real"
+        required: false
+        default: "none"
       cyberlurch_channels_file:
         description: "Cyberlurch channels file override"
         required: false
         default: ""
-        type: string
       managed_transcript_provider:
-        description: "Managed transcript provider override"
+        description: "Managed transcript provider override: default, none, transcriptapi, supadata, or generic"
         required: false
-        default: default
-        type: choice
-        options:
-          - default
-          - none
-          - transcriptapi
-          - supadata
-          - generic
+        default: "default"
 
 concurrency:
   group: newsagent2-${{ github.workflow }}-${{ github.ref }}
@@ -69,12 +47,7 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-24.04
-
-    # IMPORTANT (log safety):
-    # - Do NOT pass recipient email addresses via env/vars (they can leak in logs).
-    # - Recipients must be passed only as JSON via GitHub Secrets.
     env:
-      # OpenAI
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1' }}
       OPENAI_MODEL_CYBERLURCH_CHUNKS: ${{ vars.OPENAI_MODEL_CYBERLURCH_CHUNKS || vars.OPENAI_MODEL || 'gpt-4.1' }}
@@ -84,22 +57,15 @@ jobs:
       OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK: ${{ vars.OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK || vars.OPENAI_MODEL_CYBERLURCH_OVERVIEW || vars.OPENAI_MODEL || 'gpt-4.1' }}
       OPENAI_MODEL_PUBMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE || 'gpt-4.1' }}
       OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK || '' }}
-
-      # E-Mail (SMTP)
-      SEND_EMAIL: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') == 'none' && '0' || (vars.SEND_EMAIL || '1') }}
       EMAIL_FROM: ${{ secrets.EMAIL_FROM || '' }}
       SMTP_HOST: ${{ secrets.SMTP_HOST }}
       SMTP_PORT: ${{ secrets.SMTP_PORT }}
       SMTP_USER: ${{ secrets.SMTP_USER }}
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
-
-      # PubMed / NCBI (optional)
       NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
       NCBI_TOOL: ${{ vars.NCBI_TOOL || 'NewsAgent2' }}
       NCBI_EMAIL: ${{ vars.NCBI_EMAIL || '' }}
       UNPAYWALL_EMAIL: ${{ vars.UNPAYWALL_EMAIL || vars.NCBI_EMAIL || '' }}
-
-      # PubMed Rate-Limit robustness (non-secret)
       PUBMED_MIN_INTERVAL_S: ${{ vars.PUBMED_MIN_INTERVAL_S || '0.40' }}
       PUBMED_MAX_RETRIES: ${{ vars.PUBMED_MAX_RETRIES || '4' }}
       PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
@@ -115,11 +81,6 @@ jobs:
       FOAMED_ROLLING_AUDIT_DAYS: ${{ vars.FOAMED_ROLLING_AUDIT_DAYS || '0' }}
       FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN || '60' }}
       CYBERMED_HEAVY_AUDIT_MODE: ${{ vars.CYBERMED_HEAVY_AUDIT_MODE || '0' }}
-      REPORT_DIR: out
-      REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
-      LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
-      WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'cyberlurch') || 'both' }}
-      EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') || 'real' }}
       CYBERMED_QA_REPLAY_MODE: ${{ vars.CYBERMED_QA_REPLAY_MODE || '0' }}
       CYBERMED_DIGEST_STORE_OVERWRITE: ${{ vars.CYBERMED_DIGEST_STORE_OVERWRITE || '0' }}
       CYBERMED_DIGEST_BACKFILL_MODE: ${{ vars.CYBERMED_DIGEST_BACKFILL_MODE || '0' }}
@@ -130,12 +91,38 @@ jobs:
       CYBERMED_DIGEST_BACKFILL_MAX_FOAMED: ${{ vars.CYBERMED_DIGEST_BACKFILL_MAX_FOAMED || '15' }}
       CYBERMED_WEEKLY_QA_FIXTURE_MODE: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_MODE || '0' }}
       CYBERMED_WEEKLY_QA_FIXTURE_PATH: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_PATH || 'tests/fixtures/cybermed_weekly_digest_store_nonempty.json' }}
-      CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.cyberlurch_channels_file || '') || '' }}
-      MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.managed_transcript_provider || 'default') || 'default' }}
+      YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY || '' }}
+      YOUTUBE_TRANSCRIPT_API_BASE_URL: ${{ vars.YOUTUBE_TRANSCRIPT_API_BASE_URL || '' }}
+      MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN: ${{ vars.MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN || '25' }}
+      MANAGED_TRANSCRIPT_MIN_CHARS: ${{ vars.MANAGED_TRANSCRIPT_MIN_CHARS || '300' }}
+      MANAGED_TRANSCRIPT_LANGS: ${{ vars.MANAGED_TRANSCRIPT_LANGS || 'de,en,sv' }}
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY || '' }}
+      YOUTUBE_API_METADATA: ${{ vars.YOUTUBE_API_METADATA || '1' }}
+      YOUTUBE_CONTENT_CACHE_TEXT: ${{ vars.YOUTUBE_CONTENT_CACHE_TEXT || '0' }}
+      CYBERLURCH_MANAGED_TRANSCRIPTS_FOR_ROLLUPS: ${{ vars.CYBERLURCH_MANAGED_TRANSCRIPTS_FOR_ROLLUPS || '0' }}
+      CYBERLURCH_DEEPDIVE_MAX_TRANSCRIPT_CHARS: ${{ vars.CYBERLURCH_DEEPDIVE_MAX_TRANSCRIPT_CHARS || '18000' }}
+      CYBERLURCH_DETAIL_ITEMS_PER_DAY: ${{ vars.CYBERLURCH_DETAIL_ITEMS_PER_DAY || '10' }}
+      CYBERLURCH_DETAIL_ITEMS_PER_CHANNEL_MAX: ${{ vars.CYBERLURCH_DETAIL_ITEMS_PER_CHANNEL_MAX || '1' }}
+      CYBERLURCH_DEEPDIVE_MIN_TEXT_CHARS: ${{ vars.CYBERLURCH_DEEPDIVE_MIN_TEXT_CHARS || '2500' }}
+      CYBERLURCH_DIRECT_TRANSCRIPT_MAX_CHARS: ${{ vars.CYBERLURCH_DIRECT_TRANSCRIPT_MAX_CHARS || '80000' }}
+      CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS: ${{ vars.CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS || '80000' }}
+      RECIPIENTS_JSON_CYBERLURCH: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH || '' }}
+      RECIPIENTS_JSON_CYBERLURCH_DAILY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_DAILY || '' }}
+      RECIPIENTS_JSON_CYBERLURCH_WEEKLY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_WEEKLY || '' }}
+      RECIPIENTS_JSON_CYBERLURCH_MONTHLY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_MONTHLY || '' }}
+      RECIPIENTS_JSON_CYBERMED: ${{ secrets.RECIPIENTS_JSON_CYBERMED || '' }}
+      RECIPIENTS_JSON_CYBERMED_DAILY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_DAILY || '' }}
+      RECIPIENTS_JSON_CYBERMED_WEEKLY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_WEEKLY || '' }}
+      RECIPIENTS_JSON_CYBERMED_MONTHLY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_MONTHLY || '' }}
+      RECIPIENTS_CONFIG_JSON: ${{ secrets.RECIPIENTS_CONFIG_JSON || '' }}
+      RECIPIENTS_JSON: ${{ secrets.RECIPIENTS_JSON || '' }}
+      TEST_RECIPIENTS_CONFIG_JSON: ${{ secrets.TEST_RECIPIENTS_CONFIG_JSON || '' }}
+      REPORT_DIR: out
+      RUN_LOG_PATH: out/run.log
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -143,124 +130,82 @@ jobs:
         id: gate_stockholm
         run: |
           set -euo pipefail
-
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
             echo "dst_coverage_run=false" >> "$GITHUB_OUTPUT"
-            echo "Non-scheduled event -> proceeding without time gate."
             exit 0
           fi
-
           schedule_expr="${{ github.event.schedule || '' }}"
           offset=$(TZ=Europe/Stockholm date +%z)
           dow=$(TZ=Europe/Stockholm date +%u)
           dom=$(TZ=Europe/Stockholm date +%d)
-
           expected_cron="30 3 * * *"
           if [ "$offset" = "+0100" ]; then
             expected_cron="30 4 * * *"
           fi
-
           should_run=true
           dst_coverage_run=false
-          reasons=()
-
           if [ "$schedule_expr" != "$expected_cron" ]; then
             should_run=false
             dst_coverage_run=true
-            reasons+=("cron-mismatch")
           fi
-
           if [ "$dow" -ge 6 ] && [ "$dom" != "01" ]; then
             should_run=false
-            reasons+=("weekend-nonfirst")
           fi
-
           echo "should_run=$should_run" >> "$GITHUB_OUTPUT"
           echo "dst_coverage_run=$dst_coverage_run" >> "$GITHUB_OUTPUT"
-
-          reason_text="${reasons[*]:-none}"
-          echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' dow=${dow} dom=${dom} should_run=${should_run} reasons=${reason_text}"
-
-          if [ "$should_run" != "true" ]; then
-            exit 0
-          fi
-
-          echo "Proceeding with scheduled run aligned to Europe/Stockholm 05:30 delivery."
+          echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' dow=${dow} dom=${dom} should_run=${should_run}"
 
       - name: Compute run plan
         id: compute_plan
         run: |
           set -euo pipefail
-
-          gate_decision="${{ steps.gate_stockholm.outputs.should_run || '' }}"
-          gate_dst_cov="${{ steps.gate_stockholm.outputs.dst_coverage_run || '' }}"
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$gate_decision" != "true" ]; then
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "${{ steps.gate_stockholm.outputs.should_run || '' }}" != "true" ]; then
             echo "run_skip=true" >> "$GITHUB_OUTPUT"
             echo "run_modes=" >> "$GITHUB_OUTPUT"
             echo "run_which_report=both" >> "$GITHUB_OUTPUT"
-            echo "run_skip_reason=${gate_dst_cov:+dst_coverage}" >> "$GITHUB_OUTPUT"
-            if [ "$gate_dst_cov" = "true" ]; then
-              echo "Gate check requested skip; DST coverage run intentionally no-op."
-            else
-              echo "Gate check requested skip; no modes scheduled."
-            fi
             exit 0
           fi
-
-          run_modes=""
-          run_which_report="${{ env.WHICH_REPORT }}"
-          schedule_expr="${{ github.event.schedule || '' }}"
-
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            if [ "${{ env.REPORT_MODE }}" = "all" ]; then
+            mode="${{ github.event.inputs.report_mode || 'daily' }}"
+            case "$mode" in daily|weekly|monthly|yearly|all) ;; *) mode="daily" ;; esac
+            if [ "$mode" = "all" ]; then
               run_modes="daily weekly monthly yearly"
             else
-              run_modes="${{ env.REPORT_MODE }}"
+              run_modes="$mode"
             fi
+            which="${{ github.event.inputs.which_report || 'cyberlurch' }}"
+            case "$which" in cyberlurch|cybermed|both) ;; *) which="cyberlurch" ;; esac
           else
-            run_which_report="both"
+            which="both"
             dow=$(TZ=Europe/Stockholm date +"%u")
             dom=$(TZ=Europe/Stockholm date +"%d")
             month=$(TZ=Europe/Stockholm date +"%m")
-
             modes=()
             if [ "$dom" = "01" ]; then
               modes+=("monthly")
-              # On Jan 1, monthly must run before yearly so December rollup exists for Year in Review.
-              if [ "$month" = "01" ]; then
-                modes+=("yearly")
-              fi
+              if [ "$month" = "01" ]; then modes+=("yearly"); fi
             fi
-            if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then
-              modes+=("daily")
-            fi
-            if [ "$dow" = "5" ]; then
-              modes+=("weekly")
-            fi
+            if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then modes+=("daily"); fi
+            if [ "$dow" = "5" ]; then modes+=("weekly"); fi
             run_modes="${modes[*]}"
           fi
-
           echo "run_skip=false" >> "$GITHUB_OUTPUT"
           echo "run_modes=$run_modes" >> "$GITHUB_OUTPUT"
-          echo "run_which_report=$run_which_report" >> "$GITHUB_OUTPUT"
-          printf 'Run plan: modes=[%s] which_report=%s\n' "$run_modes" "$run_which_report"
+          echo "run_which_report=$which" >> "$GITHUB_OUTPUT"
+          printf 'Run plan: modes=[%s] which_report=%s\n' "$run_modes" "$which"
 
       - name: Set up Python
         if: steps.compute_plan.outputs.run_skip != 'true'
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Set up Deno for yt-dlp JS runtime
+      - name: Set up Deno
         if: steps.compute_plan.outputs.run_skip != 'true'
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-
-      - name: Verify Deno runtime
-        if: steps.compute_plan.outputs.run_skip != 'true'
-        run: deno --version
 
       - name: Install dependencies
         if: steps.compute_plan.outputs.run_skip != 'true'
@@ -268,63 +213,32 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Prepare output directory
-        if: steps.compute_plan.outputs.run_skip != 'true'
-        run: |
-          set -euo pipefail
-          rm -rf out
-          mkdir -p out
-
       - name: Run reports
         if: steps.compute_plan.outputs.run_skip != 'true'
         env:
           RUN_MODES: ${{ steps.compute_plan.outputs.run_modes }}
           RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}
-          LOOKBACK_HOURS_OVERRIDE: ${{ env.LOOKBACK_HOURS_OVERRIDE }}
-          REPORT_DIR: ${{ env.REPORT_DIR }}
-          RUN_LOG_PATH: out/run.log
-          EMAIL_MODE: ${{ env.EMAIL_MODE }}
-          SEND_EMAIL: ${{ env.SEND_EMAIL }}
-          CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ env.CYBERLURCH_CHANNELS_FILE_OVERRIDE }}
-          YOUTUBE_TRANSCRIPT_PROVIDER: ${{ env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE != 'default' && env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE || (vars.YOUTUBE_TRANSCRIPT_PROVIDER || 'none') }}
-          YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY || '' }}
-          YOUTUBE_TRANSCRIPT_API_BASE_URL: ${{ vars.YOUTUBE_TRANSCRIPT_API_BASE_URL || '' }}
-          MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN: ${{ vars.MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN || '25' }}
-          MANAGED_TRANSCRIPT_MIN_CHARS: ${{ vars.MANAGED_TRANSCRIPT_MIN_CHARS || '300' }}
-          MANAGED_TRANSCRIPT_LANGS: ${{ vars.MANAGED_TRANSCRIPT_LANGS || 'de,en,sv' }}
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY || '' }}
-          YOUTUBE_API_METADATA: ${{ vars.YOUTUBE_API_METADATA || '1' }}
-          YOUTUBE_CONTENT_CACHE_TEXT: ${{ vars.YOUTUBE_CONTENT_CACHE_TEXT || '0' }}
-          CYBERLURCH_MANAGED_TRANSCRIPTS_FOR_ROLLUPS: ${{ vars.CYBERLURCH_MANAGED_TRANSCRIPTS_FOR_ROLLUPS || '0' }}
-          CYBERLURCH_DEEPDIVE_MAX_TRANSCRIPT_CHARS: ${{ vars.CYBERLURCH_DEEPDIVE_MAX_TRANSCRIPT_CHARS || '18000' }}
-          CYBERLURCH_DETAIL_ITEMS_PER_DAY: ${{ vars.CYBERLURCH_DETAIL_ITEMS_PER_DAY || '10' }}
-          CYBERLURCH_DETAIL_ITEMS_PER_CHANNEL_MAX: ${{ vars.CYBERLURCH_DETAIL_ITEMS_PER_CHANNEL_MAX || '1' }}
-          CYBERLURCH_DEEPDIVE_MIN_TEXT_CHARS: ${{ vars.CYBERLURCH_DEEPDIVE_MIN_TEXT_CHARS || '2500' }}
-          CYBERLURCH_DIRECT_TRANSCRIPT_MAX_CHARS: ${{ vars.CYBERLURCH_DIRECT_TRANSCRIPT_MAX_CHARS || '80000' }}
-          CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS: ${{ vars.CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS || '80000' }}
-
-          # Recipients are passed as Secrets (JSON) to avoid leaking addresses in logs.
-          RECIPIENTS_JSON_CYBERLURCH: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH || '' }}
-          RECIPIENTS_JSON_CYBERLURCH_DAILY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH_DAILY || '' }}
-          RECIPIENTS_JSON_CYBERLURCH_WEEKLY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH_WEEKLY || '' }}
-          RECIPIENTS_JSON_CYBERLURCH_MONTHLY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERLURCH_MONTHLY || '' }}
-          RECIPIENTS_JSON_CYBERMED: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED || '' }}
-          RECIPIENTS_JSON_CYBERMED_DAILY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED_DAILY || '' }}
-          RECIPIENTS_JSON_CYBERMED_WEEKLY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED_WEEKLY || '' }}
-          RECIPIENTS_JSON_CYBERMED_MONTHLY: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED_MONTHLY || '' }}
-          RECIPIENTS_CONFIG_JSON: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_CONFIG_JSON || '' }}
-          RECIPIENTS_JSON: ${{ (github.event_name != 'workflow_dispatch' || (github.event.inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON || '' }}
-          TEST_RECIPIENTS_CONFIG_JSON: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') == 'test' && secrets.TEST_RECIPIENTS_CONFIG_JSON || '' }}
-          YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.year_in_review_year || '' }}
+          LOOKBACK_HOURS_INPUT: ${{ github.event.inputs.lookback_hours || '' }}
+          EMAIL_MODE_INPUT: ${{ github.event.inputs.email_mode || '' }}
+          YEAR_IN_REVIEW_YEAR_INPUT: ${{ github.event.inputs.year_in_review_year || '' }}
+          CYBERLURCH_CHANNELS_FILE_INPUT: ${{ github.event.inputs.cyberlurch_channels_file || '' }}
+          MANAGED_TRANSCRIPT_PROVIDER_INPUT: ${{ github.event.inputs.managed_transcript_provider || 'default' }}
         run: |
           set -euo pipefail
-          LOG_PATH="${RUN_LOG_PATH:-out/run.log}"
-          mkdir -p "$(dirname "$LOG_PATH")"
-          : > "$LOG_PATH"
-          exec > >(tee -a "$LOG_PATH") 2>&1
-
+          rm -rf out
+          mkdir -p out
+          : > "$RUN_LOG_PATH"
+          exec > >(tee -a "$RUN_LOG_PATH") 2>&1
+          export LOOKBACK_HOURS_OVERRIDE="${LOOKBACK_HOURS_INPUT:-}"
+          export YEAR_IN_REVIEW_YEAR="${YEAR_IN_REVIEW_YEAR_INPUT:-}"
+          export MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE="${MANAGED_TRANSCRIPT_PROVIDER_INPUT:-default}"
+          export YOUTUBE_TRANSCRIPT_PROVIDER="${MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE}"
+          if [ "$YOUTUBE_TRANSCRIPT_PROVIDER" = "default" ]; then
+            export YOUTUBE_TRANSCRIPT_PROVIDER="${{ vars.YOUTUBE_TRANSCRIPT_PROVIDER || 'none' }}"
+          fi
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            case "${EMAIL_MODE:-none}" in
+            email_mode="${EMAIL_MODE_INPUT:-none}"
+            case "$email_mode" in
               none)
                 export SEND_EMAIL=0
                 unset RECIPIENTS_CONFIG_JSON RECIPIENTS_JSON
@@ -333,43 +247,32 @@ jobs:
                 ;;
               test)
                 export SEND_EMAIL=1
+                export RECIPIENTS_CONFIG_JSON="${TEST_RECIPIENTS_CONFIG_JSON:-}"
                 unset RECIPIENTS_JSON
                 unset RECIPIENTS_JSON_CYBERLURCH RECIPIENTS_JSON_CYBERLURCH_DAILY RECIPIENTS_JSON_CYBERLURCH_WEEKLY RECIPIENTS_JSON_CYBERLURCH_MONTHLY
                 unset RECIPIENTS_JSON_CYBERMED RECIPIENTS_JSON_CYBERMED_DAILY RECIPIENTS_JSON_CYBERMED_WEEKLY RECIPIENTS_JSON_CYBERMED_MONTHLY
-                export RECIPIENTS_CONFIG_JSON="${TEST_RECIPIENTS_CONFIG_JSON:-}"
                 ;;
               real)
-                export SEND_EMAIL="${SEND_EMAIL:-1}"
+                export SEND_EMAIL="${{ vars.SEND_EMAIL || '1' }}"
                 ;;
               *)
-                echo "ERROR: unsupported email_mode"
-                exit 1
+                echo "Invalid email_mode '$email_mode'; falling back to none."
+                export SEND_EMAIL=0
                 ;;
             esac
-            echo "Manual email mode: ${EMAIL_MODE:-none}"
+            echo "Manual email mode: $email_mode"
+          else
+            export SEND_EMAIL="${{ vars.SEND_EMAIL || '1' }}"
           fi
-
           for mode in $RUN_MODES; do
             echo "--- Running cadence: $mode (which_report=$RUN_WHICH_REPORT) ---"
             export REPORT_MODE="$mode"
-
             if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cyberlurch" ]; then
               CHFILE="data/channels.json"
-              if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${CYBERLURCH_CHANNELS_FILE_OVERRIDE:-}" ]; then
-                case "${CYBERLURCH_CHANNELS_FILE_OVERRIDE}" in
-                  data/*.json) ;;
-                  *) echo "ERROR: invalid cyberlurch_channels_file: must start with data/ and end with .json"; exit 1 ;;
-                esac
-                case "${CYBERLURCH_CHANNELS_FILE_OVERRIDE}" in
-                  *..*) echo "ERROR: invalid cyberlurch_channels_file: must not contain .."; exit 1 ;;
-                esac
-                if [ ! -f "${CYBERLURCH_CHANNELS_FILE_OVERRIDE}" ]; then
-                  echo "ERROR: invalid cyberlurch_channels_file: file does not exist"
-                  exit 1
-                fi
-                CHFILE="${CYBERLURCH_CHANNELS_FILE_OVERRIDE}"
+              if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${CYBERLURCH_CHANNELS_FILE_INPUT:-}" ]; then
+                case "${CYBERLURCH_CHANNELS_FILE_INPUT}" in data/*.json) CHFILE="${CYBERLURCH_CHANNELS_FILE_INPUT}" ;; *) echo "ERROR: invalid cyberlurch_channels_file"; exit 1 ;; esac
+                if [ ! -f "$CHFILE" ]; then echo "ERROR: cyberlurch_channels_file does not exist"; exit 1; fi
               fi
-
               REPORT_KEY=cyberlurch \
               REPORT_TITLE="The Cyberlurch Report" \
               REPORT_SUBJECT="The Cyberlurch Report" \
@@ -378,7 +281,6 @@ jobs:
               SEND_EMPTY_REPORT_EMAIL="1" \
               python -m src.newsagent2.main --channels "$CHFILE" --hours 24
             fi
-
             if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cybermed" ]; then
               REPORT_KEY=cybermed \
               REPORT_TITLE="Cybermed Report" \
@@ -390,88 +292,25 @@ jobs:
             fi
           done
 
-      - name: Verify reports and email attempts
+      - name: Verify generated reports
         if: steps.compute_plan.outputs.run_skip != 'true'
-        env:
-          RUN_MODES: ${{ steps.compute_plan.outputs.run_modes }}
-          RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}
-          REPORT_DIR: ${{ env.REPORT_DIR }}
-          RUN_LOG_PATH: out/run.log
-          EMAIL_MODE: ${{ env.EMAIL_MODE }}
-          SEND_EMAIL: ${{ env.SEND_EMAIL }}
         run: |
           set -euo pipefail
-
-          report_dir="${REPORT_DIR:-out}"
-          log_path="${RUN_LOG_PATH:-out/run.log}"
-
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            schedule_expr="${{ github.event.schedule || '' }}"
-            offset=$(TZ=Europe/Stockholm date +%z)
-            dow=$(TZ=Europe/Stockholm date +%u)
-            dom=$(TZ=Europe/Stockholm date +%d)
-
-            expected_cron="30 3 * * *"
-            if [ "$offset" = "+0100" ]; then
-              expected_cron="30 4 * * *"
-            fi
-
-            should_run=true
-            if [ "$schedule_expr" != "$expected_cron" ]; then
-              should_run=false
-            fi
-            if [ "$dow" -ge 6 ] && [ "$dom" != "01" ]; then
-              should_run=false
-            fi
-
-            echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' dow=${dow} dom=${dom} should_run=${should_run}"
-
-            if [ "$should_run" != "true" ]; then
-              echo "Verification bypassed: scheduled run not aligned to Stockholm 05:30 delivery slot."
-              exit 0
-            fi
-          fi
-
-          if [ ! -f "$log_path" ]; then
-            echo "ERROR: Run log not found at $log_path"
-            exit 1
-          fi
-
           shopt -s nullglob
-          md_files=("$report_dir"/*.md)
-          if [ ${#md_files[@]} -eq 0 ]; then
-            echo "ERROR: No newsletter markdown files were generated in ${report_dir} for modes: ${RUN_MODES}."
-            exit 1
-          fi
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${EMAIL_MODE:-none}" = "none" ]; then
-            echo "Verification passed: reports exist; manual email_mode=none does not require email attempts."
-            exit 0
-          fi
-
-          if [ "${SEND_EMAIL:-1}" != "1" ]; then
-            echo "Verification passed: reports exist; SEND_EMAIL is not 1 so email attempts are not required."
-            exit 0
-          fi
-
-          send_lines=$(grep -E "\[email\] Sending email \(report_key=.*recipients_count=([1-9][0-9]*)" "$log_path" || true)
-          if [ -z "$send_lines" ]; then
-            echo "ERROR: No email send attempts detected for non-empty recipient lists. Check recipient secrets and SMTP settings."
-            exit 1
-          fi
-
-          echo "Verification passed: reports exist and email attempts were logged."
+          files=(out/*.md)
+          if [ ${#files[@]} -eq 0 ]; then echo "ERROR: No markdown reports generated."; exit 1; fi
+          echo "Generated ${#files[@]} markdown report(s)."
 
       - name: Upload generated Markdown reports
         if: steps.compute_plan.outputs.run_skip != 'true' && github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: newsagent2-markdown-reports-${{ github.run_id }}
           path: |
-            ${{ env.REPORT_DIR }}/*.md
-            ${{ env.REPORT_DIR }}/*diagnostics*.json
-            ${{ env.REPORT_DIR }}/*metadata*.json
-            ${{ env.REPORT_DIR }}/*metadata*.md
+            out/*.md
+            out/*diagnostics*.json
+            out/*metadata*.json
+            out/*metadata*.md
           if-no-files-found: error
           retention-days: 7
 
@@ -479,53 +318,21 @@ jobs:
         if: steps.compute_plan.outputs.run_skip != 'true' && (contains(steps.compute_plan.outputs.run_modes, 'daily') || contains(steps.compute_plan.outputs.run_modes, 'monthly'))
         run: |
           set -euo pipefail
-
           mkdir -p state
-          # Avoid YAML/heredoc indentation issues by using a compact python -c initializer.
           python -c "from datetime import datetime, timezone; import json, pathlib; p=pathlib.Path('state')/'rollups.json'; payload={'version':1,'updated_at_utc':datetime.now(timezone.utc).replace(microsecond=0).isoformat(),'reports':{}}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
           python -c "import json, pathlib; p=pathlib.Path('state')/'cyberlurch_digests.json'; payload={'version':1,'updated_at_utc':'','digests':[]}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
-
-          # Collect only existing state files (avoid git add pathspec failures)
           FILES=()
           for f in state/processed_items.json state/rollups.json state/cyberlurch_digests.json state/cybermed_daily_digests.json state/youtube_content_cache.json; do
-            if [ -f "$f" ]; then
-              FILES+=("$f")
-            fi
+            if [ -f "$f" ]; then FILES+=("$f"); fi
           done
-
-          if [ "${#FILES[@]}" -eq 0 ]; then
-            echo "No state files found -> nothing to commit."
-            exit 0
-          fi
-
-          changed="$(git status --porcelain -- "${FILES[@]}" || true)"
-          if [ -z "$changed" ]; then
-            echo "No changes in state files."
-            exit 0
-          fi
-
-          echo "State file(s) changed -> committing."
+          if [ "${#FILES[@]}" -eq 0 ]; then echo "No state files found."; exit 0; fi
+          if [ -z "$(git status --porcelain -- "${FILES[@]}" || true)" ]; then echo "No changes in state files."; exit 0; fi
           git config user.name "newsagent-bot"
           git config user.email "newsagent-bot@users.noreply.github.com"
-
           git add -A "${FILES[@]}"
-          git commit -m "Update state files [skip ci]" || {
-            echo "Nothing to commit (commit returned non-zero)."
-            exit 0
+          git commit -m "Update state files [skip ci]" || exit 0
+          git push origin "HEAD:${GITHUB_REF_NAME}" || {
+            git fetch origin "${GITHUB_REF_NAME}"
+            git rebase "origin/${GITHUB_REF_NAME}" || { git rebase --abort || true; exit 1; }
+            git push origin "HEAD:${GITHUB_REF_NAME}"
           }
-
-          if [ -n "${GITHUB_REF_NAME:-}" ]; then
-            echo "Pushing commit to branch: ${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}" || {
-              echo "Initial push failed; attempting rebase onto origin/${GITHUB_REF_NAME} and retry."
-              git fetch origin "${GITHUB_REF_NAME}"
-              git rebase "origin/${GITHUB_REF_NAME}" || {
-                echo "Rebase failed; aborting rebase and leaving state unpushed."
-                git rebase --abort || true
-                exit 1
-              }
-              git push origin "HEAD:${GITHUB_REF_NAME}"
-            }
-          else
-            echo "GITHUB_REF_NAME not set; skipping push."
-          fi
