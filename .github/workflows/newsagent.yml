@@ -68,6 +68,7 @@ jobs:
       RECIPIENTS_JSON_CYBERMED_MONTHLY_REAL: ${{ secrets.RECIPIENTS_JSON_CYBERMED_MONTHLY }}
       REPORT_DIR: out
       RUN_LOG_PATH: out/run.log
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
     steps:
       - name: Checkout

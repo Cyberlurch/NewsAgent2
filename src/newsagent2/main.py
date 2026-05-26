@@ -2163,6 +2163,11 @@ def main() -> None:
     cybermed_weekly_digest_only = False
     cybermed_monthly_digest_only = False
     cybermed_digest_only_mode = False
+    event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
+    email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
+    send_email = (os.getenv("SEND_EMAIL", "1") or "1").strip()
+    digest_overwrite_requested = _env_bool("CYBERMED_DIGEST_STORE_OVERWRITE", False)
+    digest_replace_empty_requested = _env_bool("CYBERMED_DIGEST_STORE_REPLACE_EMPTY", False)
     cybermed_weekly_qa_fixture_mode = False
     cybermed_weekly_qa_fixture_requested = False
     cybermed_weekly_qa_fixture_safety_passed = False
@@ -3581,7 +3586,7 @@ def main() -> None:
             report_key=report_key,
             report_mode=report_mode,
             now_utc_iso=now_utc_iso,
-            read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode),
+            read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode or manual_dry_run_state_suppressed),
         )
 
         if send_empty_email == "1":
@@ -4604,6 +4609,23 @@ def main() -> None:
         except Exception as e:
             print(f"[rollups] WARN: failed to persist monthly rollup: {e!r}")
 
+    manual_daily_none_mode = (
+        event_name in {"workflow_dispatch", "manual"}
+        and send_email == "0"
+        and email_mode == "none"
+        and report_mode == "daily"
+    )
+    manual_dry_run_state_suppressed = bool(
+        is_cybermed_run
+        and manual_daily_none_mode
+        and not backfill_enabled
+        and not qa_replay_enabled
+        and not cybermed_digest_only_mode
+        and not digest_overwrite_requested
+        and not digest_replace_empty_requested
+    )
+    state_write_suppressed_reason = "manual_email_none_dry_run" if manual_dry_run_state_suppressed else ""
+
     if report_key.strip().lower() == "cyberlurch" and report_mode == "daily":
         dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
         dstate, removed_invalid = sanitize_cyberlurch_digest_state(dstate)
@@ -4649,12 +4671,9 @@ def main() -> None:
         "cybermed_digest_store_replace_empty_allowed": False,
     }
     if report_key.strip().lower() == "cybermed" and report_mode == "daily":
-        email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
-        send_email = (os.getenv("SEND_EMAIL", "1") or "1").strip()
-        event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
         qa_replay_allow = _env_bool("CYBERMED_DIGEST_STORE_ALLOW_QA_REPLAY", False)
-        overwrite_requested = _env_bool("CYBERMED_DIGEST_STORE_OVERWRITE", False)
-        replace_empty_requested = _env_bool("CYBERMED_DIGEST_STORE_REPLACE_EMPTY", False)
+        overwrite_requested = digest_overwrite_requested
+        replace_empty_requested = digest_replace_empty_requested
         digest_id = backfill_digest_id or f"cybermed_daily_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
         safe_mutation_allowed = email_mode == "none" and send_email == "0" and event_name in {"workflow_dispatch", "manual"}
         overwrite_allowed = overwrite_requested and safe_mutation_allowed
@@ -4667,7 +4686,9 @@ def main() -> None:
         })
         print(f"[cybermed-digest-store] enabled=True digest_id={digest_id} overwrite_allowed={overwrite_allowed} path={cybermed_digest_state_path} abs_path={cybermed_digest_state_abs_path}")
         skip_reason = ""
-        if qa_replay_enabled and not qa_replay_allow:
+        if manual_dry_run_state_suppressed:
+            skip_reason = "manual_email_none_dry_run"
+        elif qa_replay_enabled and not qa_replay_allow:
             skip_reason = "qa_replay_mode"
         if qa_replay_enabled and qa_replay_allow and not overwrite_allowed:
             skip_reason = "qa_replay_requires_safe_overwrite"
@@ -4874,6 +4895,11 @@ def main() -> None:
             "pubmed_summary_consistency_preview": consistency_preview[:10],
         })
         cybermed_diagnostics_payload.update(cybermed_digest_diag)
+        cybermed_diagnostics_payload.update({
+            "manual_dry_run_state_suppressed": bool(manual_dry_run_state_suppressed),
+            "manual_dry_run_digest_write_suppressed": bool(manual_dry_run_state_suppressed and report_mode == "daily"),
+            "state_write_suppressed_reason": state_write_suppressed_reason,
+        })
         if cybermed_digest_only_mode:
             rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
             rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
@@ -4910,7 +4936,7 @@ def main() -> None:
         report_key=report_key,
         report_mode=report_mode,
         now_utc_iso=now_utc_iso,
-        read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode),
+        read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode or manual_dry_run_state_suppressed),
     )
 
     try:
