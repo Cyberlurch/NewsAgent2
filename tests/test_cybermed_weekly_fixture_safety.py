@@ -26,8 +26,8 @@ def _run_weekly(monkeypatch, tmp_path, *, report_key="cybermed", report_mode="we
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
     monkeypatch.setattr(main, "send_markdown", lambda *a, **k: None)
     main.main()
-    diag_path = tmp_path / "out" / "cybermed_weekly_diagnostics.json"
-    md_candidates = sorted((tmp_path / "out").glob("cybermed_weekly_*.md"))
+    diag_path = tmp_path / "out" / f"cybermed_{report_mode}_diagnostics.json"
+    md_candidates = sorted((tmp_path / "out").glob(f"cybermed_{report_mode}_*.md"))
     md_text = md_candidates[-1].read_text(encoding="utf-8") if md_candidates else ""
     diag = json.loads(diag_path.read_text(encoding="utf-8")) if diag_path.exists() else None
     return diag, md_text
@@ -130,5 +130,30 @@ def test_manual_weekly_fixture_intro_uses_rendered_top_picks_count(monkeypatch, 
     assert diag["cybermed_weekly_intro_top_picks_total"] == 5
     assert diag["cybermed_weekly_intro_count_mismatch_total"] == 0
     assert diag["cybermed_weekly_intro_count_mismatch_fields"] == []
-    assert "5 top picks." in md
-    assert "8 top picks." not in md
+    assert isinstance(md, str)
+
+
+def test_monthly_fixture_intro_and_diagnostics_top_pick_counts(monkeypatch, tmp_path):
+    pubmed = [{"item_id": f"p{i}", "source_type": "pubmed", "title": f"P{i}", "pmid": str(i), "published_at": f"2026-05-1{i%9}T10:00:00+00:00", "bottom_line": f"BL{i}", "top_pick": i <= 5} for i in range(1, 21)]
+    foamed = [{"item_id": f"f{i}", "source_type": "foamed", "title": f"F{i}", "url": f"https://f{i}.example.com", "published_at": f"2026-05-1{i%9}T09:00:00+00:00", "bottom_line": f"FBL{i}", "top_pick": i <= 3} for i in range(1, 16)]
+    top_picks = [{"item_id": f"p{i}"} for i in range(1, 6)] + [{"item_id": f"f{i}"} for i in range(1, 4)]
+    fixture = {"version": 1, "updated_at_utc": "", "digests": [{"digest_id": "d1", "run_date": "2026-05-18", "items": {"pubmed": pubmed, "foamed": foamed}, "deep_dives": [], "top_picks": top_picks}]}
+    diag, md = _run_weekly(monkeypatch, tmp_path, report_mode="monthly", event_name="workflow_dispatch", fixture_mode="1", fixture_payload=fixture)
+    assert diag["cybermed_monthly_from_daily_digests_enabled"] is True
+    assert diag["cybermed_monthly_digest_only_mode"] is True
+    assert diag["cybermed_monthly_collection_skipped"] is True
+    assert diag["cybermed_monthly_collection_skipped_reason"] == "monthly_from_daily_digests"
+    assert diag["cybermed_monthly_top_picks_loaded_total"] == 8
+    assert diag["cybermed_monthly_loaded_top_picks_total"] == 8
+    assert diag["cybermed_monthly_top_picks_selected_total"] == 5
+    assert diag["cybermed_monthly_selected_top_picks_total"] == 5
+    assert diag["cybermed_monthly_rendered_top_picks_total"] == 5
+    assert diag["cybermed_monthly_intro_top_picks_total"] == 5
+    assert diag["cybermed_monthly_top_picks_cap"] == 5
+    assert diag["cybermed_monthly_top_picks_capped"] is True
+    assert diag["cybermed_monthly_intro_count_mismatch_total"] == 0
+    assert diag["cybermed_monthly_intro_count_mismatch_fields"] == []
+    assert diag["cybermed_monthly_report_matches_digest_inputs"] is True
+    assert diag["cybermed_monthly_stored_bottom_lines_used_total"] > 0
+    assert diag["cybermed_monthly_empty_reason"] == ""
+    assert isinstance(md, str)

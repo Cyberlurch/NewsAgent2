@@ -1012,43 +1012,43 @@ def to_markdown(
             pubmed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "pubmed")
             foamed_count = sum(1 for it in items if str(it.get("source") or "").strip().lower() == "foamed")
             top_pick_count = sum(1 for it in items if it.get("top_pick") is True)
-            if normalized_mode == "weekly" and isinstance(cybermed_stats, dict):
+            if normalized_mode in {"weekly", "monthly"} and isinstance(cybermed_stats, dict):
                 pubmed_count = int(
                     cybermed_stats.get(
-                        "cybermed_weekly_rendered_pubmed_items_total",
-                        cybermed_stats.get("cybermed_weekly_pubmed_items_selected_total", pubmed_count),
+                        f"cybermed_{normalized_mode}_rendered_pubmed_items_total",
+                        cybermed_stats.get(f"cybermed_{normalized_mode}_pubmed_items_selected_total", pubmed_count),
                     )
                     or 0
                 )
                 foamed_count = int(
                     cybermed_stats.get(
-                        "cybermed_weekly_rendered_foamed_items_total",
-                        cybermed_stats.get("cybermed_weekly_foamed_items_selected_total", foamed_count),
+                        f"cybermed_{normalized_mode}_rendered_foamed_items_total",
+                        cybermed_stats.get(f"cybermed_{normalized_mode}_foamed_items_selected_total", foamed_count),
                     )
                     or 0
                 )
                 top_pick_count = int(
                     cybermed_stats.get(
-                        "cybermed_weekly_rendered_top_picks_total",
+                        f"cybermed_{normalized_mode}_rendered_top_picks_total",
                         cybermed_stats.get(
-                            "cybermed_weekly_selected_top_picks_total",
-                            cybermed_stats.get("cybermed_weekly_top_picks_selected_total", top_pick_count),
+                            f"cybermed_{normalized_mode}_selected_top_picks_total",
+                            cybermed_stats.get(f"cybermed_{normalized_mode}_top_picks_selected_total", top_pick_count),
                         ),
                     )
                     or 0
                 )
-                cybermed_stats["cybermed_weekly_intro_pubmed_items_total"] = pubmed_count
-                cybermed_stats["cybermed_weekly_intro_foamed_items_total"] = foamed_count
-                cybermed_stats["cybermed_weekly_intro_top_picks_total"] = top_pick_count
+                cybermed_stats[f"cybermed_{normalized_mode}_intro_pubmed_items_total"] = pubmed_count
+                cybermed_stats[f"cybermed_{normalized_mode}_intro_foamed_items_total"] = foamed_count
+                cybermed_stats[f"cybermed_{normalized_mode}_intro_top_picks_total"] = top_pick_count
                 mismatch_fields = []
-                if pubmed_count != int(cybermed_stats.get("cybermed_weekly_rendered_pubmed_items_total", pubmed_count) or 0):
+                if pubmed_count != int(cybermed_stats.get(f"cybermed_{normalized_mode}_rendered_pubmed_items_total", pubmed_count) or 0):
                     mismatch_fields.append("pubmed")
-                if foamed_count != int(cybermed_stats.get("cybermed_weekly_rendered_foamed_items_total", foamed_count) or 0):
+                if foamed_count != int(cybermed_stats.get(f"cybermed_{normalized_mode}_rendered_foamed_items_total", foamed_count) or 0):
                     mismatch_fields.append("foamed")
-                if top_pick_count != int(cybermed_stats.get("cybermed_weekly_rendered_top_picks_total", top_pick_count) or 0):
+                if top_pick_count != int(cybermed_stats.get(f"cybermed_{normalized_mode}_rendered_top_picks_total", top_pick_count) or 0):
                     mismatch_fields.append("top_picks")
-                cybermed_stats["cybermed_weekly_intro_count_mismatch_fields"] = mismatch_fields
-                cybermed_stats["cybermed_weekly_intro_count_mismatch_total"] = len(mismatch_fields)
+                cybermed_stats[f"cybermed_{normalized_mode}_intro_count_mismatch_fields"] = mismatch_fields
+                cybermed_stats[f"cybermed_{normalized_mode}_intro_count_mismatch_total"] = len(mismatch_fields)
             if normalized_mode == "weekly":
                 top_pick_count = min(top_pick_count, 5)
             period_line = ""

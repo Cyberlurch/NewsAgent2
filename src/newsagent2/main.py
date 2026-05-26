@@ -683,6 +683,17 @@ def _write_run_metadata_artifact(report_dir: str, report_key: str, report_mode: 
         print(f"[diagnostics] WARN: failed to write run metadata artifact err_type={type(e).__name__}")
 
 
+
+
+def _cybermed_monthly_aliases_from_weekly(diag: Dict[str, Any]) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+    for k, v in list(diag.items()):
+        if k.startswith("cybermed_weekly_"):
+            mk = k.replace("cybermed_weekly_", "cybermed_monthly_", 1)
+            if mk not in diag:
+                out[mk] = v
+    return out
+
 def _write_cybermed_diagnostics(
     report_dir: str,
     report_mode: str,
@@ -693,6 +704,8 @@ def _write_cybermed_diagnostics(
     try:
         os.makedirs(report_dir, exist_ok=True)
         safe_mode = (report_mode or "daily").strip().lower() or "daily"
+        if safe_mode == "monthly":
+            diagnostics_payload.update(_cybermed_monthly_aliases_from_weekly(diagnostics_payload))
         out_path = os.path.join(report_dir, f"cybermed_{safe_mode}_diagnostics.json")
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(diagnostics_payload, f, ensure_ascii=False, indent=2, sort_keys=True)
@@ -3683,7 +3696,13 @@ def main() -> None:
                     "cybermed_weekly_intro_count_mismatch_fields": [],
                     "cybermed_weekly_report_matches_digest_inputs": rendered_pubmed_total == int(cybermed_weekly_diag.get("cybermed_weekly_pubmed_items_selected_total", 0) or 0) and rendered_foamed_total == int(cybermed_weekly_diag.get("cybermed_weekly_foamed_items_selected_total", 0) or 0),
                 })
-            cybermed_diagnostics_payload.update(cybermed_weekly_diag)
+            if report_mode == "monthly":
+                cybermed_weekly_diag.update(_cybermed_monthly_aliases_from_weekly(cybermed_weekly_diag))
+        if report_mode == "monthly":
+            cybermed_weekly_diag.update(_cybermed_monthly_aliases_from_weekly(cybermed_weekly_diag))
+        if report_mode == "monthly":
+            cybermed_weekly_diag.update(_cybermed_monthly_aliases_from_weekly(cybermed_weekly_diag))
+        cybermed_diagnostics_payload.update(cybermed_weekly_diag)
         _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
         return
 
