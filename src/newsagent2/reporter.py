@@ -1059,7 +1059,7 @@ def to_markdown(
                     if not sub_items:
                         continue
                     md.extend([f"#### {sub}", ""])
-                    for it in sub_items:
+                    for idx, it in enumerate(sub_items):
                         iid = str(it.get("id") or "").strip()
                         url = str(it.get("url") or "").strip()
                         title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
@@ -1071,17 +1071,22 @@ def to_markdown(
                         else:
                             bottom = (it.get("bottom_line") or "").strip() if normalized_mode == "weekly" else _best_bottom_line(it, detail)
                         md.append(
-                            f"- [{display_title}]({url}) — *{label}*" if url else f"- {display_title} — *{label}*"
+                            f"**[{display_title}]({url})** — *{label}*" if url else f"**{display_title}** — *{label}*"
                         )
                         compact = _pubmed_compact_line(it)
                         if it.get("top_pick") is True:
                             compact = _join_compact_segments(["⭐ Top pick", compact])
                         if compact:
-                            md.append(f"  - {compact}")
+                            md.append("")
+                            md.append(compact)
                         if bottom:
-                            md.append(f"  - **BOTTOM LINE:** {bottom}")
+                            md.append("")
+                            md.append(f"**BOTTOM LINE:** {bottom}")
                         else:
-                            md.append("  - **BOTTOM LINE:** No stored bottom line available.")
+                            md.append("")
+                            md.append("**BOTTOM LINE:** No stored bottom line available.")
+                        if idx < len(sub_items) - 1:
+                            md.extend(["", "---", ""])
                     md.append("")
         else:
             _, after_state = _parse_cybermed_counts(meta_only or "")
@@ -1102,24 +1107,28 @@ def to_markdown(
                 key=lambda it: it.get("published_at") or datetime.min.replace(tz=STO),
                 reverse=True,
             )
-            for it in foamed_sorted:
+            for idx, it in enumerate(foamed_sorted):
                 title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
                 url = str(it.get("url") or "").strip()
                 source_name = _md_escape_label(str(it.get("foamed_source") or it.get("channel") or "FOAMed"))
                 display_title = title_lbl
-                line = f"- [{display_title}]({url}) — {source_name}" if url else f"- {display_title} — {source_name}"
+                line = f"**[{display_title}]({url})** — *{source_name}*" if url else f"**{display_title}** — *{source_name}*"
                 md.append(line)
                 compact = _foamed_compact_line(it)
                 if it.get("top_pick") is True:
                     compact = _join_compact_segments(["⭐ Top pick", compact])
                 if compact:
-                    md.append(f"  - {compact}")
+                    md.append("")
+                    md.append(compact)
                 bottom_line = (it.get("bottom_line") or "").strip()
                 if bottom_line and not bottom_line.lower().startswith("bottom line"):
                     bottom_line = f"BOTTOM LINE: {bottom_line}"
                 if not bottom_line:
                     bottom_line = "BOTTOM LINE: No stored bottom line available."
-                md.append(f"  - {bottom_line}")
+                md.append("")
+                md.append(f"**{bottom_line}**" if bottom_line.upper().startswith("BOTTOM LINE:") else bottom_line)
+                if idx < len(foamed_sorted) - 1:
+                    md.extend(["", "---", ""])
             md.append("")
         else:
             md.append("- No new FOAMed posts in the last 24 hours.")
