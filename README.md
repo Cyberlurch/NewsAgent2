@@ -1,117 +1,101 @@
-# NewsAgent2 – Automated Cybermed & Cyberlurch Newsletters
+# NewsAgent2
 
-NewsAgent2 is a private GitHub Actions automation that generates and distributes two newsletters with stateful deduplication and digest rollups.
+**NewsAgent2** is an automated newsletter system that collects, filters, summarizes, and emails curated news reports on a schedule.
 
-## Current architecture
+The project started as a personal automation experiment: instead of manually checking dozens of sources every morning, NewsAgent2 gathers relevant material, removes duplicates, ranks what matters, and turns it into readable newsletters.
 
-### 1) Cybermed Report (medical, English)
-- **Daily:** live PubMed + FOAMed collection, summarization, and digest generation.
-- **Weekly:** digest-only from `state/cybermed_daily_digests.json`.
-- **Monthly:** digest-only from `state/cybermed_daily_digests.json`.
-- Weekly/Monthly **must not** perform live PubMed/FOAMed collection and **must not** regenerate bottom lines.
-- Stored `bottom_line`, `top_pick`, and `deep_dive` fields are preserved for digest-only outputs.
-- Markdown artifacts and diagnostics are uploaded in workflow artifacts.
-- Email supports `none`, `test`, and `real` modes.
+It currently produces two main reports:
 
-### 2) The Cyberlurch Report (general)
-- Source-driven from YouTube/news inputs.
-- **Daily:** collects current content and updates state.
-- **Weekly/Monthly/Yearly:** use stored state and rollups where applicable.
+1. **Cybermed Report** – a medical newsletter focused on PubMed, critical care, anaesthesia, emergency medicine, and FOAMed sources.
+2. **The Cyberlurch Report** – a broader general-interest newsletter based on selected YouTube/news sources and written as a concise situational overview.
 
-## Workflow and scheduling
+The system runs automatically with GitHub Actions and sends the finished reports by email.
 
-- **Main workflow:** `.github/workflows/newsagent.yml`
-- Scheduled delivery is gated to approximately **05:30 Europe/Stockholm** using:
-  - dual UTC crons, and
-  - an explicit Stockholm-time gate.
-- `workflow_dispatch` supports:
-  - `report_mode`: `daily`, `weekly`, `monthly`, `yearly`, `all`
-  - `which_report`: `cyberlurch`, `cybermed`, `both`
-  - `email_mode`: `none`, `test`, `real`
-  - `lookback_hours` override
-  - `year_in_review_year` override
+---
 
-### Email mode behavior
-- `email_mode=none`: generate output, send no email.
-- `email_mode=test`: send to `TEST_RECIPIENTS_CONFIG_JSON`.
-- `email_mode=real`: send to production recipient secrets.
-- Recipient addresses must never be printed to logs; logs should show recipient counts only.
+## What problem does it solve?
 
-## State model
+Most news feeds are noisy.
 
-- `state/processed_items.json`
-  - Prevents duplicate daily sends.
-  - Tracks source health.
-- `state/cybermed_daily_digests.json`
-  - Stores Cybermed daily digest payloads consumed by Cybermed Weekly/Monthly.
-- `state/cyberlurch_digests.json`
-  - Stores Cyberlurch digest data.
-- `state/rollups.json`
-  - Stores monthly rollups used by Year-in-Review.
-- Cybermed Weekly/Monthly are **read-only** relative to `processed_items`.
-- Maintenance/backfill operations must be manual-only and safe by default.
+Medical literature feeds are especially difficult: many papers are technically new, but not clinically important. Blogs and FOAMed sources can be useful, but they vary widely in quality. YouTube/news channels can contain important signals, but they are mixed with repetition, speculation, and low-value content.
 
-## Operational runbook
+NewsAgent2 tries to solve this by acting as a **curated daily briefing agent**:
 
-### Cybermed Daily test run
-1. Open **Actions → NewsAgent2 workflow → Run workflow**.
-2. Set:
-   - `which_report=cybermed`
-   - `report_mode=daily`
-   - `email_mode=none` (or `test` when explicitly validating mail routing)
-3. Start run and review logs/artifacts.
+- collect from many sources,
+- avoid sending the same item twice,
+- rank by relevance,
+- summarize clearly,
+- keep links to the original sources,
+- and package everything into a readable email.
 
-### Cybermed Weekly test run
-1. Run workflow manually.
-2. Set:
-   - `which_report=cybermed`
-   - `report_mode=weekly`
-   - `email_mode=none` (or `test`)
-3. Confirm digest-only behavior (no live collection/summarization).
+The goal is not to replace human judgment. The goal is to reduce the amount of material a human has to manually scan.
 
-### Cybermed Monthly test run
-1. Run workflow manually.
-2. Set:
-   - `which_report=cybermed`
-   - `report_mode=monthly`
-   - `email_mode=none` (or `test`)
-3. Confirm digest-only behavior and artifact creation.
+---
 
-### How to run `email_mode=test`
-- Use `email_mode=test` with any manual run combination.
-- Verify sends target `TEST_RECIPIENTS_CONFIG_JSON` only.
-- Confirm logs expose recipient **counts**, not addresses.
+## The two newsletters
 
-### What to check in logs
-- Correct selected mode/report pair.
-- No recipient address output; count-only recipient diagnostics.
-- For digest-only Cybermed runs (weekly/monthly), confirm success criteria:
-  - `runtime_pubmed_collect_seconds = 0.0`
-  - `runtime_foamed_collect_seconds = 0.0`
-  - `runtime_summarization_seconds = 0.0`
-  - `read_only=True`
-  - no traceback
-  - artifact exists
+## 1. Cybermed Report
 
-## Maintenance and backfill
+The **Cybermed Report** is the medical newsletter.
 
-- Backfill is **not** part of normal newsletter delivery.
-- Default mode must be **dry-run / audit-only**.
-- Do not use SMTP or recipient secrets in backfill.
-- Do not mutate `processed_items` during backfill.
-- Do not overwrite non-empty digests unless explicitly requested and audited.
-- Review backfill output before any apply step.
+It focuses on:
 
-## Current roadmap
+- intensive care,
+- anaesthesia,
+- emergency medicine,
+- resuscitation,
+- sepsis and infectious disease,
+- ventilation and respiratory medicine,
+- clinically relevant AI/methods papers,
+- selected FOAMed and medical commentary sources.
 
-1. Validate next Friday scheduled run and delivery time.
-2. Safe digest-store backfill.
-3. Editorial Cybermed Monthly.
-4. Editorial Cybermed Year-in-Review.
-5. Later: dry-run state-safety, Node/actions maintenance, performance tuning.
+The daily Cybermed report is “paper-first”. PubMed literature is treated as the primary evidence layer, while FOAMed/blog material is used as a commentary and interpretation layer.
 
-## Security
+Typical output includes:
 
-- Keep all credentials and recipient configuration in GitHub Secrets.
-- Never commit private email addresses, API keys, or SMTP credentials.
-- Use placeholder addresses only in examples.
+- selected papers,
+- concise **BOTTOM LINE** summaries,
+- evidence/relevance/practice-impact labels,
+- links to PubMed or source pages,
+- optional deep dives for selected high-value papers,
+- FOAMed/commentary items when they add clinical value.
+
+The weekly and monthly Cybermed reports are built from stored daily digest data. This keeps them reproducible and prevents the weekly/monthly reports from re-collecting live PubMed or FOAMed data.
+
+Current Cybermed status:
+
+- **Daily:** live PubMed + FOAMed collection.
+- **Weekly:** digest-only, based on stored daily Cybermed digests.
+- **Monthly:** digest-only, based on stored daily Cybermed digests.
+- **Year-in-Review:** planned/under improvement as an editorial annual synthesis based on stored monthly/daily data.
+
+---
+
+## 2. The Cyberlurch Report
+
+The **Cyberlurch Report** is a broader general-interest newsletter.
+
+It collects from selected YouTube and news-style sources and creates a readable summary of what is new or important.
+
+It is designed less as a link dump and more as an executive-style overview:
+
+- what happened,
+- why it may matter,
+- what themes are emerging,
+- which sources contributed,
+- and which items deserve a closer look.
+
+YouTube metadata and available text are used where possible. Transcript/caption fallbacks can be enabled, but the system tries to avoid unnecessary heavy processing.
+
+---
+
+## How the system runs
+
+NewsAgent2 runs on **GitHub Actions**.
+
+The normal schedule is designed around **Europe/Stockholm** time and aims to produce morning newsletters.
+
+The main workflow is:
+
+```text
+.github/workflows/newsagent.yml
