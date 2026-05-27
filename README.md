@@ -1,184 +1,117 @@
 # NewsAgent2 – Automated Cybermed & Cyberlurch Newsletters
 
-NewsAgent2 is a private automation project that generates and emails two newsletters via GitHub Actions, keeping delivery reliable and duplicate-free.
+NewsAgent2 is a private GitHub Actions automation that generates and distributes two newsletters with stateful deduplication and digest rollups.
 
-- **Cybermed Report** (medical, English): screens PubMed journals and FOAMed/blog sources (RSS preferred, HTML fallback). Results are grouped by clinical domain with concise “bottom line” takeaways and optional deep dives.
-- **The Cyberlurch Report** (general, German): aggregates and summarizes YouTube and news sources for a broader audience, with executive summaries and optional deep dives.
+## Current architecture
 
----
+### 1) Cybermed Report (medical, English)
+- **Daily:** live PubMed + FOAMed collection, summarization, and digest generation.
+- **Weekly:** digest-only from `state/cybermed_daily_digests.json`.
+- **Monthly:** digest-only from `state/cybermed_daily_digests.json`.
+- Weekly/Monthly **must not** perform live PubMed/FOAMed collection and **must not** regenerate bottom lines.
+- Stored `bottom_line`, `top_pick`, and `deep_dive` fields are preserved for digest-only outputs.
+- Markdown artifacts and diagnostics are uploaded in workflow artifacts.
+- Email supports `none`, `test`, and `real` modes.
 
-## YouTube captions fallback (Cyberlurch)
+### 2) The Cyberlurch Report (general)
+- Source-driven from YouTube/news inputs.
+- **Daily:** collects current content and updates state.
+- **Weekly/Monthly/Yearly:** use stored state and rollups where applicable.
 
-- Captions are fetched via yt-dlp **only** when a video’s description/transcript is classified as low-signal. This keeps the pipeline conservative and avoids unnecessary calls.
-- Diagnostics are tracked as counters only (no content), and log output avoids titles, URLs, and transcript text.
-- YouTube diagnostics are captured for troubleshooting only and are not sent in recipient-facing emails.
+## Workflow and scheduling
 
----
+- **Main workflow:** `.github/workflows/newsagent.yml`
+- Scheduled delivery is gated to approximately **05:30 Europe/Stockholm** using:
+  - dual UTC crons, and
+  - an explicit Stockholm-time gate.
+- `workflow_dispatch` supports:
+  - `report_mode`: `daily`, `weekly`, `monthly`, `yearly`, `all`
+  - `which_report`: `cyberlurch`, `cybermed`, `both`
+  - `email_mode`: `none`, `test`, `real`
+  - `lookback_hours` override
+  - `year_in_review_year` override
 
-## Scheduling and automation (Europe/Stockholm)
+### Email mode behavior
+- `email_mode=none`: generate output, send no email.
+- `email_mode=test`: send to `TEST_RECIPIENTS_CONFIG_JSON`.
+- `email_mode=real`: send to production recipient secrets.
+- Recipient addresses must never be printed to logs; logs should show recipient counts only.
 
-- Weekdays (Mon–Fri) at **~05:30** local time.
-  - Implemented with dual UTC crons (`30 3 * * *` and `30 4 * * *`) plus a gate that picks the expected cron based on the Stockholm offset, marking the “other” cron as a DST-coverage no-op (green-but-empty).
-  - Scheduled runs skip weekends unless `dom == 01`, allowing the 1st of the month to proceed even when it falls on Saturday/Sunday.
-- **Jan 1, 05:30** local time: **Year in Review** for each report (same gated 05:30 schedule slot).
-- Automated cadences:
-  - **Daily**: Mon–Fri (weekdays).
-  - **Weekly**: Fridays (after the daily run; the same scheduled execution can include both modes).
-  - **Monthly**: on the 1st day of the month (after the daily run when applicable; the same scheduled execution can include multiple modes).
-  - **Yearly**: Jan 1 (reads monthly rollups for the prior year).
-  - Verification: weekly mode is triggered on Fridays (`dow=5`) in the workflow run-plan logic.
-- Manual runs (`workflow_dispatch`):
-  - Choose `report_mode` (`daily` / `weekly` / `monthly` / `yearly` / `all`).
-  - `all` runs `daily weekly monthly yearly` sequentially in one job.
-  - Choose `which_report` (`both` / `cybermed` / `cyberlurch`).
-  - Optional: override `lookback_hours`.
-  - Optional (yearly only): set `year_in_review_year` to force a specific target year.
-  - Only the requested combination runs; weekly/monthly remain read-only.
-  - Time gating is **not** applied to manual runs; they proceed immediately regardless of local time.
-- Guardrail: real runs stay red if no newsletter is produced or if no email send was attempted for a non-empty recipient list. DST-coverage no-ops bypass the guardrail but emit the explicit skip notice above.
+## State model
 
-**Year in Review targeting and safeguards**
+- `state/processed_items.json`
+  - Prevents duplicate daily sends.
+  - Tracks source health.
+- `state/cybermed_daily_digests.json`
+  - Stores Cybermed daily digest payloads consumed by Cybermed Weekly/Monthly.
+- `state/cyberlurch_digests.json`
+  - Stores Cyberlurch digest data.
+- `state/rollups.json`
+  - Stores monthly rollups used by Year-in-Review.
+- Cybermed Weekly/Monthly are **read-only** relative to `processed_items`.
+- Maintenance/backfill operations must be manual-only and safe by default.
 
-- YEAR_IN_REVIEW_YEAR (env or workflow input) wins when set.
-- Otherwise, if the local date in Europe/Stockholm is Jan 1 (manual or scheduled), the Year in Review targets the previous year.
-- On other days, manual yearly runs target the current year for easier previews.
-- Scheduled yearly runs skip sending if no monthly rollups exist for the target year (a short log line is emitted instead).
+## Operational runbook
 
----
+### Cybermed Daily test run
+1. Open **Actions → NewsAgent2 workflow → Run workflow**.
+2. Set:
+   - `which_report=cybermed`
+   - `report_mode=daily`
+   - `email_mode=none` (or `test` when explicitly validating mail routing)
+3. Start run and review logs/artifacts.
 
-## How it runs (GitHub Actions)
+### Cybermed Weekly test run
+1. Run workflow manually.
+2. Set:
+   - `which_report=cybermed`
+   - `report_mode=weekly`
+   - `email_mode=none` (or `test`)
+3. Confirm digest-only behavior (no live collection/summarization).
 
-- **Workflow file:** `.github/workflows/newsagent.yml`
-- **Entry point:** `src/newsagent2/main.py`
-- **State file:** `state/processed_items.json` (daily runs update it; weekly/monthly are read-only to keep rollups reproducible).
-- **Rollups state:** `state/rollups.json` (non-secret). The file is created automatically if missing, and monthly runs upsert one `YYYY-MM` entry per report with top items and executive-summary bullets (deduped per month and kept sorted). The yearly report reads this file to assemble the Year in Review.
+### Cybermed Monthly test run
+1. Run workflow manually.
+2. Set:
+   - `which_report=cybermed`
+   - `report_mode=monthly`
+   - `email_mode=none` (or `test`)
+3. Confirm digest-only behavior and artifact creation.
 
----
+### How to run `email_mode=test`
+- Use `email_mode=test` with any manual run combination.
+- Verify sends target `TEST_RECIPIENTS_CONFIG_JSON` only.
+- Confirm logs expose recipient **counts**, not addresses.
 
-## Configuration
+### What to check in logs
+- Correct selected mode/report pair.
+- No recipient address output; count-only recipient diagnostics.
+- For digest-only Cybermed runs (weekly/monthly), confirm success criteria:
+  - `runtime_pubmed_collect_seconds = 0.0`
+  - `runtime_foamed_collect_seconds = 0.0`
+  - `runtime_summarization_seconds = 0.0`
+  - `read_only=True`
+  - no traceback
+  - artifact exists
 
-- PubMed/journal channels: `data/cybermed_channels.json`
-- FOAMed sources: `data/cybermed_foamed_sources.json`
-- Cyberlurch channels: `data/channels.json` (or `data/youtube_only.json` when present)
+## Maintenance and backfill
 
-### FOAMed runtime toggles
+- Backfill is **not** part of normal newsletter delivery.
+- Default mode must be **dry-run / audit-only**.
+- Do not use SMTP or recipient secrets in backfill.
+- Do not mutate `processed_items` during backfill.
+- Do not overwrite non-empty digests unless explicitly requested and audited.
+- Review backfill output before any apply step.
 
-- `FOAMED_AUDIT` (default `0`): when set to `1`, keep normal RSS-first behavior but also run a lightweight HTML sampling pass for RSS-healthy sources. Audit stats are recorded for troubleshooting and are not sent in recipient-facing emails.
-- `FOAMED_FORCE_FALLBACK_SOURCES` (default empty): comma-separated list of FOAMed source names that should skip RSS and exercise the HTML fallback path, recorded in run metadata.
-- `FOAMED_AUTO_DISABLE` (default `1`): when enabled, FOAMed sources that repeatedly return 403/404 are auto-disabled for a cooldown window to reduce repeated failures. Thresholds can be tuned via `FOAMED_DISABLE_AFTER_403` (default `3` consecutive runs) and `FOAMED_DISABLE_DAYS_403` (default `7` days), or `FOAMED_DISABLE_AFTER_404` (default `2`) and `FOAMED_DISABLE_DAYS_404` (default `30`). Disable state lives inside `state/processed_items.json` and clears automatically after a successful fetch.
+## Current roadmap
 
-### Recipient configuration (primary and fallbacks)
-
-Recipients are kept in secrets to avoid leaking addresses. The workflow prioritizes **RECIPIENTS_CONFIG_JSON**; older mechanisms are consulted only if that secret is missing or invalid.
-
-**Preferred (combined) secret**
-
-Create a GitHub Secret named `RECIPIENTS_CONFIG_JSON` with this shape:
-
-```json
-{
-  "cybermed": {
-    "daily":   ["alice@example.com", "bob@example.com"],
-    "weekly":  ["weekly@example.com"],
-    "monthly": ["monthly@example.com"]
-  },
-  "cyberlurch": {
-    "daily":   ["cl-daily@example.com"],
-    "weekly":  ["cl-weekly@example.com"],
-    "monthly": ["cl-monthly@example.com"]
-  }
-}
-```
-
-**Fallbacks (used only when the combined secret is absent/invalid)**
-
-- Per-report secrets: `RECIPIENTS_JSON_CYBERMED`, `RECIPIENTS_JSON_CYBERLURCH`
-- Mode-specific overrides: `RECIPIENTS_JSON_CYBERMED_DAILY`, `RECIPIENTS_JSON_CYBERMED_WEEKLY`, `RECIPIENTS_JSON_CYBERMED_MONTHLY`, `RECIPIENTS_JSON_CYBERLURCH_DAILY`, `RECIPIENTS_JSON_CYBERLURCH_WEEKLY`, `RECIPIENTS_JSON_CYBERLURCH_MONTHLY`
-- Generic nested/flattened: `RECIPIENTS_JSON`
-- Local file fallback (private, not committed): `data/recipients.json`
-- Legacy single-list fallback: `EMAIL_TO`
-
-### GitHub Secrets (required)
-
-Configure under **Repo → Settings → Secrets and variables → Actions**:
-
-- `OPENAI_API_KEY`
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`
-- `EMAIL_FROM`
-- `RECIPIENTS_CONFIG_JSON` (see above)
-- `NCBI_API_KEY` (optional but recommended for PubMed)
-
-### GitHub Variables (optional)
-
-- `OPENAI_MODEL`
-- `SEND_EMAIL`
-- PubMed throttling parameters (as needed)
-- `ROLLUPS_STATE_PATH` (optional): path to persist monthly rollups; defaults to `state/rollups.json`.
-- `ROLLUPS_MAX_MONTHS` (optional): maximum number of monthly rollups to keep per report (default: 24; current month is never pruned).
-- Managed YouTube transcript fallback (optional, disabled by default):
-  - `YOUTUBE_TRANSCRIPT_PROVIDER`: `none` (default) / `generic` / `supadata` / `transcriptapi` / `youtube-transcript-io`
-  - `YOUTUBE_TRANSCRIPT_API_BASE_URL`: endpoint override (required for `generic`; optional for vendor profiles)
-  - `YOUTUBE_TRANSCRIPT_API_METHOD`: `GET` or `POST` (default: `GET`, generic uses `POST`)
-  - `YOUTUBE_TRANSCRIPT_API_AUTH_HEADER`: `x-api-key` or `Authorization`
-  - `YOUTUBE_TRANSCRIPT_API_VIDEO_PARAM`: e.g. `videoId` or `url`
-  - `CYBERLURCH_CONTENT_PROVIDERS`: ordered chain, e.g. `youtube_transcript_api,managed_transcript,description,timedtext,yt_dlp_captions,metadata_only`
-  - `MANAGED_TRANSCRIPT_MIN_CHARS` (default `300`)
-  - `MANAGED_TRANSCRIPT_MAX_VIDEOS_PER_RUN` (default `10`)
-  - `MANAGED_TRANSCRIPT_ONLY_FOR_TOP_CANDIDATES` (default `1`)
-
-### GitHub Secrets (managed transcript provider)
-
-- `YOUTUBE_TRANSCRIPT_API_KEY` (required when `YOUTUBE_TRANSCRIPT_PROVIDER != none`)
-
-### Deep-dive model controls
-
-- `OPENAI_MODEL_PUBMED_DEEPDIVE` (defaults to `OPENAI_MODEL`): primary model for PubMed deep dives (e.g., `gpt-4.1`).
-- `OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK` (optional): fallback model used once when the first deep-dive attempt outputs too many “Not reported” fields.
-
-### Recommended cost-conscious Cyberlurch model setup
-
-- `OPENAI_MODEL_CYBERLURCH_CHUNKS = gpt-5-mini`
-- `OPENAI_MODEL_CYBERLURCH_OVERVIEW = gpt-4.1`
-- `OPENAI_MODEL_CYBERLURCH_DEEPDIVE = gpt-4.1`
-
-Optional quality test:
-- `OPENAI_MODEL_CYBERLURCH_DEEPDIVE = gpt-5.2`
-
-### Optional PubMed Open Access full text enrichment
-
-- `PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT` (default `0`): when set to `1`, attempts to fetch PMC Open Access full text for the selected PubMed deep dives via the PMC ID Converter and OA Web Service.
-- Limits (tune to stay within GitHub Actions budgets):
-- `PUBMED_DEEPDIVE_FULLTEXT_MAX_BYTES` (default `25000000`)
-  - `PUBMED_DEEPDIVE_FULLTEXT_MAX_CHARS` (default `30000`)
-  - `PUBMED_DEEPDIVE_FULLTEXT_TIMEOUT_S` (default `20`)
-
-### Optional: Unpaywall full-text deep dives
-
-- `UNPAYWALL_EMAIL` (optional; falls back to `NCBI_EMAIL`): contact email required by the Unpaywall API. If missing, Unpaywall enrichment is disabled automatically.
-- `PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT` (default `false`): when enabled, attempts to fetch legal open-access full text via Unpaywall for PubMed deep dives (PDF preferred, HTML fallback). Downloads are size-limited and trimmed before prompting the model.
-- Only OA content is fetched—no institutional proxy automation (e.g., EZproxy/CAS) is attempted.
-
----
+1. Validate next Friday scheduled run and delivery time.
+2. Safe digest-store backfill.
+3. Editorial Cybermed Monthly.
+4. Editorial Cybermed Year-in-Review.
+5. Later: dry-run state-safety, Node/actions maintenance, performance tuning.
 
 ## Security
 
-- Keep all credentials and recipient lists in GitHub Secrets; do **not** commit addresses or passwords to the repository.
-- Workflow logs avoid printing secret values and only show recipient counts (not addresses).
-- Monthly rollups and the Year in Review use only newsletter content (titles, links, summaries) and never include recipient addresses.
-
----
-
-## Email delivery
-
-- Reports are generated in Markdown, converted to HTML for email clients, and include a plaintext alternative.
-- Recipient emails are sent clean (plaintext + HTML only): run metadata is removed from visible content and no run-metadata attachment is sent.
-- Troubleshooting metadata is retained only for internal diagnostics and is not delivered to recipients.
-- Cyberlurch weekly/monthly/yearly reports omit a separate “Sources” section; source links live inside **Top videos (this period)**. The Cyberlurch Daily still includes “Sources”.
-- The yearly cadence sends to the union of daily/weekly/monthly recipients for the selected report (deduplicated).
-- Multi-recipient privacy: when more than one recipient is configured, the **To** header defaults to the sender address so recipients are not revealed to each other. Set `EMAIL_DISCLOSE_RECIPIENTS=1` only if you explicitly want the header to list all recipients.
-
----
-
-## Manual testing
-
-- Run unit tests locally with `python -m pytest` (requires dependencies from `requirements.txt`).
+- Keep all credentials and recipient configuration in GitHub Secrets.
+- Never commit private email addresses, API keys, or SMTP credentials.
+- Use placeholder addresses only in examples.
