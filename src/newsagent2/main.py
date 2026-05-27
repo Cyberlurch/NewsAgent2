@@ -1653,6 +1653,29 @@ def _run_yearly_report(
         report_subject = report_title
 
     entries = rollups_for_year(rollups_state, report_key, target_year)
+    cybermed_yearly_diags: Dict[str, Any] = {
+        "cybermed_yearly_editorial_mode": True,
+        "cybermed_yearly_monthly_rollups_loaded_total": len(entries),
+        "cybermed_yearly_live_collection_used": False,
+        "cybermed_yearly_processed_state_mutated": False,
+    }
+    yearly_daily_digests: List[Dict[str, Any]] = []
+    if _is_cybermed(report_key, os.getenv("REPORT_PROFILE", "")):
+        digest_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
+        try:
+            store = _load_json(digest_path, {"schema_version": 1, "digests": []})
+            for d in (store.get("digests") or []):
+                if not isinstance(d, dict):
+                    continue
+                if str(d.get("date") or "").startswith(f"{target_year:04d}-"):
+                    yearly_daily_digests.append(d)
+        except Exception:
+            yearly_daily_digests = []
+    all_dates = sorted([str(e.get("month")) + "-01" for e in entries if str(e.get("month") or "")] + [str(d.get("date") or "") for d in yearly_daily_digests if str(d.get("date") or "")])
+    cybermed_yearly_diags["cybermed_yearly_daily_digests_loaded_total"] = len(yearly_daily_digests)
+    cybermed_yearly_diags["cybermed_yearly_coverage_start"] = all_dates[0] if all_dates else ""
+    cybermed_yearly_diags["cybermed_yearly_coverage_end"] = all_dates[-1] if all_dates else ""
+    cybermed_yearly_diags["cybermed_yearly_coverage_incomplete"] = not (len(entries) >= 12)
     if not entries and event_name == "schedule":
         print(f"[email] Scheduled yearly run found no rollups for {target_year} -> skipping email.")
         return
@@ -1662,6 +1685,8 @@ def _run_yearly_report(
         report_language=report_language,
         year=target_year,
         rollups=entries,
+        daily_digests=yearly_daily_digests,
+        diagnostics=cybermed_yearly_diags,
     )
 
     out_path = os.path.join(report_dir, f"{report_key}_yearly_review_{target_year}.md")
@@ -1674,6 +1699,7 @@ def _run_yearly_report(
             f"monthly_rollups_found: {len(entries)}",
             f"enriched_rollups_used_total: {len([e for e in entries if (e.get('top_items') or [])])}",
             f"thin_rollups_used_total: {len([e for e in entries if not (e.get('top_items') or [])])}",
+            *[f"{k}: {v}" for k, v in cybermed_yearly_diags.items()],
         ]
     )
     _write_run_metadata_artifact(report_dir, report_key, "yearly", yearly_meta)
