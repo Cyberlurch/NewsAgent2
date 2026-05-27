@@ -4877,6 +4877,17 @@ def main() -> None:
             "pubmed_summary_consistency_preview": consistency_preview[:10],
         })
         cybermed_diagnostics_payload.update(cybermed_digest_diag)
+        for k in [
+            "cybermed_monthly_editorial_mode",
+            "cybermed_monthly_theme_count",
+            "cybermed_monthly_practice_changing_count",
+            "cybermed_monthly_worth_knowing_count",
+            "cybermed_monthly_commentary_count",
+            "cybermed_monthly_editorial_summary_generated_from_digest",
+            "cybermed_monthly_live_collection_used",
+        ]:
+            if k in cybermed_run_stats:
+                cybermed_diagnostics_payload[k] = cybermed_run_stats[k]
         if cybermed_digest_only_mode:
             rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
             rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])

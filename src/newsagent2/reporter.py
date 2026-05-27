@@ -951,6 +951,40 @@ def render_cyberlurch_yearly_analysis(rollups, *, target_year, generated_at) -> 
                 lines.append(f"- [{it.get('title') or 'Untitled'}]({it.get('url')})")
     return "\n".join(lines).rstrip()+"\n"
 
+
+
+def _cybermed_monthly_theme_label(it: Dict[str, Any]) -> str:
+    text = " ".join([
+        str(it.get("title") or ""),
+        str(it.get("journal") or it.get("source_journal") or ""),
+        str(it.get("evidence_strength_label") or ""),
+        str(it.get("bottom_line") or ""),
+    ]).lower()
+    mapping = [
+        ("Respiratory / Ventilation", ["ventilat", "respirat", "ards", "oxygen", "airway"]),
+        ("Infectious Diseases / Sepsis", ["sepsis", "infect", "antibi", "bacter", "viral"]),
+        ("Emergency Medicine / Resuscitation", ["resusc", "cardiac arrest", "emergency", "trauma"]),
+        ("Anaesthesia / Perioperative Medicine", ["anest", "anaest", "perioper", "surgery", "sedat"]),
+        ("Intensive Care / Critical Care", ["icu", "critical care", "intensive", "shock"]),
+        ("Methods / AI / Systems", ["ai", "machine learning", "model", "system", "workflow"]),
+    ]
+    for label, needles in mapping:
+        if any(n in text for n in needles):
+            return label
+    return "Methods / AI / Systems"
+
+
+def _cybermed_practice_bucket(it: Dict[str, Any]) -> str:
+    ev = str(it.get("evidence_strength_label") or "").lower()
+    srcq = str(it.get("source_quality_label") or "").lower()
+    cr = int(it.get("clinical_relevance_1_5") or 0)
+    pc = int(it.get("practice_change_potential_1_5") or 0)
+    if pc >= 4 and cr >= 4 and ("high" in ev or "guideline" in ev or "high" in srcq):
+        return "Potentially practice-changing"
+    if pc >= 3 or cr >= 3:
+        return "Worth knowing"
+    return "Background / commentary"
+
 def to_markdown(
     items: List[Dict[str, Any]],
     overview_markdown: str,
@@ -1003,6 +1037,13 @@ def to_markdown(
         )
         if normalized_mode == "weekly":
             md[0] = "<h1 style=\"margin:0 0 4px 0; font-size:32px; line-height:1.15;\">Cybermed Weekly Report</h1>"
+        elif normalized_mode == "monthly":
+            month_key = datetime.now(tz=STO).strftime("%Y-%m")
+            if isinstance(cybermed_stats, dict):
+                period_start = str(cybermed_stats.get("monthly_digest_period_start") or "").strip()
+                if len(period_start) >= 7:
+                    month_key = period_start[:7]
+            md[0] = f"<h1 style=\"margin:0 0 4px 0; font-size:32px; line-height:1.15;\">Cybermed Monthly Report – {month_key}</h1>"
         greeting_enabled = str(os.getenv("CYBERMED_SEASONAL_GREETING", "1")).strip().lower() not in {"0", "false", "off", "no"}
         greeting = (os.getenv("CYBERMED_SEASONAL_GREETING_TEXT", "") or "").strip()
         if greeting_enabled and greeting:
@@ -1078,6 +1119,66 @@ def to_markdown(
                         md.append("")
                         md.append(compact)
                     md.extend(["", "---", ""])
+            if normalized_mode == "monthly":
+                md.extend(["## Executive editorial summary", ""])
+                summary_candidates = sorted(
+                    items,
+                    key=lambda it: (
+                        int(it.get("practice_change_potential_1_5") or 0),
+                        int(it.get("clinical_relevance_1_5") or 0),
+                        1 if str(it.get("evidence_strength_label") or "").lower().find("high") >= 0 else 0,
+                    ),
+                    reverse=True,
+                )
+                bullets = []
+                for it in summary_candidates:
+                    bl = str(it.get("bottom_line") or "").strip()
+                    t = str(it.get("title") or "").strip() or "Untitled"
+                    if bl:
+                        bullets.append(f"- {t}: {bl}")
+                    if len(bullets) >= 5:
+                        break
+                if len(bullets) < 3:
+                    md.append("- Insufficient stored digest metadata/bottom lines for a full monthly editorial synopsis.")
+                md.extend(bullets[:5])
+                md.append("")
+
+                themed = {}
+                for it in items:
+                    themed.setdefault(_cybermed_monthly_theme_label(it), []).append(it)
+                top_themes = sorted(themed.items(), key=lambda kv: len(kv[1]), reverse=True)[:6]
+                md.extend(["## This month’s clinical themes", ""])
+                for theme, theme_items in top_themes[:6]:
+                    md.append(f"### {theme}")
+                    for it in theme_items[:3]:
+                        t = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
+                        src = str(it.get("journal") or it.get("foamed_source") or it.get("source") or "").strip()
+                        ev = str(it.get("evidence_strength_label") or it.get("source_quality_label") or "").strip()
+                        bl = str(it.get("bottom_line") or "").strip()
+                        md.append(f"- **{t}** ({src}; {ev}) — {bl or 'No stored bottom line available.'}")
+                    md.append("")
+
+                buckets = {"Potentially practice-changing": [], "Worth knowing": [], "Background / commentary": []}
+                for it in items:
+                    buckets[_cybermed_practice_bucket(it)].append(it)
+                md.extend(["## Practice-impact section", ""])
+                for label in ["Potentially practice-changing", "Worth knowing", "Background / commentary"]:
+                    md.append(f"### {label}")
+                    for it in buckets[label][:5]:
+                        t = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
+                        bl = str(it.get("bottom_line") or "").strip()
+                        md.append(f"- **{t}** — {bl or 'No stored bottom line available.'}")
+                    if not buckets[label]:
+                        md.append("- None classified in this bucket from stored monthly digest metadata.")
+                    md.append("")
+                if isinstance(cybermed_stats, dict):
+                    cybermed_stats["cybermed_monthly_editorial_mode"] = True
+                    cybermed_stats["cybermed_monthly_theme_count"] = len(top_themes)
+                    cybermed_stats["cybermed_monthly_practice_changing_count"] = len(buckets["Potentially practice-changing"])
+                    cybermed_stats["cybermed_monthly_worth_knowing_count"] = len(buckets["Worth knowing"])
+                    cybermed_stats["cybermed_monthly_commentary_count"] = len(buckets["Background / commentary"])
+                    cybermed_stats["cybermed_monthly_editorial_summary_generated_from_digest"] = True
+                    cybermed_stats["cybermed_monthly_live_collection_used"] = False
 
         pubmed_items = [it for it in items if str(it.get("source") or "").strip().lower() == "pubmed"]
         md.extend(["## Papers", ""])
