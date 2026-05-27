@@ -1037,6 +1037,8 @@ def to_markdown(
                     )
                     or 0
                 )
+                if normalized_mode in {"weekly", "monthly"}:
+                    top_pick_count = min(top_pick_count, 5)
                 cybermed_stats[f"cybermed_{normalized_mode}_intro_pubmed_items_total"] = pubmed_count
                 cybermed_stats[f"cybermed_{normalized_mode}_intro_foamed_items_total"] = foamed_count
                 cybermed_stats[f"cybermed_{normalized_mode}_intro_top_picks_total"] = top_pick_count
@@ -1049,8 +1051,6 @@ def to_markdown(
                     mismatch_fields.append("top_picks")
                 cybermed_stats[f"cybermed_{normalized_mode}_intro_count_mismatch_fields"] = mismatch_fields
                 cybermed_stats[f"cybermed_{normalized_mode}_intro_count_mismatch_total"] = len(mismatch_fields)
-            if normalized_mode == "weekly":
-                top_pick_count = min(top_pick_count, 5)
             period_line = ""
             if isinstance(cybermed_stats, dict):
                 start = str(cybermed_stats.get("weekly_period_start") or "").strip()

@@ -16,6 +16,7 @@ def _run_weekly(monkeypatch, tmp_path, *, report_key="cybermed", report_mode="we
         fixture.write_text(json.dumps(fixture_payload), encoding="utf-8")
     monkeypatch.setenv("REPORT_KEY", report_key)
     monkeypatch.setenv("REPORT_MODE", report_mode)
+    monkeypatch.setenv("REPORT_TITLE", "Cybermed Monthly Report" if report_mode == "monthly" else "Cybermed Weekly Report")
     monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
     monkeypatch.setenv("STATE_PATH", str(tmp_path / "state.json"))
     monkeypatch.setenv("SEND_EMAIL", "0")
@@ -156,4 +157,23 @@ def test_monthly_fixture_intro_and_diagnostics_top_pick_counts(monkeypatch, tmp_
     assert diag["cybermed_monthly_report_matches_digest_inputs"] is True
     assert diag["cybermed_monthly_stored_bottom_lines_used_total"] > 0
     assert diag["cybermed_monthly_empty_reason"] == ""
+    assert "total included: 20 papers, 15 FOAMed, 5 top picks." in md
+    assert md.count("**⭐ [") == 5
     assert isinstance(md, str)
+
+
+def test_cybermed_digest_only_skips_overview_summarization(monkeypatch, tmp_path):
+    fixture_path = pathlib.Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "cybermed_weekly_digest_store_nonempty.json"
+
+    def _boom(*args, **kwargs):
+        raise AssertionError("summarize() should not be called in Cybermed digest-only mode")
+
+    monkeypatch.setattr(main, "summarize", _boom)
+
+    weekly_diag, _ = _run_weekly(monkeypatch, tmp_path / "weekly", report_mode="weekly", event_name="workflow_dispatch", fixture_mode="1", fixture_path=fixture_path)
+    monthly_diag, _ = _run_weekly(monkeypatch, tmp_path / "monthly", report_mode="monthly", event_name="workflow_dispatch", fixture_mode="1", fixture_path=fixture_path)
+
+    assert weekly_diag["cybermed_digest_only_overview_summarization_skipped"] is True
+    assert monthly_diag["cybermed_digest_only_overview_summarization_skipped"] is True
+    assert weekly_diag["runtime_summarization_seconds"] == 0.0
+    assert monthly_diag["runtime_summarization_seconds"] == 0.0
