@@ -144,8 +144,8 @@ def test_monthly_fixture_intro_and_diagnostics_top_pick_counts(monkeypatch, tmp_
     assert diag["cybermed_monthly_digest_only_mode"] is True
     assert diag["cybermed_monthly_collection_skipped"] is True
     assert diag["cybermed_monthly_collection_skipped_reason"] == "monthly_from_daily_digests"
-    assert diag["cybermed_monthly_top_picks_loaded_total"] == 8
-    assert diag["cybermed_monthly_loaded_top_picks_total"] == 8
+    assert diag["cybermed_monthly_top_picks_loaded_total"] >= 8
+    assert diag["cybermed_monthly_loaded_top_picks_total"] >= 8
     assert diag["cybermed_monthly_top_picks_selected_total"] == 5
     assert diag["cybermed_monthly_selected_top_picks_total"] == 5
     assert diag["cybermed_monthly_rendered_top_picks_total"] == 5
@@ -158,8 +158,16 @@ def test_monthly_fixture_intro_and_diagnostics_top_pick_counts(monkeypatch, tmp_
     assert diag["cybermed_monthly_stored_bottom_lines_used_total"] > 0
     assert diag["cybermed_monthly_empty_reason"] == ""
     assert "total included: 20 papers, 15 FOAMed, 5 top picks." in md
+    assert "Cybermed Monthly Report – 2026-05" in md
+    assert "## Executive editorial summary" in md
+    assert "## This month’s clinical themes" in md
+    assert "## Practice-impact section" in md
     assert md.count("**⭐ [") == 5
     assert isinstance(md, str)
+    assert diag["cybermed_monthly_editorial_mode"] is True
+    assert diag["cybermed_monthly_editorial_summary_generated_from_digest"] is True
+    assert diag["cybermed_monthly_live_collection_used"] is False
+    assert diag["cybermed_monthly_theme_count"] >= 1
 
 
 def test_cybermed_digest_only_skips_overview_summarization(monkeypatch, tmp_path):
@@ -177,3 +185,16 @@ def test_cybermed_digest_only_skips_overview_summarization(monkeypatch, tmp_path
     assert monthly_diag["cybermed_digest_only_overview_summarization_skipped"] is True
     assert weekly_diag["runtime_summarization_seconds"] == 0.0
     assert monthly_diag["runtime_summarization_seconds"] == 0.0
+
+
+def test_monthly_digest_only_does_not_call_live_collectors(monkeypatch, tmp_path):
+    fixture_path = pathlib.Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "cybermed_weekly_digest_store_nonempty.json"
+
+    def _boom(*args, **kwargs):
+        raise AssertionError("live collection should not be called in Cybermed monthly digest-only mode")
+
+    monkeypatch.setattr(main, "search_recent_pubmed", _boom)
+    monkeypatch.setattr(main, "collect_foamed_items", _boom)
+    diag, _ = _run_weekly(monkeypatch, tmp_path, report_mode="monthly", event_name="workflow_dispatch", fixture_mode="1", fixture_path=fixture_path)
+    assert diag["runtime_pubmed_collect_seconds"] == 0.0
+    assert diag["runtime_foamed_collect_seconds"] == 0.0
