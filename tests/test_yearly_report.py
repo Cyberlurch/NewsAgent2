@@ -7,6 +7,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 
 from newsagent2 import main
 from newsagent2 import reporter
+from newsagent2 import rollups
 
 
 def test_year_in_review_target_year_selection():
@@ -115,3 +116,25 @@ def test_yearly_avoids_generic_filler_and_uses_enriched_data():
     assert "AI policy" in md
     assert "Channel A" in md
     assert "January 2026" in md
+
+
+def test_cybermed_yearly_partial_coverage_note():
+    md = rollups.render_yearly_markdown(
+        report_title="The Cybermed Year in Review — 2025",
+        report_language="en",
+        year=2025,
+        rollups=[{"month": "2025-01", "top_items": [{"title": "A trial", "bottom_line": "Signal A"}], "executive_summary": []}],
+        daily_digests=[{"date": "2025-01-15", "items": {"pubmed": [{"title": "B guideline", "practice_change_potential_1_5": 5}]}}],
+        diagnostics={
+            "cybermed_yearly_monthly_rollups_loaded_total": 1,
+            "cybermed_yearly_daily_digests_loaded_total": 1,
+            "cybermed_yearly_coverage_start": "2025-01-01",
+            "cybermed_yearly_coverage_end": "2025-01-15",
+            "cybermed_yearly_coverage_incomplete": True,
+        },
+    )
+    assert "## Coverage note" in md
+    assert "Coverage incomplete: YES" in md
+    assert "## Top papers of the year" in md
+    assert "## Potentially practice-changing items" in md
+    assert "## Clinical themes of the year" in md

@@ -607,10 +607,13 @@ def render_yearly_markdown(
     report_language: str,
     year: int,
     rollups: Sequence[Dict[str, Any]],
+    daily_digests: Sequence[Dict[str, Any]] | None = None,
+    diagnostics: Dict[str, Any] | None = None,
 ) -> str:
     lang = (report_language or "en").strip().lower()
     is_de = lang.startswith("de")
     is_cyberlurch = "cyberlurch" in (report_title or "").strip().lower()
+    is_cybermed = "cybermed" in (report_title or "").strip().lower()
     if is_cyberlurch:
         return render_cyberlurch_yearly_analysis(rollups, target_year=year, generated_at=datetime.now(tz=STO))
     now_str = datetime.now(tz=STO).strftime("%Y-%m-%d %H:%M") + (" Uhr" if is_de else "")
@@ -646,6 +649,59 @@ def render_yearly_markdown(
 
     combined_items = starred_items + other_items
     top_ten = combined_items[:10]
+    if is_cybermed:
+        digests = [d for d in (daily_digests or []) if isinstance(d, dict)]
+        digest_items: List[Dict[str, Any]] = []
+        for d in digests:
+            for src in ("pubmed", "foamed"):
+                for it in ((d.get("items") or {}).get(src) or []):
+                    if isinstance(it, dict):
+                        digest_items.append(it)
+        all_items = combined_items + digest_items
+        def _score(it: Dict[str, Any]) -> tuple[int, int, int, int]:
+            ev = int(it.get("evidence_strength_1_5") or 0)
+            rel = int(it.get("practice_relevance_1_5") or 0)
+            imp = int(it.get("practice_change_potential_1_5") or 0)
+            ed_penalty = 1 if any(x in str((it.get("publication_types") or "")).lower() for x in ["editorial", "comment", "letter"]) else 0
+            return (imp, ev, rel, -ed_penalty)
+        ranked = sorted(all_items, key=_score, reverse=True)
+        practice_changing = [it for it in ranked if int(it.get("practice_change_potential_1_5") or 0) >= 4][:8]
+        interesting = [it for it in ranked if int(it.get("practice_change_potential_1_5") or 0) < 4][:8]
+        guidelines = [it for it in ranked if any(k in f"{it.get('title','')} {it.get('bottom_line','')}".lower() for k in ["guideline", "consensus", "systematic review", "meta-analysis"])][:8]
+        coverage = diagnostics or {}
+        md = [f"# Cybermed Year in Review – {year}", ""]
+        md.extend([
+            "## Coverage note",
+            f"- Monthly rollups available: {coverage.get('cybermed_yearly_monthly_rollups_loaded_total', len(sorted_rollups))}",
+            f"- Daily digests available: {coverage.get('cybermed_yearly_daily_digests_loaded_total', len(digests))}",
+            f"- Date range covered: {coverage.get('cybermed_yearly_coverage_start','unknown')} to {coverage.get('cybermed_yearly_coverage_end','unknown')}",
+            f"- Coverage incomplete: {'YES' if coverage.get('cybermed_yearly_coverage_incomplete', len(sorted_rollups)<12) else 'NO'}",
+            "",
+            "## Executive summary",
+        ])
+        for it in ranked[:8]:
+            md.append(f"- {(it.get('bottom_line') or it.get('title') or 'Stored item').strip()}")
+        md.extend(["", "## Top papers of the year"])
+        for it in ranked[:10]:
+            t = it.get("title") or "Untitled"
+            u = it.get("url") or ""
+            bl = (it.get("bottom_line") or "No stored bottom line.").strip()
+            md.append(f"- [{t}]({u})" if u else f"- {t}")
+            md.append(f"  - **BOTTOM LINE:** {bl}")
+        md.extend(["", "## Potentially practice-changing items"])
+        for it in practice_changing:
+            md.append(f"- {(it.get('title') or 'Untitled').strip()} — impact {it.get('practice_change_potential_1_5')}")
+        md.extend(["", "## Interesting but not practice-changing"])
+        for it in interesting[:8]:
+            md.append(f"- {(it.get('title') or 'Untitled').strip()}")
+        if guidelines:
+            md.extend(["", "## Guidelines / consensus / systematic reviews"])
+            for it in guidelines:
+                md.append(f"- {(it.get('title') or 'Untitled').strip()}")
+        md.extend(["", "## Clinical themes of the year", "- Critical care & emergency medicine", "- Anaesthesia & perioperative care", "- Sepsis/infection", "- Ventilation/respiratory", "- AI/methods", "", "## FOAMed & commentary", "- Included for interpretation/context; not treated as primary evidence.", "", "## What to watch next year"])
+        for it in ranked[:5]:
+            md.append(f"- Recurring signal: {(it.get('topic_primary') or it.get('title') or 'General').strip()}")
+        return "\n".join(md).strip() + "\n"
 
     md: List[str] = [
         f"<h1 style=\"margin:0 0 4px 0; font-size:32px; line-height:1.15;\">{report_title}</h1>",
