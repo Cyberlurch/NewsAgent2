@@ -25,44 +25,28 @@ jobs:
   backfill-audit:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     steps:
+      - name: Refuse apply mode until implementation is ready
+        if: ${{ github.event.inputs.apply == 'true' }}
+        run: |
+          echo "Apply mode is not enabled yet; run audit-only first."
+          exit 1
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run maintenance backfill tool
         run: |
-          if [ "${{ github.event.inputs.apply }}" = "true" ]; then
-            APPLY_FLAG="--apply"
-          else
-            APPLY_FLAG=""
-          fi
-          python -m newsagent2.maintenance.backfill_digest_stores \
+          PYTHONPATH=src python -m newsagent2.maintenance.backfill_digest_stores \
             --report "${{ github.event.inputs.report }}" \
             --from-date "${{ github.event.inputs.from_date }}" \
             --to-date "${{ github.event.inputs.to_date }}" \
-            ${APPLY_FLAG} \
             --output-dir out/backfill_audit
       - name: Upload audit artifacts
         uses: actions/upload-artifact@v4
         with:
           name: backfill-audit
           path: out/backfill_audit
-      - name: Commit state changes when safe_to_apply=true and apply=true
-        if: ${{ github.event.inputs.apply == 'true' }}
-        run: |
-          python - <<'PY'
-          import json
-          p='out/backfill_audit/backfill_plan.json'
-          data=json.load(open(p, 'r', encoding='utf-8'))
-          if not data.get('safe_to_apply'):
-              raise SystemExit('safe_to_apply is false; refusing state commit')
-          PY
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add state/cybermed_daily_digests.json state/cyberlurch_digests.json state/rollups.json
-          git diff --cached --quiet || git commit -m "maintenance: apply digest store backfill"
-          git push

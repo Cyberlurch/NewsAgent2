@@ -32,8 +32,10 @@ def _date_range(start: date, end: date) -> list[str]:
     return out
 
 
-def _load_json(path: Path, default: Any) -> Any:
+def _load_json(path: Path, default: Any, warnings: list[str] | None = None) -> Any:
     if not path.exists():
+        if warnings is not None:
+            warnings.append(f"Missing state file {path}; using empty audit default.")
         return copy.deepcopy(default)
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -98,18 +100,28 @@ def _plan_cyberlurch(cyberlurch_state: dict[str, Any], rollups_state: dict[str, 
 
 def build_backfill_plan(config: BackfillConfig, state_dir: Path = Path("state")) -> dict[str, Any]:
     wanted_dates = _date_range(config.from_date, config.to_date)
-    cybermed_state = _load_json(state_dir / "cybermed_daily_digests.json", {"schema_version": 1, "digests": []})
-    cyberlurch_state = _load_json(state_dir / "cyberlurch_digests.json", {"version": 1, "digests": []})
-    rollups_state = _load_json(state_dir / "rollups.json", {"version": 1, "reports": {}})
+    warnings: list[str] = []
+    cybermed_state = _load_json(
+        state_dir / "cybermed_daily_digests.json",
+        {"schema_version": 1, "digests": []},
+        warnings,
+    )
+    cyberlurch_state = _load_json(
+        state_dir / "cyberlurch_digests.json",
+        {"version": 1, "digests": []},
+        warnings,
+    )
+    rollups_state = _load_json(state_dir / "rollups.json", {"version": 1, "reports": {}}, warnings)
 
     plan = {
         "report": config.report,
         "from_date": config.from_date.isoformat(),
         "to_date": config.to_date.isoformat(),
-        "apply": bool(config.apply),
+        "apply": False,
         "safe_to_apply": False,
+        "apply_executed": False,
         "openai_enabled": bool(config.enable_openai),
-        "warnings": [],
+        "warnings": warnings,
         "reports": {},
     }
     if config.enable_openai:
@@ -123,10 +135,10 @@ def build_backfill_plan(config: BackfillConfig, state_dir: Path = Path("state"))
 
 
 def maybe_apply(plan: dict[str, Any], config: BackfillConfig, state_dir: Path = Path("state")) -> bool:
+    _ = plan
     _ = state_dir
-    if not config.apply:
-        return False
-    # Explicitly disabled until deterministic reconstruction sources are introduced.
+    if config.apply:
+        raise SystemExit("Apply mode is not implemented; refusing to mutate state.")
     return False
 
 
@@ -147,8 +159,8 @@ def parse_args() -> BackfillConfig:
     parser.add_argument("--report", choices=["cybermed", "cyberlurch", "both"], required=True)
     parser.add_argument("--from-date", required=True)
     parser.add_argument("--to-date", required=True)
-    parser.add_argument("--dry-run", action="store_true", default=True)
-    parser.add_argument("--apply", action="store_true", default=False)
+    parser.add_argument("--dry-run", action="store_true", default=True, help="Audit only; retained for compatibility.")
+    parser.add_argument("--apply", action="store_true", default=False, help="Unsupported; exits without mutating state.")
     parser.add_argument("--output-dir", default="out/backfill_audit")
     parser.add_argument("--enable-openai-reconstruction", action="store_true", default=False)
     args = parser.parse_args()
@@ -157,8 +169,6 @@ def parse_args() -> BackfillConfig:
     end = _parse_date(args.to_date)
     if end < start:
         raise SystemExit("Invalid date range: to-date must be >= from-date")
-    if args.apply and args.dry_run:
-        raise SystemExit("Refusing to run with both --apply and --dry-run")
 
     return BackfillConfig(
         report=args.report,
