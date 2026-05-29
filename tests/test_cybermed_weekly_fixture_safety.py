@@ -1,5 +1,6 @@
 import json
 import pathlib
+import re
 import sys
 
 import pytest
@@ -469,3 +470,131 @@ def test_cybermed_weekly_foamed_bottom_line_bolds_label_only(monkeypatch, tmp_pa
     assert "**BOTTOM LINE: some text**" not in md
     assert "**BOTTOM LINE:** some text" in md
     assert "No stored deep-dive synopsis available." not in md
+
+
+def _section_between(markdown: str, start: str, end: str) -> str:
+    start_idx = markdown.index(start)
+    end_idx = markdown.index(end, start_idx)
+    return markdown[start_idx:end_idx]
+
+
+def test_cybermed_weekly_pubmed_deep_dive_heading_uses_pubmed_label_with_empty_channel():
+    from newsagent2 import reporter
+
+    md = reporter.to_markdown(
+        [
+            {
+                "id": "deep-pubmed",
+                "source": "pubmed",
+                "title": "Deep Dive Paper",
+                "url": "https://pubmed.ncbi.nlm.nih.gov/1/",
+                "channel": "",
+                "journal": "Journal of Useful Findings",
+                "top_pick": True,
+                "cybermed_deep_dive": True,
+                "digest_derived": True,
+                "cybermed_weekly_digest_only": True,
+                "deep_dive_markdown": "- **Study type:** Randomized trial\n- **Population/setting:** ICU patients\n- **Key results:** Useful outcomes\n\n**BOTTOM LINE:** Useful paper.",
+                "bottom_line": "Useful paper.",
+            }
+        ],
+        "",
+        {},
+        report_title="Cybermed Weekly Report",
+        report_language="en",
+        report_mode="weekly",
+        cybermed_stats={},
+    )
+
+    assert "### ⭐ PubMed: Journal of Useful Findings: [Deep Dive Paper](https://pubmed.ncbi.nlm.nih.gov/1/)" in md
+    assert "### ⭐ PubMed:" in md
+    assert "### ⭐ :" not in md
+    assert "### :" not in md
+
+
+def test_cybermed_weekly_uses_major_section_rules_without_per_item_rules():
+    from newsagent2 import reporter
+
+    items = [
+        {
+            "id": "top-paper",
+            "source": "pubmed",
+            "title": "Top Paper",
+            "url": "https://example.com/top-paper",
+            "journal": "Intensive Care Medicine",
+            "top_pick": True,
+            "bottom_line": "Top paper bottom line.",
+            "clinical_relevance_1_5": 5,
+            "published_at": "2026-05-20T10:00:00+00:00",
+        },
+        {
+            "id": "top-foamed",
+            "source": "foamed",
+            "title": "Top FOAMed",
+            "url": "https://example.com/top-foamed",
+            "foamed_source": "FOAM Source",
+            "top_pick": True,
+            "bottom_line": "Top FOAMed bottom line.",
+            "clinical_relevance_1_5": 4,
+            "published_at": "2026-05-20T09:00:00+00:00",
+        },
+        {
+            "id": "paper-two",
+            "source": "pubmed",
+            "title": "Second Paper",
+            "url": "https://example.com/second-paper",
+            "journal": "Intensive Care Medicine",
+            "bottom_line": "Second paper bottom line.",
+            "published_at": "2026-05-19T10:00:00+00:00",
+        },
+        {
+            "id": "foamed-two",
+            "source": "foamed",
+            "title": "Second FOAMed",
+            "url": "https://example.com/second-foamed",
+            "foamed_source": "FOAM Source",
+            "bottom_line": "Second FOAMed bottom line.",
+            "published_at": "2026-05-19T09:00:00+00:00",
+        },
+        {
+            "id": "deep-paper",
+            "source": "pubmed",
+            "title": "Deep Paper",
+            "url": "https://example.com/deep-paper",
+            "channel": "",
+            "journal_iso_abbrev": "Crit Care",
+            "cybermed_deep_dive": True,
+            "digest_derived": True,
+            "cybermed_weekly_digest_only": True,
+            "deep_dive_markdown": "- **Study type:** Cohort study\n- **Population/setting:** ICU patients\n- **Key results:** Important result\n\n**BOTTOM LINE:** Deep bottom line.",
+            "bottom_line": "Deep bottom line.",
+            "published_at": "2026-05-18T10:00:00+00:00",
+        },
+    ]
+    md = reporter.to_markdown(
+        items,
+        "",
+        {},
+        report_title="Cybermed Weekly Report",
+        report_language="en",
+        report_mode="weekly",
+        cybermed_stats={},
+    )
+
+    assert md.splitlines().count("---") == 4
+    assert "---\n\n---" not in md
+
+    top_section = _section_between(md, "## Top Picks", "## Papers")
+    assert "**⭐ [Top Paper]" in top_section
+    assert "**⭐ [Top FOAMed]" in top_section
+    assert not re.search(r"\*\*⭐ \[Top Paper\].*?^---$.*?\*\*⭐ \[Top FOAMed\]", top_section, flags=re.M | re.S)
+
+    papers_section = _section_between(md, "## Papers", "## FOAMed & Commentary")
+    assert "**[Top Paper]" in papers_section
+    assert "**[Second Paper]" in papers_section
+    assert not re.search(r"\*\*\[Top Paper\].*?^---$.*?\*\*\[Second Paper\]", papers_section, flags=re.M | re.S)
+
+    foamed_section = _section_between(md, "## FOAMed & Commentary", "## Deep Dives")
+    assert "**[Top FOAMed]" in foamed_section
+    assert "**[Second FOAMed]" in foamed_section
+    assert not re.search(r"\*\*\[Top FOAMed\].*?^---$.*?\*\*\[Second FOAMed\]", foamed_section, flags=re.M | re.S)

@@ -92,6 +92,37 @@ def _label_text(value: Any) -> str:
     return txt.capitalize() if txt else ""
 
 
+def _append_major_section_rule(md: List[str]) -> None:
+    """Append a single markdown horizontal rule between major sections."""
+    last_nonempty = ""
+    for line in reversed(md):
+        if str(line).strip():
+            last_nonempty = str(line).strip()
+            break
+    if not last_nonempty or last_nonempty == "---":
+        return
+    if md and str(md[-1]).strip():
+        md.append("")
+    md.extend(["---", ""])
+
+
+def _cybermed_pubmed_deep_dive_heading_body(item: Dict[str, Any], title_lbl: str, url: str) -> str:
+    journal = ""
+    for key in ("journal", "journal_iso_abbrev", "journal_medline_ta"):
+        journal = str(item.get(key) or "").strip()
+        if journal:
+            break
+    if not journal:
+        channel = str(item.get("channel") or "").strip()
+        if channel.lower().startswith("pubmed:"):
+            journal = channel.split(":", 1)[1].strip()
+    journal_lbl = _md_escape_label(journal) if journal else ""
+    title_part = f"[{title_lbl}]({url})" if url else title_lbl
+    if journal_lbl:
+        return f"PubMed: {journal_lbl}: {title_part}"
+    return f"PubMed: {title_part}"
+
+
 def _join_compact_segments(segments: List[str]) -> str:
     clean = [seg.strip() for seg in segments if str(seg or "").strip()]
     return " · ".join(clean)
@@ -1210,6 +1241,8 @@ def to_markdown(
             md.append("")
             top_items = [it for it in items if it.get("top_pick") is True]
             if top_items:
+                if normalized_mode == "weekly":
+                    _append_major_section_rule(md)
                 md.extend(["## Top Picks", ""])
                 for it in top_items[:5]:
                     title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
@@ -1224,7 +1257,12 @@ def to_markdown(
                     if compact:
                         md.append("")
                         md.append(compact)
-                    md.extend(["", "---", ""])
+                    if normalized_mode == "weekly":
+                        md.append("")
+                    else:
+                        md.extend(["", "---", ""])
+                if normalized_mode == "weekly":
+                    _append_major_section_rule(md)
             if normalized_mode == "monthly":
                 md.extend(["## Executive editorial summary", ""])
                 summary_candidates = sorted(
@@ -1336,7 +1374,9 @@ def to_markdown(
                         else:
                             md.append("")
                             md.append("**BOTTOM LINE:** No stored bottom line available.")
-                        if idx < len(sub_items) - 1:
+                        if normalized_mode == "weekly":
+                            md.append("")
+                        elif idx < len(sub_items) - 1:
                             md.extend(["", "---", ""])
                     md.append("")
         else:
@@ -1351,6 +1391,8 @@ def to_markdown(
 
         # FOAMed overview sits between Papers and Deep Dives.
         foamed_items = [it for it in items if str(it.get("source") or "").strip().lower() == "foamed"]
+        if normalized_mode == "weekly" and pubmed_items and foamed_items:
+            _append_major_section_rule(md)
         md.extend(["", "## FOAMed & Commentary", ""])
         if foamed_items:
             foamed_sorted = sorted(
@@ -1381,7 +1423,9 @@ def to_markdown(
                     md.append(re.sub(r"(?i)^BOTTOM LINE:\s*", "**BOTTOM LINE:** ", bottom_line, count=1))
                 else:
                     md.append(bottom_line)
-                if idx < len(foamed_sorted) - 1:
+                if normalized_mode == "weekly":
+                    md.append("")
+                elif idx < len(foamed_sorted) - 1:
                     md.extend(["", "---", ""])
             md.append("")
         else:
@@ -1456,13 +1500,20 @@ def to_markdown(
                     for p in points[:5]:
                         md.append(p)
                     md.append("")
+        if is_cybermed and normalized_mode == "weekly":
+            foamed_items_for_rule = [it for it in items if str(it.get("source") or "").strip().lower() == "foamed"]
+            if foamed_items_for_rule:
+                _append_major_section_rule(md)
         md.extend([deep_dives_heading, ""])
         for it in detail_items:
             iid = str(it.get("id") or "").strip()
-            ch = _md_escape_label(str(it.get("channel") or "").strip())
-            title_lbl = _md_escape_label(str(it.get("title") or "").strip())
+            title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
             url = str(it.get("url") or "").strip()
-            heading_body = f"{ch}: [{title_lbl}]({url})" if url else f"{ch}: {title_lbl}"
+            if is_cybermed and str(it.get("source") or "").strip().lower() == "pubmed":
+                heading_body = _cybermed_pubmed_deep_dive_heading_body(it, title_lbl, url)
+            else:
+                ch = _md_escape_label(str(it.get("channel") or it.get("source") or "Source").strip() or "Source")
+                heading_body = f"{ch}: [{title_lbl}]({url})" if url else f"{ch}: {title_lbl}"
             if it.get("top_pick"):
                 heading_body = _prefix_star(heading_body)
             md.append(f"### {heading_body}")
