@@ -167,6 +167,71 @@ def _bold_bottom_line_label(text: str) -> str:
     return re.sub(r"(?im)^(\s*)(?:\*\*)?BOTTOM LINE:(?:\*\*)?", _repl, text)
 
 
+
+
+CYBERMED_STORED_DEEP_DIVE_STRUCTURED_FIELDS = (
+    "study_type",
+    "population_setting",
+    "intervention_or_exposure",
+    "comparator",
+    "primary_endpoint",
+    "primary_result_direction",
+    "primary_result_significance",
+    "key_secondary_results",
+    "clinical_interpretation",
+    "limitations",
+    "deep_dive_reasons",
+)
+
+
+def _has_stored_cybermed_deep_dive_content(item: Dict[str, Any]) -> bool:
+    if item.get("cybermed_stored_deep_dive_has_structured_content") is True:
+        return True
+    source = item.get("cybermed_stored_deep_dive") if isinstance(item.get("cybermed_stored_deep_dive"), dict) else item
+    for field in CYBERMED_STORED_DEEP_DIVE_STRUCTURED_FIELDS:
+        value = (source or {}).get(field)
+        if isinstance(value, list):
+            if any(str(v).strip() for v in value):
+                return True
+        elif isinstance(value, dict):
+            if any(str(v).strip() for v in value.values()):
+                return True
+        elif str(value or "").strip():
+            return True
+    return False
+
+
+def _stored_cybermed_deep_dive_block(item: Dict[str, Any]) -> str:
+    source = item.get("cybermed_stored_deep_dive") if isinstance(item.get("cybermed_stored_deep_dive"), dict) else item
+
+    def val(*names: str) -> str:
+        for name in names:
+            raw = (source or {}).get(name)
+            if raw is None or raw == "":
+                raw = item.get(name)
+            text = _flatten_text_field(raw)
+            if text:
+                return text
+        return ""
+
+    lines: List[str] = []
+    rows = [
+        ("Study type", val("study_type")),
+        ("Population/setting", val("population_setting")),
+        ("Intervention/exposure & comparator", _join_compact_segments([val("intervention_or_exposure"), val("comparator")]) or val("intervention_exposure_comparator")),
+        ("Primary endpoint", val("primary_endpoint")),
+        ("Key results", _join_compact_segments([val("primary_result_direction"), val("primary_result_significance"), val("key_secondary_results")])),
+        ("Limitations", val("limitations")),
+        ("Why this matters / clinical interpretation", _join_compact_segments([val("clinical_interpretation"), val("deep_dive_reasons")])),
+    ]
+    for label, text in rows:
+        if text:
+            lines.append(f"- **{label}:** {text}")
+    bottom = val("bottom_line") or str(item.get("bottom_line") or "").strip()
+    if bottom:
+        lines.extend(["", f"**BOTTOM LINE:** {bottom}"])
+    return "\n".join(lines).strip()
+
 def _flatten_text_field(value: Any) -> str:
     if isinstance(value, list):
         return "; ".join(str(v).strip() for v in value if str(v).strip())
@@ -1271,7 +1336,10 @@ def to_markdown(
                 if not bottom_line:
                     bottom_line = "BOTTOM LINE: No stored bottom line available."
                 md.append("")
-                md.append(f"**{bottom_line}**" if bottom_line.upper().startswith("BOTTOM LINE:") else bottom_line)
+                if bottom_line.upper().startswith("BOTTOM LINE:"):
+                    md.append(re.sub(r"(?i)^BOTTOM LINE:\s*", "**BOTTOM LINE:** ", bottom_line, count=1))
+                else:
+                    md.append(bottom_line)
                 if idx < len(foamed_sorted) - 1:
                     md.extend(["", "---", ""])
             md.append("")
@@ -1291,6 +1359,12 @@ def to_markdown(
     detail_items: List[Dict[str, Any]]
     if is_cybermed:
         detail_items = [it for it in items if it.get("cybermed_deep_dive")]
+        if normalized_mode == "weekly":
+            detail_items = [
+                it for it in detail_items
+                if not (it.get("digest_derived") is True or it.get("cybermed_weekly_digest_only") is True)
+                or _has_stored_cybermed_deep_dive_content(it)
+            ]
         if not detail_items:
             detail_items = [it for it in items if _detail_lookup(details_by_id, it)]
         detail_items = sorted(detail_items, key=_deep_dive_sort_key)
@@ -1365,11 +1439,9 @@ def to_markdown(
                 and (not report_key or ("cybermed" in report_key and "weekly" in report_key))
             )
             if is_digest_derived_weekly:
-                stored_bottom_line = str(it.get("stored_bottom_line") or it.get("bottom_line") or "").strip()
-                if stored_bottom_line:
-                    detail_block = f"**BOTTOM LINE:** {stored_bottom_line}\n\nNo stored deep-dive synopsis available."
-                else:
-                    detail_block = "**BOTTOM LINE:** No stored bottom line available.\n\nNo stored deep-dive synopsis available."
+                detail_block = _stored_cybermed_deep_dive_block(it)
+                if not detail_block:
+                    continue
             elif is_cybermed and str(it.get("source") or "").strip().lower() == "pubmed":
                 if not detail_block:
                     abstract = (it.get("abstract") or it.get("text") or "").strip()

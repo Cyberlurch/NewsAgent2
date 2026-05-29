@@ -70,6 +70,8 @@ def test_manual_daily_ignores_weekly_fixture(monkeypatch, tmp_path):
     monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_MODE", "1")
     monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_PATH", str(fixture))
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
+    monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: [])
+    monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([], {}))
     monkeypatch.setattr(main, "send_markdown", lambda *a, **k: None)
     main.main()
     diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
@@ -86,6 +88,7 @@ def test_cyberlurch_ignores_weekly_fixture(monkeypatch, tmp_path):
     monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
     monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_MODE", "1")
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
+    monkeypatch.setattr(main, "list_recent_videos", lambda *a, **k: [])
     monkeypatch.setattr(main, "send_markdown", lambda *a, **k: None)
     main.main()
     diag = json.loads(next((tmp_path / "out").glob("cyberlurch_*_youtube_diagnostics.json")).read_text(encoding="utf-8"))
@@ -100,7 +103,7 @@ def test_manual_weekly_fixture_renders_digest_items(monkeypatch, tmp_path):
     assert diag["cybermed_weekly_deep_dives_selected_total"] == 1
     assert diag["cybermed_weekly_rendered_pubmed_items_total"] == 2
     assert diag["cybermed_weekly_rendered_foamed_items_total"] == 1
-    assert diag["cybermed_weekly_rendered_deep_dives_total"] == 1
+    assert diag["cybermed_weekly_rendered_deep_dives_total"] == 0
     assert diag["cybermed_weekly_rendered_top_picks_total"] == 2
     assert diag["cybermed_weekly_intro_pubmed_items_total"] == 2
     assert diag["cybermed_weekly_intro_foamed_items_total"] == 1
@@ -116,6 +119,9 @@ def test_manual_weekly_fixture_renders_digest_items(monkeypatch, tmp_path):
     assert diag["cybermed_weekly_top_pick_source_counts"]["inferred"] == 0
     assert diag["cybermed_weekly_top_pick_inference_violations_total"] == 0
     assert diag["cybermed_weekly_bottom_line_preservation_violations_total"] == 0
+    assert diag["cybermed_weekly_deep_dives_suppressed_empty_total"] == 1
+    assert diag["cybermed_weekly_deep_dive_placeholder_violations_total"] == 0
+    assert "No stored deep-dive synopsis available." not in md
     assert "Top Picks" in md
     assert "BL1" in md
     assert "BL2" in md
@@ -273,3 +279,122 @@ def test_cybermed_monthly_digest_only_empty_real_send_is_blocked(monkeypatch, tm
             send_func=lambda subject, md: calls.append((subject, md)),
         )
     assert calls == []
+
+
+def test_cybermed_weekly_maps_stored_deep_dive_and_renders_structured_content(monkeypatch, tmp_path):
+    fixture = {
+        "version": 1,
+        "updated_at_utc": "",
+        "digests": [{
+            "digest_id": "d1",
+            "run_date": "2026-05-18",
+            "items": {
+                "pubmed": [{
+                    "item_id": "paper-1",
+                    "source_type": "pubmed",
+                    "title": "Structured weekly paper",
+                    "pmid": "12345",
+                    "doi": "10.1000/weekly",
+                    "url": "https://pubmed.ncbi.nlm.nih.gov/12345/",
+                    "published_at": "2026-05-18T10:00:00+00:00",
+                    "bottom_line": "Original bottom line",
+                    "deep_dive_candidate": True,
+                }],
+                "foamed": [],
+            },
+            "deep_dives": [{
+                "item_id": "paper-1",
+                "pmid": "12345",
+                "title": "Structured weekly paper",
+                "study_type": "Randomized trial",
+                "population_setting": "Adult ICU patients",
+                "intervention_or_exposure": "Protocolized care",
+                "comparator": "Usual care",
+                "primary_endpoint": "Ventilator-free days",
+                "primary_result_direction": "Improved",
+                "primary_result_significance": "Statistically significant",
+                "key_secondary_results": "Shorter ICU stay",
+                "clinical_interpretation": "May change protocol design",
+                "limitations": "Single-center study",
+                "deep_dive_reasons": ["practice impact"],
+                "bottom_line": "Stored deep-dive bottom line",
+            }],
+            "top_picks": [],
+        }],
+    }
+    diag, md = _run_weekly(monkeypatch, tmp_path, fixture_payload=fixture)
+    assert ("## Deep Dives" in md) or ("## Vertiefungen" in md)
+    assert "**Study type:** Randomized trial" in md
+    assert "**Population/setting:** Adult ICU patients" in md
+    assert "**Intervention/exposure & comparator:** Protocolized care · Usual care" in md
+    assert "**Primary endpoint:** Ventilator-free days" in md
+    assert "Improved · Statistically significant · Shorter ICU stay" in md
+    assert "**Limitations:** Single-center study" in md
+    assert "**Why this matters / clinical interpretation:** May change protocol design · practice impact" in md
+    assert "**BOTTOM LINE:** Stored deep-dive bottom line" in md
+    assert "No stored deep-dive synopsis available." not in md
+    assert diag["cybermed_weekly_deep_dives_loaded_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_selected_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_with_structured_content_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_rendered_with_content_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_suppressed_empty_total"] == 0
+    assert diag["cybermed_weekly_deep_dive_placeholder_violations_total"] == 0
+    assert diag["cybermed_weekly_deep_dive_mapping_misses_total"] == 0
+    assert diag["cybermed_weekly_deep_dive_mapping_keys_used_counts"]["item_id"] == 1
+
+
+def test_cybermed_weekly_suppresses_deep_dive_with_only_bottom_line(monkeypatch, tmp_path):
+    fixture = {
+        "version": 1,
+        "updated_at_utc": "",
+        "digests": [{
+            "digest_id": "d1",
+            "run_date": "2026-05-18",
+            "items": {"pubmed": [{
+                "item_id": "paper-2",
+                "source_type": "pubmed",
+                "title": "Bottom line only paper",
+                "pmid": "999",
+                "published_at": "2026-05-18T10:00:00+00:00",
+                "bottom_line": "Still useful as a paper",
+                "deep_dive_candidate": True,
+            }], "foamed": []},
+            "deep_dives": [{"item_id": "paper-2", "pmid": "999", "bottom_line": "Only bottom line"}],
+            "top_picks": [],
+        }],
+    }
+    diag, md = _run_weekly(monkeypatch, tmp_path, fixture_payload=fixture)
+    assert "Bottom line only paper" in md
+    assert "## Papers" in md
+    assert "## Deep Dives" not in md
+    assert "No stored deep-dive synopsis available." not in md
+    assert diag["cybermed_weekly_deep_dives_selected_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_with_structured_content_total"] == 0
+    assert diag["cybermed_weekly_deep_dives_rendered_with_content_total"] == 0
+    assert diag["cybermed_weekly_deep_dives_suppressed_empty_total"] == 1
+    assert diag["cybermed_weekly_deep_dive_placeholder_violations_total"] == 0
+
+
+def test_cybermed_weekly_foamed_bottom_line_bolds_label_only(monkeypatch, tmp_path):
+    fixture = {
+        "version": 1,
+        "updated_at_utc": "",
+        "digests": [{
+            "digest_id": "d1",
+            "run_date": "2026-05-18",
+            "items": {"pubmed": [], "foamed": [{
+                "item_id": "foam-1",
+                "source_type": "foamed",
+                "title": "FOAMed item",
+                "url": "https://example.test/foam",
+                "published_at": "2026-05-18T08:00:00+00:00",
+                "bottom_line": "some text",
+            }]},
+            "deep_dives": [],
+            "top_picks": [],
+        }],
+    }
+    _, md = _run_weekly(monkeypatch, tmp_path, fixture_payload=fixture)
+    assert "**BOTTOM LINE: some text**" not in md
+    assert "**BOTTOM LINE:** some text" in md
+    assert "No stored deep-dive synopsis available." not in md

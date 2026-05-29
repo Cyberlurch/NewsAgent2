@@ -9,7 +9,7 @@ import time
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 from statistics import median
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 from zoneinfo import ZoneInfo
 
 from dotenv import load_dotenv
@@ -37,6 +37,7 @@ from .cybermed_digest_store import (
     select_cybermed_daily_digests_for_week,
     summarize_cybermed_weekly_digest_inputs,
     dedupe_weekly_digest_items,
+    normalized_title as cybermed_normalized_title,
 )
 from .state_manager import (
     is_processed,
@@ -93,6 +94,68 @@ CYBERLURCH_WEEKLY_TOP_LINKS_MAX = 20
 CYBERLURCH_MONTHLY_REPRESENTATIVE_LINKS_PER_TOPIC = 3
 CYBERLURCH_YEARLY_REPRESENTATIVE_LINKS_PER_THEME = 3
 WEEKLY_MAX_DEEP_DIVES = 5
+
+
+CYBERMED_STORED_DEEP_DIVE_STRUCTURED_FIELDS = (
+    "study_type",
+    "population_setting",
+    "intervention_or_exposure",
+    "comparator",
+    "primary_endpoint",
+    "primary_result_direction",
+    "primary_result_significance",
+    "key_secondary_results",
+    "clinical_interpretation",
+    "limitations",
+    "deep_dive_reasons",
+)
+
+
+def _cybermed_deep_dive_match_keys(item: Dict[str, Any]) -> List[Tuple[str, str]]:
+    keys: List[Tuple[str, str]] = []
+    for field in ("item_id", "id", "pmid", "doi", "url"):
+        value = str((item or {}).get(field) or "").strip().lower()
+        if value:
+            keys.append((field, value))
+    title = cybermed_normalized_title(str((item or {}).get("title") or ""))
+    if title:
+        keys.append(("title", title))
+    return keys
+
+
+def _cybermed_stored_deep_dive_has_structured_content(record: Dict[str, Any]) -> bool:
+    for field in CYBERMED_STORED_DEEP_DIVE_STRUCTURED_FIELDS:
+        value = (record or {}).get(field)
+        if isinstance(value, list):
+            if any(str(v).strip() for v in value):
+                return True
+        elif isinstance(value, dict):
+            if any(str(v).strip() for v in value.values()):
+                return True
+        elif str(value or "").strip():
+            return True
+    return False
+
+
+def _cybermed_build_deep_dive_lookup(records: List[Dict[str, Any]]) -> Tuple[Dict[Tuple[str, str], Dict[str, Any]], Counter[str]]:
+    lookup: Dict[Tuple[str, str], Dict[str, Any]] = {}
+    key_counts: Counter[str] = Counter()
+    for record in records:
+        if not isinstance(record, dict):
+            continue
+        for key in _cybermed_deep_dive_match_keys(record):
+            if key not in lookup:
+                lookup[key] = record
+                key_counts[key[0]] += 1
+    return lookup, key_counts
+
+
+def _cybermed_lookup_stored_deep_dive(item: Dict[str, Any], lookup: Dict[Tuple[str, str], Dict[str, Any]]) -> Tuple[Optional[Dict[str, Any]], str]:
+    for key in _cybermed_deep_dive_match_keys(item):
+        record = lookup.get(key)
+        if record is not None:
+            return record, key[0]
+    return None, ""
 MONTHLY_MAX_DEEP_DIVES = 2
 
 def classify_direct_digest_error(exc: Exception) -> str:
@@ -2329,13 +2392,9 @@ def main() -> None:
             key=lambda x: str(x.get("published_at") or ""),
             reverse=True,
         )[:weekly_top_picks_cap]
-        deep_dive_store_ids = {
-            str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
-            for d in week_deep
-            if str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
-        }
+        deep_dive_lookup, deep_dive_lookup_key_counts = _cybermed_build_deep_dive_lookup(week_deep)
         selected_deep_dives = sorted(
-            [it for it in deduped if it.get("deep_dive_candidate") is True or str(it.get("item_id") or it.get("id") or it.get("pmid") or "").strip() in deep_dive_store_ids],
+            [it for it in deduped if it.get("deep_dive_candidate") is True or _cybermed_lookup_stored_deep_dive(it, deep_dive_lookup)[0] is not None],
             key=lambda x: str(x.get("published_at") or ""),
             reverse=True,
         )[:WEEKLY_MAX_DEEP_DIVES]
@@ -2344,10 +2403,44 @@ def main() -> None:
             for d in selected_deep_dives
             if str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
         }
+        selected_deep_dive_keys = {key for d in selected_deep_dives for key in _cybermed_deep_dive_match_keys(d)}
+        selected_deep_dive_mapping_misses = 0
+        selected_deep_dive_mapping_keys_used: Counter[str] = Counter()
+        selected_deep_dive_structured_total = 0
+        selected_deep_dive_suppressed_empty_total = 0
         items = [
             _normalize_cybermed_weekly_digest_item(it, deep_dive_ids=selected_deep_dive_ids)
             for it in (pubmed_sorted + foamed_sorted)
         ]
+        for row in items:
+            if str(row.get("source_type") or row.get("source") or "").strip().lower() != "pubmed":
+                continue
+            is_selected_deep_dive = bool(row.get("cybermed_deep_dive")) or any(key in selected_deep_dive_keys for key in _cybermed_deep_dive_match_keys(row))
+            if not is_selected_deep_dive:
+                continue
+            row["cybermed_deep_dive"] = True
+            stored_deep_dive, matched_key = _cybermed_lookup_stored_deep_dive(row, deep_dive_lookup)
+            if stored_deep_dive is None:
+                selected_deep_dive_mapping_misses += 1
+                row["cybermed_stored_deep_dive_mapping_miss"] = True
+                row["cybermed_stored_deep_dive_has_structured_content"] = False
+                selected_deep_dive_suppressed_empty_total += 1
+                continue
+            selected_deep_dive_mapping_keys_used[matched_key] += 1
+            row["cybermed_stored_deep_dive"] = dict(stored_deep_dive)
+            for field, value in stored_deep_dive.items():
+                if field == "bottom_line":
+                    if str(value or "").strip():
+                        row["bottom_line"] = str(value or "").strip()
+                        row["stored_bottom_line"] = str(value or "").strip()
+                    continue
+                row.setdefault(field, value)
+            has_structured = _cybermed_stored_deep_dive_has_structured_content(stored_deep_dive)
+            row["cybermed_stored_deep_dive_has_structured_content"] = has_structured
+            if has_structured:
+                selected_deep_dive_structured_total += 1
+            else:
+                selected_deep_dive_suppressed_empty_total += 1
         preview = []
         for it in (pubmed_sorted + foamed_sorted)[:10]:
             preview.append({
@@ -2396,6 +2489,13 @@ def main() -> None:
             "cybermed_weekly_pubmed_items_loaded_total": summary["pubmed_items_loaded_total"],
             "cybermed_weekly_foamed_items_loaded_total": summary["foamed_items_loaded_total"],
             "cybermed_weekly_deep_dives_loaded_total": summary["deep_dives_loaded_total"],
+            "cybermed_weekly_deep_dives_with_structured_content_total": selected_deep_dive_structured_total,
+            "cybermed_weekly_deep_dives_rendered_with_content_total": selected_deep_dive_structured_total,
+            "cybermed_weekly_deep_dives_suppressed_empty_total": selected_deep_dive_suppressed_empty_total,
+            "cybermed_weekly_deep_dive_placeholder_violations_total": 0,
+            "cybermed_weekly_deep_dive_mapping_misses_total": selected_deep_dive_mapping_misses,
+            "cybermed_weekly_deep_dive_mapping_keys_indexed_counts": dict(deep_dive_lookup_key_counts),
+            "cybermed_weekly_deep_dive_mapping_keys_used_counts": dict(selected_deep_dive_mapping_keys_used),
             "cybermed_weekly_top_picks_loaded_total": loaded_top_picks_total,
             "cybermed_weekly_loaded_top_picks_total": loaded_top_picks_total,
             "cybermed_weekly_duplicates_suppressed_total": suppressed,
@@ -3626,7 +3726,11 @@ def main() -> None:
     if is_cybermed_run and cybermed_digest_only_mode:
         pubmed_overview_items = [it for it in items if (it.get("source") or "").strip().lower() == "pubmed"]
         foamed_overview_items = [it for it in items if (it.get("source") or "").strip().lower() == "foamed"]
-        pubmed_deep_dive_items = [it for it in pubmed_overview_items if bool(it.get("cybermed_deep_dive"))]
+        pubmed_deep_dive_items = [
+            it for it in pubmed_overview_items
+            if bool(it.get("cybermed_deep_dive"))
+            and bool(it.get("cybermed_stored_deep_dive_has_structured_content"))
+        ]
         report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
     elif is_cybermed_run:
         report_items = _dedupe_items(pubmed_overview_items + pubmed_deep_dive_items + foamed_overview_items)
@@ -4162,7 +4266,7 @@ def main() -> None:
             f"unpaywall_downloaded={unpaywall_downloaded}, skipped_size={skipped_size})"
         )
 
-    if is_cybermed_run:
+    if is_cybermed_run and not cybermed_digest_only_mode:
         pubmed_detail_items = [
             it for it in detail_items if (it.get("source") or "").strip().lower() == "pubmed"
         ]
@@ -4265,7 +4369,7 @@ def main() -> None:
                 pubmed_missing_abs_pmids.append(pmid)
 
     fetched_pubmed_abstracts: Dict[str, str] = {}
-    if pubmed_missing_abs_pmids:
+    if pubmed_missing_abs_pmids and not cybermed_digest_only_mode:
         try:
             fetched_pubmed_abstracts = fetch_pubmed_abstracts(pubmed_missing_abs_pmids)
         except Exception as e:
@@ -4324,6 +4428,8 @@ def main() -> None:
     details_by_id: Dict[str, str] = {}
     details_for_report: Dict[str, str] = {}
     for it in detail_items:
+        if is_cybermed_run and cybermed_digest_only_mode:
+            continue
         if (not is_cybermed_run) and ((it.get("content_status") == "metadata_only") or (it.get("text_source") == "metadata_only")):
             continue
         src = (it.get("source") or "").strip().lower() or "youtube"
@@ -4591,6 +4697,11 @@ def main() -> None:
     )
 
     runtime_report_render_seconds += max(0.0, time.monotonic() - report_render_start)
+    if cybermed_digest_only_mode:
+        placeholder_violations = md.count("No stored deep-dive synopsis available.")
+        cybermed_weekly_diag["cybermed_weekly_deep_dive_placeholder_violations_total"] = placeholder_violations
+        if report_mode == "monthly":
+            cybermed_weekly_diag.update(_cybermed_monthly_aliases_from_weekly(cybermed_weekly_diag))
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
     print(f"[report] Wrote {out_path}")
@@ -5019,6 +5130,8 @@ def main() -> None:
 
     if cybermed_digest_only_mode:
         guard_reason = _cybermed_digest_only_empty_guard_reason(report_mode, cybermed_weekly_diag)
+        if not guard_reason and int(cybermed_weekly_diag.get("cybermed_weekly_deep_dive_placeholder_violations_total", 0) or 0) > 0:
+            guard_reason = "deep_dive_placeholder_violation"
         if _cybermed_digest_only_requires_empty_send_guard() and guard_reason:
             cybermed_weekly_diag.update({
                 "cybermed_weekly_empty_guard_triggered": True,
