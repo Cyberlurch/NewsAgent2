@@ -25,9 +25,9 @@ def _base_env(monkeypatch, tmp_path):
 def _with_nonempty_selection(monkeypatch):
     import types
     from newsagent2 import selector_medical
-    monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: ([{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u"}], {}) if k.get("return_metadata") else [{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u"}])
+    monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: ([{"id": "p1", "source": "pubmed", "pmid": "1", "title": "T", "journal": "J", "url": "u"}], {}) if k.get("return_metadata") else [{"id": "p1", "source": "pubmed", "pmid": "1", "title": "T", "journal": "J", "url": "u"}])
     monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([{"id": "f1", "title": "F", "url": "fu"}], {"sources_total": 1, "sources_ok": 1, "sources_failed": 0, "items_raw": 1, "items_with_date": 1, "items_date_unknown": 0, "kept_last24h": 1, "newly_disabled_count": 0, "per_source": {}}))
-    monkeypatch.setattr(selector_medical, "select_cybermed_pubmed_items", lambda _items: types.SimpleNamespace(overview_items=[{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u", "top_pick": True}], deep_dive_items=[{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u"}], stats={"selection_diagnostics": {}}))
+    monkeypatch.setattr(selector_medical, "select_cybermed_pubmed_items", lambda _items: types.SimpleNamespace(overview_items=[{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u", "top_pick": True}], deep_dive_items=[{"id": "p1", "source": "pubmed", "pmid": "1", "title": "T", "journal": "J", "url": "u"}], stats={"selection_diagnostics": {}}))
     monkeypatch.setattr(selector_medical, "select_cybermed_foamed_items", lambda items, max_items=25: [{"id": "f1", "title": "F", "url": "fu", "top_pick": True}])
 
 
@@ -216,3 +216,33 @@ def test_cybermed_backfill_ignored_when_send_email_or_schedule(tmp_path, monkeyp
     diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
     assert diag["cybermed_digest_backfill_enabled"] is False
     assert "send_email_not_zero" in diag["cybermed_digest_backfill_skipped_reason"]
+
+
+def test_cybermed_daily_digest_store_persists_generated_deep_dive_markdown(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
+    detail_md = (
+        "- **Study type:** Randomized trial\n"
+        "- **Population/setting:** Operating-room adults\n"
+        "- **Key results:** Lower postoperative nausea\n"
+        "- **Limitations:** Single center\n\n"
+        "**BOTTOM LINE:** Use a multimodal plan."
+    )
+    monkeypatch.setattr(main, "summarize_item_detail", lambda *a, **k: detail_md)
+    monkeypatch.setattr(main, "_select_pubmed_deep_dives_with_content", lambda candidates, **kwargs: list(candidates))
+
+    main.main()
+
+    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
+    payload = json.loads(dpath.read_text(encoding="utf-8"))
+    deep_dives = payload["digests"][0]["deep_dives"]
+    assert len(deep_dives) == 1
+    stored = deep_dives[0]
+    assert stored["item_id"] == "p1"
+    assert stored["pmid"] == "1"
+    assert stored["title"] == "T"
+    assert stored["journal"] == "J"
+    assert stored["url"] == "u"
+    assert stored["deep_dive_markdown"] == detail_md
+    assert "Study type" in stored["deep_dive_markdown"]
+    assert "Key results" in stored["deep_dive_markdown"]
