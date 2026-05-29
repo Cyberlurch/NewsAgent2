@@ -31,6 +31,7 @@ from .rollups import (
 )
 from .reporter import to_markdown
 from .cybermed_digest_store import (
+    cybermed_weekly_reporting_period,
     load_cybermed_daily_digest_store,
     select_cybermed_daily_digests_for_month,
     select_cybermed_daily_digests_for_week,
@@ -713,6 +714,38 @@ def _write_cybermed_diagnostics(
         print(f"[diagnostics] Wrote count-only Cybermed diagnostics: {out_path}")
     except Exception as e:
         print(f"[diagnostics] WARN: failed to write Cybermed diagnostics err_type={type(e).__name__}")
+
+
+def _cybermed_digest_only_requires_empty_send_guard() -> bool:
+    send_email = (os.getenv("SEND_EMAIL", "1") or "1").strip() == "1"
+    email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
+    event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
+    return send_email and (email_mode == "real" or event_name == "schedule")
+
+
+def _cybermed_digest_only_empty_guard_reason(report_mode: str, diag: Dict[str, Any]) -> str:
+    if report_mode not in {"weekly", "monthly"}:
+        return ""
+    prefix = "cybermed_monthly" if report_mode == "monthly" else "cybermed_weekly"
+    selected = int(diag.get(f"{prefix}_digest_store_selected_total", diag.get("cybermed_weekly_digest_store_selected_total", 0)) or 0)
+    pubmed = int(diag.get(f"{prefix}_pubmed_items_selected_total", diag.get("cybermed_weekly_pubmed_items_selected_total", 0)) or 0)
+    foamed = int(diag.get(f"{prefix}_foamed_items_selected_total", diag.get("cybermed_weekly_foamed_items_selected_total", 0)) or 0)
+    if selected <= 0:
+        return "no_daily_digests_selected"
+    if pubmed <= 0 and foamed <= 0:
+        return "selected_daily_digests_have_zero_pubmed_and_zero_foamed_items"
+    return ""
+
+
+def _raise_cybermed_digest_only_empty_guard(report_mode: str, reason: str) -> None:
+    print(
+        f"[cybermed-empty-guard] cybermed_{report_mode}_empty_guard_triggered=True "
+        f"reason={reason}"
+    )
+    raise RuntimeError(
+        f"Cybermed digest-only report was blocked because it had no digest content "
+        f"(mode={report_mode}, reason={reason})."
+    )
 
 
 def _report_output_path(report_dir: str, report_key: str, report_mode: str) -> str:
@@ -2233,6 +2266,8 @@ def main() -> None:
             cybermed_weekly_qa_fixture_mode = True
             digest_store_path = fixture_path
         store = load_cybermed_daily_digest_store(digest_store_path)
+        cybermed_expected_period_start = ""
+        cybermed_expected_period_end = ""
         if cybermed_weekly_qa_fixture_mode:
             daily = list(store.get("digests") or [])
         elif cybermed_monthly_digest_only:
@@ -2241,9 +2276,17 @@ def main() -> None:
                 os.getenv("GITHUB_EVENT_NAME", ""),
                 os.getenv("ROLLUP_MONTH_OVERRIDE"),
             )
+            cybermed_expected_period_start = f"{month_key}-01"
+            month_start_dt = datetime.strptime(cybermed_expected_period_start, "%Y-%m-%d")
+            next_month_dt = (month_start_dt.replace(day=28) + timedelta(days=4)).replace(day=1)
+            cybermed_expected_period_end = (next_month_dt - timedelta(days=1)).strftime("%Y-%m-%d")
             daily = select_cybermed_daily_digests_for_month(store, month_key)
         else:
-            daily = select_cybermed_daily_digests_for_week(store, datetime.now(tz=STO).date())
+            today_sto = datetime.now(tz=STO).date()
+            week_start, week_end = cybermed_weekly_reporting_period(today_sto)
+            cybermed_expected_period_start = str(week_start)
+            cybermed_expected_period_end = str(week_end)
+            daily = select_cybermed_daily_digests_for_week(store, today_sto)
         summary = summarize_cybermed_weekly_digest_inputs(daily)
         digest_store_used_as_primary = True
         digest_store_collection_skipped_due_to_primary = True
@@ -2342,6 +2385,12 @@ def main() -> None:
             "cybermed_weekly_qa_fixture_state_mutation_disabled": cybermed_weekly_qa_fixture_mode,
             "cybermed_weekly_period_start": str(min([d.get("run_date") for d in daily], default="")),
             "cybermed_weekly_period_end": str(max([d.get("run_date") for d in daily], default="")),
+            "cybermed_weekly_expected_period_start": cybermed_expected_period_start,
+            "cybermed_weekly_expected_period_end": cybermed_expected_period_end,
+            "cybermed_weekly_digest_store_total": digest_store_loaded_total,
+            "cybermed_weekly_digest_store_selected_total": digest_store_selected_total,
+            "cybermed_weekly_empty_guard_triggered": False,
+            "cybermed_weekly_empty_guard_reason": "",
             "cybermed_weekly_daily_digests_found_total": summary["daily_digests_found_total"],
             "cybermed_weekly_daily_digests_with_items_total": summary["daily_digests_with_items_total"],
             "cybermed_weekly_pubmed_items_loaded_total": summary["pubmed_items_loaded_total"],
@@ -2373,6 +2422,14 @@ def main() -> None:
             "cybermed_weekly_items_preview_sanitized": preview,
             "cybermed_weekly_empty_reason": "" if items else ("No Cybermed daily digests were available for this weekly period." if not daily else "Daily digests were processed, but no items passed selection this week."),
         }
+        guard_reason = _cybermed_digest_only_empty_guard_reason(report_mode, cybermed_weekly_diag)
+        if _cybermed_digest_only_requires_empty_send_guard() and guard_reason:
+            cybermed_weekly_diag.update({
+                "cybermed_weekly_empty_guard_triggered": True,
+                "cybermed_weekly_empty_guard_reason": guard_reason,
+            })
+            if report_mode == "monthly":
+                cybermed_weekly_diag.update(_cybermed_monthly_aliases_from_weekly(cybermed_weekly_diag))
 
     if not is_cybermed_run and report_key.strip().lower() == "cyberlurch" and report_mode in {"weekly", "monthly"}:
         use_digest = _env_bool("CYBERLURCH_WEEKLY_USE_DIGEST_STORE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_USE_DIGEST_STORE", True)
@@ -3609,6 +3666,13 @@ def main() -> None:
             now_utc_iso=now_utc_iso,
             read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode),
         )
+
+        if cybermed_digest_only_mode:
+            cybermed_diagnostics_payload.update(cybermed_weekly_diag)
+            _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
+            guard_reason = _cybermed_digest_only_empty_guard_reason(report_mode, cybermed_weekly_diag)
+            if _cybermed_digest_only_requires_empty_send_guard() and guard_reason:
+                _raise_cybermed_digest_only_empty_guard(report_mode, guard_reason)
 
         if send_empty_email == "1":
             try:
@@ -4952,6 +5016,19 @@ def main() -> None:
         now_utc_iso=now_utc_iso,
         read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode),
     )
+
+    if cybermed_digest_only_mode:
+        guard_reason = _cybermed_digest_only_empty_guard_reason(report_mode, cybermed_weekly_diag)
+        if _cybermed_digest_only_requires_empty_send_guard() and guard_reason:
+            cybermed_weekly_diag.update({
+                "cybermed_weekly_empty_guard_triggered": True,
+                "cybermed_weekly_empty_guard_reason": guard_reason,
+            })
+            if report_mode == "monthly":
+                cybermed_weekly_diag.update(_cybermed_monthly_aliases_from_weekly(cybermed_weekly_diag))
+            cybermed_diagnostics_payload.update(cybermed_weekly_diag)
+            _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
+            _raise_cybermed_digest_only_empty_guard(report_mode, guard_reason)
 
     try:
         email_start = time.monotonic()
