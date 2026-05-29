@@ -102,13 +102,14 @@ CYBERMED_STORED_DEEP_DIVE_STRUCTURED_FIELDS = (
     "intervention_or_exposure",
     "comparator",
     "primary_endpoint",
+    "key_results",
     "primary_result_direction",
     "primary_result_significance",
     "key_secondary_results",
     "clinical_interpretation",
     "limitations",
-    "deep_dive_reasons",
 )
+CYBERMED_STORED_DEEP_DIVE_MARKDOWN_FIELDS = ("deep_dive_markdown", "stored_deep_dive_markdown")
 
 
 def _cybermed_deep_dive_match_keys(item: Dict[str, Any]) -> List[Tuple[str, str]]:
@@ -123,18 +124,49 @@ def _cybermed_deep_dive_match_keys(item: Dict[str, Any]) -> List[Tuple[str, str]
     return keys
 
 
-def _cybermed_stored_deep_dive_has_structured_content(record: Dict[str, Any]) -> bool:
+def _cybermed_is_substantive_deep_dive_markdown(text: str) -> bool:
+    compact = str(text or "").strip()
+    if not compact:
+        return False
+    body = re.sub(r"(?im)^\s*(?:[-*]\s*)?(?:\*\*)?BOTTOM LINE(?:\*\*)?:.*$", "", compact).strip()
+    if not body:
+        return False
+    substantive_headings = (
+        "study type",
+        "population/setting",
+        "population",
+        "intervention/exposure",
+        "primary endpoint",
+        "primary endpoints",
+        "key results",
+        "limitations",
+    )
+    body_lower = body.lower()
+    if any(heading in body_lower for heading in substantive_headings):
+        return True
+    return len(body.split()) >= 20
+
+
+def _cybermed_stored_deep_dive_structured_field_count(record: Dict[str, Any]) -> int:
+    count = 0
     for field in CYBERMED_STORED_DEEP_DIVE_STRUCTURED_FIELDS:
         value = (record or {}).get(field)
         if isinstance(value, list):
-            if any(str(v).strip() for v in value):
-                return True
+            has_value = any(str(v).strip() for v in value)
         elif isinstance(value, dict):
-            if any(str(v).strip() for v in value.values()):
-                return True
-        elif str(value or "").strip():
+            has_value = any(str(v).strip() for v in value.values())
+        else:
+            has_value = bool(str(value or "").strip())
+        if has_value:
+            count += 1
+    return count
+
+
+def _cybermed_stored_deep_dive_has_structured_content(record: Dict[str, Any]) -> bool:
+    for field in CYBERMED_STORED_DEEP_DIVE_MARKDOWN_FIELDS:
+        if _cybermed_is_substantive_deep_dive_markdown(str((record or {}).get(field) or "")):
             return True
-    return False
+    return _cybermed_stored_deep_dive_structured_field_count(record or {}) >= 2
 
 
 def _cybermed_build_deep_dive_lookup(records: List[Dict[str, Any]]) -> Tuple[Dict[Tuple[str, str], Dict[str, Any]], Counter[str]]:
@@ -2406,8 +2438,11 @@ def main() -> None:
         selected_deep_dive_keys = {key for d in selected_deep_dives for key in _cybermed_deep_dive_match_keys(d)}
         selected_deep_dive_mapping_misses = 0
         selected_deep_dive_mapping_keys_used: Counter[str] = Counter()
-        selected_deep_dive_structured_total = 0
-        selected_deep_dive_suppressed_empty_total = 0
+        selected_deep_dive_real_content_total = 0
+        selected_deep_dive_suppressed_thin_total = 0
+        selected_deep_dive_reason_codes_only_total = 0
+        selected_deep_dive_markdown_available_total = 0
+        selected_deep_dive_structured_fields_available_total = 0
         items = [
             _normalize_cybermed_weekly_digest_item(it, deep_dive_ids=selected_deep_dive_ids)
             for it in (pubmed_sorted + foamed_sorted)
@@ -2424,7 +2459,7 @@ def main() -> None:
                 selected_deep_dive_mapping_misses += 1
                 row["cybermed_stored_deep_dive_mapping_miss"] = True
                 row["cybermed_stored_deep_dive_has_structured_content"] = False
-                selected_deep_dive_suppressed_empty_total += 1
+                selected_deep_dive_suppressed_thin_total += 1
                 continue
             selected_deep_dive_mapping_keys_used[matched_key] += 1
             row["cybermed_stored_deep_dive"] = dict(stored_deep_dive)
@@ -2435,12 +2470,24 @@ def main() -> None:
                         row["stored_bottom_line"] = str(value or "").strip()
                     continue
                 row.setdefault(field, value)
-            has_structured = _cybermed_stored_deep_dive_has_structured_content(stored_deep_dive)
+            has_markdown = any(
+                _cybermed_is_substantive_deep_dive_markdown(str(stored_deep_dive.get(field) or ""))
+                for field in CYBERMED_STORED_DEEP_DIVE_MARKDOWN_FIELDS
+            )
+            structured_field_count = _cybermed_stored_deep_dive_structured_field_count(stored_deep_dive)
+            has_structured = has_markdown or structured_field_count >= 2
+            has_reason_codes = bool(stored_deep_dive.get("deep_dive_reasons") or stored_deep_dive.get("reason_labels"))
             row["cybermed_stored_deep_dive_has_structured_content"] = has_structured
+            if has_markdown:
+                selected_deep_dive_markdown_available_total += 1
+            if structured_field_count >= 2:
+                selected_deep_dive_structured_fields_available_total += 1
             if has_structured:
-                selected_deep_dive_structured_total += 1
+                selected_deep_dive_real_content_total += 1
             else:
-                selected_deep_dive_suppressed_empty_total += 1
+                selected_deep_dive_suppressed_thin_total += 1
+                if has_reason_codes:
+                    selected_deep_dive_reason_codes_only_total += 1
         preview = []
         for it in (pubmed_sorted + foamed_sorted)[:10]:
             preview.append({
@@ -2489,9 +2536,15 @@ def main() -> None:
             "cybermed_weekly_pubmed_items_loaded_total": summary["pubmed_items_loaded_total"],
             "cybermed_weekly_foamed_items_loaded_total": summary["foamed_items_loaded_total"],
             "cybermed_weekly_deep_dives_loaded_total": summary["deep_dives_loaded_total"],
-            "cybermed_weekly_deep_dives_with_structured_content_total": selected_deep_dive_structured_total,
-            "cybermed_weekly_deep_dives_rendered_with_content_total": selected_deep_dive_structured_total,
-            "cybermed_weekly_deep_dives_suppressed_empty_total": selected_deep_dive_suppressed_empty_total,
+            "cybermed_weekly_deep_dives_with_real_content_total": selected_deep_dive_real_content_total,
+            "cybermed_weekly_deep_dives_rendered_with_real_content_total": selected_deep_dive_real_content_total,
+            "cybermed_weekly_deep_dives_suppressed_thin_total": selected_deep_dive_suppressed_thin_total,
+            "cybermed_weekly_deep_dive_reason_codes_only_total": selected_deep_dive_reason_codes_only_total,
+            "cybermed_weekly_deep_dive_markdown_available_total": selected_deep_dive_markdown_available_total,
+            "cybermed_weekly_deep_dive_structured_fields_available_total": selected_deep_dive_structured_fields_available_total,
+            "cybermed_weekly_deep_dives_with_structured_content_total": selected_deep_dive_real_content_total,
+            "cybermed_weekly_deep_dives_rendered_with_content_total": selected_deep_dive_real_content_total,
+            "cybermed_weekly_deep_dives_suppressed_empty_total": selected_deep_dive_suppressed_thin_total,
             "cybermed_weekly_deep_dive_placeholder_violations_total": 0,
             "cybermed_weekly_deep_dive_mapping_misses_total": selected_deep_dive_mapping_misses,
             "cybermed_weekly_deep_dive_mapping_keys_indexed_counts": dict(deep_dive_lookup_key_counts),
@@ -4883,27 +4936,44 @@ def main() -> None:
             foamed_items = [_sanitize_cybermed_foamed_item(it) for it in foamed_overview_items]
             deep_dives = []
             for it in pubmed_deep_dive_items:
-                deep_dives.append({
-                        "item_id": str(it.get("id") or "").strip(),
-                        "pmid": str(it.get("pmid") or "").strip(),
-                        "doi": str(it.get("doi") or "").strip(),
-                        "title": str(it.get("title") or "").strip(),
-                        "journal": str(it.get("journal") or "").strip(),
-                        "url": str(it.get("url") or "").strip(),
-                        "evidence_strength_label": str(it.get("evidence_strength_label") or "").strip(),
-                        "clinical_relevance_1_5": it.get("clinical_relevance_1_5"),
-                        "practice_change_potential_1_5": it.get("practice_change_potential_1_5"),
-                        "bottom_line": str(it.get("bottom_line") or "").strip(),
-                        "deep_dive_reasons": [str(v) for v in (it.get("deep_dive_reasons") or []) if str(v).strip()],
-                        "study_type": str(it.get("study_type") or "").strip(),
-                        "population_setting": str(it.get("population_setting") or "").strip(),
-                        "intervention_or_exposure": str(it.get("intervention_or_exposure") or "").strip(),
-                        "comparator": str(it.get("comparator") or "").strip(),
-                        "primary_endpoint": str(it.get("primary_endpoint") or "").strip(),
-                        "primary_result_direction": str(it.get("primary_result_direction") or "").strip(),
-                        "primary_result_significance": str(it.get("primary_result_significance") or "").strip(),
-                        "clinical_interpretation": str(it.get("clinical_interpretation") or "").strip(),
-                    })
+                item_id = str(it.get("id") or it.get("item_id") or it.get("pmid") or "").strip()
+                detail_block = ""
+                for detail_key in (
+                    item_id,
+                    f"pubmed:{item_id}" if item_id else "",
+                    str(it.get("pmid") or "").strip(),
+                    f"pubmed:{str(it.get('pmid') or '').strip()}" if str(it.get("pmid") or "").strip() else "",
+                ):
+                    if detail_key and str(details_for_report.get(detail_key) or "").strip():
+                        detail_block = str(details_for_report.get(detail_key) or "").strip()
+                        break
+                record = {
+                    "item_id": item_id,
+                    "pmid": str(it.get("pmid") or "").strip(),
+                    "doi": str(it.get("doi") or "").strip(),
+                    "title": str(it.get("title") or "").strip(),
+                    "journal": str(it.get("journal") or "").strip(),
+                    "url": str(it.get("url") or "").strip(),
+                    "evidence_strength_label": str(it.get("evidence_strength_label") or "").strip(),
+                    "clinical_relevance_1_5": it.get("clinical_relevance_1_5"),
+                    "practice_change_potential_1_5": it.get("practice_change_potential_1_5"),
+                    "bottom_line": str(it.get("bottom_line") or "").strip(),
+                    "deep_dive_reasons": [str(v) for v in (it.get("deep_dive_reasons") or []) if str(v).strip()],
+                    "study_type": str(it.get("study_type") or "").strip(),
+                    "population_setting": str(it.get("population_setting") or "").strip(),
+                    "intervention_or_exposure": str(it.get("intervention_or_exposure") or "").strip(),
+                    "comparator": str(it.get("comparator") or "").strip(),
+                    "primary_endpoint": str(it.get("primary_endpoint") or "").strip(),
+                    "key_results": str(it.get("key_results") or "").strip(),
+                    "limitations": str(it.get("limitations") or "").strip(),
+                    "primary_result_direction": str(it.get("primary_result_direction") or "").strip(),
+                    "primary_result_significance": str(it.get("primary_result_significance") or "").strip(),
+                    "key_secondary_results": str(it.get("key_secondary_results") or "").strip(),
+                    "clinical_interpretation": str(it.get("clinical_interpretation") or "").strip(),
+                }
+                if detail_block:
+                    record["deep_dive_markdown"] = detail_block
+                deep_dives.append(record)
             top_picks = [str((it or {}).get("id") or "").strip() for it in (pubmed_overview_items + foamed_overview_items) if (it or {}).get("top_pick")]
             current_pubmed_total = len(pubmed_items)
             current_foamed_total = len(foamed_items)

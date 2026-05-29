@@ -175,34 +175,75 @@ CYBERMED_STORED_DEEP_DIVE_STRUCTURED_FIELDS = (
     "intervention_or_exposure",
     "comparator",
     "primary_endpoint",
+    "key_results",
     "primary_result_direction",
     "primary_result_significance",
     "key_secondary_results",
     "clinical_interpretation",
     "limitations",
-    "deep_dive_reasons",
 )
+
+CYBERMED_STORED_DEEP_DIVE_MARKDOWN_FIELDS = ("deep_dive_markdown", "stored_deep_dive_markdown")
+
+
+def _stored_deep_dive_source(item: Dict[str, Any]) -> Dict[str, Any]:
+    return item.get("cybermed_stored_deep_dive") if isinstance(item.get("cybermed_stored_deep_dive"), dict) else item
+
+
+def _is_substantive_stored_deep_dive_markdown(text: str) -> bool:
+    compact = str(text or "").strip()
+    if not compact:
+        return False
+    body = re.sub(r"(?im)^\s*(?:[-*]\s*)?(?:\*\*)?BOTTOM LINE(?:\*\*)?:.*$", "", compact).strip()
+    if not body:
+        return False
+    substantive_headings = (
+        "study type",
+        "population/setting",
+        "population",
+        "intervention/exposure",
+        "primary endpoint",
+        "primary endpoints",
+        "key results",
+        "limitations",
+    )
+    body_lower = body.lower()
+    if any(heading in body_lower for heading in substantive_headings):
+        return True
+    return len(body.split()) >= 20
+
+
+def _stored_deep_dive_structured_field_count(source: Dict[str, Any]) -> int:
+    count = 0
+    for field in CYBERMED_STORED_DEEP_DIVE_STRUCTURED_FIELDS:
+        value = (source or {}).get(field)
+        if isinstance(value, list):
+            has_value = any(str(v).strip() for v in value)
+        elif isinstance(value, dict):
+            has_value = any(str(v).strip() for v in value.values())
+        else:
+            has_value = bool(str(value or "").strip())
+        if has_value:
+            count += 1
+    return count
 
 
 def _has_stored_cybermed_deep_dive_content(item: Dict[str, Any]) -> bool:
     if item.get("cybermed_stored_deep_dive_has_structured_content") is True:
         return True
-    source = item.get("cybermed_stored_deep_dive") if isinstance(item.get("cybermed_stored_deep_dive"), dict) else item
-    for field in CYBERMED_STORED_DEEP_DIVE_STRUCTURED_FIELDS:
-        value = (source or {}).get(field)
-        if isinstance(value, list):
-            if any(str(v).strip() for v in value):
-                return True
-        elif isinstance(value, dict):
-            if any(str(v).strip() for v in value.values()):
-                return True
-        elif str(value or "").strip():
+    source = _stored_deep_dive_source(item)
+    for field in CYBERMED_STORED_DEEP_DIVE_MARKDOWN_FIELDS:
+        if _is_substantive_stored_deep_dive_markdown(str((source or {}).get(field) or item.get(field) or "")):
             return True
-    return False
+    return _stored_deep_dive_structured_field_count(source or {}) >= 2
 
 
 def _stored_cybermed_deep_dive_block(item: Dict[str, Any]) -> str:
-    source = item.get("cybermed_stored_deep_dive") if isinstance(item.get("cybermed_stored_deep_dive"), dict) else item
+    source = _stored_deep_dive_source(item)
+    for markdown_field in CYBERMED_STORED_DEEP_DIVE_MARKDOWN_FIELDS:
+        markdown = str((source or {}).get(markdown_field) or item.get(markdown_field) or "").strip()
+        if _is_substantive_stored_deep_dive_markdown(markdown):
+            return markdown
 
     def val(*names: str) -> str:
         for name in names:
@@ -219,10 +260,10 @@ def _stored_cybermed_deep_dive_block(item: Dict[str, Any]) -> str:
         ("Study type", val("study_type")),
         ("Population/setting", val("population_setting")),
         ("Intervention/exposure & comparator", _join_compact_segments([val("intervention_or_exposure"), val("comparator")]) or val("intervention_exposure_comparator")),
-        ("Primary endpoint", val("primary_endpoint")),
-        ("Key results", _join_compact_segments([val("primary_result_direction"), val("primary_result_significance"), val("key_secondary_results")])),
+        ("Primary endpoints", val("primary_endpoint")),
+        ("Key results", val("key_results") or _join_compact_segments([val("primary_result_direction"), val("primary_result_significance"), val("key_secondary_results")])),
         ("Limitations", val("limitations")),
-        ("Why this matters / clinical interpretation", _join_compact_segments([val("clinical_interpretation"), val("deep_dive_reasons")])),
+        ("Why this matters", val("clinical_interpretation")),
     ]
     for label, text in rows:
         if text:

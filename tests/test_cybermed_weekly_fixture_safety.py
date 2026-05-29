@@ -327,17 +327,19 @@ def test_cybermed_weekly_maps_stored_deep_dive_and_renders_structured_content(mo
     assert "**Study type:** Randomized trial" in md
     assert "**Population/setting:** Adult ICU patients" in md
     assert "**Intervention/exposure & comparator:** Protocolized care · Usual care" in md
-    assert "**Primary endpoint:** Ventilator-free days" in md
+    assert "**Primary endpoints:** Ventilator-free days" in md
     assert "Improved · Statistically significant · Shorter ICU stay" in md
     assert "**Limitations:** Single-center study" in md
-    assert "**Why this matters / clinical interpretation:** May change protocol design · practice impact" in md
+    assert "**Why this matters:** May change protocol design" in md
+    assert "practice impact" not in md
     assert "**BOTTOM LINE:** Stored deep-dive bottom line" in md
     assert "No stored deep-dive synopsis available." not in md
     assert diag["cybermed_weekly_deep_dives_loaded_total"] == 1
     assert diag["cybermed_weekly_deep_dives_selected_total"] == 1
-    assert diag["cybermed_weekly_deep_dives_with_structured_content_total"] == 1
-    assert diag["cybermed_weekly_deep_dives_rendered_with_content_total"] == 1
-    assert diag["cybermed_weekly_deep_dives_suppressed_empty_total"] == 0
+    assert diag["cybermed_weekly_deep_dives_with_real_content_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_rendered_with_real_content_total"] == 1
+    assert diag["cybermed_weekly_deep_dive_structured_fields_available_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_suppressed_thin_total"] == 0
     assert diag["cybermed_weekly_deep_dive_placeholder_violations_total"] == 0
     assert diag["cybermed_weekly_deep_dive_mapping_misses_total"] == 0
     assert diag["cybermed_weekly_deep_dive_mapping_keys_used_counts"]["item_id"] == 1
@@ -369,10 +371,79 @@ def test_cybermed_weekly_suppresses_deep_dive_with_only_bottom_line(monkeypatch,
     assert "## Deep Dives" not in md
     assert "No stored deep-dive synopsis available." not in md
     assert diag["cybermed_weekly_deep_dives_selected_total"] == 1
-    assert diag["cybermed_weekly_deep_dives_with_structured_content_total"] == 0
-    assert diag["cybermed_weekly_deep_dives_rendered_with_content_total"] == 0
-    assert diag["cybermed_weekly_deep_dives_suppressed_empty_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_with_real_content_total"] == 0
+    assert diag["cybermed_weekly_deep_dives_rendered_with_real_content_total"] == 0
+    assert diag["cybermed_weekly_deep_dives_suppressed_thin_total"] == 1
     assert diag["cybermed_weekly_deep_dive_placeholder_violations_total"] == 0
+
+
+def test_cybermed_weekly_renders_stored_deep_dive_markdown(monkeypatch, tmp_path):
+    markdown = "- **Study type:** Cohort study\n- **Population/setting:** ED patients with sepsis\n- **Key results:** Faster antibiotics were associated with lower mortality\n- **Limitations:** Residual confounding\n\n**BOTTOM LINE:** Operational timing may matter."
+    fixture = {
+        "version": 1,
+        "updated_at_utc": "",
+        "digests": [{
+            "digest_id": "d1",
+            "run_date": "2026-05-18",
+            "items": {"pubmed": [{
+                "item_id": "paper-md",
+                "source_type": "pubmed",
+                "title": "Markdown paper",
+                "pmid": "777",
+                "published_at": "2026-05-18T10:00:00+00:00",
+                "bottom_line": "Operational timing may matter.",
+                "deep_dive_candidate": True,
+            }], "foamed": []},
+            "deep_dives": [{"item_id": "paper-md", "pmid": "777", "deep_dive_markdown": markdown, "bottom_line": "Operational timing may matter."}],
+            "top_picks": [],
+        }],
+    }
+    diag, md = _run_weekly(monkeypatch, tmp_path, fixture_payload=fixture)
+    assert ("## Deep Dives" in md) or ("## Vertiefungen" in md)
+    assert "**Study type:** Cohort study" in md
+    assert "**Population/setting:** ED patients with sepsis" in md
+    assert "**Key results:** Faster antibiotics were associated with lower mortality" in md
+    assert "**Limitations:** Residual confounding" in md
+    assert "No stored deep-dive synopsis available." not in md
+    assert diag["cybermed_weekly_deep_dive_markdown_available_total"] == 1
+    assert diag["cybermed_weekly_deep_dives_rendered_with_real_content_total"] == 1
+
+
+def test_cybermed_weekly_suppresses_reason_code_only_deep_dive(monkeypatch, tmp_path):
+    fixture = {
+        "version": 1,
+        "updated_at_utc": "",
+        "digests": [{
+            "digest_id": "d1",
+            "run_date": "2026-05-18",
+            "items": {"pubmed": [{
+                "item_id": "paper-reasons",
+                "source_type": "pubmed",
+                "title": "Reason codes paper",
+                "pmid": "888",
+                "published_at": "2026-05-18T10:00:00+00:00",
+                "bottom_line": "Interesting but thin.",
+                "deep_dive_candidate": True,
+            }], "foamed": []},
+            "deep_dives": [{
+                "item_id": "paper-reasons",
+                "pmid": "888",
+                "bottom_line": "Interesting but thin.",
+                "deep_dive_reasons": ["guideline", "RCT", "strong_anesthesia_relevance"],
+            }],
+            "top_picks": [],
+        }],
+    }
+    diag, md = _run_weekly(monkeypatch, tmp_path, fixture_payload=fixture)
+    assert "## Deep Dives" not in md
+    assert "Why this matters" not in md
+    assert "guideline" not in md
+    assert "strong_anesthesia_relevance" not in md
+    assert "No stored deep-dive synopsis available." not in md
+    assert diag["cybermed_weekly_deep_dives_with_real_content_total"] == 0
+    assert diag["cybermed_weekly_deep_dives_rendered_with_real_content_total"] == 0
+    assert diag["cybermed_weekly_deep_dives_suppressed_thin_total"] == 1
+    assert diag["cybermed_weekly_deep_dive_reason_codes_only_total"] == 1
 
 
 def test_cybermed_weekly_foamed_bottom_line_bolds_label_only(monkeypatch, tmp_path):
