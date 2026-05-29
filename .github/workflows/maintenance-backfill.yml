@@ -32,8 +32,8 @@ jobs:
         run: |
           echo "Apply mode is not enabled yet; run audit-only first."
           exit 1
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Install dependencies
@@ -46,7 +46,7 @@ jobs:
             --to-date "${{ github.event.inputs.to_date }}" \
             --output-dir out/backfill_audit
       - name: Upload audit artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: backfill-audit
           path: out/backfill_audit
