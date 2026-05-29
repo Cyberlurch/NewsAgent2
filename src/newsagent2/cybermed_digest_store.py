@@ -24,19 +24,28 @@ def load_cybermed_daily_digest_store(path: str) -> dict:
         return default
 
 
-def select_cybermed_daily_digests_for_week(store: dict, today: date, timezone: str = "Europe/Stockholm") -> list[dict]:
+def cybermed_weekly_reporting_period(today: date, timezone: str = "Europe/Stockholm") -> tuple[date, date]:
     tz = ZoneInfo(timezone)
     now = datetime.combine(today, datetime.min.time(), tz)
-    # last completed Mon-Sun week
-    weekday = now.weekday()
-    this_week_start = (now - timedelta(days=weekday)).date()
-    week_end = this_week_start - timedelta(days=1)
-    week_start = week_end - timedelta(days=6)
+    week_start = (now - timedelta(days=now.weekday())).date()
+    week_end = now.date()
 
-    event = (os.getenv("GITHUB_EVENT_NAME") or "").strip().lower()
-    if event in {"workflow_dispatch", "manual"}:
-        week_start = today - timedelta(days=7)
-        week_end = today
+    override_start = (os.getenv("CYBERMED_WEEKLY_PERIOD_START") or "").strip()
+    override_end = (os.getenv("CYBERMED_WEEKLY_PERIOD_END") or "").strip()
+    if override_start or override_end:
+        try:
+            if override_start:
+                week_start = datetime.strptime(override_start, "%Y-%m-%d").date()
+            if override_end:
+                week_end = datetime.strptime(override_end, "%Y-%m-%d").date()
+        except Exception:
+            pass
+
+    return week_start, week_end
+
+
+def select_cybermed_daily_digests_for_week(store: dict, today: date, timezone: str = "Europe/Stockholm") -> list[dict]:
+    week_start, week_end = cybermed_weekly_reporting_period(today, timezone)
 
     selected = []
     for d in store.get("digests", []):

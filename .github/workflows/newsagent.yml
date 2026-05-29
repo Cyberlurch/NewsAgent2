@@ -454,6 +454,24 @@ jobs:
             exit 0
           fi
 
+          cybermed_digest_check_required=false
+          if { [ "${{ github.event_name }}" = "schedule" ] || [ "${EMAIL_MODE:-none}" = "real" ]; } \
+            && { [ "${RUN_WHICH_REPORT:-both}" = "both" ] || [ "${RUN_WHICH_REPORT:-both}" = "cybermed" ]; } \
+            && echo " ${RUN_MODES:-} " | grep -Eq " (weekly|monthly) "; then
+            cybermed_digest_check_required=true
+          fi
+
+          if [ "$cybermed_digest_check_required" = "true" ]; then
+            if grep -Eq "\[digest-store\] (weekly|monthly) loaded 0 digest item\(s\) for report\." "$log_path"; then
+              echo "ERROR: Cybermed weekly/monthly digest-only report loaded 0 digest items during a scheduled/real run."
+              exit 1
+            fi
+            if grep -Eq "\[cybermed-empty-guard\]|cybermed_(weekly|monthly)_empty_guard_triggered[=:] ?[Tt]rue" "$log_path"; then
+              echo "ERROR: Cybermed digest-only empty-send guard marker was present during a scheduled/real run."
+              exit 1
+            fi
+          fi
+
           send_lines=$(grep -E "\[email\] Sending email \(report_key=.*recipients_count=([1-9][0-9]*)" "$log_path" || true)
           if [ -z "$send_lines" ]; then
             echo "ERROR: No email send attempts detected for non-empty recipient lists. Check recipient secrets and SMTP settings."

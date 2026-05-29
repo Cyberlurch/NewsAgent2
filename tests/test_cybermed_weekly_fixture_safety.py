@@ -2,6 +2,8 @@ import json
 import pathlib
 import sys
 
+import pytest
+
 SRC = pathlib.Path(__file__).resolve().parents[1] / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
@@ -24,6 +26,8 @@ def _run_weekly(monkeypatch, tmp_path, *, report_key="cybermed", report_mode="we
     monkeypatch.setenv("GITHUB_EVENT_NAME", event_name)
     monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_MODE", fixture_mode)
     monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_PATH", str(fixture))
+    if event_name == "schedule":
+        monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(tmp_path / "empty_cybermed_daily_digests.json"))
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
     monkeypatch.setattr(main, "send_markdown", lambda *a, **k: None)
     main.main()
@@ -198,3 +202,74 @@ def test_monthly_digest_only_does_not_call_live_collectors(monkeypatch, tmp_path
     diag, _ = _run_weekly(monkeypatch, tmp_path, report_mode="monthly", event_name="workflow_dispatch", fixture_mode="1", fixture_path=fixture_path)
     assert diag["runtime_pubmed_collect_seconds"] == 0.0
     assert diag["runtime_foamed_collect_seconds"] == 0.0
+
+
+def _run_digest_store_report(monkeypatch, tmp_path, *, report_mode="weekly", digests=None, send_email="1", email_mode="real", event_name="workflow_dispatch", send_func=None):
+    store_path = tmp_path / "cybermed_daily_digests.json"
+    store_path.write_text(json.dumps({"schema_version": 1, "digests": digests or []}), encoding="utf-8")
+    monkeypatch.setenv("REPORT_KEY", "cybermed")
+    monkeypatch.setenv("REPORT_MODE", report_mode)
+    monkeypatch.setenv("REPORT_TITLE", "Cybermed Monthly Report" if report_mode == "monthly" else "Cybermed Weekly Report")
+    monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
+    monkeypatch.setenv("STATE_PATH", str(tmp_path / "state.json"))
+    monkeypatch.setenv("SEND_EMAIL", send_email)
+    monkeypatch.setenv("EMAIL_MODE", email_mode)
+    monkeypatch.setenv("GITHUB_EVENT_NAME", event_name)
+    monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_MODE", "0")
+    monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(store_path))
+    monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
+    calls = []
+    if send_func is None:
+        send_func = lambda subject, md: calls.append((subject, md))
+    monkeypatch.setattr(main, "send_markdown", send_func)
+    main.main()
+    return calls
+
+
+def test_cybermed_weekly_digest_only_empty_real_send_is_blocked(monkeypatch, tmp_path):
+    calls = []
+    monkeypatch.setattr(main, "send_markdown", lambda subject, md: calls.append((subject, md)))
+    with pytest.raises(RuntimeError, match="Cybermed digest-only report was blocked because it had no digest content"):
+        _run_digest_store_report(
+            monkeypatch,
+            tmp_path,
+            report_mode="weekly",
+            digests=[],
+            send_email="1",
+            email_mode="real",
+            send_func=lambda subject, md: calls.append((subject, md)),
+        )
+    assert calls == []
+
+
+def test_cybermed_weekly_digest_only_with_items_real_send_succeeds(monkeypatch, tmp_path):
+    today = main.datetime.now(tz=main.STO).date().strftime("%Y-%m-%d")
+    digests = [{
+        "digest_id": "today",
+        "run_date": today,
+        "items": {
+            "pubmed": [{"item_id": "p1", "source_type": "pubmed", "title": "Paper", "pmid": "1", "published_at": today, "bottom_line": "Useful paper"}],
+            "foamed": [{"item_id": "f1", "source_type": "foamed", "title": "Post", "url": "https://example.com/post", "published_at": today, "bottom_line": "Useful post"}],
+        },
+        "deep_dives": [],
+        "top_picks": [],
+    }]
+    calls = _run_digest_store_report(monkeypatch, tmp_path, report_mode="weekly", digests=digests)
+    assert len(calls) == 1
+    assert "Useful paper" in calls[0][1]
+    assert "Useful post" in calls[0][1]
+
+
+def test_cybermed_monthly_digest_only_empty_real_send_is_blocked(monkeypatch, tmp_path):
+    calls = []
+    with pytest.raises(RuntimeError, match="Cybermed digest-only report was blocked because it had no digest content"):
+        _run_digest_store_report(
+            monkeypatch,
+            tmp_path,
+            report_mode="monthly",
+            digests=[],
+            send_email="1",
+            email_mode="real",
+            send_func=lambda subject, md: calls.append((subject, md)),
+        )
+    assert calls == []
