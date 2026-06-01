@@ -857,74 +857,577 @@
         ]
       },
       {
-        "evergreen_highlights": [],
-        "executive_summary": [
-          "ok Deep dives skipped because no transcript, caption, or description content was available."
+        "evergreen_highlights": [
+          "Great Books #12:  Dante in Paradise"
         ],
-        "full_text_count": 1,
-        "generated_at": "2026-05-24T13:02:01+00:00",
+        "executive_summary": [
+          "Highlights derived from top items.",
+          "⭐ Merz als Kanzler ersetzen? Unzufriedenheit in der CDU | Markus Lanz vom 28. Mai 2026 — The discussion explores internal dissatisfaction within the CDU regarding Friedrich Merz's leadership as Chancellor, deb",
+          "⭐ Nato-Notfall: Russische Drohnen schlagen in Rumänien ein – Mindestens 5 Verletzte — A Russian drone reportedly struck a residential building in Galati, Romania—injuring several people and prompting debate"
+        ],
+        "full_text_count": 13,
+        "generated_at": "2026-06-01T09:02:36+00:00",
         "items_by_temporality": {
-          "current_affairs": 1
+          "breaking_news": 3,
+          "current_affairs": 7,
+          "evergreen": 1,
+          "trend_analysis": 2
         },
         "metadata_only_count": 0,
         "month": "2026-05",
         "representative_items": [
           {
-            "bottom_line": "Keine zuverlässige Zusammenfassung aus dem verfügbaren Auszug möglich.",
-            "channel": "tagesschau",
+            "bottom_line": "The discussion explores internal dissatisfaction within the CDU regarding Friedrich Merz's leadership as Chancellor, debates rumors of a possible leadership change, and examines broader political and economic challenges facing Germany and the party.",
+            "channel": "ZDFheute",
             "content_status": "full_text",
-            "date": "2026-05-24",
-            "editorial_relevance": "",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant for understanding current debates within the CDU, the challenges facing German political leadership, and the broader context of economic and political uncertainty in Germany. It provides insight into internal party dynamics, the influence of media narratives, and the complexities of policy-making in a changing political landscape.",
             "source": "youtube",
             "temporality": "current_affairs",
-            "text_source": "description",
-            "title": "x",
+            "text_source": "managed_transcript",
+            "title": "Merz als Kanzler ersetzen? Unzufriedenheit in der CDU | Markus Lanz vom 28. Mai 2026",
             "top_pick": true,
-            "topic_primary": "intel",
+            "topic_primary": "Mainstream DE/SE News",
             "topics": [
-              "intel"
+              "Mainstream DE/SE News"
             ],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://www.youtube.com/watch?v=x1"
+            "transcript_full_summary_short": "The transcript features a comprehensive discussion between Roland Koch, a veteran CDU politician and close associate of Friedrich Merz, and journalist Frau Lehmann. They examine the current state of German politics, focusing on Merz's leadership as Chancellor and CDU party leader, the party's internal dynamics, and Germany's economic and policy challenges. Koch shares insights from his personal relationship with Merz and reflects on his own political legacy and ongoing influence through think tanks and public commentary. The conversation covers speculation about possible leadership changes wit",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=EERQvGFQ49c"
+          },
+          {
+            "bottom_line": "A Russian drone reportedly struck a residential building in Galati, Romania—injuring several people and prompting debate over NATO’s response—after entering Romanian airspace during attacks on Ukraine, with officials confirming the incident and multiple scenarios discussed.",
+            "channel": "Vermietertagebuch",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant for understanding recent escalations involving Russian military actions near NATO territory, specifically the reported drone strike in Romania. It provides context on the strategic importance of Galati, outlines official and speculative responses, and highlights the complexities and uncertainties surrounding the incident. The discussion of possible NATO involvement and the range of scenarios considered offers insight into the broader geopolitical implications.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "Nato-Notfall: Russische Drohnen schlagen in Rumänien ein – Mindestens 5 Verletzte",
+            "top_pick": true,
+            "topic_primary": "Finanzen, Wirtschaft & Krypto",
+            "topics": [
+              "Finanzen, Wirtschaft & Krypto"
+            ],
+            "transcript_full_summary_short": "The transcript covers a recent incident in which Russian drones reportedly struck the Romanian city of Galati, resulting in several injuries. The event occurred overnight and has prompted some politicians to suggest invoking NATO Article 5. The speaker examines five videos that allegedly depict the drone strike, including scenes of explosions, emergency response, and drone debris. The Romanian Ministry of Defense confirmed that a Russian drone entered Romanian airspace and crashed into a residential building, causing a fire and injuries. Galati is highlighted as a key logistical hub for Ukrain",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=JXnirY0CDuU"
+          },
+          {
+            "bottom_line": "The podcast discusses international outrage over a video showing Israeli forces humiliating detained Gaza flotilla activists, examines Germany's restrained response due to its historical ties with Israel, and debates the ethical, legal, and political implications for EU-Israel relations.",
+            "channel": "ZDFheute",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The episode is relevant for audiences interested in Middle East politics, human rights, German foreign policy, and EU-Israel relations. It provides firsthand accounts and political analysis of a current international controversy, highlighting both activist and governmental perspectives. The discussion also touches on broader issues of political normalization and international law.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "Gaza-Flotte gestoppt: Deutschlands Israel-Dilemma – Mit Adis Ahmetovic | heute journal - der podcast",
+            "top_pick": true,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "The podcast episode discusses a controversial video posted by Israeli Security Minister Itamar Ben-Gvir, which shows pro-Palestinian activists from the Gaza aid flotilla being humiliated while detained by Israeli forces. The video led to international criticism, particularly from European foreign ministers and human rights organizations. The episode includes interviews with Johannes Happel, a German activist who was detained during the incident, and Adis Ahmetovic, the foreign policy spokesperson for the SPD Bundestag faction. The conversation explores the legality and ethics of Israel's actio",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=iv1NtFlHvGw"
+          },
+          {
+            "bottom_line": "The podcast discusses a planned Brenner Autobahn blockade by Tirol residents protesting traffic and pollution, legal boundaries for insulting politicians in Germany, security risks of hand-gesture selfies due to AI, and briefly covers other national and international news.",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The episode is relevant for listeners interested in European current affairs, legal issues regarding online speech, digital security, and lighter human-interest stories. It provides a balanced overview of both serious and lighthearted topics, with attention to legal and technological developments.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "Brenner-Blockade / Beleidigungen gegen Politiker / Sicherheitsrisiko Finger-Selfie",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "The podcast discusses a range of current events. It begins with local residents in Tirol planning to blockade the Brenner Autobahn to protest against heavy traffic and pollution. The episode then examines legal issues in Germany, specifically how insults against politicians on social media are treated differently under the law compared to insults against private individuals. Another segment addresses potential security risks associated with posting selfies that show hand gestures, as advances in AI may enable the reconstruction of fingerprints from such images. The podcast also features a ligh",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=FUzvlgaeeKE"
+          },
+          {
+            "bottom_line": "The Ebola outbreak in northeastern DRC, driven by the Bundibugyo variant for which no vaccine exists, is exacerbated by poor infrastructure, mistrust, reduced international aid, and ongoing conflict, complicating containment and raising concerns about wider spread.",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The episode provides timely information on a public health crisis in a region with complex challenges. It highlights the intersection of epidemiology, politics, and social factors, and raises awareness about the limitations of current medical countermeasures. The discussion is relevant for audiences interested in global health, infectious diseases, and the impact of conflict and governance on outbreak response.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "Kampf gegen Ebola: Wie gefährlich ist der Virus-Ausbruch?",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "The podcast episode examines the Ebola outbreak in the Ituri region of the Democratic Republic of Congo (DRC), featuring insights from journalist Bettina Rül. The discussion covers the challenges of containing the outbreak, the limitations of the local healthcare system, and the broader political and social factors affecting the response. The outbreak involves the rare Bundibugyo variant of the Ebola virus, for which there is currently no approved vaccine or specific treatment. The episode also explores the effects of ongoing conflict, corruption, and misinformation on public health efforts, a",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=8uN3X4ViJs8"
+          },
+          {
+            "bottom_line": "Mel Gibson is producing a two-part sequel to \"The Passion of the Christ\" titled \"The Resurrection of the Christ,\" set for release in 2027 and 2028, focusing on the biblical resurrection and its theological significance.",
+            "channel": "CBNnewsonline",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant for audiences interested in religious cinema, Christian theology, and Mel Gibson's filmography. It provides context on the anticipated sequel to a major religious film, discusses the spiritual and cultural implications, and notes production timelines and challenges.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "Mel Gibson's  'The Resurrection of the Christ' Is Coming — Here's What We Know",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The transcript features a conversation between two hosts about Mel Gibson's forthcoming two-part film series, 'The Resurrection of the Christ,' which is a sequel to 'The Passion of the Christ.' The films are now scheduled for release in 2027 and 2028, following a change from the original plan to release them 40 days apart. The discussion touches on Gibson's personal and spiritual motivations for making the films, the biblical account of Jesus' resurrection, and the anticipated influence of the films on audiences. The hosts also discuss theological aspects of the resurrection, reference Christi",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=vL2CDzMmEME"
+          },
+          {
+            "bottom_line": "The video discusses recent global tensions, including a Russian drone accidentally striking Romania, escalating threats in Ukraine, ambiguous reports about a US embassy evacuation, ongoing US-Iran negotiations, and urges viewers to remain skeptical and prepared amid potential escalation.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant for audiences interested in current international relations, military developments, and geopolitical analysis, especially regarding Russia-Ukraine-NATO dynamics and US-Iran relations. It also appeals to those concerned with preparedness and critical evaluation of official narratives. The speaker's personal perspective and focus on skepticism may be particularly relevant for audiences seeking alternative viewpoints.",
+            "source": "youtube",
+            "temporality": "breaking_news",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: Russian DRONE HITS NATO! US EMBASSY EVACUATED?! IRAN BUYS TIME!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker delivers an update on global military and geopolitical tensions, particularly focusing on Russia, Ukraine, NATO, Iran, and the United States. The discussion is contextualized by the speaker's personal circumstances, noting limited recent updates due to homesteading activities. The speaker covers a Russian drone incident in Romania, threats against Kiev, ongoing US-Iran negotiations over oil and sanctions, and suggests that domestic US politics may be using distractions. The speaker expresses concern about escalation in Ukraine, the depletion of US oil reserves, and questions the si",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=AaTZSzB4cqA"
+          },
+          {
+            "bottom_line": "Former CIA officer Larry Johnson argues that Russia is now fully prepared to escalate its military operations in Ukraine—including possible strikes on Kiev and confrontation with NATO—and that Western perceptions of Russian weakness dangerously underestimate Moscow's intentions and capabilities.",
+            "channel": "RedactedNews",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant to ongoing geopolitical developments involving Russia, Ukraine, NATO, and Iran. It provides insight into one analyst's perspective on potential escalations and intelligence operations, but the claims made are largely unverified and should be considered as opinion rather than established fact. The discussion may inform audiences interested in international security, intelligence, and military affairs, but requires critical evaluation of the sources and claims presented.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "\"Putin's gloves are off and he's not bluffing\" Ex-CIA Agent Larry Johnson on Russia's next move",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript features a conversation between host Clayton and former CIA officer Larry Johnson, focusing on the escalating conflict between Russia and Ukraine, and the broader implications for Europe and NATO. Johnson asserts that Russia is preparing for a significant escalation, including potential large-scale attacks on Ukrainian cities such as Kiev and Odessa. He claims that Russia previously refrained from such actions due to lack of readiness but is now prepared for broader conflict, possibly involving NATO. The discussion includes the role of CIA and Western intelligence in Ukraine, Ru",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=vE-8Jz5TvaA"
+          },
+          {
+            "bottom_line": "The interview with Professor Marandi discusses ongoing Iran-US negotiations after a recent war, highlighting Iran's perceived victory, skepticism of US intentions, proposed phased sanctions relief, and the broader geopolitical and internal political complexities influencing the potential agreement.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-05-28",
+            "editorial_relevance": "The transcript provides insight into the Iranian perspective on post-war negotiations with the US, highlighting key issues such as sanctions, regional power dynamics, and the influence of domestic politics on foreign policy. It is relevant for understanding the complexities of Middle Eastern geopolitics, the challenges of diplomatic negotiations, and the narratives shaping perceptions of the conflict. The interview offers a critical view of Western media and policy, contributing to a broader understanding of differing viewpoints in international relations.",
+            "source": "youtube",
+            "temporality": "breaking_news",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: IRAN... Something is Wrong Here W/ Iran Insider Prof. Marandi",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is an in-depth interview between Canadian Prepper and Professor Saeed Muhammad Marandi, an Iranian academic and former adviser to Iran's nuclear negotiating team. The conversation focuses on post-war negotiations between Iran and the United States, the terms and prospects of a potential agreement, and the broader geopolitical landscape. Marandi argues that Iran has emerged stronger from the recent conflict, while the US and its allies underestimated Iran's capabilities. He outlines the proposed deal's main points, expresses skepticism about US reliability based on past experienc",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=dFVeJrF__gI"
+          },
+          {
+            "bottom_line": "The ILTV Security Brief discusses recent US strikes on Iranian targets amid tense negotiations, escalating Israeli-Hezbollah clashes, leadership changes in Hamas, and skepticism about the effectiveness of US-Iran talks, highlighting Israel's need for new regional strategies.",
+            "channel": "IsraelEnglishNews",
+            "content_status": "full_text",
+            "date": "2026-05-27",
+            "editorial_relevance": "The transcript provides a comprehensive overview of current security developments involving Israel, Iran, and the broader Middle East, with particular focus on the interplay between military actions and diplomatic negotiations. It highlights the complexities and uncertainties of US-Iran negotiations, the ongoing threat posed by Hezbollah and other Iranian proxies, and the limitations of international actors. The discussion is relevant for understanding the strategic challenges facing Israel and the region, especially in the context of shifting US priorities and the potential for new regional alliances. The analysis avoids sensationalism and distinguishes between claims, opinions, and established facts.",
+            "source": "youtube",
+            "temporality": "trend_analysis",
+            "text_source": "managed_transcript",
+            "title": "ILTV Security Brief | Bombing vs. Talking",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The ILTV Security Brief, hosted by Khbin Davidid, covers recent security and defense developments involving Israel, Iran, the US, and the broader Middle East. The episode discusses recent US military strikes on Iranian missile sites and mine-laying vessels near the Strait of Hormuz, which the US describes as defensive actions amid ongoing negotiations in Qatar aimed at ending the conflict. Iran has threatened retaliation. In Lebanon, Israeli forces have advanced northward beyond the security zone following orders from Prime Minister Netanyahu to intensify operations against Hezbollah, which ha",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=9wrDNWRuCDE"
+          },
+          {
+            "bottom_line": "The lecture concludes that Dante’s Divine Comedy, especially its Paradise section, restores imagination and love as central to understanding and personal transformation, positioning Dante as a pivotal figure who bridges classical tradition and the emergence of modernity.",
+            "channel": "PredictiveHistory",
+            "content_status": "full_text",
+            "date": "2026-05-27",
+            "editorial_relevance": "The transcript provides a comprehensive interpretive overview of the Divine Comedy's conclusion, blending literary analysis, philosophical reflection, and theological speculation. It is relevant for readers seeking to understand the broader cultural and intellectual impact of Dante's work, as well as for those interested in the interplay between literature, science, and spirituality. The lecture's interpretive claims should be understood as one perspective among many, and its historical assertions may not reflect scholarly consensus.",
+            "source": "youtube",
+            "temporality": "evergreen",
+            "text_source": "managed_transcript",
+            "title": "Great Books #12:  Dante in Paradise",
+            "top_pick": false,
+            "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+            "topics": [
+              "Prophetie, Endzeit & Weltdeutung"
+            ],
+            "transcript_full_summary_short": "The transcript is a lecture concluding a study of Dante's Divine Comedy, situating it within the context of Western literary tradition alongside Homer and Virgil. The speaker argues that Homer established the imaginative, individualistic foundation of Greek civilization, Virgil redirected this toward obedience and empire, and Dante restored creativity and imagination, thus enabling the Renaissance and modernity. The lecture focuses on the final section, Paradise, where Dante ascends through the celestial spheres guided by Beatrice, engaging in philosophical and scientific dialogue. The speaker",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=FspDllFoiDE"
+          },
+          {
+            "bottom_line": "The US has conducted military strikes in southern Iran amid ongoing but contentious negotiations over Iran's nuclear program, with President Trump pushing for expanded Arab-Israeli normalization as Israel faces escalating threats from Hezbollah.",
+            "channel": "CBNnewsonline",
+            "content_status": "full_text",
+            "date": "2026-05-26",
+            "editorial_relevance": "The transcript is relevant for understanding current US-Iran relations, the security situation in the Middle East, and the diplomatic efforts involving Israel and its neighbors. It highlights the complexity of regional alliances, the evolving nature of military threats, and the political challenges faced by leaders in the US, Israel, and Lebanon. The discussion provides insight into the perspectives and concerns of various stakeholders, including skepticism about negotiations and the impact of new military technologies.",
+            "source": "youtube",
+            "temporality": "trend_analysis",
+            "text_source": "managed_transcript",
+            "title": "Border Battles Heat Up between Israel, Hezbollah as Trump Announces Progress on Iran Deal",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The transcript covers recent US military actions in southern Iran, ongoing negotiations between the US and Iran, reactions from Israel and other regional actors, and the evolving security situation involving Hezbollah and Israel. The US conducted strikes on boats and a missile site in Iran, citing self-defense. There is mention of a potential deal with Iran, with mixed optimism and skepticism from US and Israeli officials. President Trump honored US casualties from a recent conflict with Iran and reiterated a commitment to preventing Iran from acquiring nuclear weapons. Trump is also pushing f",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=sowwF5KSNNc"
+          },
+          {
+            "bottom_line": "The video discusses escalating global tensions, highlighting Russia's warning for foreign diplomats to leave Kyiv amid anticipated strikes, a US-Iran naval clash in the Strait of Hormuz, and broader concerns about military mobilization, economic motives, and preparedness.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-05-26",
+            "editorial_relevance": "The transcript is relevant for audiences seeking a summary of current global tensions, particularly regarding Ukraine, the Middle East, and their geopolitical and economic ramifications. It provides context for ongoing conflicts, highlights areas of uncertainty, and offers practical advice on preparedness, making it pertinent for those interested in international affairs, security, and personal resilience.",
+            "source": "youtube",
+            "temporality": "breaking_news",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: \"RUSSIA WARNING TO USA\", LEAVE KYIV NOW, IRAN/ USA SHOTS FIRED \"MINING STRAIT! MOBILIZATION",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker delivers an update on rising global tensions, concentrating on recent events in Ukraine, the Middle East, and their geopolitical implications. The discussion covers Russian warnings to foreign diplomats to leave Kiev due to potential major strikes, a reported naval incident between the US and Iran in the Strait of Hormuz, and ongoing uncertainty in US-Iran negotiations. The speaker analyzes military actions by Russia and Ukraine, considers possible motives including false flag operations, and highlights the economic and strategic importance of Ukraine, particularly its resources. T",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=_E-Le5o59pg"
           }
         ],
         "top_channels": [
           {
+            "channel": "CanadianPrepper",
+            "count": 3
+          },
+          {
+            "channel": "ZDFheute",
+            "count": 2
+          },
+          {
             "channel": "tagesschau",
+            "count": 2
+          },
+          {
+            "channel": "CBNnewsonline",
+            "count": 2
+          },
+          {
+            "channel": "Vermietertagebuch",
+            "count": 1
+          },
+          {
+            "channel": "RedactedNews",
+            "count": 1
+          },
+          {
+            "channel": "IsraelEnglishNews",
+            "count": 1
+          },
+          {
+            "channel": "PredictiveHistory",
             "count": 1
           }
         ],
         "top_items": [
           {
-            "bottom_line": "Keine zuverlässige Zusammenfassung aus dem verfügbaren Auszug möglich.",
+            "bottom_line": "The discussion explores internal dissatisfaction within the CDU regarding Friedrich Merz's leadership as Chancellor, debates rumors of a possible leadership change, and examines broader political and economic challenges facing Germany and the party.",
+            "channel": "ZDFheute",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant for understanding current debates within the CDU, the challenges facing German political leadership, and the broader context of economic and political uncertainty in Germany. It provides insight into internal party dynamics, the influence of media narratives, and the complexities of policy-making in a changing political landscape.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Merz als Kanzler ersetzen? Unzufriedenheit in der CDU | Markus Lanz vom 28. Mai 2026",
+            "top_pick": true,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "The transcript features a comprehensive discussion between Roland Koch, a veteran CDU politician and close associate of Friedrich Merz, and journalist Frau Lehmann. They examine the current state of German politics, focusing on Merz's leadership as Chancellor and CDU party leader, the party's internal dynamics, and Germany's economic and policy challenges. Koch shares insights from his personal relationship with Merz and reflects on his own political legacy and ongoing influence through think tanks and public commentary. The conversation covers speculation about possible leadership changes wit",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=EERQvGFQ49c"
+          },
+          {
+            "bottom_line": "A Russian drone reportedly struck a residential building in Galati, Romania—injuring several people and prompting debate over NATO’s response—after entering Romanian airspace during attacks on Ukraine, with officials confirming the incident and multiple scenarios discussed.",
+            "channel": "Vermietertagebuch",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant for understanding recent escalations involving Russian military actions near NATO territory, specifically the reported drone strike in Romania. It provides context on the strategic importance of Galati, outlines official and speculative responses, and highlights the complexities and uncertainties surrounding the incident. The discussion of possible NATO involvement and the range of scenarios considered offers insight into the broader geopolitical implications.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Nato-Notfall: Russische Drohnen schlagen in Rumänien ein – Mindestens 5 Verletzte",
+            "top_pick": true,
+            "topic_primary": "Finanzen, Wirtschaft & Krypto",
+            "topics": [
+              "Finanzen, Wirtschaft & Krypto"
+            ],
+            "transcript_full_summary_short": "The transcript covers a recent incident in which Russian drones reportedly struck the Romanian city of Galati, resulting in several injuries. The event occurred overnight and has prompted some politicians to suggest invoking NATO Article 5. The speaker examines five videos that allegedly depict the drone strike, including scenes of explosions, emergency response, and drone debris. The Romanian Ministry of Defense confirmed that a Russian drone entered Romanian airspace and crashed into a residential building, causing a fire and injuries. Galati is highlighted as a key logistical hub for Ukrain",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=JXnirY0CDuU"
+          },
+          {
+            "bottom_line": "The podcast discusses international outrage over a video showing Israeli forces humiliating detained Gaza flotilla activists, examines Germany's restrained response due to its historical ties with Israel, and debates the ethical, legal, and political implications for EU-Israel relations.",
+            "channel": "ZDFheute",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The episode is relevant for audiences interested in Middle East politics, human rights, German foreign policy, and EU-Israel relations. It provides firsthand accounts and political analysis of a current international controversy, highlighting both activist and governmental perspectives. The discussion also touches on broader issues of political normalization and international law.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Gaza-Flotte gestoppt: Deutschlands Israel-Dilemma – Mit Adis Ahmetovic | heute journal - der podcast",
+            "top_pick": true,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "The podcast episode discusses a controversial video posted by Israeli Security Minister Itamar Ben-Gvir, which shows pro-Palestinian activists from the Gaza aid flotilla being humiliated while detained by Israeli forces. The video led to international criticism, particularly from European foreign ministers and human rights organizations. The episode includes interviews with Johannes Happel, a German activist who was detained during the incident, and Adis Ahmetovic, the foreign policy spokesperson for the SPD Bundestag faction. The conversation explores the legality and ethics of Israel's actio",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=iv1NtFlHvGw"
+          },
+          {
+            "bottom_line": "The podcast discusses a planned Brenner Autobahn blockade by Tirol residents protesting traffic and pollution, legal boundaries for insulting politicians in Germany, security risks of hand-gesture selfies due to AI, and briefly covers other national and international news.",
             "channel": "tagesschau",
             "content_status": "full_text",
-            "date": "2026-05-24",
-            "editorial_relevance": "",
+            "date": "2026-05-29",
+            "editorial_relevance": "The episode is relevant for listeners interested in European current affairs, legal issues regarding online speech, digital security, and lighter human-interest stories. It provides a balanced overview of both serious and lighthearted topics, with attention to legal and technological developments.",
             "source": "youtube",
-            "text_source": "description",
-            "title": "x",
-            "top_pick": true,
-            "topic_primary": "intel",
+            "text_source": "managed_transcript",
+            "title": "Brenner-Blockade / Beleidigungen gegen Politiker / Sicherheitsrisiko Finger-Selfie",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
             "topics": [
-              "intel"
+              "Mainstream DE/SE News"
             ],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://www.youtube.com/watch?v=x1"
+            "transcript_full_summary_short": "The podcast discusses a range of current events. It begins with local residents in Tirol planning to blockade the Brenner Autobahn to protest against heavy traffic and pollution. The episode then examines legal issues in Germany, specifically how insults against politicians on social media are treated differently under the law compared to insults against private individuals. Another segment addresses potential security risks associated with posting selfies that show hand gestures, as advances in AI may enable the reconstruction of fingerprints from such images. The podcast also features a ligh",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=FUzvlgaeeKE"
+          },
+          {
+            "bottom_line": "The Ebola outbreak in northeastern DRC, driven by the Bundibugyo variant for which no vaccine exists, is exacerbated by poor infrastructure, mistrust, reduced international aid, and ongoing conflict, complicating containment and raising concerns about wider spread.",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The episode provides timely information on a public health crisis in a region with complex challenges. It highlights the intersection of epidemiology, politics, and social factors, and raises awareness about the limitations of current medical countermeasures. The discussion is relevant for audiences interested in global health, infectious diseases, and the impact of conflict and governance on outbreak response.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Kampf gegen Ebola: Wie gefährlich ist der Virus-Ausbruch?",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "The podcast episode examines the Ebola outbreak in the Ituri region of the Democratic Republic of Congo (DRC), featuring insights from journalist Bettina Rül. The discussion covers the challenges of containing the outbreak, the limitations of the local healthcare system, and the broader political and social factors affecting the response. The outbreak involves the rare Bundibugyo variant of the Ebola virus, for which there is currently no approved vaccine or specific treatment. The episode also explores the effects of ongoing conflict, corruption, and misinformation on public health efforts, a",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=8uN3X4ViJs8"
+          },
+          {
+            "bottom_line": "Mel Gibson is producing a two-part sequel to \"The Passion of the Christ\" titled \"The Resurrection of the Christ,\" set for release in 2027 and 2028, focusing on the biblical resurrection and its theological significance.",
+            "channel": "CBNnewsonline",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant for audiences interested in religious cinema, Christian theology, and Mel Gibson's filmography. It provides context on the anticipated sequel to a major religious film, discusses the spiritual and cultural implications, and notes production timelines and challenges.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Mel Gibson's  'The Resurrection of the Christ' Is Coming — Here's What We Know",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The transcript features a conversation between two hosts about Mel Gibson's forthcoming two-part film series, 'The Resurrection of the Christ,' which is a sequel to 'The Passion of the Christ.' The films are now scheduled for release in 2027 and 2028, following a change from the original plan to release them 40 days apart. The discussion touches on Gibson's personal and spiritual motivations for making the films, the biblical account of Jesus' resurrection, and the anticipated influence of the films on audiences. The hosts also discuss theological aspects of the resurrection, reference Christi",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=vL2CDzMmEME"
+          },
+          {
+            "bottom_line": "The video discusses recent global tensions, including a Russian drone accidentally striking Romania, escalating threats in Ukraine, ambiguous reports about a US embassy evacuation, ongoing US-Iran negotiations, and urges viewers to remain skeptical and prepared amid potential escalation.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant for audiences interested in current international relations, military developments, and geopolitical analysis, especially regarding Russia-Ukraine-NATO dynamics and US-Iran relations. It also appeals to those concerned with preparedness and critical evaluation of official narratives. The speaker's personal perspective and focus on skepticism may be particularly relevant for audiences seeking alternative viewpoints.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: Russian DRONE HITS NATO! US EMBASSY EVACUATED?! IRAN BUYS TIME!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker delivers an update on global military and geopolitical tensions, particularly focusing on Russia, Ukraine, NATO, Iran, and the United States. The discussion is contextualized by the speaker's personal circumstances, noting limited recent updates due to homesteading activities. The speaker covers a Russian drone incident in Romania, threats against Kiev, ongoing US-Iran negotiations over oil and sanctions, and suggests that domestic US politics may be using distractions. The speaker expresses concern about escalation in Ukraine, the depletion of US oil reserves, and questions the si",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=AaTZSzB4cqA"
+          },
+          {
+            "bottom_line": "Former CIA officer Larry Johnson argues that Russia is now fully prepared to escalate its military operations in Ukraine—including possible strikes on Kiev and confrontation with NATO—and that Western perceptions of Russian weakness dangerously underestimate Moscow's intentions and capabilities.",
+            "channel": "RedactedNews",
+            "content_status": "full_text",
+            "date": "2026-05-29",
+            "editorial_relevance": "The transcript is relevant to ongoing geopolitical developments involving Russia, Ukraine, NATO, and Iran. It provides insight into one analyst's perspective on potential escalations and intelligence operations, but the claims made are largely unverified and should be considered as opinion rather than established fact. The discussion may inform audiences interested in international security, intelligence, and military affairs, but requires critical evaluation of the sources and claims presented.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "\"Putin's gloves are off and he's not bluffing\" Ex-CIA Agent Larry Johnson on Russia's next move",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript features a conversation between host Clayton and former CIA officer Larry Johnson, focusing on the escalating conflict between Russia and Ukraine, and the broader implications for Europe and NATO. Johnson asserts that Russia is preparing for a significant escalation, including potential large-scale attacks on Ukrainian cities such as Kiev and Odessa. He claims that Russia previously refrained from such actions due to lack of readiness but is now prepared for broader conflict, possibly involving NATO. The discussion includes the role of CIA and Western intelligence in Ukraine, Ru",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=vE-8Jz5TvaA"
+          },
+          {
+            "bottom_line": "The interview with Professor Marandi discusses ongoing Iran-US negotiations after a recent war, highlighting Iran's perceived victory, skepticism of US intentions, proposed phased sanctions relief, and the broader geopolitical and internal political complexities influencing the potential agreement.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-05-28",
+            "editorial_relevance": "The transcript provides insight into the Iranian perspective on post-war negotiations with the US, highlighting key issues such as sanctions, regional power dynamics, and the influence of domestic politics on foreign policy. It is relevant for understanding the complexities of Middle Eastern geopolitics, the challenges of diplomatic negotiations, and the narratives shaping perceptions of the conflict. The interview offers a critical view of Western media and policy, contributing to a broader understanding of differing viewpoints in international relations.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: IRAN... Something is Wrong Here W/ Iran Insider Prof. Marandi",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is an in-depth interview between Canadian Prepper and Professor Saeed Muhammad Marandi, an Iranian academic and former adviser to Iran's nuclear negotiating team. The conversation focuses on post-war negotiations between Iran and the United States, the terms and prospects of a potential agreement, and the broader geopolitical landscape. Marandi argues that Iran has emerged stronger from the recent conflict, while the US and its allies underestimated Iran's capabilities. He outlines the proposed deal's main points, expresses skepticism about US reliability based on past experienc",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=dFVeJrF__gI"
+          },
+          {
+            "bottom_line": "The ILTV Security Brief discusses recent US strikes on Iranian targets amid tense negotiations, escalating Israeli-Hezbollah clashes, leadership changes in Hamas, and skepticism about the effectiveness of US-Iran talks, highlighting Israel's need for new regional strategies.",
+            "channel": "IsraelEnglishNews",
+            "content_status": "full_text",
+            "date": "2026-05-27",
+            "editorial_relevance": "The transcript provides a comprehensive overview of current security developments involving Israel, Iran, and the broader Middle East, with particular focus on the interplay between military actions and diplomatic negotiations. It highlights the complexities and uncertainties of US-Iran negotiations, the ongoing threat posed by Hezbollah and other Iranian proxies, and the limitations of international actors. The discussion is relevant for understanding the strategic challenges facing Israel and the region, especially in the context of shifting US priorities and the potential for new regional alliances. The analysis avoids sensationalism and distinguishes between claims, opinions, and established facts.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "ILTV Security Brief | Bombing vs. Talking",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The ILTV Security Brief, hosted by Khbin Davidid, covers recent security and defense developments involving Israel, Iran, the US, and the broader Middle East. The episode discusses recent US military strikes on Iranian missile sites and mine-laying vessels near the Strait of Hormuz, which the US describes as defensive actions amid ongoing negotiations in Qatar aimed at ending the conflict. Iran has threatened retaliation. In Lebanon, Israeli forces have advanced northward beyond the security zone following orders from Prime Minister Netanyahu to intensify operations against Hezbollah, which ha",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=9wrDNWRuCDE"
+          },
+          {
+            "bottom_line": "The lecture concludes that Dante’s Divine Comedy, especially its Paradise section, restores imagination and love as central to understanding and personal transformation, positioning Dante as a pivotal figure who bridges classical tradition and the emergence of modernity.",
+            "channel": "PredictiveHistory",
+            "content_status": "full_text",
+            "date": "2026-05-27",
+            "editorial_relevance": "The transcript provides a comprehensive interpretive overview of the Divine Comedy's conclusion, blending literary analysis, philosophical reflection, and theological speculation. It is relevant for readers seeking to understand the broader cultural and intellectual impact of Dante's work, as well as for those interested in the interplay between literature, science, and spirituality. The lecture's interpretive claims should be understood as one perspective among many, and its historical assertions may not reflect scholarly consensus.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Great Books #12:  Dante in Paradise",
+            "top_pick": false,
+            "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+            "topics": [
+              "Prophetie, Endzeit & Weltdeutung"
+            ],
+            "transcript_full_summary_short": "The transcript is a lecture concluding a study of Dante's Divine Comedy, situating it within the context of Western literary tradition alongside Homer and Virgil. The speaker argues that Homer established the imaginative, individualistic foundation of Greek civilization, Virgil redirected this toward obedience and empire, and Dante restored creativity and imagination, thus enabling the Renaissance and modernity. The lecture focuses on the final section, Paradise, where Dante ascends through the celestial spheres guided by Beatrice, engaging in philosophical and scientific dialogue. The speaker",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=FspDllFoiDE"
+          },
+          {
+            "bottom_line": "The US has conducted military strikes in southern Iran amid ongoing but contentious negotiations over Iran's nuclear program, with President Trump pushing for expanded Arab-Israeli normalization as Israel faces escalating threats from Hezbollah.",
+            "channel": "CBNnewsonline",
+            "content_status": "full_text",
+            "date": "2026-05-26",
+            "editorial_relevance": "The transcript is relevant for understanding current US-Iran relations, the security situation in the Middle East, and the diplomatic efforts involving Israel and its neighbors. It highlights the complexity of regional alliances, the evolving nature of military threats, and the political challenges faced by leaders in the US, Israel, and Lebanon. The discussion provides insight into the perspectives and concerns of various stakeholders, including skepticism about negotiations and the impact of new military technologies.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Border Battles Heat Up between Israel, Hezbollah as Trump Announces Progress on Iran Deal",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The transcript covers recent US military actions in southern Iran, ongoing negotiations between the US and Iran, reactions from Israel and other regional actors, and the evolving security situation involving Hezbollah and Israel. The US conducted strikes on boats and a missile site in Iran, citing self-defense. There is mention of a potential deal with Iran, with mixed optimism and skepticism from US and Israeli officials. President Trump honored US casualties from a recent conflict with Iran and reiterated a commitment to preventing Iran from acquiring nuclear weapons. Trump is also pushing f",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=sowwF5KSNNc"
+          },
+          {
+            "bottom_line": "The video discusses escalating global tensions, highlighting Russia's warning for foreign diplomats to leave Kyiv amid anticipated strikes, a US-Iran naval clash in the Strait of Hormuz, and broader concerns about military mobilization, economic motives, and preparedness.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-05-26",
+            "editorial_relevance": "The transcript is relevant for audiences seeking a summary of current global tensions, particularly regarding Ukraine, the Middle East, and their geopolitical and economic ramifications. It provides context for ongoing conflicts, highlights areas of uncertainty, and offers practical advice on preparedness, making it pertinent for those interested in international affairs, security, and personal resilience.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: \"RUSSIA WARNING TO USA\", LEAVE KYIV NOW, IRAN/ USA SHOTS FIRED \"MINING STRAIT! MOBILIZATION",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker delivers an update on rising global tensions, concentrating on recent events in Ukraine, the Middle East, and their geopolitical implications. The discussion covers Russian warnings to foreign diplomats to leave Kiev due to potential major strikes, a reported naval incident between the US and Iran in the Strait of Hormuz, and ongoing uncertainty in US-Iran negotiations. The speaker analyzes military actions by Russia and Ukraine, considers possible motives including false flag operations, and highlights the economic and strategic importance of Ukraine, particularly its resources. T",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=_E-Le5o59pg"
           }
         ],
         "top_themes": [
           {
+            "count": 4,
+            "theme": "Mainstream DE/SE News"
+          },
+          {
+            "count": 4,
+            "theme": "Preparedness, Sicherheit & Survival"
+          },
+          {
+            "count": 3,
+            "theme": "Israel, Nahost & Sicherheitslage"
+          },
+          {
             "count": 1,
-            "theme": "intel"
+            "theme": "Finanzen, Wirtschaft & Krypto"
+          },
+          {
+            "count": 1,
+            "theme": "Prophetie, Endzeit & Weltdeutung"
           }
         ],
         "topic_summaries": [
-          "intel: 1 item(s)"
+          "Mainstream DE/SE News: 4 item(s)",
+          "Preparedness, Sicherheit & Survival: 4 item(s)",
+          "Israel, Nahost & Sicherheitslage: 3 item(s)",
+          "Finanzen, Wirtschaft & Krypto: 1 item(s)",
+          "Prophetie, Endzeit & Weltdeutung: 1 item(s)"
         ],
-        "topic_trajectories": []
+        "topic_trajectories": [
+          "Mainstream DE/SE News: sustained stream",
+          "Preparedness, Sicherheit & Survival: sustained stream",
+          "Israel, Nahost & Sicherheitslage: sustained stream"
+        ]
       }
     ],
     "cybermed": [
@@ -2106,12 +2609,76 @@
       {
         "executive_summary": [
           "Highlights derived from top items.",
-          "⭐ Influence of Pre-emptive Haptoglobin on Postoperative Acute Kidney Injury in Cardiac Surgical Patients: A Randomized Controlled Trial. — In this small, single-center randomized controlled trial, pre-emptive haptoglobin therapy guided by serum-free hemoglobi",
-          "⭐ Post-dural Puncture Headache in Dural Puncture Epidural and Combined Spinal-Epidural Using 24- and 25-Gauge Needles Versus Conventional Epidural Labor Analgesia: A Systematic Review and Meta-analysis. — This systematic review and meta-analysis of 16 RCTs (n=3278) found that the risk of post-dural puncture headache with du"
+          "⭐ Airway management with a supraglottic airway device during resuscitation by basic life support providers: a systematic review. — This systematic review found low- to very low-certainty evidence that supraglottic airway devices do not improve surviva",
+          "⭐ Fast Antimicrobial Susceptibility Testing for Gram-Negative Bacteremia: The FAST Randomized Clinical Trial. — In this multicenter randomized trial, rapid phenotypic antimicrobial susceptibility testing for gram-negative bacteremia"
         ],
-        "generated_at": "2026-05-27T12:57:44+00:00",
+        "generated_at": "2026-06-01T09:02:43+00:00",
         "month": "2026-05",
         "top_items": [
+          {
+            "bottom_line": "This systematic review found low- to very low-certainty evidence that supraglottic airway devices do not improve survival or neurological outcomes compared to bag-valve-mask ventilation when used by basic life support providers during adult cardiac arrest, suggesting no clear clinical benefit for routine SGA use in this context.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Airway management with a supraglottic airway device during resuscitation by basic life support providers: a systematic review.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42203138/"
+          },
+          {
+            "bottom_line": "In this multicenter randomized trial, rapid phenotypic antimicrobial susceptibility testing for gram-negative bacteremia did not significantly improve 30-day clinical outcomes compared to standard testing, suggesting that while faster results are achievable, their clinical benefit in high-resistance settings may be limited when robust stewardship is present.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Fast Antimicrobial Susceptibility Testing for Gram-Negative Bacteremia: The FAST Randomized Clinical Trial.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41999287/"
+          },
+          {
+            "bottom_line": "This well-conducted randomized controlled trial found that perioperative magnesium sulfate infusion did not reduce the incidence of postoperative atrial fibrillation in cardiac surgery patients, indicating that routine prophylactic magnesium supplementation for POAF prevention is not supported.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Magnesium Sulfate to Prevent Perioperative Atrial Fibrillation in Cardiac Surgery: A Randomized Clinical Trial.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42206948/"
+          },
+          {
+            "bottom_line": "In this multicenter phase II randomized crossover trial of 54 ICU patients, a novel restraint device showed similar patient activity, safety, and satisfaction compared to traditional wrist restraints, suggesting it may be a viable alternative, though larger studies are needed to confirm these findings. This matters clinically as it offers a potential option to reduce reliance on traditional physical restraints without compromising patient safety or satisfaction.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Reducing Physical Restraint in the ICU: Multicenter Phase II Randomized Trial of a Novel Device Versus Traditional Wrist Restraints.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42206929/"
+          },
           {
             "bottom_line": "In this small, single-center randomized controlled trial, pre-emptive haptoglobin therapy guided by serum-free hemoglobin did not significantly reduce postoperative acute kidney injury compared to standard care in cardiac surgery patients, and the study was stopped early due to safety concerns; thus, routine pre-emptive haptoglobin use for AKI prevention in this setting is not supported.",
             "channel": "",
@@ -2145,6 +2712,22 @@
             "url": "https://pubmed.ncbi.nlm.nih.gov/42155003/"
           },
           {
+            "bottom_line": "In this multicenter cluster-randomized trial in children with Chiari I malformation and syringomyelia, adding duraplasty to posterior fossa decompression did not significantly increase surgical complications but showed trends toward greater syrinx reduction and fewer repeat decompressions, though health-related quality of life was similar; larger studies are needed to clarify the clinical benefits and risks.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Decompression with or without Duraplasty for Chiari I and Syringomyelia.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42202320/"
+          },
+          {
             "bottom_line": "In this randomized, double-blind trial of 384 women undergoing ambulatory surgery, preoperative olanzapine 5 mg (in addition to standard antiemetics) significantly improved quality of recovery and reduced postdischarge nausea through postoperative day 2 compared to placebo, without prolonging PACU stay, supporting its use for enhanced postoperative recovery in this population.",
             "channel": "",
             "content_status": "",
@@ -2159,6 +2742,38 @@
             "transcript_full_summary_short": "",
             "transcript_processing": "",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42160634/"
+          },
+          {
+            "bottom_line": "In this Danish registry-based study, community first responders (CFRs) frequently arrived before EMS and provided early CPR in pediatric out-of-hospital cardiac arrests, but about one-third experienced moderate or severe immediate distress, especially when arriving first, performing CPR, or assisting very young children; despite this, nearly all CFRs remained willing to continue volunteering, highlighting both the clinical benefit and psychological impact of CFR activation in pediatric emergencies.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Activation of Community First Responders to Pediatric Out-of-Hospital Cardiac Arrests in Denmark.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42191078/"
+          },
+          {
+            "bottom_line": "In this large MINT trial subanalysis, a restrictive transfusion strategy in patients with acute myocardial infarction and anemia—whether critically ill or not—did not significantly increase 30-day mortality or death/MI compared to a liberal strategy, suggesting restrictive transfusion thresholds are generally safe in this population. This supports the use of restrictive transfusion practices in AMI patients with anemia, including those in the ICU.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Red Cell Transfusion in Critically Ill and Noncritically Ill Patients With Acute Myocardial Infarction and Anemia-A Subanalysis of the Myocardial Ischemia and Transfusion (MINT) Trial.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42188994/"
           },
           {
             "bottom_line": "This prospective observational study found that tactile stimulation in the delivery room is commonly used and is associated with a modest heart rate increase, particularly in newborns with initial HR <140 bpm, but those with bradycardia (HR <100 bpm for ≥10 seconds) in the first minute are four times more likely to require positive pressure ventilation, highlighting the importance of early heart rate assessment to guide resuscitation interventions.",
@@ -2209,6 +2824,22 @@
             "url": "https://pubmed.ncbi.nlm.nih.gov/42191528/"
           },
           {
+            "bottom_line": "BOTTOM LINE: This article is an educational case-based discussion on ECG interpretation in the context of a motor vehicle collision with suspected spinal cord injury, and does not present new clinical data or research findings.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "foamed",
+            "text_source": "",
+            "title": "ECG Pointers: MVC with Spinal Injury",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://www.emdocs.net/ecg-pointers-mvc-with-spinal-injury/"
+          },
+          {
             "bottom_line": "BOTTOM LINE: This educational article reviews the causes, risk factors, identification, and potential complications of extravasation injuries in children, emphasizing the importance of early recognition and management but does not present new clinical data or research findings.",
             "channel": "",
             "content_status": "",
@@ -2223,139 +2854,11 @@
             "transcript_full_summary_short": "",
             "transcript_processing": "",
             "url": "https://dontforgetthebubbles.com/extravasation-injuries/"
-          },
-          {
-            "bottom_line": "BOTTOM LINE: Recent studies highlighted in POCUS journals indicate that power Doppler POCUS accurately measures systolic blood pressure compared to intraarterial lines, ultrasound-guided PENG block provides superior analgesia over intravenous opioids in elderly hip fracture patients, and ultrasound-guided erector spinae plane block offers effective pain relief and reduces opioid use in pancreatic cancer patients.",
-            "channel": "",
-            "content_status": "",
-            "date": "",
-            "editorial_relevance": "",
-            "source": "foamed",
-            "text_source": "",
-            "title": "Essential Updates from POCUS Journals - JournalFeed",
-            "top_pick": true,
-            "topic_primary": "",
-            "topics": [],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://journalfeed.org/article-a-day/category/pocus/"
-          },
-          {
-            "bottom_line": "BOTTOM LINE: A new Mayo Clinic study of 316 adults on GLP-1 receptor agonists found these medications can delay gastric emptying, potentially increasing the risk of pulmonary aspiration during anesthesia, suggesting that standard preoperative fasting guidelines may not adequately mitigate this risk in patients taking GLP-1 RAs.",
-            "channel": "",
-            "content_status": "",
-            "date": "",
-            "editorial_relevance": "",
-            "source": "foamed",
-            "text_source": "",
-            "title": "GLP-1 agonists and anesthesia risk: Assessment of gastric content using ultrasound",
-            "top_pick": true,
-            "topic_primary": "",
-            "topics": [],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://www.nysora.com/education-news/glp-1-agonists-and-anesthesia-risk-assessment-of-gastric-content-using-ultrasound/"
-          },
-          {
-            "bottom_line": "This meta-analysis of four RCTs (1,111 patients) found that sodium bicarbonate significantly reduces the need for renal replacement therapy in critically ill adults with acute metabolic acidosis, but evidence for mortality benefit remains inconclusive; these findings support bicarbonate use to prevent RRT, though its impact on survival is still uncertain.",
-            "channel": "",
-            "content_status": "",
-            "date": "",
-            "editorial_relevance": "",
-            "source": "pubmed",
-            "text_source": "",
-            "title": "Sodium Bicarbonate for Acute Metabolic Acidosis in Critically Ill Adults: A Meta-Analysis of Randomized Clinical Trials.",
-            "top_pick": false,
-            "topic_primary": "",
-            "topics": [],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42171427/"
-          },
-          {
-            "bottom_line": "An international expert panel used a modified Delphi process to develop the first consensus statements on procedural techniques, airway management, and specimen handling for 1.1 mm cryoprobe transbronchial and endobronchial ultrasound-guided cryobiopsy outside of interstitial lung disease; while not based on direct clinical trial evidence, these expert-driven guidelines help standardize practice in a rapidly evolving area with significant procedural variability.",
-            "channel": "",
-            "content_status": "",
-            "date": "",
-            "editorial_relevance": "",
-            "source": "pubmed",
-            "text_source": "",
-            "title": "Procedural Techniques, Airway Management, and Specimen Acquisition for Peripheral Lung Transbronchial and Endobronchial Ultrasound-Guided Cryobiopsy: A Modified Delphi Consensus Statement.",
-            "top_pick": false,
-            "topic_primary": "",
-            "topics": [],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/41956150/"
-          },
-          {
-            "bottom_line": "This large, high-quality meta-analysis found that perioperative use of hydroxyethyl starch (HES 130/0.4 or 130/0.42) in surgical patients does not significantly increase the risk of acute kidney injury or worsen creatinine levels, suggesting that short-term HES use may be safer than previously thought, which is clinically relevant given recent regulatory restrictions.",
-            "channel": "",
-            "content_status": "",
-            "date": "",
-            "editorial_relevance": "",
-            "source": "pubmed",
-            "text_source": "",
-            "title": "Hydroxyethyl Starch and Perioperative Complications: a Systematic Review and Meta-analysis.",
-            "top_pick": false,
-            "topic_primary": "",
-            "topics": [],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42160629/"
-          },
-          {
-            "bottom_line": "In this multicenter registry study, patients with infarct-related cardiogenic shock receiving mechanical circulatory support had similar 30-day mortality regardless of preceding out-of-hospital cardiac arrest (OHCA), but predictors of mortality differed between OHCA and non-OHCA groups; thus, clinical decisions should consider these distinct risk profiles rather than OHCA status alone.",
-            "channel": "",
-            "content_status": "",
-            "date": "",
-            "editorial_relevance": "",
-            "source": "pubmed",
-            "text_source": "",
-            "title": "Understanding Patients with Mechanical Circulatory Support for Cardiogenic Shock: The Role of Preceding Cardiac Arrest.",
-            "top_pick": false,
-            "topic_primary": "",
-            "topics": [],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42184916/"
-          },
-          {
-            "bottom_line": "This article highlights key ethical considerations from the new American Heart Association guidelines for extracorporeal life support, emphasizing updated recommendations to guide clinicians in navigating complex decision-making; while not presenting new empirical evidence, it provides important, consensus-based guidance relevant to clinical practice.",
-            "channel": "",
-            "content_status": "",
-            "date": "",
-            "editorial_relevance": "",
-            "source": "pubmed",
-            "text_source": "",
-            "title": "Ethical Complexities in Extracorporeal Life Support Management: Pearls From the New American Heart Association Ethics Guidelines.",
-            "top_pick": false,
-            "topic_primary": "",
-            "topics": [],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42155015/"
-          },
-          {
-            "bottom_line": "This expert consensus study developed a comprehensive, guideline-based checklist with critical actions and a minimum passing standard for assessing clinician competency in brain death/death by neurologic criteria determination, providing a standardized tool that can improve training and assessment in both adult and pediatric settings. The evidence is based on a rigorous Delphi and Angoff process involving leading experts, supporting its clinical relevance for ensuring accurate and consistent BD/DNC evaluations.",
-            "channel": "",
-            "content_status": "",
-            "date": "",
-            "editorial_relevance": "",
-            "source": "pubmed",
-            "text_source": "",
-            "title": "A Modified Delphi Consensus-Based Comprehensive Checklist and Angoff Standard for Assessment of Competency in Brain Death/Death by Neurologic Criteria Determination.",
-            "top_pick": false,
-            "topic_primary": "",
-            "topics": [],
-            "transcript_full_summary_short": "",
-            "transcript_processing": "",
-            "url": "https://pubmed.ncbi.nlm.nih.gov/42161897/"
           }
         ]
       }
     ]
   },
-  "updated_at_utc": "2026-05-27T12:57:44+00:00",
+  "updated_at_utc": "2026-06-01T09:02:43+00:00",
   "version": 1
 }
