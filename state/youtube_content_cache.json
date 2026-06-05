@@ -3652,5 +3652,404 @@
     "fetched_at_utc": "2026-06-04T08:09:35.846441+00:00",
     "text_hash": "329d6a445b115950f2f03f7ac60198eb0284942088e49134c34db720b77bd56d",
     "text": ""
+  },
+  "OBq9EeRK3U0::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:51:15.699936+00:00",
+    "text_hash": "15a72ea745bf3ac672f4a37e82edc23991619a8ae32b5803acad954f2f1c9c1f",
+    "text": ""
+  },
+  "3FY2ECHDF18::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:51:19.967684+00:00",
+    "text_hash": "f5c7e2c58cdace134271cc5ddbb6a87736b3281920bd73b43d58e91bc9129124",
+    "text": ""
+  },
+  "3AUhDXQ96Fc::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:51:30.444202+00:00",
+    "text_hash": "5ead72551fba5af34325566fa660176c90c4d6c1d7cef1e1eda27bb27f46e81c",
+    "text": ""
+  },
+  "pYGNiD3zBhc::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:51:32.409761+00:00",
+    "text_hash": "5106b1de8a35f2b31ef7769505680ccd99e46f78eccfa7654d689b908bab21e2",
+    "text": ""
+  },
+  "wNgbMGop008::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:51:34.872150+00:00",
+    "text_hash": "f6e0c59f1ff3781342e59a208462c2d095470d5b44746a7a9b5488b22fc02512",
+    "text": ""
+  },
+  "TXwfnhTJg5I::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:51:44.612547+00:00",
+    "text_hash": "02c737e2d38a56cb6c54e67fab6daffacea456d632593cb383f1dfd396da81dd",
+    "text": ""
+  },
+  "NbbVycl-UfA::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:51:45.558413+00:00",
+    "text_hash": "90f26ec35ca04ac35c6d660ed8022aa792622e42aa830d0f16bbab195aeede79",
+    "text": ""
+  },
+  "qZjjC1q6a34::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:51:50.578243+00:00",
+    "text_hash": "531d2ef02c8292344a6e2c5e4ecff78e9194bb3a54cfe5811e58b20d60bda211",
+    "text": ""
+  },
+  "jLeTuRiPYvo::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:02.192385+00:00",
+    "text_hash": "1b11aa626de8e936bc15a607022a080e28b3752fc8d3daae69b0f7159fefe48b",
+    "text": ""
+  },
+  "Jf7H9HCWNP4::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:05.678473+00:00",
+    "text_hash": "a5054637462acc028e3fd280f287c7a867949ce6ae311ea02997fd07680311cd",
+    "text": ""
+  },
+  "ZMMUUfmtLS4::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:07.454843+00:00",
+    "text_hash": "7d9e66d20da4260805142033658f23418f602fba38c80aeaafefa3c3d999bd08",
+    "text": ""
+  },
+  "qJ17e2UBS2s::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:10.151861+00:00",
+    "text_hash": "3a70d5d6aea7a534cb566d99fd7edd0750ae27cdddc8c9580f6a96f925b19460",
+    "text": ""
+  },
+  "iDFqxPbC4II::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:11.858792+00:00",
+    "text_hash": "57c08a01dcfdbecabd749989d9aa6e6aa3f5398aae18bb10e51f1646a5e2968c",
+    "text": ""
+  },
+  "1nI71t1Aprk::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:15.043828+00:00",
+    "text_hash": "02f6481eb4da7938c5302a963da899359b9ef84b99d649baf74fa138bd4b93ae",
+    "text": ""
+  },
+  "VyaduF-Ajh8::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:19.042946+00:00",
+    "text_hash": "4fffb6c3b8d02e19fb89911643d73ef74579ac2b9b073c211213d96396e6a033",
+    "text": ""
+  },
+  "lq541AjBnxg::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:22.642810+00:00",
+    "text_hash": "32ce6e367498f64c182c820bf1dd60030f94d031affb61036593d25cad236055",
+    "text": ""
+  },
+  "MFAzeZXeqaY::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:26.377631+00:00",
+    "text_hash": "9cf45c108a073a61016070d24e4f7fc7c64640f561f0c926bb92c9bdc5dc2377",
+    "text": ""
+  },
+  "N9geQ6uBtPk::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:36.241893+00:00",
+    "text_hash": "87aeaa6582bc539de711f3aa475d215f4852985f71278193ca23237bfe27f166",
+    "text": ""
+  },
+  "Jbz7ni2taG4::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:37.165590+00:00",
+    "text_hash": "0160dd3b2b1961fb2162f3e4c49390f697b569a394f3f12f50f4705de33eee19",
+    "text": ""
+  },
+  "exSbd7Sg8Qw::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:38.274871+00:00",
+    "text_hash": "73b0b3dbb943ab8dca9b1e2c3c71d2b2f7c18a6c2faf0181d899071f36c98397",
+    "text": ""
+  },
+  "OAyook-6j10::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:39.137070+00:00",
+    "text_hash": "4e7f0378039c9787617fb13b29236533ab097b537c4f4ef573435072d836496c",
+    "text": ""
+  },
+  "gPaWXQwHylc::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:40.423839+00:00",
+    "text_hash": "10ef89189b3fca117fad7744006837e38077757b49700ec8141a37c5d50de352",
+    "text": ""
+  },
+  "5B4D-qWhryc::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:42.168538+00:00",
+    "text_hash": "d73317c9d9ba5b2b4e7316edfee9f83e696f45f4b103dc08929e43156c945146",
+    "text": ""
+  },
+  "wv0eE7NKQ3A::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:43.765440+00:00",
+    "text_hash": "6e9f39303aef1ecccbb3589c17ea74b843b21ddd261c8927d8cbcdcb772689cf",
+    "text": ""
+  },
+  "2WUR4Org0i4::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:47.129142+00:00",
+    "text_hash": "d2e9de5c9d9d57535f0ed70719559e81763a233fd69b613bb4dd6b4dc5a6f0ba",
+    "text": ""
+  },
+  "zkfl4JNkIzo::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:52.683656+00:00",
+    "text_hash": "692a66f1c15218bbc9f9bf94b2b59a8ac27ff3845678d2918d93c37b1b69999d",
+    "text": ""
+  },
+  "gfVaAY6R6bc::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:52:53.658008+00:00",
+    "text_hash": "9ea8a4b85d1995eef4d73b8fd00e062ed0dcba46e1c9b7e0450355a29f6edbb4",
+    "text": ""
+  },
+  "czlW9cRVTyA": {
+    "status": "success",
+    "source": "description",
+    "fetched_at_utc": "2026-06-05T07:52:55.187403+00:00",
+    "text_hash": "3f81096853520f2b21aeadb4163e4e06658f7975a2c29c34413122ca707b3974",
+    "text": ""
+  },
+  "EJzKrIrLLPo::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:06.545903+00:00",
+    "text_hash": "b3e5ad6d2d6ecfc916f88a9baeaa9957993f8ef71a40395213b990693545f2c6",
+    "text": ""
+  },
+  "OCUuqDsRvmA::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:11.220096+00:00",
+    "text_hash": "44552a4617ddd7445b3eb9c18f140158183958d9362d94f5464f7111eec0d278",
+    "text": ""
+  },
+  "UczSDPDZHZw::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:16.600291+00:00",
+    "text_hash": "8ab4b8c3339517f35cd051c268a6ad65e8b1290bc4cf9b9c5378a2c793d465c9",
+    "text": ""
+  },
+  "kV8vMJNPcrM::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:25.333370+00:00",
+    "text_hash": "58450dbc3ef5e7ebc4037dfb09af51756b54c84ee3c9313997dd6ba0416d6d25",
+    "text": ""
+  },
+  "XMALfNIB4I4": {
+    "status": "success",
+    "source": "description",
+    "fetched_at_utc": "2026-06-05T07:53:26.893038+00:00",
+    "text_hash": "e427d1cbd39720217e84dca485df0d2af5e9515fd1760fd842fac4630f802e1c",
+    "text": ""
+  },
+  "4qXNKuDH_5A::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:30.043690+00:00",
+    "text_hash": "4a80f1feb4e075ef346b0e5a077baff1b3fb46737bb84b1ddb9627449f606001",
+    "text": ""
+  },
+  "ghsTC4jccXU::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:34.612693+00:00",
+    "text_hash": "76e18919e24e49fdcf1654ffb039e83410c7eb0944cc4bba56a39f6827ecf94a",
+    "text": ""
+  },
+  "mIhubprqxYE::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:35.534024+00:00",
+    "text_hash": "eef81334ee7fa7d3208240ff06b39c67cb34625de7b84b1b85909159a78e405d",
+    "text": ""
+  },
+  "psfdt2iWnoM::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:38.406724+00:00",
+    "text_hash": "ad740e612e64df0be1e8ce5b872329bde31ca07761fea2eb14e1d03a9e707541",
+    "text": ""
+  },
+  "dNsigOp9uts::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:40.947812+00:00",
+    "text_hash": "3c22eaefc3a421d659ec2bbdf6726b850767cfca1563492d93ae93d37b3fae67",
+    "text": ""
+  },
+  "4xOA0l1yt8o::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:41.909669+00:00",
+    "text_hash": "8202db1831268cee883978b91723690ff8f6c058670d1485e6abf27545b74f38",
+    "text": ""
+  },
+  "UJVDoaMyrys::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:44.597211+00:00",
+    "text_hash": "10ea1c8b2c3481844d3fcd42e46c57506e89312043cc0772d96bc3d7cd708837",
+    "text": ""
+  },
+  "a4BBymy_9CQ::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:47.218136+00:00",
+    "text_hash": "6d02e0ab194c6dbb334655b7717c9bfb890ded3354915d5969217d98b68651e3",
+    "text": ""
+  },
+  "TXaCCqeDEdQ::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:53.858448+00:00",
+    "text_hash": "2d1b8cfba59e246a883fd5fe8d86a2d4b61329ce39b2035da14060780e8ebf72",
+    "text": ""
+  },
+  "kjDXjcNU2rw::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:54.757271+00:00",
+    "text_hash": "c492cc7eff2569b47aae474751cbd695b2c8209e815382be5fcc0f5dd2b6ddc2",
+    "text": ""
+  },
+  "PBO5R4Buh9k::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:55.622891+00:00",
+    "text_hash": "faaf002f9d7268156f60afdb2813006e2e729352e99a9d6ba6825b2982b25755",
+    "text": ""
+  },
+  "UiVnmZc2raI::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:56.570185+00:00",
+    "text_hash": "f50946d707ed8a500911dadd583a71b97dbfada54c50919741858c2198cd594a",
+    "text": ""
+  },
+  "D152Jheu6nc::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:57.457910+00:00",
+    "text_hash": "55bd5408b8816880055b10459e093655338b25c1281c6fa60d47c5e89cab90d2",
+    "text": ""
+  },
+  "fkZMKyhleKk::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:53:59.783642+00:00",
+    "text_hash": "e947b0df4d96ed2c59e5e313ca911c7eacd7b44000f2e7ae306ec2a6e38b90d6",
+    "text": ""
+  },
+  "YmUhE2gcpjA::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:02.225552+00:00",
+    "text_hash": "d577ebe37e09e3b3a4ba9d3b58c5fd66f2e0f9b363ed7e657b1835813f665395",
+    "text": ""
+  },
+  "FYW_XibTylI::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:04.678332+00:00",
+    "text_hash": "d438359762e1ea63f585b6686b6607250d74cff9c7d1dab8b1b4594799495910",
+    "text": ""
+  },
+  "BfO7vOrIers::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:07.965281+00:00",
+    "text_hash": "08dd911cd72a2490ef41e40036085ae7691fa8590dd66b8cd59510f1e7cce11a",
+    "text": ""
+  },
+  "WEwl6crj9FQ::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:15.869213+00:00",
+    "text_hash": "1c9b05bd45780c9b1f1f4f42c06f41c210ddad957f2611f1bec2d74625f79069",
+    "text": ""
+  },
+  "vmkRWtS1iXs::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:23.041052+00:00",
+    "text_hash": "9448df1453344e59c5d33cf5074bed2724c391a5a28de8ffbc83657a562cb5e0",
+    "text": ""
+  },
+  "rfYzH371gzI::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:30.671708+00:00",
+    "text_hash": "f397ba1f83ae9129a9e466356350bdbf7cc8017437927bb6cd6c291ae0592203",
+    "text": ""
+  },
+  "0bM0NMUUy2c::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:33.885397+00:00",
+    "text_hash": "9e9f50a408dec07c0475b1192059165c40038d25dbdb91ca019f7827f17db5ec",
+    "text": ""
+  },
+  "bNdkhg0o6H4::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:37.669600+00:00",
+    "text_hash": "2c7c9ca0e4ec4aa70142dd004a1a2f9f2ecbb8d19d3113aca2a141e6d3531815",
+    "text": ""
+  },
+  "Wve-MGLFIjM::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:42.223514+00:00",
+    "text_hash": "51daa438d2d8a97c8254124befbc292d119c01a36407e4511b7eef35a0d5deb5",
+    "text": ""
+  },
+  "iCwHrIcer8E::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-06-05T07:54:43.036194+00:00",
+    "text_hash": "c04743e24531d846cd4f6d4391e39a1aabaa8fc0adc46c9ef8e06a52defc0cdc",
+    "text": ""
   }
 }
