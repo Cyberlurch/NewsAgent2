@@ -2448,6 +2448,1018 @@
           "Gesellschaft, Medienkritik & Debatte: sustained stream",
           "Israel, Nahost & Sicherheitslage: sustained stream"
         ]
+      },
+      {
+        "evergreen_highlights": [],
+        "executive_summary": [
+          "Error: Failed to create overview: `RateLimitError(\"Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}\")`"
+        ],
+        "full_text_count": 30,
+        "generated_at": "2026-08-01T06:16:20+00:00",
+        "items_by_temporality": {
+          "breaking_news": 9,
+          "current_affairs": 18,
+          "mixed": 1,
+          "trend_analysis": 2
+        },
+        "metadata_only_count": 0,
+        "month": "2026-07",
+        "representative_items": [
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "Vermietertagebuch",
+            "content_status": "full_text",
+            "date": "2026-07-31",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "Schon 80.000 Migranten: 2.te spanische Stadt gestürmt + erste Kämpfe + Spanien schickt Arme!",
+            "top_pick": true,
+            "topic_primary": "Finanzen, Wirtschaft & Krypto",
+            "topics": [
+              "Finanzen, Wirtschaft & Krypto"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=fgUApBYIxNw"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-31",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "breaking_news",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: WORLD WAR Z IS UNFOLDING! RUSSIA NUCLEAR TIME BOMB, MIDDLE EAST CHAOS! DAY X APPROACHES!",
+            "top_pick": true,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=-eBBQ_MW2Kw"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-07-31",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "Boykott der Fußball-WM? / Recht auf Reparatur von Elektrogeräten / Sitzbänke im Wald | \"15 Minuten\"",
+            "top_pick": true,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=cNNp4Fn7Or0"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CBNnewsonline",
+            "content_status": "full_text",
+            "date": "2026-07-31",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "Politician Found Guilty for Christian Views Reacts to Latest Development | Newsmakers",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=7TiBxQpGC28"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "DTBM",
+            "content_status": "full_text",
+            "date": "2026-07-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "THE SHIELD OF DISCERNMENT--Guarding Faith Against Prophetic Deception",
+            "top_pick": false,
+            "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+            "topics": [
+              "Christlicher Glaube, Bibel & Apologetik"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=YByNbmftWjE"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-07-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "tagesthemen 22:15 Uhr, 30.07.2026",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=9-Qtbz8M-r0"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CBNnewsonline",
+            "content_status": "full_text",
+            "date": "2026-07-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "description",
+            "title": "Viral Videos of Spain 'Invasion' Provoke Outrage",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=wJM8sJW8VLA"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "ZDFheute",
+            "content_status": "full_text",
+            "date": "2026-07-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "heute journal vom 30.07.2026: UEFA-Nationen drohen mit WM-Boykott, Hitzewelle, Wacken Open Air 2026",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=KlaIPBCXxYk"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-29",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "⚡How I'm Prepping for a WW3 FOOD Apocalypse and Famine",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=_3GH_ORndnE"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-28",
+            "editorial_relevance": "The transcript is highly relevant to ongoing public debates about privacy, surveillance, and the balance between security and individual rights. It provides concrete examples of current surveillance practices, discusses legislative trends, and offers practical advice for individuals concerned about privacy. The discussion is timely given the rapid expansion of AI, IoT, and data-driven technologies, and it highlights both the potential benefits and significant risks associated with pervasive surveillance. The conversation is particularly pertinent for audiences interested in privacy, civil liberties, technology policy, and personal security.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "⚡DATA Centers, 'Digital TWINS' and Global LOCKDOWN",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The conversation centers on the pervasive nature of surveillance technologies in modern society, particularly in the United States. The speakers discuss the widespread use of facial and emotional recognition in retail environments (such as Lowe's and Walmart), the proliferation of Internet of Things (IoT) devices, and the aggregation of personal data for predictive policing and behavioral influence. The concept of 'digital twins'—digital profiles built from aggregated data—is explored, highlighting both potential benefits (e.g., personalized medicine) and significant risks (e.g., manipulation,",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=vuNhsCuwpLY"
+          },
+          {
+            "bottom_line": "The video details the major failures and lessons learned from establishing a food forest in Saskatchewan, highlighting plant losses due to wind, poor site selection, unsuitable plant choices, excessive mulching, and chemical drift, with practical advice offered for future improvement.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-27",
+            "editorial_relevance": "The transcript is relevant for audiences interested in practical orchard management, gardening in challenging climates, and the real-world impacts of agricultural chemicals on small-scale food production. It provides firsthand observations, practical advice, and candid discussion of failures and learning experiences, making it valuable for gardeners, preppers, and those concerned with sustainable agriculture. The inclusion of specific plant care techniques, environmental challenges, and chemical exposure issues adds to its instructional and cautionary value.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "⚡My Apocalypse FOOD SUPPLY is DESTROYED! Don't Make This ONE CRUCIAL Mistake!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a conversational walkthrough and critique of a centropic food forest/orchard in Saskatchewan, Canada, between the main host (Nate) and a guest expert from the 'Gardening in Canada' channel. They discuss the challenges and failures encountered over two years, including high plant mortality, wind damage, issues with soil moisture and mulching, pruning techniques, pest and disease management, and the impact of neighboring agricultural pesticide and herbicide use (notably glyphosate drift). The guest provides practical advice on pruning, plant selection, and orchard management, o",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=0ZcmY9MVQ1g"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "IsraelEnglishNews",
+            "content_status": "full_text",
+            "date": "2026-07-26",
+            "editorial_relevance": "The transcript provides a comprehensive overview of current security and diplomatic developments in the Middle East, with particular focus on US-Iran tensions, Israeli security concerns, and shifting regional alliances. It includes concrete claims, official statements, and analysis from experts, offering insight into the interplay between military action and diplomacy. The coverage of violence in Israel and the West Bank, as well as international legal and political developments, is relevant for understanding the broader regional context. The inclusion of domestic US issues, such as hate crimes in New York, connects international events to local impacts. The report maintains a factual tone, distinguishing between reported claims, official statements, and analysis, making it a relevant and informative summary for audiences seeking to understand the complexities of current Middle Eastern affairs.",
+            "source": "youtube",
+            "temporality": "trend_analysis",
+            "text_source": "managed_transcript",
+            "title": "Israel Daily News - July 26, 2026 | Iran Threatens Wider War, Eyes Nukes",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The transcript covers a range of Middle East and international security developments, focusing primarily on the temporary pause in US military strikes against Iran, ongoing US blockades of Iranian ports, and the diplomatic and military strategies under consideration by President Trump. The report discusses the potential reasons for the pause, including operational planning, diplomatic opportunities, and concerns over missile interceptor shortages. The situation in the Strait of Hormuz remains tense, with US forces redirecting commercial vessels and disabling non-compliant ships. The conflict i",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=_w0eOXUK1wM"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-25",
+            "editorial_relevance": "The transcript provides a perspective on current Middle Eastern conflicts and their potential to escalate into a broader war involving major powers. It highlights the unpredictability of non-state actors like the Houthis, the risks of military miscalculation, and the interconnectedness of global conflicts. The discussion of US domestic preparations for mobilization and the emphasis on personal preparedness are relevant for audiences interested in geopolitical developments, military policy, and self-reliance. However, many claims are speculative or based on the speaker's interpretation rather than confirmed facts, and should be contextualized accordingly.",
+            "source": "youtube",
+            "temporality": "breaking_news",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: SAUDI ARAMCO HIT! UKRAINE STRIKES IRAN (YES IRAN)! ISRAEL PREPS BUNKERS!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker provides an analysis of recent escalations in the Middle East, focusing on the Houthis' disproportionate response to Saudi attacks on Yemeni infrastructure, specifically targeting Saudi Aramco and critical oil pipelines. The speaker argues that the Houthis, unlike Iran or Russia, have little to lose and therefore act more aggressively. He connects these events to broader geopolitical tensions involving the US, Israel, Iran, Russia, Ukraine, and China, suggesting that these alignments are reminiscent of pre-World War scenarios. The transcript also discusses military buildups in the",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=waL1kd-7gsY"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-24",
+            "editorial_relevance": "The transcript provides a detailed, experience-based overview of shotgun selection for preparedness, with practical insights into various models and their suitability for different scenarios. It is relevant for audiences interested in firearms, survivalism, and personal defense, offering both subjective impressions and factual information about shotgun features, legal considerations, and practical use cases. The speaker's opinions are clearly distinguished from objective claims, and notable caveats are included regarding personal preference and context.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "The LAST Shotgun I'll EVER Buy! APOCALYPSE READY!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker, known as Canadian Prepper, discusses his experiences with various shotguns and ultimately explains why the Benelli M4 is his preferred and possibly final shotgun purchase. He reviews the versatility and practicality of shotguns for preparedness, home defense, hunting, and their general ubiquity and acceptance compared to other firearms. The speaker provides hands-on impressions of several models, including the Maverick 88, SS211, Tanga Arms Wolverine XM, Beretta 1301 Tactical, and the Benelli M4, highlighting their pros and cons. He emphasizes the Benelli M4's reliability, militar",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=lEOcTQ7Asuw"
+          },
+          {
+            "bottom_line": "The speaker warns of escalating global tensions—especially in the Middle East with closed key straits, rising oil prices, and failed diplomacy—predicting imminent large-scale conflict and urging personal preparedness due to the risk of broader war and economic instability.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-23",
+            "editorial_relevance": "The transcript is relevant for understanding current anxieties and narratives around Middle East tensions, the risk of wider war, and the intersection of military, economic, and diplomatic developments. It reflects a highly pessimistic and speculative viewpoint, blending concrete events (such as attacks on shipping and rising oil prices) with unverified or opinion-based claims (such as the closure of straits and the inevitability of nuclear escalation). The transcript is useful for gauging the perspectives of certain online commentators and the preparedness community, but should be cross-referenced with verified news sources for factual accuracy.",
+            "source": "youtube",
+            "temporality": "breaking_news",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: OIL HITS $100! RUSSIA/ USA TALKS COLLAPSE! TWO STRAITS CLOSED! HOUTHIS STOCK 6 MONTHS FOOD!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker provides a detailed and urgent update on escalating global tensions, focusing primarily on the Middle East, particularly the potential for war involving Iran, the United States, Israel, and their respective allies. The speaker discusses the closure of key maritime straits (Strait of Hormuz and Bab-el-Mandeb), Houthi attacks on shipping, potential Saudi responses, and the risk of a broader regional conflict. The transcript also touches on the Russia-Ukraine war, U.S.-Russia diplomatic meetings, and the involvement of China. The speaker expresses skepticism about diplomatic solutions",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=OCR2A3_fL0Y"
+          },
+          {
+            "bottom_line": "Ivana Hughes warns that the risk of nuclear war is significant, with the potential for over 6 billion deaths from nuclear winter, and emphasizes that current nuclear policies are dangerously irrational and driven by power and profit.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-23",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "⚡Will Trump Start a NUCLEAR War? \"6 BILLION People Would DIE\" w/ Ivana Hughes",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=tl6jvMEcR_g"
+          },
+          {
+            "bottom_line": "The commentary analyzes escalating U.S.-Iran military conflict, including widespread airstrikes on Iranian infrastructure, potential retaliation threatening global oil supplies, the feasibility of attacking underground nuclear sites like Pickax Mountain, and the broader geopolitical and economic risks of further escalation.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-22",
+            "editorial_relevance": "The transcript provides a detailed, if speculative, analysis of the ongoing military escalation involving Iran, the U.S., and their allies. It is relevant for understanding the complexities of modern warfare, the technical and strategic challenges of targeting underground nuclear facilities, and the broader geopolitical and economic consequences. The commentary highlights the risks of escalation, the potential normalization of nuclear weapon use, and the interplay between military actions and global markets. While the analysis includes unverified claims and personal opinions, it offers insight into the narratives and uncertainties shaping public discourse around the conflict.",
+            "source": "youtube",
+            "temporality": "breaking_news",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! TRUMP is About to BOMB PICKAXE MOUNTAIN! Oil Reserves EMPTYING! Elites SECRETLY Hoard Gold!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a commentary on the current escalation of military conflict involving Iran, the United States, and their respective allies. The speaker discusses ongoing and intensifying airstrikes across Iran, characterizing them as a renewed war of aggression. The analysis covers the targeting of dual-use civilian infrastructure, potential Iranian retaliation against Gulf States, and the global economic implications, particularly regarding oil and gas supplies. The speaker references statements by figures such as Donald Trump and Muhammad Marandi, and explores the feasibility and consequen",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=UFQ6KmGmfk4"
+          },
+          {
+            "bottom_line": "The speaker argues that escalating Middle East tensions, especially between the US and Iran, make a full-scale war inevitable, dismisses prospects for peace, and criticizes official narratives and US foreign policy while warning of broader global conflict.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-21",
+            "editorial_relevance": "The transcript provides a perspective on current Middle Eastern and global tensions, highlighting the complexity of modern conflict, the interplay of economic and military interests, and the role of information warfare. It reflects skepticism toward official narratives and emphasizes the interconnectedness of regional conflicts with global power dynamics, including the potential for escalation involving China and Russia. The commentary is relevant for understanding alternative viewpoints on US foreign policy, the risks of misinformation, and the broader implications of ongoing conflicts for international stability and civilian populations.",
+            "source": "youtube",
+            "temporality": "breaking_news",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! MULTIPLE Tankers Are on FIRE! Everything is on FIRE. Here's What HAPPENS Next.",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a commentary on the escalating tensions and potential for war in the Middle East, particularly between the United States and Iran, with references to broader global implications involving China, Russia, Saudi Arabia, and Yemen (the Houthis). The speaker argues that a full-scale war is inevitable, whether imminently or in the near future, and dismisses the possibility of peace. The analysis covers proposed truces, the strategic importance of shipping lanes like the Strait of Hormuz and Bab-el-Mandeb, the motivations and strategies of various actors (including the US, Iran, and",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=r8Xz6GtXUiY"
+          },
+          {
+            "bottom_line": "Lynette Zang argues that the fiat currency system is collapsing as governments push for digital currencies to increase control, urging individuals to protect their wealth by converting fiat into physical gold and silver, which she views as enduring, intrinsically valuable assets.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-20",
+            "editorial_relevance": "The transcript is relevant to audiences interested in macroeconomics, monetary policy, personal finance, and preparedness. It provides insight into a critical perspective on fiat currencies, digital assets, and the future of money, reflecting skepticism toward mainstream financial systems and advocating for tangible asset ownership. The discussion is timely given ongoing debates about central bank digital currencies, inflation, and financial system stability. However, many claims are presented from the speaker's viewpoint and should be cross-referenced with independent sources for verification.",
+            "source": "youtube",
+            "temporality": "current_affairs",
+            "text_source": "managed_transcript",
+            "title": "⚡\"We're At THE END, The CLOCK IS TICKING\" w @ZangIntl",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a conversation between Canadian Prepper and Lynette Zang, an economist with decades of experience in banking, stock broking, and currency analysis. The discussion centers on the current state of global currencies, the role of gold and silver as sound money, the transition toward fully digital financial systems, and the perceived risks of fiat currencies and digital assets like Bitcoin. Zang argues that central banks and governments are deliberately moving the public away from physical money (gold/silver) toward digital currencies to increase control, and that the current fiat",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=Ba3HiZ-Fvxc"
+          },
+          {
+            "bottom_line": "The speaker warns of rapidly escalating global conflicts involving Iran, Ukraine, Russia, and the US—highlighting attacks on critical infrastructure, rising oil prices, humanitarian crises, and urges personal preparedness amid increasing instability and criticized Western responses.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-20",
+            "editorial_relevance": "The transcript provides a perspective on ongoing geopolitical crises, highlighting the interconnectedness of military, economic, and environmental issues. It reflects a critical and skeptical view of Western governments and media, with emphasis on the unpredictability of current events and the need for individual preparedness. The speaker's claims and predictions, while detailed, are often speculative and should be distinguished from verified facts. The content is relevant for understanding certain public sentiments and alternative analyses of global events, but requires careful contextualization and fact-checking.",
+            "source": "youtube",
+            "temporality": "breaking_news",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: OIL TANKERS BURN! MOSCOW LITERALLY ON FIRE! DESALINATION PLANTS STRUCK! DEAD US TROOPS!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker provides a wide-ranging commentary on current global crises, focusing on escalating conflicts involving Iran, Ukraine, Russia, and the United States. They argue that recent events, including attacks on oil tankers, critical infrastructure, and military deployments, signal a rapid escalation phase. The speaker predicts a potential 'short squeeze' in oil markets and significant economic impacts, particularly if former President Trump chooses to intensify military action. The commentary also covers the humanitarian crises in Gaza and Ukraine, criticizing Western governments and media",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=PiKNYiljvAM"
+          }
+        ],
+        "top_channels": [
+          {
+            "channel": "CanadianPrepper",
+            "count": 20
+          },
+          {
+            "channel": "tagesschau",
+            "count": 2
+          },
+          {
+            "channel": "CBNnewsonline",
+            "count": 2
+          },
+          {
+            "channel": "Vermietertagebuch",
+            "count": 1
+          },
+          {
+            "channel": "DTBM",
+            "count": 1
+          },
+          {
+            "channel": "ZDFheute",
+            "count": 1
+          },
+          {
+            "channel": "IsraelEnglishNews",
+            "count": 1
+          },
+          {
+            "channel": "BlackScoutSurvival",
+            "count": 1
+          },
+          {
+            "channel": "IsraelNationalTV",
+            "count": 1
+          }
+        ],
+        "top_items": [
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "Vermietertagebuch",
+            "content_status": "full_text",
+            "date": "2026-07-31",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Schon 80.000 Migranten: 2.te spanische Stadt gestürmt + erste Kämpfe + Spanien schickt Arme!",
+            "top_pick": true,
+            "topic_primary": "Finanzen, Wirtschaft & Krypto",
+            "topics": [
+              "Finanzen, Wirtschaft & Krypto"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=fgUApBYIxNw"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-31",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: WORLD WAR Z IS UNFOLDING! RUSSIA NUCLEAR TIME BOMB, MIDDLE EAST CHAOS! DAY X APPROACHES!",
+            "top_pick": true,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=-eBBQ_MW2Kw"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-07-31",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Boykott der Fußball-WM? / Recht auf Reparatur von Elektrogeräten / Sitzbänke im Wald | \"15 Minuten\"",
+            "top_pick": true,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=cNNp4Fn7Or0"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CBNnewsonline",
+            "content_status": "full_text",
+            "date": "2026-07-31",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Politician Found Guilty for Christian Views Reacts to Latest Development | Newsmakers",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=7TiBxQpGC28"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "DTBM",
+            "content_status": "full_text",
+            "date": "2026-07-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "THE SHIELD OF DISCERNMENT--Guarding Faith Against Prophetic Deception",
+            "top_pick": false,
+            "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+            "topics": [
+              "Christlicher Glaube, Bibel & Apologetik"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=YByNbmftWjE"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-07-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "tagesthemen 22:15 Uhr, 30.07.2026",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=9-Qtbz8M-r0"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CBNnewsonline",
+            "content_status": "full_text",
+            "date": "2026-07-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "description",
+            "title": "Viral Videos of Spain 'Invasion' Provoke Outrage",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=wJM8sJW8VLA"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "ZDFheute",
+            "content_status": "full_text",
+            "date": "2026-07-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "heute journal vom 30.07.2026: UEFA-Nationen drohen mit WM-Boykott, Hitzewelle, Wacken Open Air 2026",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=KlaIPBCXxYk"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-29",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡How I'm Prepping for a WW3 FOOD Apocalypse and Famine",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=_3GH_ORndnE"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-28",
+            "editorial_relevance": "The transcript is highly relevant to ongoing public debates about privacy, surveillance, and the balance between security and individual rights. It provides concrete examples of current surveillance practices, discusses legislative trends, and offers practical advice for individuals concerned about privacy. The discussion is timely given the rapid expansion of AI, IoT, and data-driven technologies, and it highlights both the potential benefits and significant risks associated with pervasive surveillance. The conversation is particularly pertinent for audiences interested in privacy, civil liberties, technology policy, and personal security.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡DATA Centers, 'Digital TWINS' and Global LOCKDOWN",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The conversation centers on the pervasive nature of surveillance technologies in modern society, particularly in the United States. The speakers discuss the widespread use of facial and emotional recognition in retail environments (such as Lowe's and Walmart), the proliferation of Internet of Things (IoT) devices, and the aggregation of personal data for predictive policing and behavioral influence. The concept of 'digital twins'—digital profiles built from aggregated data—is explored, highlighting both potential benefits (e.g., personalized medicine) and significant risks (e.g., manipulation,",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=vuNhsCuwpLY"
+          },
+          {
+            "bottom_line": "The video details the major failures and lessons learned from establishing a food forest in Saskatchewan, highlighting plant losses due to wind, poor site selection, unsuitable plant choices, excessive mulching, and chemical drift, with practical advice offered for future improvement.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-27",
+            "editorial_relevance": "The transcript is relevant for audiences interested in practical orchard management, gardening in challenging climates, and the real-world impacts of agricultural chemicals on small-scale food production. It provides firsthand observations, practical advice, and candid discussion of failures and learning experiences, making it valuable for gardeners, preppers, and those concerned with sustainable agriculture. The inclusion of specific plant care techniques, environmental challenges, and chemical exposure issues adds to its instructional and cautionary value.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡My Apocalypse FOOD SUPPLY is DESTROYED! Don't Make This ONE CRUCIAL Mistake!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a conversational walkthrough and critique of a centropic food forest/orchard in Saskatchewan, Canada, between the main host (Nate) and a guest expert from the 'Gardening in Canada' channel. They discuss the challenges and failures encountered over two years, including high plant mortality, wind damage, issues with soil moisture and mulching, pruning techniques, pest and disease management, and the impact of neighboring agricultural pesticide and herbicide use (notably glyphosate drift). The guest provides practical advice on pruning, plant selection, and orchard management, o",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=0ZcmY9MVQ1g"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "IsraelEnglishNews",
+            "content_status": "full_text",
+            "date": "2026-07-26",
+            "editorial_relevance": "The transcript provides a comprehensive overview of current security and diplomatic developments in the Middle East, with particular focus on US-Iran tensions, Israeli security concerns, and shifting regional alliances. It includes concrete claims, official statements, and analysis from experts, offering insight into the interplay between military action and diplomacy. The coverage of violence in Israel and the West Bank, as well as international legal and political developments, is relevant for understanding the broader regional context. The inclusion of domestic US issues, such as hate crimes in New York, connects international events to local impacts. The report maintains a factual tone, distinguishing between reported claims, official statements, and analysis, making it a relevant and informative summary for audiences seeking to understand the complexities of current Middle Eastern affairs.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Israel Daily News - July 26, 2026 | Iran Threatens Wider War, Eyes Nukes",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The transcript covers a range of Middle East and international security developments, focusing primarily on the temporary pause in US military strikes against Iran, ongoing US blockades of Iranian ports, and the diplomatic and military strategies under consideration by President Trump. The report discusses the potential reasons for the pause, including operational planning, diplomatic opportunities, and concerns over missile interceptor shortages. The situation in the Strait of Hormuz remains tense, with US forces redirecting commercial vessels and disabling non-compliant ships. The conflict i",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=_w0eOXUK1wM"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-25",
+            "editorial_relevance": "The transcript provides a perspective on current Middle Eastern conflicts and their potential to escalate into a broader war involving major powers. It highlights the unpredictability of non-state actors like the Houthis, the risks of military miscalculation, and the interconnectedness of global conflicts. The discussion of US domestic preparations for mobilization and the emphasis on personal preparedness are relevant for audiences interested in geopolitical developments, military policy, and self-reliance. However, many claims are speculative or based on the speaker's interpretation rather than confirmed facts, and should be contextualized accordingly.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: SAUDI ARAMCO HIT! UKRAINE STRIKES IRAN (YES IRAN)! ISRAEL PREPS BUNKERS!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker provides an analysis of recent escalations in the Middle East, focusing on the Houthis' disproportionate response to Saudi attacks on Yemeni infrastructure, specifically targeting Saudi Aramco and critical oil pipelines. The speaker argues that the Houthis, unlike Iran or Russia, have little to lose and therefore act more aggressively. He connects these events to broader geopolitical tensions involving the US, Israel, Iran, Russia, Ukraine, and China, suggesting that these alignments are reminiscent of pre-World War scenarios. The transcript also discusses military buildups in the",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=waL1kd-7gsY"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-24",
+            "editorial_relevance": "The transcript provides a detailed, experience-based overview of shotgun selection for preparedness, with practical insights into various models and their suitability for different scenarios. It is relevant for audiences interested in firearms, survivalism, and personal defense, offering both subjective impressions and factual information about shotgun features, legal considerations, and practical use cases. The speaker's opinions are clearly distinguished from objective claims, and notable caveats are included regarding personal preference and context.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "The LAST Shotgun I'll EVER Buy! APOCALYPSE READY!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker, known as Canadian Prepper, discusses his experiences with various shotguns and ultimately explains why the Benelli M4 is his preferred and possibly final shotgun purchase. He reviews the versatility and practicality of shotguns for preparedness, home defense, hunting, and their general ubiquity and acceptance compared to other firearms. The speaker provides hands-on impressions of several models, including the Maverick 88, SS211, Tanga Arms Wolverine XM, Beretta 1301 Tactical, and the Benelli M4, highlighting their pros and cons. He emphasizes the Benelli M4's reliability, militar",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=lEOcTQ7Asuw"
+          },
+          {
+            "bottom_line": "The speaker warns of escalating global tensions—especially in the Middle East with closed key straits, rising oil prices, and failed diplomacy—predicting imminent large-scale conflict and urging personal preparedness due to the risk of broader war and economic instability.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-23",
+            "editorial_relevance": "The transcript is relevant for understanding current anxieties and narratives around Middle East tensions, the risk of wider war, and the intersection of military, economic, and diplomatic developments. It reflects a highly pessimistic and speculative viewpoint, blending concrete events (such as attacks on shipping and rising oil prices) with unverified or opinion-based claims (such as the closure of straits and the inevitability of nuclear escalation). The transcript is useful for gauging the perspectives of certain online commentators and the preparedness community, but should be cross-referenced with verified news sources for factual accuracy.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: OIL HITS $100! RUSSIA/ USA TALKS COLLAPSE! TWO STRAITS CLOSED! HOUTHIS STOCK 6 MONTHS FOOD!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker provides a detailed and urgent update on escalating global tensions, focusing primarily on the Middle East, particularly the potential for war involving Iran, the United States, Israel, and their respective allies. The speaker discusses the closure of key maritime straits (Strait of Hormuz and Bab-el-Mandeb), Houthi attacks on shipping, potential Saudi responses, and the risk of a broader regional conflict. The transcript also touches on the Russia-Ukraine war, U.S.-Russia diplomatic meetings, and the involvement of China. The speaker expresses skepticism about diplomatic solutions",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=OCR2A3_fL0Y"
+          },
+          {
+            "bottom_line": "Ivana Hughes warns that the risk of nuclear war is significant, with the potential for over 6 billion deaths from nuclear winter, and emphasizes that current nuclear policies are dangerously irrational and driven by power and profit.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-23",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡Will Trump Start a NUCLEAR War? \"6 BILLION People Would DIE\" w/ Ivana Hughes",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=tl6jvMEcR_g"
+          },
+          {
+            "bottom_line": "The commentary analyzes escalating U.S.-Iran military conflict, including widespread airstrikes on Iranian infrastructure, potential retaliation threatening global oil supplies, the feasibility of attacking underground nuclear sites like Pickax Mountain, and the broader geopolitical and economic risks of further escalation.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-22",
+            "editorial_relevance": "The transcript provides a detailed, if speculative, analysis of the ongoing military escalation involving Iran, the U.S., and their allies. It is relevant for understanding the complexities of modern warfare, the technical and strategic challenges of targeting underground nuclear facilities, and the broader geopolitical and economic consequences. The commentary highlights the risks of escalation, the potential normalization of nuclear weapon use, and the interplay between military actions and global markets. While the analysis includes unverified claims and personal opinions, it offers insight into the narratives and uncertainties shaping public discourse around the conflict.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! TRUMP is About to BOMB PICKAXE MOUNTAIN! Oil Reserves EMPTYING! Elites SECRETLY Hoard Gold!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a commentary on the current escalation of military conflict involving Iran, the United States, and their respective allies. The speaker discusses ongoing and intensifying airstrikes across Iran, characterizing them as a renewed war of aggression. The analysis covers the targeting of dual-use civilian infrastructure, potential Iranian retaliation against Gulf States, and the global economic implications, particularly regarding oil and gas supplies. The speaker references statements by figures such as Donald Trump and Muhammad Marandi, and explores the feasibility and consequen",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=UFQ6KmGmfk4"
+          },
+          {
+            "bottom_line": "The speaker argues that escalating Middle East tensions, especially between the US and Iran, make a full-scale war inevitable, dismisses prospects for peace, and criticizes official narratives and US foreign policy while warning of broader global conflict.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-21",
+            "editorial_relevance": "The transcript provides a perspective on current Middle Eastern and global tensions, highlighting the complexity of modern conflict, the interplay of economic and military interests, and the role of information warfare. It reflects skepticism toward official narratives and emphasizes the interconnectedness of regional conflicts with global power dynamics, including the potential for escalation involving China and Russia. The commentary is relevant for understanding alternative viewpoints on US foreign policy, the risks of misinformation, and the broader implications of ongoing conflicts for international stability and civilian populations.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! MULTIPLE Tankers Are on FIRE! Everything is on FIRE. Here's What HAPPENS Next.",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a commentary on the escalating tensions and potential for war in the Middle East, particularly between the United States and Iran, with references to broader global implications involving China, Russia, Saudi Arabia, and Yemen (the Houthis). The speaker argues that a full-scale war is inevitable, whether imminently or in the near future, and dismisses the possibility of peace. The analysis covers proposed truces, the strategic importance of shipping lanes like the Strait of Hormuz and Bab-el-Mandeb, the motivations and strategies of various actors (including the US, Iran, and",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=r8Xz6GtXUiY"
+          },
+          {
+            "bottom_line": "Lynette Zang argues that the fiat currency system is collapsing as governments push for digital currencies to increase control, urging individuals to protect their wealth by converting fiat into physical gold and silver, which she views as enduring, intrinsically valuable assets.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-20",
+            "editorial_relevance": "The transcript is relevant to audiences interested in macroeconomics, monetary policy, personal finance, and preparedness. It provides insight into a critical perspective on fiat currencies, digital assets, and the future of money, reflecting skepticism toward mainstream financial systems and advocating for tangible asset ownership. The discussion is timely given ongoing debates about central bank digital currencies, inflation, and financial system stability. However, many claims are presented from the speaker's viewpoint and should be cross-referenced with independent sources for verification.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡\"We're At THE END, The CLOCK IS TICKING\" w @ZangIntl",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a conversation between Canadian Prepper and Lynette Zang, an economist with decades of experience in banking, stock broking, and currency analysis. The discussion centers on the current state of global currencies, the role of gold and silver as sound money, the transition toward fully digital financial systems, and the perceived risks of fiat currencies and digital assets like Bitcoin. Zang argues that central banks and governments are deliberately moving the public away from physical money (gold/silver) toward digital currencies to increase control, and that the current fiat",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=Ba3HiZ-Fvxc"
+          },
+          {
+            "bottom_line": "The speaker warns of rapidly escalating global conflicts involving Iran, Ukraine, Russia, and the US—highlighting attacks on critical infrastructure, rising oil prices, humanitarian crises, and urges personal preparedness amid increasing instability and criticized Western responses.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-20",
+            "editorial_relevance": "The transcript provides a perspective on ongoing geopolitical crises, highlighting the interconnectedness of military, economic, and environmental issues. It reflects a critical and skeptical view of Western governments and media, with emphasis on the unpredictability of current events and the need for individual preparedness. The speaker's claims and predictions, while detailed, are often speculative and should be distinguished from verified facts. The content is relevant for understanding certain public sentiments and alternative analyses of global events, but requires careful contextualization and fact-checking.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT: OIL TANKERS BURN! MOSCOW LITERALLY ON FIRE! DESALINATION PLANTS STRUCK! DEAD US TROOPS!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker provides a wide-ranging commentary on current global crises, focusing on escalating conflicts involving Iran, Ukraine, Russia, and the United States. They argue that recent events, including attacks on oil tankers, critical infrastructure, and military deployments, signal a rapid escalation phase. The speaker predicts a potential 'short squeeze' in oil markets and significant economic impacts, particularly if former President Trump chooses to intensify military action. The commentary also covers the humanitarian crises in Gaza and Ukraine, criticizing Western governments and media",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=PiKNYiljvAM"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-18",
+            "editorial_relevance": "The transcript is relevant for understanding current debates and concerns regarding US-Iran tensions, the potential for military escalation in the Persian Gulf, and the interplay of military, economic, and political factors. It provides insight into the thinking of some analysts and commentators, highlights the complexity and risks of military intervention, and underscores the uncertainties and potential for miscalculation. The discussion also reflects broader anxieties about global power dynamics, the reliability of intelligence, and the influence of domestic and foreign actors on US policy. While the conversation includes speculative and unverified claims, it is illustrative of the narratives circulating in some policy and media circles.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡URGENT: The IRAN WAR is About To EXPLODE",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a detailed conversation between Canadian Prepper and Brandon Weichert, a national security analyst, about potential US military action against Iran, specifically focusing on possible operations to seize CarG Island and related strategic objectives. The discussion covers military planning, troop deployments, the feasibility and risks of such an operation, the motivations of President Trump, the influence of Israeli interests, and the broader geopolitical context involving Russia, China, and regional actors. The speakers express skepticism about the adequacy of US troop levels,",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=6cCEjfpshGg"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-17",
+            "editorial_relevance": "The transcript provides an in-depth, regionally informed analysis of the current US-Iran conflict, highlighting the complexity of military, political, and economic factors at play. It offers valuable insight into the limitations of US military options, the resilience of Iranian strategy, and the potential for broader regional escalation. The discussion is relevant for understanding the risks to global energy markets, the challenges of negotiating with Iran, and the unpredictability of US foreign policy under President Trump. The interview avoids sensationalism, focusing instead on concrete developments, strategic calculations, and the perspectives of key regional actors.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡Iran Will Now \"RUN OUT THE CLOCK\" The Houthis Will CLOSE ANOTHER STRAIT! w/ Elijah Magnier",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a detailed interview between Canadian Prepper and Elijah Magnier, a veteran Middle East war correspondent and military analyst, discussing the escalating conflict between the United States and Iran, particularly around the Strait of Hormuz. The conversation covers recent US military actions (such as bombing bridges and a power plant in Iran), Iran's likely retaliatory posture, the strategic importance of the Strait of Hormuz, and the broader geopolitical implications for the region. Magnier argues that the US is not preparing for a ground invasion but is instead attempting to",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=EWBmqm-7xcg"
+          },
+          {
+            "bottom_line": "Dr. Marandi argues that the US violated a recent agreement with Iran, prompting renewed hostilities and leading Iran to prepare for potential ground war while leveraging its control over oil exports and the Strait of Hormuz.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-16",
+            "editorial_relevance": "The transcript provides a detailed Iranian perspective on the current US-Iran conflict, highlighting the interplay between military, economic, and political factors. It is relevant for understanding the risks to global energy markets, the dynamics of US-Iranian relations, and the potential for broader regional escalation. The discussion offers insight into Iranian strategic thinking and the perceived motivations of US and allied actors, but it should be noted that many claims reflect the speaker's viewpoint and are not independently verified.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡\"NO MORE NEGOTIATIONS\" Iran is Preparing For GROUND WAR, w/ Dr. Marandi",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a conversation between Canadian Prepper and Dr. Seyed Mohammad Marandi, an Iranian academic and former adviser to Iran's nuclear negotiation team, discussing the current escalation between the United States and Iran. The discussion centers on the collapse of a recent memorandum of understanding (MOU) between the US and Iran, renewed US military strikes on Iran, and the broader geopolitical and economic implications, particularly regarding oil exports and the closure of the Strait of Hormuz. Dr. Marandi asserts that the US, influenced by domestic political factors and the Isra",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=qaGGocICSaU"
+          },
+          {
+            "bottom_line": "The speaker criticizes the US legislative process for bundling unrelated provisions into large bills like the NDAA, highlights expanded US-Israel defense technology cooperation, and expresses distrust about bipartisan support, transparency, and foreign influence in policymaking.",
+            "channel": "BlackScoutSurvival",
+            "content_status": "full_text",
+            "date": "2026-07-16",
+            "editorial_relevance": "The transcript is relevant to discussions about legislative transparency, the influence of lobbying and foreign governments on US policy, and the challenges of public oversight in the legislative process. It provides a critical perspective on bipartisan support for foreign policy measures, particularly regarding US-Israel relations, and highlights concerns about the lack of debate and public awareness of the contents of major bills. The transcript also touches on broader themes of political distrust and systemic issues in governance.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "This Is BAD… Look What They DID",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker criticizes the legislative process in the US Congress, focusing on the practice of combining unrelated provisions into large bills with patriotic names, making it difficult for the public and even lawmakers to understand what is being passed. Specifically, the speaker discusses the recent passage of the National Defense Authorization Act (NDAA), which included the 'Save America Act' and Section 219, the US-Israeli Defense Technology Cooperation Initiative. The speaker claims that this initiative involves expanded cooperation in areas like artificial intelligence, cyber warfare, qua",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=0m9ib2B1wew"
+          },
+          {
+            "bottom_line": "Canadian Prepper and Matthew Hoh discuss escalating U.S.-Iran tensions, highlighting the risks of military conflict, global energy disruptions, and economic instability due to U.S. policy decisions, depleted oil reserves, and the potential closure of key maritime routes.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-16",
+            "editorial_relevance": "The transcript provides a comprehensive, critical analysis of the current Middle East conflict, U.S. foreign policy, and the interplay between military action, energy security, and global economic stability. It is relevant for understanding the risks of escalation, the limitations of military options, and the potential for unintended consequences, including economic depression and broader regional war. The discussion is grounded in specific, concrete details and historical context, while also acknowledging significant uncertainties and the unpredictability of political decision-making.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡TRUMP: 6 DAYS TO IRAN BLACKOUT w/ Matthew Hoh",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a detailed conversation between Canadian Prepper (Nate) and Matthew Hoh, a former Marine Corps captain and State Department official, discussing the ongoing and escalating conflict in the Middle East, particularly involving the United States, Iran, and their regional proxies. The discussion covers the strategic, military, and economic implications of recent U.S. actions, including threats to Iranian infrastructure, sanctions on Russian oil and gas, and the depletion of U.S. oil reserves. The speakers analyze the rationale (or lack thereof) behind U.S. policy, the potential fo",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=b7dGpa9evos"
+          },
+          {
+            "bottom_line": "Bruce Blakeman, announcing his run for New York governor, criticizes current leadership for high taxes and energy policies, promises lower utility costs and support for natural gas, and frames the election as a defense of Judeo-Christian values and economic opportunity.",
+            "channel": "IsraelNationalTV",
+            "content_status": "full_text",
+            "date": "2026-07-15",
+            "editorial_relevance": "The transcript is relevant for understanding Bruce Blakeman's campaign platform, his criticisms of current New York state leadership, and the political rhetoric used in his gubernatorial campaign. It provides insight into the issues he prioritizes—taxes, energy policy, public safety, and cultural values—and his strategy for building a cross-party coalition. The transcript also illustrates the use of partisan framing and personal attacks in contemporary political discourse.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "At Tribute To Auschwitz Survivor Jerry Wartski, Blakeman Warns: “The Jews Are The Appetizer”",
+            "top_pick": false,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The speaker, Bruce Blakeman, addresses a gathering, expressing gratitude to friends, colleagues, and community members. He explains his initial reluctance to run for governor of New York, citing satisfaction with his current role as Nassau County Executive. However, after winning re-election in a predominantly Democratic county and receiving encouragement from various leaders—including a congratulatory call from former President Trump—he decided to run. Blakeman criticizes current Governor Kathy Hochul and her political allies, particularly Zoran Mamdani, whom he characterizes as a communist a",
+            "transcript_processing": "direct_full_transcript",
+            "url": "https://www.youtube.com/watch?v=cmGGyjZUyac"
+          },
+          {
+            "bottom_line": "The video analyzes how recent Ukrainian attacks on Russian oil refineries, possibly encouraged by the US and allies, have disrupted Russia's fuel market and raised global refined fuel prices, while also discussing escalating geopolitical tensions and Western preparations for potential conflict.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-15",
+            "editorial_relevance": "The transcript provides a detailed, if speculative, analysis of the intersection between military actions, energy markets, and geopolitical strategy, particularly in the context of the Russia-Ukraine war and tensions with Iran. It highlights the complexity of modern conflict, where economic and military strategies are intertwined, and underscores the potential for significant global disruptions arising from targeted attacks on energy infrastructure. The discussion of civil defense preparations in the UK and the state of US petroleum reserves is relevant for understanding government responses to escalating threats. The transcript also reflects broader concerns about public awareness and preparedness for large-scale crises, including nuclear conflict.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! TRUMP WILL LAUNCH GROUND WAR! I CRACKED THE OIL/ DIESEL WW3 CODE! \"UK PREPS FOR NUKE WAR!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a commentary and analysis on recent global energy market dynamics, military actions, and geopolitical tensions, particularly focusing on the impact of Ukrainian attacks on Russian oil refineries, US and allied strategies regarding oil supply, and the broader implications for global energy prices and security. The speaker discusses how attacks on Russian refineries have increased the price of refined products (diesel, gasoline) rather than crude oil, and speculates that this is a deliberate strategy by the US and allies to destabilize Russia's domestic market while keeping glo",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=364WIew-If0"
+          },
+          {
+            "bottom_line": "The speaker analyzes escalating Middle East tensions involving US-Iran conflict, attacks on oil tankers, rising oil prices, potential strikes on Iranian nuclear sites, and warns of broader regional war and economic instability, urging personal preparedness.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-14",
+            "editorial_relevance": "The transcript is relevant for those tracking Middle East geopolitics, US foreign policy, global energy markets, and the risk of broader conflict involving major powers. It provides a perspective that challenges official narratives and highlights the interconnectedness of military, economic, and political developments. However, much of the analysis is speculative and based on the speaker's interpretation of events, with limited independent verification of claims. The transcript is most useful as an example of alternative geopolitical commentary and should be cross-referenced with other sources for factual accuracy.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! THIS IS A VERY BAD SIGNAL, IRAN WAR EXPLODING. NUCLEAR TARGET: MOUNT PICKAXE! TANKERS HIT!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker provides an extensive analysis of the escalating conflict in the Middle East, focusing on recent military and geopolitical developments involving the US, Iran, Yemen, Saudi Arabia, and their respective allies and proxies. The speaker claims to have previously predicted that the US would not withdraw from the region and that the conflict would intensify, which they believe is now being vindicated. Key recent events discussed include renewed US military operations against Iran, attacks on oil tankers in the Strait of Hormuz, the closure of key maritime chokepoints, and the potential",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=enVpBwX8pNk"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-13",
+            "editorial_relevance": "The transcript provides a detailed, opinionated analysis of current military and geopolitical developments in the Middle East, with particular focus on US-Iran tensions and their global economic impacts. It is relevant for understanding alternative perspectives on official narratives, the complexity of modern conflicts, and the interconnectedness of military actions and global markets. The speaker's skepticism and critical tone may appeal to audiences seeking non-mainstream viewpoints, but some claims are speculative and should be cross-checked with independent sources.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! Russian DOOMSDAY Planes Head to IRAN, Hormuz CLOSED, Lindsay Grahams Death Conspiracy!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker provides an update on escalating military tensions in the Middle East, particularly between the United States, Iran, and their respective allies. The discussion covers recent military maneuvers, economic impacts, and political developments, including the closure of the Strait of Hormuz, attacks on oil infrastructure, and the ongoing regime change objectives of the US. The speaker disputes claims that the US is withdrawing from the region, instead arguing that military presence and operations are increasing. The transcript also addresses the death of US Senator Lindsey Graham, dismi",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=nS9VrnbeAD4"
+          },
+          {
+            "bottom_line": "Unable to summarize reliably from the available excerpt.",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-07-11",
+            "editorial_relevance": "The transcript is highly relevant to ongoing public debates about surveillance, privacy, civil liberties, and the role of technology companies in society. It provides detailed, concrete examples of current surveillance practices, technical capabilities, and the rapid expansion of data collection infrastructure. The discussion highlights the merging of corporate and government surveillance interests, the potential for abuse, and the challenges of oversight and accountability. The information is pertinent for policymakers, privacy advocates, technologists, and the general public concerned about the implications of mass surveillance and the erosion of privacy rights.",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "FLOCK Cameras and the Truth About DATA CENTERS @businessreform",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript is a conversation between Canadian Prepper and Dr. John Patfield, a professor and creator of the Business Reform YouTube channel, focusing on the rapid expansion of surveillance technology, particularly in the United States. The discussion centers on companies like Flock Safety and Leonardo, which provide license plate readers and surveillance networks, and their integration with AI and other data sources. The speakers express concerns about privacy, civil liberties, and the potential for abuse of these technologies, especially as they become more pervasive and interconnected wi",
+            "transcript_processing": "excerpt_fallback",
+            "url": "https://www.youtube.com/watch?v=ZFim3j9s6ic"
+          }
+        ],
+        "top_themes": [
+          {
+            "count": 21,
+            "theme": "Preparedness, Sicherheit & Survival"
+          },
+          {
+            "count": 4,
+            "theme": "Israel, Nahost & Sicherheitslage"
+          },
+          {
+            "count": 3,
+            "theme": "Mainstream DE/SE News"
+          },
+          {
+            "count": 1,
+            "theme": "Finanzen, Wirtschaft & Krypto"
+          },
+          {
+            "count": 1,
+            "theme": "Christlicher Glaube, Bibel & Apologetik"
+          }
+        ],
+        "topic_summaries": [
+          "Preparedness, Sicherheit & Survival: 21 item(s)",
+          "Israel, Nahost & Sicherheitslage: 4 item(s)",
+          "Mainstream DE/SE News: 3 item(s)",
+          "Finanzen, Wirtschaft & Krypto: 1 item(s)",
+          "Christlicher Glaube, Bibel & Apologetik: 1 item(s)"
+        ],
+        "topic_trajectories": [
+          "Preparedness, Sicherheit & Survival: sustained stream",
+          "Israel, Nahost & Sicherheitslage: sustained stream",
+          "Mainstream DE/SE News: sustained stream"
+        ]
       }
     ],
     "cybermed": [
@@ -4127,9 +5139,260 @@
             "url": "https://pubmed.ncbi.nlm.nih.gov/42150044/"
           }
         ]
+      },
+      {
+        "executive_summary": [
+          "Highlights derived from top items.",
+          "⭐ Prone positioning in ARDS. — Prone positioning is now a well-established, evidence-based intervention for intubated ARDS patients with moderate to se",
+          "⭐ Mortality effect of albumin fluid resuscitation in adults with septic shock: a systematic review and dual frequentist-bayesian meta-analysis of randomised trials. — This systematic review and meta-analysis of seven randomized trials (n=3273) found that albumin-based fluid resuscitatio"
+        ],
+        "generated_at": "2026-08-01T06:16:25+00:00",
+        "month": "2026-07",
+        "top_items": [
+          {
+            "bottom_line": "Prone positioning is now a well-established, evidence-based intervention for intubated ARDS patients with moderate to severe hypoxemia, improving oxygenation and reducing ventilator-induced lung injury; its use in non-intubated (awake) patients shows promise but requires further validation, especially outside COVID-19 contexts.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Prone positioning in ARDS.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42474726/"
+          },
+          {
+            "bottom_line": "This systematic review and meta-analysis of seven randomized trials (n=3273) found that albumin-based fluid resuscitation in adults with septic shock is associated with a statistically significant 10% reduction in all-cause mortality compared to crystalloids, suggesting a plausible mortality benefit that may influence fluid choice in septic shock management.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Mortality effect of albumin fluid resuscitation in adults with septic shock: a systematic review and dual frequentist-bayesian meta-analysis of randomised trials.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42410446/"
+          },
+          {
+            "bottom_line": "This protocol outlines a forthcoming systematic review and meta-analysis to assess the benefits and harms of perioperative antibiotic prophylaxis in burn surgery patients; while no new clinical data are presented yet, the planned rigorous methodology aims to clarify current uncertainties and could significantly inform future clinical practice regarding infection prevention in this high-risk group.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Perioperative Antibiotic Prophylaxis in Burn Patients: Protocol for a Systematic Review.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42263780/"
+          },
+          {
+            "bottom_line": "(Failed to generate bottom line) — RateLimitError(\"Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}\")",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Initial vascular access for neonatal resuscitation: a systematic review.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42508602/"
+          },
+          {
+            "bottom_line": "This meta-analysis of eight randomized controlled trials (12,669 patients) found no significant difference between aggressive and conservative blood pressure lowering in acute intracerebral hemorrhage for functional outcomes, mortality, or hematoma growth, but aggressive lowering was associated with fewer adverse events, suggesting either strategy is reasonable, though aggressive lowering may offer a safety advantage.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Aggressive Versus Conservative Blood Pressure Reduction in Acute Intracerebral Hemorrhage: A Systematic Review and Meta-Analysis of Randomized Controlled Trials.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42484370/"
+          },
+          {
+            "bottom_line": "This updated systematic review reaffirms scheduled paracetamol, NSAIDs, and single-dose dexamethasone as core postoperative analgesia for total hip arthroplasty, and highlights that supra-inguinal fascia iliaca and pre-operative pericapsular nerve group blocks offer the most reliable regional analgesia, while quadratus lumborum and lumbar erector spinae plane blocks are not recommended due to inconsistent efficacy and motor weakness risk",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "PROSPECT guideline for total hip arthroplasty: updated systematic review and procedure-specific postoperative pain management recommendations.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42473710/"
+          },
+          {
+            "bottom_line": "This large systematic review and meta-analysis (8,151 patients, including 3 RCTs) found that adding hemoperfusion to ECMO does not reduce mortality and may increase it based on RCT data, suggesting no clinical benefit and possible harm, so routine use of hemoperfusion with ECMO is not supported.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Hemoperfusion during extracorporeal membrane oxygenation: an updated systematic review and meta-analysis of 8,151 patients.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42472846/"
+          },
+          {
+            "bottom_line": "This individual patient data meta-analysis of over 1,000 ICU patients with severe metabolic acidemia found that intravenous sodium bicarbonate did not reduce 90-day mortality overall, but did significantly reduce the need for renal replacement therapy; importantly, a mortality benefit was observed in the subgroup with pH ≤ 7.10, suggesting targeted use in the most acidemic patients may improve outcomes.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Sodium bicarbonate therapy in severe metabolic acidemia: an individual patient data meta-analysis of the BICAR-ICU and BICAR-ICU2 trials.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42472834/"
+          },
+          {
+            "bottom_line": "This systematic review and meta-analysis of 19 studies (including 15 RCTs) found that acute normovolemic hemodilution (ANH) modestly reduces allogeneic red blood cell transfusion rates in adult cardiac surgery, particularly with crystalloid-based protocols and on-pump procedures, without increasing adverse outcomes; however, the benefit was not statistically significant in RCT-only analysis, suggesting the evidence is suggestive but not definitive",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Clinical Effectiveness of Acute Normovolemic Hemodilution in Cardiac Surgery: A Systematic Review and Meta-analysis.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42442348/"
+          },
+          {
+            "bottom_line": "This systematic review and meta-analysis found that technology-enhanced PEEP optimization strategies, including esophageal balloon measurement and electrical impedance tomography, did not reduce the duration of mechanical ventilation compared to standard care (very low-certainty evidence), suggesting limited clinical benefit for these advanced approaches in current practice.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Technology-Enhanced Strategies to Optimize Positive End-Expiratory Pressure in Patients Receiving Invasive Mechanical Ventilation: A Systematic Review and Meta-Analysis.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42207935/"
+          },
+          {
+            "bottom_line": "This large network meta-analysis of 55 RCTs (n=5487) found that infusions of metaraminol, noradrenaline, phenylephrine, and adrenaline are clearly superior to no vasopressor for preventing maternal hypotension during caesarean delivery, with mephentermine and metaraminol best preserving fetal acid-base status, supporting consideration of these agents for optimizing feto-maternal outcomes.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Efficacy and safety of different vasopressor infusions on feto-maternal outcomes in normotensive patients undergoing caesarean delivery: a systematic review and network meta-analysis of randomised controlled trials.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41854017/"
+          },
+          {
+            "bottom_line": "In this multicenter randomized controlled trial, early administration of Shenfu injection in septic ICU patients did not reduce vasopressor requirements but was associated with significantly lower ICU and 28-day mortality and improved microcirculation; these secondary findings are promising but require further validation before changing clinical practice.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Effect of Early Administration of Shenfu Injection on Hemodynamics in Septic Patients: A Multicenter, Randomized, Controlled Trial.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42456111/"
+          },
+          {
+            "bottom_line": "In this phase 3 randomized trial, perioperative enfortumab vedotin plus pembrolizumab significantly improved 2-year event-free survival compared to standard cisplatin-gemcitabine in cisplatin-eligible muscle-invasive bladder cancer, suggesting this combination may become a new standard of care for this population.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Enfortumab Vedotin and Pembrolizumab in Cisplatin-Eligible Bladder Cancer.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42485627/"
+          },
+          {
+            "bottom_line": "In this multicenter randomized controlled trial, a nurse-led communication facilitator intervention for families of critically ill patients did not significantly reduce family member depression over six months, though it showed some improvement in secondary outcomes like relationship with the healthcare team and goal concordance; this suggests such interventions may enhance aspects of care experience but may not impact psychological distress.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Facilitating Communication for Family Members of Critically Ill Patients During and Following a Hospital Stay: A Randomized Controlled Trial.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42484383/"
+          },
+          {
+            "bottom_line": "In this multicenter randomized controlled trial, levosimendan did not improve VA-ECMO weaning success compared to placebo and was associated with higher rates of acute kidney injury and longer ICU stays, suggesting no benefit and potential harm in this setting; however, the study was underpowered due to early termination.",
+            "channel": "",
+            "content_status": "",
+            "date": "",
+            "editorial_relevance": "",
+            "source": "pubmed",
+            "text_source": "",
+            "title": "Short- and Long-term Efficacy and Safety of Levosimendan in Veno-arterial Extracorporeal Membrane Oxygenation Weaning: The WEANILEVO Randomized Double-Blind Multicenter Trial.",
+            "top_pick": true,
+            "topic_primary": "",
+            "topics": [],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42101006/"
+          }
+        ]
       }
     ]
   },
-  "updated_at_utc": "2026-07-01T07:59:45+00:00",
+  "updated_at_utc": "2026-08-01T06:16:25+00:00",
   "version": 1
 }
