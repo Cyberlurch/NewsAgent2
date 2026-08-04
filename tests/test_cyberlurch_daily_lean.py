@@ -98,6 +98,68 @@ def test_prompt_uses_title_and_explicit_item_language(monkeypatch):
         assert f"Output language: {label}" in prompts[-1]
 
 
+@pytest.mark.parametrize("code", ["he", "heb", "ar", "es", "fr"])
+def test_explicit_unsupported_item_language_forces_english(monkeypatch, code):
+    calls=[]
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kw): calls.append(kw); return response()
+    monkeypatch.setattr(summarizer,"_get_client",lambda:C())
+    summarizer.summarize_youtube_transcript_direct({"title":"Title","text":"facts","language":code})
+    assert "Output language: English" in calls[0]["messages"][1]["content"]
+
+
+@pytest.mark.parametrize("text", [
+    "היחידה המובחרת של צהל התגייסה היום מתוך אמונה ומוטיבציה גבוהה לשירות משמעותי ולהגנת המדינה",
+    "ناقش التقرير التطورات السياسية والأمنية الجديدة وتأثيرها على السكان في المنطقة خلال الأيام المقبلة",
+    "В репортаже подробно обсуждаются новые политические решения и их последствия для жителей региона",
+])
+def test_dominant_unsupported_script_forces_english(monkeypatch, text):
+    calls=[]
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kw): calls.append(kw); return response()
+    monkeypatch.setattr(summarizer,"_get_client",lambda:C())
+    summarizer.summarize_youtube_transcript_direct({"title":"An English report title","text":text})
+    assert "Output language: English" in calls[0]["messages"][1]["content"]
+
+
+def test_short_non_latin_fragment_does_not_override_same_call_detection(monkeypatch):
+    calls=[]
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kw): calls.append(kw); return response()
+    monkeypatch.setattr(summarizer,"_get_client",lambda:C())
+    text="The report discusses the Hebrew name ירושלים in an otherwise entirely English factual account."
+    summarizer.summarize_youtube_transcript_direct({"title":"English title","text":text})
+    prompt=calls[0]["messages"][1]["content"]
+    assert "detect the dominant language from the original title" in prompt
+    assert "Output language: English" not in prompt
+
+
+def test_extraction_language_contract_is_in_system_and_user_messages(monkeypatch):
+    calls=[]
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kw): calls.append(kw); return response()
+    monkeypatch.setattr(summarizer,"_get_client",lambda:C())
+    summarizer.summarize_youtube_transcript_direct({"title":"Title","text":"facts"})
+    system, user = (message["content"] for message in calls[0]["messages"])
+    for prompt in (system, user):
+        assert "only English, German, or Swedish" in prompt
+        assert "anything else" in prompt and "in English" in prompt
+        assert "Hebrew, Arabic, Cyrillic, Chinese" in prompt
+        assert "original title unchanged" in prompt
+
+
 @pytest.mark.parametrize("title,text", [
     ("Rostock: Immer mehr Schiffswracks", "Die Stadt sucht eine konkrete Lösung."),
     ("AIK & Hammarby gick i Pride", "Fotbollen diskuterades som politisk."),
