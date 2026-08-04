@@ -1123,6 +1123,7 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         "- The four array fields contain short standalone grammatical factual sentences; transcript_key_points has 1-3 facts, each at most 30 words. Keep every enumerated thought together as complete sentences rather than fragmented list entries.\n"
         "- Prefer names, dates, places, numbers, actions, decisions, and directly stated claims.\n"
         "- Exclude subscription, membership, donation, follow, social-media, and other channel-promotion boilerplate unless that action is the video's substantive subject.\n"
+        "- Exclude broadcast or programme times, time-zone clock announcements, presenter greetings and handoffs, and routine programme housekeeping unless that information is itself the substantive subject.\n"
         "- If a named entity is clear in the original title, preserve the title's spelling when the transcript conflicts; do not invent corrections or use outside knowledge. Avoid presenter names unless substantively relevant.\n"
         "- notable_claims only contains source-specific claims needing concise adjacent attribution; uncertainties only uncertainty explicit in the source.\n"
         "- important_details contains only concrete details; editorial_relevance must be empty.\n"

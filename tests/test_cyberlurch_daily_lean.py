@@ -3,12 +3,28 @@ import pathlib, sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 from types import SimpleNamespace
 import pytest
-from newsagent2 import reporter, summarizer
+from newsagent2 import main, reporter, summarizer
 from newsagent2.utils import diagnostics
 
 
 def item(i, *, deep=False, metadata=False):
     return {"id":str(i),"title":f"Title {i}","url":f"https://example.test/{i}","channel":f"Channel {i}","published_at":"2026-08-04T01:00:00Z","content_status":"metadata_only" if metadata else "full_text","text_source":"metadata_only" if metadata else "managed_transcript","cyberlurch_daily_deep_dive":deep,"transcript_key_points":[f"Alice approved action {i} for 25 sites", f"Decision {i} starts August 5"]}
+
+
+def test_metadata_preselection_caps_and_orders_deterministically():
+    from datetime import datetime, timedelta, timezone
+    now = datetime(2026, 8, 4, tzinfo=timezone.utc)
+    candidates = [
+        {"id": f"v{i:02d}", "channel": "Priority" if i in {20, 21} else "Ordinary", "published_at": now - timedelta(minutes=i)}
+        for i in range(30)
+    ]
+    selected, cap = main._preselect_cyberlurch_daily_metadata(
+        candidates, priority_channels={"Priority"}, selected_max=12, deep_dive_max=2
+    )
+    assert cap == 14
+    assert len(selected) == 14
+    assert [row["id"] for row in selected[:2]] == ["v20", "v21"]
+    assert [row["id"] for row in selected[2:]] == [f"v{i:02d}" for i in range(12)]
 
 
 def test_daily_renderer_caps_and_deduplicates():
@@ -112,6 +128,9 @@ def test_extraction_prompt_requires_complete_facts_and_filters_promotion(monkeyp
     summarizer.summarize_youtube_transcript_direct({"title":"Rostock ship decision","text":"Three resolves were listed."})
     prompt=prompts[0]
     assert "standalone grammatical factual sentences" in prompt
+    assert "Exclude broadcast or programme times" in prompt
+    assert "routine programme housekeeping" in prompt
+    assert "unless that information is itself the substantive subject" in prompt
     assert "rather than fragmented list entries" in prompt
     assert "subscription, membership, donation, follow, social-media" in prompt
     assert "preserve the title's spelling when the transcript conflicts" in prompt

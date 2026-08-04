@@ -206,6 +206,20 @@ def classify_direct_digest_error(exc: Exception) -> str:
     return "unknown"
 
 
+def _preselect_cyberlurch_daily_metadata(
+    candidates: List[Dict[str, Any]], *, priority_channels: Set[str], selected_max: int, deep_dive_max: int
+) -> tuple[List[Dict[str, Any]], int]:
+    """Return the bounded Daily acquisition pool without inspecting source content."""
+    unique = _dedupe_items(candidates)
+    priority_norm = {normalize_channel_name(name) for name in priority_channels}
+    epoch = datetime.min.replace(tzinfo=timezone.utc)
+    unique.sort(key=lambda it: str(it.get("id") or ""))
+    unique.sort(key=lambda it: it.get("published_at") or epoch, reverse=True)
+    unique.sort(key=lambda it: normalize_channel_name(it.get("channel") or "") not in priority_norm)
+    cap = min(14, max(1, min(12, selected_max)) + max(0, min(2, deep_dive_max)))
+    return unique[:cap], cap
+
+
 def _parse_iso_utc(value: str | None) -> datetime | None:
     text = (value or "").strip()
     if text == "":
@@ -2182,6 +2196,7 @@ def main() -> None:
         print("[cost] FORCE_REPROCESS=true may re-call managed transcript provider for already seen videos.")
 
     items: List[Dict[str, Any]] = []
+    daily_screened_metadata: List[Dict[str, Any]] = []
     skipped_by_state = 0
     youtube_diag = YouTubeDiagnosticsCounters()
     youtube_diag.cyberlurch_digest_upserted_total = 0
@@ -2762,6 +2777,16 @@ def main() -> None:
                     if is_blackscout:
                         youtube_diag.blackscout_total += 1
                     desc = (v.get("description") or "").strip()
+                    if is_cyberlurch_daily:
+                        daily_screened_metadata.append({
+                            "source": "youtube", "id": vid, "channel": cname,
+                            "title": (v.get("title") or "").strip(),
+                            "url": (v.get("url") or "").strip(),
+                            "published_at": v.get("published_at"), "description": desc,
+                            "_already_processed": already_processed,
+                            "_force_reprocess": force_reprocess,
+                        })
+                        continue
                     allow_managed_reprocess = _env_bool("FORCE_REPROCESS_ALLOW_MANAGED_TRANSCRIPTS", False)
                     providers_override = None
                     if force_reprocess and not allow_managed_reprocess and already_processed:
@@ -2918,6 +2943,55 @@ def main() -> None:
             else:
                 print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
                 continue
+
+    if is_cyberlurch_daily:
+        # Discovery is deliberately complete before any potentially billable content
+        # acquisition.  Stable identity is the final tie-breaker.
+        daily_screened_metadata = _dedupe_items(daily_screened_metadata)
+        priority_channels = {
+            x.strip() for x in os.getenv("CYBERLURCH_PRIORITY_DAILY_CHANNELS", "CanadianPrepper,preppernewsflash").split(",") if x.strip()
+        }
+        selected_max = max(1, min(12, _safe_int("CYBERLURCH_DAILY_SELECTED_ITEMS_MAX", 12)))
+        daily_deep_max = max(0, min(2, _safe_int("CYBERLURCH_DAILY_DEEP_DIVES_MAX", 2)))
+        preselected_metadata, preselection_cap = _preselect_cyberlurch_daily_metadata(
+            daily_screened_metadata, priority_channels=priority_channels,
+            selected_max=selected_max, deep_dive_max=daily_deep_max,
+        )
+        youtube_diag.daily_metadata_candidates_after_state_total = len(daily_screened_metadata)
+        youtube_diag.daily_content_preselection_cap = preselection_cap
+        youtube_diag.daily_content_preselected_total = len(preselected_metadata)
+        youtube_diag.daily_content_preselection_skipped_total = len(daily_screened_metadata) - len(preselected_metadata)
+        youtube_diag.daily_content_provider_calls_total = 0
+        youtube_diag.daily_managed_transcript_attempts_for_unselected_total = 0
+        managed_before = youtube_diag.managed_transcript_attempted_total
+        for candidate in preselected_metadata:
+            providers_override = None
+            if candidate.pop("_force_reprocess", False) and not _env_bool("FORCE_REPROCESS_ALLOW_MANAGED_TRANSCRIPTS", False) and candidate.pop("_already_processed", False):
+                providers_override = "youtube_transcript_api,description,timedtext,yt_dlp_captions,metadata_only"
+                youtube_diag.managed_transcript_skipped_force_reprocess_cost_guard_total += 1
+            else:
+                candidate.pop("_already_processed", None)
+            youtube_diag.daily_content_provider_calls_total += 1
+            result = fetch_video_content(
+                video_id=candidate["id"],
+                video_url=candidate.get("url") or f"https://www.youtube.com/watch?v={candidate['id']}",
+                description=candidate.get("description") or "",
+                diagnostics=youtube_diag.__dict__, providers_override=providers_override,
+            )
+            text = (result.text or "").strip()
+            source = result.source
+            status = "full_text" if source in {"managed_transcript", "youtube_transcript_api", "description", "timedtext", "yt_dlp_captions"} and text else "metadata_only"
+            if not text:
+                youtube_diag.metadata_only_total += 1
+                source = "metadata_only"
+                text = _metadata_only_text(title=candidate.get("title") or "", channel=candidate.get("channel") or "", published_at=candidate.get("published_at"))
+            if source == "managed_transcript" and text:
+                candidate["_full_text_for_processing"] = text
+            candidate["text"] = text[:max_text_chars_per_item].rstrip() if len(text) > max_text_chars_per_item else text
+            candidate["text_source"] = source
+            candidate["content_status"] = status
+            items.append(candidate)
+        youtube_diag.daily_managed_transcript_attempts_for_preselected_total = youtube_diag.managed_transcript_attempted_total - managed_before
 
     _save_youtube_channel_id_cache(channel_id_cache, read_only_mode=read_only_mode)
     _write_channel_id_suggestions(discovered_channel_ids, report_dir)
@@ -3819,7 +3893,7 @@ def main() -> None:
         _update_state_after_run(
             state_path=state_path,
             state=state,
-            items_all_new=items_all_new,
+            items_all_new=(daily_screened_metadata if is_cyberlurch_daily else items_all_new),
             overview_items=[],
             detail_items=[],
             foamed_overview_items=foamed_overview_items,
@@ -4916,6 +4990,7 @@ def main() -> None:
         upserted, pruned = _upsert_cyberlurch_digests(dstate, upsert_source, cyberlurch_digest_retention_days)
         _save_cyberlurch_digest_state(cyberlurch_digest_state_path, dstate, read_only_mode=read_only_mode)
         youtube_diag.cyberlurch_digest_upserted_total = upserted
+        youtube_diag.daily_digest_records_from_preselected_total = upserted
         youtube_diag.cyberlurch_digest_pruned_total = pruned
         youtube_diag.cyberlurch_digest_store_total = len(dstate.get("digests", []))
         youtube_diag.cyberlurch_digest_invalid_records_removed_total = cyberlurch_digest_invalid_records_removed_total
@@ -5175,7 +5250,7 @@ def main() -> None:
             detailed_keys = [str(x.get("id") or x.get("url") or x.get("title") or "") for x in report_items]
             final_counts = diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.to_dict()
             final_counts.update({
-                "collected_item_count": len(items_all_new),
+                "collected_item_count": len(daily_screened_metadata),
                 "final_selected_unique_item_count": len(set(detailed_keys)),
                 "full_text_selected_count": sum(1 for x in report_items if x.get("content_status") != "metadata_only" and x.get("text_source") != "metadata_only"),
                 "metadata_only_selected_count": sum(1 for x in report_items if x.get("content_status") == "metadata_only" or x.get("text_source") == "metadata_only"),
@@ -5257,7 +5332,7 @@ def main() -> None:
     _update_state_after_run(
         state_path=state_path,
         state=state,
-        items_all_new=items_all_new,
+        items_all_new=(daily_screened_metadata if is_cyberlurch_daily else items_all_new),
         overview_items=overview_items,
         detail_items=detail_items,
         foamed_overview_items=foamed_overview_items,
