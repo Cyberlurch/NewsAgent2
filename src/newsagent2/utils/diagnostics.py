@@ -163,6 +163,14 @@ class YouTubeDiagnosticsCounters:
     cyberlurch_digest_store_total: int = 0
     cyberlurch_digest_invalid_records_removed_total: int = 0
     cyberlurch_digest_invalid_records_skipped_total: int = 0
+    daily_metadata_candidates_after_state_total: int = 0
+    daily_content_preselection_cap: int = 0
+    daily_content_preselected_total: int = 0
+    daily_content_preselection_skipped_total: int = 0
+    daily_content_provider_calls_total: int = 0
+    daily_managed_transcript_attempts_for_preselected_total: int = 0
+    daily_managed_transcript_attempts_for_unselected_total: int = 0
+    daily_digest_records_from_preselected_total: int = 0
 
     def to_log_line(self) -> str:
         return (
@@ -393,6 +401,14 @@ class YouTubeDiagnosticsCounters:
             "cyberlurch_digest_store_total",
             "cyberlurch_digest_invalid_records_removed_total",
             "cyberlurch_digest_invalid_records_skipped_total",
+            "daily_metadata_candidates_after_state_total",
+            "daily_content_preselection_cap",
+            "daily_content_preselected_total",
+            "daily_content_preselection_skipped_total",
+            "daily_content_provider_calls_total",
+            "daily_managed_transcript_attempts_for_preselected_total",
+            "daily_managed_transcript_attempts_for_unselected_total",
+            "daily_digest_records_from_preselected_total",
             "full_text_items_total",
             "metadata_only_items_total",
             "full_text_ratio",
