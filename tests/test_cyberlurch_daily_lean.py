@@ -180,21 +180,30 @@ def test_production_shaped_item_auto_detects_language_in_same_call(monkeypatch,t
 
 
 def test_extraction_prompt_requires_complete_facts_and_filters_promotion(monkeypatch):
-    prompts=[]
+    calls=[]
     class C:
         class chat:
             class completions:
                 @staticmethod
-                def create(**kw): prompts.append(kw["messages"][1]["content"]); return response()
+                def create(**kw): calls.append(kw); return response()
     monkeypatch.setattr(summarizer,"_get_client",lambda:C())
     summarizer.summarize_youtube_transcript_direct({"title":"Rostock ship decision","text":"Three resolves were listed."})
-    prompt=prompts[0]
+    system=calls[0]["messages"][0]["content"]
+    prompt=calls[0]["messages"][1]["content"]
+    assert "complete self-contained sentence" in system
+    assert "its own explicit subject or named noun phrase" in system
+    assert "Exclude routine promotion and source publication or upload metadata" in system
     assert "standalone grammatical factual sentences" in prompt
+    assert "its own explicit subject or named noun phrase" in prompt
+    assert "Grew up ..." in prompt and "Started ..." in prompt
+    assert "omit a fact if it cannot be written as a complete self-contained sentence" in prompt
     assert "Exclude broadcast or programme times" in prompt
     assert "routine programme housekeeping" in prompt
     assert "unless that information is itself the substantive subject" in prompt
-    assert "rather than fragmented list entries" in prompt
-    assert "subscription, membership, donation, follow, social-media" in prompt
+    assert "funding or financial-support information" in prompt
+    assert "donation links or financial information are provided" in prompt
+    assert "upload, publication, or release date" in prompt
+    assert "Keep dates for substantive events, actions, decisions, or deadlines" in prompt
     assert "preserve the title's spelling when the transcript conflicts" in prompt
 
 
@@ -320,6 +329,53 @@ def test_deep_dive_prefers_details_and_summary_only_is_fallback():
     legacy=item(2,deep=True); legacy["transcript_key_points"]=[]; legacy["transcript_full_summary"]="Legacy fallback summary."
     legacy_md=reporter.render_cyberlurch_daily_report([legacy],title="Cyberlurch",generated_at="now")
     assert "- Legacy fallback summary." in legacy_md
+
+
+def test_daily_renderer_drops_only_clear_boilerplate_and_subjectless_fragments():
+    it=item(1,deep=True)
+    it.update(
+        transcript_full_summary="LIONMedia reported two concrete biographical facts.",
+        transcript_key_points=[
+            "LIONMedia documented the subject's work in New York.",
+            "Finanzinformationen und Spendenlinks werden angegeben.",
+            "Datum der Veröffentlichung ist 04. August 2026.",
+        ],
+        important_details=[
+            "Grew up in Queens before moving to Manhattan.",
+            "Started work at the firm in 1998.",
+            "The subject moved to Manhattan in 1995.",
+        ],
+        transcript_notable_claims=[],
+    )
+    md=reporter.render_cyberlurch_daily_report([it],title="Cyberlurch",generated_at="now")
+    assert "LIONMedia documented the subject's work in New York." in md
+    assert "The subject moved to Manhattan in 1995." in md
+    assert "Finanzinformationen und Spendenlinks" not in md
+    assert "Datum der Veröffentlichung" not in md
+    assert "Grew up" not in md and "Started work" not in md
+
+
+def test_daily_renderer_keeps_substantive_donations_and_event_dates():
+    it=item(1)
+    it["transcript_key_points"]=[
+        "The charity raised $2 million for emergency shelters.",
+        "The council starts construction on August 5.",
+        "The publication date is August 4, which triggered the statutory review period.",
+    ]
+    md=reporter.render_cyberlurch_daily_report([it],title="Cyberlurch",generated_at="now")
+    assert "The charity raised $2 million for emergency shelters." in md
+    assert "The council starts construction on August 5." in md
+    assert "The publication date is August 4, which triggered the statutory review period." in md
+
+
+@pytest.mark.parametrize("fact", [
+    "Financial information and donation links are provided.",
+    "Finansieringsinformation och donationslänkar anges.",
+    "The publication date is August 4, 2026.",
+    "Publiceringsdatumet är den 4 augusti 2026.",
+])
+def test_daily_fact_filter_covers_supported_output_languages(fact):
+    assert not reporter._is_usable_cyberlurch_fact(fact)
 
 
 def test_legacy_fact_formats_render_without_python_list_repr():

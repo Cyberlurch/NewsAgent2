@@ -1137,6 +1137,65 @@ def _cyberlurch_fact_list(value: Any) -> List[str]:
     return [x.strip(" -•\t") for x in re.split(r"[\n;]+", text) if x.strip(" -•\t")]
 
 
+_CYBERLURCH_SOURCE_METADATA_FACT = re.compile(
+    r"^(?:(?:the\s+)?(?:publication|upload|release)\s+date"
+    r"(?:\s+of\s+(?:the\s+)?(?:video|episode|programme|program|report|source))?\s+(?:is|was)|"
+    r"(?:datum\s+der\s+veröffentlichung|veröffentlichungsdatum|upload-?datum|erscheinungsdatum)"
+    r"(?:\s+des\s+(?:videos?|beitrags?|programms?|berichts?))?\s+(?:ist|war|lautet)|"
+    r"(?:publiceringsdatumet|uppladdningsdatumet|utgivningsdatumet)"
+    r"(?:\s+för\s+(?:videon|avsnittet|programmet|rapporten))?\s+(?:är|var))\b",
+    re.IGNORECASE,
+)
+
+_CYBERLURCH_PROMOTION_TERM = re.compile(
+    r"(?:\b(?:financial|funding|donation|support|membership|subscription|payment)"
+    r"\s+(?:information|details|links?)\b|"
+    r"\b(?:finanz(?:ierungs)?informationen|finanzdetails|spenden(?:informationen|links?)?|"
+    r"unterstützungslinks?|mitgliedschaftslinks?|abo(?:nnement)?-?links?)\b|"
+    r"\b(?:finansieringsinformation|finansiell\s+information|donationslänkar?|stödlänkar?|"
+    r"medlemskapslänkar?|prenumerationslänkar?)\b)",
+    re.IGNORECASE,
+)
+
+_CYBERLURCH_PROMOTION_AVAILABILITY = re.compile(
+    r"\b(?:(?:is|are|was|were)\s+(?:provided|included|listed|available|given|linked)|"
+    r"(?:werden|sind|wurden|waren)\s+(?:angegeben|bereitgestellt|aufgeführt|verlinkt|verfügbar)|"
+    r"(?:anges|finns|tillhandahålls|listas|länkas))\.?$",
+    re.IGNORECASE,
+)
+
+_CYBERLURCH_SUBJECTLESS_FACT = re.compile(
+    r"^(?:grew\s+up|started|began|joined|became|worked|served|moved|studied|graduated|"
+    r"founded|co-founded|launched|created|developed|wrote|authored|married|died|"
+    r"(?:was|were)\s+(?:born|raised|appointed|elected))\b",
+    re.IGNORECASE,
+)
+
+
+def _is_usable_cyberlurch_fact(fact: str) -> bool:
+    cleaned = re.sub(r"^\s*(?:[-*•]+|\d+[.)])\s*", "", str(fact or "")).strip()
+    if not cleaned:
+        return False
+    match = _CYBERLURCH_SOURCE_METADATA_FACT.search(cleaned)
+    if match:
+        remainder = cleaned[match.end():].strip(" .!?")
+        has_substantive_clause = re.search(
+            r"\b(?:and|but|because|after|before|which|that|und|aber|weil|nachdem|"
+            r"och|men|eftersom|efter|vilket)\b",
+            remainder,
+            re.IGNORECASE,
+        )
+        if len(re.findall(r"\w+", remainder)) <= 8 and not has_substantive_clause:
+            return False
+    if _CYBERLURCH_PROMOTION_TERM.search(cleaned) and _CYBERLURCH_PROMOTION_AVAILABILITY.search(cleaned):
+        return False
+    return _CYBERLURCH_SUBJECTLESS_FACT.match(cleaned) is None
+
+
+def _filter_cyberlurch_facts(facts: List[str]) -> List[str]:
+    return [fact for fact in facts if _is_usable_cyberlurch_fact(fact)]
+
+
 def _deduplicate_cyberlurch_facts(facts: List[str]) -> List[str]:
     kept: List[tuple[str, str]] = []
     for fact in facts:
@@ -1185,11 +1244,12 @@ def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, g
                     + _cyberlurch_fact_list(item.get("important_details"))
                     + _cyberlurch_fact_list(item.get("transcript_notable_claims"))
                 )
+                facts = _filter_cyberlurch_facts(facts)
                 facts = _deduplicate_cyberlurch_facts(facts)
             else:
-                facts = _cyberlurch_fact_list(item.get("transcript_key_points"))
+                facts = _filter_cyberlurch_facts(_cyberlurch_fact_list(item.get("transcript_key_points")))
             if not facts:
-                facts = _cyberlurch_fact_list(item.get("transcript_full_summary"))
+                facts = _filter_cyberlurch_facts(_cyberlurch_fact_list(item.get("transcript_full_summary")))
             for fact in facts[:5 if is_deep else 3]: lines.append(f"- {fact}")
         lines.append("")
     for item in unique:
