@@ -1137,6 +1137,26 @@ def _cyberlurch_fact_list(value: Any) -> List[str]:
     return [x.strip(" -•\t") for x in re.split(r"[\n;]+", text) if x.strip(" -•\t")]
 
 
+def _deduplicate_cyberlurch_facts(facts: List[str]) -> List[str]:
+    kept: List[tuple[str, str]] = []
+    for fact in facts:
+        normalized = re.sub(r"[^\w\s]", " ", re.sub(r"^\s*(?:[-*•]+|\d+[.)])\s*", "", fact).casefold())
+        normalized = " ".join(normalized.split())
+        if not normalized:
+            continue
+        words = set(normalized.split())
+        duplicate = False
+        for previous, previous_normalized in kept:
+            previous_words = set(previous_normalized.split())
+            overlap = len(words & previous_words) / max(1, min(len(words), len(previous_words)))
+            if normalized in previous_normalized or previous_normalized in normalized or overlap >= 0.9:
+                duplicate = True
+                break
+        if not duplicate:
+            kept.append((fact, normalized))
+    return [fact for fact, _ in kept]
+
+
 def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, generated_at: str) -> str:
     """Lean, deterministic Daily presentation; every item has one detailed block."""
     unique: List[Dict[str, Any]] = []
@@ -1159,9 +1179,16 @@ def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, g
         if metadata:
             lines.append("- Metadata only.")
         else:
-            facts = _cyberlurch_fact_list(item.get("transcript_key_points"))
             if is_deep:
-                facts += _cyberlurch_fact_list(item.get("important_details")) + _cyberlurch_fact_list(item.get("transcript_notable_claims"))
+                facts = (
+                    _cyberlurch_fact_list(item.get("transcript_full_summary"))
+                    + _cyberlurch_fact_list(item.get("transcript_key_points"))
+                    + _cyberlurch_fact_list(item.get("important_details"))
+                    + _cyberlurch_fact_list(item.get("transcript_notable_claims"))
+                )
+                facts = _deduplicate_cyberlurch_facts(facts)
+            else:
+                facts = _cyberlurch_fact_list(item.get("transcript_key_points"))
             if not facts:
                 facts = _cyberlurch_fact_list(item.get("transcript_full_summary"))
             for fact in facts[:5 if is_deep else 3]: lines.append(f"- {fact}")
