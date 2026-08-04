@@ -24036,5 +24036,47 @@
     "fetched_at_utc": "2026-08-04T12:43:32.315179+00:00",
     "text_hash": "5875c340d7a26a2501e60ce31c0da3b7c9dbabee3857e02944cbfac0bfbc49af",
     "text": ""
+  },
+  "85-LIGho3mU::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-08-04T14:00:36.088675+00:00",
+    "text_hash": "b3d76826ff5c785849889ac0f3974a1923549ddb325a7e8e06797383929dd3a9",
+    "text": ""
+  },
+  "_iqIMZ5UTv0::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-08-04T14:00:39.899516+00:00",
+    "text_hash": "78725e96255eb7eda954b30e89ea8a1232b964382c839de102211ad83a9c9f4b",
+    "text": ""
+  },
+  "-dMMWbj590k::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-08-04T14:00:44.526602+00:00",
+    "text_hash": "abf8d04e25b12f9bbbf4b505f74a48f7d976f414d3c1bc0e21811d957419c2ee",
+    "text": ""
+  },
+  "nWZuwkyFhoI::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-08-04T14:00:52.995506+00:00",
+    "text_hash": "9ae7f4d5df75749296d94840250ef87e3ac0aa2fa01824e22498cb36afc49c7c",
+    "text": ""
+  },
+  "XvyR7Mzuy8E": {
+    "status": "success",
+    "source": "description",
+    "fetched_at_utc": "2026-08-04T14:00:55.721659+00:00",
+    "text_hash": "12deb5f299d6fcbdffb68af6969c437b365aae8d2022e2f4e811aae591b89f42",
+    "text": ""
+  },
+  "w3RzVvu7L08::managed_transcript": {
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-08-04T14:00:58.756793+00:00",
+    "text_hash": "3fabcef2cfc36dc0a68c678a289d1198b2b5f45105d20e6236d21e4493e98ef8",
+    "text": ""
   }
 }
