@@ -1181,8 +1181,7 @@ def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, g
         else:
             if is_deep:
                 facts = (
-                    _cyberlurch_fact_list(item.get("transcript_full_summary"))
-                    + _cyberlurch_fact_list(item.get("transcript_key_points"))
+                    _cyberlurch_fact_list(item.get("transcript_key_points"))
                     + _cyberlurch_fact_list(item.get("important_details"))
                     + _cyberlurch_fact_list(item.get("transcript_notable_claims"))
                 )

@@ -438,7 +438,7 @@ class CyberlurchOpenAIDiagnostics:
         self.call_attempts_total += 1
         if metadata_only:
             self.metadata_only_openai_calls += 1
-        row = self.by_stage_model.setdefault(f"{stage}|{model}", {"calls": 0, "successes": 0, "errors": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0})
+        row = self.by_stage_model.setdefault(f"{stage}|{model}", {"calls": 0, "successes": 0, "errors": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "reasoning_tokens": 0, "non_reasoning_output_tokens": 0})
         row["calls"] += 1
 
     def record_success(self, stage: str, model: str, response: Any) -> None:
@@ -446,8 +446,14 @@ class CyberlurchOpenAIDiagnostics:
         row = self.by_stage_model[f"{stage}|{model}"]
         row["successes"] += 1
         usage = getattr(response, "usage", None)
+        current: dict[str, int] = {}
         for target, names in (("input_tokens", ("prompt_tokens", "input_tokens")), ("output_tokens", ("completion_tokens", "output_tokens")), ("total_tokens", ("total_tokens",))):
-            row[target] += next((int(getattr(usage, n, 0) or 0) for n in names if getattr(usage, n, None) is not None), 0)
+            current[target] = next((int(getattr(usage, n, 0) or 0) for n in names if getattr(usage, n, None) is not None), 0)
+            row[target] += current[target]
+        details = getattr(usage, "completion_tokens_details", None)
+        reasoning = min(current["output_tokens"], max(0, int(getattr(details, "reasoning_tokens", 0) or 0)))
+        row["reasoning_tokens"] += reasoning
+        row["non_reasoning_output_tokens"] += max(0, current["output_tokens"] - reasoning)
 
     def record_error(self, stage: str, model: str, category: str, exc: Exception) -> None:
         self.call_error_total += 1
@@ -460,7 +466,8 @@ class CyberlurchOpenAIDiagnostics:
             self.safe_status_codes[safe] += 1
 
     def to_dict(self) -> dict[str, Any]:
-        return {"call_attempts_total": self.call_attempts_total, "call_success_total": self.call_success_total, "call_error_total": self.call_error_total, "calls_by_stage_model": dict(self.by_stage_model), "fallback_attempts_total": self.fallback_attempts_total, "fallback_reasons": dict(self.fallback_reasons), "errors_by_category": dict(self.error_categories), "safe_status_codes": dict(self.safe_status_codes), "metadata_only_openai_calls": self.metadata_only_openai_calls, "chunked_items": self.chunked_items, "chunk_calls": self.chunk_calls}
+        token_totals = {key: sum(row.get(key, 0) for row in self.by_stage_model.values()) for key in ("input_tokens", "output_tokens", "total_tokens", "reasoning_tokens", "non_reasoning_output_tokens")}
+        return {"call_attempts_total": self.call_attempts_total, "call_success_total": self.call_success_total, "call_error_total": self.call_error_total, "calls_by_stage_model": dict(self.by_stage_model), **token_totals, "fallback_attempts_total": self.fallback_attempts_total, "fallback_reasons": dict(self.fallback_reasons), "errors_by_category": dict(self.error_categories), "safe_status_codes": dict(self.safe_status_codes), "metadata_only_openai_calls": self.metadata_only_openai_calls, "chunked_items": self.chunked_items, "chunk_calls": self.chunk_calls}
 
 
 CYBERLURCH_OPENAI_DIAGNOSTICS = CyberlurchOpenAIDiagnostics()

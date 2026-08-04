@@ -2,6 +2,7 @@ import pathlib
 import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 from newsagent2 import summarizer
+import pytest
 
 
 def test_chunking_ordered_overlap():
@@ -23,7 +24,7 @@ def test_deep_dive_fallback_uses_env_limit(monkeypatch):
         class chat:
             class completions:
                 @staticmethod
-                def create(model, messages, temperature):
+                def create(model, messages, **kwargs):
                     captured['payload']=messages[-1]['content']
                     class R:
                         class choice:
@@ -82,7 +83,7 @@ def test_direct_digest_uses_full_transcript_field(monkeypatch):
         class chat:
             class completions:
                 @staticmethod
-                def create(model, messages, temperature):
+                def create(model, messages, **kwargs):
                     captured["payload"] = messages[-1]["content"]
                     return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"{\"transcript_full_summary\":\"ok\"}"})()})()]})()
     monkeypatch.setattr(summarizer, "_get_client", lambda: C())
@@ -193,7 +194,7 @@ def test_direct_digest_fallback_text_when_json_invalid(monkeypatch):
     assert out.get("_direct_digest_fallback_text") is True
 
 
-def test_direct_digest_retries_without_response_format(monkeypatch):
+def test_direct_digest_does_not_retry_without_response_format(monkeypatch):
     calls = []
     class C:
         class chat:
@@ -205,6 +206,7 @@ def test_direct_digest_retries_without_response_format(monkeypatch):
                         raise RuntimeError("response_format unsupported")
                     return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"{\"transcript_full_summary\":\"ok\"}"})()})()]})()
     monkeypatch.setattr(summarizer, "_get_client", lambda: C())
-    out = summarizer.summarize_youtube_transcript_direct({"text":"abc"}, language="en")
-    assert out["response_format_rejected"] is True
-    assert out["transcript_full_summary"] == "ok"
+    with pytest.raises(RuntimeError):
+        summarizer.summarize_youtube_transcript_direct({"text":"abc"}, language="en")
+    assert len(calls) == 1
+    assert calls[0]["response_format"] == {"type": "json_object"}
