@@ -10,6 +10,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from openai import OpenAI
+from .utils import diagnostics as diagnostics_module
 
 # Default model used for all summaries (override via OPENAI_MODEL env var)
 OPENAI_MODEL = (os.getenv("OPENAI_MODEL") or "gpt-4.1").strip()
@@ -1001,6 +1002,31 @@ def _get_client() -> OpenAI:
     # OPENAI_API_KEY is expected to be available via env (GitHub Actions Secret or local .env)
     return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+def _safe_openai_error_category(exc: Exception) -> str:
+    status = getattr(exc, "status_code", None)
+    name = exc.__class__.__name__.lower()
+    message = str(exc).lower()
+    if status == 401 or "authentication" in name: return "authentication"
+    if status == 429 or "ratelimit" in name: return "rate_limit"
+    if "timeout" in name: return "timeout"
+    if "quota" in message or "insufficient_quota" in message: return "quota"
+    if any(x in message for x in ("response_format", "json_object", "unsupported model", "unsupported parameter", "unexpected keyword argument")): return "model_or_parameter_compatibility"
+    if status in {400, 404, 422} and any(x in message for x in ("model", "parameter", "unsupported")): return "model_or_parameter_compatibility"
+    if isinstance(exc, (json.JSONDecodeError,)): return "parse_error"
+    if isinstance(exc, ValueError) and str(exc) == "empty_output": return "empty_output"
+    return "other"
+
+def _cyberlurch_chat_create(client: OpenAI, *, stage: str, model: str, metadata_only: bool = False, **request: Any) -> Any:
+    diag = diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS
+    diag.record_attempt(stage, model, metadata_only=metadata_only)
+    try:
+        response = client.chat.completions.create(model=model, **request)
+        diag.record_success(stage, model, response)
+        return response
+    except Exception as exc:
+        diag.record_error(stage, model, _safe_openai_error_category(exc), exc)
+        raise
+
 
 
 
@@ -1037,12 +1063,14 @@ def summarize_youtube_transcript_chunks(item: Dict[str, Any], *, language: str =
             "Summarize this transcript chunk in JSON with keys summary,key_points,notable_claims,uncertainties. "
             f"Keep summary <= {max_chunk_summary} chars. Chunk {idx}/{len(chunks)}:\n{ch}"
         )
-        r=client.chat.completions.create(model=OPENAI_MODEL_CYBERLURCH_CHUNKS,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up}],temperature=0.2)
+        r=_cyberlurch_chat_create(client, stage="chunk", model=OPENAI_MODEL_CYBERLURCH_CHUNKS,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up}],temperature=0.2)
+        diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.chunk_calls += 1
         per.append((r.choices[0].message.content or "").strip())
     combined="\n\n".join(per)
     up2=("Combine chunk summaries into JSON with keys transcript_full_summary,transcript_key_points,transcript_notable_claims,transcript_uncertainties."
          " Keep concise and faithful.\n"+combined)
-    r2=client.chat.completions.create(model=OPENAI_MODEL_CYBERLURCH_CHUNKS,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up2}],temperature=0.2)
+    diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.chunked_items += 1
+    r2=_cyberlurch_chat_create(client, stage="chunk_combine", model=OPENAI_MODEL_CYBERLURCH_CHUNKS,messages=[{"role":"system","content":"Careful neutral summarizer."},{"role":"user","content":up2}],temperature=0.2)
     out={"chunks_total":len(chunks),"chars_processed_total":sum(len(c) for c in chunks)}
     try:
         obj=json.loads((r2.choices[0].message.content or "{}").strip())
@@ -1058,7 +1086,7 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         return {"chars_processed_total": 0}
     client = _get_client()
     user_prompt = (
-        "Analyze the FULL transcript below and return ONLY valid JSON with keys:\n"
+        "Extract compact facts from the FULL transcript and return ONLY valid JSON with keys:\n"
         "{\n"
         '  "transcript_full_summary": "...",\n'
         '  "transcript_key_points": "...",\n'
@@ -1069,9 +1097,14 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         "}\n\n"
         "Rules:\n"
         "- Use the whole transcript, not just title or introduction.\n"
-        "- Preserve concrete claims, names, places, dates, numbers, and caveats when present.\n"
-        "- Distinguish what the speaker claims from verified facts.\n"
-        "- Avoid sensational amplification.\n\n"
+        "- Follow the item's language: English, German, or Swedish; otherwise use English.\n"
+        "- transcript_full_summary is one factual sentence, at most 45 words.\n"
+        "- transcript_key_points is 1-3 concrete facts, each at most 30 words.\n"
+        "- Prefer names, dates, places, numbers, actions, decisions, and directly stated claims.\n"
+        "- notable_claims only contains source-specific claims needing concise adjacent attribution; uncertainties only uncertainty explicit in the source.\n"
+        "- important_details contains only concrete details; editorial_relevance must be empty.\n"
+        "- No outside knowledge, invented verification, editorial interpretation, moralizing, why-it-matters language, generic relevance, reliability boilerplate, or speculative filler.\n"
+        "- Never write 'The channel argues', 'The speaker frames this as', 'The report presents', or 'high relevance for current channel discourse'.\n\n"
         f"Transcript:\n{text}"
     )
     req = dict(
@@ -1092,8 +1125,6 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         "response_format_rejected": False,
     }
     tried_models = [OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST]
-    if OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK and OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK not in tried_models:
-        tried_models.append(OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK)
     raw = ""
     last_exc = None
     for idx, model in enumerate(tried_models):
@@ -1101,7 +1132,7 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         attempt_req["model"] = model
         try:
             out["response_format_used"] = True
-            r = client.chat.completions.create(**attempt_req)
+            r = _cyberlurch_chat_create(client, stage="direct_digest_primary" if idx == 0 else "direct_digest_compatibility_retry_or_model_fallback", **attempt_req)
             raw = (r.choices[0].message.content or "").strip()
             if raw:
                 break
@@ -1109,11 +1140,15 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
                 raise ValueError("empty_output")
         except Exception as e:
             msg = str(e).lower()
-            if "response_format" in msg or "json_object" in msg:
+            category = _safe_openai_error_category(e)
+            if category == "model_or_parameter_compatibility":
                 out["response_format_rejected"] = True
                 out["response_format_used"] = False
                 attempt_req.pop("response_format", None)
-                r = client.chat.completions.create(**attempt_req)
+                diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.fallback_attempts_total += 1
+                diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.fallback_reasons["model_or_parameter_compatibility"] += 1
+                fallback_model = OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK or model
+                r = _cyberlurch_chat_create(client, stage="direct_digest_compatibility_retry_or_model_fallback", model=fallback_model, **{k:v for k,v in attempt_req.items() if k != "model"})
                 raw = (r.choices[0].message.content or "").strip()
                 if raw:
                     break

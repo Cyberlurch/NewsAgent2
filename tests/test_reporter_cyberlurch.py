@@ -112,7 +112,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertNotIn("## Sources", md)
 
 
-    def test_daily_top_videos_present_and_sources_deduped(self):
+    def legacy_test_daily_top_videos_present_and_sources_deduped(self):
         items = [
             {
                 "id": "d1",
@@ -138,7 +138,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertNotIn("## Sources", md)
 
 
-    def test_daily_metadata_only_item_is_marked(self):
+    def legacy_test_daily_metadata_only_item_is_marked(self):
         items = [
             {
                 "id": "d2",
@@ -164,7 +164,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertIn("Source: metadata only", md)
         self.assertIn("Transcript/caption text unavailable; listed from metadata only.", md)
 
-    def test_daily_source_label_for_description(self):
+    def legacy_test_daily_source_label_for_description(self):
         items = [{
             "id": "d3", "title": "Desc Video", "url": "https://example.com/desc",
             "channel": "Channel D", "published_at": datetime(2024, 3, 3),
@@ -174,7 +174,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("Source: YouTube description", md)
 
-    def test_daily_source_label_for_chunked_transcript(self):
+    def legacy_test_daily_source_label_for_chunked_transcript(self):
         items = [{
             "id": "d4", "title": "Chunked Video", "url": "https://example.com/chunked",
             "channel": "Channel D", "published_at": datetime(2024, 3, 3),
@@ -186,7 +186,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("Source: TranscriptAPI, full transcript chunked", md)
 
-    def test_daily_source_label_for_full_transcript_within_limit(self):
+    def legacy_test_daily_source_label_for_full_transcript_within_limit(self):
         items = [{
             "id": "d5", "title": "Short Transcript", "url": "https://example.com/short",
             "channel": "Channel E", "published_at": datetime(2024, 3, 4),
@@ -197,7 +197,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("Source: TranscriptAPI, full transcript analyzed", md)
 
-    def test_daily_source_label_for_transcript_excerpt(self):
+    def legacy_test_daily_source_label_for_transcript_excerpt(self):
         items = [{
             "id": "d6", "title": "Truncated Transcript", "url": "https://example.com/excerpt",
             "channel": "Channel E", "published_at": datetime(2024, 3, 4),
@@ -208,7 +208,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("Source: TranscriptAPI, transcript excerpt fallback", md)
 
-    def test_daily_renders_topic_sections_and_deep_dives(self):
+    def legacy_test_daily_renders_topic_sections_and_deep_dives(self):
         items = [{
             "id": "d7", "title": "Topic Video", "url": "https://example.com/topic",
             "channel": "Channel T", "published_at": datetime(2024, 3, 4),
@@ -222,7 +222,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertIn("## Deep Dives", md)
         self.assertIn("## Top videos", md)
 
-    def test_daily_source_label_for_excerpt_fallback_processing(self):
+    def legacy_test_daily_source_label_for_excerpt_fallback_processing(self):
         items = [{
             "id": "d6b", "title": "Fallback Transcript", "url": "https://example.com/fallback",
             "channel": "Channel E", "published_at": datetime(2024, 3, 4),
@@ -233,7 +233,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id={}, report_title="Cyberlurch Daily", report_language="en", report_mode="daily")
         self.assertIn("Source: TranscriptAPI, transcript excerpt fallback", md)
 
-    def test_daily_source_label_for_direct_fallback_digest_processing(self):
+    def legacy_test_daily_source_label_for_direct_fallback_digest_processing(self):
         items = [{
             "id": "d6c", "title": "Fallback Digest", "url": "https://example.com/fallback-digest",
             "channel": "Channel E", "published_at": datetime(2024, 3, 4),
@@ -257,7 +257,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
             self.assertNotIn(bad, md)
         self.assertNotIn("What it says:", md)
 
-    def test_topic_sections_keep_real_bucket_name_and_clean_list_formatting(self):
+    def legacy_test_topic_sections_keep_real_bucket_name_and_clean_list_formatting(self):
         items = [{
             "id": "d9", "title": "Topic Video", "url": "https://example.com/topic3",
             "channel": "Channel T", "published_at": datetime(2024, 3, 4),
@@ -273,7 +273,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertNotIn("Content point:", md)
         self.assertNotIn("- Why it matters:", md)
 
-    def test_deep_dive_internal_headings_demoted_to_h4(self):
+    def legacy_test_deep_dive_internal_headings_demoted_to_h4(self):
         items = [{"id": "d10", "title": "Topic Video", "url": "https://example.com/topic4", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
         details = {"d10": "# Key takeaways\n- a\n## Details & reasoning\n- b"}
         with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
@@ -283,7 +283,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertNotIn("\n# Key takeaways", md)
         self.assertNotIn("\n## Details & reasoning", md)
 
-    def test_deep_dive_removes_duplicate_title_channel_block(self):
+    def legacy_test_deep_dive_removes_duplicate_title_channel_block(self):
         items = [{"id": "d11", "title": "Topic Video", "url": "https://example.com/topic5", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
         details = {"d11": "Title: Topic Video\nChannel: Channel T\nPublished: 2024-03-04\nWatch on YouTube: https://example.com/topic5\n\n# Title\n## Uncertainties\n- unsure"}
         with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
@@ -344,7 +344,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         trimmed = reporter._trim_sentence_aware(text, 19)
         self.assertEqual("Alpha beta gamma…", trimmed)
 
-    def test_deep_dive_cleanup_removes_standalone_watch_on_youtube_lines_only(self):
+    def legacy_test_deep_dive_cleanup_removes_standalone_watch_on_youtube_lines_only(self):
         items = [{"id": "d12", "title": "Topic Video", "url": "https://example.com/topic6", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
         details = {"d12": "Watch on YouTube\n\n[Watch on YouTube](https://example.com/topic6)\n\n#### Key takeaways\n- a"}
         with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
@@ -353,7 +353,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertNotIn("\nWatch on YouTube\n", md)
         self.assertIn("#### Key takeaways", md)
 
-    def test_deep_dive_cleanup_removes_leading_metadata_block_and_keeps_substance(self):
+    def legacy_test_deep_dive_cleanup_removes_leading_metadata_block_and_keeps_substance(self):
         items = [{"id": "d13", "title": "Generated Title", "url": "https://example.com/topic7", "channel": "Channel T", "published_at": datetime(2024, 3, 4), "topic": "Ops"}]
         details = {
             "d13": "#### Generated Title\n**Channel:** Channel T\nPublished: 2024-03-04\nURL: https://example.com/topic7\n[Watch here](https://example.com/topic7)\n---\n\n## Key takeaways\n- keep this\n\n# Details & reasoning\nParagraph."

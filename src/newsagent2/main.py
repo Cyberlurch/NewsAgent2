@@ -78,6 +78,7 @@ from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_f
 from .unpaywall import fetch_best_oa_fulltext, lookup_unpaywall, pick_best_oa_url
 from .youtube_content_providers import fetch_video_content
 from .utils.diagnostics import YouTubeDiagnosticsCounters
+from .utils import diagnostics as diagnostics_module
 from .utils.text_quality import classify_low_signal_youtube_text
 
 STO = ZoneInfo("Europe/Stockholm")
@@ -1915,6 +1916,7 @@ def _update_state_after_run(
 
 def main() -> None:
     load_dotenv()
+    run_started = time.monotonic()
 
     ap = argparse.ArgumentParser(description="NewsAgent2 daily report")
     ap.add_argument("--channels", default="data/channels.json", help="Path to channels config JSON")
@@ -1927,6 +1929,9 @@ def main() -> None:
     read_only_mode = report_mode in {"weekly", "monthly", "yearly"}
 
     report_key = (os.getenv("REPORT_KEY", "cyberlurch") or "cyberlurch").strip()
+    is_cyberlurch_daily = report_key.lower() == "cyberlurch" and report_mode == "daily"
+    if is_cyberlurch_daily:
+        diagnostics_module.reset_cyberlurch_openai_diagnostics()
     base_report_title = (os.getenv("REPORT_TITLE", "The Cyberlurch Report") or "The Cyberlurch Report").strip()
     base_report_subject = (os.getenv("REPORT_SUBJECT", base_report_title) or base_report_title).strip()
     report_title = base_report_title
@@ -4014,13 +4019,27 @@ def main() -> None:
                 continue
             detail_items.append(it); used_ch.add(chn)
             if len(detail_items)>=max(0, deep_dive_limit): break
-        for it in items_sorted:
-            if normalize_channel_name(it.get("channel") or "") in priority_norm and it not in overview_items:
-                overview_items.append(it)
-        overview_items = sorted(overview_items, key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+        if is_cyberlurch_daily:
+            selected_max = max(1, min(12, _safe_int("CYBERLURCH_DAILY_SELECTED_ITEMS_MAX", 12)))
+            daily_deep_max = max(0, min(2, _safe_int("CYBERLURCH_DAILY_DEEP_DIVES_MAX", 2)))
+            reserved = detail_items[:daily_deep_max]
+            reserved_keys = {str(x.get("id") or x.get("url") or x.get("title") or "") for x in reserved}
+            ordered = _dedupe_items(priority_daily_items + curated_overview + items_sorted)
+            normal = [x for x in ordered if str(x.get("id") or x.get("url") or x.get("title") or "") not in reserved_keys]
+            report_items = _dedupe_items(reserved + normal)[:selected_max]
+            report_keys = {str(x.get("id") or x.get("url") or x.get("title") or "") for x in report_items}
+            detail_items = [x for x in reserved if str(x.get("id") or x.get("url") or x.get("title") or "") in report_keys]
+            for x in detail_items: x["cyberlurch_daily_deep_dive"] = True
+            overview_items = list(report_items)
+        if not is_cyberlurch_daily:
+            for it in items_sorted:
+                if normalize_channel_name(it.get("channel") or "") in priority_norm and it not in overview_items:
+                    overview_items.append(it)
+        if not is_cyberlurch_daily:
+            overview_items = sorted(overview_items, key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
         if report_mode in {"weekly", "monthly"} and report_key.strip().lower() == "cyberlurch":
             report_items = _dedupe_items(overview_items + detail_items)
-        else:
+        elif not is_cyberlurch_daily:
             report_items = items_sorted
         if not detail_items:
             deep_dive_skip_note = "Deep dives skipped because no transcript, caption, or description content was available."
@@ -4127,7 +4146,27 @@ def main() -> None:
             (it.get("content_status") == "metadata_only") or (it.get("text_source") == "metadata_only")
             for it in overview_items
         )
-        if (not is_cybermed_run) and all_overview_metadata_only:
+        if is_cyberlurch_daily:
+            overview_body = ""
+            # Daily uses one per-item factual extraction and a deterministic renderer.
+            # Metadata-only records deliberately bypass OpenAI.
+            for it in overview_items:
+                if it.get("content_status") == "metadata_only" or it.get("text_source") == "metadata_only":
+                    continue
+                full_text = str(it.get("_full_text_for_processing") or it.get("text") or "").strip()
+                if not full_text:
+                    continue
+                direct_max_chars = _safe_int("CYBERLURCH_DIRECT_TRANSCRIPT_MAX_CHARS", 80000)
+                it["_full_text_for_processing"] = full_text
+                try:
+                    result = (summarize_youtube_transcript_direct(it, language=report_language, profile=report_profile)
+                              if len(full_text) <= direct_max_chars else
+                              summarize_youtube_transcript_chunks(it, language=report_language, profile=report_profile))
+                    it.update({k: v for k, v in result.items() if k.startswith("transcript_") or k in {"important_details", "editorial_relevance"}})
+                    it["editorial_relevance"] = ""
+                except Exception as exc:
+                    print(f"[transcript-direct] error_kind={classify_direct_digest_error(exc)}")
+        elif (not is_cybermed_run) and all_overview_metadata_only:
             if report_language.lower().startswith("en"):
                 overview_body = (
                     "## Executive Summary\n\n"
@@ -4481,6 +4520,8 @@ def main() -> None:
     details_by_id: Dict[str, str] = {}
     details_for_report: Dict[str, str] = {}
     for it in detail_items:
+        if is_cyberlurch_daily:
+            continue
         if is_cybermed_run and cybermed_digest_only_mode:
             continue
         if (not is_cybermed_run) and ((it.get("content_status") == "metadata_only") or (it.get("text_source") == "metadata_only")):
@@ -4621,7 +4662,7 @@ def main() -> None:
             if iid:
                 deep_dive_ids.add(iid)
 
-    if not is_cybermed_run:
+    if not is_cybermed_run and not is_cyberlurch_daily:
         default_cap = 12
         if report_mode in {"weekly", "monthly"}:
             default_cap = 20
@@ -4687,7 +4728,7 @@ def main() -> None:
 
     out_path = _report_output_path(report_dir, report_key, report_mode)
 
-    if not is_cybermed_run:
+    if not is_cybermed_run and not is_cyberlurch_daily:
         for it in overview_items:
             iid = str(it.get("id") or it.get("url") or it.get("title") or "").strip()
             if not iid or iid in details_for_report:
@@ -5124,6 +5165,28 @@ def main() -> None:
                 "cybermed_digest_backfill_write_skipped_reason": str(skip_reason or ""),
             })
     if report_key.strip().lower() == "cyberlurch":
+        if is_cyberlurch_daily:
+            detailed_keys = [str(x.get("id") or x.get("url") or x.get("title") or "") for x in report_items]
+            final_counts = diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.to_dict()
+            final_counts.update({
+                "collected_item_count": len(items_all_new),
+                "final_selected_unique_item_count": len(set(detailed_keys)),
+                "full_text_selected_count": sum(1 for x in report_items if x.get("content_status") != "metadata_only" and x.get("text_source") != "metadata_only"),
+                "metadata_only_selected_count": sum(1 for x in report_items if x.get("content_status") == "metadata_only" or x.get("text_source") == "metadata_only"),
+                "ordinary_items_multiple_semantic_stages": 0,
+                "managed_transcript_attempts": youtube_diag.managed_transcript_attempted_total,
+                "managed_transcript_successes": youtube_diag.managed_transcript_success_total,
+                "managed_transcript_errors": youtube_diag.managed_transcript_error_total,
+                "managed_transcript_billable_success_estimate": youtube_diag.managed_transcript_billable_success_estimate,
+                "report_characters": len(md), "report_words": len(md.split()), "report_lines": len(md.splitlines()),
+                "unique_detailed_item_blocks": len(set(detailed_keys)), "snapshot_references": min(5, len(report_items)),
+                "deep_dives": min(2, len(detail_items)), "duplicate_detailed_item_blocks": len(detailed_keys) - len(set(detailed_keys)),
+                "runtime_total_seconds": round(max(0.0, time.monotonic() - run_started), 6),
+                "runtime_summarization_seconds": round(runtime_summarization_seconds, 6),
+                "runtime_report_render_seconds": round(runtime_report_render_seconds, 6),
+            })
+            extra_counts.update(final_counts)
+            print("[cyberlurch-final] " + json.dumps(final_counts, sort_keys=True, separators=(",", ":")))
         _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode, extra_counts=extra_counts)
     if report_key.strip().lower() == "cybermed":
         runtime_total_seconds = max(0.0, time.monotonic() - runtime_start)

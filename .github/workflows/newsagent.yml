@@ -131,6 +131,8 @@ jobs:
       CYBERMED_WEEKLY_QA_FIXTURE_MODE: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_MODE || '0' }}
       CYBERMED_WEEKLY_QA_FIXTURE_PATH: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_PATH || 'tests/fixtures/cybermed_weekly_digest_store_nonempty.json' }}
       CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.cyberlurch_channels_file || '') || '' }}
+      CYBERLURCH_DAILY_SELECTED_ITEMS_MAX: ${{ vars.CYBERLURCH_DAILY_SELECTED_ITEMS_MAX || '12' }}
+      CYBERLURCH_DAILY_DEEP_DIVES_MAX: ${{ vars.CYBERLURCH_DAILY_DEEP_DIVES_MAX || '2' }}
       MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.managed_transcript_provider || 'default') || 'default' }}
 
     steps:
