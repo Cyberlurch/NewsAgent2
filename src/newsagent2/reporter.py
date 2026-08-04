@@ -1122,6 +1122,59 @@ def _cybermed_practice_bucket(it: Dict[str, Any]) -> str:
         return "Worth knowing"
     return "Background / commentary"
 
+def _cyberlurch_fact_list(value: Any) -> List[str]:
+    if isinstance(value, list):
+        return [str(x).strip() for x in value if str(x).strip()]
+    text = str(value or "").strip()
+    if not text:
+        return []
+    try:
+        parsed = ast.literal_eval(text)
+        if isinstance(parsed, list):
+            return [str(x).strip() for x in parsed if str(x).strip()]
+    except (ValueError, SyntaxError):
+        pass
+    return [x.strip(" -•\t") for x in re.split(r"[\n;]+", text) if x.strip(" -•\t")]
+
+
+def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, generated_at: str) -> str:
+    """Lean, deterministic Daily presentation; every item has one detailed block."""
+    unique: List[Dict[str, Any]] = []
+    seen = set()
+    for item in items[:12]:
+        key = str(item.get("id") or item.get("url") or item.get("title") or "").strip()
+        if key and key not in seen:
+            seen.add(key); unique.append(item)
+    deep = [x for x in unique if x.get("cyberlurch_daily_deep_dive")][:2]
+    deep_keys = {str(x.get("id") or x.get("url") or x.get("title") or "") for x in deep}
+    lines = [f'<h1 style="margin:0 0 4px 0; font-size:32px; line-height:1.15;">{html_module.escape(title)}</h1>', f"*{generated_at}*", "", "## Executive Snapshot", ""]
+    for item in unique[:5]:
+        name = _md_escape_label(str(item.get("title") or "Untitled")); url = str(item.get("url") or ""); channel = str(item.get("channel") or "Unknown")
+        lines.append(f"- [{name}]({url}) — {channel}" if url else f"- {name} — {channel}")
+    lines.extend(["", "## Selected items", ""])
+    def block(item: Dict[str, Any], *, is_deep: bool = False) -> None:
+        name = _md_escape_label(str(item.get("title") or "Untitled")); url = str(item.get("url") or ""); channel = str(item.get("channel") or "Unknown"); date = str(item.get("published_at") or "")[:10]
+        lines.extend([f"### [{name}]({url})" if url else f"### {name}", f"*{channel} · {date}*", ""])
+        metadata = item.get("content_status") == "metadata_only" or item.get("text_source") == "metadata_only"
+        if metadata:
+            lines.append("- Metadata only.")
+        else:
+            facts = _cyberlurch_fact_list(item.get("transcript_key_points"))
+            if is_deep:
+                facts += _cyberlurch_fact_list(item.get("important_details")) + _cyberlurch_fact_list(item.get("transcript_notable_claims"))
+            if not facts:
+                facts = _cyberlurch_fact_list(item.get("transcript_full_summary"))
+            for fact in facts[:5 if is_deep else 3]: lines.append(f"- {fact}")
+        lines.append("")
+    for item in unique:
+        key = str(item.get("id") or item.get("url") or item.get("title") or "")
+        if key not in deep_keys: block(item)
+    if deep:
+        lines.extend(["## Deep Dives", ""])
+        for item in deep: block(item, is_deep=True)
+    return "\n".join(lines).strip() + "\n"
+
+
 def to_markdown(
     items: List[Dict[str, Any]],
     overview_markdown: str,
@@ -1158,6 +1211,8 @@ def to_markdown(
         elif "monthly" in title_lower:
             normalized_mode = "monthly"
     is_cyberlurch_periodic = is_cyberlurch and normalized_mode in {"weekly", "monthly", "yearly"}
+    if is_cyberlurch and normalized_mode == "daily":
+        return render_cyberlurch_daily_report(items, title=title, generated_at=now_str)
     if is_cyberlurch and normalized_mode == 'monthly':
         return render_cyberlurch_monthly_trend_report(items, title='The Cyberlurch Report — Monthly', generated_at=datetime.now(tz=STO), diagnostics=run_metadata or {})
     meta_only = ""

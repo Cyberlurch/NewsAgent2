@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from collections import Counter, defaultdict
+from typing import Any
 
 
 @dataclass
@@ -417,3 +419,53 @@ class YouTubeDiagnosticsCounters:
         data["external_api_empty_total"] = self.external_api_empty_total
         data["external_api_error_total"] = self.external_api_error_total
         return data
+@dataclass
+class CyberlurchOpenAIDiagnostics:
+    """Count-only telemetry. Never accepts request content or exception text."""
+    call_attempts_total: int = 0
+    call_success_total: int = 0
+    call_error_total: int = 0
+    fallback_attempts_total: int = 0
+    metadata_only_openai_calls: int = 0
+    chunked_items: int = 0
+    chunk_calls: int = 0
+    by_stage_model: dict[str, dict[str, int]] = field(default_factory=dict)
+    error_categories: Counter = field(default_factory=Counter)
+    fallback_reasons: Counter = field(default_factory=Counter)
+    safe_status_codes: Counter = field(default_factory=Counter)
+
+    def record_attempt(self, stage: str, model: str, *, metadata_only: bool = False) -> None:
+        self.call_attempts_total += 1
+        if metadata_only:
+            self.metadata_only_openai_calls += 1
+        row = self.by_stage_model.setdefault(f"{stage}|{model}", {"calls": 0, "successes": 0, "errors": 0, "input_tokens": 0, "output_tokens": 0, "total_tokens": 0})
+        row["calls"] += 1
+
+    def record_success(self, stage: str, model: str, response: Any) -> None:
+        self.call_success_total += 1
+        row = self.by_stage_model[f"{stage}|{model}"]
+        row["successes"] += 1
+        usage = getattr(response, "usage", None)
+        for target, names in (("input_tokens", ("prompt_tokens", "input_tokens")), ("output_tokens", ("completion_tokens", "output_tokens")), ("total_tokens", ("total_tokens",))):
+            row[target] += next((int(getattr(usage, n, 0) or 0) for n in names if getattr(usage, n, None) is not None), 0)
+
+    def record_error(self, stage: str, model: str, category: str, exc: Exception) -> None:
+        self.call_error_total += 1
+        self.by_stage_model[f"{stage}|{model}"]["errors"] += 1
+        self.error_categories[category] += 1
+        status = getattr(exc, "status_code", None)
+        code = getattr(exc, "code", None)
+        safe = str(status if isinstance(status, int) else code or "")
+        if safe and len(safe) <= 40 and all(c.isalnum() or c in "_-" for c in safe):
+            self.safe_status_codes[safe] += 1
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"call_attempts_total": self.call_attempts_total, "call_success_total": self.call_success_total, "call_error_total": self.call_error_total, "calls_by_stage_model": dict(self.by_stage_model), "fallback_attempts_total": self.fallback_attempts_total, "fallback_reasons": dict(self.fallback_reasons), "errors_by_category": dict(self.error_categories), "safe_status_codes": dict(self.safe_status_codes), "metadata_only_openai_calls": self.metadata_only_openai_calls, "chunked_items": self.chunked_items, "chunk_calls": self.chunk_calls}
+
+
+CYBERLURCH_OPENAI_DIAGNOSTICS = CyberlurchOpenAIDiagnostics()
+
+def reset_cyberlurch_openai_diagnostics() -> CyberlurchOpenAIDiagnostics:
+    global CYBERLURCH_OPENAI_DIAGNOSTICS
+    CYBERLURCH_OPENAI_DIAGNOSTICS = CyberlurchOpenAIDiagnostics()
+    return CYBERLURCH_OPENAI_DIAGNOSTICS
