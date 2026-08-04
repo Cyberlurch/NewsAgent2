@@ -1010,11 +1010,27 @@ def _safe_openai_error_category(exc: Exception) -> str:
     if status == 429 or "ratelimit" in name: return "rate_limit"
     if "timeout" in name: return "timeout"
     if "quota" in message or "insufficient_quota" in message: return "quota"
-    if any(x in message for x in ("response_format", "json_object", "unsupported model", "unsupported parameter", "unexpected keyword argument")): return "model_or_parameter_compatibility"
-    if status in {400, 404, 422} and any(x in message for x in ("model", "parameter", "unsupported")): return "model_or_parameter_compatibility"
+    if _cyberlurch_compatibility_adjustment(exc): return "model_or_parameter_compatibility"
     if isinstance(exc, (json.JSONDecodeError,)): return "parse_error"
     if isinstance(exc, ValueError) and str(exc) == "empty_output": return "empty_output"
     return "other"
+
+def _cyberlurch_compatibility_adjustment(exc: Exception) -> Optional[str]:
+    """Return only a recognized, actionable compatibility category."""
+    message = str(exc).lower()
+    explicit = any(token in message for token in (
+        "unsupported", "not supported", "does not support", "unsupported_value",
+        "unsupported_parameter", "unexpected keyword argument",
+    ))
+    if not explicit:
+        return None
+    if "response_format" in message or "json_object" in message:
+        return "response_format"
+    if "temperature" in message:
+        return "temperature"
+    if "model" in message:
+        return "model"
+    return None
 
 def _cyberlurch_chat_create(client: OpenAI, *, stage: str, model: str, metadata_only: bool = False, **request: Any) -> Any:
     diag = diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS
@@ -1085,6 +1101,8 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
     if not text:
         return {"chars_processed_total": 0}
     client = _get_client()
+    title = str(item.get("title") or "").strip()
+    resolved_language = _resolved_cyberlurch_item_language(item, language)
     user_prompt = (
         "Extract compact facts from the FULL transcript and return ONLY valid JSON with keys:\n"
         "{\n"
@@ -1097,7 +1115,8 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         "}\n\n"
         "Rules:\n"
         "- Use the whole transcript, not just title or introduction.\n"
-        "- Follow the item's language: English, German, or Swedish; otherwise use English.\n"
+        f"- Output language: {resolved_language}. Every generated factual field must use this language.\n"
+        "- Preserve names, dates, quoted designations, and numbers accurately. Do not translate or rewrite the original title.\n"
         "- transcript_full_summary is one factual sentence, at most 45 words.\n"
         "- transcript_key_points is 1-3 concrete facts, each at most 30 words.\n"
         "- Prefer names, dates, places, numbers, actions, decisions, and directly stated claims.\n"
@@ -1105,7 +1124,7 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         "- important_details contains only concrete details; editorial_relevance must be empty.\n"
         "- No outside knowledge, invented verification, editorial interpretation, moralizing, why-it-matters language, generic relevance, reliability boilerplate, or speculative filler.\n"
         "- Never write 'The channel argues', 'The speaker frames this as', 'The report presents', or 'high relevance for current channel discourse'.\n\n"
-        f"Transcript:\n{text}"
+        f"Original title (context only): {title}\n\nTranscript:\n{text}"
     )
     req = dict(
         model=OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST,
@@ -1116,6 +1135,8 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         temperature=0.2,
         response_format={"type": "json_object"},
     )
+    if OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST == "gpt-5-mini":
+        req.pop("temperature", None)
     out = {
         "chars_processed_total": len(text),
         "json_parse_error": False,
@@ -1124,46 +1145,34 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         "response_format_used": False,
         "response_format_rejected": False,
     }
-    tried_models = [OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST]
     raw = ""
-    last_exc = None
-    for idx, model in enumerate(tried_models):
-        attempt_req = dict(req)
-        attempt_req["model"] = model
-        try:
-            out["response_format_used"] = True
-            r = _cyberlurch_chat_create(client, stage="direct_digest_primary" if idx == 0 else "direct_digest_compatibility_retry_or_model_fallback", **attempt_req)
-            raw = (r.choices[0].message.content or "").strip()
-            if raw:
-                break
-            if idx == len(tried_models) - 1:
-                raise ValueError("empty_output")
-        except Exception as e:
-            msg = str(e).lower()
-            category = _safe_openai_error_category(e)
-            if category == "model_or_parameter_compatibility":
-                out["response_format_rejected"] = True
-                out["response_format_used"] = False
-                attempt_req.pop("response_format", None)
-                diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.fallback_attempts_total += 1
-                diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.fallback_reasons["model_or_parameter_compatibility"] += 1
-                fallback_model = OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK or model
-                r = _cyberlurch_chat_create(client, stage="direct_digest_compatibility_retry_or_model_fallback", model=fallback_model, **{k:v for k,v in attempt_req.items() if k != "model"})
-                raw = (r.choices[0].message.content or "").strip()
-                if raw:
-                    break
-                if idx == len(tried_models) - 1:
-                    raise ValueError("empty_output")
-                continue
-            last_exc = e
-            if idx == len(tried_models) - 1:
-                raise
-            continue
-    if not raw:
-        if last_exc:
-            raise last_exc
-        raise ValueError("empty_output")
-
+    attempt_req = dict(req)
+    out["response_format_used"] = True
+    try:
+        r = _cyberlurch_chat_create(client, stage="direct_digest_primary", **attempt_req)
+        raw = (r.choices[0].message.content or "").strip()
+        if not raw:
+            raise ValueError("empty_output")
+    except Exception as exc:
+        adjustment = _cyberlurch_compatibility_adjustment(exc)
+        if not adjustment:
+            raise
+        retry_req = dict(attempt_req)
+        if adjustment == "response_format":
+            retry_req.pop("response_format", None)
+            out["response_format_rejected"] = True
+            out["response_format_used"] = False
+        elif adjustment == "temperature":
+            retry_req.pop("temperature", None)
+        elif adjustment == "model":
+            retry_req["model"] = OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK or retry_req["model"]
+        diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.fallback_attempts_total += 1
+        diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.fallback_reasons[adjustment] += 1
+        out["chars_processed_total"] += len(text)
+        r = _cyberlurch_chat_create(client, stage="direct_digest_compatibility_retry_or_model_fallback", **retry_req)
+        raw = (r.choices[0].message.content or "").strip()
+        if not raw:
+            raise ValueError("empty_output")
     obj = None
     try:
         obj = json.loads(raw)
@@ -1202,6 +1211,14 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         out["_direct_digest_fallback_text"] = True
     # TODO: Consider Responses API for future GPT-5-series optimization.
     return out
+
+def _resolved_cyberlurch_item_language(item: Dict[str, Any], fallback: str) -> str:
+    value = str(item.get("resolved_language") or item.get("language") or item.get("transcript_language") or fallback or "en").strip().lower()
+    if value in {"de", "deu", "german", "deutsch"}:
+        return "German"
+    if value in {"sv", "swe", "swedish", "svenska"}:
+        return "Swedish"
+    return "English"
 def _slim_items(items: List[Dict[str, Any]], max_text_chars: int = 2000) -> List[Dict[str, Any]]:
     out: List[Dict[str, Any]] = []
     for it in items:

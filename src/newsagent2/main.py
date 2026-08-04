@@ -4150,6 +4150,8 @@ def main() -> None:
             overview_body = ""
             # Daily uses one per-item factual extraction and a deterministic renderer.
             # Metadata-only records deliberately bypass OpenAI.
+            summarize_start = time.monotonic()
+            full_text_call_made = False
             for it in overview_items:
                 if it.get("content_status") == "metadata_only" or it.get("text_source") == "metadata_only":
                     continue
@@ -4159,13 +4161,17 @@ def main() -> None:
                 direct_max_chars = _safe_int("CYBERLURCH_DIRECT_TRANSCRIPT_MAX_CHARS", 80000)
                 it["_full_text_for_processing"] = full_text
                 try:
+                    full_text_call_made = True
                     result = (summarize_youtube_transcript_direct(it, language=report_language, profile=report_profile)
                               if len(full_text) <= direct_max_chars else
                               summarize_youtube_transcript_chunks(it, language=report_language, profile=report_profile))
                     it.update({k: v for k, v in result.items() if k.startswith("transcript_") or k in {"important_details", "editorial_relevance"}})
                     it["editorial_relevance"] = ""
+                    youtube_diag.transcript_chars_processed_total += int(result.get("chars_processed_total") or 0)
                 except Exception as exc:
                     print(f"[transcript-direct] error_kind={classify_direct_digest_error(exc)}")
+            if full_text_call_made:
+                runtime_summarization_seconds += max(0.0, time.monotonic() - summarize_start)
         elif (not is_cybermed_run) and all_overview_metadata_only:
             if report_language.lower().startswith("en"):
                 overview_body = (

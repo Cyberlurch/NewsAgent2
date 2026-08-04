@@ -49,6 +49,38 @@ def test_one_direct_call_and_count_only_diagnostics(monkeypatch):
     assert d.to_dict()["calls_by_stage_model"]
 
 
+def test_gpt5_mini_request_omits_temperature_and_keeps_json(monkeypatch):
+    calls=[]
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kw): calls.append(kw); return response()
+    monkeypatch.setattr(summarizer,"_get_client",lambda:C())
+    monkeypatch.setattr(summarizer,"OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST","gpt-5-mini")
+    d=diagnostics.reset_cyberlurch_openai_diagnostics()
+    summarizer.summarize_youtube_transcript_direct({"title":"Original title","text":"facts"},language="en")
+    assert len(calls)==1
+    assert calls[0]["model"]=="gpt-5-mini"
+    assert "temperature" not in calls[0]
+    assert calls[0]["response_format"]=={"type":"json_object"}
+    assert d.fallback_attempts_total==0
+
+
+def test_prompt_uses_title_and_resolved_item_language(monkeypatch):
+    prompts=[]
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kw): prompts.append(kw["messages"][1]["content"]); return response()
+    monkeypatch.setattr(summarizer,"_get_client",lambda:C())
+    for code, label in (("de","German"),("sv","Swedish")):
+        summarizer.summarize_youtube_transcript_direct({"title":f"Title {code}","text":"facts","language":code},language="en")
+        assert f"Original title (context only): Title {code}" in prompts[-1]
+        assert f"Output language: {label}" in prompts[-1]
+
+
 @pytest.mark.parametrize("message,status", [("insufficient_quota",429),("authentication failed",401),("timed out",429)])
 def test_protected_errors_do_not_fallback(monkeypatch,message,status):
     calls=[]
@@ -79,3 +111,61 @@ def test_compatibility_has_one_retry(monkeypatch):
     d=diagnostics.reset_cyberlurch_openai_diagnostics()
     summarizer.summarize_youtube_transcript_direct({"text":"facts"})
     assert len(calls)==2 and d.fallback_attempts_total==1
+    assert "response_format" not in calls[1]
+    assert calls[1]["model"] == calls[0]["model"]
+
+
+def test_generic_http_400_does_not_fallback_or_leak(monkeypatch):
+    calls=[]
+    secret="raw-title-and-body-secret"
+    class E(Exception): status_code=400
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kw): calls.append(kw); raise E(secret)
+    monkeypatch.setattr(summarizer,"_get_client",lambda:C())
+    d=diagnostics.reset_cyberlurch_openai_diagnostics()
+    with pytest.raises(E):
+        summarizer.summarize_youtube_transcript_direct({"text":"facts"})
+    assert len(calls)==1 and d.fallback_attempts_total==0
+    assert secret not in json.dumps(d.to_dict())
+
+
+def test_direct_character_count_counts_each_transmission(monkeypatch):
+    calls=[]
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kw):
+                    calls.append(kw)
+                    if len(calls)==1: raise RuntimeError("temperature is unsupported")
+                    return response()
+    monkeypatch.setattr(summarizer,"_get_client",lambda:C())
+    assert summarizer.summarize_youtube_transcript_direct({"text":"facts"})["chars_processed_total"]==10
+
+
+def test_deep_dive_deduplicates_internal_fact():
+    it=item(1,deep=True)
+    repeated="Alice approved 25 sites on August 5."
+    it.update(transcript_full_summary=repeated, transcript_key_points=[repeated], important_details=["- alice approved 25 sites on August 5"], transcript_notable_claims=[repeated])
+    md=reporter.render_cyberlurch_daily_report([it],title="Cyberlurch",generated_at="now")
+    deep=md.split("## Deep Dives",1)[1]
+    assert deep.casefold().count("alice approved 25 sites on august 5") == 1
+
+
+def test_twelve_non_chunked_items_make_at_most_twelve_attempts(monkeypatch):
+    calls=[]
+    class C:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**kw): calls.append(kw); return response()
+    monkeypatch.setattr(summarizer,"_get_client",lambda:C())
+    d=diagnostics.reset_cyberlurch_openai_diagnostics()
+    for i in range(12):
+        summarizer.summarize_youtube_transcript_direct({"title":f"Title {i}","text":f"fact {i}"},language="en")
+    assert len(calls)==12
+    assert d.call_attempts_total==d.call_success_total==12
+    assert d.call_error_total==d.fallback_attempts_total==0
