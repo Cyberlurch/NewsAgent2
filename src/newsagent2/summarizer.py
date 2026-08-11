@@ -16,6 +16,7 @@ from .cybermed_quality import (
     classify_generation_error,
     validate_generated_text,
 )
+from .cybermed_openai import cybermed_chat_create
 from .utils import diagnostics as diagnostics_module
 
 # Default model used for all summaries (override via OPENAI_MODEL env var)
@@ -27,6 +28,21 @@ OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST = (os.getenv("OPENAI_MODEL_CYBERLURCH_DIRE
 OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK = (os.getenv("OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK") or OPENAI_MODEL_CYBERLURCH_OVERVIEW).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE") or OPENAI_MODEL).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK") or "").strip()
+OPENAI_MODEL_CYBERMED = (
+    os.getenv("OPENAI_MODEL_CYBERMED") or "gpt-4.1-2025-04-14"
+).strip()
+OPENAI_MODEL_CYBERMED_OVERVIEW = (
+    os.getenv("OPENAI_MODEL_CYBERMED_OVERVIEW") or OPENAI_MODEL_CYBERMED
+).strip()
+OPENAI_MODEL_CYBERMED_DEEPDIVE = (
+    os.getenv("OPENAI_MODEL_CYBERMED_DEEPDIVE") or OPENAI_MODEL_CYBERMED
+).strip()
+OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK = (
+    os.getenv("OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK") or ""
+).strip()
+OPENAI_MODEL_CYBERMED_BOTTOM_LINE = (
+    os.getenv("OPENAI_MODEL_CYBERMED_BOTTOM_LINE") or OPENAI_MODEL_CYBERMED
+).strip()
 
 
 @dataclass
@@ -35,9 +51,13 @@ class _PubmedDeepDiveModels:
     fallback: str
 
 
-def _pubmed_deep_dive_models() -> _PubmedDeepDiveModels:
-    primary = OPENAI_MODEL_PUBMED_DEEPDIVE or OPENAI_MODEL
-    fallback = OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK.strip()
+def _pubmed_deep_dive_models(*, cybermed: bool = False) -> _PubmedDeepDiveModels:
+    if cybermed:
+        primary = OPENAI_MODEL_CYBERMED_DEEPDIVE or OPENAI_MODEL_CYBERMED
+        fallback = OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK.strip()
+    else:
+        primary = OPENAI_MODEL_PUBMED_DEEPDIVE or OPENAI_MODEL
+        fallback = OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK.strip()
     if fallback and fallback == primary:
         fallback = ""
     return _PubmedDeepDiveModels(primary=primary, fallback=fallback)
@@ -982,6 +1002,7 @@ def _run_pubmed_markdown_deep_dive(
     client: OpenAI,
     *,
     model: str,
+    stage: str,
     sys_prompt: str,
     user_prompt: str,
     lang: str,
@@ -991,14 +1012,16 @@ def _run_pubmed_markdown_deep_dive(
         {"role": "system", "content": sys_prompt},
         {"role": "user", "content": user_prompt},
     ]
-    r = client.chat.completions.create(
+    r = _openai_chat_create(
+        client,
+        stage=stage,
         model=model,
         messages=messages,
         temperature=0.2,
     )
     raw_md = (r.choices[0].message.content or "").strip()
     if _is_cybermed_generation():
-        raw_md = validate_generated_text(raw_md, stage="pubmed_deep_dive_markdown")
+        raw_md = validate_generated_text(raw_md, stage=stage)
     return _normalize_pubmed_field_values(raw_md, lang=lang, fallback_bottom_line=fallback_bottom_line)
 
 
@@ -1013,6 +1036,23 @@ def _get_client() -> OpenAI:
 
 def _is_cybermed_generation() -> bool:
     return (os.getenv("REPORT_KEY") or "").strip().lower() == "cybermed"
+
+
+def _openai_chat_create(
+    client: OpenAI,
+    *,
+    stage: str,
+    model: str,
+    **request: Any,
+) -> Any:
+    if _is_cybermed_generation():
+        return cybermed_chat_create(
+            client,
+            stage=stage,
+            model=model,
+            **request,
+        )
+    return client.chat.completions.create(model=model, **request)
 
 
 def _raise_safe_cybermed_generation_error(exc: BaseException, *, stage: str) -> None:
@@ -1309,8 +1349,15 @@ def summarize(items: List[Dict[str, Any]], *, language: str = "de", profile: str
 
     try:
         client = _get_client()
-        r = client.chat.completions.create(
-            model=OPENAI_MODEL_CYBERLURCH_OVERVIEW if is_cyberlurch else OPENAI_MODEL,
+        model = (
+            OPENAI_MODEL_CYBERLURCH_OVERVIEW
+            if is_cyberlurch
+            else (OPENAI_MODEL_CYBERMED_OVERVIEW if report_key == "cybermed" else OPENAI_MODEL)
+        )
+        r = _openai_chat_create(
+            client,
+            stage="overview",
+            model=model,
             messages=[
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
@@ -1468,8 +1515,16 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
 
     try:
         client = _get_client()
-        models = _pubmed_deep_dive_models()
-        model_to_use = models.primary if src == "pubmed" else (OPENAI_MODEL_CYBERLURCH_DEEPDIVE if is_cyberlurch else OPENAI_MODEL)
+        models = _pubmed_deep_dive_models(cybermed=is_cybermed)
+        model_to_use = (
+            models.primary
+            if src == "pubmed"
+            else (
+                OPENAI_MODEL_CYBERLURCH_DEEPDIVE
+                if is_cyberlurch
+                else (OPENAI_MODEL_CYBERMED_DEEPDIVE if is_cybermed else OPENAI_MODEL)
+            )
+        )
 
         if src == "pubmed":
             fallback_bl = (item.get("bottom_line") or "").strip()
@@ -1478,7 +1533,9 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     {"role": "system", "content": _pubmed_json_system_prompt(lang)},
                     {"role": "user", "content": user_prompt + "Return ONLY the JSON object described."},
                 ]
-                r_json = client.chat.completions.create(
+                r_json = _openai_chat_create(
+                    client,
+                    stage="pubmed_deep_dive_json",
                     model=model_to_use,
                     messages=json_messages,
                     temperature=0.15,
@@ -1524,6 +1581,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     fallback_content, fb_missing = _run_pubmed_markdown_deep_dive(
                         client,
                         model=fb_model,
+                        stage="pubmed_deep_dive_markdown",
                         sys_prompt=sys_prompt,
                         user_prompt=user_prompt,
                         lang=lang,
@@ -1592,6 +1650,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     rescue_content, rescue_missing = _run_pubmed_markdown_deep_dive(
                         client,
                         model=fb_model,
+                        stage="pubmed_deep_dive_best_effort",
                         sys_prompt=best_effort_sys_prompt,
                         user_prompt=user_prompt,
                         lang=lang,
@@ -1639,7 +1698,9 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
             ]
-            r = client.chat.completions.create(
+            r = _openai_chat_create(
+                client,
+                stage="deep_dive",
                 model=model_to_use,
                 messages=messages,
                 temperature=0.2,
@@ -1719,8 +1780,11 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
 
     try:
         client = _get_client()
-        r = client.chat.completions.create(
-            model=OPENAI_MODEL,
+        model = OPENAI_MODEL_CYBERMED_BOTTOM_LINE if _is_cybermed_generation() else OPENAI_MODEL
+        r = _openai_chat_create(
+            client,
+            stage="pubmed_bottom_line",
+            model=model,
             messages=[
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
@@ -1855,8 +1919,11 @@ def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
 
     try:
         client = _get_client()
-        r = client.chat.completions.create(
-            model=OPENAI_MODEL,
+        model = OPENAI_MODEL_CYBERMED_BOTTOM_LINE if _is_cybermed_generation() else OPENAI_MODEL
+        r = _openai_chat_create(
+            client,
+            stage="foamed_bottom_line",
+            model=model,
             messages=[
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},

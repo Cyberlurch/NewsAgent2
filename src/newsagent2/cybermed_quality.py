@@ -28,6 +28,8 @@ class CybermedGenerationError(RuntimeError):
 
 
 def classify_generation_error(exc: BaseException) -> str:
+    if isinstance(exc, CybermedGenerationError):
+        return exc.category
     status = getattr(exc, "status_code", None)
     name = exc.__class__.__name__.lower()
     message = str(exc).lower()

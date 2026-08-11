@@ -52,6 +52,7 @@ from .cybermed_quality import (
     safe_generated_text,
     sanitize_cybermed_payload,
 )
+from . import cybermed_openai as cybermed_openai_module
 from .state_manager import (
     is_processed,
     mark_screened,
@@ -72,6 +73,11 @@ from .cyberlurch_editorial import (
 from .cyberlurch_cadence import annotate_cyberlurch_temporality, classify_cyberlurch_item_temporality, cyberlurch_cadence_profile
 
 from .summarizer import (
+    OPENAI_MODEL_CYBERMED,
+    OPENAI_MODEL_CYBERMED_BOTTOM_LINE,
+    OPENAI_MODEL_CYBERMED_DEEPDIVE,
+    OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK,
+    OPENAI_MODEL_CYBERMED_OVERVIEW,
     OPENAI_MODEL_CYBERLURCH_CHUNKS,
     OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST,
     OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK,
@@ -881,11 +887,12 @@ def _write_cybermed_diagnostics(
     report_mode: str,
     diagnostics_payload: Dict[str, Any],
 ) -> None:
-    if (os.getenv("GITHUB_EVENT_NAME") or "").strip() != "workflow_dispatch":
-        return
     try:
         os.makedirs(report_dir, exist_ok=True)
         safe_mode = (report_mode or "daily").strip().lower() or "daily"
+        diagnostics_payload["cybermed_openai"] = (
+            cybermed_openai_module.CYBERMED_OPENAI_DIAGNOSTICS.to_dict()
+        )
         if safe_mode == "monthly":
             diagnostics_payload.update(_cybermed_monthly_aliases_from_weekly(diagnostics_payload))
         out_path = os.path.join(report_dir, f"cybermed_{safe_mode}_diagnostics.json")
@@ -893,6 +900,29 @@ def _write_cybermed_diagnostics(
             json.dump(diagnostics_payload, f, ensure_ascii=False, indent=2, sort_keys=True)
             f.write("\n")
         print(f"[diagnostics] Wrote count-only Cybermed diagnostics: {out_path}")
+        openai_counts = diagnostics_payload["cybermed_openai"]
+        print(
+            "[cybermed-openai] "
+            + json.dumps(
+                {
+                    "provider_calls_attempted_total": openai_counts.get(
+                        "provider_calls_attempted_total", 0
+                    ),
+                    "provider_calls_succeeded_total": openai_counts.get(
+                        "provider_calls_succeeded_total", 0
+                    ),
+                    "provider_calls_failed_total": openai_counts.get(
+                        "provider_calls_failed_total", 0
+                    ),
+                    "budget_blocked_total": openai_counts.get(
+                        "budget_blocked_total", 0
+                    ),
+                    "budget_accounted": openai_counts.get("budget_accounted", {}),
+                },
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+        )
     except Exception as e:
         print(f"[diagnostics] WARN: failed to write Cybermed diagnostics err_type={type(e).__name__}")
 
@@ -1861,6 +1891,7 @@ def _run_yearly_report(
     report_dir: str,
 ) -> None:
     os.makedirs(report_dir, exist_ok=True)
+    is_cybermed_yearly = _is_cybermed(report_key, os.getenv("REPORT_PROFILE", ""))
     rollups_state = load_rollups_state(rollups_state_path)
     now_sto = datetime.now(tz=STO)
     event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
@@ -1911,6 +1942,12 @@ def _run_yearly_report(
     cybermed_yearly_diags["cybermed_yearly_coverage_incomplete"] = not (len(entries) >= 12)
     if not entries and event_name == "schedule":
         print(f"[email] Scheduled yearly run found no rollups for {target_year} -> skipping email.")
+        if is_cybermed_yearly:
+            _write_cybermed_diagnostics(
+                report_dir,
+                "yearly",
+                cybermed_yearly_diags,
+            )
         return
 
     md = render_yearly_markdown(
@@ -1936,6 +1973,12 @@ def _run_yearly_report(
         ]
     )
     _write_run_metadata_artifact(report_dir, report_key, "yearly", yearly_meta)
+    if is_cybermed_yearly:
+        _write_cybermed_diagnostics(
+            report_dir,
+            "yearly",
+            cybermed_yearly_diags,
+        )
 
     try:
         send_markdown(report_subject, md)
@@ -2044,6 +2087,8 @@ def main() -> None:
     is_cyberlurch_daily = report_key.lower() == "cyberlurch" and report_mode == "daily"
     if is_cyberlurch_daily:
         diagnostics_module.reset_cyberlurch_openai_diagnostics()
+    if report_key.lower() == "cybermed":
+        cybermed_openai_module.reset_cybermed_openai_diagnostics()
     base_report_title = (os.getenv("REPORT_TITLE", "The Cyberlurch Report") or "The Cyberlurch Report").strip()
     base_report_subject = (os.getenv("REPORT_SUBJECT", base_report_title) or base_report_title).strip()
     report_title = base_report_title
@@ -2197,6 +2242,23 @@ def main() -> None:
         print(
             f"[models] cyberlurch_direct_digest={OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST} "
             f"cyberlurch_direct_digest_fallback={OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK}"
+        )
+    elif report_key.strip().lower() == "cybermed":
+        budget_limits = (
+            cybermed_openai_module.CYBERMED_OPENAI_DIAGNOSTICS.to_dict()[
+                "budget_limits"
+            ]
+        )
+        print(
+            f"[models] cybermed_base={OPENAI_MODEL_CYBERMED} "
+            f"cybermed_overview={OPENAI_MODEL_CYBERMED_OVERVIEW} "
+            f"cybermed_deepdive={OPENAI_MODEL_CYBERMED_DEEPDIVE} "
+            f"cybermed_deepdive_fallback={OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK or 'none'} "
+            f"cybermed_bottom_line={OPENAI_MODEL_CYBERMED_BOTTOM_LINE}"
+        )
+        print(
+            "[cybermed-openai] budget_limits="
+            + json.dumps(budget_limits, sort_keys=True, separators=(",", ":"))
         )
     provider = (os.getenv("YOUTUBE_TRANSCRIPT_PROVIDER", "none") or "none").strip().lower()
     if report_key.strip().lower()=="cyberlurch" and report_mode in {"weekly","monthly","yearly"} and not _env_bool("CYBERLURCH_MANAGED_TRANSCRIPTS_FOR_ROLLUPS", False):

@@ -133,7 +133,7 @@ def test_overview_and_deepdive_model_env_used(monkeypatch):
     assert "deepdive-model" in captured
 
 
-def test_cybermed_model_behavior_unchanged(monkeypatch):
+def test_cybermed_model_is_pinned_independently_of_cyberlurch(monkeypatch):
     captured = []
     class C:
         class chat:
@@ -149,7 +149,7 @@ def test_cybermed_model_behavior_unchanged(monkeypatch):
     importlib.reload(summarizer)
     monkeypatch.setattr(summarizer, "_get_client", lambda: C())
     summarizer.summarize_item_detail({"source":"youtube","title":"t","text":"hello world "*20}, language="en", profile="medical")
-    assert "base-model" in captured
+    assert captured == ["gpt-4.1-2025-04-14"]
 
 
 def test_direct_digest_sets_json_response_format(monkeypatch):
