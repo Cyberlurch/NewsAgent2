@@ -632,6 +632,14 @@ def _parse_cybermed_counts(meta_block: str) -> Tuple[Optional[int], Optional[int
     return screened, after_state
 
 
+def _parse_cybermed_lookback_hours(meta_block: str) -> Optional[int]:
+    try:
+        match = re.search(r"during\s+the\s+last\s+(\d+)h", meta_block, flags=re.IGNORECASE)
+        return int(match.group(1)) if match else None
+    except Exception:
+        return None
+
+
 def _format_cybermed_metadata(
     items: List[Dict[str, Any]],
     meta_block: str,
@@ -1521,8 +1529,12 @@ def to_markdown(
                             md.extend(["", "---", ""])
                     md.append("")
         else:
-            _, after_state = _parse_cybermed_counts(meta_only or "")
-            if after_state is not None:
+            screened, after_state = _parse_cybermed_counts(meta_only or "")
+            if normalized_mode in {"weekly", "monthly"}:
+                md.append("No papers selected for this reporting period.")
+            elif screened is not None and screened <= 0:
+                md.append("No papers found in the PubMed search window.")
+            elif after_state is not None:
                 if after_state <= 0:
                     md.append("No new papers selected (all screened items were already processed).")
                 else:
@@ -1570,7 +1582,13 @@ def to_markdown(
                     md.extend(["", "---", ""])
             md.append("")
         else:
-            md.append("- No new FOAMed posts in the last 24 hours.")
+            lookback_hours = _parse_cybermed_lookback_hours(meta_only or "")
+            if normalized_mode in {"weekly", "monthly"}:
+                md.append("- No FOAMed posts selected for this reporting period.")
+            elif lookback_hours is not None:
+                md.append(f"- No new FOAMed posts in the last {lookback_hours} hours.")
+            else:
+                md.append("- No new FOAMed posts in the report window.")
             md.append("")
 
     deep_dives_heading = "## Vertiefungen" if lang == "de" else "## Deep Dives"

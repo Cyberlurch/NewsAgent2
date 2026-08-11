@@ -1,3 +1,6 @@
+from datetime import datetime, timezone
+
+from src.newsagent2 import collectors_pubmed
 from src.newsagent2.collectors_pubmed import _parse_pubmed_xml
 
 
@@ -76,3 +79,23 @@ def test_parse_pubmed_xml_missing_optional_metadata_does_not_crash():
     assert item["abstract_sections"] == []
     assert item["evidence_tags"] == []
     assert item["doi"] == ""
+
+
+def test_search_uses_explicit_historical_reference_time(monkeypatch):
+    captured = {}
+
+    def fake_request_json(_url, params, timeout_s=25):
+        captured.update(params)
+        return {"esearchresult": {"idlist": [], "count": "0"}}
+
+    monkeypatch.setattr(collectors_pubmed, "_request_json", fake_request_json)
+
+    collectors_pubmed.search_recent_pubmed(
+        term="critical care",
+        hours=72,
+        max_items=25,
+        reference_now_utc=datetime(2026, 8, 10, 5, 11, tzinfo=timezone.utc),
+    )
+
+    assert captured["mindate"] == "2026/08/07"
+    assert captured["maxdate"] == "2026/08/10"

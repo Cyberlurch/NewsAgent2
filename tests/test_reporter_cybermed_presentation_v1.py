@@ -47,3 +47,28 @@ def test_empty_report_has_no_badge_lines():
     assert "No new FOAMed posts" in md
     assert "Evidence " not in md
     assert "Source quality " not in md
+
+
+def test_empty_daily_distinguishes_zero_candidates_and_uses_real_lookback():
+    metadata = """**Cybermed report metadata**
+- 0 papers screened from the following journals during the last 72h: Example
+- New (not previously processed): 0 (skipped_by_state: 0)
+"""
+
+    md = reporter.to_markdown(
+        [], metadata, {}, report_title="Cybermed Daily", report_language="en", report_mode="daily"
+    )
+
+    assert "No papers found in the PubMed search window." in md
+    assert "all screened items were already processed" not in md
+    assert "No new FOAMed posts in the last 72 hours." in md
+
+
+def test_empty_periodic_report_does_not_claim_a_24_hour_window():
+    md = reporter.to_markdown(
+        [], "", {}, report_title="Cybermed Weekly", report_language="en", report_mode="weekly"
+    )
+
+    assert "No papers selected for this reporting period." in md
+    assert "No FOAMed posts selected for this reporting period." in md
+    assert "last 24 hours" not in md

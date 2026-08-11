@@ -1,6 +1,7 @@
 from datetime import date
 
 from newsagent2.cybermed_digest_store import (
+    latest_cybermed_daily_digest_generated_at,
     load_cybermed_daily_digest_store,
     select_cybermed_daily_digests_for_month,
     select_cybermed_daily_digests_for_week,
@@ -20,6 +21,17 @@ def test_loader_skips_malformed_entries(tmp_path):
     p.write_text('{"schema_version":1,"digests":[{"digest_id":"ok","run_date":"2026-05-20"},"bad",{}]}', encoding='utf-8')
     data = load_cybermed_daily_digest_store(str(p))
     assert len(data['digests']) == 1
+
+
+def test_latest_daily_generation_marker_is_report_specific_and_valid():
+    store = {"digests": [
+        {"report_key": "cybermed", "cadence": "daily", "generated_at_utc": "2026-08-07T05:18:55+00:00"},
+        {"report_key": "cyberlurch", "cadence": "daily", "generated_at_utc": "2026-08-10T05:08:00+00:00"},
+        {"report_key": "cybermed", "cadence": "weekly", "generated_at_utc": "2026-08-10T05:09:00+00:00"},
+        {"report_key": "cybermed", "cadence": "daily", "generated_at_utc": "not-a-date"},
+    ]}
+
+    assert latest_cybermed_daily_digest_generated_at(store) == "2026-08-07T05:18:55+00:00"
 
 
 def test_week_select_and_summary(tmp_path):

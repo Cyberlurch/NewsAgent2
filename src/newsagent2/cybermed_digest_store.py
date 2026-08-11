@@ -24,6 +24,37 @@ def load_cybermed_daily_digest_store(path: str) -> dict:
         return default
 
 
+def latest_cybermed_daily_digest_generated_at(store: dict) -> str:
+    """Return the newest valid Cybermed Daily generation timestamp.
+
+    The digest store is report-specific and is therefore the safe migration
+    fallback for Daily lookback calculation.  The legacy global marker can be
+    overwritten by another newsletter that ran in the same workflow.
+    """
+
+    latest: tuple[datetime, str] | None = None
+    for digest in store.get("digests", []):
+        if not isinstance(digest, dict):
+            continue
+        if str(digest.get("report_key") or "cybermed").strip().lower() != "cybermed":
+            continue
+        if str(digest.get("cadence") or "daily").strip().lower() != "daily":
+            continue
+        raw = str(digest.get("generated_at_utc") or "").strip()
+        if not raw:
+            continue
+        try:
+            parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=ZoneInfo("UTC"))
+            normalized = parsed.astimezone(ZoneInfo("UTC"))
+        except Exception:
+            continue
+        if latest is None or normalized > latest[0]:
+            latest = (normalized, raw)
+    return latest[1] if latest else ""
+
+
 def cybermed_weekly_reporting_period(today: date, timezone: str = "Europe/Stockholm") -> tuple[date, date]:
     tz = ZoneInfo(timezone)
     now = datetime.combine(today, datetime.min.time(), tz)

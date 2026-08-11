@@ -206,6 +206,67 @@ def test_cybermed_backfill_activates_only_in_safe_manual_none_mode(tmp_path, mon
     assert diag["cybermed_digest_backfill_safety_passed"] is True
     assert diag["cybermed_digest_backfill_state_filter_bypassed"] is True
     assert diag["cybermed_digest_backfill_state_mutation_disabled"] is True
+    assert diag["cybermed_digest_backfill_apply_requested"] is False
+    assert diag["cybermed_digest_backfill_write_allowed"] is False
+    assert diag["cybermed_digest_backfill_write_skipped_reason"] == "backfill_audit_only_apply_false"
+    assert not (tmp_path / "state" / "cybermed_daily_digests.json").exists()
+
+
+def test_historical_backfill_audits_then_applies_only_to_empty_digest(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
+    monkeypatch.setattr(main, "summarize_pubmed_bottom_line", lambda *a, **k: "Useful result")
+    monkeypatch.setattr(main, "summarize_foamed_bottom_line", lambda *a, **k: "Useful commentary")
+    monkeypatch.setattr(
+        main,
+        "_select_pubmed_deep_dives_with_content",
+        lambda candidates, **kwargs: [],
+    )
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_MODE", "1")
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_RUN_DATE", "2026-08-10")
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC", "2026-08-10T05:11:00+00:00")
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS", "72")
+    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
+    dpath.parent.mkdir(parents=True, exist_ok=True)
+    dpath.write_text(
+        json.dumps({
+            "schema_version": 1,
+            "digests": [{
+                "digest_id": "cybermed_daily_2026-08-10",
+                "report_key": "cybermed",
+                "cadence": "daily",
+                "run_date": "2026-08-10",
+                "items": {"pubmed": [], "foamed": []},
+                "deep_dives": [],
+                "top_picks": [],
+            }],
+        }),
+        encoding="utf-8",
+    )
+
+    before = dpath.read_text(encoding="utf-8")
+    main.main()
+    assert dpath.read_text(encoding="utf-8") == before
+    audit_diag = json.loads(
+        (tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8")
+    )
+    assert audit_diag["cybermed_digest_backfill_reference_utc"] == "2026-08-10T05:11:00+00:00"
+    assert audit_diag["cybermed_digest_backfill_lookback_hours"] == 72
+    assert audit_diag["cybermed_digest_backfill_write_skipped_reason"] == "backfill_audit_only_apply_false"
+
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_APPLY", "1")
+    main.main()
+    applied = json.loads(dpath.read_text(encoding="utf-8"))
+    digest = applied["digests"][0]
+    assert digest["digest_id"] == "cybermed_daily_2026-08-10"
+    assert digest["run_date"] == "2026-08-10"
+    assert digest["lookback_hours"] == 72
+    assert digest["items"]["pubmed"]
+    apply_diag = json.loads(
+        (tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8")
+    )
+    assert apply_diag["cybermed_digest_backfill_apply_requested"] is True
+    assert apply_diag["cybermed_digest_backfill_write_allowed"] is True
 
 
 def test_cybermed_backfill_ignored_when_send_email_or_schedule(tmp_path, monkeypatch):

@@ -32,6 +32,7 @@ from .rollups import (
 from .reporter import to_markdown
 from .cybermed_digest_store import (
     cybermed_weekly_reporting_period,
+    latest_cybermed_daily_digest_generated_at,
     load_cybermed_daily_digest_store,
     select_cybermed_daily_digests_for_month,
     select_cybermed_daily_digests_for_week,
@@ -470,6 +471,28 @@ def _load_cybermed_daily_digest_state(path: str) -> Dict[str, Any]:
         json.dump(default, f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
     return default
+
+
+def _cybermed_daily_lookback_marker(
+    state: Dict[str, Any],
+    digest_store_path: str,
+) -> Tuple[str, str]:
+    """Return Cybermed's own Daily marker and its diagnostic source."""
+
+    by_report = state.get("last_successful_daily_run_utc_by_report")
+    marker = str(by_report.get("cybermed") or "").strip() if isinstance(by_report, dict) else ""
+    if marker:
+        return marker, "cybermed_report_state"
+
+    marker = latest_cybermed_daily_digest_generated_at(
+        load_cybermed_daily_digest_store(digest_store_path)
+    )
+    if marker:
+        return marker, "cybermed_daily_digest_store"
+
+    # The shared legacy key is deliberately not a fallback.  It may have been
+    # written by Cyberlurch only minutes before Cybermed starts.
+    return "", "missing_cybermed_marker"
 
 
 def _sanitize_cybermed_pubmed_item(item: Dict[str, Any]) -> Dict[str, Any]:
@@ -1920,7 +1943,15 @@ def _update_state_after_run(
             print(f"[state] WARN: mark_processed failed for {src}:{iid!r}: {e!r}")
 
     if report_mode == "daily":
-        state["last_successful_daily_run_utc"] = now_utc_iso
+        if (report_key or "").strip().lower() == "cybermed":
+            by_report = state.get("last_successful_daily_run_utc_by_report")
+            if not isinstance(by_report, dict):
+                by_report = {}
+            by_report["cybermed"] = now_utc_iso
+            state["last_successful_daily_run_utc_by_report"] = by_report
+        else:
+            # Preserve the established marker used by Cyberlurch.
+            state["last_successful_daily_run_utc"] = now_utc_iso
 
     try:
         save_state(state_path, state)
@@ -2033,7 +2064,18 @@ def main() -> None:
         )
         return
 
-    last_successful_daily_iso = str(state.get("last_successful_daily_run_utc") or state.get("last_successful_run_utc") or "")
+    if report_key.strip().lower() == "cybermed" and report_mode == "daily":
+        last_successful_daily_iso, last_successful_daily_source = _cybermed_daily_lookback_marker(
+            state,
+            cybermed_digest_state_path,
+        )
+    else:
+        last_successful_daily_iso = str(
+            state.get("last_successful_daily_run_utc")
+            or state.get("last_successful_run_utc")
+            or ""
+        )
+        last_successful_daily_source = "legacy_report_state" if last_successful_daily_iso else "missing_legacy_marker"
     last_successful_daily = _parse_iso_utc(last_successful_daily_iso)
 
     effective_hours = args.hours
@@ -2065,6 +2107,11 @@ def main() -> None:
     print(f"[config] report_title={report_title!r}")
     print(f"[config] report_subject={report_subject!r}")
     print(f"[config] channels_file={args.channels!r} hours={args.hours} (override={lookback_override is not None})")
+    if report_key.strip().lower() == "cybermed" and report_mode == "daily":
+        print(
+            "[cybermed] daily_lookback_marker "
+            f"source={last_successful_daily_source} value={last_successful_daily_iso or 'none'}"
+        )
     print(f"[config] report_dir={report_dir!r}")
     print(f"[config] report_language={report_language!r} report_profile={report_profile!r}")
     if report_key.strip().lower() == "cyberlurch":
@@ -2258,6 +2305,8 @@ def main() -> None:
     backfill_digest_id = ""
     backfill_write_allowed = False
     backfill_write_skipped_reason = ""
+    backfill_apply_requested = False
+    backfill_reference_utc = ""
     if qa_replay_requested:
         event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
         email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
@@ -2307,18 +2356,60 @@ def main() -> None:
             backfill_state_filter_bypassed = True
             backfill_state_mutation_disabled = True
             backfill_email_disabled_confirmed = True
+            backfill_apply_requested = _env_bool("CYBERMED_DIGEST_BACKFILL_APPLY", False)
             run_date_override = (os.getenv("CYBERMED_DIGEST_BACKFILL_RUN_DATE", "") or "").strip()
             if run_date_override:
-                backfill_run_date = run_date_override
+                try:
+                    backfill_run_date = datetime.strptime(run_date_override, "%Y-%m-%d").date().isoformat()
+                except Exception as exc:
+                    raise RuntimeError(
+                        "CYBERMED_DIGEST_BACKFILL_RUN_DATE must use YYYY-MM-DD"
+                    ) from exc
             else:
                 backfill_run_date = datetime.now(tz=STO).strftime("%Y-%m-%d")
             backfill_digest_id = f"cybermed_daily_{backfill_run_date}"
             backfill_hours = (os.getenv("CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS", "") or "").strip()
             if backfill_hours:
                 try:
-                    args.hours = int(backfill_hours)
-                except Exception:
-                    pass
+                    parsed_backfill_hours = int(backfill_hours)
+                except Exception as exc:
+                    raise RuntimeError(
+                        "CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS must be an integer"
+                    ) from exc
+                if not 1 <= parsed_backfill_hours <= 168:
+                    raise RuntimeError(
+                        "CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS must be between 1 and 168"
+                    )
+                args.hours = parsed_backfill_hours
+
+            reference_raw = (
+                os.getenv("CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC", "") or ""
+            ).strip()
+            parsed_reference = _parse_iso_utc(reference_raw)
+            if reference_raw and parsed_reference is None:
+                raise RuntimeError(
+                    "CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC must be an ISO-8601 UTC timestamp"
+                )
+            if run_date_override and parsed_reference is None:
+                raise RuntimeError(
+                    "Historical Cybermed backfills require CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC"
+                )
+            if parsed_reference is not None:
+                if parsed_reference.date().isoformat() != backfill_run_date:
+                    raise RuntimeError(
+                        "Cybermed backfill reference UTC date must match the requested run date"
+                    )
+                now_utc = parsed_reference
+                report_since_utc = now_utc - timedelta(hours=args.hours)
+                backfill_reference_utc = now_utc.replace(microsecond=0).isoformat()
+            backfill_write_allowed = backfill_apply_requested
+            backfill_write_skipped_reason = "" if backfill_apply_requested else "audit_only_apply_false"
+            print(
+                "[cybermed-backfill] "
+                f"mode={'apply' if backfill_apply_requested else 'audit'} "
+                f"run_date={backfill_run_date} hours={args.hours} "
+                f"reference_utc={backfill_reference_utc or 'current'}"
+            )
         else:
             backfill_skipped_reason = "safety_failed:" + ",".join(failed_checks)
     pubmed_candidates_total = 0
@@ -2846,7 +2937,13 @@ def main() -> None:
                 try:
                     pubmed_collect_start = time.monotonic()
                     if is_cybermed_run:
-                        arts, pubmed_meta = search_recent_pubmed(term=query, hours=args.hours, max_items=pubmed_max_items, return_metadata=True)
+                        arts, pubmed_meta = search_recent_pubmed(
+                            term=query,
+                            hours=args.hours,
+                            max_items=pubmed_max_items,
+                            return_metadata=True,
+                            reference_now_utc=now_utc,
+                        )
                     else:
                         arts = search_recent_pubmed(term=query, hours=args.hours, max_items=pubmed_max_items)
                         pubmed_meta = {}
@@ -2993,7 +3090,10 @@ def main() -> None:
             items.append(candidate)
         youtube_diag.daily_managed_transcript_attempts_for_preselected_total = youtube_diag.managed_transcript_attempted_total - managed_before
 
-    _save_youtube_channel_id_cache(channel_id_cache, read_only_mode=read_only_mode)
+    _save_youtube_channel_id_cache(
+        channel_id_cache,
+        read_only_mode=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode),
+    )
     _write_channel_id_suggestions(discovered_channel_ids, report_dir)
     youtube_diag.managed_transcript_billable_success_estimate = youtube_diag.managed_transcript_success_total
     if report_key.strip().lower() == "cyberlurch" or youtube_diag.channels_attempted_total > 0:
@@ -3324,7 +3424,7 @@ def main() -> None:
         pubmed_new_unique = len(pubmed_new_items)
 
         # PubMed date filtering is applied using UTC date boundaries (YYYY/MM/DD), not hour-resolution.
-        pubmed_now_utc = datetime.now(timezone.utc)
+        pubmed_now_utc = now_utc
         pubmed_since_utc = pubmed_now_utc - timedelta(hours=args.hours)
         pubmed_datetype = (os.getenv("PUBMED_DATE_TYPE", "pdat") or "pdat").strip().lower()
         mindate = _date_yyyymmdd_utc(pubmed_since_utc)
@@ -3381,7 +3481,11 @@ def main() -> None:
         lines.append("**Cybermed report metadata**")
         lines.append(f"- {pubmed_candidates_total} papers screened from the following journals during the last {args.hours}h: {journal_list}")
         lines.append(f"- New (not previously processed): {pubmed_new_unique} (skipped_by_state: {pubmed_skipped_by_state})")
-        lines.append(f"- Search criteria were (PubMed E-Utilities): datetype={pubmed_datetype.upper()} mindate={mindate} maxdate={maxdate} (UTC date boundaries), sort=date, retmax={max_items_per_channel}/query")
+        lines.append(
+            "- Search criteria were (PubMed E-Utilities): "
+            f"datetype={pubmed_datetype.upper()} mindate={mindate} maxdate={maxdate} "
+            f"(UTC date boundaries), sort=date, retmax={cybermed_max_items_per_channel}/query"
+        )
         lines.append(f"- PubMed queries executed: {q_count} (failed: {pubmed_query_failures})")
         if sel_enabled:
             lines.append(
@@ -3753,13 +3857,16 @@ def main() -> None:
             "cybermed_digest_backfill_email_disabled_confirmed": bool(backfill_email_disabled_confirmed),
             "cybermed_digest_backfill_run_date": str(backfill_run_date or ""),
             "cybermed_digest_backfill_digest_id": str(backfill_digest_id or ""),
+            "cybermed_digest_backfill_apply_requested": bool(backfill_apply_requested),
+            "cybermed_digest_backfill_reference_utc": str(backfill_reference_utc or ""),
+            "cybermed_digest_backfill_lookback_hours": int(args.hours),
             "cybermed_digest_backfill_current_pubmed_total": 0,
             "cybermed_digest_backfill_current_foamed_total": 0,
             "cybermed_digest_backfill_current_deep_dives_total": 0,
             "cybermed_digest_backfill_current_top_picks_total": 0,
             "cybermed_digest_backfill_existing_digest_empty": False,
-            "cybermed_digest_backfill_write_allowed": False,
-            "cybermed_digest_backfill_write_skipped_reason": "",
+            "cybermed_digest_backfill_write_allowed": bool(backfill_write_allowed),
+            "cybermed_digest_backfill_write_skipped_reason": str(backfill_write_skipped_reason or ""),
             "runtime_total_seconds": round(max(0.0, time.monotonic() - runtime_start), 6),
             "runtime_pubmed_collect_seconds": round(runtime_pubmed_collect_seconds, 6),
             "runtime_pubmed_backfill_seconds": round(runtime_pubmed_backfill_seconds, 6),
@@ -3925,7 +4032,8 @@ def main() -> None:
                 digest_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
                 digest_path = digest_path or "state/cybermed_daily_digests.json"
                 digest_abs_path = str(Path(digest_path).resolve())
-                digest_id = f"cybermed_daily_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
+                digest_run_date = backfill_run_date or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                digest_id = backfill_digest_id or f"cybermed_daily_{digest_run_date}"
                 email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
                 send_email = (os.getenv("SEND_EMAIL", "1") or "1").strip()
                 event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
@@ -3935,6 +4043,12 @@ def main() -> None:
                 write_error_class = ""
                 if qa_replay_enabled and not _env_bool("CYBERMED_DIGEST_STORE_ALLOW_QA_REPLAY", False):
                     skip_reason = "qa_replay_mode"
+                if backfill_enabled:
+                    skip_reason = (
+                        "backfill_current_digest_empty"
+                        if backfill_apply_requested
+                        else "backfill_audit_only_apply_false"
+                    )
                 if not skip_reason:
                     dstate = _load_cybermed_daily_digest_state(digest_path)
                     digests = list(dstate.get("digests") or [])
@@ -3942,7 +4056,7 @@ def main() -> None:
                     if existing_idx >= 0 and not overwrite_allowed:
                         skip_reason = "digest_already_exists"
                     else:
-                        payload = {"digest_id": digest_id, "report_key": "cybermed", "cadence": "daily", "run_date": datetime.now(timezone.utc).strftime("%Y-%m-%d"), "generated_at_utc": now_utc_iso, "lookback_hours": int(args.hours), "qa_replay": bool(qa_replay_enabled), "email_mode": email_mode, "items": {"pubmed": [], "foamed": []}, "deep_dives": [], "top_picks": [], "diagnostic_summary": {"pubmed_selected_total": 0, "pubmed_deep_dive_total": 0, "pubmed_evidence_label_counts": {}, "foamed_selected_total": 0, "foamed_top_pick_total": 0, "foamed_source_quality_counts": {}, "foamed_text_confidence_counts": {}, "summary_consistency_conflict_total": 0, "summary_consistency_resolved_total": 0, "qa_replay": bool(qa_replay_enabled), "state_mutation_disabled": bool(qa_replay_state_mutation_disabled)}}
+                        payload = {"digest_id": digest_id, "report_key": "cybermed", "cadence": "daily", "run_date": digest_run_date, "generated_at_utc": now_utc_iso, "lookback_hours": int(args.hours), "qa_replay": bool(qa_replay_enabled), "email_mode": email_mode, "items": {"pubmed": [], "foamed": []}, "deep_dives": [], "top_picks": [], "diagnostic_summary": {"pubmed_selected_total": 0, "pubmed_deep_dive_total": 0, "pubmed_evidence_label_counts": {}, "foamed_selected_total": 0, "foamed_top_pick_total": 0, "foamed_source_quality_counts": {}, "foamed_text_confidence_counts": {}, "summary_consistency_conflict_total": 0, "summary_consistency_resolved_total": 0, "qa_replay": bool(qa_replay_enabled), "state_mutation_disabled": bool(qa_replay_state_mutation_disabled)}}
                         if existing_idx >= 0:
                             digests[existing_idx] = payload
                         else:
@@ -3999,6 +4113,11 @@ def main() -> None:
                     "cybermed_digest_store_expected_digest_present": expected_digest_present,
                     "cybermed_digest_store_write_error_class": write_error_class,
                 })
+                if backfill_enabled:
+                    cybermed_diagnostics_payload.update({
+                        "cybermed_digest_backfill_write_allowed": False,
+                        "cybermed_digest_backfill_write_skipped_reason": skip_reason,
+                    })
             if cybermed_digest_only_mode:
                 rendered_pubmed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "pubmed"])
                 rendered_foamed_total = len([it for it in report_items if (it.get("source") or "").strip().lower() == "foamed"])
@@ -5126,7 +5245,12 @@ def main() -> None:
                     and (not qa_replay_enabled or qa_replay_allow)
                 )
                 if backfill_enabled and backfill_overwrite_empty_only:
-                    replace_empty_allowed = safe_mutation_allowed and existing_digest_empty and current_digest_nonempty
+                    replace_empty_allowed = (
+                        backfill_apply_requested
+                        and safe_mutation_allowed
+                        and existing_digest_empty
+                        and current_digest_nonempty
+                    )
                 cybermed_digest_diag.update({
                     "cybermed_digest_store_existing_pubmed_total": existing_pubmed_total,
                     "cybermed_digest_store_existing_foamed_total": existing_foamed_total,
@@ -5139,7 +5263,9 @@ def main() -> None:
                     "cybermed_digest_store_deep_dives_total": existing_deep_dives_total,
                     "cybermed_digest_store_top_picks_total": existing_top_picks_total,
                 })
-            if backfill_enabled and not current_digest_nonempty:
+            if backfill_enabled and not backfill_apply_requested:
+                skip_reason = "backfill_audit_only_apply_false"
+            elif backfill_enabled and not current_digest_nonempty:
                 skip_reason = "backfill_current_digest_empty"
             elif existing_idx >= 0 and not overwrite_allowed and not replace_empty_allowed:
                 skip_reason = "digest_already_exists"
@@ -5242,7 +5368,7 @@ def main() -> None:
                 "cybermed_digest_backfill_current_deep_dives_total": int(cybermed_digest_diag.get("cybermed_digest_store_current_deep_dives_total", 0) or 0),
                 "cybermed_digest_backfill_current_top_picks_total": int(cybermed_digest_diag.get("cybermed_digest_store_current_top_picks_total", 0) or 0),
                 "cybermed_digest_backfill_existing_digest_empty": bool(cybermed_digest_diag.get("cybermed_digest_store_existing_digest_empty", False)),
-                "cybermed_digest_backfill_write_allowed": bool(skip_reason == ""),
+                "cybermed_digest_backfill_write_allowed": bool(backfill_apply_requested and skip_reason == ""),
                 "cybermed_digest_backfill_write_skipped_reason": str(skip_reason or ""),
             })
     if report_key.strip().lower() == "cyberlurch":
