@@ -1356,6 +1356,10 @@ def _update_foamed_health_state(
     for name, stats in per_source_stats.items():
         if not isinstance(stats, dict):
             continue
+        if bool(stats.get("collection_incomplete_due_to_budget")):
+            # A deadline-truncated source was not fully checked. Preserve its
+            # prior health instead of treating the degraded run as a failure.
+            continue
         src_name = str(name or "").strip()
         if not src_name:
             continue
@@ -2286,6 +2290,10 @@ def main() -> None:
         foamed_audit_check_disabled = _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False)
         foamed_article_fetch_enabled_cfg = _env_bool("FOAMED_ARTICLE_FETCH", False)
         foamed_article_fetch_max_per_run = _safe_int("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", 25)
+        foamed_collection_budget_seconds = _safe_int(
+            "FOAMED_COLLECTION_BUDGET_SECONDS",
+            420,
+        )
         foamed_render_fallback = _env_bool("FOAMED_RENDER_FALLBACK", False)
         print(f"[config] cybermed_limits: CYBERMED_MAX_ITEMS_PER_CHANNEL={cybermed_max_items_per_channel}")
         print(
@@ -2294,6 +2302,7 @@ def main() -> None:
             f"FOAMED_AUDIT_CHECK_DISABLED={foamed_audit_check_disabled} "
             f"FOAMED_ARTICLE_FETCH={foamed_article_fetch_enabled_cfg} "
             f"FOAMED_ARTICLE_FETCH_MAX_PER_RUN={foamed_article_fetch_max_per_run} "
+            f"FOAMED_COLLECTION_BUDGET_SECONDS={foamed_collection_budget_seconds} "
             f"FOAMED_RENDER_FALLBACK={foamed_render_fallback}"
         )
         print(f"[foamed] sources_config={foamed_sources_path!r}")
@@ -3956,6 +3965,7 @@ def main() -> None:
                 "FOAMED_AUDIT_CHECK_DISABLED": _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False),
                 "FOAMED_ARTICLE_FETCH": _env_bool("FOAMED_ARTICLE_FETCH", False),
                 "FOAMED_ARTICLE_FETCH_MAX_PER_RUN": _safe_int("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", 0),
+                "FOAMED_COLLECTION_BUDGET_SECONDS": _safe_int("FOAMED_COLLECTION_BUDGET_SECONDS", 420),
                 "FOAMED_ROLLING_AUDIT_DAYS": _safe_int("FOAMED_ROLLING_AUDIT_DAYS", 0),
                 "FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN": _safe_int("FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN", 60),
                 "CYBERMED_RUNTIME_DIAGNOSTICS": _env_bool("CYBERMED_RUNTIME_DIAGNOSTICS", True),
@@ -3998,7 +4008,25 @@ def main() -> None:
             "foamed_sources_total": int(foamed_meta_stats.get("sources_total", 0) or 0),
             "foamed_sources_config_total": len(foamed_sources),
             "foamed_sources_processed_total": int(foamed_meta_stats.get("sources_total", 0) or 0),
-            "foamed_sources_skipped_disabled_total": max(0, len(foamed_sources) - int(foamed_meta_stats.get("sources_total", 0) or 0)),
+            "foamed_sources_skipped_disabled_total": max(
+                0,
+                len(foamed_sources)
+                - int(foamed_meta_stats.get("sources_total", 0) or 0)
+                - int(
+                    foamed_meta_stats.get(
+                        "collection_sources_skipped_budget_total",
+                        0,
+                    )
+                    or 0
+                ),
+            ),
+            "foamed_collection_budget_seconds": int(foamed_meta_stats.get("collection_budget_seconds", 0) or 0),
+            "foamed_collection_elapsed_seconds": float(foamed_meta_stats.get("collection_elapsed_seconds", 0.0) or 0.0),
+            "foamed_collection_budget_exhausted": bool(foamed_meta_stats.get("collection_budget_exhausted", False)),
+            "foamed_collection_degraded": bool(foamed_meta_stats.get("collection_degraded", False)),
+            "foamed_collection_stop_reason": str(foamed_meta_stats.get("collection_stop_reason", "") or ""),
+            "foamed_collection_sources_skipped_budget_total": int(foamed_meta_stats.get("collection_sources_skipped_budget_total", 0) or 0),
+            "foamed_collection_sources_incomplete_budget_total": int(foamed_meta_stats.get("collection_sources_incomplete_budget_total", 0) or 0),
             "foamed_auto_disable_enabled": bool(foamed_auto_disable_enabled),
             "foamed_auto_disable_disabled_active_count": len(disabled_sources),
             "foamed_auto_disable_newly_disabled_count": int(foamed_meta_stats.get("newly_disabled_count", 0) or 0),

@@ -62,6 +62,7 @@ jobs:
       CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN || '80000' }}
       CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN || '1.50' }}
       CYBERMED_MODEL_EVAL_MODE: "0"
+      PYTHONUNBUFFERED: "1"
 
       SEND_EMAIL: ${{ github.event_name == 'workflow_dispatch' && (inputs.email_mode || 'none') == 'none' && '0' || (vars.SEND_EMAIL || '1') }}
       EMAIL_FROM: ${{ secrets.EMAIL_FROM || '' }}
@@ -231,13 +232,22 @@ jobs:
 
           for mode in $RUN_MODES; do
             export REPORT_MODE="$mode"
+            if [ "$mode" = "daily" ] && [ "${CYBERMED_HEAVY_AUDIT_MODE:-0}" != "1" ]; then
+              # Audits are maintenance diagnostics, not part of the delivery path.
+              export FOAMED_AUDIT=0
+              export FOAMED_AUDIT_CHECK_DISABLED=0
+              export FOAMED_ROLLING_AUDIT_DAYS=0
+              export FOAMED_ARTICLE_FETCH_MAX_PER_RUN=8
+              export FOAMED_COLLECTION_BUDGET_SECONDS=420
+              echo "[foamed-runtime] daily bounded mode: audit=0 disabled_audit=0 rolling_audit_days=0 article_fetch_max=8 collection_budget_seconds=420"
+            fi
             REPORT_KEY=cybermed \
             REPORT_TITLE="Cybermed Report" \
             REPORT_SUBJECT="Cybermed Report" \
             REPORT_LANGUAGE=en \
             REPORT_PROFILE=medical \
             SEND_EMPTY_REPORT_EMAIL="1" \
-            python -m src.newsagent2.main --channels data/cybermed_channels.json --hours 24
+            python -u -m src.newsagent2.main --channels data/cybermed_channels.json --hours 24
           done
 
       - name: Verify Cybermed reports and email attempts
@@ -282,7 +292,7 @@ jobs:
           fi
 
       - name: Upload Cybermed audit artifacts
-        if: steps.plan.outputs.skip != 'true'
+        if: always() && steps.plan.outputs.skip != 'true'
         uses: actions/upload-artifact@v7
         with:
           name: cybermed-reports-${{ github.run_id }}
@@ -291,6 +301,7 @@ jobs:
             out/*diagnostics*.json
             out/*metadata*.json
             out/*metadata*.md
+            out/cybermed-run.log
           if-no-files-found: error
           retention-days: 7
 

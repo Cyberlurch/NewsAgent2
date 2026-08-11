@@ -188,6 +188,7 @@ def test_cybermed_run_writes_daily_foundation_diagnostics_and_cyberlurch_unchang
         "FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN",
         "CYBERMED_RUNTIME_DIAGNOSTICS",
         "CYBERMED_HEAVY_AUDIT_MODE",
+        "FOAMED_COLLECTION_BUDGET_SECONDS",
     ]:
         assert cfg_key in diag["effective_runtime_config"]
 

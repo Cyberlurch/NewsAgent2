@@ -455,3 +455,87 @@ def test_html_only_without_article_fetch_keeps_html_provenance(monkeypatch):
     assert len(items) == 1
     assert items[0]["content_source"] == "html_excerpt"
     assert items[0]["extraction_method"] == "html_fallback"
+
+
+def test_collection_budget_returns_partial_items_and_degraded_stats(monkeypatch):
+    now = datetime(2026, 8, 11, 12, 0, tzinfo=timezone.utc)
+    clock = {"value": 0.0}
+
+    def fake_monotonic():
+        return clock["value"]
+
+    def fake_fetch(_session, url, **_kwargs):
+        clock["value"] += 1.1
+        return collector_foamed._FetchResult(
+            True,
+            200,
+            _rss_feed(now, url.replace("/feed", "/post")),
+            url,
+            None,
+        )
+
+    monkeypatch.setenv("FOAMED_COLLECTION_BUDGET_SECONDS", "1")
+    monkeypatch.setenv("FOAMED_AUDIT", "0")
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH", "0")
+    monkeypatch.setattr(collector_foamed.time, "monotonic", fake_monotonic)
+    monkeypatch.setattr(collector_foamed, "_fetch_url", fake_fetch)
+
+    items, stats = collector_foamed.collect_foamed_items(
+        [
+            {"name": "First", "feed_url": "https://one.example/feed"},
+            {"name": "Second", "feed_url": "https://two.example/feed"},
+        ],
+        now,
+        24,
+    )
+
+    assert len(items) == 1
+    assert stats["sources_total"] == 1
+    assert stats["collection_budget_seconds"] == 1
+    assert stats["collection_budget_exhausted"] is True
+    assert stats["collection_degraded"] is True
+    assert stats["collection_stop_reason"] == "budget_exhausted"
+    assert stats["collection_sources_skipped_budget_total"] == 1
+
+
+def test_fetch_url_bounds_request_to_remaining_collection_budget(monkeypatch):
+    class Response:
+        ok = True
+        status_code = 200
+        content = b"ok"
+        url = "https://example.com/final"
+
+    class Session:
+        def __init__(self):
+            self.timeouts = []
+
+        def get(self, _url, *, timeout, allow_redirects, headers):
+            assert allow_redirects is True
+            self.timeouts.append(timeout)
+            return Response()
+
+    session = Session()
+    setattr(session, collector_foamed._COLLECTION_DEADLINE_ATTR, 14.0)
+    monkeypatch.setattr(collector_foamed.time, "monotonic", lambda: 10.0)
+
+    result = collector_foamed._fetch_url(
+        session,
+        "https://example.com",
+        timeout_s=10,
+    )
+
+    assert result.ok is True
+    assert session.timeouts == [2.0]
+
+    setattr(session, collector_foamed._COLLECTION_DEADLINE_ATTR, 10.1)
+    result = collector_foamed._fetch_url(
+        session,
+        "https://example.com/late",
+        timeout_s=10,
+    )
+    assert result.error == "collection_budget_exhausted"
+    assert session.timeouts == [2.0]
+    assert getattr(
+        session,
+        collector_foamed._COLLECTION_BUDGET_EXHAUSTED_ATTR,
+    ) is True

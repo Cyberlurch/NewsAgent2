@@ -5,6 +5,7 @@ import html
 import json
 import re
 import os
+import time
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -49,6 +50,11 @@ DEFAULT_FOAMED_HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
 }
+
+DEFAULT_COLLECTION_BUDGET_SECONDS = 420
+_COLLECTION_BUDGET_GUARD_SECONDS = 0.25
+_COLLECTION_DEADLINE_ATTR = "_newsagent_collection_deadline_monotonic"
+_COLLECTION_BUDGET_EXHAUSTED_ATTR = "_newsagent_collection_budget_exhausted"
 
 
 @dataclass(frozen=True)
@@ -298,15 +304,59 @@ def _listing_page_item(
     }
 
 
-def _session_with_retries(user_agent: str | None = None) -> requests.Session:
+def _session_with_retries(
+    user_agent: str | None = None,
+    *,
+    retry_total: int = 2,
+) -> requests.Session:
     session = requests.Session()
     if user_agent:
         session.headers.update({"User-Agent": user_agent})
-    retry = Retry(total=2, backoff_factor=0.6, status_forcelist=[429, 500, 502, 503, 504], allowed_methods=["GET"])
+    retry = Retry(
+        total=max(0, int(retry_total)),
+        backoff_factor=0.6,
+        status_forcelist=[429, 500, 502, 503, 504],
+        allowed_methods=["GET"],
+    )
     adapter = HTTPAdapter(max_retries=retry)
     session.mount("http://", adapter)
     session.mount("https://", adapter)
     return session
+
+
+def _collection_budget_seconds_from_env() -> int:
+    raw = (
+        os.getenv(
+            "FOAMED_COLLECTION_BUDGET_SECONDS",
+            str(DEFAULT_COLLECTION_BUDGET_SECONDS),
+        )
+        or str(DEFAULT_COLLECTION_BUDGET_SECONDS)
+    ).strip()
+    try:
+        return max(0, int(raw))
+    except (TypeError, ValueError):
+        return DEFAULT_COLLECTION_BUDGET_SECONDS
+
+
+def _collection_budget_remaining_seconds(
+    session: requests.Session,
+) -> float | None:
+    deadline = getattr(session, _COLLECTION_DEADLINE_ATTR, None)
+    if deadline is None:
+        return None
+    return float(deadline) - time.monotonic()
+
+
+def _collection_budget_exhausted(session: requests.Session) -> bool:
+    remaining = _collection_budget_remaining_seconds(session)
+    return bool(
+        remaining is not None
+        and remaining <= _COLLECTION_BUDGET_GUARD_SECONDS
+    )
+
+
+def _note_collection_budget_exhausted(session: requests.Session) -> None:
+    setattr(session, _COLLECTION_BUDGET_EXHAUSTED_ATTR, True)
 
 
 def _fetch_url(
@@ -320,6 +370,24 @@ def _fetch_url(
     We deliberately return 401/402/403/404 responses (as ok=False but with status_code)
     so the caller can classify 'blocked' vs 'not_found' vs 'unavailable'.
     """
+    remaining = _collection_budget_remaining_seconds(session)
+    if remaining is not None:
+        if remaining <= _COLLECTION_BUDGET_GUARD_SECONDS:
+            _note_collection_budget_exhausted(session)
+            return _FetchResult(
+                ok=False,
+                status_code=None,
+                content=None,
+                final_url=None,
+                error="collection_budget_exhausted",
+            )
+        # requests applies a scalar timeout separately to connection and read.
+        # Halving the remaining budget keeps the complete attempt within the
+        # collector deadline even when both phases consume their allowance.
+        timeout_s = max(
+            0.1,
+            min(float(timeout_s), remaining / 2.0),
+        )
     try:
         r = session.get(url, timeout=timeout_s, allow_redirects=True, headers=headers)
         status = int(getattr(r, "status_code", 0) or 0) or None
@@ -467,6 +535,11 @@ def _apply_article_fetch(
 
     if not article_fetch_enabled or article_fetch_done >= article_fetch_max:
         return text, article_text, content_source, extraction_method, len(article_text), article_fetch_status_code, article_fetch_error_class, article_fetch_done
+    if _collection_budget_exhausted(session):
+        _note_collection_budget_exhausted(session)
+        per_source["collection_incomplete_due_to_budget"] = True
+        stats["collection_budget_exhausted"] = True
+        return text, article_text, content_source, extraction_method, len(article_text), article_fetch_status_code, article_fetch_error_class, article_fetch_done
 
     article_fetch_done += 1
     per_source["article_fetch_attempted"] += 1
@@ -530,6 +603,7 @@ def _run_html_pass(
         "last_published": None,
         "items_in_window": 0,
         "homepage_status_code": None,
+        "budget_exhausted": False,
     }
 
     if isinstance(seed_urls, str):
@@ -546,6 +620,10 @@ def _run_html_pass(
     listing_urls_seen: set[str] = set()
 
     for seed in seed_urls:
+        if _collection_budget_exhausted(session):
+            _note_collection_budget_exhausted(session)
+            stats["budget_exhausted"] = True
+            break
         seed = str(seed or "").strip()
         if not seed:
             continue
@@ -606,6 +684,10 @@ def _run_html_pass(
     stats["candidates_seen"] = len(candidates)
 
     for cand in candidates[: max(1, max_pages)]:
+        if _collection_budget_exhausted(session):
+            _note_collection_budget_exhausted(session)
+            stats["budget_exhausted"] = True
+            break
         stats["pages_fetched"] += 1
         pr = _fetch_url(session, cand, timeout_s=timeout_s, headers=headers)
         if pr.status_code == 403:
@@ -838,7 +920,19 @@ def collect_foamed_items(
     lookback_hours = max(1, int(lookback_hours))
     cutoff = now_utc - timedelta(hours=lookback_hours)
 
-    session = _session_with_retries(DEFAULT_USER_AGENT)
+    collection_started = time.monotonic()
+    collection_budget_seconds = _collection_budget_seconds_from_env()
+    session = _session_with_retries(
+        DEFAULT_USER_AGENT,
+        retry_total=0 if collection_budget_seconds > 0 else 2,
+    )
+    if collection_budget_seconds > 0:
+        setattr(
+            session,
+            _COLLECTION_DEADLINE_ATTR,
+            collection_started + collection_budget_seconds,
+        )
+    setattr(session, _COLLECTION_BUDGET_EXHAUSTED_ATTR, False)
     audit_enabled = (os.getenv("FOAMED_AUDIT", "0") or "0").strip() == "1"
     forced_fallback_sources = {
         s.strip().lower()
@@ -849,6 +943,16 @@ def collect_foamed_items(
     article_fetch_max = max(0, int((os.getenv("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", "25") or "25").strip() or 25))
     article_fetch_done = 0
     items: List[Dict[str, Any]] = []
+    collection_sources_configured_total = sum(
+        1
+        for source in (sources_config or [])
+        if isinstance(source, dict)
+        and str(source.get("name") or "").strip()
+        and (
+            str(source.get("feed_url") or "").strip()
+            or str(source.get("homepage") or "").strip()
+        )
+    )
     stats: Dict[str, Any] = {
         "sources_total": 0,
         "sources_ok": 0,
@@ -893,9 +997,30 @@ def collect_foamed_items(
         "foamed_audit_only_sources_total": 0,
         "foamed_strategy_items_returned_total": 0,
         "foamed_strategy_items_audit_only_total": 0,
+        "collection_budget_seconds": collection_budget_seconds,
+        "collection_budget_exhausted": False,
+        "collection_degraded": False,
+        "collection_stop_reason": "",
+        "collection_elapsed_seconds": 0.0,
+        "collection_sources_configured_total": collection_sources_configured_total,
+        "collection_sources_skipped_budget_total": 0,
+        "collection_sources_incomplete_budget_total": 0,
     }
 
+    print(
+        "[foamed] collection_start "
+        f"sources={collection_sources_configured_total} "
+        f"audit={audit_enabled} article_fetch={article_fetch_enabled} "
+        f"article_fetch_max={article_fetch_max} "
+        f"budget_seconds={collection_budget_seconds or 'disabled'}",
+        flush=True,
+    )
+
     for src in sources_config or []:
+        if _collection_budget_exhausted(session):
+            _note_collection_budget_exhausted(session)
+            stats["collection_budget_exhausted"] = True
+            break
         if not isinstance(src, dict):
             continue
 
@@ -998,6 +1123,7 @@ def collect_foamed_items(
             "content_source_counts": {},
             "article_text_lengths": [],
             "final_text_lengths": [],
+            "collection_incomplete_due_to_budget": False,
         }
         rss_urls_in_window: List[str] = []
 
@@ -1390,10 +1516,23 @@ def collect_foamed_items(
             }
             stats["audit"]["sources"][name] = per_source["audit"]
 
+        collection_incomplete_due_to_budget = bool(
+            per_source.get("collection_incomplete_due_to_budget")
+            or getattr(session, _COLLECTION_BUDGET_EXHAUSTED_ATTR, False)
+        )
+        per_source["collection_incomplete_due_to_budget"] = (
+            collection_incomplete_due_to_budget
+        )
+        if collection_incomplete_due_to_budget:
+            stats["collection_budget_exhausted"] = True
+            stats["collection_sources_incomplete_budget_total"] += 1
+
         # --- Health classification & counters ------------------------------
         html_parse_failed = bool(per_source.get("html_fallback_used") and not ok_html and (per_source.get("pages_fetched") or 0) > 0)
         health = "other"
-        if per_source.get("blocked"):
+        if collection_incomplete_due_to_budget:
+            health = "budget_exhausted"
+        elif per_source.get("blocked"):
             health = "blocked_403"
         elif per_source.get("feed_status_code") in (404, 410) or per_source.get("homepage_status_code") in (404, 410):
             health = "not_found_404"
@@ -1450,18 +1589,24 @@ def collect_foamed_items(
         elif feed_status in (404, 410) and home_status in (404, 410):
             alt_path = "none"
         per_source["alternative_path"] = alt_path
-        per_source["source_status"] = _source_status_from(
-            per_source,
-            has_recent_items=bool(per_source.get("kept_last24h", 0)),
-            strategy=str(per_source.get("source_strategy") or "rss_then_article"),
-            audit_only=bool(audit_only_strategy or disabled_strategy),
-        )
-        if isinstance(stats.get("source_health"), dict):
+        if collection_incomplete_due_to_budget:
+            per_source["source_status"] = "degraded_budget"
+        else:
+            per_source["source_status"] = _source_status_from(
+                per_source,
+                has_recent_items=bool(per_source.get("kept_last24h", 0)),
+                strategy=str(per_source.get("source_strategy") or "rss_then_article"),
+                audit_only=bool(audit_only_strategy or disabled_strategy),
+            )
+        if (
+            not collection_incomplete_due_to_budget
+            and isinstance(stats.get("source_health"), dict)
+        ):
             stats["source_health"][health] = int(stats["source_health"].get(health, 0) or 0) + 1
 
         if health in ("ok_rss", "ok_html"):
             stats["sources_ok"] += 1
-        else:
+        elif not collection_incomplete_due_to_budget:
             stats["sources_failed"] += 1
         if strategy == "html_only":
             stats["foamed_html_only_article_fetch_attempted_total"] += int(per_source.get("article_fetch_attempted", 0) or 0)
@@ -1548,7 +1693,49 @@ def collect_foamed_items(
             f"feed_status={per_source.get('feed_status_code') or 'n/a'} home_status={per_source.get('homepage_status_code') or 'n/a'} "
             f"entries={per_source.get('entries_total', 0)} entries_with_date={per_source.get('entries_with_date', 0)} "
             f"html={per_source.get('html_fallback_used')} candidates={per_source.get('candidates_found', 0)} pages={per_source.get('pages_fetched', 0)} "
-            f"kept_last{lookback_hours}h={per_source.get('kept_last24h', 0)}"
+            f"kept_last{lookback_hours}h={per_source.get('kept_last24h', 0)} "
+            f"incomplete_budget={collection_incomplete_due_to_budget}",
+            flush=True,
+        )
+
+        if collection_incomplete_due_to_budget:
+            break
+
+    collection_elapsed_seconds = max(0.0, time.monotonic() - collection_started)
+    collection_budget_exhausted = bool(
+        stats.get("collection_budget_exhausted")
+        or getattr(session, _COLLECTION_BUDGET_EXHAUSTED_ATTR, False)
+        or _collection_budget_exhausted(session)
+    )
+    stats["collection_elapsed_seconds"] = round(collection_elapsed_seconds, 6)
+    stats["collection_budget_exhausted"] = collection_budget_exhausted
+    stats["collection_degraded"] = collection_budget_exhausted
+    stats["collection_stop_reason"] = (
+        "budget_exhausted" if collection_budget_exhausted else ""
+    )
+    stats["collection_sources_skipped_budget_total"] = (
+        max(
+            0,
+            collection_sources_configured_total - int(stats.get("sources_total", 0)),
+        )
+        if collection_budget_exhausted
+        else 0
+    )
+    if collection_budget_exhausted:
+        print(
+            "[foamed] WARN collection_budget_exhausted "
+            f"elapsed_seconds={collection_elapsed_seconds:.3f} "
+            f"processed_sources={stats.get('sources_total', 0)} "
+            f"skipped_sources={stats['collection_sources_skipped_budget_total']} "
+            f"partial_items={len(items)} continuing_with_partial_results=true",
+            flush=True,
+        )
+    else:
+        print(
+            "[foamed] collection_complete "
+            f"elapsed_seconds={collection_elapsed_seconds:.3f} "
+            f"processed_sources={stats.get('sources_total', 0)} items={len(items)}",
+            flush=True,
         )
 
     return items, stats
