@@ -115,6 +115,7 @@ def test_workflow_exposes_cybermed_intake_audit_env_vars():
     assert 'CYBERMED_DIGEST_STORE_OVERWRITE: "0"' in text
     assert 'CYBERMED_DIGEST_BACKFILL_MODE: "0"' in text
     assert 'CYBERMED_WEEKLY_QA_FIXTURE_MODE: "0"' in text
+    assert 'CYBERMED_MONTHLY_QA_FIXTURE_MODE: "0"' in text
     assert "CYBERMED_DIGEST_BACKFILL_RUN_DATE" not in text
     backfill = pathlib.Path(".github/workflows/cybermed-daily-backfill.yml").read_text(encoding="utf-8")
     assert "CYBERMED_DIGEST_BACKFILL_RUN_DATE: ${{ inputs.run_date }}" in backfill

@@ -1,0 +1,109 @@
+name: Cybermed Weekly Store Backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Audit first; apply only after reviewing the artifact and copying its SHA-256
+        required: true
+        type: choice
+        default: audit
+        options:
+          - audit
+          - apply
+      from_date:
+        description: First Daily digest date (YYYY-MM-DD)
+        required: true
+        type: string
+      to_date:
+        description: Last Daily digest date (YYYY-MM-DD)
+        required: true
+        type: string
+      expected_sha256:
+        description: Required for apply; copy candidate_sha256 from the reviewed audit artifact
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cybermed-weekly-backfill-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  audit-or-apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Validate inputs
+        env:
+          ACTION: ${{ inputs.action }}
+          FROM_DATE: ${{ inputs.from_date }}
+          TO_DATE: ${{ inputs.to_date }}
+          EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import datetime
+          import os
+          import re
+
+          start = datetime.date.fromisoformat(os.environ["FROM_DATE"])
+          end = datetime.date.fromisoformat(os.environ["TO_DATE"])
+          if end < start:
+              raise SystemExit("to_date must not precede from_date")
+          if os.environ["ACTION"] == "apply" and not re.fullmatch(
+              r"[0-9a-f]{64}", os.environ.get("EXPECTED_SHA256", "")
+          ):
+              raise SystemExit("apply requires the 64-character SHA-256 from a reviewed audit")
+          PY
+
+      - name: Build reviewed candidate set
+        env:
+          ACTION: ${{ inputs.action }}
+          FROM_DATE: ${{ inputs.from_date }}
+          TO_DATE: ${{ inputs.to_date }}
+          EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
+        run: |
+          set -euo pipefail
+          args=(
+            --from-date "$FROM_DATE"
+            --to-date "$TO_DATE"
+            --output out/cybermed_weekly_backfill_audit.json
+          )
+          if [ "$ACTION" = "apply" ]; then
+            args+=(--apply --expected-sha256 "$EXPECTED_SHA256")
+          fi
+          PYTHONPATH=src python3 -m newsagent2.maintenance.backfill_cybermed_weekly "${args[@]}"
+
+      - name: Upload audit artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: cybermed-weekly-backfill-${{ inputs.action }}-${{ github.run_id }}
+          path: out/cybermed_weekly_backfill_audit.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Commit approved Weekly store
+        if: inputs.action == 'apply'
+        run: |
+          set -euo pipefail
+          path=state/cybermed_weekly_digests.json
+          if [ ! -f "$path" ] || [ -z "$(git status --porcelain -- "$path" || true)" ]; then
+            echo "No approved Weekly backfill changes to commit."
+            exit 0
+          fi
+          git config user.name "newsagent-bot"
+          git config user.email "newsagent-bot@users.noreply.github.com"
+          git add -- "$path"
+          git commit -m "Backfill approved Cybermed Weekly digests"
+          git push

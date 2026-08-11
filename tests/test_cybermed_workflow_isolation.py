@@ -44,3 +44,23 @@ def test_cybermed_artifacts_are_uploaded_for_scheduled_and_manual_runs():
     upload = text.split(upload_header, 1)[1].split("- name: Commit Cybermed", 1)[0]
     assert "github.event_name == 'workflow_dispatch'" not in upload
     assert "out/*diagnostics*.json" in upload
+
+
+def test_cybermed_commits_dedicated_weekly_store():
+    text = CYBERMED_WORKFLOW.read_text(encoding="utf-8")
+
+    assert "state/cybermed_daily_digests.json" in text
+    assert "state/cybermed_weekly_digests.json" in text
+    assert "contains(steps.plan.outputs.modes, 'weekly')" in text
+
+
+def test_weekly_backfill_is_manual_audit_then_hash_gated_apply():
+    text = Path(".github/workflows/cybermed-weekly-backfill.yml").read_text(encoding="utf-8")
+
+    assert "workflow_dispatch:" in text
+    assert "expected_sha256:" in text
+    assert "--expected-sha256" in text
+    assert "if: inputs.action == 'apply'" in text
+    assert "state/cybermed_weekly_digests.json" in text
+    assert "RECIPIENTS" not in text
+    assert "SEND_EMAIL" not in text

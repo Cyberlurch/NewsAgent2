@@ -650,14 +650,12 @@ def render_yearly_markdown(
     combined_items = starred_items + other_items
     top_ten = combined_items[:10]
     if is_cybermed:
-        digests = [d for d in (daily_digests or []) if isinstance(d, dict)]
-        digest_items: List[Dict[str, Any]] = []
-        for d in digests:
-            for src in ("pubmed", "foamed"):
-                for it in ((d.get("items") or {}).get(src) or []):
-                    if isinstance(it, dict):
-                        digest_items.append(it)
-        all_items = combined_items + digest_items
+        monthly_items: List[Dict[str, Any]] = []
+        for entry in sorted_rollups:
+            for item in entry.get("cybermed_items") or []:
+                if isinstance(item, dict):
+                    monthly_items.append(dict(item))
+        all_items = monthly_items or combined_items
         def _score(it: Dict[str, Any]) -> tuple[int, int, int, int]:
             ev = int(it.get("evidence_strength_1_5") or 0)
             rel = int(it.get("practice_relevance_1_5") or 0)
@@ -673,7 +671,7 @@ def render_yearly_markdown(
         md.extend([
             "## Coverage note",
             f"- Monthly rollups available: {coverage.get('cybermed_yearly_monthly_rollups_loaded_total', len(sorted_rollups))}",
-            f"- Daily digests available: {coverage.get('cybermed_yearly_daily_digests_loaded_total', len(digests))}",
+            "- Direct Daily inputs: disabled (Yearly reads Monthly rollups only)",
             f"- Date range covered: {coverage.get('cybermed_yearly_coverage_start','unknown')} to {coverage.get('cybermed_yearly_coverage_end','unknown')}",
             f"- Coverage incomplete: {'YES' if coverage.get('cybermed_yearly_coverage_incomplete', len(sorted_rollups)<12) else 'NO'}",
             "",

@@ -89,6 +89,7 @@ jobs:
       CYBERMED_DIGEST_BACKFILL_MODE: "0"
       CYBERMED_DIGEST_BACKFILL_OVERWRITE_EMPTY_ONLY: "1"
       CYBERMED_WEEKLY_QA_FIXTURE_MODE: "0"
+      CYBERMED_MONTHLY_QA_FIXTURE_MODE: "0"
       CYBERMED_HEAVY_AUDIT_MODE: ${{ vars.CYBERMED_HEAVY_AUDIT_MODE || '0' }}
 
     steps:
@@ -284,11 +285,11 @@ jobs:
           retention-days: 7
 
       - name: Commit Cybermed state files if changed
-        if: steps.plan.outputs.skip != 'true' && (contains(steps.plan.outputs.modes, 'daily') || contains(steps.plan.outputs.modes, 'monthly'))
+        if: steps.plan.outputs.skip != 'true' && (contains(steps.plan.outputs.modes, 'daily') || contains(steps.plan.outputs.modes, 'weekly') || contains(steps.plan.outputs.modes, 'monthly'))
         run: |
           set -euo pipefail
           files=()
-          for path in state/processed_items.json state/rollups.json state/cybermed_daily_digests.json; do
+          for path in state/processed_items.json state/rollups.json state/cybermed_daily_digests.json state/cybermed_weekly_digests.json; do
             if [ -f "$path" ]; then
               files+=("$path")
             fi

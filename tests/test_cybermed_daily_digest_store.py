@@ -13,6 +13,8 @@ def _base_env(monkeypatch, tmp_path):
     monkeypatch.setenv("SEND_EMAIL", "0")
     monkeypatch.setenv("EMAIL_MODE", "none")
     monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setenv("PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT", "0")
+    monkeypatch.setenv("PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT", "0")
     monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(tmp_path / "state" / "cybermed_daily_digests.json"))
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
 
@@ -20,6 +22,11 @@ def _base_env(monkeypatch, tmp_path):
     monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: ([], {}) if k.get("return_metadata") else [])
     monkeypatch.setattr(main, "load_foamed_sources_config", lambda _p: [{"name": "Src", "rss_url": "https://example.com/rss"}])
     monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([], {"sources_total": 1, "sources_ok": 1, "sources_failed": 0, "items_raw": 0, "items_with_date": 0, "items_date_unknown": 0, "kept_last24h": 0, "newly_disabled_count": 0, "per_source": {}}))
+    monkeypatch.setattr(main, "_save_youtube_channel_id_cache", lambda *a, **k: None)
+    monkeypatch.setattr(main, "summarize", lambda *a, **k: "## Executive Summary\n\nStored test summary.")
+    monkeypatch.setattr(main, "summarize_pubmed_bottom_line", lambda *a, **k: "Stored test result")
+    monkeypatch.setattr(main, "summarize_foamed_bottom_line", lambda *a, **k: "Stored test commentary")
+    monkeypatch.setattr(main, "summarize_item_detail", lambda *a, **k: "")
 
 
 def _with_nonempty_selection(monkeypatch):

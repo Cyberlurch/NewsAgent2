@@ -34,10 +34,14 @@ from .cybermed_digest_store import (
     cybermed_weekly_reporting_period,
     latest_cybermed_daily_digest_generated_at,
     load_cybermed_daily_digest_store,
-    select_cybermed_daily_digests_for_month,
+    load_cybermed_weekly_digest_store,
+    make_cybermed_weekly_digest,
+    save_cybermed_weekly_digest_store,
     select_cybermed_daily_digests_for_week,
+    select_cybermed_weekly_digests_for_month,
     summarize_cybermed_weekly_digest_inputs,
     dedupe_weekly_digest_items,
+    upsert_cybermed_weekly_digest,
     normalized_title as cybermed_normalized_title,
 )
 from .state_manager import (
@@ -541,6 +545,33 @@ def _sanitize_cybermed_foamed_item(item: Dict[str, Any]) -> Dict[str, Any]:
         "top_pick": bool(item.get("top_pick")),
         "bottom_line": str(item.get("bottom_line") or "").strip(),
         "reason_labels": [str(v) for v in (item.get("reason_labels") or []) if str(v).strip()],
+    }
+
+
+def _sanitize_cybermed_monthly_rollup_item(item: Dict[str, Any]) -> Dict[str, Any]:
+    source_type = str(item.get("source_type") or item.get("source") or "").strip().lower()
+    return {
+        "item_id": str(item.get("item_id") or item.get("id") or item.get("pmid") or item.get("url") or "").strip(),
+        "source_type": source_type,
+        "source": source_type,
+        "pmid": str(item.get("pmid") or "").strip(),
+        "doi": str(item.get("doi") or "").strip(),
+        "title": str(item.get("title") or "").strip(),
+        "url": str(item.get("url") or "").strip(),
+        "journal": str(item.get("journal") or "").strip(),
+        "date": str(item.get("published_at") or item.get("date") or "").strip()[:10],
+        "top_pick": bool(item.get("top_pick")),
+        "bottom_line": str(item.get("bottom_line") or "").strip(),
+        "evidence_strength_label": str(item.get("evidence_strength_label") or "").strip(),
+        "evidence_strength_1_5": item.get("evidence_strength_1_5"),
+        "clinical_relevance_1_5": item.get("clinical_relevance_1_5"),
+        "practice_change_potential_1_5": item.get("practice_change_potential_1_5"),
+        "source_quality_label": str(item.get("source_quality_label") or "").strip(),
+        "clinical_usefulness_1_5": item.get("clinical_usefulness_1_5"),
+        "practice_relevance_1_5": item.get("practice_relevance_1_5"),
+        "publication_types": [str(value) for value in (item.get("publication_types") or []) if str(value).strip()],
+        "topic_primary": str(item.get("topic_primary") or "").strip(),
+        "topics": [str(value) for value in (item.get("topics") or []) if str(value).strip()],
     }
 
 
@@ -1822,23 +1853,18 @@ def _run_yearly_report(
     cybermed_yearly_diags: Dict[str, Any] = {
         "cybermed_yearly_editorial_mode": True,
         "cybermed_yearly_monthly_rollups_loaded_total": len(entries),
+        "cybermed_yearly_upstream_cadence": "monthly",
+        "cybermed_yearly_direct_daily_inputs_enabled": False,
         "cybermed_yearly_live_collection_used": False,
         "cybermed_yearly_processed_state_mutated": False,
     }
     yearly_daily_digests: List[Dict[str, Any]] = []
-    if _is_cybermed(report_key, os.getenv("REPORT_PROFILE", "")):
-        digest_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
-        try:
-            store = _load_json(digest_path, {"schema_version": 1, "digests": []})
-            for d in (store.get("digests") or []):
-                if not isinstance(d, dict):
-                    continue
-                if str(d.get("date") or "").startswith(f"{target_year:04d}-"):
-                    yearly_daily_digests.append(d)
-        except Exception:
-            yearly_daily_digests = []
-    all_dates = sorted([str(e.get("month")) + "-01" for e in entries if str(e.get("month") or "")] + [str(d.get("date") or "") for d in yearly_daily_digests if str(d.get("date") or "")])
-    cybermed_yearly_diags["cybermed_yearly_daily_digests_loaded_total"] = len(yearly_daily_digests)
+    all_dates = sorted([
+        str(entry.get("month")) + "-01"
+        for entry in entries
+        if str(entry.get("month") or "")
+    ])
+    cybermed_yearly_diags["cybermed_yearly_daily_digests_loaded_total"] = 0
     cybermed_yearly_diags["cybermed_yearly_coverage_start"] = all_dates[0] if all_dates else ""
     cybermed_yearly_diags["cybermed_yearly_coverage_end"] = all_dates[-1] if all_dates else ""
     cybermed_yearly_diags["cybermed_yearly_coverage_incomplete"] = not (len(entries) >= 12)
@@ -1851,7 +1877,7 @@ def _run_yearly_report(
         report_language=report_language,
         year=target_year,
         rollups=entries,
-        daily_digests=yearly_daily_digests,
+        daily_digests=[],
         diagnostics=cybermed_yearly_diags,
     )
 
@@ -2029,6 +2055,13 @@ def main() -> None:
     cybermed_digest_state_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
     cybermed_digest_state_path = cybermed_digest_state_path or "state/cybermed_daily_digests.json"
     cybermed_digest_state_abs_path = str(Path(cybermed_digest_state_path).resolve())
+    cybermed_weekly_digest_state_path = (
+        os.getenv("CYBERMED_WEEKLY_DIGEST_STATE_PATH", "state/cybermed_weekly_digests.json")
+        or "state/cybermed_weekly_digests.json"
+    ).strip()
+    cybermed_weekly_digest_state_path = (
+        cybermed_weekly_digest_state_path or "state/cybermed_weekly_digests.json"
+    )
     cyberlurch_digest_retention_days = _safe_int("CYBERLURCH_DIGEST_RETENTION_DAYS", 400)
     foamed_sources_path = (os.getenv("CYBERMED_FOAMED_SOURCES", "data/cybermed_foamed_sources.json") or "data/cybermed_foamed_sources.json").strip()
     foamed_auto_disable_enabled = _env_bool("FOAMED_AUTO_DISABLE", True)
@@ -2437,16 +2470,36 @@ def main() -> None:
         cybermed_weekly_digest_only = report_mode == "weekly"
         cybermed_monthly_digest_only = report_mode == "monthly"
         cybermed_digest_only_mode = cybermed_weekly_digest_only or cybermed_monthly_digest_only
-        digest_store_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
-        fixture_mode_requested = _env_bool("CYBERMED_WEEKLY_QA_FIXTURE_MODE", False)
-        fixture_path = (os.getenv("CYBERMED_WEEKLY_QA_FIXTURE_PATH", "tests/fixtures/cybermed_weekly_digest_store_nonempty.json") or "").strip()
+        source_cadence = "daily" if cybermed_weekly_digest_only else "weekly"
+        digest_store_path = (
+            cybermed_digest_state_path
+            if cybermed_weekly_digest_only
+            else cybermed_weekly_digest_state_path
+        )
+        fixture_mode_var = (
+            "CYBERMED_WEEKLY_QA_FIXTURE_MODE"
+            if cybermed_weekly_digest_only
+            else "CYBERMED_MONTHLY_QA_FIXTURE_MODE"
+        )
+        fixture_path_var = (
+            "CYBERMED_WEEKLY_QA_FIXTURE_PATH"
+            if cybermed_weekly_digest_only
+            else "CYBERMED_MONTHLY_QA_FIXTURE_PATH"
+        )
+        fixture_default = (
+            "tests/fixtures/cybermed_weekly_digest_store_nonempty.json"
+            if cybermed_weekly_digest_only
+            else "tests/fixtures/cybermed_monthly_weekly_store_nonempty.json"
+        )
+        fixture_mode_requested = _env_bool(fixture_mode_var, False)
+        fixture_path = (os.getenv(fixture_path_var, fixture_default) or "").strip()
         cybermed_weekly_qa_fixture_requested = fixture_mode_requested
         cybermed_weekly_qa_fixture_path = fixture_path
         event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
         fixture_safety = (
             fixture_mode_requested
             and (report_key.strip().lower() == "cybermed")
-            and (report_mode == "weekly")
+            and (report_mode in {"weekly", "monthly"})
             and ((os.getenv("EMAIL_MODE", "") or "").strip().lower() == "none")
             and ((os.getenv("SEND_EMAIL", "") or "").strip() == "0")
             and (event_name in {"workflow_dispatch", "manual"} or event_name == "")
@@ -2457,8 +2510,8 @@ def main() -> None:
             failed_checks: List[str] = []
             if (report_key.strip().lower() != "cybermed"):
                 failed_checks.append("report_key_not_cybermed")
-            if report_mode != "weekly":
-                failed_checks.append("report_mode_not_weekly")
+            if report_mode not in {"weekly", "monthly"}:
+                failed_checks.append("report_mode_not_aggregate")
             if ((os.getenv("EMAIL_MODE", "") or "").strip().lower() != "none"):
                 failed_checks.append("email_mode_not_none")
             if ((os.getenv("SEND_EMAIL", "") or "").strip() != "0"):
@@ -2471,11 +2524,26 @@ def main() -> None:
         if fixture_safety:
             cybermed_weekly_qa_fixture_mode = True
             digest_store_path = fixture_path
-        store = load_cybermed_daily_digest_store(digest_store_path)
+        if source_cadence == "daily":
+            store = load_cybermed_daily_digest_store(digest_store_path)
+        else:
+            store = load_cybermed_weekly_digest_store(digest_store_path)
         cybermed_expected_period_start = ""
         cybermed_expected_period_end = ""
         if cybermed_weekly_qa_fixture_mode:
             daily = list(store.get("digests") or [])
+            if cybermed_monthly_digest_only:
+                month_key = determine_monthly_rollup_month(
+                    datetime.now(tz=STO),
+                    os.getenv("GITHUB_EVENT_NAME", ""),
+                    os.getenv("ROLLUP_MONTH_OVERRIDE"),
+                )
+                cybermed_expected_period_start = f"{month_key}-01"
+                month_start_dt = datetime.strptime(cybermed_expected_period_start, "%Y-%m-%d")
+                next_month_dt = (month_start_dt.replace(day=28) + timedelta(days=4)).replace(day=1)
+                cybermed_expected_period_end = (next_month_dt - timedelta(days=1)).strftime("%Y-%m-%d")
+                monthly_digest_period_start = cybermed_expected_period_start
+                monthly_digest_period_end = cybermed_expected_period_end
         elif cybermed_monthly_digest_only:
             month_key = determine_monthly_rollup_month(
                 datetime.now(tz=STO),
@@ -2486,7 +2554,9 @@ def main() -> None:
             month_start_dt = datetime.strptime(cybermed_expected_period_start, "%Y-%m-%d")
             next_month_dt = (month_start_dt.replace(day=28) + timedelta(days=4)).replace(day=1)
             cybermed_expected_period_end = (next_month_dt - timedelta(days=1)).strftime("%Y-%m-%d")
-            daily = select_cybermed_daily_digests_for_month(store, month_key)
+            monthly_digest_period_start = cybermed_expected_period_start
+            monthly_digest_period_end = cybermed_expected_period_end
+            daily = select_cybermed_weekly_digests_for_month(store, month_key)
         else:
             today_sto = datetime.now(tz=STO).date()
             week_start, week_end = cybermed_weekly_reporting_period(today_sto)
@@ -2511,6 +2581,21 @@ def main() -> None:
             week_top.extend(d.get("top_picks") or [])
         merged = week_pubmed + week_foamed
         deduped, suppressed, suppressed_reasons = dedupe_weekly_digest_items(merged)
+        aggregate_pubmed_cap = (
+            CYBERMED_WEEKLY_MAX_PUBMED
+            if cybermed_weekly_digest_only
+            else CYBERMED_MONTHLY_MAX_PUBMED
+        )
+        aggregate_foamed_cap = (
+            CYBERMED_WEEKLY_MAX_FOAMED
+            if cybermed_weekly_digest_only
+            else CYBERMED_MONTHLY_MAX_FOAMED
+        )
+        aggregate_deep_dive_cap = (
+            WEEKLY_MAX_DEEP_DIVES
+            if cybermed_weekly_digest_only
+            else MONTHLY_MAX_DEEP_DIVES
+        )
         pubmed_sorted = sorted([it for it in deduped if str(it.get("source_type") or it.get("source") or "").strip().lower() == "pubmed"], key=lambda x: (
             1 if bool(x.get("top_pick")) else 0,
             1 if bool(x.get("deep_dive_candidate")) else 0,
@@ -2519,7 +2604,7 @@ def main() -> None:
             int(x.get("clinical_relevance_1_5") or 0),
             {"high": 3, "moderate": 2, "low": 1}.get(str(x.get("text_confidence_label") or "").strip().lower(), 0),
             str(x.get("published_at") or ""),
-        ), reverse=True)[:CYBERMED_WEEKLY_MAX_PUBMED]
+        ), reverse=True)[:aggregate_pubmed_cap]
         foamed_sorted = sorted([it for it in deduped if str(it.get("source_type") or it.get("source") or "").strip().lower() == "foamed"], key=lambda x: (
             1 if bool(x.get("top_pick")) else 0,
             {"core": 3, "important": 2, "optional": 1}.get(str(x.get("source_quality_label") or "").strip().lower(), 0),
@@ -2527,7 +2612,7 @@ def main() -> None:
             int(x.get("practice_relevance_1_5") or 0),
             {"high": 3, "moderate": 2, "low": 1}.get(str(x.get("text_confidence_label") or "").strip().lower(), 0),
             str(x.get("published_at") or ""),
-        ), reverse=True)[:CYBERMED_WEEKLY_MAX_FOAMED]
+        ), reverse=True)[:aggregate_foamed_cap]
         weekly_top_picks_cap = 5
         loaded_top_picks_total = int(summary["top_picks_loaded_total"] or 0)
         selected_top_picks = sorted(
@@ -2540,7 +2625,7 @@ def main() -> None:
             [it for it in deduped if it.get("deep_dive_candidate") is True or _cybermed_lookup_stored_deep_dive(it, deep_dive_lookup)[0] is not None],
             key=lambda x: str(x.get("published_at") or ""),
             reverse=True,
-        )[:WEEKLY_MAX_DEEP_DIVES]
+        )[:aggregate_deep_dive_cap]
         selected_deep_dive_ids = {
             str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
             for d in selected_deep_dives
@@ -2554,9 +2639,25 @@ def main() -> None:
         selected_deep_dive_reason_codes_only_total = 0
         selected_deep_dive_markdown_available_total = 0
         selected_deep_dive_structured_fields_available_total = 0
+        selected_top_pick_keys = {
+            (
+                str(row.get("source_type") or row.get("source") or "").strip().lower(),
+                str(row.get("item_id") or row.get("id") or row.get("pmid") or row.get("url") or "").strip().lower(),
+            )
+            for row in selected_top_picks
+        }
+        render_candidates: List[Dict[str, Any]] = []
+        for source_row in pubmed_sorted + foamed_sorted:
+            render_row = dict(source_row)
+            render_key = (
+                str(render_row.get("source_type") or render_row.get("source") or "").strip().lower(),
+                str(render_row.get("item_id") or render_row.get("id") or render_row.get("pmid") or render_row.get("url") or "").strip().lower(),
+            )
+            render_row["top_pick"] = render_key in selected_top_pick_keys
+            render_candidates.append(render_row)
         items = [
             _normalize_cybermed_weekly_digest_item(it, deep_dive_ids=selected_deep_dive_ids)
-            for it in (pubmed_sorted + foamed_sorted)
+            for it in render_candidates
         ]
         for row in items:
             if str(row.get("source_type") or row.get("source") or "").strip().lower() != "pubmed":
@@ -2620,12 +2721,25 @@ def main() -> None:
         missing_bottom_lines_total = sum(1 for it in items if not str(it.get("bottom_line") or "").strip())
         top_pick_stored_true = sum(1 for it in items if it.get("top_pick") is True)
         top_pick_stored_false = sum(1 for it in items if it.get("top_pick") is not True)
+        selected_period_starts = [
+            str(d.get("run_date") or d.get("period_start") or "").strip()
+            for d in daily
+            if str(d.get("run_date") or d.get("period_start") or "").strip()
+        ]
+        selected_period_ends = [
+            str(d.get("run_date") or d.get("period_end") or "").strip()
+            for d in daily
+            if str(d.get("run_date") or d.get("period_end") or "").strip()
+        ]
         cybermed_weekly_diag = {
             "cybermed_monthly_digest_only_mode": cybermed_monthly_digest_only,
-            "cybermed_weekly_from_daily_digests_enabled": True,
+            "cybermed_weekly_from_daily_digests_enabled": cybermed_weekly_digest_only,
+            "cybermed_monthly_from_daily_digests_enabled": False,
+            "cybermed_monthly_from_weekly_digests_enabled": cybermed_monthly_digest_only,
+            "cybermed_aggregate_source_cadence": source_cadence,
             "cybermed_weekly_digest_only_mode": cybermed_weekly_digest_only,
             "cybermed_weekly_collection_skipped": True,
-            "cybermed_weekly_collection_skipped_reason": "monthly_from_daily_digests" if cybermed_monthly_digest_only else "weekly_from_daily_digests",
+            "cybermed_weekly_collection_skipped_reason": "monthly_from_weekly_digests" if cybermed_monthly_digest_only else "weekly_from_daily_digests",
             "cybermed_weekly_digest_store_path": digest_store_path,
             "cybermed_weekly_ranking_enabled": True,
             "cybermed_weekly_qa_fixture_requested": cybermed_weekly_qa_fixture_requested,
@@ -2634,8 +2748,8 @@ def main() -> None:
             "cybermed_weekly_qa_fixture_safety_passed": cybermed_weekly_qa_fixture_safety_passed,
             "cybermed_weekly_qa_fixture_skipped_reason": cybermed_weekly_qa_fixture_skipped_reason,
             "cybermed_weekly_qa_fixture_state_mutation_disabled": cybermed_weekly_qa_fixture_mode,
-            "cybermed_weekly_period_start": str(min([d.get("run_date") for d in daily], default="")),
-            "cybermed_weekly_period_end": str(max([d.get("run_date") for d in daily], default="")),
+            "cybermed_weekly_period_start": min(selected_period_starts, default=""),
+            "cybermed_weekly_period_end": max(selected_period_ends, default=""),
             "cybermed_weekly_expected_period_start": cybermed_expected_period_start,
             "cybermed_weekly_expected_period_end": cybermed_expected_period_end,
             "cybermed_weekly_digest_store_total": digest_store_loaded_total,
@@ -2683,8 +2797,11 @@ def main() -> None:
             },
             "cybermed_weekly_top_pick_inference_violations_total": 0,
             "cybermed_weekly_bottom_line_preservation_violations_total": 0,
+            "cybermed_weekly_pubmed_cap": aggregate_pubmed_cap,
+            "cybermed_weekly_foamed_cap": aggregate_foamed_cap,
+            "cybermed_weekly_deep_dive_cap": aggregate_deep_dive_cap,
             "cybermed_weekly_items_preview_sanitized": preview,
-            "cybermed_weekly_empty_reason": "" if items else ("No Cybermed daily digests were available for this weekly period." if not daily else "Daily digests were processed, but no items passed selection this week."),
+            "cybermed_weekly_empty_reason": "" if items else (f"No Cybermed {source_cadence} digests were available for this {report_mode} period." if not daily else f"{source_cadence.title()} digests were processed, but no items passed {report_mode} selection."),
         }
         guard_reason = _cybermed_digest_only_empty_guard_reason(report_mode, cybermed_weekly_diag)
         if _cybermed_digest_only_requires_empty_send_guard() and guard_reason:
@@ -3400,7 +3517,7 @@ def main() -> None:
     else:
         items = items_all_new
 
-    if is_cybermed_run and pubmed_deep_dive_items:
+    if is_cybermed_run and pubmed_deep_dive_items and not cybermed_digest_only_mode:
         pubmed_deep_dive_items = _select_pubmed_deep_dives_with_content(
             pubmed_deep_dive_items,
             deep_dive_limit=deep_dive_limit,
@@ -4493,7 +4610,7 @@ def main() -> None:
     if deep_dive_skip_note and deep_dive_skip_note not in overview_body:
         overview_body = overview_body.rstrip() + "\n\n" + deep_dive_skip_note + "\n"
 
-    if is_cybermed_run and (pubmed_use_pmc_oa_fulltext or unpaywall_enabled):
+    if is_cybermed_run and not cybermed_digest_only_mode and (pubmed_use_pmc_oa_fulltext or unpaywall_enabled):
         pubmed_detail_items = [
             it for it in detail_items if (it.get("source") or "").strip().lower() == "pubmed"
         ]
@@ -4968,6 +5085,14 @@ def main() -> None:
             "placeholder_value_max": deep_dive_diag.get("placeholder_value_max", 0),
             "structured_rescue_used_count": deep_dive_diag.get("structured_rescue_used_count", 0),
         }
+        if cybermed_digest_only_mode:
+            if report_mode == "monthly":
+                cybermed_weekly_diag.update(
+                    _cybermed_monthly_aliases_from_weekly(cybermed_weekly_diag)
+                )
+                cybermed_run_stats["monthly_digest_period_start"] = monthly_digest_period_start
+                cybermed_run_stats["monthly_digest_period_end"] = monthly_digest_period_end
+            cybermed_run_stats.update(cybermed_weekly_diag)
 
     for _it in report_items:
         _it.pop("_full_text_for_processing", None)
@@ -5045,6 +5170,85 @@ def main() -> None:
 
     now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
+    if is_cybermed_run and report_mode == "weekly" and cybermed_weekly_digest_only:
+        weekly_store_diag = {
+            "cybermed_weekly_store_path": cybermed_weekly_digest_state_path,
+            "cybermed_weekly_store_written": False,
+            "cybermed_weekly_store_status": "",
+            "cybermed_weekly_store_digest_id": "",
+            "cybermed_weekly_store_source_daily_total": len(daily),
+        }
+        if cybermed_weekly_qa_fixture_mode:
+            weekly_store_diag["cybermed_weekly_store_status"] = "qa_fixture_read_only"
+        elif not report_items:
+            weekly_store_diag["cybermed_weekly_store_status"] = "empty_report_not_persisted"
+        elif int(cybermed_weekly_diag.get("cybermed_weekly_deep_dive_placeholder_violations_total", 0) or 0) > 0:
+            weekly_store_diag["cybermed_weekly_store_status"] = "quality_guard_failed"
+        else:
+            stored_deep_dives: List[Dict[str, Any]] = []
+            seen_deep_keys: Set[Tuple[str, str]] = set()
+            for row in report_items + detail_items:
+                record = row.get("cybermed_stored_deep_dive")
+                if not isinstance(record, dict):
+                    continue
+                keys = _cybermed_deep_dive_match_keys(record)
+                first_key = keys[0] if keys else ("title", cybermed_normalized_title(str(record.get("title") or "")))
+                if first_key in seen_deep_keys:
+                    continue
+                seen_deep_keys.add(first_key)
+                stored_deep_dives.append(record)
+            weekly_pubmed = [
+                row for row in report_items
+                if str(row.get("source_type") or row.get("source") or "").strip().lower() == "pubmed"
+            ]
+            weekly_foamed = [
+                row for row in report_items
+                if str(row.get("source_type") or row.get("source") or "").strip().lower() == "foamed"
+            ]
+            weekly_top_pick_ids = [
+                str(row.get("item_id") or row.get("id") or row.get("pmid") or row.get("url") or "").strip()
+                for row in report_items
+                if row.get("top_pick") is True
+            ][:5]
+            weekly_digest = make_cybermed_weekly_digest(
+                period_start=cybermed_expected_period_start,
+                period_end=cybermed_expected_period_end,
+                generated_at_utc=now_utc_iso,
+                source_digests=daily,
+                pubmed_items=weekly_pubmed,
+                foamed_items=weekly_foamed,
+                deep_dives=stored_deep_dives[:WEEKLY_MAX_DEEP_DIVES],
+                top_picks=weekly_top_pick_ids,
+                diagnostic_summary={
+                    "pubmed_selected_total": len(weekly_pubmed),
+                    "foamed_selected_total": len(weekly_foamed),
+                    "deep_dives_selected_total": len(stored_deep_dives[:WEEKLY_MAX_DEEP_DIVES]),
+                    "top_picks_selected_total": len(weekly_top_pick_ids),
+                    "duplicates_suppressed_total": int(cybermed_weekly_diag.get("cybermed_weekly_duplicates_suppressed_total", 0) or 0),
+                },
+            )
+            weekly_store_diag["cybermed_weekly_store_digest_id"] = weekly_digest["digest_id"]
+            weekly_store = load_cybermed_weekly_digest_store(cybermed_weekly_digest_state_path)
+            manual_safe_overwrite = (
+                _env_bool("CYBERMED_WEEKLY_DIGEST_STORE_OVERWRITE", False)
+                and (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower() in {"workflow_dispatch", "manual"}
+                and (os.getenv("EMAIL_MODE", "") or "").strip().lower() == "none"
+                and (os.getenv("SEND_EMAIL", "") or "").strip() == "0"
+            )
+            weekly_store, weekly_store_status = upsert_cybermed_weekly_digest(
+                weekly_store,
+                weekly_digest,
+                overwrite=manual_safe_overwrite,
+            )
+            weekly_store_diag["cybermed_weekly_store_status"] = weekly_store_status
+            if weekly_store_status in {"inserted", "replaced"}:
+                save_cybermed_weekly_digest_store(
+                    cybermed_weekly_digest_state_path,
+                    weekly_store,
+                )
+                weekly_store_diag["cybermed_weekly_store_written"] = True
+        cybermed_weekly_diag.update(weekly_store_diag)
+
     if report_mode == "monthly":
         try:
             rollups_state = load_rollups_state(rollups_state_path)
@@ -5081,6 +5285,28 @@ def main() -> None:
                     "full_text_count": sum(1 for it in rollup_items if str(it.get("content_status") or "") != "metadata_only"),
                     "metadata_only_count": sum(1 for it in rollup_items if str(it.get("content_status") or "") == "metadata_only"),
                     "items_by_temporality": dict(tmpcounts),
+                }
+            elif is_cybermed_run:
+                cybermed_monthly_items = [
+                    _sanitize_cybermed_monthly_rollup_item(item)
+                    for item in report_items
+                ]
+                extra_fields = {
+                    "upstream_cadence": "weekly",
+                    "source_weekly_digest_ids": [
+                        str(row.get("digest_id") or "").strip()
+                        for row in daily
+                        if str(row.get("digest_id") or "").strip()
+                    ],
+                    "source_weekly_digests_total": len(daily),
+                    "cybermed_items": cybermed_monthly_items,
+                    "cybermed_pubmed_items_total": len([
+                        row for row in cybermed_monthly_items if row.get("source_type") == "pubmed"
+                    ]),
+                    "cybermed_foamed_items_total": len([
+                        row for row in cybermed_monthly_items if row.get("source_type") == "foamed"
+                    ]),
+                    "cybermed_deep_dives_total": len(detail_items),
                 }
             upsert_monthly_rollup(
                 rollups_state,

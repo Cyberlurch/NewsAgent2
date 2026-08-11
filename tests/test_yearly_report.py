@@ -1,4 +1,5 @@
 import pathlib
+import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import sys
@@ -138,3 +139,59 @@ def test_cybermed_yearly_partial_coverage_note():
     assert "## Top papers of the year" in md
     assert "## Potentially practice-changing items" in md
     assert "## Clinical themes of the year" in md
+
+
+def test_cybermed_yearly_reads_monthly_rollups_only(monkeypatch, tmp_path):
+    captured = {}
+    monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setenv("YEAR_IN_REVIEW_YEAR", "2026")
+    monkeypatch.setenv("REPORT_PROFILE", "medical")
+    daily_path = tmp_path / "daily.json"
+    daily_path.write_text(
+        json.dumps({
+            "schema_version": 1,
+            "digests": [{
+                "digest_id": "poison",
+                "date": "2026-03-01",
+                "items": {"pubmed": [{"title": "MUST NOT ENTER YEARLY"}]},
+            }],
+        }),
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(daily_path))
+    monkeypatch.setattr(main, "send_markdown", lambda *a, **k: None)
+
+    def _capture(**kwargs):
+        captured.update(kwargs)
+        return "# Yearly\n"
+
+    monkeypatch.setattr(main, "render_yearly_markdown", _capture)
+    rollups_path = tmp_path / "rollups.json"
+    rollups_path.write_text(
+        json.dumps({
+            "version": 1,
+            "reports": {
+                "cybermed": [{
+                    "month": "2026-02",
+                    "generated_at": "2026-03-01T05:40:00+00:00",
+                    "executive_summary": ["Monthly only"],
+                    "top_items": [],
+                    "cybermed_items": [{"title": "FROM MONTHLY"}],
+                }],
+            },
+        }),
+        encoding="utf-8",
+    )
+
+    main._run_yearly_report(
+        rollups_state_path=str(rollups_path),
+        report_key="cybermed",
+        base_report_title="Cybermed Report",
+        base_report_subject="Cybermed Report",
+        report_language="en",
+        report_dir=str(tmp_path / "out"),
+    )
+
+    assert captured["daily_digests"] == []
+    assert captured["diagnostics"]["cybermed_yearly_direct_daily_inputs_enabled"] is False
+    assert captured["diagnostics"]["cybermed_yearly_upstream_cadence"] == "monthly"
