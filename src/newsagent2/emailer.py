@@ -14,6 +14,8 @@ from typing import Dict, List, Tuple, Union
 
 from markdown import markdown
 
+from .cybermed_quality import assert_no_generation_error_text
+
 
 def _clean_recipient_list(value: object) -> List[str]:
     """Normalize recipient input into a clean list of strings."""
@@ -428,6 +430,8 @@ def send_markdown(subject: str, md_body: str) -> None:
 
     report_key = (os.getenv("REPORT_KEY", "default") or "default").strip() or "default"
     report_mode = (os.getenv("REPORT_MODE", "daily") or "daily").strip() or "daily"
+    if report_key.lower() == "cybermed":
+        assert_no_generation_error_text(md_body, boundary="email_body")
 
     host = os.getenv("SMTP_HOST")
     port_str = os.getenv("SMTP_PORT", "587")

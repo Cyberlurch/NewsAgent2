@@ -10,6 +10,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
 
 from .summarizer import normalize_pubmed_deep_dive, render_pubmed_deep_dive_from_abstract
+from .cybermed_quality import assert_no_generation_error_text
 
 try:  # Optional import; keep reporter usable without selector
     from .selector_medical import load_cybermed_selection_config
@@ -1295,6 +1296,16 @@ def to_markdown(
     ]
     is_cybermed = _is_cybermed_report(title, report_language)
     is_cyberlurch = _is_cyberlurch_report(title)
+
+    if is_cybermed:
+        assert_no_generation_error_text(
+            {
+                "items": items,
+                "overview": overview_markdown,
+                "details": details_by_id,
+            },
+            boundary="reporter_input",
+        )
 
     overview_markdown = (overview_markdown or "").strip()
     normalized_mode = (report_mode or "").strip().lower()

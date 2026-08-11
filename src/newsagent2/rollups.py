@@ -7,6 +7,7 @@ import re
 from typing import Any, Dict, List, Sequence
 
 from .reporter import render_cyberlurch_yearly_analysis
+from .cybermed_quality import assert_no_generation_error_text
 from zoneinfo import ZoneInfo
 
 STO = ZoneInfo("Europe/Stockholm")
@@ -650,6 +651,10 @@ def render_yearly_markdown(
     combined_items = starred_items + other_items
     top_ten = combined_items[:10]
     if is_cybermed:
+        assert_no_generation_error_text(
+            {"rollups": sorted_rollups, "daily_digests": daily_digests or []},
+            boundary="yearly_renderer_input",
+        )
         monthly_items: List[Dict[str, Any]] = []
         for entry in sorted_rollups:
             for item in entry.get("cybermed_items") or []:

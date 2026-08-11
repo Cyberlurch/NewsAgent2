@@ -2,6 +2,8 @@ import json
 import sys
 from datetime import datetime, timezone
 
+import pytest
+
 from newsagent2 import main
 
 
@@ -314,3 +316,59 @@ def test_cybermed_daily_digest_store_persists_generated_deep_dive_markdown(tmp_p
     assert stored["deep_dive_markdown"] == detail_md
     assert "Study type" in stored["deep_dive_markdown"]
     assert "Key results" in stored["deep_dive_markdown"]
+
+
+def test_cybermed_generation_failures_degrade_without_render_or_persistence(
+    tmp_path, monkeypatch, capsys
+):
+    _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
+    monkeypatch.setenv("REPORT_TITLE", "Cybermed Daily")
+    monkeypatch.setenv("REPORT_LANGUAGE", "en")
+    monkeypatch.setenv("REPORT_PROFILE", "medical")
+    raw_error = (
+        "RateLimitError: Error code: 429 - insufficient_quota "
+        "request_id=req_stage4_secret api_key=sk-stage4-secret"
+    )
+    monkeypatch.setattr(main, "summarize", lambda *a, **k: raw_error)
+    monkeypatch.setattr(main, "summarize_pubmed_bottom_line", lambda *a, **k: raw_error)
+    monkeypatch.setattr(main, "summarize_foamed_bottom_line", lambda *a, **k: raw_error)
+    monkeypatch.setattr(main, "summarize_item_detail", lambda *a, **k: raw_error)
+    monkeypatch.setattr(
+        main,
+        "_select_pubmed_deep_dives_with_content",
+        lambda candidates, **kwargs: list(candidates),
+    )
+
+    main.main()
+
+    report_path = next((tmp_path / "out").glob("cybermed_daily_summary_*.md"))
+    report_text = report_path.read_text(encoding="utf-8")
+    digest_text = (tmp_path / "state" / "cybermed_daily_digests.json").read_text(
+        encoding="utf-8"
+    )
+    diag = json.loads(
+        (tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8")
+    )
+    captured = capsys.readouterr().out
+
+    for output in (report_text, digest_text, json.dumps(diag), captured):
+        assert "RateLimitError" not in output
+        assert "req_stage4_secret" not in output
+        assert "sk-stage4-secret" not in output
+    assert "## Papers" in report_text
+    assert "**Error:**" not in report_text
+    assert diag["cybermed_generation_failures_total"] >= 2
+    assert diag["cybermed_generation_outputs_sanitized_total"] >= 2
+    assert diag["cybermed_generation_leak_guard_passed"] is True
+
+
+def test_corrupt_cybermed_daily_store_fails_without_overwrite(tmp_path):
+    digest_path = tmp_path / "cybermed_daily_digests.json"
+    original = b"{not-json\n"
+    digest_path.write_bytes(original)
+
+    with pytest.raises(RuntimeError, match="cybermed_daily_digest_store_unreadable"):
+        main._load_cybermed_daily_digest_state(str(digest_path))
+
+    assert digest_path.read_bytes() == original

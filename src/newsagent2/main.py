@@ -44,6 +44,14 @@ from .cybermed_digest_store import (
     upsert_cybermed_weekly_digest,
     normalized_title as cybermed_normalized_title,
 )
+from .cybermed_quality import (
+    CybermedGenerationError,
+    assert_no_generation_error_text,
+    classify_generation_error,
+    degraded_overview,
+    safe_generated_text,
+    sanitize_cybermed_payload,
+)
 from .state_manager import (
     is_processed,
     mark_screened,
@@ -209,6 +217,12 @@ def classify_direct_digest_error(exc: Exception) -> str:
     if "json" in msg:
         return "json_parse_error"
     return "unknown"
+
+
+def _cybermed_generation_failure_key(exc: BaseException, *, stage: str) -> str:
+    if isinstance(exc, CybermedGenerationError):
+        return f"{exc.stage}:{exc.category}"
+    return f"{stage}:{classify_generation_error(exc)}"
 
 
 def _preselect_cyberlurch_daily_metadata(
@@ -462,19 +476,22 @@ def _upsert_cyberlurch_digests(state: Dict[str, Any], items: List[Dict[str, Any]
 
 def _load_cybermed_daily_digest_state(path: str) -> Dict[str, Any]:
     default = {"schema_version": 1, "digests": []}
+    if not os.path.exists(path):
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(default, f, ensure_ascii=False, separators=(",", ":"))
+            f.write("\n")
+        return default
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
         if isinstance(data, dict) and isinstance(data.get("digests"), list):
             data["schema_version"] = 1
-            return data
-    except Exception:
-        pass
-    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(default, f, ensure_ascii=False, separators=(",", ":"))
-        f.write("\n")
-    return default
+            cleaned, _ = sanitize_cybermed_payload(data)
+            return cleaned
+    except Exception as exc:
+        raise RuntimeError("cybermed_daily_digest_store_unreadable") from None
+    raise RuntimeError("cybermed_daily_digest_store_invalid_schema")
 
 
 def _cybermed_daily_lookback_marker(
@@ -517,7 +534,7 @@ def _sanitize_cybermed_pubmed_item(item: Dict[str, Any]) -> Dict[str, Any]:
         "text_confidence_label": str(item.get("text_confidence_label") or "").strip(),
         "top_pick": bool(item.get("top_pick")),
         "deep_dive_candidate": bool(item.get("deep_dive_candidate")),
-        "bottom_line": str(item.get("bottom_line") or "").strip(),
+        "bottom_line": safe_generated_text(item.get("bottom_line")),
         "reason_labels": [str(v) for v in (item.get("reason_labels") or []) if str(v).strip()],
         "content_source": str(item.get("content_source") or "").strip(),
         "content_length_bucket": str(item.get("content_length_bucket") or "").strip(),
@@ -543,7 +560,7 @@ def _sanitize_cybermed_foamed_item(item: Dict[str, Any]) -> Dict[str, Any]:
         "final_content_source": str(item.get("final_content_source") or "").strip(),
         "extraction_method": str(item.get("extraction_method") or "").strip(),
         "top_pick": bool(item.get("top_pick")),
-        "bottom_line": str(item.get("bottom_line") or "").strip(),
+        "bottom_line": safe_generated_text(item.get("bottom_line")),
         "reason_labels": [str(v) for v in (item.get("reason_labels") or []) if str(v).strip()],
     }
 
@@ -561,7 +578,7 @@ def _sanitize_cybermed_monthly_rollup_item(item: Dict[str, Any]) -> Dict[str, An
         "journal": str(item.get("journal") or "").strip(),
         "date": str(item.get("published_at") or item.get("date") or "").strip()[:10],
         "top_pick": bool(item.get("top_pick")),
-        "bottom_line": str(item.get("bottom_line") or "").strip(),
+        "bottom_line": safe_generated_text(item.get("bottom_line")),
         "evidence_strength_label": str(item.get("evidence_strength_label") or "").strip(),
         "evidence_strength_1_5": item.get("evidence_strength_1_5"),
         "clinical_relevance_1_5": item.get("clinical_relevance_1_5"),
@@ -587,7 +604,7 @@ def _normalize_cybermed_weekly_digest_item(item: Dict[str, Any], *, deep_dive_id
     row["title"] = str(row.get("title") or "").strip()
     row["url"] = str(row.get("url") or "").strip()
     row["published_at"] = str(row.get("published_at") or "").strip()
-    stored_bottom_line = str(row.get("bottom_line") or "").strip()
+    stored_bottom_line = safe_generated_text(row.get("bottom_line"))
     row["bottom_line"] = stored_bottom_line
     row["stored_bottom_line"] = stored_bottom_line
     row["top_pick"] = bool(row.get("top_pick") is True)
@@ -1850,6 +1867,10 @@ def _run_yearly_report(
         report_subject = report_title
 
     entries = rollups_for_year(rollups_state, report_key, target_year)
+    yearly_sanitized_total = 0
+    if _is_cybermed(report_key, os.getenv("REPORT_PROFILE", "")):
+        entries, yearly_sanitized_total = sanitize_cybermed_payload(entries)
+        assert_no_generation_error_text(entries, boundary="yearly_rollups")
     cybermed_yearly_diags: Dict[str, Any] = {
         "cybermed_yearly_editorial_mode": True,
         "cybermed_yearly_monthly_rollups_loaded_total": len(entries),
@@ -1857,6 +1878,7 @@ def _run_yearly_report(
         "cybermed_yearly_direct_daily_inputs_enabled": False,
         "cybermed_yearly_live_collection_used": False,
         "cybermed_yearly_processed_state_mutated": False,
+        "cybermed_yearly_generation_outputs_sanitized_total": yearly_sanitized_total,
     }
     yearly_daily_digests: List[Dict[str, Any]] = []
     all_dates = sorted([
@@ -2238,6 +2260,8 @@ def main() -> None:
     try:
         channels, channel_topics, topic_weights = load_channels_config(args.channels)
     except Exception as e:
+        if _is_cybermed(report_key, report_profile):
+            raise RuntimeError("cybermed_channels_config_unavailable") from None
         if report_language.lower().startswith("en"):
             overview = f"## Executive Summary\n\n**Error:** Failed to load channels configuration: `{e!r}`\n"
         else:
@@ -2318,6 +2342,9 @@ def main() -> None:
     runtime_summarization_seconds = 0.0
     runtime_report_render_seconds = 0.0
     runtime_email_seconds = 0.0
+    cybermed_generation_failure_counts: Counter[str] = Counter()
+    cybermed_generation_outputs_sanitized_total = 0
+    cybermed_generation_leak_guard_passed = False
     is_cybermed_run = _is_cybermed(report_key, report_profile)
     qa_replay_requested = _env_bool("CYBERMED_QA_REPLAY_MODE", False)
     qa_replay_enabled = False
@@ -4109,6 +4136,10 @@ def main() -> None:
             run_metadata=run_metadata if report_key.strip().lower() == "cyberlurch" else None,
         )
 
+        if is_cybermed_run:
+            assert_no_generation_error_text(md, boundary="empty_report")
+            cybermed_generation_leak_guard_passed = True
+
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(md)
         print(f"[report] Wrote {out_path}")
@@ -4126,6 +4157,14 @@ def main() -> None:
             now_utc_iso=now_utc_iso,
             read_only=(read_only_mode or qa_replay_enabled or backfill_enabled or cybermed_digest_only_mode),
         )
+
+        if is_cybermed_run:
+            cybermed_diagnostics_payload.update({
+                "cybermed_generation_failures_total": sum(cybermed_generation_failure_counts.values()),
+                "cybermed_generation_failure_category_counts": dict(cybermed_generation_failure_counts),
+                "cybermed_generation_outputs_sanitized_total": cybermed_generation_outputs_sanitized_total,
+                "cybermed_generation_leak_guard_passed": cybermed_generation_leak_guard_passed,
+            })
 
         if cybermed_digest_only_mode:
             cybermed_diagnostics_payload.update(cybermed_weekly_diag)
@@ -4181,6 +4220,10 @@ def main() -> None:
                         dstate["schema_version"] = 1
                         dstate["digests"] = digests
                         try:
+                            assert_no_generation_error_text(
+                                dstate,
+                                boundary="daily_digest_store_empty",
+                            )
                             with open(digest_path, "w", encoding="utf-8") as f:
                                 json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
                                 f.write("\n")
@@ -4418,10 +4461,26 @@ def main() -> None:
             continue
         if not (is_cybermed_run and cybermed_digest_only_mode and bool(it.get("digest_derived"))):
             try:
-                bl = summarize_pubmed_bottom_line(it, language=report_language)
-                it["bottom_line"] = bl
+                raw_bl = summarize_pubmed_bottom_line(it, language=report_language)
+                bl = safe_generated_text(raw_bl) if is_cybermed_run else str(raw_bl or "").strip()
+                if is_cybermed_run and raw_bl and not bl:
+                    cybermed_generation_failure_counts["pubmed_bottom_line:unsafe_output"] += 1
+                    cybermed_generation_outputs_sanitized_total += 1
+                if bl:
+                    it["bottom_line"] = bl
+                elif is_cybermed_run:
+                    it.pop("bottom_line", None)
             except Exception as e:
-                print(f"[summarize] WARN: summarize_pubmed_bottom_line failed for pubmed:{iid!r}: {e!r}")
+                if is_cybermed_run:
+                    failure_key = _cybermed_generation_failure_key(e, stage="pubmed_bottom_line")
+                    cybermed_generation_failure_counts[failure_key] += 1
+                    it.pop("bottom_line", None)
+                    print(
+                        "[summarize] WARN: cybermed generation failed "
+                        f"stage=pubmed_bottom_line category={failure_key.split(':', 1)[-1]}"
+                    )
+                else:
+                    print(f"[summarize] WARN: summarize_pubmed_bottom_line failed for pubmed:{iid!r}: {e!r}")
         synopsis = _build_pubmed_shared_synopsis(it)
         pubmed_shared_synopsis[iid] = synopsis
         it["pubmed_shared_synopsis"] = synopsis
@@ -4432,10 +4491,26 @@ def main() -> None:
                 continue
             url_lbl = (it.get("url") or it.get("id") or "")
             try:
-                bl = summarize_foamed_bottom_line(it, language=report_language)
-                it["bottom_line"] = bl
+                raw_bl = summarize_foamed_bottom_line(it, language=report_language)
+                bl = safe_generated_text(raw_bl) if is_cybermed_run else str(raw_bl or "").strip()
+                if is_cybermed_run and raw_bl and not bl:
+                    cybermed_generation_failure_counts["foamed_bottom_line:unsafe_output"] += 1
+                    cybermed_generation_outputs_sanitized_total += 1
+                if bl:
+                    it["bottom_line"] = bl
+                elif is_cybermed_run:
+                    it.pop("bottom_line", None)
             except Exception as e:
-                print(f"[summarize] WARN: summarize_foamed_bottom_line failed for foamed item {url_lbl!r}: {e!r}")
+                if is_cybermed_run:
+                    failure_key = _cybermed_generation_failure_key(e, stage="foamed_bottom_line")
+                    cybermed_generation_failure_counts[failure_key] += 1
+                    it.pop("bottom_line", None)
+                    print(
+                        "[summarize] WARN: cybermed generation failed "
+                        f"stage=foamed_bottom_line category={failure_key.split(':', 1)[-1]}"
+                    )
+                else:
+                    print(f"[summarize] WARN: summarize_foamed_bottom_line failed for foamed item {url_lbl!r}: {e!r}")
     for it in detail_items:
         if (it.get("source") or "").strip().lower() != "pubmed":
             continue
@@ -4596,13 +4671,35 @@ def main() -> None:
                             youtube_diag.managed_transcript_full_within_limit_total += 1
                             youtube_diag.transcript_processing_not_needed_total += 1
                     summarize_start = time.monotonic()
-                    overview_body = summarize(overview_items, language=report_language, profile=report_profile).strip()
+                    raw_overview = summarize(
+                        overview_items,
+                        language=report_language,
+                        profile=report_profile,
+                    ).strip()
+                    if is_cybermed_run:
+                        overview_body = safe_generated_text(raw_overview)
+                        if not overview_body:
+                            category = "unsafe_output" if raw_overview else "empty_output"
+                            cybermed_generation_failure_counts[f"overview:{category}"] += 1
+                            cybermed_generation_outputs_sanitized_total += int(bool(raw_overview))
+                            overview_body = degraded_overview(language=report_language)
+                    else:
+                        overview_body = raw_overview
                     runtime_summarization_seconds += max(0.0, time.monotonic() - summarize_start)
                 except Exception as e:
-                    print(f"[summarize] ERROR: summarize() failed: {e!r}")
-                    if report_language.lower().startswith("en"):
+                    if is_cybermed_run:
+                        failure_key = _cybermed_generation_failure_key(e, stage="overview")
+                        cybermed_generation_failure_counts[failure_key] += 1
+                        print(
+                            "[summarize] WARN: cybermed generation failed "
+                            f"stage=overview category={failure_key.split(':', 1)[-1]}"
+                        )
+                        overview_body = degraded_overview(language=report_language)
+                    elif report_language.lower().startswith("en"):
+                        print(f"[summarize] ERROR: summarize() failed: {e!r}")
                         overview_body = "## Executive Summary\n\n**Error:** Failed to generate overview.\n"
                     else:
+                        print(f"[summarize] ERROR: summarize() failed: {e!r}")
                         overview_body = "## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen.\n"
 
     if cybermed_meta_block:
@@ -4849,8 +4946,32 @@ def main() -> None:
             continue
         key = f"{src}:{iid_raw}" if iid_raw else ""
         try:
-            detail_block = summarize_item_detail(it, language=report_language, profile=report_profile).strip()
+            raw_detail_block = summarize_item_detail(
+                it,
+                language=report_language,
+                profile=report_profile,
+            ).strip()
+            detail_block = (
+                safe_generated_text(raw_detail_block)
+                if is_cybermed_run
+                else raw_detail_block
+            )
+            if is_cybermed_run and not detail_block:
+                category = "unsafe_output" if raw_detail_block else "empty_output"
+                cybermed_generation_failure_counts[f"deep_dive:{category}"] += 1
+                cybermed_generation_outputs_sanitized_total += int(bool(raw_detail_block))
+                it["_deep_dive_empty_output"] = True
+                continue
         except Exception as e:
+            if is_cybermed_run:
+                failure_key = _cybermed_generation_failure_key(e, stage="deep_dive")
+                cybermed_generation_failure_counts[failure_key] += 1
+                it["_deep_dive_empty_output"] = True
+                print(
+                    "[summarize] WARN: cybermed generation failed "
+                    f"stage=deep_dive category={failure_key.split(':', 1)[-1]}"
+                )
+                continue
             print(f"[summarize] WARN: summarize_item_detail failed for {key!r}: {e!r}")
             if report_language.lower().startswith("en"):
                 detail_block = "Key takeaways:\n- (Failed to generate deep dive.)\n"
@@ -5094,6 +5215,35 @@ def main() -> None:
                 cybermed_run_stats["monthly_digest_period_end"] = monthly_digest_period_end
             cybermed_run_stats.update(cybermed_weekly_diag)
 
+    if is_cybermed_run:
+        safe_report_items, removed_report_items = sanitize_cybermed_payload(report_items)
+        safe_detail_items, removed_detail_items = sanitize_cybermed_payload(detail_items)
+        safe_details_for_report, removed_detail_blocks = sanitize_cybermed_payload(details_for_report)
+        removed_total = removed_report_items + removed_detail_items + removed_detail_blocks
+        cybermed_generation_outputs_sanitized_total += removed_total
+        report_items = safe_report_items
+        detail_items = safe_detail_items
+        details_for_report = {
+            key: value
+            for key, value in safe_details_for_report.items()
+            if str(value or "").strip()
+        }
+        safe_overview_body = safe_generated_text(overview_body)
+        if overview_body and not safe_overview_body:
+            cybermed_generation_failure_counts["overview:unsafe_output"] += 1
+            cybermed_generation_outputs_sanitized_total += 1
+            overview_body = cybermed_meta_block + degraded_overview(language=report_language)
+        else:
+            overview_body = safe_overview_body
+        assert_no_generation_error_text(
+            {
+                "overview": overview_body,
+                "items": report_items,
+                "details": details_for_report,
+            },
+            boundary="pre_render",
+        )
+
     for _it in report_items:
         _it.pop("_full_text_for_processing", None)
 
@@ -5113,6 +5263,10 @@ def main() -> None:
         report_mode=report_mode,
         run_metadata=run_metadata,
     )
+
+    if is_cybermed_run:
+        assert_no_generation_error_text(md, boundary="rendered_markdown")
+        cybermed_generation_leak_guard_passed = True
 
     runtime_report_render_seconds += max(0.0, time.monotonic() - report_render_start)
     if cybermed_digest_only_mode:
@@ -5257,7 +5411,8 @@ def main() -> None:
             if override and month_key != override:
                 print(f"[rollups] WARN: invalid ROLLUP_MONTH_OVERRIDE={override!r}; expected YYYY-MM")
             candidates = overview_items + detail_items + foamed_overview_items
-            _ensure_bottom_lines_for_rollup(candidates, language=report_language)
+            if not (is_cybermed_run and cybermed_digest_only_mode):
+                _ensure_bottom_lines_for_rollup(candidates, language=report_language)
             rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items)
             if report_key.strip().lower() == "cyberlurch":
                 rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items, max_items=30)
@@ -5323,6 +5478,13 @@ def main() -> None:
                 max_months=rollups_max_months,
                 keep_month=month_key,
             )
+            if is_cybermed_run:
+                rollups_state, removed_count = sanitize_cybermed_payload(rollups_state)
+                cybermed_generation_outputs_sanitized_total += removed_count
+                assert_no_generation_error_text(
+                    rollups_state,
+                    boundary="monthly_rollups",
+                )
             save_rollups_state(rollups_state_path, rollups_state)
         except Exception as e:
             print(f"[rollups] WARN: failed to persist monthly rollup: {e!r}")
@@ -5440,7 +5602,9 @@ def main() -> None:
                 }
                 if detail_block:
                     record["deep_dive_markdown"] = detail_block
-                deep_dives.append(record)
+                safe_record, removed_count = sanitize_cybermed_payload(record)
+                cybermed_generation_outputs_sanitized_total += removed_count
+                deep_dives.append(safe_record)
             top_picks = [str((it or {}).get("id") or "").strip() for it in (pubmed_overview_items + foamed_overview_items) if (it or {}).get("top_pick")]
             current_pubmed_total = len(pubmed_items)
             current_foamed_total = len(foamed_items)
@@ -5538,6 +5702,10 @@ def main() -> None:
                 if not read_only_mode:
                     try:
                         os.makedirs(os.path.dirname(cybermed_digest_state_path) or ".", exist_ok=True)
+                        assert_no_generation_error_text(
+                            dstate,
+                            boundary="daily_digest_store",
+                        )
                         with open(cybermed_digest_state_path, "w", encoding="utf-8") as f:
                             json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
                             f.write("\n")
@@ -5642,6 +5810,10 @@ def main() -> None:
             "pubmed_shared_synopsis_generated_total": len(pubmed_shared_synopsis),
             "pubmed_shared_synopsis_failed_total": 0,
             "pubmed_summary_consistency_preview": consistency_preview[:10],
+            "cybermed_generation_failures_total": sum(cybermed_generation_failure_counts.values()),
+            "cybermed_generation_failure_category_counts": dict(cybermed_generation_failure_counts),
+            "cybermed_generation_outputs_sanitized_total": cybermed_generation_outputs_sanitized_total,
+            "cybermed_generation_leak_guard_passed": cybermed_generation_leak_guard_passed,
         })
         cybermed_diagnostics_payload.update(cybermed_digest_diag)
         for k in [

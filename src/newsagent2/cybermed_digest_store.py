@@ -8,6 +8,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 from zoneinfo import ZoneInfo
 
+from .cybermed_quality import (
+    assert_no_generation_error_text,
+    sanitize_cybermed_payload,
+)
+
 
 CYBERMED_WEEKLY_SCHEMA_VERSION = 1
 
@@ -26,7 +31,12 @@ def load_cybermed_daily_digest_store(path: str) -> dict:
         digests = data.get("digests")
         if not isinstance(digests, list):
             return default
-        valid = [d for d in digests if isinstance(d, dict) and str(d.get("digest_id") or "").strip()]
+        valid = []
+        for digest in digests:
+            if not isinstance(digest, dict) or not str(digest.get("digest_id") or "").strip():
+                continue
+            safe_digest, _ = sanitize_cybermed_payload(digest)
+            valid.append(safe_digest)
         return {"schema_version": int(data.get("schema_version") or 1), "digests": valid}
     except Exception:
         return default
@@ -148,7 +158,8 @@ def load_cybermed_weekly_digest_store(path: str) -> dict:
             raise CybermedDigestStoreError(
                 f"Cybermed Weekly store contains an invalid digest record: {store_path}"
             )
-        valid.append(digest)
+        safe_digest, _ = sanitize_cybermed_payload(digest)
+        valid.append(safe_digest)
     return {
         "schema_version": int(data.get("schema_version") or CYBERMED_WEEKLY_SCHEMA_VERSION),
         "digests": valid,
@@ -164,6 +175,8 @@ def save_cybermed_weekly_digest_store(path: str, store: dict) -> None:
         "schema_version": CYBERMED_WEEKLY_SCHEMA_VERSION,
         "digests": list(store.get("digests") or []),
     }
+    payload, _ = sanitize_cybermed_payload(payload)
+    assert_no_generation_error_text(payload, boundary="weekly_digest_store")
     tmp = target.with_name(f"{target.name}.tmp")
     tmp.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
@@ -551,8 +564,10 @@ def _json_safe(value: Any) -> Any:
 
 
 def _json_safe_record(record: Dict[str, Any]) -> Dict[str, Any]:
-    return {
+    json_safe = {
         str(key): _json_safe(value)
         for key, value in record.items()
         if not str(key).startswith("_")
     }
+    cleaned, _ = sanitize_cybermed_payload(json_safe)
+    return cleaned
