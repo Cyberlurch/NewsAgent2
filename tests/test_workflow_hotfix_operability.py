@@ -52,7 +52,7 @@ def test_workflow_yaml_dispatch_shape_and_schedule_crons():
 
     assert "default: daily" in y
     assert "- monthly" in y
-    assert "- cybermed" in y
+    assert "- cybermed" not in y
     assert "default: none" in y
     assert "- none" in y
 

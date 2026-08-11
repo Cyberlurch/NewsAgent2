@@ -1,0 +1,307 @@
+# Dedicated Cybermed pipeline.  It intentionally has no YouTube/Deno steps and
+# no Cyberlurch report invocation, so either newsletter can fail independently.
+name: NewsAgent2 Cybermed
+
+on:
+  schedule:
+    # Ten minutes after the Cyberlurch slot; local gate keeps one 05:40 Stockholm run.
+    - cron: "40 3 * * *"
+    - cron: "40 4 * * *"
+  workflow_dispatch:
+    inputs:
+      report_mode:
+        description: "Cybermed cadence"
+        default: daily
+        type: choice
+        options:
+          - all
+          - daily
+          - weekly
+          - monthly
+          - yearly
+      lookback_hours:
+        description: "Override lookback window in hours (blank = cadence default)"
+        required: false
+        type: string
+      year_in_review_year:
+        description: "Optional target year for Year in Review"
+        required: false
+        type: string
+      email_mode:
+        description: "Email behavior for manual runs"
+        default: none
+        type: choice
+        options:
+          - none
+          - test
+          - real
+
+concurrency:
+  group: newsagent2-cybermed-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  run-cybermed:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1' }}
+      OPENAI_MODEL_PUBMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE || 'gpt-4.1' }}
+      OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK || '' }}
+
+      SEND_EMAIL: ${{ github.event_name == 'workflow_dispatch' && (inputs.email_mode || 'none') == 'none' && '0' || (vars.SEND_EMAIL || '1') }}
+      EMAIL_FROM: ${{ secrets.EMAIL_FROM || '' }}
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+
+      NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
+      NCBI_TOOL: ${{ vars.NCBI_TOOL || 'NewsAgent2' }}
+      NCBI_EMAIL: ${{ vars.NCBI_EMAIL || '' }}
+      UNPAYWALL_EMAIL: ${{ vars.UNPAYWALL_EMAIL || vars.NCBI_EMAIL || '' }}
+      PUBMED_MIN_INTERVAL_S: ${{ vars.PUBMED_MIN_INTERVAL_S || '0.40' }}
+      PUBMED_MAX_RETRIES: ${{ vars.PUBMED_MAX_RETRIES || '4' }}
+      PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
+      PUBMED_DATE_TYPE: ${{ vars.PUBMED_DATE_TYPE || 'pdat' }}
+      PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT || 'true' }}
+      PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT || 'true' }}
+      CYBERMED_MAX_ITEMS_PER_CHANNEL: ${{ vars.CYBERMED_MAX_ITEMS_PER_CHANNEL || '25' }}
+
+      FOAMED_AUDIT: ${{ vars.FOAMED_AUDIT || '0' }}
+      FOAMED_AUDIT_CHECK_DISABLED: ${{ vars.FOAMED_AUDIT_CHECK_DISABLED || '0' }}
+      FOAMED_ARTICLE_FETCH: ${{ vars.FOAMED_ARTICLE_FETCH || '0' }}
+      FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}
+      FOAMED_RENDER_FALLBACK: ${{ vars.FOAMED_RENDER_FALLBACK || '0' }}
+      FOAMED_ROLLING_AUDIT_DAYS: ${{ vars.FOAMED_ROLLING_AUDIT_DAYS || '0' }}
+      FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN || '60' }}
+
+      REPORT_DIR: out
+      REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (inputs.report_mode || 'daily') || 'daily' }}
+      LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && inputs.lookback_hours || '' }}
+      EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (inputs.email_mode || 'none') || 'real' }}
+      CYBERMED_QA_REPLAY_MODE: "0"
+      CYBERMED_DIGEST_STORE_OVERWRITE: "0"
+      CYBERMED_DIGEST_BACKFILL_MODE: "0"
+      CYBERMED_DIGEST_BACKFILL_OVERWRITE_EMPTY_ONLY: "1"
+      CYBERMED_WEEKLY_QA_FIXTURE_MODE: "0"
+      CYBERMED_HEAVY_AUDIT_MODE: ${{ vars.CYBERMED_HEAVY_AUDIT_MODE || '0' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Gate scheduled runs to 05:40 Europe/Stockholm
+        id: gate_stockholm
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "should_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          expected_cron="40 3 * * *"
+          if [ "$(TZ=Europe/Stockholm date +%z)" = "+0100" ]; then
+            expected_cron="40 4 * * *"
+          fi
+          schedule_expr="${{ github.event.schedule || '' }}"
+          dow=$(TZ=Europe/Stockholm date +%u)
+          dom=$(TZ=Europe/Stockholm date +%d)
+          should_run=true
+          if [ "$schedule_expr" != "$expected_cron" ]; then
+            should_run=false
+          fi
+          if [ "$dow" -ge 6 ] && [ "$dom" != "01" ]; then
+            should_run=false
+          fi
+          echo "should_run=$should_run" >> "$GITHUB_OUTPUT"
+          echo "Cybermed gate: schedule=$schedule_expr expected=$expected_cron dow=$dow dom=$dom should_run=$should_run"
+
+      - name: Compute Cybermed run plan
+        id: plan
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.gate_stockholm.outputs.should_run }}" != "true" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "modes=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          modes=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ "${{ env.REPORT_MODE }}" = "all" ]; then
+              modes="daily weekly monthly yearly"
+            else
+              modes="${{ env.REPORT_MODE }}"
+            fi
+          else
+            dow=$(TZ=Europe/Stockholm date +%u)
+            dom=$(TZ=Europe/Stockholm date +%d)
+            month=$(TZ=Europe/Stockholm date +%m)
+            planned=()
+            if [ "$dom" = "01" ]; then
+              planned+=("monthly")
+              if [ "$month" = "01" ]; then
+                planned+=("yearly")
+              fi
+            fi
+            if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then
+              planned+=("daily")
+            fi
+            if [ "$dow" = "5" ]; then
+              planned+=("weekly")
+            fi
+            modes="${planned[*]}"
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "modes=$modes" >> "$GITHUB_OUTPUT"
+          echo "Cybermed run plan: $modes"
+
+      - name: Set up Python
+        if: steps.plan.outputs.skip != 'true'
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        if: steps.plan.outputs.skip != 'true'
+        run: pip install -r requirements.txt
+
+      - name: Prepare output directory
+        if: steps.plan.outputs.skip != 'true'
+        run: |
+          rm -rf out
+          mkdir -p out
+
+      - name: Run Cybermed reports
+        if: steps.plan.outputs.skip != 'true'
+        env:
+          RUN_MODES: ${{ steps.plan.outputs.modes }}
+          RUN_LOG_PATH: out/cybermed-run.log
+          RECIPIENTS_JSON_CYBERMED: ${{ (github.event_name != 'workflow_dispatch' || (inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED || '' }}
+          RECIPIENTS_JSON_CYBERMED_DAILY: ${{ (github.event_name != 'workflow_dispatch' || (inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED_DAILY || '' }}
+          RECIPIENTS_JSON_CYBERMED_WEEKLY: ${{ (github.event_name != 'workflow_dispatch' || (inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED_WEEKLY || '' }}
+          RECIPIENTS_JSON_CYBERMED_MONTHLY: ${{ (github.event_name != 'workflow_dispatch' || (inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_JSON_CYBERMED_MONTHLY || '' }}
+          RECIPIENTS_CONFIG_JSON: ${{ (github.event_name != 'workflow_dispatch' || (inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_CONFIG_JSON || '' }}
+          TEST_RECIPIENTS_CONFIG_JSON: ${{ github.event_name == 'workflow_dispatch' && (inputs.email_mode || 'none') == 'test' && secrets.TEST_RECIPIENTS_CONFIG_JSON || '' }}
+          YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && inputs.year_in_review_year || '' }}
+        run: |
+          set -euo pipefail
+          : > "$RUN_LOG_PATH"
+          exec > >(tee -a "$RUN_LOG_PATH") 2>&1
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            case "${EMAIL_MODE:-none}" in
+              none)
+                export SEND_EMAIL=0
+                unset RECIPIENTS_CONFIG_JSON
+                unset RECIPIENTS_JSON_CYBERMED RECIPIENTS_JSON_CYBERMED_DAILY RECIPIENTS_JSON_CYBERMED_WEEKLY RECIPIENTS_JSON_CYBERMED_MONTHLY
+                ;;
+              test)
+                export SEND_EMAIL=1
+                unset RECIPIENTS_JSON_CYBERMED RECIPIENTS_JSON_CYBERMED_DAILY RECIPIENTS_JSON_CYBERMED_WEEKLY RECIPIENTS_JSON_CYBERMED_MONTHLY
+                export RECIPIENTS_CONFIG_JSON="${TEST_RECIPIENTS_CONFIG_JSON:-}"
+                ;;
+              real)
+                export SEND_EMAIL="${SEND_EMAIL:-1}"
+                ;;
+              *)
+                echo "ERROR: unsupported email_mode"
+                exit 1
+                ;;
+            esac
+          fi
+
+          for mode in $RUN_MODES; do
+            export REPORT_MODE="$mode"
+            REPORT_KEY=cybermed \
+            REPORT_TITLE="Cybermed Report" \
+            REPORT_SUBJECT="Cybermed Report" \
+            REPORT_LANGUAGE=en \
+            REPORT_PROFILE=medical \
+            SEND_EMPTY_REPORT_EMAIL="1" \
+            python -m src.newsagent2.main --channels data/cybermed_channels.json --hours 24
+          done
+
+      - name: Verify Cybermed reports and email attempts
+        if: steps.plan.outputs.skip != 'true'
+        env:
+          RUN_MODES: ${{ steps.plan.outputs.modes }}
+          RUN_LOG_PATH: out/cybermed-run.log
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          reports=(out/*.md)
+          if [ ${#reports[@]} -eq 0 ]; then
+            echo "ERROR: No Cybermed Markdown report was generated."
+            exit 1
+          fi
+          if [ ! -f "$RUN_LOG_PATH" ]; then
+            echo "ERROR: Cybermed run log is missing."
+            exit 1
+          fi
+
+          if echo " $RUN_MODES " | grep -Eq " (weekly|monthly) "; then
+            if grep -Eq "\[digest-store\] (weekly|monthly) loaded 0 digest item\(s\) for report\." "$RUN_LOG_PATH"; then
+              echo "ERROR: A Cybermed aggregate loaded no source items."
+              exit 1
+            fi
+            if grep -Eq "\[cybermed-empty-guard\]" "$RUN_LOG_PATH"; then
+              echo "ERROR: Cybermed aggregate empty guard was triggered."
+              exit 1
+            fi
+          fi
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${EMAIL_MODE:-none}" = "none" ]; then
+            if grep -q "\[email\] Sending email" "$RUN_LOG_PATH"; then
+              echo "ERROR: email_mode=none attempted an email."
+              exit 1
+            fi
+            exit 0
+          fi
+          if [ "${SEND_EMAIL:-1}" = "1" ] && ! grep -Eq "\[email\] Sending email \(report_key=cybermed.*recipients_count=([1-9][0-9]*)" "$RUN_LOG_PATH"; then
+            echo "ERROR: No Cybermed email attempt with recipients was logged."
+            exit 1
+          fi
+
+      - name: Upload Cybermed audit artifacts
+        if: steps.plan.outputs.skip != 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: cybermed-reports-${{ github.run_id }}
+          path: |
+            out/*.md
+            out/*diagnostics*.json
+            out/*metadata*.json
+            out/*metadata*.md
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Commit Cybermed state files if changed
+        if: steps.plan.outputs.skip != 'true' && (contains(steps.plan.outputs.modes, 'daily') || contains(steps.plan.outputs.modes, 'monthly'))
+        run: |
+          set -euo pipefail
+          files=()
+          for path in state/processed_items.json state/rollups.json state/cybermed_daily_digests.json; do
+            if [ -f "$path" ]; then
+              files+=("$path")
+            fi
+          done
+          if [ ${#files[@]} -eq 0 ] || [ -z "$(git status --porcelain -- "${files[@]}" || true)" ]; then
+            echo "No Cybermed state changes to commit."
+            exit 0
+          fi
+          git config user.name "newsagent-bot"
+          git config user.email "newsagent-bot@users.noreply.github.com"
+          git add -- "${files[@]}"
+          git commit -m "Update Cybermed state files [skip ci]"
+          git push origin "HEAD:${GITHUB_REF_NAME}" || {
+            git pull --rebase origin "$GITHUB_REF_NAME"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          }

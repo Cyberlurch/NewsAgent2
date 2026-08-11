@@ -27,13 +27,11 @@ on:
         required: false
         type: string
       which_report:
-        description: "Which report(s) to run"
+        description: "Report target (Cybermed has a dedicated workflow)"
         default: cyberlurch
         type: choice
         options:
           - cyberlurch
-          - both
-          - cybermed
       email_mode:
         description: "Email behavior for manual runs"
         default: none
@@ -200,7 +198,7 @@ jobs:
           if [ "${{ github.event_name }}" = "schedule" ] && [ "$gate_decision" != "true" ]; then
             echo "run_skip=true" >> "$GITHUB_OUTPUT"
             echo "run_modes=" >> "$GITHUB_OUTPUT"
-            echo "run_which_report=both" >> "$GITHUB_OUTPUT"
+            echo "run_which_report=cyberlurch" >> "$GITHUB_OUTPUT"
             echo "run_skip_reason=${gate_dst_cov:+dst_coverage}" >> "$GITHUB_OUTPUT"
             if [ "$gate_dst_cov" = "true" ]; then
               echo "Gate check requested skip; DST coverage run intentionally no-op."
@@ -221,7 +219,7 @@ jobs:
               run_modes="${{ env.REPORT_MODE }}"
             fi
           else
-            run_which_report="both"
+            run_which_report="cyberlurch"
             dow=$(TZ=Europe/Stockholm date +"%u")
             dom=$(TZ=Europe/Stockholm date +"%d")
             month=$(TZ=Europe/Stockholm date +"%m")
@@ -381,15 +379,6 @@ jobs:
               python -m src.newsagent2.main --channels "$CHFILE" --hours 24
             fi
 
-            if [ "$RUN_WHICH_REPORT" = "both" ] || [ "$RUN_WHICH_REPORT" = "cybermed" ]; then
-              REPORT_KEY=cybermed \
-              REPORT_TITLE="Cybermed Report" \
-              REPORT_SUBJECT="Cybermed Report" \
-              REPORT_LANGUAGE=en \
-              REPORT_PROFILE=medical \
-              SEND_EMPTY_REPORT_EMAIL="1" \
-              python -m src.newsagent2.main --channels "data/cybermed_channels.json" --hours 24
-            fi
           done
 
       - name: Verify reports and email attempts
@@ -507,7 +496,7 @@ jobs:
 
           # Collect only existing state files (avoid git add pathspec failures)
           FILES=()
-          for f in state/processed_items.json state/rollups.json state/cyberlurch_digests.json state/cybermed_daily_digests.json state/youtube_content_cache.json; do
+          for f in state/processed_items.json state/rollups.json state/cyberlurch_digests.json state/youtube_content_cache.json; do
             if [ -f "$f" ]; then
               FILES+=("$f")
             fi

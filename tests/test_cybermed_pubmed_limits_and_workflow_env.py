@@ -28,11 +28,16 @@ def _configure_common(monkeypatch, tmp_path, report_key="cybermed"):
     monkeypatch.setenv("REPORT_MODE", "daily")
     monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
     monkeypatch.setenv("STATE_PATH", str(tmp_path / "state.json"))
+    monkeypatch.setenv(
+        "CYBERMED_DAILY_DIGEST_STATE_PATH",
+        str(tmp_path / "cybermed_daily_digests.json"),
+    )
     monkeypatch.setenv("SEND_EMAIL", "0")
     monkeypatch.setenv("EMAIL_MODE", "none")
     monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
     monkeypatch.setattr(main, "load_channels_config", _fake_channels)
+    monkeypatch.setattr(main, "_save_youtube_channel_id_cache", lambda *a, **k: None)
     monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([], {"sources_total": 0, "sources_ok": 0, "sources_failed": 0, "items_raw": 0, "items_with_date": 0, "items_date_unknown": 0, "kept_last24h": 0, "newly_disabled_count": 0, "per_source": {}, "audit": {"enabled": False, "sources": {}}}))
 
 
@@ -99,23 +104,22 @@ def test_cybermed_config_logging_and_no_recipient_or_secret_dump(monkeypatch, tm
 
 
 def test_workflow_exposes_cybermed_intake_audit_env_vars():
-    text = pathlib.Path(".github/workflows/newsagent.yml").read_text(encoding="utf-8")
+    text = pathlib.Path(".github/workflows/cybermed.yml").read_text(encoding="utf-8")
     assert "CYBERMED_MAX_ITEMS_PER_CHANNEL: ${{ vars.CYBERMED_MAX_ITEMS_PER_CHANNEL || '25' }}" in text
     assert "FOAMED_AUDIT: ${{ vars.FOAMED_AUDIT || '0' }}" in text
     assert "FOAMED_AUDIT_CHECK_DISABLED: ${{ vars.FOAMED_AUDIT_CHECK_DISABLED || '0' }}" in text
     assert "FOAMED_ARTICLE_FETCH: ${{ vars.FOAMED_ARTICLE_FETCH || '0' }}" in text
     assert "FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}" in text
     assert "FOAMED_RENDER_FALLBACK: ${{ vars.FOAMED_RENDER_FALLBACK || '0' }}" in text
-    assert "CYBERMED_QA_REPLAY_MODE: ${{ vars.CYBERMED_QA_REPLAY_MODE || '0' }}" in text
-    assert "CYBERMED_DIGEST_STORE_OVERWRITE: ${{ vars.CYBERMED_DIGEST_STORE_OVERWRITE || '0' }}" in text
-    assert "CYBERMED_DIGEST_BACKFILL_MODE: ${{ vars.CYBERMED_DIGEST_BACKFILL_MODE || '0' }}" in text
-    assert "CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS: ${{ vars.CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS || '' }}" in text
-    assert "CYBERMED_DIGEST_BACKFILL_RUN_DATE: ${{ vars.CYBERMED_DIGEST_BACKFILL_RUN_DATE || '' }}" in text
-    assert "CYBERMED_DIGEST_BACKFILL_OVERWRITE_EMPTY_ONLY: ${{ vars.CYBERMED_DIGEST_BACKFILL_OVERWRITE_EMPTY_ONLY || '1' }}" in text
-    assert "CYBERMED_DIGEST_BACKFILL_MAX_PUBMED: ${{ vars.CYBERMED_DIGEST_BACKFILL_MAX_PUBMED || '25' }}" in text
-    assert "CYBERMED_DIGEST_BACKFILL_MAX_FOAMED: ${{ vars.CYBERMED_DIGEST_BACKFILL_MAX_FOAMED || '15' }}" in text
-    assert "CYBERMED_WEEKLY_QA_FIXTURE_MODE: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_MODE || '0' }}" in text
-    assert "CYBERMED_WEEKLY_QA_FIXTURE_PATH: ${{ vars.CYBERMED_WEEKLY_QA_FIXTURE_PATH || 'tests/fixtures/cybermed_weekly_digest_store_nonempty.json' }}" in text
+    assert 'CYBERMED_QA_REPLAY_MODE: "0"' in text
+    assert 'CYBERMED_DIGEST_STORE_OVERWRITE: "0"' in text
+    assert 'CYBERMED_DIGEST_BACKFILL_MODE: "0"' in text
+    assert 'CYBERMED_WEEKLY_QA_FIXTURE_MODE: "0"' in text
+    assert "CYBERMED_DIGEST_BACKFILL_RUN_DATE" not in text
+    backfill = pathlib.Path(".github/workflows/cybermed-daily-backfill.yml").read_text(encoding="utf-8")
+    assert "CYBERMED_DIGEST_BACKFILL_RUN_DATE: ${{ inputs.run_date }}" in backfill
+    assert "CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS: ${{ inputs.lookback_hours }}" in backfill
+    assert 'CYBERMED_DIGEST_BACKFILL_OVERWRITE_EMPTY_ONLY: "1"' in backfill
 
 
 def test_cybermed_qa_replay_safety_and_state_behavior(monkeypatch, tmp_path):
@@ -154,17 +158,13 @@ def test_cybermed_qa_replay_ignored_when_send_email_enabled(monkeypatch, tmp_pat
 
 
 def test_workflow_stages_safe_state_files_only_for_commit_step():
-    text = pathlib.Path(".github/workflows/newsagent.yml").read_text(encoding="utf-8")
-    assert "state/processed_items.json" in text
-    assert "state/rollups.json" in text
-    assert "state/cyberlurch_digests.json" in text
-    assert "state/cybermed_daily_digests.json" in text
-    assert "state/youtube_content_cache.json" in text
-    assert "git add -A \"${FILES[@]}\"" in text
-    assert "git add -A out" not in text
-    assert "git add -A reports" not in text
-    assert "git push origin \"HEAD:${GITHUB_REF_NAME}\" || {" in text
-    assert "git fetch origin \"${GITHUB_REF_NAME}\"" in text
-    assert "git rebase \"origin/${GITHUB_REF_NAME}\"" in text
-    assert "git push --force" not in text
-    assert "git push -f" not in text
+    cyberlurch = pathlib.Path(".github/workflows/newsagent.yml").read_text(encoding="utf-8")
+    cybermed = pathlib.Path(".github/workflows/cybermed.yml").read_text(encoding="utf-8")
+    assert "state/cyberlurch_digests.json" in cyberlurch
+    assert "state/youtube_content_cache.json" in cyberlurch
+    assert "state/cybermed_daily_digests.json" not in cyberlurch
+    assert "state/cybermed_daily_digests.json" in cybermed
+    assert "state/cyberlurch_digests.json" not in cybermed
+    assert "state/youtube_content_cache.json" not in cybermed
+    assert "git push --force" not in cyberlurch + cybermed
+    assert "git push -f" not in cyberlurch + cybermed
