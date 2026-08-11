@@ -1263,12 +1263,22 @@ def _filter_disabled_foamed_sources(
     skipped = 0
     active_disabled = 0
     strategy_overrides = 0
+    health_epoch_resets = 0
 
     for src in sources:
         name = (src.get("name") or "").strip()
         if not name:
             continue
         entry = health.get(name) or {}
+        configured_health_epoch = str(src.get("health_epoch") or "").strip()
+        stored_health_epoch = str(entry.get("health_epoch") or "").strip()
+        if configured_health_epoch and stored_health_epoch != configured_health_epoch:
+            entry = dict(entry)
+            entry["health_epoch"] = configured_health_epoch
+            entry["consecutive_failures"] = 0
+            entry["disabled_until_utc"] = ""
+            health[name] = entry
+            health_epoch_resets += 1
         if _foamed_source_disabled(entry, now_utc):
             active_disabled += 1
             strategy = str(src.get("extraction_strategy") or "").strip().lower()
@@ -1281,9 +1291,18 @@ def _filter_disabled_foamed_sources(
             if auto_disable_enabled:
                 skipped += 1
                 continue
-        filtered.append(dict(src, strategy_override_disabled=False, disabled_state_present=bool(_foamed_source_disabled(entry, now_utc))))
+        filtered.append(dict(
+            src,
+            strategy_override_disabled=False,
+            disabled_state_present=bool(_foamed_source_disabled(entry, now_utc)),
+        ))
 
-    return filtered, {"skipped_disabled_count": skipped, "disabled_active_count": active_disabled, "strategy_override_disabled_count": strategy_overrides}
+    return filtered, {
+        "skipped_disabled_count": skipped,
+        "disabled_active_count": active_disabled,
+        "strategy_override_disabled_count": strategy_overrides,
+        "health_epoch_reset_count": health_epoch_resets,
+    }
 
 
 def _update_foamed_health_state(
@@ -3345,8 +3364,27 @@ def main() -> None:
                 foamed_rolling_diag["foamed_rolling_audit_requested_days"] = rolling_days
                 foamed_rolling_diag["foamed_rolling_audit_skipped_reason"] = ""
             if _env_bool("FOAMED_AUDIT", False) and _env_bool("FOAMED_AUDIT_CHECK_DISABLED", False):
-                enabled_names = {(s.get("name") or "").strip() for s in foamed_sources_filtered if isinstance(s, dict)}
-                disabled_cfg = [s for s in foamed_sources if isinstance(s, dict) and (s.get("name") or "").strip() not in enabled_names]
+                health_state = (
+                    state.get("foamed_source_health")
+                    if isinstance(state, dict)
+                    else {}
+                )
+                if not isinstance(health_state, dict):
+                    health_state = {}
+                disabled_names = {
+                    str(name or "").strip()
+                    for name, entry in health_state.items()
+                    if str(name or "").strip()
+                    and isinstance(entry, dict)
+                    and bool(
+                        str(entry.get("disabled_until_utc") or entry.get("disabled_until") or "").strip()
+                    )
+                }
+                disabled_cfg = [
+                    s for s in foamed_sources
+                    if isinstance(s, dict)
+                    and str(s.get("name") or "").strip() in disabled_names
+                ]
                 disabled_items, disabled_stats = collect_foamed_items(disabled_cfg, now_utc, lookback_hours=args.hours)
                 _ = disabled_items
                 per_source_disabled = disabled_stats.get("per_source") or {}

@@ -218,6 +218,86 @@ def _extract_published_datetime(soup: BeautifulSoup) -> datetime | None:
     return None
 
 
+_LISTING_DATE_RE = re.compile(
+    r"\b(?:(?:added|updated|published)\s+)?"
+    r"(January|February|March|April|May|June|July|August|September|October|November|December|"
+    r"Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)"
+    r"\s+(\d{1,2})(?:st|nd|rd|th)?(?:,?\s+(20\d{2}))?\b",
+    re.IGNORECASE,
+)
+
+
+def _extract_latest_listing_datetime(
+    soup: BeautifulSoup,
+    *,
+    now_utc: datetime,
+) -> datetime | None:
+    """Extract the newest visible listing date when article metadata is absent."""
+
+    candidates: List[datetime] = []
+    metadata_date = _extract_published_datetime(soup)
+    if metadata_date:
+        candidates.append(metadata_date)
+
+    text = soup.get_text(" ", strip=True)
+    for match in _LISTING_DATE_RE.finditer(text):
+        month_name, day_text, year_text = match.groups()
+        year = int(year_text) if year_text else now_utc.year
+        parsed = _safe_parse_date(f"{month_name} {day_text}, {year}")
+        if parsed and not year_text and parsed > now_utc + timedelta(days=7):
+            parsed = parsed.replace(year=parsed.year - 1)
+        if parsed and parsed.date() < now_utc.date():
+            # Date-only listings do not expose a publication time. Noon avoids
+            # dropping yesterday's update during the early-morning daily run.
+            parsed = parsed.replace(hour=12)
+        if parsed and parsed <= now_utc + timedelta(minutes=5):
+            candidates.append(parsed)
+
+    return max(candidates) if candidates else None
+
+
+def _listing_page_item(
+    *,
+    soup: BeautifulSoup,
+    raw_html: bytes,
+    page_url: str,
+    name: str,
+    feed_type: str,
+    now_utc: datetime,
+    cutoff: datetime,
+) -> Dict[str, Any] | None:
+    published_at = _extract_latest_listing_datetime(soup, now_utc=now_utc)
+    if not published_at or published_at < cutoff:
+        return None
+
+    html_text = raw_html.decode("utf-8", errors="ignore")
+    extracted, method = _extract_article_text(html_text)
+    if not extracted:
+        extracted = _strip_html(soup.get_text(" ", strip=True))
+        method = "beautifulsoup_listing"
+    extracted = extracted.strip()[:12000]
+    if len(extracted) < 80:
+        return None
+
+    canonical = _extract_canonical_url(soup, page_url)
+    return {
+        "source": "foamed",
+        "foamed_source": name,
+        "channel": name,
+        "id": canonical,
+        "title": _extract_title(soup, default_title=name),
+        "url": canonical,
+        "homepage": page_url,
+        "feed_type": feed_type,
+        "published_at": published_at,
+        "published_field": "html_listing_date",
+        "date_unknown": False,
+        "text": extracted,
+        "content_source": "html_content" if len(extracted) >= 600 else "html_excerpt",
+        "extraction_method": method or "html_listing",
+    }
+
+
 def _session_with_retries(user_agent: str | None = None) -> requests.Session:
     session = requests.Session()
     if user_agent:
@@ -440,6 +520,7 @@ def _run_html_pass(
     timeout_s: int,
     headers: Optional[Dict[str, str]],
     feed_type: str,
+    listing_page_as_item: bool = False,
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     stats = {
         "candidates_seen": 0,
@@ -462,6 +543,7 @@ def _run_html_pass(
 
     # Collect candidates across all seed pages.
     candidate_scores: Dict[str, int] = {}
+    listing_urls_seen: set[str] = set()
 
     for seed in seed_urls:
         seed = str(seed or "").strip()
@@ -476,6 +558,25 @@ def _run_html_pass(
             continue
 
         soup = BeautifulSoup(sr.content, "html.parser")
+        if listing_page_as_item:
+            listing_item = _listing_page_item(
+                soup=soup,
+                raw_html=sr.content,
+                page_url=str(sr.final_url or seed),
+                name=name,
+                feed_type=feed_type,
+                now_utc=now_utc,
+                cutoff=cutoff,
+            )
+            listing_url = str((listing_item or {}).get("url") or "")
+            if listing_item and listing_url not in listing_urls_seen:
+                listing_urls_seen.add(listing_url)
+                items.append(listing_item)
+                stats["pages_with_date"] += 1
+                stats["items_in_window"] += 1
+                published_at = listing_item["published_at"]
+                if not stats["last_published"] or published_at > stats["last_published"]:
+                    stats["last_published"] = published_at
         for a in soup.find_all("a", href=True):
             href = a.get("href")
             if not href:
@@ -904,7 +1005,7 @@ def collect_foamed_items(
             items.append(item)
             stats["kept_last24h"] += 1
             per_source["kept_last24h"] += 1
-            if (item.get("published_field") or "").startswith("html_fallback"):
+            if (item.get("published_field") or "").startswith("html_"):
                 return
             url = (item.get("url") or item.get("id") or "").strip()
             if url:
@@ -1145,6 +1246,7 @@ def collect_foamed_items(
                     timeout_s=timeout_html_s,
                     headers=headers or None,
                     feed_type=feed_type,
+                    listing_page_as_item=bool(src.get("listing_page_as_item")),
                 )
                 per_source["candidates_found"] = html_stats.get("candidates_seen", 0)
                 per_source["pages_fetched"] = html_stats.get("pages_fetched", 0)
@@ -1165,13 +1267,20 @@ def collect_foamed_items(
                     item_url = str(item.get("url") or item.get("id") or "").strip()
                     base_text = str(item.get("text") or "")
                     should_fetch_html_article = bool(item_url) and (strategy == "html_only" or bool(src.get("force_html_fallback")))
-                    extraction_method = "html_fallback"
+                    extraction_method = str(item.get("extraction_method") or "html_fallback")
                     article_text = ""
-                    content_source = "html_content" if len(base_text) >= 600 else "html_excerpt"
+                    content_source = str(
+                        item.get("content_source")
+                        or ("html_content" if len(base_text) >= 600 else "html_excerpt")
+                    )
                     article_fetch_status_code = None
                     article_fetch_error_class = ""
                     text = base_text
-                    if should_fetch_html_article:
+                    if (
+                        should_fetch_html_article
+                        and article_fetch_enabled
+                        and not str(item.get("published_field") or "").startswith("html_listing")
+                    ):
                         text, article_text, content_source, extraction_method, _, article_fetch_status_code, article_fetch_error_class, article_fetch_done = _apply_article_fetch(
                             session=session,
                             item_url=item_url,
@@ -1255,6 +1364,7 @@ def collect_foamed_items(
                 timeout_s=timeout_html_s,
                 headers=headers or None,
                 feed_type=feed_type,
+                listing_page_as_item=bool(src.get("listing_page_as_item")),
             )
 
             html_urls_in_window = [it.get("url") or it.get("id") for it in html_audit_items if (it.get("url") or it.get("id"))]
@@ -1300,9 +1410,18 @@ def collect_foamed_items(
         per_source.update(tstats)
 
         rss_in_window = len(rss_urls_in_window)
-        html_in_window = len([it for it in source_items if str(it.get("published_field") or "").startswith("html_fallback")])
-        rss_lengths = [len((it.get("text") or "").strip()) for it in source_items if not str(it.get("published_field") or "").startswith("html_fallback")]
-        html_lengths = [len((it.get("text") or "").strip()) for it in source_items if str(it.get("published_field") or "").startswith("html_fallback")]
+        html_in_window = len([
+            it for it in source_items
+            if str(it.get("published_field") or "").startswith("html_")
+        ])
+        rss_lengths = [
+            len((it.get("text") or "").strip()) for it in source_items
+            if not str(it.get("published_field") or "").startswith("html_")
+        ]
+        html_lengths = [
+            len((it.get("text") or "").strip()) for it in source_items
+            if str(it.get("published_field") or "").startswith("html_")
+        ]
         rss_med = sorted(rss_lengths)[len(rss_lengths)//2] if rss_lengths else 0
         html_med = sorted(html_lengths)[len(html_lengths)//2] if html_lengths else 0
         per_source["content_mode"] = _classify_content_mode(
@@ -1354,7 +1473,8 @@ def collect_foamed_items(
         wp_stats = {"wp_rest_available": False, "wp_rest_items_seen": 0, "wp_rest_items_in_window": 0}
         sm_stats = {"sitemap_available": False, "sitemap_items_seen": 0, "sitemap_items_in_window": 0}
         if homepage and (audit_enabled or bool(src.get("disabled", False))):
-            wp_stats = _wp_rest_audit(session, homepage, timeout_html_s, headers or None, cutoff, now_utc)
+            wp_rest_url = str(src.get("wp_rest_url") or homepage).strip()
+            wp_stats = _wp_rest_audit(session, wp_rest_url, timeout_html_s, headers or None, cutoff, now_utc)
             sitemap_url = str(src.get("sitemap_url") or homepage).strip()
             sm_stats = _sitemap_audit(session, sitemap_url, timeout_html_s, headers or None, cutoff, now_utc)
         per_source.update(wp_stats)

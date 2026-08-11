@@ -133,6 +133,37 @@ class TestFoamedAutoDisable(unittest.TestCase):
         self.assertEqual(filtered, [])
         self.assertEqual(stats.get("strategy_override_disabled_count"), 0)
 
+    def test_health_epoch_retries_source_after_endpoint_repair(self):
+        now = datetime(2026, 8, 11, tzinfo=timezone.utc)
+        state = {
+            "foamed_source_health": {
+                "Taming the SRU": {
+                    "consecutive_failures": 4,
+                    "disabled_until_utc": (now + timedelta(days=12)).isoformat(),
+                    "last_health": "not_found_404",
+                }
+            }
+        }
+        sources = [{
+            "name": "Taming the SRU",
+            "feed_url": "https://www.tamingthesru.com/blog?format=rss",
+            "health_epoch": "2026-08-squarespace-rss-v1",
+        }]
+
+        filtered, stats = main._filter_disabled_foamed_sources(
+            sources,
+            state,
+            now,
+            auto_disable_enabled=True,
+        )
+
+        self.assertEqual(len(filtered), 1)
+        self.assertEqual(stats.get("health_epoch_reset_count"), 1)
+        entry = state["foamed_source_health"]["Taming the SRU"]
+        self.assertEqual(entry["consecutive_failures"], 0)
+        self.assertEqual(entry["disabled_until_utc"], "")
+        self.assertEqual(entry["health_epoch"], "2026-08-squarespace-rss-v1")
+
 
 if __name__ == "__main__":
     unittest.main()

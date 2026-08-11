@@ -22,8 +22,22 @@ def test_journalfeed_and_rebel_and_aliem_profiles():
     jf = by_name['JournalFeed (Critical Care)']
     assert jf['extraction_strategy'] == 'html_only'
     assert jf['article_fetch_required'] is True
+    assert jf['homepage'] == 'https://journalfeed.org/article-a-day/category/critical-care/'
+    assert jf['listing_page_as_item'] is True
     rebel = by_name['REBEL EM']
     assert rebel['extraction_strategy'] in {'rss_then_article','html_only'}
     assert 'legacy' in rebel.get('notes_diagnostic','').lower()
     aliem = by_name['ALiEM']
     assert aliem['extraction_strategy'] == 'audit_only'
+
+
+def test_repaired_official_source_endpoints_and_health_epochs():
+    by_name = {s['name']: s for s in _load()}
+    ccr = by_name['Critical Care Reviews']
+    assert ccr['homepage'] == 'https://criticalcarereviews.com/latest-evidence/paper-of-the-day'
+    assert ccr['listing_page_as_item'] is True
+    assert ccr['health_epoch']
+
+    taming = by_name['Taming the SRU']
+    assert taming['feed_url'] == 'https://www.tamingthesru.com/blog?format=rss'
+    assert taming['health_epoch']
