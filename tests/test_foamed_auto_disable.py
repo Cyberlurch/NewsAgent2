@@ -164,6 +164,35 @@ class TestFoamedAutoDisable(unittest.TestCase):
         self.assertEqual(entry["disabled_until_utc"], "")
         self.assertEqual(entry["health_epoch"], "2026-08-squarespace-rss-v1")
 
+    def test_budget_truncated_source_does_not_change_health_state(self):
+        now = datetime(2026, 8, 11, tzinfo=timezone.utc)
+        existing = {
+            "consecutive_failures": 2,
+            "disabled_until_utc": "",
+            "last_health": "ok_rss",
+            "last_seen_utc": "2026-08-10T00:00:00+00:00",
+        }
+        state = {"foamed_source_health": {"Source": dict(existing)}}
+
+        main._update_foamed_health_state(
+            state,
+            {
+                "Source": {
+                    "health": "budget_exhausted",
+                    "collection_incomplete_due_to_budget": True,
+                }
+            },
+            now,
+            auto_disable_enabled=True,
+            disable_after_403=3,
+            disable_days_403=7,
+            disable_after_404=2,
+            disable_days_404=30,
+            source_names={"Source"},
+        )
+
+        self.assertEqual(state["foamed_source_health"]["Source"], existing)
+
 
 if __name__ == "__main__":
     unittest.main()

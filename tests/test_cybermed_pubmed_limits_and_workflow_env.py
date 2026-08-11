@@ -111,6 +111,15 @@ def test_workflow_exposes_cybermed_intake_audit_env_vars():
     assert "FOAMED_ARTICLE_FETCH: ${{ vars.FOAMED_ARTICLE_FETCH || '0' }}" in text
     assert "FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}" in text
     assert "FOAMED_RENDER_FALLBACK: ${{ vars.FOAMED_RENDER_FALLBACK || '0' }}" in text
+    assert 'PYTHONUNBUFFERED: "1"' in text
+    assert 'export FOAMED_AUDIT=0' in text
+    assert 'export FOAMED_AUDIT_CHECK_DISABLED=0' in text
+    assert 'export FOAMED_ROLLING_AUDIT_DAYS=0' in text
+    assert 'export FOAMED_ARTICLE_FETCH_MAX_PER_RUN=8' in text
+    assert 'export FOAMED_COLLECTION_BUDGET_SECONDS=420' in text
+    assert 'python -u -m src.newsagent2.main' in text
+    assert "if: always() && steps.plan.outputs.skip != 'true'" in text
+    assert "out/cybermed-run.log" in text
     assert 'CYBERMED_QA_REPLAY_MODE: "0"' in text
     assert 'CYBERMED_DIGEST_STORE_OVERWRITE: "0"' in text
     assert 'CYBERMED_DIGEST_BACKFILL_MODE: "0"' in text
