@@ -11,6 +11,12 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from openai import OpenAI
+from .cybermed_quality import (
+    CybermedGenerationError,
+    classify_generation_error,
+    validate_generated_text,
+)
+from .cybermed_openai import cybermed_chat_create
 from .utils import diagnostics as diagnostics_module
 
 # Default model used for all summaries (override via OPENAI_MODEL env var)
@@ -22,6 +28,21 @@ OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST = (os.getenv("OPENAI_MODEL_CYBERLURCH_DIRE
 OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK = (os.getenv("OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK") or OPENAI_MODEL_CYBERLURCH_OVERVIEW).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE") or OPENAI_MODEL).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK") or "").strip()
+OPENAI_MODEL_CYBERMED = (
+    os.getenv("OPENAI_MODEL_CYBERMED") or "gpt-4.1-2025-04-14"
+).strip()
+OPENAI_MODEL_CYBERMED_OVERVIEW = (
+    os.getenv("OPENAI_MODEL_CYBERMED_OVERVIEW") or OPENAI_MODEL_CYBERMED
+).strip()
+OPENAI_MODEL_CYBERMED_DEEPDIVE = (
+    os.getenv("OPENAI_MODEL_CYBERMED_DEEPDIVE") or OPENAI_MODEL_CYBERMED
+).strip()
+OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK = (
+    os.getenv("OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK") or ""
+).strip()
+OPENAI_MODEL_CYBERMED_BOTTOM_LINE = (
+    os.getenv("OPENAI_MODEL_CYBERMED_BOTTOM_LINE") or OPENAI_MODEL_CYBERMED
+).strip()
 
 
 @dataclass
@@ -30,9 +51,13 @@ class _PubmedDeepDiveModels:
     fallback: str
 
 
-def _pubmed_deep_dive_models() -> _PubmedDeepDiveModels:
-    primary = OPENAI_MODEL_PUBMED_DEEPDIVE or OPENAI_MODEL
-    fallback = OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK.strip()
+def _pubmed_deep_dive_models(*, cybermed: bool = False) -> _PubmedDeepDiveModels:
+    if cybermed:
+        primary = OPENAI_MODEL_CYBERMED_DEEPDIVE or OPENAI_MODEL_CYBERMED
+        fallback = OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK.strip()
+    else:
+        primary = OPENAI_MODEL_PUBMED_DEEPDIVE or OPENAI_MODEL
+        fallback = OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK.strip()
     if fallback and fallback == primary:
         fallback = ""
     return _PubmedDeepDiveModels(primary=primary, fallback=fallback)
@@ -977,6 +1002,7 @@ def _run_pubmed_markdown_deep_dive(
     client: OpenAI,
     *,
     model: str,
+    stage: str,
     sys_prompt: str,
     user_prompt: str,
     lang: str,
@@ -986,12 +1012,16 @@ def _run_pubmed_markdown_deep_dive(
         {"role": "system", "content": sys_prompt},
         {"role": "user", "content": user_prompt},
     ]
-    r = client.chat.completions.create(
+    r = _openai_chat_create(
+        client,
+        stage=stage,
         model=model,
         messages=messages,
         temperature=0.2,
     )
     raw_md = (r.choices[0].message.content or "").strip()
+    if _is_cybermed_generation():
+        raw_md = validate_generated_text(raw_md, stage=stage)
     return _normalize_pubmed_field_values(raw_md, lang=lang, fallback_bottom_line=fallback_bottom_line)
 
 
@@ -1002,6 +1032,36 @@ def _is_sparse_pubmed_deep_dive(not_reported_fields: int) -> bool:
 def _get_client() -> OpenAI:
     # OPENAI_API_KEY is expected to be available via env (GitHub Actions Secret or local .env)
     return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+
+def _is_cybermed_generation() -> bool:
+    return (os.getenv("REPORT_KEY") or "").strip().lower() == "cybermed"
+
+
+def _openai_chat_create(
+    client: OpenAI,
+    *,
+    stage: str,
+    model: str,
+    **request: Any,
+) -> Any:
+    if _is_cybermed_generation():
+        return cybermed_chat_create(
+            client,
+            stage=stage,
+            model=model,
+            **request,
+        )
+    return client.chat.completions.create(model=model, **request)
+
+
+def _raise_safe_cybermed_generation_error(exc: BaseException, *, stage: str) -> None:
+    if isinstance(exc, CybermedGenerationError):
+        raise exc
+    raise CybermedGenerationError(
+        stage=stage,
+        category=classify_generation_error(exc),
+    ) from None
 
 def _safe_openai_error_category(exc: Exception) -> str:
     status = getattr(exc, "status_code", None)
@@ -1289,16 +1349,28 @@ def summarize(items: List[Dict[str, Any]], *, language: str = "de", profile: str
 
     try:
         client = _get_client()
-        r = client.chat.completions.create(
-            model=OPENAI_MODEL_CYBERLURCH_OVERVIEW if is_cyberlurch else OPENAI_MODEL,
+        model = (
+            OPENAI_MODEL_CYBERLURCH_OVERVIEW
+            if is_cyberlurch
+            else (OPENAI_MODEL_CYBERMED_OVERVIEW if report_key == "cybermed" else OPENAI_MODEL)
+        )
+        r = _openai_chat_create(
+            client,
+            stage="overview",
+            model=model,
             messages=[
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.2,
         )
-        return (r.choices[0].message.content or "").strip()
+        content = (r.choices[0].message.content or "").strip()
+        if report_key == "cybermed":
+            return validate_generated_text(content, stage="overview")
+        return content
     except Exception as e:
+        if report_key == "cybermed":
+            _raise_safe_cybermed_generation_error(e, stage="overview")
         if lang == "en":
             return f"## Executive Summary\n\n**Error:** Failed to create overview: `{e!r}`\n"
         return f"## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen: `{e!r}`\n"
@@ -1312,6 +1384,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
     prof = _norm_profile(profile)
     report_key = (os.getenv("REPORT_KEY") or "").strip().lower()
     is_cyberlurch = report_key == "cyberlurch"
+    is_cybermed = report_key == "cybermed"
 
     src = (item.get("source") or "youtube").strip().lower()
 
@@ -1442,8 +1515,16 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
 
     try:
         client = _get_client()
-        models = _pubmed_deep_dive_models()
-        model_to_use = models.primary if src == "pubmed" else (OPENAI_MODEL_CYBERLURCH_DEEPDIVE if is_cyberlurch else OPENAI_MODEL)
+        models = _pubmed_deep_dive_models(cybermed=is_cybermed)
+        model_to_use = (
+            models.primary
+            if src == "pubmed"
+            else (
+                OPENAI_MODEL_CYBERLURCH_DEEPDIVE
+                if is_cyberlurch
+                else (OPENAI_MODEL_CYBERMED_DEEPDIVE if is_cybermed else OPENAI_MODEL)
+            )
+        )
 
         if src == "pubmed":
             fallback_bl = (item.get("bottom_line") or "").strip()
@@ -1452,13 +1533,20 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     {"role": "system", "content": _pubmed_json_system_prompt(lang)},
                     {"role": "user", "content": user_prompt + "Return ONLY the JSON object described."},
                 ]
-                r_json = client.chat.completions.create(
+                r_json = _openai_chat_create(
+                    client,
+                    stage="pubmed_deep_dive_json",
                     model=model_to_use,
                     messages=json_messages,
                     temperature=0.15,
                     response_format={"type": "json_object"},
                 )
                 raw_json = (r_json.choices[0].message.content or "").strip()
+                if is_cybermed:
+                    raw_json = validate_generated_text(
+                        raw_json,
+                        stage="pubmed_deep_dive_json",
+                    )
                 parsed = _parse_pubmed_json_output(raw_json)
                 if parsed is None:
                     raise ValueError("json parsing failed")
@@ -1469,7 +1557,16 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                 placeholder_count = _count_pubmed_placeholder_fields(parsed, lang=lang)
             except Exception as json_err:
                 json_failed = True
-                print(f"[summarize] WARN: pubmed_deepdive_json_failed pmid={meta.get('pmid', '')} err={json_err}")
+                if is_cybermed:
+                    error_category = classify_generation_error(json_err)
+                    print(
+                        "[summarize] WARN: pubmed_deepdive_json_failed "
+                        f"pmid={meta.get('pmid', '')} category={error_category}"
+                    )
+                else:
+                    print(
+                        f"[summarize] WARN: pubmed_deepdive_json_failed pmid={meta.get('pmid', '')} err={json_err}"
+                    )
                 content = ""
 
             sparse_after_json = _is_sparse_pubmed_deep_dive(not_reported_fields) if content else False
@@ -1484,6 +1581,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     fallback_content, fb_missing = _run_pubmed_markdown_deep_dive(
                         client,
                         model=fb_model,
+                        stage="pubmed_deep_dive_markdown",
                         sys_prompt=sys_prompt,
                         user_prompt=user_prompt,
                         lang=lang,
@@ -1505,9 +1603,16 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                         f"[summarize] INFO: pubmed_deepdive_markdown_fallback pmid={meta.get('pmid', '')} reason={reason}"
                     )
                 except Exception as fb_err:
-                    print(
-                        f"[summarize] WARN: pubmed_deepdive_markdown_fallback_failed pmid={meta.get('pmid', '')} err={fb_err}"
-                    )
+                    if is_cybermed:
+                        error_category = classify_generation_error(fb_err)
+                        print(
+                            "[summarize] WARN: pubmed_deepdive_markdown_fallback_failed "
+                            f"pmid={meta.get('pmid', '')} category={error_category}"
+                        )
+                    else:
+                        print(
+                            f"[summarize] WARN: pubmed_deepdive_markdown_fallback_failed pmid={meta.get('pmid', '')} err={fb_err}"
+                        )
                 finally:
                     if placeholder_rerun:
                         print(
@@ -1545,6 +1650,7 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     rescue_content, rescue_missing = _run_pubmed_markdown_deep_dive(
                         client,
                         model=fb_model,
+                        stage="pubmed_deep_dive_best_effort",
                         sys_prompt=best_effort_sys_prompt,
                         user_prompt=user_prompt,
                         lang=lang,
@@ -1563,9 +1669,16 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                         f"[summarize] INFO: pubmed_deepdive_best_effort pmid={meta.get('pmid', '')} attempted=1 used={int(best_effort_used)} placeholders={rescue_placeholder_count}"
                     )
                 except Exception as rescue_err:
-                    print(
-                        f"[summarize] WARN: pubmed_deepdive_best_effort_failed pmid={meta.get('pmid', '')} err={rescue_err}"
-                    )
+                    if is_cybermed:
+                        error_category = classify_generation_error(rescue_err)
+                        print(
+                            "[summarize] WARN: pubmed_deepdive_best_effort_failed "
+                            f"pmid={meta.get('pmid', '')} category={error_category}"
+                        )
+                    else:
+                        print(
+                            f"[summarize] WARN: pubmed_deepdive_best_effort_failed pmid={meta.get('pmid', '')} err={rescue_err}"
+                        )
 
             item["_deep_dive_retried"] = (
                 json_failed or sparse_after_json or used_markdown_fallback or placeholder_rerun or best_effort_attempted
@@ -1585,12 +1698,16 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
             ]
-            r = client.chat.completions.create(
+            r = _openai_chat_create(
+                client,
+                stage="deep_dive",
                 model=model_to_use,
                 messages=messages,
                 temperature=0.2,
             )
             content = (r.choices[0].message.content or "").strip()
+            if is_cybermed:
+                content = validate_generated_text(content, stage="deep_dive")
             item["_deep_dive_retried"] = False
 
         item["_deep_dive_empty_output"] = not bool(content.strip())
@@ -1606,6 +1723,8 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         item["_deep_dive_all_fields_placeholder"] = not_reported_fields >= 7
         return content
     except Exception as e:
+        if is_cybermed:
+            _raise_safe_cybermed_generation_error(e, stage="deep_dive")
         if lang == "en":
             return f"**Error:** Failed to create deep dive: `{e!r}`\n"
         return f"**Fehler:** Konnte Vertiefung nicht erzeugen: `{e!r}`\n"
@@ -1661,8 +1780,11 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
 
     try:
         client = _get_client()
-        r = client.chat.completions.create(
-            model=OPENAI_MODEL,
+        model = OPENAI_MODEL_CYBERMED_BOTTOM_LINE if _is_cybermed_generation() else OPENAI_MODEL
+        r = _openai_chat_create(
+            client,
+            stage="pubmed_bottom_line",
+            model=model,
             messages=[
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
@@ -1670,8 +1792,13 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
             temperature=0.2,
             max_tokens=90,
         )
-        return (r.choices[0].message.content or "").strip()
+        content = (r.choices[0].message.content or "").strip()
+        if _is_cybermed_generation():
+            return validate_generated_text(content, stage="pubmed_bottom_line")
+        return content
     except Exception as e:
+        if _is_cybermed_generation():
+            _raise_safe_cybermed_generation_error(e, stage="pubmed_bottom_line")
         fallback = "(Failed to generate bottom line)" if lang == "en" else "(Konnte Bottom Line nicht erzeugen)"
         return f"{fallback} — {e!r}"
 
@@ -1792,8 +1919,11 @@ def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
 
     try:
         client = _get_client()
-        r = client.chat.completions.create(
-            model=OPENAI_MODEL,
+        model = OPENAI_MODEL_CYBERMED_BOTTOM_LINE if _is_cybermed_generation() else OPENAI_MODEL
+        r = _openai_chat_create(
+            client,
+            stage="foamed_bottom_line",
+            model=model,
             messages=[
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
@@ -1801,7 +1931,12 @@ def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
             temperature=0.3,
             max_tokens=120,
         )
-        return (r.choices[0].message.content or "").strip()
+        content = (r.choices[0].message.content or "").strip()
+        if _is_cybermed_generation():
+            return validate_generated_text(content, stage="foamed_bottom_line")
+        return content
     except Exception as e:
+        if _is_cybermed_generation():
+            _raise_safe_cybermed_generation_error(e, stage="foamed_bottom_line")
         fallback = "BOTTOM LINE: Unable to summarize this FOAMed item reliably." if lang == "en" else "BOTTOM LINE: Zusammenfassung für diesen FOAMed-Beitrag nicht möglich."
         return f"{fallback} ({e!r})"

@@ -2,6 +2,8 @@ import json
 import sys
 from datetime import datetime, timezone
 
+import pytest
+
 from newsagent2 import main
 
 
@@ -13,6 +15,8 @@ def _base_env(monkeypatch, tmp_path):
     monkeypatch.setenv("SEND_EMAIL", "0")
     monkeypatch.setenv("EMAIL_MODE", "none")
     monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setenv("PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT", "0")
+    monkeypatch.setenv("PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT", "0")
     monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(tmp_path / "state" / "cybermed_daily_digests.json"))
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
 
@@ -20,6 +24,11 @@ def _base_env(monkeypatch, tmp_path):
     monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: ([], {}) if k.get("return_metadata") else [])
     monkeypatch.setattr(main, "load_foamed_sources_config", lambda _p: [{"name": "Src", "rss_url": "https://example.com/rss"}])
     monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([], {"sources_total": 1, "sources_ok": 1, "sources_failed": 0, "items_raw": 0, "items_with_date": 0, "items_date_unknown": 0, "kept_last24h": 0, "newly_disabled_count": 0, "per_source": {}}))
+    monkeypatch.setattr(main, "_save_youtube_channel_id_cache", lambda *a, **k: None)
+    monkeypatch.setattr(main, "summarize", lambda *a, **k: "## Executive Summary\n\nStored test summary.")
+    monkeypatch.setattr(main, "summarize_pubmed_bottom_line", lambda *a, **k: "Stored test result")
+    monkeypatch.setattr(main, "summarize_foamed_bottom_line", lambda *a, **k: "Stored test commentary")
+    monkeypatch.setattr(main, "summarize_item_detail", lambda *a, **k: "")
 
 
 def _with_nonempty_selection(monkeypatch):
@@ -206,6 +215,67 @@ def test_cybermed_backfill_activates_only_in_safe_manual_none_mode(tmp_path, mon
     assert diag["cybermed_digest_backfill_safety_passed"] is True
     assert diag["cybermed_digest_backfill_state_filter_bypassed"] is True
     assert diag["cybermed_digest_backfill_state_mutation_disabled"] is True
+    assert diag["cybermed_digest_backfill_apply_requested"] is False
+    assert diag["cybermed_digest_backfill_write_allowed"] is False
+    assert diag["cybermed_digest_backfill_write_skipped_reason"] == "backfill_audit_only_apply_false"
+    assert not (tmp_path / "state" / "cybermed_daily_digests.json").exists()
+
+
+def test_historical_backfill_audits_then_applies_only_to_empty_digest(tmp_path, monkeypatch):
+    _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
+    monkeypatch.setattr(main, "summarize_pubmed_bottom_line", lambda *a, **k: "Useful result")
+    monkeypatch.setattr(main, "summarize_foamed_bottom_line", lambda *a, **k: "Useful commentary")
+    monkeypatch.setattr(
+        main,
+        "_select_pubmed_deep_dives_with_content",
+        lambda candidates, **kwargs: [],
+    )
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_MODE", "1")
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_RUN_DATE", "2026-08-10")
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC", "2026-08-10T05:11:00+00:00")
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS", "72")
+    dpath = tmp_path / "state" / "cybermed_daily_digests.json"
+    dpath.parent.mkdir(parents=True, exist_ok=True)
+    dpath.write_text(
+        json.dumps({
+            "schema_version": 1,
+            "digests": [{
+                "digest_id": "cybermed_daily_2026-08-10",
+                "report_key": "cybermed",
+                "cadence": "daily",
+                "run_date": "2026-08-10",
+                "items": {"pubmed": [], "foamed": []},
+                "deep_dives": [],
+                "top_picks": [],
+            }],
+        }),
+        encoding="utf-8",
+    )
+
+    before = dpath.read_text(encoding="utf-8")
+    main.main()
+    assert dpath.read_text(encoding="utf-8") == before
+    audit_diag = json.loads(
+        (tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8")
+    )
+    assert audit_diag["cybermed_digest_backfill_reference_utc"] == "2026-08-10T05:11:00+00:00"
+    assert audit_diag["cybermed_digest_backfill_lookback_hours"] == 72
+    assert audit_diag["cybermed_digest_backfill_write_skipped_reason"] == "backfill_audit_only_apply_false"
+
+    monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_APPLY", "1")
+    main.main()
+    applied = json.loads(dpath.read_text(encoding="utf-8"))
+    digest = applied["digests"][0]
+    assert digest["digest_id"] == "cybermed_daily_2026-08-10"
+    assert digest["run_date"] == "2026-08-10"
+    assert digest["lookback_hours"] == 72
+    assert digest["items"]["pubmed"]
+    apply_diag = json.loads(
+        (tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8")
+    )
+    assert apply_diag["cybermed_digest_backfill_apply_requested"] is True
+    assert apply_diag["cybermed_digest_backfill_write_allowed"] is True
 
 
 def test_cybermed_backfill_ignored_when_send_email_or_schedule(tmp_path, monkeypatch):
@@ -246,3 +316,59 @@ def test_cybermed_daily_digest_store_persists_generated_deep_dive_markdown(tmp_p
     assert stored["deep_dive_markdown"] == detail_md
     assert "Study type" in stored["deep_dive_markdown"]
     assert "Key results" in stored["deep_dive_markdown"]
+
+
+def test_cybermed_generation_failures_degrade_without_render_or_persistence(
+    tmp_path, monkeypatch, capsys
+):
+    _base_env(monkeypatch, tmp_path)
+    _with_nonempty_selection(monkeypatch)
+    monkeypatch.setenv("REPORT_TITLE", "Cybermed Daily")
+    monkeypatch.setenv("REPORT_LANGUAGE", "en")
+    monkeypatch.setenv("REPORT_PROFILE", "medical")
+    raw_error = (
+        "RateLimitError: Error code: 429 - insufficient_quota "
+        "request_id=req_stage4_secret api_key=sk-stage4-secret"
+    )
+    monkeypatch.setattr(main, "summarize", lambda *a, **k: raw_error)
+    monkeypatch.setattr(main, "summarize_pubmed_bottom_line", lambda *a, **k: raw_error)
+    monkeypatch.setattr(main, "summarize_foamed_bottom_line", lambda *a, **k: raw_error)
+    monkeypatch.setattr(main, "summarize_item_detail", lambda *a, **k: raw_error)
+    monkeypatch.setattr(
+        main,
+        "_select_pubmed_deep_dives_with_content",
+        lambda candidates, **kwargs: list(candidates),
+    )
+
+    main.main()
+
+    report_path = next((tmp_path / "out").glob("cybermed_daily_summary_*.md"))
+    report_text = report_path.read_text(encoding="utf-8")
+    digest_text = (tmp_path / "state" / "cybermed_daily_digests.json").read_text(
+        encoding="utf-8"
+    )
+    diag = json.loads(
+        (tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8")
+    )
+    captured = capsys.readouterr().out
+
+    for output in (report_text, digest_text, json.dumps(diag), captured):
+        assert "RateLimitError" not in output
+        assert "req_stage4_secret" not in output
+        assert "sk-stage4-secret" not in output
+    assert "## Papers" in report_text
+    assert "**Error:**" not in report_text
+    assert diag["cybermed_generation_failures_total"] >= 2
+    assert diag["cybermed_generation_outputs_sanitized_total"] >= 2
+    assert diag["cybermed_generation_leak_guard_passed"] is True
+
+
+def test_corrupt_cybermed_daily_store_fails_without_overwrite(tmp_path):
+    digest_path = tmp_path / "cybermed_daily_digests.json"
+    original = b"{not-json\n"
+    digest_path.write_bytes(original)
+
+    with pytest.raises(RuntimeError, match="cybermed_daily_digest_store_unreadable"):
+        main._load_cybermed_daily_digest_state(str(digest_path))
+
+    assert digest_path.read_bytes() == original

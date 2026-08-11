@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "case_id": "rct_postoperative_analgesia",
+      "task": "pubmed_bottom_line",
+      "title": "Synthetic randomized analgesia study",
+      "source_text": "Synthetic benchmark abstract. In a multicentre, assessor-blinded randomized trial, 612 adults after major abdominal surgery received low-dose ketamine or placebo in addition to standard multimodal analgesia. Median 24-hour opioid consumption was 42 mg versus 47 mg morphine equivalents (difference -5 mg; 95% CI -9 to -1). Severe pain occurred in 31% versus 35%. Hallucinations occurred in 8% versus 2%. The trial was not powered for mortality or rare harms.",
+      "required_markers": [],
+      "critical_terms": ["612", "42", "47", "8%", "2%"],
+      "max_words": 90,
+      "max_output_tokens": 180
+    },
+    {
+      "case_id": "observational_ventilation_association",
+      "task": "pubmed_deep_dive",
+      "title": "Synthetic observational ventilation study",
+      "source_text": "Synthetic benchmark abstract. A retrospective multicentre cohort included 18,420 mechanically ventilated adults. Early mobilization was associated with lower hospital mortality after measured adjustment (adjusted odds ratio 0.82; 95% CI 0.74 to 0.91). Treatment assignment was not randomized, mobilization exposure was incompletely measured, and residual confounding is likely. The study supports an association and cannot establish a causal mortality benefit.",
+      "required_markers": ["BOTTOM LINE:", "Study type:", "Key results:", "Limitations:", "Why this matters:"],
+      "critical_terms": ["18,420", "0.82", "0.74", "0.91", "cannot establish"],
+      "max_words": 280,
+      "max_output_tokens": 600
+    },
+    {
+      "case_id": "foamed_ultrasound_commentary",
+      "task": "foamed_bottom_line",
+      "title": "Synthetic ultrasound-guided access commentary",
+      "source_text": "Synthetic benchmark excerpt. This is an educational commentary describing a practical checklist for ultrasound-guided peripheral intravenous access. It contains no original patient data, no comparison group, and no systematic review. The author recommends local simulation and competency assessment before independent use.",
+      "required_markers": ["BOTTOM LINE:"],
+      "critical_terms": ["educational", "no original patient data"],
+      "max_words": 65,
+      "max_output_tokens": 160
+    }
+  ]
+}

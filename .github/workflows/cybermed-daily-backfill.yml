@@ -1,0 +1,177 @@
+name: Cybermed Daily backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_date:
+        description: "Digest date to reconstruct (YYYY-MM-DD)"
+        required: true
+        default: "2026-08-10"
+        type: string
+      reference_utc:
+        description: "Historical run time (ISO-8601 UTC)"
+        required: true
+        default: "2026-08-10T05:11:00+00:00"
+        type: string
+      lookback_hours:
+        description: "Historical collection window"
+        required: true
+        default: "72"
+        type: string
+      apply:
+        description: "Write the reconstructed digest after an audit run"
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: cybermed-daily-backfill-${{ inputs.run_date }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  audit-or-apply:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1' }}
+      OPENAI_MODEL_PUBMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE || 'gpt-4.1' }}
+      OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK || '' }}
+      OPENAI_MODEL_CYBERMED: ${{ vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
+      OPENAI_MODEL_CYBERMED_OVERVIEW: ${{ vars.OPENAI_MODEL_CYBERMED_OVERVIEW || vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
+      OPENAI_MODEL_CYBERMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_CYBERMED_DEEPDIVE || vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
+      OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK: ""
+      OPENAI_MODEL_CYBERMED_BOTTOM_LINE: ${{ vars.OPENAI_MODEL_CYBERMED_BOTTOM_LINE || vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
+      CYBERMED_OPENAI_MAX_CALLS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_CALLS_PER_RUN || '96' }}
+      CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN || '350000' }}
+      CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN || '80000' }}
+      CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN || '1.50' }}
+      CYBERMED_MODEL_EVAL_MODE: "0"
+      NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
+      NCBI_TOOL: ${{ vars.NCBI_TOOL || 'NewsAgent2' }}
+      NCBI_EMAIL: ${{ vars.NCBI_EMAIL || '' }}
+      UNPAYWALL_EMAIL: ${{ vars.UNPAYWALL_EMAIL || vars.NCBI_EMAIL || '' }}
+      PUBMED_MIN_INTERVAL_S: ${{ vars.PUBMED_MIN_INTERVAL_S || '0.40' }}
+      PUBMED_MAX_RETRIES: ${{ vars.PUBMED_MAX_RETRIES || '4' }}
+      PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
+      PUBMED_DATE_TYPE: ${{ vars.PUBMED_DATE_TYPE || 'pdat' }}
+      PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT || 'true' }}
+      PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT || 'true' }}
+      CYBERMED_MAX_ITEMS_PER_CHANNEL: ${{ vars.CYBERMED_MAX_ITEMS_PER_CHANNEL || '25' }}
+      FOAMED_ARTICLE_FETCH: ${{ vars.FOAMED_ARTICLE_FETCH || '0' }}
+      FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}
+      REPORT_KEY: cybermed
+      REPORT_MODE: daily
+      REPORT_TITLE: Cybermed Report
+      REPORT_SUBJECT: Cybermed Report
+      REPORT_LANGUAGE: en
+      REPORT_PROFILE: medical
+      REPORT_DIR: out
+      SEND_EMAIL: "0"
+      EMAIL_MODE: none
+      SEND_EMPTY_REPORT_EMAIL: "0"
+      GITHUB_EVENT_NAME: workflow_dispatch
+      CYBERMED_QA_REPLAY_MODE: "0"
+      CYBERMED_WEEKLY_QA_FIXTURE_MODE: "0"
+      CYBERMED_MONTHLY_QA_FIXTURE_MODE: "0"
+      CYBERMED_HEAVY_AUDIT_MODE: "0"
+      CYBERMED_DIGEST_STORE_OVERWRITE: "0"
+      CYBERMED_DIGEST_BACKFILL_MODE: "1"
+      CYBERMED_DIGEST_BACKFILL_RUN_DATE: ${{ inputs.run_date }}
+      CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC: ${{ inputs.reference_utc }}
+      CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS: ${{ inputs.lookback_hours }}
+      CYBERMED_DIGEST_BACKFILL_OVERWRITE_EMPTY_ONLY: "1"
+      CYBERMED_DIGEST_BACKFILL_APPLY: ${{ inputs.apply && '1' || '0' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Validate bounded historical request
+        run: |
+          python - <<'PY'
+          import os
+          from datetime import datetime
+
+          run_date = datetime.strptime(os.environ["CYBERMED_DIGEST_BACKFILL_RUN_DATE"], "%Y-%m-%d").date()
+          reference = datetime.fromisoformat(os.environ["CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC"].replace("Z", "+00:00"))
+          if reference.tzinfo is None:
+              raise SystemExit("reference_utc must include a UTC offset")
+          if reference.date() != run_date:
+              raise SystemExit("reference_utc date must match run_date")
+          hours = int(os.environ["CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS"])
+          if not 1 <= hours <= 168:
+              raise SystemExit("lookback_hours must be between 1 and 168")
+          PY
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Cybermed backfill
+        run: python -m src.newsagent2.main --channels data/cybermed_channels.json --hours 24
+
+      - name: Verify audit or apply result
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          diag = json.loads(Path("out/cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
+          apply_requested = os.environ["CYBERMED_DIGEST_BACKFILL_APPLY"] == "1"
+          if not diag.get("cybermed_digest_backfill_safety_passed"):
+              raise SystemExit("Cybermed backfill safety checks did not pass")
+          if diag.get("cybermed_digest_backfill_reference_utc") != os.environ["CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC"]:
+              raise SystemExit("Historical reference timestamp was not applied")
+          selected = sum(int(diag.get(k, 0) or 0) for k in (
+              "cybermed_digest_backfill_current_pubmed_total",
+              "cybermed_digest_backfill_current_foamed_total",
+          ))
+          if selected <= 0:
+              raise SystemExit("Backfill produced no PubMed or FOAMed items; refusing to apply")
+          if apply_requested and not diag.get("cybermed_digest_store_written"):
+              raise SystemExit("Apply was requested but the digest was not written")
+          if not apply_requested and diag.get("cybermed_digest_store_written"):
+              raise SystemExit("Audit-only run unexpectedly wrote the digest store")
+          PY
+
+      - name: Upload audit artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: cybermed-daily-backfill-${{ inputs.run_date }}-${{ inputs.apply && 'apply' || 'audit' }}
+          path: |
+            out/*.md
+            out/*diagnostics*.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Commit reconstructed digest
+        if: ${{ inputs.apply }}
+        run: |
+          set -euo pipefail
+          target="state/cybermed_daily_digests.json"
+          unexpected=$(git status --porcelain -- state | grep -v " $target$" || true)
+          if [ -n "$unexpected" ]; then
+            echo "ERROR: Backfill changed unexpected state files."
+            echo "$unexpected"
+            exit 1
+          fi
+          if git diff --quiet -- "$target"; then
+            echo "ERROR: Apply completed without a digest-store change."
+            exit 1
+          fi
+          git config user.name "newsagent-bot"
+          git config user.email "newsagent-bot@users.noreply.github.com"
+          git add -- "$target"
+          git commit -m "Backfill Cybermed Daily ${{ inputs.run_date }} [skip ci]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

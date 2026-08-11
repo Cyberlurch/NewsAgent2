@@ -29,17 +29,19 @@
   },
   {
     "name": "Critical Care Reviews",
-    "homepage": "https://www.criticalcarereviews.com/",
-    "feed_url": "https://www.criticalcarereviews.com/feed/",
+    "homepage": "https://criticalcarereviews.com/latest-evidence/paper-of-the-day",
+    "feed_url": "",
     "type": "rss",
     "domain_group": "critical_care",
     "priority_tier": "1 core",
     "extraction_strategy": "html_only",
+    "listing_page_as_item": true,
+    "health_epoch": "2026-08-paper-of-the-day-v1",
     "force_html_fallback": true,
     "allow_feed_failure_if_html_ok": true,
-    "article_fetch_required": true,
+    "article_fetch_required": false,
     "ignore_auto_disable_if_strategy_viable": true,
-    "notes_diagnostic": "Feed can fail; homepage HTML is primary."
+    "notes_diagnostic": "Official Paper of the Day listing is the primary dated HTML source; no stable site feed is advertised."
   },
   {
     "name": "The Bottom Line",
@@ -267,17 +269,19 @@
   },
   {
     "name": "JournalFeed (Critical Care)",
-    "homepage": "https://journalfeed.org/topic/critical-care/",
-    "feed_url": "https://journalfeed.org/topic/critical-care/feed/",
+    "homepage": "https://journalfeed.org/article-a-day/category/critical-care/",
+    "feed_url": "https://journalfeed.org/article-a-day/category/critical-care/feed/",
     "type": "rss",
     "domain_group": "critical_care",
     "priority_tier": "1 core",
     "extraction_strategy": "html_only",
+    "listing_page_as_item": true,
+    "health_epoch": "2026-08-article-a-day-v1",
     "force_html_fallback": true,
     "allow_feed_failure_if_html_ok": true,
     "article_fetch_required": true,
     "ignore_auto_disable_if_strategy_viable": true,
-    "notes_diagnostic": "RSS can be blocked; HTML discovery works.",
+    "notes_diagnostic": "Current official Critical Care category; dated HTML listing is primary because RSS and article pages may be access-controlled.",
     "wp_rest_url": "https://journalfeed.org/wp-json/wp/v2/posts?per_page=20",
     "sitemap_url": "https://journalfeed.org/sitemap_index.xml"
   },
@@ -382,16 +386,17 @@
   {
     "name": "Taming the SRU",
     "homepage": "https://www.tamingthesru.com/",
-    "feed_url": "https://www.tamingthesru.com/feed",
+    "feed_url": "https://www.tamingthesru.com/blog?format=rss",
     "type": "rss",
     "domain_group": "emergency_medicine",
     "priority_tier": "2 important",
     "extraction_strategy": "rss_then_article",
+    "health_epoch": "2026-08-squarespace-rss-v1",
     "force_html_fallback": false,
     "allow_feed_failure_if_html_ok": false,
     "article_fetch_required": true,
     "ignore_auto_disable_if_strategy_viable": false,
-    "notes_diagnostic": "EM education and resuscitation"
+    "notes_diagnostic": "EM education and resuscitation; feed URL follows the site's advertised Squarespace RSS link."
   },
   {
     "name": "WFSA Anaesthesia Tutorial of the Week",

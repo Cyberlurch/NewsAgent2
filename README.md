@@ -67,7 +67,11 @@ Current Cybermed status:
 - **Daily:** live PubMed + FOAMed collection.
 - **Weekly:** digest-only, based on stored daily Cybermed digests.
 - **Monthly:** digest-only, based on stored daily Cybermed digests.
-- **Year-in-Review:** planned/under improvement as an editorial annual synthesis based on stored monthly/daily data.
+- **Year-in-Review:** editorial annual synthesis based exclusively on stored monthly rollups.
+
+Cybermed generation is isolated from Cyberlurch and uses the pinned `gpt-4.1-2025-04-14` snapshot until a blinded manual A/B review approves a change. Every Cybermed provider call is checked against per-run call, input-token, output-token, and estimated-cost limits before it is sent. Scheduled and manual runs write content-free usage telemetry to the Cybermed diagnostics artifact.
+
+The candidate comparison is available only through the manual `.github/workflows/cybermed-model-eval.yml` workflow. It compares GPT-4.1 with GPT-4.1 mini on synthetic fixtures, writes blinded review artifacts, sends no email, changes no state, and cannot promote the candidate automatically.
 
 ---
 
@@ -95,7 +99,9 @@ NewsAgent2 runs on **GitHub Actions**.
 
 The normal schedule is designed around **Europe/Stockholm** time and aims to produce morning newsletters.
 
-The main workflow is:
+The production workflows are deliberately separate:
 
 ```text
 .github/workflows/newsagent.yml
+.github/workflows/cybermed.yml
+```

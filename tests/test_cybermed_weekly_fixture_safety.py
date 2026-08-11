@@ -12,25 +12,43 @@ from newsagent2 import main
 
 
 def _run_weekly(monkeypatch, tmp_path, *, report_key="cybermed", report_mode="weekly", event_name="workflow_dispatch", fixture_mode="1", fixture_payload=None, fixture_path=None):
+    if report_mode == "monthly" and fixture_payload is None and fixture_path:
+        fixture_payload = json.loads(pathlib.Path(fixture_path).read_text(encoding="utf-8"))
+        fixture_path = None
     fixture = fixture_path or (tmp_path / "fixture.json")
     if fixture_payload is None and not fixture_path:
         fixture_payload = {"version": 1, "updated_at_utc": "", "digests": []}
     if fixture_payload is not None:
+        if report_mode == "monthly":
+            for digest in fixture_payload.get("digests", []):
+                run_date = str(digest.get("run_date") or "2026-05-18")
+                digest.setdefault("period_start", run_date)
+                digest.setdefault("period_end", run_date)
+                digest.setdefault("cadence", "weekly")
+        fixture.parent.mkdir(parents=True, exist_ok=True)
         fixture.write_text(json.dumps(fixture_payload), encoding="utf-8")
     monkeypatch.setenv("REPORT_KEY", report_key)
     monkeypatch.setenv("REPORT_MODE", report_mode)
     monkeypatch.setenv("REPORT_TITLE", "Cybermed Monthly Report" if report_mode == "monthly" else "Cybermed Weekly Report")
     monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
     monkeypatch.setenv("STATE_PATH", str(tmp_path / "state.json"))
+    monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(tmp_path / "cybermed_daily_digests.json"))
+    monkeypatch.setenv("ROLLUPS_STATE_PATH", str(tmp_path / "rollups.json"))
+    monkeypatch.setenv("CYBERMED_WEEKLY_DIGEST_STATE_PATH", str(tmp_path / "cybermed_weekly_digests.json"))
     monkeypatch.setenv("SEND_EMAIL", "0")
     monkeypatch.setenv("EMAIL_MODE", "none")
     monkeypatch.setenv("GITHUB_EVENT_NAME", event_name)
-    monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_MODE", fixture_mode)
-    monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_PATH", str(fixture))
+    fixture_mode_var = "CYBERMED_WEEKLY_QA_FIXTURE_MODE" if report_mode == "weekly" else "CYBERMED_MONTHLY_QA_FIXTURE_MODE"
+    fixture_path_var = "CYBERMED_WEEKLY_QA_FIXTURE_PATH" if report_mode == "weekly" else "CYBERMED_MONTHLY_QA_FIXTURE_PATH"
+    monkeypatch.setenv(fixture_mode_var, fixture_mode)
+    monkeypatch.setenv(fixture_path_var, str(fixture))
+    if report_mode == "monthly":
+        monkeypatch.setenv("ROLLUP_MONTH_OVERRIDE", "2026-05")
     if event_name == "schedule":
         monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(tmp_path / "empty_cybermed_daily_digests.json"))
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
     monkeypatch.setattr(main, "send_markdown", lambda *a, **k: None)
+    monkeypatch.setattr(main, "_save_youtube_channel_id_cache", lambda *a, **k: None)
     main.main()
     diag_path = tmp_path / "out" / f"cybermed_{report_mode}_diagnostics.json"
     md_candidates = sorted((tmp_path / "out").glob(f"cybermed_{report_mode}_*.md"))
@@ -65,6 +83,7 @@ def test_manual_daily_ignores_weekly_fixture(monkeypatch, tmp_path):
     monkeypatch.setenv("REPORT_MODE", "daily")
     monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
     monkeypatch.setenv("STATE_PATH", str(tmp_path / "state.json"))
+    monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(tmp_path / "cybermed_daily_digests.json"))
     monkeypatch.setenv("SEND_EMAIL", "0")
     monkeypatch.setenv("EMAIL_MODE", "none")
     monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
@@ -73,6 +92,8 @@ def test_manual_daily_ignores_weekly_fixture(monkeypatch, tmp_path):
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
     monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: [])
     monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([], {}))
+    monkeypatch.setattr(main, "load_channels_config", lambda *a, **k: ([], {}, {}))
+    monkeypatch.setattr(main, "_save_youtube_channel_id_cache", lambda *a, **k: None)
     monkeypatch.setattr(main, "send_markdown", lambda *a, **k: None)
     main.main()
     diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
@@ -90,6 +111,8 @@ def test_cyberlurch_ignores_weekly_fixture(monkeypatch, tmp_path):
     monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_MODE", "1")
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
     monkeypatch.setattr(main, "list_recent_videos", lambda *a, **k: [])
+    monkeypatch.setattr(main, "load_channels_config", lambda *a, **k: ([], {}, {}))
+    monkeypatch.setattr(main, "_save_youtube_channel_id_cache", lambda *a, **k: None)
     monkeypatch.setattr(main, "send_markdown", lambda *a, **k: None)
     main.main()
     diag = json.loads(next((tmp_path / "out").glob("cyberlurch_*_youtube_diagnostics.json")).read_text(encoding="utf-8"))
@@ -151,10 +174,11 @@ def test_monthly_fixture_intro_and_diagnostics_top_pick_counts(monkeypatch, tmp_
     top_picks = [{"item_id": f"p{i}"} for i in range(1, 6)] + [{"item_id": f"f{i}"} for i in range(1, 4)]
     fixture = {"version": 1, "updated_at_utc": "", "digests": [{"digest_id": "d1", "run_date": "2026-05-18", "items": {"pubmed": pubmed, "foamed": foamed}, "deep_dives": [], "top_picks": top_picks}]}
     diag, md = _run_weekly(monkeypatch, tmp_path, report_mode="monthly", event_name="workflow_dispatch", fixture_mode="1", fixture_payload=fixture)
-    assert diag["cybermed_monthly_from_daily_digests_enabled"] is True
+    assert diag["cybermed_monthly_from_daily_digests_enabled"] is False
+    assert diag["cybermed_monthly_from_weekly_digests_enabled"] is True
     assert diag["cybermed_monthly_digest_only_mode"] is True
     assert diag["cybermed_monthly_collection_skipped"] is True
-    assert diag["cybermed_monthly_collection_skipped_reason"] == "monthly_from_daily_digests"
+    assert diag["cybermed_monthly_collection_skipped_reason"] == "monthly_from_weekly_digests"
     assert diag["cybermed_monthly_top_picks_loaded_total"] >= 8
     assert diag["cybermed_monthly_loaded_top_picks_total"] >= 8
     assert diag["cybermed_monthly_top_picks_selected_total"] == 5
@@ -168,12 +192,15 @@ def test_monthly_fixture_intro_and_diagnostics_top_pick_counts(monkeypatch, tmp_
     assert diag["cybermed_monthly_report_matches_digest_inputs"] is True
     assert diag["cybermed_monthly_stored_bottom_lines_used_total"] > 0
     assert diag["cybermed_monthly_empty_reason"] == ""
-    assert "total included: 20 papers, 15 FOAMed, 5 top picks." in md
+    assert diag["cybermed_monthly_pubmed_items_selected_total"] == 8
+    assert diag["cybermed_monthly_foamed_items_selected_total"] == 6
+    assert diag["cybermed_monthly_deep_dives_selected_total"] <= 2
+    assert "total included: 8 papers, 6 FOAMed, 5 top picks." in md
     assert "Cybermed Monthly Report – 2026-05" in md
     assert "## Executive editorial summary" in md
     assert "## This month’s clinical themes" in md
     assert "## Practice-impact section" in md
-    assert md.count("**⭐ [") == 5
+    assert md.count("⭐ Top pick") == 5
     assert isinstance(md, str)
     assert diag["cybermed_monthly_editorial_mode"] is True
     assert diag["cybermed_monthly_editorial_summary_generated_from_digest"] is True
@@ -212,23 +239,37 @@ def test_monthly_digest_only_does_not_call_live_collectors(monkeypatch, tmp_path
 
 
 def _run_digest_store_report(monkeypatch, tmp_path, *, report_mode="weekly", digests=None, send_email="1", email_mode="real", event_name="workflow_dispatch", send_func=None):
-    store_path = tmp_path / "cybermed_daily_digests.json"
-    store_path.write_text(json.dumps({"schema_version": 1, "digests": digests or []}), encoding="utf-8")
+    source_digests = list(digests or [])
+    if report_mode == "monthly":
+        for digest in source_digests:
+            run_date = str(digest.get("run_date") or main.datetime.now(tz=main.STO).date())
+            digest.setdefault("period_start", run_date)
+            digest.setdefault("period_end", run_date)
+            digest.setdefault("cadence", "weekly")
+    store_path = tmp_path / f"cybermed_{'daily' if report_mode == 'weekly' else 'weekly'}_digests.json"
+    store_path.write_text(json.dumps({"schema_version": 1, "digests": source_digests}), encoding="utf-8")
     monkeypatch.setenv("REPORT_KEY", "cybermed")
     monkeypatch.setenv("REPORT_MODE", report_mode)
     monkeypatch.setenv("REPORT_TITLE", "Cybermed Monthly Report" if report_mode == "monthly" else "Cybermed Weekly Report")
     monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
     monkeypatch.setenv("STATE_PATH", str(tmp_path / "state.json"))
+    monkeypatch.setenv("ROLLUPS_STATE_PATH", str(tmp_path / "rollups.json"))
     monkeypatch.setenv("SEND_EMAIL", send_email)
     monkeypatch.setenv("EMAIL_MODE", email_mode)
     monkeypatch.setenv("GITHUB_EVENT_NAME", event_name)
     monkeypatch.setenv("CYBERMED_WEEKLY_QA_FIXTURE_MODE", "0")
-    monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(store_path))
+    monkeypatch.setenv("CYBERMED_MONTHLY_QA_FIXTURE_MODE", "0")
+    if report_mode == "weekly":
+        monkeypatch.setenv("CYBERMED_DAILY_DIGEST_STATE_PATH", str(store_path))
+        monkeypatch.setenv("CYBERMED_WEEKLY_DIGEST_STATE_PATH", str(tmp_path / "weekly_output.json"))
+    else:
+        monkeypatch.setenv("CYBERMED_WEEKLY_DIGEST_STATE_PATH", str(store_path))
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
     calls = []
     if send_func is None:
         send_func = lambda subject, md: calls.append((subject, md))
     monkeypatch.setattr(main, "send_markdown", send_func)
+    monkeypatch.setattr(main, "_save_youtube_channel_id_cache", lambda *a, **k: None)
     main.main()
     return calls
 
@@ -265,6 +306,10 @@ def test_cybermed_weekly_digest_only_with_items_real_send_succeeds(monkeypatch, 
     assert len(calls) == 1
     assert "Useful paper" in calls[0][1]
     assert "Useful post" in calls[0][1]
+    weekly_store = json.loads((tmp_path / "weekly_output.json").read_text(encoding="utf-8"))
+    persisted = weekly_store["digests"][0]
+    assert persisted["cadence"] == "weekly"
+    assert persisted["source_daily_digest_ids"] == ["today"]
 
 
 def test_cybermed_monthly_digest_only_empty_real_send_is_blocked(monkeypatch, tmp_path):

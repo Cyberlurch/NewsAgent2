@@ -500,6 +500,7 @@ def search_recent_pubmed(
     max_items: int = 5,
     timeout_s: int = 25,
     return_metadata: bool = False,
+    reference_now_utc: datetime | None = None,
 ) -> Any:
     term = (term or "").strip()
     if not term:
@@ -507,7 +508,11 @@ def search_recent_pubmed(
         empty_meta = {"query_term": "", "retmax": int(max_items), "esearch_count_total": 0, "idlist_count": 0, "fetched_xml_count": 0, "parsed_article_count": 0, "possibly_truncated": False}
         return ([], empty_meta) if return_metadata else []
 
-    now = _utc_now()
+    now = reference_now_utc or _utc_now()
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    else:
+        now = now.astimezone(timezone.utc)
     since = now - timedelta(hours=hours)
 
     params = {

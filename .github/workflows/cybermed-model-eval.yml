@@ -1,0 +1,62 @@
+name: Cybermed model A-B evaluation
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: cybermed-model-eval-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  blinded-evaluation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CYBERMED_MODEL_EVAL_MODE: "1"
+      CYBERMED_OPENAI_MAX_CALLS_PER_RUN: "12"
+      CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN: "100000"
+      CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: "10000"
+      CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: "0.25"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run blinded GPT-4.1 versus GPT-4.1 mini evaluation
+        run: |
+          python -m src.newsagent2.maintenance.evaluate_cybermed_models \
+            --baseline-model gpt-4.1-2025-04-14 \
+            --candidate-model gpt-4.1-mini-2025-04-14 \
+            --output-dir out/cybermed-model-eval
+
+      - name: Upload blinded review
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cybermed-model-eval-review-${{ github.run_id }}
+          path: |
+            out/cybermed-model-eval/blinded-review.md
+            out/cybermed-model-eval/results.json
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload separate model mapping
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cybermed-model-eval-mapping-${{ github.run_id }}
+          path: out/cybermed-model-eval/model-mapping.json
+          if-no-files-found: error
+          retention-days: 14

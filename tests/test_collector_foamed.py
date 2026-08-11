@@ -377,3 +377,81 @@ def test_html_only_fetch_runs_before_state_filtering_audit_shape(monkeypatch):
     assert len(items) == 1
     assert stats["per_source"]["JournalFeed (Critical Care)"]["article_fetch_attempted"] == 1
     assert stats["foamed_html_only_article_fetch_improved_text_total"] == 1
+
+
+def test_dated_listing_page_is_a_usable_html_item(monkeypatch):
+    now = datetime(2026, 8, 11, 12, 0, tzinfo=timezone.utc)
+    page = "https://criticalcarereviews.example/paper-of-the-day"
+    html = (
+        '<html><head><title>Paper of the Day</title>'
+        f'<link rel="canonical" href="{page}"></head><body>'
+        '<main><h2>Paper of the Day</h2><p>Fresh critical care evidence and commentary '
+        'for clinicians, with enough detail to form a useful dated listing item.</p>'
+        '<p>added August 11th</p></main></body></html>'
+    ).encode()
+    cfg = [{
+        "name": "Critical Care Reviews",
+        "homepage": page,
+        "extraction_strategy": "html_only",
+        "listing_page_as_item": True,
+    }]
+
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH", "0")
+    monkeypatch.setattr(
+        collector_foamed,
+        "_fetch_url",
+        lambda _session, url, **_kwargs: collector_foamed._FetchResult(
+            True, 200, html, url, None
+        ),
+    )
+
+    items, stats = collector_foamed.collect_foamed_items(cfg, now, 24)
+
+    assert len(items) == 1
+    assert items[0]["url"] == page
+    assert items[0]["published_at"] == datetime(2026, 8, 11, tzinfo=timezone.utc)
+    assert items[0]["published_field"] == "html_listing_date"
+    assert items[0]["content_source"].startswith("html_")
+    assert items[0]["extraction_method"] != "rss"
+    assert stats["per_source"]["Critical Care Reviews"]["health"] == "ok_html"
+
+
+def test_date_only_listing_keeps_yesterday_in_early_daily_window():
+    now = datetime(2026, 8, 11, 3, 40, tzinfo=timezone.utc)
+    soup = collector_foamed.BeautifulSoup(
+        "<main><p>Paper added August 10th</p></main>",
+        "html.parser",
+    )
+
+    parsed = collector_foamed._extract_latest_listing_datetime(soup, now_utc=now)
+
+    assert parsed == datetime(2026, 8, 10, 12, 0, tzinfo=timezone.utc)
+    assert parsed >= now - timedelta(hours=24)
+
+
+def test_html_only_without_article_fetch_keeps_html_provenance(monkeypatch):
+    now = datetime.now(timezone.utc)
+    homepage = "https://example.com/"
+    post = "https://example.com/2026/08/post"
+    post_date = now.strftime("%Y-%m-%dT%H:%M:%S%z")
+    homepage_html = f'<a href="{post}">post</a>'.encode()
+    post_html = (
+        f'<meta property="article:published_time" content="{post_date}"/>'
+        '<p>This is a sufficiently informative public article excerpt for testing.</p>'
+    ).encode()
+
+    def fake_fetch(_session, url, **_kwargs):
+        content = homepage_html if url.rstrip("/") == homepage.rstrip("/") else post_html
+        return collector_foamed._FetchResult(True, 200, content, url, None)
+
+    monkeypatch.setenv("FOAMED_ARTICLE_FETCH", "0")
+    monkeypatch.setattr(collector_foamed, "_fetch_url", fake_fetch)
+    items, _stats = collector_foamed.collect_foamed_items(
+        [{"name": "HTML", "homepage": homepage, "extraction_strategy": "html_only"}],
+        now,
+        24,
+    )
+
+    assert len(items) == 1
+    assert items[0]["content_source"] == "html_excerpt"
+    assert items[0]["extraction_method"] == "html_fallback"
