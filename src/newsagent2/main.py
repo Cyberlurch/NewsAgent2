@@ -40,6 +40,7 @@ from .cybermed_digest_store import (
     select_cybermed_daily_digests_for_week,
     select_cybermed_weekly_digests_for_month,
     summarize_cybermed_weekly_digest_inputs,
+    aggregate_cybermed_digest_inputs,
     dedupe_weekly_digest_items,
     upsert_cybermed_weekly_digest,
     normalized_title as cybermed_normalized_title,
@@ -2713,7 +2714,18 @@ def main() -> None:
             if cybermed_weekly_digest_only
             else MONTHLY_MAX_DEEP_DIVES
         )
-        pubmed_sorted = sorted([it for it in deduped if str(it.get("source_type") or it.get("source") or "").strip().lower() == "pubmed"], key=lambda x: (
+        shared_weekly_aggregate = None
+        if cybermed_weekly_digest_only:
+            shared_weekly_aggregate = aggregate_cybermed_digest_inputs(
+                daily,
+                pubmed_cap=aggregate_pubmed_cap,
+                foamed_cap=aggregate_foamed_cap,
+                deep_dive_cap=aggregate_deep_dive_cap,
+            )
+            pubmed_sorted = shared_weekly_aggregate["pubmed"]
+            foamed_sorted = shared_weekly_aggregate["foamed"]
+        else:
+            pubmed_sorted = sorted([it for it in deduped if str(it.get("source_type") or it.get("source") or "").strip().lower() == "pubmed"], key=lambda x: (
             1 if bool(x.get("top_pick")) else 0,
             1 if bool(x.get("deep_dive_candidate")) else 0,
             {"a": 5, "b": 4, "c": 3, "d": 2, "e": 1}.get(str(x.get("evidence_strength_label") or "").strip().lower(), 0),
@@ -2721,28 +2733,32 @@ def main() -> None:
             int(x.get("clinical_relevance_1_5") or 0),
             {"high": 3, "moderate": 2, "low": 1}.get(str(x.get("text_confidence_label") or "").strip().lower(), 0),
             str(x.get("published_at") or ""),
-        ), reverse=True)[:aggregate_pubmed_cap]
-        foamed_sorted = sorted([it for it in deduped if str(it.get("source_type") or it.get("source") or "").strip().lower() == "foamed"], key=lambda x: (
+            ), reverse=True)[:aggregate_pubmed_cap]
+            foamed_sorted = sorted([it for it in deduped if str(it.get("source_type") or it.get("source") or "").strip().lower() == "foamed"], key=lambda x: (
             1 if bool(x.get("top_pick")) else 0,
             {"core": 3, "important": 2, "optional": 1}.get(str(x.get("source_quality_label") or "").strip().lower(), 0),
             int(x.get("clinical_usefulness_1_5") or 0),
             int(x.get("practice_relevance_1_5") or 0),
             {"high": 3, "moderate": 2, "low": 1}.get(str(x.get("text_confidence_label") or "").strip().lower(), 0),
             str(x.get("published_at") or ""),
-        ), reverse=True)[:aggregate_foamed_cap]
+            ), reverse=True)[:aggregate_foamed_cap]
         weekly_top_picks_cap = 5
         loaded_top_picks_total = int(summary["top_picks_loaded_total"] or 0)
-        selected_top_picks = sorted(
-            [it for it in deduped if it.get("top_pick") is True],
-            key=lambda x: str(x.get("published_at") or ""),
-            reverse=True,
-        )[:weekly_top_picks_cap]
+        selected_top_picks = (
+            [row for row in pubmed_sorted if row.get("top_pick") is True]
+            if shared_weekly_aggregate is not None
+            else sorted(
+                [it for it in deduped if it.get("top_pick") is True],
+                key=lambda x: str(x.get("published_at") or ""),
+                reverse=True,
+            )[:weekly_top_picks_cap]
+        )
         deep_dive_lookup, deep_dive_lookup_key_counts = _cybermed_build_deep_dive_lookup(week_deep)
-        selected_deep_dives = sorted(
+        selected_deep_dives = (shared_weekly_aggregate["deep_dive_items"] if shared_weekly_aggregate is not None else sorted(
             [it for it in deduped if it.get("deep_dive_candidate") is True or _cybermed_lookup_stored_deep_dive(it, deep_dive_lookup)[0] is not None],
             key=lambda x: str(x.get("published_at") or ""),
             reverse=True,
-        )[:aggregate_deep_dive_cap]
+        )[:aggregate_deep_dive_cap])
         selected_deep_dive_ids = {
             str(d.get("item_id") or d.get("id") or d.get("pmid") or "").strip()
             for d in selected_deep_dives

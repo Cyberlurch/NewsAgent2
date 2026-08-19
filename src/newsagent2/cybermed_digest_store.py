@@ -353,6 +353,12 @@ def _score_pubmed(it: Dict[str, Any]) -> tuple:
     )
 
 
+def _weekly_pubmed_merit(it: Dict[str, Any]) -> tuple:
+    """PubMed merit independent of the lower-cadence top-pick decision."""
+
+    return _score_pubmed({**it, "top_pick": False})
+
+
 def _score_foamed(it: Dict[str, Any]) -> tuple:
     return (
         1 if bool(it.get("top_pick")) else 0,
@@ -400,7 +406,12 @@ def aggregate_cybermed_digest_inputs(
     deep_dive_cap: int,
     top_pick_cap: int = 5,
 ) -> Dict[str, Any]:
-    """Deterministically rank a persisted aggregate from lower-cadence inputs."""
+    """Apply the production Weekly selection policy to persisted digest inputs.
+
+    This function is deliberately pure: aggregate runs must not collect content
+    or manufacture summaries.  In particular, ``top_pick`` on an input is a
+    Daily decision and is not copied to the Weekly result.
+    """
 
     pubmed: list[dict] = []
     foamed: list[dict] = []
@@ -429,16 +440,23 @@ def aggregate_cybermed_digest_inputs(
     for record in deep_dives:
         for key in _match_keys(record):
             deep_lookup.setdefault(key, record)
-    ranked_deep_candidates = sorted(
+    ranked_deep_candidates = [row for _, row in sorted(
         [
-            row
-            for row in ranked_pubmed
+            (index, row)
+            for index, row in enumerate(deduped)
+            if _source_type(row) == "pubmed"
             if bool(row.get("deep_dive_candidate"))
             or any(key in deep_lookup for key in _match_keys(row))
         ],
-        key=lambda row: (_score_pubmed(row), dedupe_key(row)),
+        # This is the production display ordering.  Python's stable sort and
+        # reverse=True intentionally make later Daily records win date ties.
+        key=lambda pair: (
+            str(pair[1].get("published_at") or ""),
+            _weekly_pubmed_merit(pair[1]),
+            pair[0],
+        ),
         reverse=True,
-    )[: max(0, int(deep_dive_cap))]
+    )[: max(0, int(deep_dive_cap))]]
     selected_deep: list[dict] = []
     for item in ranked_deep_candidates:
         record = next(
@@ -448,11 +466,21 @@ def aggregate_cybermed_digest_inputs(
         if record is not None:
             selected_deep.append(record)
 
-    top_picks = sorted(
-        [row for row in selected if row.get("top_pick") is True],
-        key=lambda row: (_winner_score(row), dedupe_key(row)),
-        reverse=True,
-    )[: max(0, int(top_pick_cap))]
+    selected_deep_keys = {
+        key for row in ranked_deep_candidates for key in _match_keys(row)
+    }
+    top_picks = [
+        row
+        for row in ranked_pubmed
+        if any(key in selected_deep_keys for key in _match_keys(row))
+        or not any(key in deep_lookup for key in _match_keys(row))
+    ][: max(0, int(top_pick_cap))]
+    top_pick_keys = {key for row in top_picks for key in _match_keys(row)}
+    ranked_pubmed = [
+        {**row, "top_pick": any(key in top_pick_keys for key in _match_keys(row))}
+        for row in ranked_pubmed
+    ]
+    ranked_foamed = [{**row, "top_pick": False} for row in ranked_foamed]
     return {
         "pubmed": ranked_pubmed,
         "foamed": ranked_foamed,
@@ -464,6 +492,7 @@ def aggregate_cybermed_digest_inputs(
         "duplicates_suppressed_total": suppressed,
         "duplicates_suppressed_reason_counts": reasons,
         "selected_keys": selected_keys,
+        "deep_dive_items": ranked_deep_candidates,
     }
 
 
@@ -503,6 +532,11 @@ def build_weekly_backfill_candidates(
             foamed_cap=foamed_cap,
             deep_dive_cap=deep_dive_cap,
         )
+        unique_urls = {
+            str(row.get("url") or "").strip()
+            for row in aggregate["pubmed"] + aggregate["foamed"]
+            if str(row.get("url") or "").strip()
+        }
         candidates.append(
             make_cybermed_weekly_digest(
                 period_start=week_start.isoformat(),
@@ -516,6 +550,11 @@ def build_weekly_backfill_candidates(
                 diagnostic_summary={
                     "backfilled_from_daily": True,
                     "source_daily_digests_total": len(rows),
+                    "pubmed_selected_total": len(aggregate["pubmed"]),
+                    "foamed_selected_total": len(aggregate["foamed"]),
+                    "unique_article_urls_total": len(unique_urls),
+                    "deep_dives_selected_total": len(aggregate["deep_dives"]),
+                    "top_picks_selected_total": len(aggregate["top_picks"]),
                     "duplicates_suppressed_total": aggregate["duplicates_suppressed_total"],
                     "duplicates_suppressed_reason_counts": aggregate["duplicates_suppressed_reason_counts"],
                 },
