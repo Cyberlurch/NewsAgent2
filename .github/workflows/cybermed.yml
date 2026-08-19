@@ -37,7 +37,7 @@ on:
           - real
 
 concurrency:
-  group: newsagent2-cybermed-${{ github.ref }}
+  group: newsagent2-state-writers-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:

@@ -58,7 +58,7 @@ on:
           - generic
 
 concurrency:
-  group: newsagent2-${{ github.workflow }}-${{ github.ref }}
+  group: newsagent2-state-writers-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:

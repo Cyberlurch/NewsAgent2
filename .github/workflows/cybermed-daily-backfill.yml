@@ -25,7 +25,7 @@ on:
         type: boolean
 
 concurrency:
-  group: cybermed-daily-backfill-${{ inputs.run_date }}
+  group: newsagent2-state-writers-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:

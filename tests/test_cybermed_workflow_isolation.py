@@ -11,7 +11,7 @@ def test_cybermed_has_independent_schedule_concurrency_and_timeout():
     assert 'name: NewsAgent2 Cybermed' in text
     assert 'cron: "40 3 * * *"' in text
     assert 'cron: "40 4 * * *"' in text
-    assert 'group: newsagent2-cybermed-${{ github.ref }}' in text
+    assert 'group: newsagent2-state-writers-${{ github.ref }}' in text
     assert 'timeout-minutes: 50' in text
     assert 'Gate scheduled runs to 05:40 Europe/Stockholm' in text
 
