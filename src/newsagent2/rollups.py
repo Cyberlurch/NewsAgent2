@@ -7,7 +7,7 @@ import re
 from typing import Any, Dict, List, Sequence
 
 from .reporter import render_cyberlurch_yearly_analysis
-from .cybermed_quality import assert_no_generation_error_text
+from .cybermed_quality import assert_no_generation_error_text, sanitize_cybermed_payload
 from zoneinfo import ZoneInfo
 
 STO = ZoneInfo("Europe/Stockholm")
@@ -103,7 +103,6 @@ def load_rollups_state(path: str, *, create_if_missing: bool = True) -> Dict[str
     if not path:
         print("[rollups] WARN: empty path -> starting fresh")
         return _new_state()
-
     if not os.path.exists(path):
         print(f"[rollups] No state file found at {path!r} -> starting fresh")
         state = _new_state()
@@ -160,6 +159,23 @@ def load_rollups_state(path: str, *, create_if_missing: bool = True) -> Dict[str
                 f"[rollups] ERROR: failed to parse {path!r}: {e!r}. "
                 f"Also failed to rename corrupt file: {e2!r}. Starting fresh."
             )
+        return _new_state()
+
+
+def load_rollups_state_readonly(path: str) -> Dict[str, Any]:
+    """Load rollups without self-healing, creating, renaming, or writing files."""
+    if not path or not os.path.exists(path):
+        return _new_state()
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if not isinstance(data, dict):
+            return _new_state()
+        # Yearly deliberately consumes the persisted representation. Rendering
+        # performs its own non-mutating normalization and sanitation.
+        return data
+    except Exception as exc:
+        print(f"[rollups] WARN: read-only load failed for {path!r}: {exc!r}")
         return _new_state()
 
 
@@ -651,57 +667,148 @@ def render_yearly_markdown(
     combined_items = starred_items + other_items
     top_ten = combined_items[:10]
     if is_cybermed:
+        sorted_rollups, _ = sanitize_cybermed_payload(sorted_rollups)
         assert_no_generation_error_text(
             {"rollups": sorted_rollups, "daily_digests": daily_digests or []},
             boundary="yearly_renderer_input",
         )
         monthly_items: List[Dict[str, Any]] = []
+        rich_months = legacy_months = rich_loaded = legacy_loaded = 0
         for entry in sorted_rollups:
-            for item in entry.get("cybermed_items") or []:
+            rich = [item for item in (entry.get("cybermed_items") or []) if isinstance(item, dict) and item]
+            source_items = rich if rich else [item for item in (entry.get("top_items") or []) if isinstance(item, dict) and item]
+            if rich:
+                rich_months += 1
+                rich_loaded += len(source_items)
+            else:
+                legacy_months += 1
+                legacy_loaded += len(source_items)
+            for item in source_items:
                 if isinstance(item, dict):
                     monthly_items.append(dict(item))
-        all_items = monthly_items or combined_items
-        def _score(it: Dict[str, Any]) -> tuple[int, int, int, int]:
-            ev = int(it.get("evidence_strength_1_5") or 0)
-            rel = int(it.get("practice_relevance_1_5") or 0)
-            imp = int(it.get("practice_change_potential_1_5") or 0)
+
+        def _number(value: Any) -> float | None:
+            try:
+                return float(value) if value is not None and str(value).strip() else None
+            except (TypeError, ValueError):
+                return None
+
+        def _bottom_line(value: Any) -> str:
+            text = str(value or "").strip()
+            prefix = re.compile(r"^\s*(?:\*\*)?bottom\s+line\s*:\s*(?:\*\*)?\s*", re.I)
+            while prefix.match(text):
+                text = prefix.sub("", text, count=1).strip()
+            return text
+
+        def _identity(it: Dict[str, Any]) -> tuple[str, str]:
+            for field in ("pmid", "doi", "url"):
+                value = str(it.get(field) or "").strip().lower()
+                if value:
+                    return field, value.removeprefix("https://doi.org/") if field == "doi" else value.rstrip("/")
+            title = re.sub(r"[^a-z0-9]+", " ", str(it.get("title") or "").lower()).strip()
+            return "title", title
+
+        def _richness(it: Dict[str, Any]) -> tuple[int, int, int]:
+            scores = sum(_number(it.get(k)) is not None for k in (
+                "evidence_strength_1_5", "practice_relevance_1_5", "practice_change_potential_1_5"
+            ))
+            return scores, bool(_bottom_line(it.get("bottom_line"))), len([v for v in it.values() if v not in (None, "", [], {})])
+
+        deduped: Dict[tuple[str, str], Dict[str, Any]] = {}
+        duplicates = 0
+        for item in monthly_items:
+            key = _identity(item)
+            # An empty title cannot safely identify unrelated records.
+            if key == ("title", ""):
+                key = ("anonymous", str(len(deduped)))
+            if key in deduped:
+                duplicates += 1
+                if _richness(item) > _richness(deduped[key]):
+                    deduped[key] = item
+            else:
+                deduped[key] = item
+        all_items = list(deduped.values())
+        coverage = diagnostics if diagnostics is not None else {}
+        coverage.update({
+            "cybermed_yearly_rich_months_total": rich_months,
+            "cybermed_yearly_legacy_months_total": legacy_months,
+            "cybermed_yearly_rich_items_loaded_total": rich_loaded,
+            "cybermed_yearly_legacy_items_loaded_total": legacy_loaded,
+            "cybermed_yearly_duplicates_suppressed_total": duplicates,
+            "rich_months_total": rich_months,
+            "legacy_months_total": legacy_months,
+            "rich_items_loaded_total": rich_loaded,
+            "legacy_items_loaded_total": legacy_loaded,
+        })
+        def _score(it: Dict[str, Any]) -> tuple[float, float, float, int]:
+            ev = _number(it.get("evidence_strength_1_5")) or -1
+            rel = _number(it.get("practice_relevance_1_5")) or -1
+            imp = _number(it.get("practice_change_potential_1_5")) or -1
             ed_penalty = 1 if any(x in str((it.get("publication_types") or "")).lower() for x in ["editorial", "comment", "letter"]) else 0
             return (imp, ev, rel, -ed_penalty)
         ranked = sorted(all_items, key=_score, reverse=True)
-        practice_changing = [it for it in ranked if int(it.get("practice_change_potential_1_5") or 0) >= 4][:8]
-        interesting = [it for it in ranked if int(it.get("practice_change_potential_1_5") or 0) < 4][:8]
+        practice_changing = [it for it in ranked if (_number(it.get("practice_change_potential_1_5")) or -1) >= 4][:8]
+        interesting = [it for it in ranked if _number(it.get("practice_change_potential_1_5")) is not None and _number(it.get("practice_change_potential_1_5")) < 4][:8]
+        unscored = [it for it in ranked if _number(it.get("practice_change_potential_1_5")) is None][:8]
         guidelines = [it for it in ranked if any(k in f"{it.get('title','')} {it.get('bottom_line','')}".lower() for k in ["guideline", "consensus", "systematic review", "meta-analysis"])][:8]
-        coverage = diagnostics or {}
         md = [f"# Cybermed Year in Review – {year}", ""]
         md.extend([
             "## Coverage note",
             f"- Monthly rollups available: {coverage.get('cybermed_yearly_monthly_rollups_loaded_total', len(sorted_rollups))}",
             "- Direct Daily inputs: disabled (Yearly reads Monthly rollups only)",
             f"- Date range covered: {coverage.get('cybermed_yearly_coverage_start','unknown')} to {coverage.get('cybermed_yearly_coverage_end','unknown')}",
-            f"- Coverage incomplete: {'YES' if coverage.get('cybermed_yearly_coverage_incomplete', len(sorted_rollups)<12) else 'NO'}",
+            f"- Coverage incomplete: {'YES' if not coverage.get('cybermed_yearly_coverage_complete', not coverage.get('cybermed_yearly_coverage_incomplete', len(sorted_rollups)<12)) else 'NO'}",
             "",
             "## Executive summary",
         ])
         for it in ranked[:8]:
-            md.append(f"- {(it.get('bottom_line') or it.get('title') or 'Stored item').strip()}")
+            md.append(f"- {(_bottom_line(it.get('bottom_line')) or it.get('title') or 'Stored item').strip()}")
         md.extend(["", "## Top papers of the year"])
         for it in ranked[:10]:
             t = it.get("title") or "Untitled"
             u = it.get("url") or ""
-            bl = (it.get("bottom_line") or "No stored bottom line.").strip()
+            bl = _bottom_line(it.get("bottom_line"))
             md.append(f"- [{t}]({u})" if u else f"- {t}")
-            md.append(f"  - **BOTTOM LINE:** {bl}")
+            if bl:
+                md.append(f"  - **BOTTOM LINE:** {bl}")
         md.extend(["", "## Potentially practice-changing items"])
         for it in practice_changing:
             md.append(f"- {(it.get('title') or 'Untitled').strip()} — impact {it.get('practice_change_potential_1_5')}")
         md.extend(["", "## Interesting but not practice-changing"])
         for it in interesting[:8]:
             md.append(f"- {(it.get('title') or 'Untitled').strip()}")
+        if unscored:
+            md.extend(["", "## Legacy / not scored"])
+            for it in unscored:
+                md.append(f"- {(it.get('title') or 'Untitled').strip()}")
         if guidelines:
             md.extend(["", "## Guidelines / consensus / systematic reviews"])
             for it in guidelines:
                 md.append(f"- {(it.get('title') or 'Untitled').strip()}")
-        md.extend(["", "## Clinical themes of the year", "- Critical care & emergency medicine", "- Anaesthesia & perioperative care", "- Sepsis/infection", "- Ventilation/respiratory", "- AI/methods", "", "## FOAMed & commentary", "- Included for interpretation/context; not treated as primary evidence.", "", "## What to watch next year"])
+        theme_counts: Dict[str, int] = {}
+        for it in ranked:
+            structured = [it.get("domain"), it.get("domain_group"), it.get("topic_primary")]
+            structured += list(it.get("evidence_tags") or []) if isinstance(it.get("evidence_tags"), list) else []
+            for theme in structured:
+                clean = str(theme or "").strip()
+                if clean:
+                    theme_counts[clean] = theme_counts.get(clean, 0) + 1
+        if theme_counts:
+            md.extend(["", "## Clinical themes of the year"])
+            for theme, count in sorted(theme_counts.items(), key=lambda row: (-row[1], row[0].lower()))[:6]:
+                md.append(f"- {theme} ({count})")
+        else:
+            md.extend([
+                "",
+                "## Clinical themes of the year",
+                "- Stored rollups do not contain enough structured theme data.",
+            ])
+        foamed = [it for it in ranked if str(it.get("source_type") or it.get("source") or "").lower() in {"foamed", "commentary"}]
+        if foamed:
+            md.extend(["", "## FOAMed & commentary"])
+            for it in foamed[:5]:
+                md.append(f"- {(it.get('title') or 'Untitled').strip()}")
+        md.extend(["", "## What to watch next year"])
         for it in ranked[:5]:
             md.append(f"- Recurring signal: {(it.get('topic_primary') or it.get('title') or 'General').strip()}")
         return "\n".join(md).strip() + "\n"

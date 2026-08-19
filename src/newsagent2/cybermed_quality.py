@@ -8,6 +8,7 @@ _ERROR_PATTERNS = (
     re.compile(r"\b(?:RateLimitError|APIConnectionError|AuthenticationError|BadRequestError|InternalServerError)\b", re.I),
     re.compile(r"\bopenai\.[A-Za-z_][A-Za-z0-9_.]*", re.I),
     re.compile(r"\b(?:insufficient_quota|invalid_api_key|model_not_found)\b", re.I),
+    re.compile(r"\b(?:rate[ -]?limit|quota (?:exceeded|failure)|provider error|api error)\b", re.I),
     re.compile(r"\berror\s*(?:code)?\s*[:=]?\s*(?:401|403|429|5\d\d)\b", re.I),
     re.compile(r"\b(?:http|status)(?:\s+code)?\s*[:=]?\s*(?:401|403|429|5\d\d)\b", re.I),
     re.compile(r"\b(?:request|response)[-_ ]id\s*[:=]", re.I),

@@ -23,6 +23,7 @@ from .emailer import send_markdown
 from .rollups import (
     derive_monthly_summary,
     load_rollups_state,
+    load_rollups_state_readonly,
     render_yearly_markdown,
     prune_rollups,
     rollups_for_year,
@@ -299,10 +300,7 @@ def _determine_year_in_review_year(*, now_sto: datetime, override_year: str | No
             print(f"[yearly] WARN: invalid YEAR_IN_REVIEW_YEAR={override!r} -> ignoring override")
 
     event = (event_name or "").strip().lower()
-    is_jan1 = now_sto.month == 1 and now_sto.day == 1
-    is_scheduled_jan1 = event == "schedule" and is_jan1
-
-    if is_jan1 or is_scheduled_jan1:
+    if event == "schedule" and now_sto.month == 1:
         return now_sto.year - 1
 
     return now_sto.year
@@ -1898,7 +1896,11 @@ def _run_yearly_report(
 ) -> None:
     os.makedirs(report_dir, exist_ok=True)
     is_cybermed_yearly = _is_cybermed(report_key, os.getenv("REPORT_PROFILE", ""))
-    rollups_state = load_rollups_state(rollups_state_path)
+    rollups_state = (
+        load_rollups_state_readonly(rollups_state_path)
+        if is_cybermed_yearly
+        else load_rollups_state(rollups_state_path)
+    )
     now_sto = datetime.now(tz=STO)
     event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
     target_year = _determine_year_in_review_year(
@@ -1927,6 +1929,10 @@ def _run_yearly_report(
     if _is_cybermed(report_key, os.getenv("REPORT_PROFILE", "")):
         entries, yearly_sanitized_total = sanitize_cybermed_payload(entries)
         assert_no_generation_error_text(entries, boundary="yearly_rollups")
+    expected_months = [f"{target_year}-{month:02d}" for month in range(1, 13)]
+    found_months = sorted({str(entry.get("month") or "") for entry in entries} & set(expected_months))
+    missing_months = [month for month in expected_months if month not in found_months]
+    coverage_complete = found_months == expected_months
     cybermed_yearly_diags: Dict[str, Any] = {
         "cybermed_yearly_editorial_mode": True,
         "cybermed_yearly_monthly_rollups_loaded_total": len(entries),
@@ -1935,6 +1941,17 @@ def _run_yearly_report(
         "cybermed_yearly_live_collection_used": False,
         "cybermed_yearly_processed_state_mutated": False,
         "cybermed_yearly_generation_outputs_sanitized_total": yearly_sanitized_total,
+        "cybermed_yearly_target_year": target_year,
+        "cybermed_yearly_expected_months": expected_months,
+        "cybermed_yearly_found_months": found_months,
+        "cybermed_yearly_missing_months": missing_months,
+        "cybermed_yearly_coverage_complete": coverage_complete,
+        "target_year": target_year,
+        "expected_months": expected_months,
+        "found_months": found_months,
+        "missing_months": missing_months,
+        "coverage_complete": coverage_complete,
+        "monthly_rollups_loaded_total": len(entries),
     }
     yearly_daily_digests: List[Dict[str, Any]] = []
     all_dates = sorted([
@@ -1945,7 +1962,7 @@ def _run_yearly_report(
     cybermed_yearly_diags["cybermed_yearly_daily_digests_loaded_total"] = 0
     cybermed_yearly_diags["cybermed_yearly_coverage_start"] = all_dates[0] if all_dates else ""
     cybermed_yearly_diags["cybermed_yearly_coverage_end"] = all_dates[-1] if all_dates else ""
-    cybermed_yearly_diags["cybermed_yearly_coverage_incomplete"] = not (len(entries) >= 12)
+    cybermed_yearly_diags["cybermed_yearly_coverage_incomplete"] = not coverage_complete
     if not entries and event_name == "schedule":
         print(f"[email] Scheduled yearly run found no rollups for {target_year} -> skipping email.")
         if is_cybermed_yearly:
@@ -1986,6 +2003,15 @@ def _run_yearly_report(
             cybermed_yearly_diags,
         )
 
+    email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
+    production_delivery = event_name == "schedule" or email_mode == "real"
+    if is_cybermed_yearly and production_delivery and not coverage_complete:
+        raise RuntimeError(
+            f"cybermed_yearly_incomplete_coverage: target_year={target_year} missing_months={missing_months}"
+        )
+    if email_mode == "none":
+        print("[email] Yearly email disabled (EMAIL_MODE=none).")
+        return
     try:
         send_markdown(report_subject, md)
     except Exception as e:

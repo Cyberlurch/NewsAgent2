@@ -161,11 +161,6 @@ jobs:
             dom=$(TZ=Europe/Stockholm date +%d)
             month=$(TZ=Europe/Stockholm date +%m)
             planned=()
-            if [ "$dom" = "01" ]; then
-              if [ "$month" = "01" ]; then
-                planned+=("yearly")
-              fi
-            fi
             if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then
               planned+=("daily")
             fi
@@ -173,6 +168,9 @@ jobs:
               planned+=("weekly")
               if [ "$dom" -le 7 ]; then
                 planned+=("monthly")
+                if [ "$month" = "01" ]; then
+                  planned+=("yearly")
+                fi
               fi
             fi
             modes="${planned[*]}"
