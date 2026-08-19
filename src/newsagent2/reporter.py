@@ -1032,69 +1032,118 @@ def render_cyberlurch_monthly_trend_report(items, *, title, generated_at, diagno
     return "\n".join(lines).rstrip() + "\n"
 
 
-def render_cyberlurch_yearly_analysis(rollups, *, target_year, generated_at) -> str:
+def render_cyberlurch_yearly_analysis(rollups, *, target_year, generated_at, diagnostics=None) -> str:
+    """Render a deterministic annual aggregation of the prepared Monthly view."""
     cap = max(1, int((os.getenv("CYBERLURCH_YEARLY_REPRESENTATIVE_LINKS_PER_THEME", "3") or "3").strip() or "3"))
-    rollups = [r for r in (rollups or []) if isinstance(r, dict)]
-    by_month = sorted(rollups, key=lambda r: str(r.get('month') or ''))
-    limited = any(not r.get('topic_summaries') for r in by_month)
-    lines=[f"# The Cyberlurch Year in Review — {target_year}","", "## Executive Summary", "", f"- {len(by_month)} monthly rollups analyzed."]
-    if limited:
-        lines.append("- Some earlier months contain thinner rollup detail; summaries below use the available monthly titles, channels and derived summaries.")
-    lines += ["", "## Key themes across the year", ""]
-    themes = Counter()
-    channels = Counter()
-    trajectories: list[str] = []
-    evergreen: list[str] = []
+    by_month = sorted([r for r in (rollups or []) if isinstance(r, dict)], key=lambda r: str(r.get("month") or ""))
+    diag = diagnostics if diagnostics is not None else {}
+    expected = diag.get("cyberlurch_yearly_expected_months") or [f"{target_year}-{m:02d}" for m in range(1, 13)]
+    found = diag.get("cyberlurch_yearly_found_months") or [str(r.get("month")) for r in by_month]
+    missing = diag.get("cyberlurch_yearly_missing_months") or [m for m in expected if m not in found]
+    complete = bool(diag.get("cyberlurch_yearly_coverage_complete", not missing))
+
+    def norm(value):
+        return re.sub(r"\s+", " ", str(value or "").strip()).casefold()
+
+    themes, canonical, months_present = Counter(), {}, {}
+    channels, channel_names = Counter(), {}
     for r in by_month:
-        for th in (r.get("top_themes") or []):
-            if isinstance(th, dict) and th.get("theme"):
-                themes[str(th.get("theme"))] += int(th.get("count") or 1)
-        for ch in (r.get("top_channels") or []):
-            if isinstance(ch, dict) and ch.get("channel"):
-                channels[str(ch.get("channel"))] += int(ch.get("count") or 1)
-        trajectories.extend([str(x) for x in (r.get("topic_trajectories") or []) if str(x).strip()])
-        evergreen.extend([str(x) for x in (r.get("evergreen_highlights") or []) if str(x).strip()])
-    lines.append(f"- Leading themes: {', '.join([t for t, _ in themes.most_common(6)]) or 'No enriched theme data available.'}")
+        month_topics = set()
+        for raw in r.get("top_themes") or []:
+            if isinstance(raw, dict):
+                label, count = raw.get("theme"), raw.get("count", 1)
+            else:
+                label, count = raw, 1
+            key = norm(label)
+            if key:
+                canonical.setdefault(key, re.sub(r"\s+", " ", str(label).strip()))
+                try: themes[key] += int(count or 1)
+                except (TypeError, ValueError): themes[key] += 1
+                month_topics.add(key)
+        for raw in r.get("topic_summaries") or []:
+            text = str(raw).strip()
+            match = re.match(r"^(.+?):\s*(\d+)\s+item(?:\(s\)|s)?\b", text, re.I)
+            if match:
+                key = norm(match.group(1)); canonical.setdefault(key, match.group(1).strip())
+                themes[key] += int(match.group(2)); month_topics.add(key)
+        for raw in r.get("topic_trajectories") or []:
+            label = re.sub(r":\s*sustained stream\s*$", "", str(raw).strip(), flags=re.I)
+            key = norm(label)
+            if key: canonical.setdefault(key, label); month_topics.add(key)
+        for key in month_topics:
+            months_present.setdefault(key, set()).add(str(r.get("month") or ""))
+        for raw in r.get("top_channels") or []:
+            if not isinstance(raw, dict) or not raw.get("channel"): continue
+            key = norm(raw["channel"]); channel_names.setdefault(key, str(raw["channel"]).strip())
+            try: channels[key] += int(raw.get("count") or 1)
+            except (TypeError, ValueError): channels[key] += 1
+
+    ranked_themes = sorted(themes, key=lambda k: (-themes[k], canonical[k].casefold()))
+    ranked_topics = sorted(months_present, key=lambda k: (-len(months_present[k]), -themes[k], canonical[k].casefold()))
+    ranked_channels = sorted(channels, key=lambda k: (-channels[k], channel_names[k].casefold()))
+
+    def item_key(item):
+        video_id = str(item.get("video_id") or item.get("id") or "").strip().casefold()
+        if video_id: return ("video", video_id)
+        url = str(item.get("url") or "").strip()
+        yt = re.search(r"(?:youtu\.be/|[?&]v=|/shorts/|/embed/)([A-Za-z0-9_-]{6,})", url)
+        if yt: return ("youtube", yt.group(1).casefold())
+        if url: return ("url", url.rstrip("/").casefold())
+        return ("title", norm(item.get("title")), norm(item.get("channel")))
+
+    def richness(item):
+        return sum(bool(str(item.get(k) or "").strip()) for k in ("bottom_line", "transcript_full_summary_short", "topic_primary", "channel", "title", "url"))
+
+    representatives = {}
+    duplicates = 0
+    for r in by_month:
+        for item in (r.get("representative_items") or r.get("top_items") or []):
+            if not isinstance(item, dict): continue
+            key = item_key(item)
+            if key in representatives:
+                duplicates += 1
+                if richness(item) > richness(representatives[key]): representatives[key] = item
+            else: representatives[key] = item
+    diag["cyberlurch_yearly_representative_duplicates_suppressed_total"] = duplicates
+
+    lines = [f"# The Cyberlurch Year in Review — {target_year}", "", "## Coverage note",
+             f"- Monthly rollups available: {len(by_month)}", f"- Target year: {target_year}",
+             f"- Found months: {', '.join(found) or 'none'}", f"- Missing months: {', '.join(missing) or 'none'}",
+             f"- Coverage incomplete: {'NO' if complete else 'YES'}", "", "## Executive Summary",
+             f"- {len(by_month)} monthly rollups analyzed."]
+    if any(not r.get("topic_summaries") for r in by_month):
+        lines.append("- Some earlier months contain thinner rollup detail; summaries below use the available monthly titles, channels and derived summaries.")
+    if ranked_themes: lines.append("- Leading aggregated themes: " + ", ".join(f"{canonical[k]} ({themes[k]})" for k in ranked_themes[:5]) + ".")
+    if ranked_channels: lines.append("- Most represented channels: " + ", ".join(f"{channel_names[k]} ({channels[k]})" for k in ranked_channels[:5]) + ".")
+    if ranked_topics: lines.append("- Strongest recurring topics: " + ", ".join(f"{canonical[k]} ({len(months_present[k])} months)" for k in ranked_topics[:5]) + ".")
+    lines += ["", "## Key themes across the year", ""]
+    lines += [f"- {canonical[k]} — aggregate count {themes[k]}" for k in ranked_themes[:8]] or ["- No enriched theme data available."]
     lines += ["", "## Crisis trajectories", ""]
-    if trajectories:
-        for tr in trajectories[:8]:
-            lines.append(f"- {tr}")
-    else:
-        lines.append("- No multi-month crisis trajectory was strongly repeated in available rollups.")
-    lines += ["", "## Recurring narratives", ""]
-    topic_summaries = [str(s) for r in by_month for s in (r.get("topic_summaries") or []) if str(s).strip()]
-    if topic_summaries:
-        for s in topic_summaries[:8]:
-            lines.append(f"- {s}")
-    else:
-        lines.append("- Recurring narratives were sparse in stored monthly summaries.")
-    lines += ["", "## Topic and channel weights", "", f"- Top channels: {', '.join([c for c, _ in channels.most_common(8)]) or 'No enriched channel counts available.'}", "", "## Evergreen highlights", ""]
-    if evergreen:
-        for ev in evergreen[:8]:
-            lines.append(f"- {ev}")
-    else:
-        lines.append("- No clear evergreen highlights were captured in monthly rollups.")
+    recurring = [k for k in ranked_topics if len(months_present[k]) > 1]
+    lines += [f"- {canonical[k]} — present in {len(months_present[k])} monthly rollups" for k in recurring[:8]] or ["- No recurring topic had sufficient stored monthly participation."]
+    lines += ["", "## Topic and channel weights", ""]
+    lines += [f"- {channel_names[k]} — {channels[k]} items" for k in ranked_channels[:8]] or ["- No enriched channel counts available."]
+    evergreen=[]; seen=set()
+    for r in by_month:
+        for value in r.get("evergreen_highlights") or []:
+            key=norm(value)
+            if key and key not in seen: seen.add(key); evergreen.append(str(value).strip())
+    lines += ["", "## Evergreen highlights", ""] + ([f"- {v}" for v in evergreen[:8]] or ["- No clear evergreen highlights were captured in monthly rollups."])
     lines += ["", "## By month", ""]
     for r in by_month:
-        m = str(r.get('month') or 'Unknown month')
-        try:
-            m = datetime.strptime(f"{m}-01", "%Y-%m-%d").strftime("%B %Y")
-        except Exception:
-            pass
-        lines.append(f"### {m}")
-        lines.append(f"- {(r.get('executive_summary') or ['No summary captured'])[0] if isinstance(r.get('executive_summary'), list) and r.get('executive_summary') else 'No summary captured'}")
+        month=str(r.get("month") or "Unknown month")
+        try: label=datetime.strptime(month+"-01", "%Y-%m-%d").strftime("%B %Y")
+        except ValueError: label=month
+        lines += [f"### {label}"] + [f"- {v}" for v in (r.get("executive_summary") or ["No summary captured"])]
     lines += ["", "## Representative links", ""]
-    for r in by_month:
-        m = str(r.get('month') or 'Unknown month')
-        try:
-            m = datetime.strptime(f"{m}-01", "%Y-%m-%d").strftime("%B %Y")
-        except Exception:
-            pass
-        lines.append(f"### {m}")
-        items = r.get('representative_items') or r.get('top_items') or []
-        for it in items[:cap]:
-            if isinstance(it, dict) and it.get('url'):
-                lines.append(f"- [{it.get('title') or 'Untitled'}]({it.get('url')})")
+    grouped={}
+    for item in representatives.values(): grouped.setdefault(norm(item.get("topic_primary") or "Other") or "other", []).append(item)
+    for topic in sorted(grouped):
+        label = str(grouped[topic][0].get("topic_primary") or "Other").strip()
+        lines.append(f"### {label}")
+        for item in grouped[topic][:cap]:
+            title=str(item.get("title") or "Untitled").strip(); url=str(item.get("url") or "").strip()
+            lines.append(f"- [{title}]({url})" if url else f"- {title}")
     return "\n".join(lines).rstrip()+"\n"
 
 

@@ -24,11 +24,13 @@ from .rollups import (
     derive_monthly_summary,
     load_rollups_state,
     load_rollups_state_readonly,
+    prepare_yearly_rollups,
     render_yearly_markdown,
     prune_rollups,
     rollups_for_year,
     save_rollups_state,
     upsert_monthly_rollup,
+    sanitize_cyberlurch_generated_fields,
 )
 from .reporter import to_markdown
 from .cybermed_digest_store import (
@@ -651,39 +653,11 @@ def determine_monthly_rollup_month(now_sto: datetime, event_name: str, override_
     return now_sto.strftime("%Y-%m")
 
 
-_PROVIDER_FAILURE_RE = re.compile(
-    r"(?:RateLimitError|APIConnectionError|AuthenticationError|insufficient_quota|"
-    r"credit_balance_exhausted|no credits remaining|(?:openai|api)[ _-]?error[ _-]?code)",
-    re.IGNORECASE,
-)
-
-
 def _sanitize_new_cyberlurch_monthly_rollup(
     executive_summary: List[str], top_items: List[Dict[str, Any]]
 ) -> tuple[List[str], List[Dict[str, Any]], int]:
     """Remove narrow provider failures from a newly-created Monthly payload only."""
-    removed = 0
-    safe_items: List[Dict[str, Any]] = []
-    suspect_fields = ("bottom_line", "transcript_full_summary_short", "summary")
-    for original in top_items:
-        item = dict(original)
-        for field in suspect_fields:
-            value = str(item.get(field) or "")
-            if value and _PROVIDER_FAILURE_RE.search(value):
-                item[field] = ""
-                removed += 1
-        safe_items.append(item)
-
-    safe_summary = [str(line) for line in executive_summary if not _PROVIDER_FAILURE_RE.search(str(line))]
-    removed += len(executive_summary) - len(safe_summary)
-    if removed and not safe_summary:
-        safe_summary = ["Highlights derived from persisted top items."]
-        for item in safe_items[:2]:
-            title = str(item.get("title") or "").strip()
-            bottom_line = str(item.get("bottom_line") or "").strip()
-            if title:
-                safe_summary.append(f"{title} — {bottom_line}" if bottom_line else title)
-    return safe_summary, safe_items, removed
+    return sanitize_cyberlurch_generated_fields(executive_summary, top_items)
 
 def _dedupe_videos_by_id(videos: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     out: List[Dict[str, Any]] = []
@@ -1931,11 +1905,7 @@ def _run_yearly_report(
 ) -> None:
     os.makedirs(report_dir, exist_ok=True)
     is_cybermed_yearly = _is_cybermed(report_key, os.getenv("REPORT_PROFILE", ""))
-    rollups_state = (
-        load_rollups_state_readonly(rollups_state_path)
-        if is_cybermed_yearly
-        else load_rollups_state(rollups_state_path)
-    )
+    rollups_state = load_rollups_state_readonly(rollups_state_path)
     now_sto = datetime.now(tz=STO)
     event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
     target_year = _determine_year_in_review_year(
@@ -1959,15 +1929,30 @@ def _run_yearly_report(
         report_title = f"{base_report_title} — Year in Review {target_year}"
         report_subject = report_title
 
-    entries = rollups_for_year(rollups_state, report_key, target_year)
+    raw_entries = rollups_for_year(rollups_state, report_key, target_year)
+    if is_cybermed_yearly:
+        entries = raw_entries
+        expected = [f"{target_year}-{month:02d}" for month in range(1, 13)]
+        found = sorted({str(entry.get("month") or "") for entry in entries} & set(expected))
+        prepared_diags = {
+            "expected_months": expected, "found_months": found,
+            "missing_months": [month for month in expected if month not in found],
+            "coverage_complete": found == expected,
+            "monthly_rollups_loaded_total": len(entries),
+            "duplicate_monthly_rollups_suppressed_total": 0,
+            "generation_error_text_removed_total": 0,
+            "months_with_sanitized_content_total": 0,
+        }
+    else:
+        entries, prepared_diags = prepare_yearly_rollups(raw_entries, target_year)
     yearly_sanitized_total = 0
     if _is_cybermed(report_key, os.getenv("REPORT_PROFILE", "")):
         entries, yearly_sanitized_total = sanitize_cybermed_payload(entries)
         assert_no_generation_error_text(entries, boundary="yearly_rollups")
-    expected_months = [f"{target_year}-{month:02d}" for month in range(1, 13)]
-    found_months = sorted({str(entry.get("month") or "") for entry in entries} & set(expected_months))
-    missing_months = [month for month in expected_months if month not in found_months]
-    coverage_complete = found_months == expected_months
+    expected_months = prepared_diags["expected_months"]
+    found_months = prepared_diags["found_months"]
+    missing_months = prepared_diags["missing_months"]
+    coverage_complete = prepared_diags["coverage_complete"]
     cybermed_yearly_diags: Dict[str, Any] = {
         "cybermed_yearly_editorial_mode": True,
         "cybermed_yearly_monthly_rollups_loaded_total": len(entries),
@@ -1988,6 +1973,22 @@ def _run_yearly_report(
         "coverage_complete": coverage_complete,
         "monthly_rollups_loaded_total": len(entries),
     }
+    if not is_cybermed_yearly:
+        cybermed_yearly_diags.update({
+            "cyberlurch_yearly_target_year": target_year,
+            "cyberlurch_yearly_expected_months": expected_months,
+            "cyberlurch_yearly_found_months": found_months,
+            "cyberlurch_yearly_missing_months": missing_months,
+            "cyberlurch_yearly_coverage_complete": coverage_complete,
+            "cyberlurch_yearly_monthly_rollups_loaded_total": prepared_diags["monthly_rollups_loaded_total"],
+            "cyberlurch_yearly_duplicate_monthly_rollups_suppressed_total": prepared_diags["duplicate_monthly_rollups_suppressed_total"],
+            "cyberlurch_yearly_generation_error_text_removed_total": prepared_diags["generation_error_text_removed_total"],
+            "cyberlurch_yearly_months_with_sanitized_content_total": prepared_diags["months_with_sanitized_content_total"],
+            "cyberlurch_yearly_representative_duplicates_suppressed_total": 0,
+            "cyberlurch_yearly_live_collection_used": False,
+            "cyberlurch_yearly_provider_calls_total": 0,
+            "cyberlurch_yearly_rollups_state_mutated": False,
+        })
     yearly_daily_digests: List[Dict[str, Any]] = []
     all_dates = sorted([
         str(entry.get("month")) + "-01"
@@ -1998,7 +1999,7 @@ def _run_yearly_report(
     cybermed_yearly_diags["cybermed_yearly_coverage_start"] = all_dates[0] if all_dates else ""
     cybermed_yearly_diags["cybermed_yearly_coverage_end"] = all_dates[-1] if all_dates else ""
     cybermed_yearly_diags["cybermed_yearly_coverage_incomplete"] = not coverage_complete
-    if not entries and event_name == "schedule":
+    if not entries and event_name == "schedule" and is_cybermed_yearly:
         print(f"[email] Scheduled yearly run found no rollups for {target_year} -> skipping email.")
         if is_cybermed_yearly:
             _write_cybermed_diagnostics(
@@ -2031,6 +2032,12 @@ def _run_yearly_report(
         ]
     )
     _write_run_metadata_artifact(report_dir, report_key, "yearly", yearly_meta)
+    if not is_cybermed_yearly:
+        diagnostics_path = os.path.join(report_dir, "cyberlurch_yearly_diagnostics.json")
+        with open(diagnostics_path, "w", encoding="utf-8") as f:
+            json.dump({k: v for k, v in cybermed_yearly_diags.items() if k.startswith("cyberlurch_yearly_")}, f, ensure_ascii=False, indent=2, sort_keys=True)
+            f.write("\n")
+        print(f"[diagnostics] Wrote Cyberlurch yearly diagnostics: {diagnostics_path}")
     if is_cybermed_yearly:
         _write_cybermed_diagnostics(
             report_dir,
@@ -2040,9 +2047,10 @@ def _run_yearly_report(
 
     email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
     production_delivery = event_name == "schedule" or email_mode == "real"
-    if is_cybermed_yearly and production_delivery and not coverage_complete:
+    if production_delivery and not coverage_complete:
+        print(f"[yearly] target_year={target_year} found_months={found_months} missing_months={missing_months} coverage incomplete; delivery blocked")
         raise RuntimeError(
-            f"cybermed_yearly_incomplete_coverage: target_year={target_year} missing_months={missing_months}"
+            f"{report_key}_yearly_incomplete_coverage: target_year={target_year} missing_months={missing_months}"
         )
     if email_mode == "none":
         print("[email] Yearly email disabled (EMAIL_MODE=none).")
