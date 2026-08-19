@@ -26,6 +26,10 @@ on:
         description: "Optional target year for yearly runs (e.g., 2025)"
         required: false
         type: string
+      rollup_month_override:
+        description: "Optional Monthly target month (YYYY-MM)"
+        required: false
+        type: string
       which_report:
         description: "Report target (Cybermed has a dedicated workflow)"
         default: cyberlurch
@@ -116,6 +120,7 @@ jobs:
       REPORT_DIR: out
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
+      ROLLUP_MONTH_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.rollup_month_override || '' }}
       WHICH_REPORT: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.which_report || 'cyberlurch') || 'both' }}
       EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') || 'real' }}
       CYBERMED_QA_REPLAY_MODE: ${{ vars.CYBERMED_QA_REPLAY_MODE || '0' }}

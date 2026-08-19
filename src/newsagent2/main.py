@@ -650,6 +650,41 @@ def determine_monthly_rollup_month(now_sto: datetime, event_name: str, override_
         return prev.strftime("%Y-%m")
     return now_sto.strftime("%Y-%m")
 
+
+_PROVIDER_FAILURE_RE = re.compile(
+    r"(?:RateLimitError|APIConnectionError|AuthenticationError|insufficient_quota|"
+    r"credit_balance_exhausted|no credits remaining|(?:openai|api)[ _-]?error[ _-]?code)",
+    re.IGNORECASE,
+)
+
+
+def _sanitize_new_cyberlurch_monthly_rollup(
+    executive_summary: List[str], top_items: List[Dict[str, Any]]
+) -> tuple[List[str], List[Dict[str, Any]], int]:
+    """Remove narrow provider failures from a newly-created Monthly payload only."""
+    removed = 0
+    safe_items: List[Dict[str, Any]] = []
+    suspect_fields = ("bottom_line", "transcript_full_summary_short", "summary")
+    for original in top_items:
+        item = dict(original)
+        for field in suspect_fields:
+            value = str(item.get(field) or "")
+            if value and _PROVIDER_FAILURE_RE.search(value):
+                item[field] = ""
+                removed += 1
+        safe_items.append(item)
+
+    safe_summary = [str(line) for line in executive_summary if not _PROVIDER_FAILURE_RE.search(str(line))]
+    removed += len(executive_summary) - len(safe_summary)
+    if removed and not safe_summary:
+        safe_summary = ["Highlights derived from persisted top items."]
+        for item in safe_items[:2]:
+            title = str(item.get("title") or "").strip()
+            bottom_line = str(item.get("bottom_line") or "").strip()
+            if title:
+                safe_summary.append(f"{title} — {bottom_line}" if bottom_line else title)
+    return safe_summary, safe_items, removed
+
 def _dedupe_videos_by_id(videos: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     out: List[Dict[str, Any]] = []
     seen: Set[str] = set()
@@ -2436,6 +2471,19 @@ def main() -> None:
     monthly_digest_period_end = ""
     weekly_digest_fallback_collection_used = False
     monthly_digest_fallback_collection_used = False
+    cyberlurch_monthly_production_delivery = (
+        report_key.strip().lower() == "cyberlurch"
+        and report_mode == "monthly"
+        and (
+            (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower() == "schedule"
+            or (os.getenv("EMAIL_MODE", "") or "").strip().lower() == "real"
+        )
+    )
+    cyberlurch_monthly_target_month = ""
+    cyberlurch_monthly_delivery_blocked_reason = ""
+    cyberlurch_monthly_rollup_write_attempted = False
+    cyberlurch_monthly_rollup_write_verified = False
+    cyberlurch_monthly_generation_error_text_removed_total = 0
     digest_store_loaded_total = 0
     digest_store_selected_total = 0
     digest_store_used_as_primary = False
@@ -2979,6 +3027,23 @@ def main() -> None:
         use_digest = _env_bool("CYBERLURCH_WEEKLY_USE_DIGEST_STORE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_USE_DIGEST_STORE", True)
         collect_if_digest = _env_bool("CYBERLURCH_WEEKLY_COLLECT_IF_DIGEST_AVAILABLE" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_COLLECT_IF_DIGEST_AVAILABLE", False)
         supplement = _env_bool("CYBERLURCH_WEEKLY_SUPPLEMENT_WITH_COLLECTION" if report_mode=="weekly" else "CYBERLURCH_MONTHLY_SUPPLEMENT_WITH_COLLECTION", False)
+        monthly_audit_collection_allowed = (
+            report_mode == "monthly"
+            and (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower() == "workflow_dispatch"
+            and (os.getenv("EMAIL_MODE", "") or "").strip().lower() == "none"
+            and (os.getenv("SEND_EMAIL", "") or "").strip() == "0"
+            and (collect_if_digest or supplement)
+        )
+        if report_mode == "monthly" and not monthly_audit_collection_allowed:
+            use_digest = True
+            collect_if_digest = False
+            supplement = False
+        if report_mode == "monthly" and cyberlurch_monthly_production_delivery:
+            use_digest = True
+            if collect_if_digest or supplement:
+                print("[cyberlurch-monthly] production ignores supplemental/live collection flags")
+            collect_if_digest = False
+            supplement = False
         if use_digest:
             dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
             dstate, removed_invalid = sanitize_cyberlurch_digest_state(dstate)
@@ -2986,6 +3051,12 @@ def main() -> None:
             digest_store_loaded_total = len(dstate.get("digests", []))
             now = datetime.now(timezone.utc)
             selected = []
+            if report_mode == "monthly":
+                cyberlurch_monthly_target_month = determine_monthly_rollup_month(
+                    datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME", ""), os.getenv("ROLLUP_MONTH_OVERRIDE")
+                )
+                monthly_digest_period_start = f"{cyberlurch_monthly_target_month}-01"
+                monthly_digest_period_end = f"{cyberlurch_monthly_target_month}-31"
             for d in dstate.get("digests", []):
                 if not _is_valid_cyberlurch_digest_record(d):
                     continue
@@ -2995,10 +3066,7 @@ def main() -> None:
                 if report_mode == "weekly" and pub >= now - timedelta(days=7):
                     selected.append(d)
                 elif report_mode == "monthly":
-                    mk = determine_monthly_rollup_month(datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME", ""), os.getenv("ROLLUP_MONTH_OVERRIDE"))
-                    monthly_digest_period_start = f"{mk}-01"
-                    monthly_digest_period_end = f"{mk}-31"
-                    if pub.astimezone(STO).strftime("%Y-%m") == mk:
+                    if pub.astimezone(STO).strftime("%Y-%m") == cyberlurch_monthly_target_month:
                         selected.append(d)
             selected = sorted(selected, key=lambda x: _parse_iso_utc(str(x.get("published_at") or "")) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
             digest_store_selected_total = len(selected)
@@ -3020,6 +3088,17 @@ def main() -> None:
                     digest_store_collection_skipped_due_to_primary = True
                     print(f"[digest-store] {report_mode} using {len(selected)} digest records as primary source; skipping fresh collection.")
             else:
+                if report_mode == "monthly" and not monthly_audit_collection_allowed:
+                    cyberlurch_monthly_delivery_blocked_reason = "persisted_source_material_unavailable"
+                    print(
+                        "[cyberlurch-monthly] BLOCKED Monthly: persisted source material unavailable "
+                        f"target_month={cyberlurch_monthly_target_month} "
+                        f"digest_store_path={cyberlurch_digest_state_path} matching_records_total=0"
+                    )
+                    raise RuntimeError(
+                        "Cyberlurch Monthly blocked: no valid persisted digest items for "
+                        f"target_month={cyberlurch_monthly_target_month}"
+                    )
                 weekly_digest_fallback_collection_used = report_mode == "weekly"
                 monthly_digest_fallback_collection_used = report_mode == "monthly"
                 digest_store_collection_fallback_used = True
@@ -5493,6 +5572,16 @@ def main() -> None:
             "digest_store_collection_skipped_due_to_primary": digest_store_collection_skipped_due_to_primary,
             "digest_store_collection_fallback_used": digest_store_collection_fallback_used,
             "digest_store_collection_supplement_used": digest_store_collection_supplement_used,
+            "cyberlurch_monthly_source_mode": "persisted_digest" if report_mode == "monthly" and digest_store_used_as_primary else "live_collection",
+            "cyberlurch_monthly_target_month": cyberlurch_monthly_target_month,
+            "cyberlurch_monthly_digest_records_matching_total": monthly_digest_items_total,
+            "cyberlurch_monthly_live_collection_used": monthly_digest_fallback_collection_used,
+            "cyberlurch_monthly_supplement_collection_used": digest_store_collection_supplement_used if report_mode == "monthly" else False,
+            "cyberlurch_monthly_rollup_write_attempted": cyberlurch_monthly_rollup_write_attempted,
+            "cyberlurch_monthly_rollup_write_verified": cyberlurch_monthly_rollup_write_verified,
+            "cyberlurch_monthly_production_delivery": cyberlurch_monthly_production_delivery,
+            "cyberlurch_monthly_delivery_blocked_reason": cyberlurch_monthly_delivery_blocked_reason,
+            "cyberlurch_monthly_generation_error_text_removed_total": cyberlurch_monthly_generation_error_text_removed_total,
         }
         _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
 
@@ -5581,7 +5670,7 @@ def main() -> None:
         (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower() == "schedule"
         or (os.getenv("EMAIL_MODE", "") or "").strip().lower() == "real"
     )
-    if report_mode == "monthly" and (not is_cybermed_run or aggregate_state_write):
+    if report_mode == "monthly" and aggregate_state_write:
         try:
             if is_cybermed_run and not cybermed_monthly_coverage.get("coverage_complete", False):
                 raise RuntimeError(
@@ -5608,6 +5697,11 @@ def main() -> None:
                 top_items=rollup_items,
                 max_bullets=8,
             )
+            if report_key.strip().lower() == "cyberlurch":
+                executive_summary, rollup_items, removed = _sanitize_new_cyberlurch_monthly_rollup(
+                    executive_summary, rollup_items
+                )
+                cyberlurch_monthly_generation_error_text_removed_total += removed
             extra_fields = None
             if report_key.strip().lower() == "cyberlurch":
                 tcounts = Counter(str(it.get("topic_primary") or "Other") for it in rollup_items)
@@ -5671,20 +5765,24 @@ def main() -> None:
                     rollups_state,
                     boundary="monthly_rollups",
                 )
+            if report_key.strip().lower() == "cyberlurch":
+                cyberlurch_monthly_rollup_write_attempted = True
             save_rollups_state(rollups_state_path, rollups_state)
-            if is_cybermed_run:
+            if is_cybermed_run or report_key.strip().lower() == "cyberlurch":
                 verified_rollups = load_rollups_state(rollups_state_path, create_if_missing=False)
                 if not any(
                     str(entry.get("month") or "") == month_key
                     for entry in (verified_rollups.get("reports", {}).get(report_key, []) or [])
                     if isinstance(entry, dict)
                 ):
-                    raise RuntimeError("saved Cybermed Monthly rollup could not be verified")
+                    raise RuntimeError(f"saved {report_key} Monthly rollup could not be verified")
+                if report_key.strip().lower() == "cyberlurch":
+                    cyberlurch_monthly_rollup_write_verified = True
         except Exception as e:
-            if is_cybermed_run:
-                raise RuntimeError("Cybermed Monthly delivery blocked: rollup persistence failed") from e
+            if is_cybermed_run or report_key.strip().lower() == "cyberlurch":
+                raise RuntimeError(f"{report_key} Monthly delivery blocked: rollup persistence failed") from e
             print(f"[rollups] WARN: failed to persist monthly rollup: {e!r}")
-    elif report_mode == "monthly" and is_cybermed_run:
+    elif report_mode == "monthly":
         print("[rollups] aggregate audit/test mode: production rollup state write skipped")
 
     if report_key.strip().lower() == "cyberlurch" and report_mode == "daily":
@@ -5964,6 +6062,12 @@ def main() -> None:
                 "cybermed_digest_backfill_write_skipped_reason": str(skip_reason or ""),
             })
     if report_key.strip().lower() == "cyberlurch":
+        if report_mode == "monthly":
+            extra_counts.update({
+                "cyberlurch_monthly_rollup_write_attempted": cyberlurch_monthly_rollup_write_attempted,
+                "cyberlurch_monthly_rollup_write_verified": cyberlurch_monthly_rollup_write_verified,
+                "cyberlurch_monthly_generation_error_text_removed_total": cyberlurch_monthly_generation_error_text_removed_total,
+            })
         if is_cyberlurch_daily:
             detailed_keys = [str(x.get("id") or x.get("url") or x.get("title") or "") for x in report_items]
             final_counts = diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.to_dict()
@@ -6087,6 +6191,15 @@ def main() -> None:
             cybermed_diagnostics_payload.update(cybermed_weekly_diag)
             _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
             _raise_cybermed_digest_only_empty_guard(report_mode, guard_reason)
+
+    if report_key.strip().lower() == "cyberlurch" and report_mode == "monthly":
+        email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
+        event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
+        if event_name == "workflow_dispatch" and email_mode == "none":
+            print("[email] Cyberlurch Monthly email disabled (manual EMAIL_MODE=none).")
+            return
+        if cyberlurch_monthly_production_delivery and not cyberlurch_monthly_rollup_write_verified:
+            raise RuntimeError("Cyberlurch Monthly delivery blocked: rollup persistence was not verified")
 
     try:
         email_start = time.monotonic()
