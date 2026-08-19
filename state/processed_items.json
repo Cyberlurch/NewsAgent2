@@ -4,14 +4,14 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "ALiEM": {
-      "consecutive_failures": 82,
+      "consecutive_failures": 83,
       "disabled_until_utc": "2026-05-27T07:02:26+00:00",
       "last_health": "other",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "APSF Newsletter": {
       "consecutive_failures": 7,
@@ -24,8 +24,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "CanadiEM": {
       "consecutive_failures": 14,
@@ -37,80 +37,80 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "Critical Care Practitioner": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "Critical Care Reviews": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-paper-of-the-day-v1",
       "last_health": "ok_html",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "Deranged Physiology": {
-      "consecutive_failures": 1,
+      "consecutive_failures": 0,
       "disabled_until_utc": "",
-      "last_health": "other",
-      "last_ok_utc": "2026-08-17T04:22:35+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_health": "ok_rss",
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "Don't Forget the Bubbles": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "EM Cases": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "EMCrit": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "EMOttawa Blog": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "First10EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "Intensive Care Network": {
-      "consecutive_failures": 112,
+      "consecutive_failures": 113,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "JournalFeed (Critical Care)": {
-      "consecutive_failures": 5,
+      "consecutive_failures": 6,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-article-a-day-v1",
-      "last_health": "other",
+      "last_health": "parse_failed",
       "last_ok_utc": "2026-08-07T05:15:19+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "LITFL": {
       "consecutive_failures": 4,
@@ -123,29 +123,29 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "OpenAnesthesia": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "PulmCCM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "REBEL EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "REBEL EM Critical Care": {
       "consecutive_failures": 6,
@@ -154,73 +154,73 @@
       "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "SMACC": {
-      "consecutive_failures": 112,
+      "consecutive_failures": 113,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "St Emlyn's": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "Taming the SRU": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-squarespace-rss-v1",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "The Anaesthesia Collective": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "The Bottom Line": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "The Resus Room": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "Thinking Critical Care": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "WFSA Anaesthesia Tutorial of the Week": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     },
     "emDocs": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-08-18T04:18:21+00:00",
-      "last_seen_utc": "2026-08-18T04:18:21+00:00"
+      "last_ok_utc": "2026-08-19T04:18:40+00:00",
+      "last_seen_utc": "2026-08-19T04:18:40+00:00"
     }
   },
   "last_successful_daily_run_utc": "2026-08-19T04:10:09+00:00",
   "last_successful_daily_run_utc_by_report": {
-    "cybermed": "2026-08-18T04:19:54+00:00"
+    "cybermed": "2026-08-19T04:19:45+00:00"
   },
   "reports": {
     "cyberlurch": {
@@ -6394,6 +6394,12 @@
             "title": "A Study in Priors Part 2",
             "url": "https://emcrit.org/emnerd/a-study-in-priors-part-2/"
           },
+          "https://emcrit.org/emnerd/the-case-of-the-neutral-documents-part-2/": {
+            "channel": "EMCrit",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "The Case of the Neutral Documents Part 2",
+            "url": "https://emcrit.org/emnerd/the-case-of-the-neutral-documents-part-2/"
+          },
           "https://emcrit.org/emnerd/the-case-of-the-redacted-ledger/": {
             "channel": "EMCrit",
             "processed_at_utc": "2026-08-13T05:22:37+00:00",
@@ -8807,11 +8813,186 @@
             "screened_at_utc": "2026-08-18T04:19:54+00:00",
             "title": "Production emissions, active pharmaceutical ingredient use and persistent pollution of volatile anaesthetic use.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42608350/"
+          },
+          "42610569": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Discordant Estimated Glomerular Filtration Rates: Reply.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42610569/"
+          },
+          "42610573": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Nitric Oxide and Kidney Injury after Heart Surgery: Reply.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42610573/"
+          },
+          "42610574": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Discordant Estimated Glomerular Filtration Rates: Comment.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42610574/"
+          },
+          "42610581": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Nitric Oxide and Kidney Injury after Heart Surgery: Comment.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42610581/"
+          },
+          "42610583": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Peripartum Cardiac Arrest during Anesthetic Care: Reply.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42610583/"
+          },
+          "42610585": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Peripartum Cardiac Arrest during Anesthetic Care: Comment.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42610585/"
+          },
+          "42610589": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Pain during Cesarean Delivery: Comment.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42610589/"
+          },
+          "42610591": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "sent_overview_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "A National Delphi Study to Inform Modernization of Anesthesiology Residency Case Log Requirements.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42610591/"
+          },
+          "42610592": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Pain during Cesarean Delivery: Reply.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42610592/"
+          },
+          "42611192": {
+            "channel": "PubMed: Intensive Care Medicine",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "sent_overview_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "ARDS management beyond the guidelines: a practical physiology-based approach to individualized care.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42611192/"
+          },
+          "42611595": {
+            "channel": "PubMed: Critical Care Medicine",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "The Critical Illness Volume-Outcome Relationship: Updates and Implications.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42611595/"
+          },
+          "42611642": {
+            "channel": "PubMed: Critical Care Medicine",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "sent_overview_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Association of ICU Room Characteristics With Mortality and Length of Stay.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42611642/"
+          },
+          "42612084": {
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Correction to: Study Design Consideration in Inhaled Corticosteroid Dose and Adverse Events.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42612084/"
+          },
+          "42612654": {
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Edinburgh Festival Fringe: \"Cancer isn't pretty-and neither is opera\".",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42612654/"
+          },
+          "42612655": {
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Mepolizumab effectiveness for patients with severe, uncontrolled chronic rhinosinusitis with nasal polyps in Italy (MEPOREAL): a real-life, multicentre, phase 4 trial.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42612655/"
+          },
+          "42612865": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "SpO2 during CPR: from distraction towards a physiological goal.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42612865/"
+          },
+          "42612901": {
+            "channel": "PubMed: CHEST",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "sent_deep_dive_at_utc": "2026-08-19T04:19:45+00:00",
+            "sent_overview_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Induction Agents for Tracheal Intubation of Critically Ill Patients: A Systematic Review and Network Meta-Analysis of Randomized Controlled Trials.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42612901/"
+          },
+          "42612902": {
+            "channel": "PubMed: CHEST",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Thoracic Ultrasound in Pleural Effusion: A Bedside Practical Approach Introduction.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42612902/"
+          },
+          "42612903": {
+            "channel": "PubMed: CHEST",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "sent_overview_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Exploring the role of autoimmune conditions in acute interstitial pneumonia.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42612903/"
+          },
+          "42613200": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Corrigendum to 'European Malignant Hyperthermia Group 2025 guidelines for the investigation of malignant hyperthermia susceptibility' (Br J Anaesth 2026; 136: 653-661).",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42613200/"
+          },
+          "42613201": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Impact of superficial and deep parasternal blocks on recovery after cardiac surgery with sternotomy. Response to Br J Anaesth 2025; 135: 1856-7.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42613201/"
+          },
+          "42613202": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Assessment of cardiopulmonary bypass-induced platelet disorders using the Quantra Qplus system: the prospective single centre PLAQUA study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42613202/"
+          },
+          "42613203": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Impact of superficial and deep parasternal blocks on recovery after cardiac surgery with sternotomy. Responses to Br J Anaesth 2026; 136: 745-6 and 136: 406-7.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42613203/"
+          },
+          "42613204": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-08-19T04:19:45+00:00",
+            "screened_at_utc": "2026-08-19T04:19:45+00:00",
+            "sent_overview_at_utc": "2026-08-19T04:19:45+00:00",
+            "title": "Assessing the carbon footprint of inhalation anaesthesia, total intravenous anaesthesia, and spinal anaesthesia for a single surgical procedure: a prospective observational study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42613204/"
           }
         }
       }
     }
   },
-  "updated_at_utc": "2026-08-19T04:10:09+00:00",
+  "updated_at_utc": "2026-08-19T04:19:45+00:00",
   "version": 1
 }
