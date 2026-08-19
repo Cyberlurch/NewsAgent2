@@ -28,7 +28,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: cybermed-weekly-backfill-${{ github.ref }}
+  group: newsagent2-state-writers-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
