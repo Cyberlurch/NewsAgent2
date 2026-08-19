@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+from copy import deepcopy
 from datetime import datetime, timezone
 import re
 from typing import Any, Dict, List, Sequence
@@ -12,6 +13,99 @@ from zoneinfo import ZoneInfo
 
 STO = ZoneInfo("Europe/Stockholm")
 DEFAULT_ROLLUPS_PATH = "state/rollups.json"
+
+_PROVIDER_FAILURE_RE = re.compile(
+    r"(?:RateLimitError|APIConnectionError|AuthenticationError|BadRequestError|"
+    r"InternalServerError|insufficient_quota|credit_balance_exhausted|no credits remaining|"
+    r"provider[ _-]?error|(?:openai|api)[ _/-]?error(?:[ _-]?code)?|"
+    r"HTTP\s*(?:429|5\d\d)\b)",
+    re.IGNORECASE,
+)
+
+
+def contains_provider_failure_text(value: Any) -> bool:
+    """Recognize narrow provider/API failures without matching ordinary 'error'."""
+    return bool(_PROVIDER_FAILURE_RE.search(str(value or "")))
+
+
+def sanitize_cyberlurch_generated_fields(
+    executive_summary: Sequence[Any], items: Sequence[Dict[str, Any]]
+) -> tuple[List[str], List[Dict[str, Any]], int]:
+    """Return a sanitized copy of generated Monthly fields and a removal count."""
+    removed = 0
+    safe_items: List[Dict[str, Any]] = []
+    for original in items:
+        item = deepcopy(original)
+        for field in ("bottom_line", "transcript_full_summary_short", "summary"):
+            if item.get(field) and contains_provider_failure_text(item[field]):
+                item[field] = ""
+                removed += 1
+        safe_items.append(item)
+    safe_summary = []
+    for line in executive_summary or []:
+        if contains_provider_failure_text(line):
+            removed += 1
+        elif str(line).strip():
+            safe_summary.append(str(line).strip())
+    if not safe_summary:
+        candidates: List[str] = []
+        for item in safe_items:
+            title = str(item.get("title") or "").strip()
+            bottom = str(item.get("bottom_line") or "").strip()
+            if title:
+                candidates.append(f"{title} — {bottom}" if bottom else title)
+        safe_summary = candidates[:3] or ["No safe persisted monthly summary was available."]
+    return safe_summary, safe_items, removed
+
+
+def prepare_yearly_rollups(
+    rollups: Sequence[Dict[str, Any]], target_year: int, *, sanitize_cyberlurch: bool = True
+) -> tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """Select and sanitize one persisted Monthly record per calendar month, purely."""
+    expected = [f"{target_year}-{month:02d}" for month in range(1, 13)]
+    candidates = [r for r in rollups if isinstance(r, dict) and str(r.get("month") or "") in expected]
+    selected: Dict[str, Dict[str, Any]] = {}
+    for raw in candidates:
+        month = str(raw.get("month") or "")
+        current = selected.get(month)
+        if current is None or _parse_generated_at(str(raw.get("generated_at") or "")) >= _parse_generated_at(str(current.get("generated_at") or "")):
+            selected[month] = raw
+    prepared: List[Dict[str, Any]] = []
+    removed_total = sanitized_months = 0
+    for month in expected:
+        if month not in selected:
+            continue
+        entry = deepcopy(selected[month])
+        if sanitize_cyberlurch:
+            summary, top_items, removed = sanitize_cyberlurch_generated_fields(
+                entry.get("executive_summary") or [], entry.get("top_items") or []
+            )
+            entry["executive_summary"] = summary
+            entry["top_items"] = top_items
+            representative, rep_items, rep_removed = sanitize_cyberlurch_generated_fields(
+                [], entry.get("representative_items") or []
+            )
+            del representative
+            entry["representative_items"] = rep_items
+            removed += rep_removed
+            for field in ("topic_summaries", "topic_trajectories", "evergreen_highlights"):
+                values = entry.get(field) or []
+                safe = [deepcopy(v) for v in values if not contains_provider_failure_text(v)]
+                removed += len(values) - len(safe)
+                entry[field] = safe
+            removed_total += removed
+            sanitized_months += int(removed > 0)
+        prepared.append(entry)
+    found = [m for m in expected if m in selected]
+    missing = [m for m in expected if m not in selected]
+    return prepared, {
+        "target_year": target_year, "expected_months": expected, "found_months": found,
+        "missing_months": missing, "coverage_complete": found == expected,
+        "monthly_rollups_loaded_total": len(candidates),
+        "duplicate_monthly_rollups_suppressed_total": len(candidates) - len(selected),
+        "generation_error_text_removed_total": removed_total,
+        "months_with_sanitized_content_total": sanitized_months,
+    }
 
 
 def _utc_now_iso() -> str:
@@ -632,7 +726,7 @@ def render_yearly_markdown(
     is_cyberlurch = "cyberlurch" in (report_title or "").strip().lower()
     is_cybermed = "cybermed" in (report_title or "").strip().lower()
     if is_cyberlurch:
-        return render_cyberlurch_yearly_analysis(rollups, target_year=year, generated_at=datetime.now(tz=STO))
+        return render_cyberlurch_yearly_analysis(rollups, target_year=year, generated_at=datetime.now(tz=STO), diagnostics=diagnostics)
     now_str = datetime.now(tz=STO).strftime("%Y-%m-%d %H:%M") + (" Uhr" if is_de else "")
 
     def _month_label(month_value: str) -> str:

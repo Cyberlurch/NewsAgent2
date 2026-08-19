@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import sys
+import pytest
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 
@@ -42,7 +43,7 @@ def test_year_in_review_target_year_selection():
     )
 
 
-def test_yearly_scheduled_empty_skips_email(monkeypatch, tmp_path):
+def test_yearly_scheduled_empty_blocks_email(monkeypatch, tmp_path):
     calls = []
     monkeypatch.setenv("GITHUB_EVENT_NAME", "schedule")
     monkeypatch.delenv("YEAR_IN_REVIEW_YEAR", raising=False)
@@ -51,17 +52,14 @@ def test_yearly_scheduled_empty_skips_email(monkeypatch, tmp_path):
     rollups_path = tmp_path / "rollups.json"
     report_dir = tmp_path / "reports"
 
-    main._run_yearly_report(
-        rollups_state_path=str(rollups_path),
-        report_key="cyberlurch",
-        base_report_title="The Cyberlurch Report",
-        base_report_subject="The Cyberlurch Report",
-        report_language="en",
-        report_dir=str(report_dir),
-    )
+    with pytest.raises(RuntimeError, match="cyberlurch_yearly_incomplete_coverage"):
+        main._run_yearly_report(
+            rollups_state_path=str(rollups_path), report_key="cyberlurch",
+            base_report_title="The Cyberlurch Report", base_report_subject="The Cyberlurch Report",
+            report_language="en", report_dir=str(report_dir),
+        )
 
     assert calls == []
-    assert not list(report_dir.glob("*.md"))
 
 
 def test_yearly_manual_empty_still_sends(monkeypatch, tmp_path):
