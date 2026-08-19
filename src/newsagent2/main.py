@@ -39,6 +39,7 @@ from .cybermed_digest_store import (
     save_cybermed_weekly_digest_store,
     select_cybermed_daily_digests_for_week,
     select_cybermed_weekly_digests_for_month,
+    prepare_cybermed_monthly_source_digests,
     summarize_cybermed_weekly_digest_inputs,
     aggregate_cybermed_digest_inputs,
     dedupe_weekly_digest_items,
@@ -646,7 +647,7 @@ def determine_monthly_rollup_month(now_sto: datetime, event_name: str, override_
     if override and re.match(r"^\d{4}-\d{2}$", override):
         return override
     event = (event_name or "").strip().lower()
-    if event == "schedule" and now_sto.day == 1:
+    if event == "schedule" and (now_sto.day == 1 or (now_sto.weekday() == 4 and now_sto.day <= 7)):
         prev = (now_sto.replace(day=1) - timedelta(days=1))
         return prev.strftime("%Y-%m")
     return now_sto.strftime("%Y-%m")
@@ -2584,6 +2585,7 @@ def main() -> None:
     cybermed_weekly_qa_fixture_safety_passed = False
     cybermed_weekly_qa_fixture_skipped_reason = ""
     cybermed_weekly_qa_fixture_path = ""
+    cybermed_monthly_coverage: Dict[str, Any] = {}
     if is_cybermed_run and report_mode in {"weekly", "monthly"}:
         cybermed_weekly_digest_only = report_mode == "weekly"
         cybermed_monthly_digest_only = report_mode == "monthly"
@@ -2674,7 +2676,7 @@ def main() -> None:
             cybermed_expected_period_end = (next_month_dt - timedelta(days=1)).strftime("%Y-%m-%d")
             monthly_digest_period_start = cybermed_expected_period_start
             monthly_digest_period_end = cybermed_expected_period_end
-            daily = select_cybermed_weekly_digests_for_month(store, month_key)
+            daily, cybermed_monthly_coverage = prepare_cybermed_monthly_source_digests(store, month_key)
         else:
             today_sto = datetime.now(tz=STO).date()
             week_start, week_end = cybermed_weekly_reporting_period(today_sto)
@@ -2869,6 +2871,8 @@ def main() -> None:
             "cybermed_weekly_from_daily_digests_enabled": cybermed_weekly_digest_only,
             "cybermed_monthly_from_daily_digests_enabled": False,
             "cybermed_monthly_from_weekly_digests_enabled": cybermed_monthly_digest_only,
+            "cybermed_monthly_coverage": cybermed_monthly_coverage,
+            "cybermed_monthly_coverage_complete": cybermed_monthly_coverage.get("coverage_complete", True),
             "cybermed_aggregate_source_cadence": source_cadence,
             "cybermed_weekly_digest_only_mode": cybermed_weekly_digest_only,
             "cybermed_weekly_collection_skipped": True,
@@ -5547,8 +5551,20 @@ def main() -> None:
                 weekly_store_diag["cybermed_weekly_store_written"] = True
         cybermed_weekly_diag.update(weekly_store_diag)
 
-    if report_mode == "monthly":
+    aggregate_state_write = (
+        (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower() == "schedule"
+        or (os.getenv("EMAIL_MODE", "") or "").strip().lower() == "real"
+    )
+    if report_mode == "monthly" and (not is_cybermed_run or aggregate_state_write):
         try:
+            if is_cybermed_run and not cybermed_monthly_coverage.get("coverage_complete", False):
+                raise RuntimeError(
+                    "Cybermed Monthly delivery blocked before rollup persistence: "
+                    f"target_month={cybermed_monthly_coverage.get('target_month')} "
+                    f"expected={cybermed_monthly_coverage.get('expected_weekly_periods')} "
+                    f"missing={cybermed_monthly_coverage.get('missing_weekly_periods')} "
+                    f"unsafe={cybermed_monthly_coverage.get('unsafe_boundary_items')}"
+                )
             rollups_state = load_rollups_state(rollups_state_path)
             override = (os.getenv("ROLLUP_MONTH_OVERRIDE") or "").strip()
             month_key = determine_monthly_rollup_month(datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME", ""), override)
@@ -5630,8 +5646,20 @@ def main() -> None:
                     boundary="monthly_rollups",
                 )
             save_rollups_state(rollups_state_path, rollups_state)
+            if is_cybermed_run:
+                verified_rollups = load_rollups_state(rollups_state_path, create_if_missing=False)
+                if not any(
+                    str(entry.get("month") or "") == month_key
+                    for entry in (verified_rollups.get("reports", {}).get(report_key, []) or [])
+                    if isinstance(entry, dict)
+                ):
+                    raise RuntimeError("saved Cybermed Monthly rollup could not be verified")
         except Exception as e:
+            if is_cybermed_run:
+                raise RuntimeError("Cybermed Monthly delivery blocked: rollup persistence failed") from e
             print(f"[rollups] WARN: failed to persist monthly rollup: {e!r}")
+    elif report_mode == "monthly" and is_cybermed_run:
+        print("[rollups] aggregate audit/test mode: production rollup state write skipped")
 
     if report_key.strip().lower() == "cyberlurch" and report_mode == "daily":
         dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
@@ -6012,6 +6040,15 @@ def main() -> None:
 
     if cybermed_digest_only_mode:
         guard_reason = _cybermed_digest_only_empty_guard_reason(report_mode, cybermed_weekly_diag)
+        if report_mode == "monthly" and aggregate_state_write and not cybermed_monthly_coverage.get("coverage_complete", False):
+            guard_reason = "incomplete_or_unsafe_monthly_coverage"
+            print(
+                "[cybermed-monthly-coverage] Monthly delivery blocked "
+                f"target_month={cybermed_monthly_coverage.get('target_month')} "
+                f"expected={cybermed_monthly_coverage.get('expected_weekly_periods')} "
+                f"missing={cybermed_monthly_coverage.get('missing_weekly_periods')} "
+                f"unsafe={cybermed_monthly_coverage.get('unsafe_boundary_items')}"
+            )
         if not guard_reason and int(cybermed_weekly_diag.get("cybermed_weekly_deep_dive_placeholder_violations_total", 0) or 0) > 0:
             guard_reason = "deep_dive_placeholder_violation"
         if _cybermed_digest_only_requires_empty_send_guard() and guard_reason:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import copy
 import os
 import re
 from datetime import date, datetime, timedelta
@@ -221,6 +222,81 @@ def select_cybermed_weekly_digests_for_month(store: dict, month_key: str) -> lis
     return sorted(selected, key=lambda row: str(row.get("period_start") or ""))
 
 
+def prepare_cybermed_monthly_source_digests(store: dict, month_key: str) -> tuple[list[dict], dict]:
+    """Return a calendar-month-safe view of persisted Weekly digests.
+
+    Interior legacy weeks are safe as a unit.  Boundary weeks are copied and
+    trimmed using explicit Daily provenance; publication dates are never used.
+    """
+    try:
+        month_start = datetime.strptime(f"{month_key}-01", "%Y-%m-%d").date()
+    except ValueError as exc:
+        raise ValueError("month_key must use YYYY-MM") from exc
+    next_month = (month_start.replace(day=28) + timedelta(days=4)).replace(day=1)
+    month_end = next_month - timedelta(days=1)
+    first_monday = month_start - timedelta(days=month_start.weekday())
+    if first_monday + timedelta(days=4) < month_start:
+        first_monday += timedelta(days=7)
+    expected = []
+    cursor = first_monday
+    while cursor <= month_end:
+        expected.append((cursor, cursor + timedelta(days=4)))
+        cursor += timedelta(days=7)
+    expected_keys = [f"{start}..{end}" for start, end in expected]
+    by_period = {
+        (str(row.get("period_start") or ""), str(row.get("period_end") or "")): row
+        for row in store.get("digests", []) if isinstance(row, dict)
+    }
+    found: list[str] = []
+    missing: list[str] = []
+    boundary: list[str] = []
+    unsafe: list[dict] = []
+    selected: list[dict] = []
+    for start, end in expected:
+        label = f"{start}..{end}"
+        row = by_period.get((str(start), str(end)))
+        if row is None:
+            missing.append(label)
+            continue
+        found.append(label)
+        crosses = start < month_start or end > month_end
+        if not crosses:
+            selected.append(copy.deepcopy(row))
+            continue
+        boundary.append(label)
+        cloned = copy.deepcopy(row)
+        kept: list[dict] = []
+        removed_keys: set[tuple[str, str]] = set()
+        for kind in ("pubmed", "foamed"):
+            output = []
+            for item in ((cloned.get("items") or {}).get(kind) or []):
+                dates = [str(value) for value in (item.get("source_daily_run_dates") or []) if _valid_date(str(value))]
+                if not dates:
+                    unsafe.append({"weekly_period": label, "item": dedupe_key(item)})
+                    removed_keys.update(_match_keys(item))
+                elif any(month_start <= datetime.strptime(value, "%Y-%m-%d").date() <= month_end for value in dates):
+                    output.append(item)
+                    kept.append(item)
+                else:
+                    removed_keys.update(_match_keys(item))
+            cloned.setdefault("items", {})[kind] = output
+        kept_keys = {key for item in kept for key in _match_keys(item)}
+        cloned["deep_dives"] = [d for d in (cloned.get("deep_dives") or []) if any(key in kept_keys for key in _match_keys(d))]
+        kept_ids = {str(i.get(k) or "").strip().lower() for i in kept for k in ("item_id", "id", "pmid", "url") if str(i.get(k) or "").strip()}
+        cloned["top_picks"] = [p for p in (cloned.get("top_picks") or []) if (str(p).strip().lower() in kept_ids if not isinstance(p, dict) else any(key in kept_keys for key in _match_keys(p)))]
+        selected.append(cloned)
+    diagnostics = {
+        "target_month": month_key,
+        "expected_weekly_periods": expected_keys,
+        "found_weekly_periods": found,
+        "missing_weekly_periods": missing,
+        "boundary_weekly_periods": boundary,
+        "unsafe_boundary_items": unsafe,
+        "coverage_complete": not missing and not unsafe,
+    }
+    return selected, diagnostics
+
+
 def make_cybermed_weekly_digest(
     *,
     period_start: str,
@@ -389,12 +465,15 @@ def dedupe_weekly_digest_items(items: List[Dict[str, Any]]) -> tuple[List[Dict[s
         if prev is None:
             winners[key] = it
             continue
+        provenance = sorted({str(v) for row in (prev, it) for v in (row.get("source_daily_run_dates") or []) if _valid_date(str(v))})
         if _winner_score(it) > _winner_score(prev):
             winners[key] = it
             reasons["replaced_with_stronger_item"] = reasons.get("replaced_with_stronger_item", 0) + 1
         else:
             reasons["kept_existing_stronger_item"] = reasons.get("kept_existing_stronger_item", 0) + 1
         suppressed += 1
+        if provenance:
+            winners[key]["source_daily_run_dates"] = provenance
     return list(winners.values()), suppressed, reasons
 
 
@@ -417,9 +496,16 @@ def aggregate_cybermed_digest_inputs(
     foamed: list[dict] = []
     deep_dives: list[dict] = []
     for digest in digests:
+        run_date = str(digest.get("run_date") or "")
         items = digest.get("items") or {}
-        pubmed.extend(row for row in (items.get("pubmed") or []) if isinstance(row, dict))
-        foamed.extend(row for row in (items.get("foamed") or []) if isinstance(row, dict))
+        for target, rows in ((pubmed, items.get("pubmed") or []), (foamed, items.get("foamed") or [])):
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                annotated = dict(row)
+                if _valid_date(run_date):
+                    annotated["source_daily_run_dates"] = sorted(set(annotated.get("source_daily_run_dates") or []) | {run_date})
+                target.append(annotated)
         deep_dives.extend(row for row in (digest.get("deep_dives") or []) if isinstance(row, dict))
 
     deduped, suppressed, reasons = dedupe_weekly_digest_items(pubmed + foamed)

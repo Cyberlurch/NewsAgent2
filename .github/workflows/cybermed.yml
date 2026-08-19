@@ -27,6 +27,10 @@ on:
         description: "Optional target year for Year in Review"
         required: false
         type: string
+      rollup_month_override:
+        description: "Optional Monthly target month (YYYY-MM)"
+        required: false
+        type: string
       email_mode:
         description: "Email behavior for manual runs"
         default: none
@@ -129,7 +133,7 @@ jobs:
           if [ "$schedule_expr" != "$expected_cron" ]; then
             should_run=false
           fi
-          if [ "$dow" -ge 6 ] && [ "$dom" != "01" ]; then
+          if [ "$dow" -ge 6 ]; then
             should_run=false
           fi
           echo "should_run=$should_run" >> "$GITHUB_OUTPUT"
@@ -158,7 +162,6 @@ jobs:
             month=$(TZ=Europe/Stockholm date +%m)
             planned=()
             if [ "$dom" = "01" ]; then
-              planned+=("monthly")
               if [ "$month" = "01" ]; then
                 planned+=("yearly")
               fi
@@ -168,10 +171,17 @@ jobs:
             fi
             if [ "$dow" = "5" ]; then
               planned+=("weekly")
+              if [ "$dom" -le 7 ]; then
+                planned+=("monthly")
+              fi
             fi
             modes="${planned[*]}"
           fi
-          echo "skip=false" >> "$GITHUB_OUTPUT"
+          if [ -z "$modes" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
           echo "modes=$modes" >> "$GITHUB_OUTPUT"
           echo "Cybermed run plan: $modes"
 
@@ -203,6 +213,7 @@ jobs:
           RECIPIENTS_CONFIG_JSON: ${{ (github.event_name != 'workflow_dispatch' || (inputs.email_mode || 'none') == 'real') && secrets.RECIPIENTS_CONFIG_JSON || '' }}
           TEST_RECIPIENTS_CONFIG_JSON: ${{ github.event_name == 'workflow_dispatch' && (inputs.email_mode || 'none') == 'test' && secrets.TEST_RECIPIENTS_CONFIG_JSON || '' }}
           YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && inputs.year_in_review_year || '' }}
+          ROLLUP_MONTH_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && inputs.rollup_month_override || '' }}
         run: |
           set -euo pipefail
           : > "$RUN_LOG_PATH"
