@@ -85,11 +85,11 @@ jobs:
 
       # E-Mail (SMTP)
       SEND_EMAIL: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.email_mode || 'none') == 'none' && '0' || (vars.SEND_EMAIL || '1') }}
-      EMAIL_FROM: ${{ secrets.EMAIL_FROM || '' }}
-      SMTP_HOST: ${{ secrets.SMTP_HOST }}
-      SMTP_PORT: ${{ secrets.SMTP_PORT }}
-      SMTP_USER: ${{ secrets.SMTP_USER }}
-      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      EMAIL_FROM: ${{ secrets.CYBERLURCH_EMAIL_FROM }}
+      SMTP_HOST: ${{ secrets.CYBERLURCH_SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.CYBERLURCH_SMTP_PORT }}
+      SMTP_USER: ${{ secrets.CYBERLURCH_SMTP_USER }}
+      SMTP_PASS: ${{ secrets.CYBERLURCH_SMTP_PASS }}
 
       # PubMed / NCBI (optional)
       NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
@@ -245,6 +245,27 @@ jobs:
           echo "run_modes=$run_modes" >> "$GITHUB_OUTPUT"
           echo "run_which_report=$run_which_report" >> "$GITHUB_OUTPUT"
           printf 'Run plan: modes=[%s] which_report=%s\n' "$run_modes" "$run_which_report"
+
+      - name: Validate Cyberlurch SMTP configuration
+        if: steps.compute_plan.outputs.run_skip != 'true'
+        run: |
+          set -euo pipefail
+          if [ "${SEND_EMAIL:-0}" != "1" ]; then
+            echo "Email sending is disabled; skipping Cyberlurch SMTP validation."
+            exit 0
+          fi
+
+          missing=()
+          for variable in EMAIL_FROM SMTP_HOST SMTP_PORT SMTP_USER SMTP_PASS; do
+            if [ -z "${!variable:-}" ]; then
+              missing+=("$variable")
+            fi
+          done
+          if [ "${#missing[@]}" -ne 0 ]; then
+            echo "Cyberlurch SMTP configuration is incomplete; missing runtime variables: ${missing[*]}" >&2
+            exit 1
+          fi
+          echo "Cyberlurch SMTP configuration is present."
 
       - name: Set up Python
         if: steps.compute_plan.outputs.run_skip != 'true'
