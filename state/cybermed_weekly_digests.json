@@ -4485,6 +4485,1200 @@
         "42622675",
         "42617837"
       ]
+    },
+    {
+      "cadence": "weekly",
+      "deep_dives": [
+        {
+          "bottom_line": "In this large randomized controlled trial, physiotherapist-led care for uncomplicated musculoskeletal conditions in the emergency department was found to be effective, safe, and cost-effective compared to usual physician- or nurse practitioner-led care, suggesting that physiotherapists can play a key role in improving emergency department efficiency and patient outcomes for these conditions.",
+          "clinical_interpretation": "",
+          "clinical_relevance_1_5": 3,
+          "comparator": "",
+          "deep_dive_markdown": "BOTTOM LINE: Physiotherapist-led care in the emergency department for uncomplicated musculoskeletal conditions reduces length of stay, is safe, and is cost-effective compared to usual care.\n\n- Study type: Open-label, pragmatic, randomized controlled trial with economic evaluation\n- Population/setting: Adults aged 18 years and older with uncomplicated musculoskeletal conditions presenting to five emergency departments in New South Wales, Australia\n- Intervention/exposure & comparator: Physiotherapist-led care versus usual physician-led or nurse practitioner-led care\n- Primary endpoints: Length of stay in the emergency department (time from arrival to discharge)\n- Key results: Mean length of stay was 2.4 hours in the intervention group versus 3.4 hours in the control group (difference -1.0 h, 95% CI -1.2 to -0.8); adverse events were similar between groups (6.6% vs 5.9%, p=0.72); intervention group had lower costs (-$35.1, 95% CI -69.0 to -1.7) and a 98.1% probability of being cost-effective.\n- Limitations:\n- Open-label design may introduce performance bias\n- Conducted only in New South Wales, Australia, which may limit generalizability\n- Why this matters: Implementing physiotherapist-led care in emergency departments can improve efficiency and reduce costs without compromising patient safety for musculoskeletal presentations.",
+          "deep_dive_reasons": [],
+          "doi": "",
+          "evidence_strength_label": "B",
+          "intervention_or_exposure": "",
+          "item_id": "42660158",
+          "journal": "Lancet (London, England)",
+          "key_results": "",
+          "key_secondary_results": "",
+          "limitations": "",
+          "pmid": "42660158",
+          "population_setting": "",
+          "practice_change_potential_1_5": 3,
+          "primary_endpoint": "",
+          "primary_result_direction": "",
+          "primary_result_significance": "",
+          "study_type": "",
+          "title": "Physiotherapist-led care for musculoskeletal conditions in the emergency department (RESHAP-ED): a randomised controlled trial with economic evaluation.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42660158/"
+        },
+        {
+          "bottom_line": "In this large prospective cohort study, adding CT-based body composition metrics (skeletal muscle area, muscle radiodensity, and subcutaneous fat radiodensity) to standard risk models improved prediction of 30-day postoperative cardiovascular events in patients undergoing major noncardiac surgery, suggesting these imaging biomarkers may enhance preoperative risk stratification.",
+          "clinical_interpretation": "",
+          "clinical_relevance_1_5": 2,
+          "comparator": "",
+          "deep_dive_markdown": "BOTTOM LINE: CT-derived body composition metrics enhance the prediction of postoperative cardiovascular events beyond conventional clinical predictors in patients undergoing major noncardiac surgery.\n\n- Study type: Prospective cohort study\n- Population/setting: Patients with cardiovascular disease or risk factors undergoing major noncardiac surgery in the multicenter PREVENGE-CB cohort and its Nanfang extension (N=1,594).\n- Intervention/exposure & comparator: Addition of CT-based body composition metrics (skeletal muscle area, muscle radiodensity, subcutaneous fat radiodensity) to standard clinical risk models versus standard clinical risk models alone.\n- Primary endpoints: Composite cardiovascular events within 30 days after surgery.\n- Key results: The addition of three CT-based body composition metrics improved discrimination for postoperative cardiovascular events over the Revised Cardiac Risk Index (ΔAUC = 0.136; 95% CI, 0.083 to 0.188), Gupta risk calculator (ΔAUC = 0.032; 95% CI, -0.002 to 0.065), and a refitted clinical model (ΔAUC = 0.035; 95% CI, 0.008 to 0.062); findings were validated in an independent cohort.\n- Limitations:\n- Potential generalizability limitations due to study population.\n- CT imaging may not be routinely available for all surgical candidates.\n- The study does not address cost-effectiveness or implementation feasibility.\n- Why this matters: Incorporating CT-based body composition analysis into preoperative assessment may improve cardiovascular risk stratification and guide perioperative management.",
+          "deep_dive_reasons": [
+            "guideline",
+            "strong_anesthesia_relevance"
+          ],
+          "doi": "10.1097/ALN.0000000000006213",
+          "evidence_strength_label": "B",
+          "intervention_or_exposure": "",
+          "item_id": "42329743",
+          "journal": "Anesthesiology",
+          "key_results": "",
+          "key_secondary_results": "",
+          "limitations": "",
+          "pmid": "42329743",
+          "population_setting": "",
+          "practice_change_potential_1_5": 3,
+          "primary_endpoint": "",
+          "primary_result_direction": "",
+          "primary_result_significance": "",
+          "study_type": "",
+          "title": "Computed Tomography-based Body Composition Assessment for Preoperative Cardiovascular Risk Prediction: A Prospective Cohort Study.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42329743/"
+        },
+        {
+          "bottom_line": "In this large, post hoc analysis of two clinical trials, intraoperative corticosteroids at antiemetic doses did not significantly reduce postoperative pulmonary complications in major surgery patients, though a modest improvement in oxygenation was observed; these findings suggest routine corticosteroid use for pulmonary protection is not supported.",
+          "clinical_interpretation": "",
+          "clinical_relevance_1_5": 2,
+          "comparator": "",
+          "deep_dive_markdown": "BOTTOM LINE: Intraoperative corticosteroid administration at antiemetic doses did not reduce postoperative pulmonary complications in adults undergoing major abdominal or thoracic surgery, though it modestly improved postoperative pulmonary gas exchange.\n\n- Study type: Post hoc analysis of two clinical trials\n- Population/setting: Adult patients undergoing major abdominal or thoracic surgeries across 30 hospitals (N=1963)\n- Intervention/exposure & comparator: Intraoperative corticosteroid administration at antiemetic doses versus no corticosteroid administration\n- Primary endpoints: Composite of postoperative pulmonary complications within 30 days after surgery\n- Key results: After weighting for confounders, corticosteroids were not associated with a significant reduction in postoperative pulmonary complications (OR 0.86, 95% CI 0.62-1.18, P=0.347); however, there was a modest improvement in arterial oxygenation (adjusted mean difference 19.9 mm Hg, 95% CI 0.64-39.1, P=0.043).\n- Limitations:\n- Post hoc analysis design\n- Potential residual confounding despite weighting\n- Findings may not generalize beyond major abdominal or thoracic surgeries\n- Why this matters: This study informs perioperative management by showing that routine intraoperative corticosteroids at antiemetic doses do not reduce pulmonary complications, supporting their safety but not efficacy for this outcome.",
+          "deep_dive_reasons": [],
+          "doi": "",
+          "evidence_strength_label": "C",
+          "intervention_or_exposure": "",
+          "item_id": "42660722",
+          "journal": "British journal of anaesthesia",
+          "key_results": "",
+          "key_secondary_results": "",
+          "limitations": "",
+          "pmid": "42660722",
+          "population_setting": "",
+          "practice_change_potential_1_5": 1,
+          "primary_endpoint": "",
+          "primary_result_direction": "",
+          "primary_result_significance": "",
+          "study_type": "",
+          "title": "Intraoperative corticosteroid administration and postoperative pulmonary complications: a secondary analysis of the iPROVE clinical trials.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42660722/"
+        },
+        {
+          "bottom_line": "In this multicenter randomized controlled trial, a structured early mobilization program for mechanically ventilated patients with sepsis or acute respiratory failure did not improve functional status at ICU discharge or long-term recovery compared to usual care, suggesting that while early mobilization is feasible and increases activity, it may not confer additional functional benefit in this population.",
+          "clinical_interpretation": "",
+          "clinical_relevance_1_5": 5,
+          "comparator": "",
+          "deep_dive_markdown": "**BOTTOM LINE:** In this multicenter randomized controlled trial, a structured early mobilization program for mechanically ventilated patients with sepsis or acute respiratory failure did not improve functional status at ICU discharge or long-term recovery compared to usual care, suggesting that while early mobilization is feasible and increases activity, it may not confer additional functional benefit in this population.\n\nBOTTOM LINE: A structured early mobilization program for mechanically ventilated patients with sepsis or acute respiratory failure did not improve functional status at ICU discharge or at 12 months compared to usual care.\n\n- Study type: Multicenter randomized open-label controlled trial\n- Population/setting: Adult patients with sepsis or respiratory failure requiring invasive ventilation for ≥48 hours in five tertiary hospitals in South Korea\n- Intervention/exposure & comparator: Structured six-step early mobilization program versus usual care\n- Primary endpoints: Functional Status Score for the ICU (FSS-ICU) at ICU discharge\n- Key results: No significant difference in FSS-ICU at ICU discharge between groups (mean 23.6 vs. 22.2; P = 0.44); intervention group mobilized earlier and more often; long-term outcomes improved similarly in both groups over 12 months.\n- Limitations:\n- Open-label design may introduce bias\n- Study conducted only in South Korea, limiting generalizability\n- Sample size may limit detection of small differences\n- Why this matters: This study challenges the assumption that protocolized early mobilization improves short- or long-term functional outcomes in mechanically ventilated ICU patients, informing ICU rehabilitation practices.",
+          "deep_dive_reasons": [
+            "RCT",
+            "patient_centered_outcome",
+            "strong_ICU_relevance"
+          ],
+          "doi": "10.1007/s00134-026-08598-w",
+          "evidence_strength_label": "A",
+          "intervention_or_exposure": "",
+          "item_id": "42645557",
+          "journal": "Intensive care medicine",
+          "key_results": "",
+          "key_secondary_results": "",
+          "limitations": "",
+          "pmid": "42645557",
+          "population_setting": "",
+          "practice_change_potential_1_5": 4,
+          "primary_endpoint": "",
+          "primary_result_direction": "",
+          "primary_result_significance": "",
+          "study_type": "",
+          "title": "Early mobilization for mechanical ventilation for sepsis or acute respiratory failure (EVER): a multicenter randomized controlled trial with 12-month outcomes.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42645557/"
+        },
+        {
+          "bottom_line": "This randomized controlled trial found that moderate to deep neuromuscular blockade significantly reduces both the incidence and severity of the oculocardiac reflex during pediatric strabismus surgery compared to minimal to shallow blockade, suggesting that deeper blockade may improve intraoperative cardiac safety in this population.",
+          "clinical_interpretation": "",
+          "clinical_relevance_1_5": 2,
+          "comparator": "",
+          "deep_dive_markdown": "BOTTOM LINE: Moderate to deep neuromuscular blockade significantly reduces the incidence and severity of the oculocardiac reflex during pediatric strabismus surgery compared to minimal to shallow blockade.\n\n- Study type: Prospective, double-blinded randomized controlled trial\n- Population/setting: 204 pediatric patients aged 3 to 18 years undergoing strabismus surgery under general anesthesia\n- Intervention/exposure & comparator: Moderate to deep neuromuscular blockade (train-of-four count 0 to 3) versus minimal to shallow neuromuscular blockade (train-of-four count of 4 with ratio less than 0.9)\n- Primary endpoints: Incidence of oculocardiac reflex grade greater than or equal to 2 (heart rate decrease ≥20% from baseline)\n- Key results: OCR grade ≥2 occurred less in the moderate to deep group (30.3%) than the minimal to shallow group (53.9%; OR 0.37, 95% CI 0.21–0.66, P=0.001); severe OCR (grade ≥3) was also reduced (18.2% vs 35.3%; OR 0.41, 95% CI 0.21–0.78, P=0.007); magnitude and duration of heart rate reduction were both smaller in the moderate to deep group.\n- Limitations:\n- Single surgical procedure and pediatric population may limit generalizability.\n- No long-term outcomes reported.\n- Why this matters: Optimizing neuromuscular blockade depth can reduce the risk and severity of oculocardiac reflex, improving safety during pediatric strabismus surgery.",
+          "deep_dive_reasons": [
+            "RCT",
+            "strong_anesthesia_relevance"
+          ],
+          "doi": "10.1097/ALN.0000000000006256",
+          "evidence_strength_label": "B",
+          "intervention_or_exposure": "",
+          "item_id": "42461097",
+          "journal": "Anesthesiology",
+          "key_results": "",
+          "key_secondary_results": "",
+          "limitations": "",
+          "pmid": "42461097",
+          "population_setting": "",
+          "practice_change_potential_1_5": 2,
+          "primary_endpoint": "",
+          "primary_result_direction": "",
+          "primary_result_significance": "",
+          "study_type": "",
+          "title": "Neuromuscular Blockade Depth and Oculocardiac Reflex in Pediatric Strabismus Surgery: A Randomized Clinical Trial.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42461097/"
+        }
+      ],
+      "diagnostic_summary": {
+        "backfilled_from_daily": true,
+        "deep_dives_selected_total": 5,
+        "duplicates_suppressed_reason_counts": {},
+        "duplicates_suppressed_total": 0,
+        "foamed_selected_total": 10,
+        "pubmed_selected_total": 20,
+        "source_daily_digests_total": 5,
+        "top_picks_selected_total": 5,
+        "unique_article_urls_total": 30
+      },
+      "digest_id": "cybermed_weekly_2026-08-24_2026-08-28",
+      "generated_at_utc": "2026-08-28T15:41:29+00:00",
+      "items": {
+        "foamed": [
+          {
+            "bottom_line": "BOTTOM LINE: This article discusses a randomized controlled trial investigating whether manual pressure augmentation during defibrillation in out-of-hospital cardiac arrest improves outcomes, but serves primarily as commentary and education on the physiological rationale and evolving evidence, rather than presenting new clinical data or definitive practice-changing results.",
+            "clinical_usefulness_1_5": 5,
+            "domain_group": "emergency_medicine",
+            "extraction_method": "trafilatura",
+            "final_content_source": "article_full_text",
+            "item_id": "https://www.stemlynsblog.org/jc-manual-pressure-augmentation-during-cardiac-arrest-another-lesson-in-physiology-versus-outcome/",
+            "practice_relevance_1_5": 5,
+            "priority_tier": "1 core",
+            "published_at": "2026-08-27 12:02:24+00:00",
+            "reason_labels": [
+              "foamed_selected_high_yield_education"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-27"
+            ],
+            "source_name": "St Emlyn's",
+            "source_quality_label": "core",
+            "source_type": "foamed",
+            "text_confidence_label": "high",
+            "title": "JC: Manual pressure augmentation during cardiac arrest: another lesson in physiology versus outcome",
+            "top_pick": false,
+            "url": "https://www.stemlynsblog.org/jc-manual-pressure-augmentation-during-cardiac-arrest-another-lesson-in-physiology-versus-outcome/"
+          },
+          {
+            "bottom_line": "BOTTOM LINE: This article is a commentary discussing the claims and conflicts of interest surrounding predictions about autonomous AI replacing physician-AI hybrids in medical care; it does not present new clinical data or research findings.",
+            "clinical_usefulness_1_5": 5,
+            "domain_group": "critical_care",
+            "extraction_method": "trafilatura",
+            "final_content_source": "article_full_text",
+            "item_id": "https://emcrit.org/emnerd/the-five-laws-of-medical-robotics/",
+            "practice_relevance_1_5": 5,
+            "priority_tier": "1 core",
+            "published_at": "2026-08-25 13:28:46+00:00",
+            "reason_labels": [
+              "foamed_selected_evidence_summary"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-26"
+            ],
+            "source_name": "EMCrit",
+            "source_quality_label": "core",
+            "source_type": "foamed",
+            "text_confidence_label": "high",
+            "title": "The Five Laws of Medical Robotics",
+            "top_pick": false,
+            "url": "https://emcrit.org/emnerd/the-five-laws-of-medical-robotics/"
+          },
+          {
+            "bottom_line": "BOTTOM LINE: This article provides an educational overview of considerations and guidance for selecting safe and effective analgesia in children with renal impairment, emphasizing the need for careful medication choice due to altered drug clearance, but does not present new clinical data or research findings.",
+            "clinical_usefulness_1_5": 5,
+            "domain_group": "pediatric_emergency",
+            "extraction_method": "trafilatura",
+            "final_content_source": "article_full_text",
+            "item_id": "https://dontforgetthebubbles.com/renal-impairment-analgesia/",
+            "practice_relevance_1_5": 5,
+            "priority_tier": "1 core",
+            "published_at": "2026-08-24 13:52:00+00:00",
+            "reason_labels": [
+              "foamed_selected_high_yield_education"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-25"
+            ],
+            "source_name": "Don't Forget the Bubbles",
+            "source_quality_label": "core",
+            "source_type": "foamed",
+            "text_confidence_label": "high",
+            "title": "When Pain Meets Renal Impairment: A paediatric ED guide to analgesia in renal disease",
+            "top_pick": false,
+            "url": "https://dontforgetthebubbles.com/renal-impairment-analgesia/"
+          },
+          {
+            "bottom_line": "BOTTOM LINE: Evidence supporting compliance with and implementation of the CMS SEP-1 sepsis bundle is of overall low quality, with no demonstrated mortality benefit for the bundle as a whole, though individual components like early antibiotics and targeted fluid resuscitation remain valuable; individualized care should take precedence over strict adherence to administrative bundles.",
+            "clinical_usefulness_1_5": 5,
+            "domain_group": "emergency_medicine",
+            "extraction_method": "trafilatura",
+            "final_content_source": "article_full_text",
+            "item_id": "https://rebelem.com/sep1/",
+            "practice_relevance_1_5": 5,
+            "priority_tier": "1 core",
+            "published_at": "2026-08-24 11:00:37+00:00",
+            "reason_labels": [
+              "foamed_selected_high_yield_education"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-25"
+            ],
+            "source_name": "REBEL EM",
+            "source_quality_label": "core",
+            "source_type": "foamed",
+            "text_confidence_label": "high",
+            "title": "Effect of Sepsis Bundle (SEP-1) Compliance and Implementation on Mortality",
+            "top_pick": false,
+            "url": "https://rebelem.com/sep1/"
+          },
+          {
+            "bottom_line": "BOTTOM LINE: Higher rocuronium doses (>1.2 mg/kg) improve first-pass intubation success without affecting downstream outcomes; dual defibrillation may damage devices or cause malfunctions; and in refractory, shockable out-of-hospital cardiac arrest, amiodarone and lidocaine show no significant difference in survival or favorable neurologic outcomes, based on recent critical care studies.",
+            "clinical_usefulness_1_5": 5,
+            "domain_group": "critical_care",
+            "extraction_method": "trafilatura",
+            "final_content_source": "html_content",
+            "item_id": "https://journalfeed.org/article-a-day/category/critical-care/",
+            "practice_relevance_1_5": 5,
+            "priority_tier": "1 core",
+            "published_at": "2026-08-21 12:00:00+00:00",
+            "reason_labels": [
+              "foamed_selected_high_yield_education"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-24"
+            ],
+            "source_name": "JournalFeed (Critical Care)",
+            "source_quality_label": "core",
+            "source_type": "foamed",
+            "text_confidence_label": "moderate",
+            "title": "Advances in Critical Care Medicine Insights - JournalFeed",
+            "top_pick": false,
+            "url": "https://journalfeed.org/article-a-day/category/critical-care/"
+          },
+          {
+            "bottom_line": "BOTTOM LINE: Cardiac point-of-care ultrasound (POCUS) can aid in identifying pediatric patients at risk of progressing to hemodynamic instability when presenting with suspected sepsis, potentially allowing for earlier recognition and intervention.",
+            "clinical_usefulness_1_5": 3,
+            "domain_group": "critical_care",
+            "extraction_method": "readability_lxml",
+            "final_content_source": "article_excerpt",
+            "item_id": "https://journalfeed.org/article-a-day/2026/predicting-the-crash-pediatric-cardiac-pocus/",
+            "practice_relevance_1_5": 3,
+            "priority_tier": "1 core",
+            "published_at": "2026-08-25 09:25:00+00:00",
+            "reason_labels": [
+              "foamed_selected_high_yield_education"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-26"
+            ],
+            "source_name": "JournalFeed (Critical Care)",
+            "source_quality_label": "core",
+            "source_type": "foamed",
+            "text_confidence_label": "moderate",
+            "title": "Predicting the Crash - Pediatric Cardiac POCUS - JournalFeed",
+            "top_pick": false,
+            "url": "https://journalfeed.org/article-a-day/2026/predicting-the-crash-pediatric-cardiac-pocus/"
+          },
+          {
+            "bottom_line": "BOTTOM LINE: A systematic review of 40 national and institutional guidelines found substantial international agreement on key Patient Blood Management (PBM) principles, especially restrictive transfusion strategies, but revealed fragmented national implementation and significant differences in approaches to blood conservation, diagnostic blood loss, and multidisciplinary coordination, with few countries adopting comprehensive PBM programs.",
+            "clinical_usefulness_1_5": 5,
+            "domain_group": "anesthesiology",
+            "extraction_method": "trafilatura",
+            "final_content_source": "article_full_text",
+            "item_id": "https://nysora.com/education-news/patient-blood-management-guidelines-remain-fragmented/",
+            "practice_relevance_1_5": 5,
+            "priority_tier": "2 important",
+            "published_at": "2026-08-21 10:25:19+00:00",
+            "reason_labels": [
+              "foamed_selected_evidence_summary"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-24"
+            ],
+            "source_name": "NYSORA",
+            "source_quality_label": "important",
+            "source_type": "foamed",
+            "text_confidence_label": "high",
+            "title": "Patient blood management guidelines remain fragmented",
+            "top_pick": false,
+            "url": "https://nysora.com/education-news/patient-blood-management-guidelines-remain-fragmented/"
+          },
+          {
+            "bottom_line": "BOTTOM LINE: In obese patients, ultrasound measurements showed that chest wall thickness is significantly less at the second intercostal space midclavicular line (2-MCL) than at the fourth/fifth intercostal space anterior axillary line (4/5-AAL), suggesting the 2-MCL may be a more reliable site for needle decompression in this population.",
+            "clinical_usefulness_1_5": 3,
+            "domain_group": "critical_care",
+            "extraction_method": "trafilatura",
+            "final_content_source": "article_full_text",
+            "item_id": "https://journalfeed.org/article-a-day/2026/best-needle-decompression-site-in-obese-patients/",
+            "practice_relevance_1_5": 3,
+            "priority_tier": "1 core",
+            "published_at": "2026-08-24 09:20:00+00:00",
+            "reason_labels": [
+              "foamed_selected_high_yield_education"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-25"
+            ],
+            "source_name": "JournalFeed (Critical Care)",
+            "source_quality_label": "core",
+            "source_type": "foamed",
+            "text_confidence_label": "high",
+            "title": "Best Needle Decompression Site in Obese Patients - JournalFeed",
+            "top_pick": false,
+            "url": "https://journalfeed.org/article-a-day/2026/best-needle-decompression-site-in-obese-patients/"
+          },
+          {
+            "bottom_line": "BOTTOM LINE: This article provides an educational overview of thoracic outlet syndrome, including its clinical presentation, differential diagnosis, and underlying etiologies, but does not present new research data or original clinical findings.",
+            "clinical_usefulness_1_5": 3,
+            "domain_group": "emergency_medicine",
+            "extraction_method": "trafilatura",
+            "final_content_source": "article_full_text",
+            "item_id": "https://www.emdocs.net/em3am-thoracic-outlet-syndrome/",
+            "practice_relevance_1_5": 3,
+            "priority_tier": "1 core",
+            "published_at": "2026-08-22 08:12:05+00:00",
+            "reason_labels": [
+              "foamed_selected_high_yield_education"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-24"
+            ],
+            "source_name": "emDocs",
+            "source_quality_label": "core",
+            "source_type": "foamed",
+            "text_confidence_label": "high",
+            "title": "EM@3AM: Thoracic Outlet Syndrome",
+            "top_pick": false,
+            "url": "https://www.emdocs.net/em3am-thoracic-outlet-syndrome/"
+          },
+          {
+            "bottom_line": "BOTTOM LINE: This article is an educational commentary encouraging participation in the RCEM Annual Conference 2027 in Manchester, highlighting the value of international collaboration, knowledge sharing, and networking in advancing emergency medicine, but it does not present new clinical data or research findings.",
+            "clinical_usefulness_1_5": 2,
+            "domain_group": "emergency_medicine",
+            "extraction_method": "trafilatura",
+            "final_content_source": "article_full_text",
+            "item_id": "https://www.stemlynsblog.org/rcem-manchester-2027-come-and-join-us/",
+            "practice_relevance_1_5": 2,
+            "priority_tier": "1 core",
+            "published_at": "2026-08-21 10:04:00+00:00",
+            "reason_labels": [
+              "foamed_selected_high_yield_education"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-24"
+            ],
+            "source_name": "St Emlyn's",
+            "source_quality_label": "core",
+            "source_type": "foamed",
+            "text_confidence_label": "high",
+            "title": "RCEM Manchester 2027: Come and join us",
+            "top_pick": false,
+            "url": "https://www.stemlynsblog.org/rcem-manchester-2027-come-and-join-us/"
+          }
+        ],
+        "pubmed": [
+          {
+            "bottom_line": "In this multicenter randomized controlled trial, a structured early mobilization program for mechanically ventilated patients with sepsis or acute respiratory failure did not improve functional status at ICU discharge or long-term recovery compared to usual care, suggesting that while early mobilization is feasible and increases activity, it may not confer additional functional benefit in this population.",
+            "clinical_relevance_1_5": 5,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1007/s00134-026-08598-w",
+            "domain": "",
+            "evidence_strength_label": "A",
+            "evidence_strength_label_basis": "randomized_trial_clinical",
+            "evidence_tags": [
+              "randomized_trial",
+              "intensive_care"
+            ],
+            "item_id": "42645557",
+            "journal": "Intensive care medicine",
+            "pmid": "42645557",
+            "practice_change_potential_1_5": 4,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-26 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "strong_clinical_relevance",
+              "randomized_trial",
+              "patient_centered_outcomes",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-27"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Early mobilization for mechanical ventilation for sepsis or acute respiratory failure (EVER): a multicenter randomized controlled trial with 12-month outcomes.",
+            "top_pick": true,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42645557/"
+          },
+          {
+            "bottom_line": "These new international guidelines provide consensus-based, structured recommendations for risk assessment and strategy formulation during tracheal extubation, emphasizing elective planning and multidisciplinary input to reduce adverse events; while evidence strength is based on expert consensus and literature review, these guidelines are clinically important for improving patient safety during airway management transitions.",
+            "clinical_relevance_1_5": 4,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1111/anae.70365",
+            "domain": "",
+            "evidence_strength_label": "A",
+            "evidence_strength_label_basis": "guideline_or_consensus",
+            "evidence_tags": [
+              "guideline",
+              "intensive_care"
+            ],
+            "item_id": "42644413",
+            "journal": "Anaesthesia",
+            "pmid": "42644413",
+            "practice_change_potential_1_5": 4,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-26 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "anaesthesiology_signal(+0.5)",
+              "high_evidence_publication_type",
+              "strong_clinical_relevance",
+              "guideline_or_consensus",
+              "patient_centered_outcomes",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-27"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Project for Universal Management of Airways: guidelines for tracheal extubation.",
+            "top_pick": true,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42644413/"
+          },
+          {
+            "bottom_line": "In this large randomized controlled trial, physiotherapist-led care for uncomplicated musculoskeletal conditions in the emergency department was found to be effective, safe, and cost-effective compared to usual physician- or nurse practitioner-led care, suggesting that physiotherapists can play a key role in improving emergency department efficiency and patient outcomes for these conditions.",
+            "clinical_relevance_1_5": 3,
+            "content_length_bucket": "",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "",
+            "evidence_tags": [],
+            "item_id": "42660158",
+            "journal": "Lancet (London, England)",
+            "pmid": "42660158",
+            "practice_change_potential_1_5": 3,
+            "publication_types": [],
+            "published_at": "2026-08-27 12:00:00+00:00",
+            "reason_labels": [],
+            "source_daily_run_dates": [
+              "2026-08-28"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Physiotherapist-led care for musculoskeletal conditions in the emergency department (RESHAP-ED): a randomised controlled trial with economic evaluation.",
+            "top_pick": true,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42660158/"
+          },
+          {
+            "bottom_line": "In this large prospective cohort study, adding CT-based body composition metrics (skeletal muscle area, muscle radiodensity, and subcutaneous fat radiodensity) to standard risk models improved prediction of 30-day postoperative cardiovascular events in patients undergoing major noncardiac surgery, suggesting these imaging biomarkers may enhance preoperative risk stratification.",
+            "clinical_relevance_1_5": 2,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1097/ALN.0000000000006213",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "observational_clinical",
+            "evidence_tags": [
+              "guideline",
+              "cohort"
+            ],
+            "item_id": "42329743",
+            "journal": "Anesthesiology",
+            "pmid": "42329743",
+            "practice_change_potential_1_5": 3,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-27 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "anaesthesiology_signal(+0.5)",
+              "high_evidence_publication_type",
+              "strong_clinical_relevance",
+              "guideline_or_consensus",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-27"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Computed Tomography-based Body Composition Assessment for Preoperative Cardiovascular Risk Prediction: A Prospective Cohort Study.",
+            "top_pick": true,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42329743/"
+          },
+          {
+            "bottom_line": "In this double-blind randomized controlled trial of adults undergoing ACL reconstruction, continuous femoral nerve block (CFNB) and continuous adductor canal block (CACB) provided similar pain control over 48 hours, but CFNB was associated with fewer patients requiring high-dose opioids; these findings suggest both techniques are effective, with CFNB potentially offering an opioid-sparing advantage.",
+            "clinical_relevance_1_5": 3,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1136/rapm-2026-107940",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "randomized_trial_clinical",
+            "evidence_tags": [
+              "randomized_trial",
+              "pain_regional"
+            ],
+            "item_id": "42481165",
+            "journal": "Regional anesthesia and pain medicine",
+            "pmid": "42481165",
+            "practice_change_potential_1_5": 2,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-25 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "anaesthesiology_signal(+0.5)",
+              "strong_clinical_relevance",
+              "randomized_trial",
+              "tier3_pain_signal",
+              "domain_signal",
+              "clinical_intent",
+              "pain_scope"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-26"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Continuous femoral nerve blocks versus adductor canal blocks for anterior cruciate ligament surgery: a double-blind, superiority randomized controlled trial.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42481165/"
+          },
+          {
+            "bottom_line": "This randomized controlled trial found that moderate to deep neuromuscular blockade significantly reduces both the incidence and severity of the oculocardiac reflex during pediatric strabismus surgery compared to minimal to shallow blockade, suggesting that deeper blockade may improve intraoperative cardiac safety in this population.",
+            "clinical_relevance_1_5": 2,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1097/ALN.0000000000006256",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "randomized_trial_clinical",
+            "evidence_tags": [
+              "randomized_trial",
+              "clinical_trial",
+              "anesthesia"
+            ],
+            "item_id": "42461097",
+            "journal": "Anesthesiology",
+            "pmid": "42461097",
+            "practice_change_potential_1_5": 2,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-26 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "anaesthesiology_signal(+0.5)",
+              "strong_clinical_relevance",
+              "randomized_trial",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-26"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Neuromuscular Blockade Depth and Oculocardiac Reflex in Pediatric Strabismus Surgery: A Randomized Clinical Trial.",
+            "top_pick": true,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42461097/"
+          },
+          {
+            "bottom_line": "This large cross-sectional analysis found persistent gender disparities in critical care research authorship, with women underrepresented overall—especially as senior authors—but with higher female representation in publications from low- and middle-income countries compared to high-income countries; these findings highlight ongoing inequities and the need for targeted efforts to promote gender equity in academic critical care globally.",
+            "clinical_relevance_1_5": 2,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1097/CCM.0000000000007309",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "randomized_trial_clinical",
+            "evidence_tags": [
+              "randomized_trial",
+              "observational"
+            ],
+            "item_id": "42627204",
+            "journal": "Critical care medicine",
+            "pmid": "42627204",
+            "practice_change_potential_1_5": 2,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-21 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "strong_clinical_relevance",
+              "randomized_trial",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-24"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Gender Disparity in Authorship of Critical Care Scientific Publications From Low-, Middle-, and High-Income Countries.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42627204/"
+          },
+          {
+            "bottom_line": "In this large international trial of stress ulcer prophylaxis in critically ill patients, deferred consent and patient involvement (rather than substitute decision-makers) were strongly associated with higher consent rates, especially during and after the COVID-19 pandemic; these findings highlight important factors that can improve enrollment and ethical conduct in critical care research.",
+            "clinical_relevance_1_5": 2,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1097/CCM.0000000000007314",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "randomized_trial_clinical",
+            "evidence_tags": [
+              "randomized_trial",
+              "intensive_care"
+            ],
+            "item_id": "42627200",
+            "journal": "Critical care medicine",
+            "pmid": "42627200",
+            "practice_change_potential_1_5": 2,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-21 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "strong_clinical_relevance",
+              "randomized_trial",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-24"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Informed Consent in an International Trial of Stress Ulcer Prophylaxis: Patterns and Predictors.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42627200/"
+          },
+          {
+            "bottom_line": "In this large, post hoc analysis of two clinical trials, intraoperative corticosteroids at antiemetic doses did not significantly reduce postoperative pulmonary complications in major surgery patients, though a modest improvement in oxygenation was observed; these findings suggest routine corticosteroid use for pulmonary protection is not supported.",
+            "clinical_relevance_1_5": 2,
+            "content_length_bucket": "",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "",
+            "domain": "",
+            "evidence_strength_label": "C",
+            "evidence_strength_label_basis": "",
+            "evidence_tags": [],
+            "item_id": "42660722",
+            "journal": "British journal of anaesthesia",
+            "pmid": "42660722",
+            "practice_change_potential_1_5": 1,
+            "publication_types": [],
+            "published_at": "2026-08-27 12:00:00+00:00",
+            "reason_labels": [],
+            "source_daily_run_dates": [
+              "2026-08-28"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Intraoperative corticosteroid administration and postoperative pulmonary complications: a secondary analysis of the iPROVE clinical trials.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42660722/"
+          },
+          {
+            "bottom_line": "This meta-analysis of 39 RCTs found that applying ventilation during cardiopulmonary bypass in adult cardiac surgery significantly reduces postoperative pulmonary complications, while postoperative noninvasive respiratory support showed a non-significant trend toward lower mortality; these findings support intraoperative ventilation as a beneficial strategy, though overall evidence is limited by heterogeneity in protocols.",
+            "clinical_relevance_1_5": 5,
+            "content_length_bucket": "",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "",
+            "domain": "",
+            "evidence_strength_label": "A",
+            "evidence_strength_label_basis": "",
+            "evidence_tags": [],
+            "item_id": "42660723",
+            "journal": "British journal of anaesthesia",
+            "pmid": "42660723",
+            "practice_change_potential_1_5": 5,
+            "publication_types": [],
+            "published_at": "2026-08-27 12:00:00+00:00",
+            "reason_labels": [],
+            "source_daily_run_dates": [
+              "2026-08-28"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Perioperative mechanical ventilation strategies in adult cardiac surgery with cardiopulmonary bypass: a meta-analysis of randomised controlled trials.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42660723/"
+          },
+          {
+            "bottom_line": "This systematic review found that existing videolaryngoscopy classification tools have uncertain accuracy, performance, and clinical utility, with most studies showing high risk of bias and limited evidence supporting any specific tool; this highlights the need for better-validated, standardized classification systems to improve airway management documentation and planning.",
+            "clinical_relevance_1_5": 4,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1111/anae.70358",
+            "domain": "",
+            "evidence_strength_label": "A",
+            "evidence_strength_label_basis": "meta_analysis_clinical",
+            "evidence_tags": [
+              "systematic_review",
+              "intensive_care"
+            ],
+            "item_id": "42643116",
+            "journal": "Anaesthesia",
+            "pmid": "42643116",
+            "practice_change_potential_1_5": 3,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-26 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "anaesthesiology_signal(+0.5)",
+              "strong_clinical_relevance",
+              "systematic_review_or_meta_analysis",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent",
+              "low_evidence_strength"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-27"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Classification of videolaryngoscopy: a systematic review.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42643116/"
+          },
+          {
+            "bottom_line": "In this phase 3 trial, adjuvant crizotinib did not significantly improve disease-free survival compared to observation in patients with resected early-stage ALK-positive NSCLC, suggesting that crizotinib should not be used in this setting and supporting the use of newer ALK inhibitors like alectinib for adjuvant therapy.",
+            "clinical_relevance_1_5": 2,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1016/S2213-2600(26)00192-X",
+            "domain": "",
+            "evidence_strength_label": "A",
+            "evidence_strength_label_basis": "randomized_trial_clinical",
+            "evidence_tags": [],
+            "item_id": "42641639",
+            "journal": "The Lancet. Respiratory medicine",
+            "pmid": "42641639",
+            "practice_change_potential_1_5": 3,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-25 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "strong_clinical_relevance",
+              "patient_centered_outcomes",
+              "high_impact_journal",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent",
+              "low_evidence_strength"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-26"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Crizotinib versus observation or placebo for surgically resected early-stage ALK-positive non-small-cell lung cancer (Eastern Cooperative Oncology Group-American College of Radiology Imaging Network E4512): a phase 3 trial.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42641639/"
+          },
+          {
+            "bottom_line": "These new international, multidisciplinary guidelines provide consensus-based recommendations for establishing foundational systems, equipment, training, and culture to support safe airway management across all settings; while evidence strength is based on expert consensus rather than direct clinical trials, the guidelines are broadly applicable and aim to standardize and improve airway safety and outcomes globally.",
+            "clinical_relevance_1_5": 3,
+            "content_length_bucket": "",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "",
+            "evidence_tags": [],
+            "item_id": "42660812",
+            "journal": "Anaesthesia",
+            "pmid": "42660812",
+            "practice_change_potential_1_5": 3,
+            "publication_types": [],
+            "published_at": "2026-08-27 12:00:00+00:00",
+            "reason_labels": [],
+            "source_daily_run_dates": [
+              "2026-08-28"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Project for Universal Management of Airways: guidelines for providing a foundation for airway management.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42660812/"
+          },
+          {
+            "bottom_line": "In this large meta-registry analysis, measures of pulmonary artery stiffness and right ventricular function (Ea, PAC, SVI), but not pulmonary vascular resistance, independently predicted mortality in mild and all forms of pulmonary hypertension, suggesting these parameters may be more clinically relevant for risk stratification than traditional hemodynamic markers.",
+            "clinical_relevance_1_5": 4,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1016/j.chest.2026.07.5243",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "observational_clinical",
+            "evidence_tags": [
+              "intensive_care"
+            ],
+            "item_id": "42648467",
+            "journal": "Chest",
+            "pmid": "42648467",
+            "practice_change_potential_1_5": 2,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-26 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "strong_clinical_relevance",
+              "patient_centered_outcomes",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent",
+              "low_evidence_strength"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-27"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Predictive Power of Pulmonary Artery Stiffness - Right Ventricular Interplay, but not Pulmonary Vascular Resistance, in Mild Pulmonary Hypertension: A PVRI GoDeep meta-registry analysis.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42648467/"
+          },
+          {
+            "bottom_line": "This mixed-methods systematic review of qualitative studies highlights that ICU patients and their families use a range of psychosocial coping strategies during delirium episodes, but there is a lack of quantitative evidence, underscoring the need for further research to inform supportive interventions in critical care settings.",
+            "clinical_relevance_1_5": 3,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1186/s13054-026-06232-1",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "meta_analysis_clinical",
+            "evidence_tags": [
+              "systematic_review",
+              "intensive_care"
+            ],
+            "item_id": "42629591",
+            "journal": "Critical care (London, England)",
+            "pmid": "42629591",
+            "practice_change_potential_1_5": 2,
+            "publication_types": [
+              "Journal Article",
+              "Systematic Review",
+              "Review"
+            ],
+            "published_at": "2026-08-21 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "high_evidence_publication_type",
+              "strong_clinical_relevance",
+              "systematic_review_or_meta_analysis",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-24"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Psychosocial coping with intensive care delirium: a mixed-methods systematic review of patient and family perspectives.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42629591/"
+          },
+          {
+            "bottom_line": "This large, multicenter registry study found that most out-of-hospital cardiac arrest survivors in Germany experience good long-term quality of life and social reintegration with low psychological distress, but about one-third have persistent cognitive impairment and 13% report depressive symptoms, highlighting the need for ongoing cognitive and psychological support in this population.",
+            "clinical_relevance_1_5": 5,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1016/j.resuscitation.2026.111277",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "observational_clinical",
+            "evidence_tags": [],
+            "item_id": "42637214",
+            "journal": "Resuscitation",
+            "pmid": "42637214",
+            "practice_change_potential_1_5": 1,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-24 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "strong_clinical_relevance",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent",
+              "low_evidence_strength"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-25"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Cognition, Quality of Life, and Psychological Outcomes in Out-of-Hospital Cardiac Arrest Survivors - Results from the German Cardiac Arrest Registry (G-CAR).",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42637214/"
+          },
+          {
+            "bottom_line": "This large nationwide Danish cohort study found that prehospital emergency cricothyroidotomy is extremely rare (0.12% of OHCAs) but has a high procedural success rate (87.3%), though survival among OHCA patients remains very low; these findings reinforce the procedure's feasibility in critical airway emergencies but highlight its use as a last-resort intervention with limited impact on long-term survival.",
+            "clinical_relevance_1_5": 5,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1016/j.resuscitation.2026.111276",
+            "domain": "",
+            "evidence_strength_label": "B",
+            "evidence_strength_label_basis": "observational_clinical",
+            "evidence_tags": [
+              "observational",
+              "cohort",
+              "intensive_care"
+            ],
+            "item_id": "42637212",
+            "journal": "Resuscitation",
+            "pmid": "42637212",
+            "practice_change_potential_1_5": 1,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-24 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "strong_clinical_relevance",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent",
+              "low_evidence_strength"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-25"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Prehospital Emergency Cricothyroidotomy in Denmark: A Nationwide Cohort Study, 2016-2023.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42637212/"
+          },
+          {
+            "bottom_line": "A machine learning model using end-tidal CO₂ and intraoperative clinical features accurately estimates arterial CO₂ in pediatric surgical patients, with strong validation across large internal and external datasets; this could reduce the need for invasive arterial sampling during pediatric anesthesia.",
+            "clinical_relevance_1_5": 2,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1097/ALN.0000000000006207",
+            "domain": "",
+            "evidence_strength_label": "C",
+            "evidence_strength_label_basis": "observational_clinical",
+            "evidence_tags": [
+              "ai_prediction_model"
+            ],
+            "item_id": "42307593",
+            "journal": "Anesthesiology",
+            "pmid": "42307593",
+            "practice_change_potential_1_5": 1,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-27 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "anaesthesiology_signal(+0.5)",
+              "strong_clinical_relevance",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent",
+              "low_evidence_strength"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-27"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Development of an Arterial Carbon Dioxide Estimation Model Using End-tidal Carbon Dioxide Levels during Surgery in the Pediatric Population.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42307593/"
+          },
+          {
+            "bottom_line": "A large-scale mold remediation program in NYC public housing was associated with a significant reduction (19%) in asthma-related emergency department visits, especially in buildings with the greatest decreases in mold, providing strong observational evidence that targeted housing interventions can meaningfully improve asthma outcomes in vulnerable populations.",
+            "clinical_relevance_1_5": 2,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1093/ajrccm/aamag441",
+            "domain": "",
+            "evidence_strength_label": "C",
+            "evidence_strength_label_basis": "observational_clinical",
+            "evidence_tags": [
+              "observational",
+              "emergency_medicine"
+            ],
+            "item_id": "42640496",
+            "journal": "American journal of respiratory and critical care medicine",
+            "pmid": "42640496",
+            "practice_change_potential_1_5": 1,
+            "publication_types": [
+              "Journal Article"
+            ],
+            "published_at": "2026-08-25 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "strong_clinical_relevance",
+              "tier1_core_default",
+              "domain_signal",
+              "low_evidence_strength"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-26"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "Impact of a Large-Scale Mold Intervention in Public Housing on Asthma Emergency Department Visits.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42640496/"
+          },
+          {
+            "bottom_line": "This state-of-the-art review highlights that while β-blockers have established benefits in certain acute critical care scenarios, their use in broader critical illness remains controversial due to limited and conflicting evidence, with significant gaps in knowledge regarding patient selection, optimal timing, and safety; thus, a personalized, physiology-guided approach is recommended until stronger randomized data are available.",
+            "clinical_relevance_1_5": 5,
+            "content_length_bucket": "long",
+            "content_source": "",
+            "deep_dive_candidate": false,
+            "doi": "10.1007/s00134-026-08574-4",
+            "domain": "",
+            "evidence_strength_label": "D",
+            "evidence_strength_label_basis": "expert_review",
+            "evidence_tags": [
+              "intensive_care"
+            ],
+            "item_id": "42645558",
+            "journal": "Intensive care medicine",
+            "pmid": "42645558",
+            "practice_change_potential_1_5": 3,
+            "publication_types": [
+              "Journal Article",
+              "Review"
+            ],
+            "published_at": "2026-08-26 12:00:00+00:00",
+            "reason_labels": [
+              "abstract_len_bonus(+1.0)",
+              "core_journal(+2.0)",
+              "critical_care_signal(+0.5)",
+              "strong_clinical_relevance",
+              "randomized_trial",
+              "patient_centered_outcomes",
+              "tier1_core_default",
+              "domain_signal",
+              "clinical_intent",
+              "low_evidence_strength"
+            ],
+            "source_daily_run_dates": [
+              "2026-08-27"
+            ],
+            "source_type": "pubmed",
+            "text_confidence_label": "high",
+            "title": "State-of-the-art review: ß-blockade in critical illness.",
+            "top_pick": false,
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42645558/"
+          }
+        ]
+      },
+      "period_end": "2026-08-28",
+      "period_start": "2026-08-24",
+      "report_key": "cybermed",
+      "source_daily_digest_ids": [
+        "cybermed_daily_2026-08-24",
+        "cybermed_daily_2026-08-25",
+        "cybermed_daily_2026-08-26",
+        "cybermed_daily_2026-08-27",
+        "cybermed_daily_2026-08-28"
+      ],
+      "source_run_dates": [
+        "2026-08-24",
+        "2026-08-25",
+        "2026-08-26",
+        "2026-08-27",
+        "2026-08-28"
+      ],
+      "top_picks": [
+        "42645557",
+        "42644413",
+        "42660158",
+        "42329743",
+        "42461097"
+      ]
     }
   ],
   "schema_version": 1
