@@ -33,6 +33,7 @@ from .rollups import (
     sanitize_cyberlurch_generated_fields,
 )
 from .reporter import build_cyberlurch_monthly_semantics, to_markdown
+from .cyberlurch_monthly import MonthlySynthesisError, build_source_registry, synthesize_monthly
 from .cybermed_digest_store import (
     cybermed_weekly_reporting_period,
     latest_cybermed_daily_digest_generated_at,
@@ -96,6 +97,7 @@ from .summarizer import (
     extract_pubmed_abstract,
     summarize_youtube_transcript_chunks,
     summarize_youtube_transcript_direct,
+    synthesize_cyberlurch_monthly_json,
     _parse_structured_pubmed_abstract_sections,
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
@@ -5517,6 +5519,38 @@ def main() -> None:
         _annotate_cyberlurch_item_topics(report_items, channel_topics)
         _annotate_cyberlurch_item_topics(detail_items, channel_topics)
 
+    monthly_synthesis = None
+    monthly_source_registry = None
+    if report_key.strip().lower() == "cyberlurch" and report_mode == "monthly":
+        monthly_source_registry = build_source_registry(report_items)
+        try:
+            monthly_synthesis = synthesize_monthly(
+                monthly_source_registry,
+                report_language,
+                synthesize_cyberlurch_monthly_json,
+            )
+        except Exception as exc:
+            os.makedirs(report_dir, exist_ok=True)
+            artifact = {
+                "status": "failed",
+                "error_type": type(exc).__name__,
+                "error": str(exc),
+                "source_references_total": len(monthly_source_registry),
+            }
+            error_path = os.path.join(report_dir, "cyberlurch_monthly_synthesis_error.json")
+            with open(error_path, "w", encoding="utf-8") as handle:
+                json.dump(artifact, handle, ensure_ascii=False, indent=2, sort_keys=True)
+                handle.write("\n")
+            raise MonthlySynthesisError(
+                f"Cyberlurch Monthly delivery blocked: synthesis failed; diagnostics={error_path}"
+            ) from exc
+        print(
+            "[cyberlurch-monthly] synthesis provider_calls=1 collection_calls=0 "
+            f"trends={len(monthly_synthesis['trends'])} "
+            f"notable={len(monthly_synthesis['notable_developments'])} "
+            f"source_refs={len(monthly_synthesis['source_refs_used'])}"
+        )
+
     report_render_start = time.monotonic()
     md = to_markdown(
         report_items,
@@ -5528,6 +5562,8 @@ def main() -> None:
         cybermed_stats=cybermed_run_stats if is_cybermed_run else None,
         report_mode=report_mode,
         run_metadata=run_metadata,
+        monthly_synthesis=monthly_synthesis,
+        monthly_source_registry=monthly_source_registry,
     )
 
     if is_cybermed_run:
@@ -5720,13 +5756,18 @@ def main() -> None:
                 cyberlurch_monthly_generation_error_text_removed_total += removed
             extra_fields = None
             if report_key.strip().lower() == "cyberlurch":
-                semantics = build_cyberlurch_monthly_semantics(rollup_items)
-                executive_summary = semantics["executive_summary"]
+                semantics = monthly_synthesis
+                executive_summary = [entry["synthesis"] for entry in semantics["executive_summary"]]
                 extra_fields = {
-                    "schema": "cyberlurch-monthly-semantic-v1",
-                    "themes": semantics["themes"],
-                    "deep_dives": semantics["deep_dives"],
+                    "schema": "cyberlurch-monthly-semantic-v2",
+                    "themes": semantics["trends"],
+                    "notable_developments": semantics["notable_developments"],
                     "month_in_brief": semantics["month_in_brief"],
+                    "source_refs_used": semantics["source_refs_used"],
+                    "source_registry": [
+                        {k: row[k] for k in ("ref_id", "source", "source_date", "title", "url", "source_identifier")}
+                        for row in (monthly_source_registry or []) if row["ref_id"] in set(semantics["source_refs_used"])
+                    ],
                 }
             elif is_cybermed_run:
                 cybermed_monthly_items = [

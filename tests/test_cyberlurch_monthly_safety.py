@@ -85,18 +85,18 @@ def test_save_failure_blocks_email(tmp_path, monkeypatch):
         main.main()
 
 
-def test_provider_error_summary_is_replaced_without_repair_call(tmp_path, monkeypatch):
+def test_malformed_synthesis_blocks_delivery_after_one_retry(tmp_path, monkeypatch):
     path = _setup(tmp_path, monkeypatch)
-    monkeypatch.setattr(main, "summarize", lambda *a, **k: "## Executive Summary\n\n- RateLimitError insufficient_quota no credits remaining")
-    main.main()
-    payload = path.read_text()
-    assert "RateLimitError" not in payload
-    assert "insufficient_quota" not in payload
-    rollup = json.loads(payload)["reports"]["cyberlurch"][-1]
-    assert rollup["executive_summary"]
+    calls = []
+    monkeypatch.setattr(main, "synthesize_cyberlurch_monthly_json", lambda *a: calls.append(a) or "not json")
+    monkeypatch.setattr(main, "send_markdown", lambda *a, **k: pytest.fail("email called"))
+    with pytest.raises(RuntimeError, match="synthesis failed"):
+        main.main()
+    assert len(calls) == 2
+    assert not path.exists()
 
 
-def test_monthly_uses_zero_llm_calls_and_persists_semantic_rollup(tmp_path, monkeypatch):
+def test_monthly_uses_one_synthesis_operation_and_persists_semantic_rollup(tmp_path, monkeypatch):
     path = _setup(tmp_path, monkeypatch)
     for name in (
         "summarize", "summarize_item_detail", "summarize_cyberlurch_bottom_line",
@@ -107,10 +107,9 @@ def test_monthly_uses_zero_llm_calls_and_persists_semantic_rollup(tmp_path, monk
     main.main()
 
     rollup = json.loads(path.read_text())["reports"]["cyberlurch"][-1]
-    assert rollup["schema"] == "cyberlurch-monthly-semantic-v1"
+    assert rollup["schema"] == "cyberlurch-monthly-semantic-v2"
     assert rollup["executive_summary"]
-    assert 1 <= len(rollup["themes"]) <= 7
-    assert all(theme["synthesis"] for theme in rollup["themes"])
+    assert len(rollup["themes"]) <= 6
     assert "top_channels" not in rollup
     report = next((tmp_path / "out").glob("cyberlurch_monthly_summary_*.md")).read_text()
     assert "## Source/channel summary" not in report

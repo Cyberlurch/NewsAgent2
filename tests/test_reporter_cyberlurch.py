@@ -86,7 +86,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         self.assertNotIn("## Sources", md)
 
 
-    def test_monthly_sources_removed_but_top_videos_present(self):
+    def test_monthly_has_inline_traceability_and_compact_source_registry(self):
         items = [
             {
                 "id": "v3",
@@ -96,6 +96,11 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
                 "published_at": datetime(2024, 2, 1),
             }
         ]
+        from newsagent2.cyberlurch_monthly import build_source_registry
+        registry = build_source_registry(items)
+        synthesis = {"executive_summary":[{"synthesis":"One development was recorded.", "source_refs":[registry[0]["ref_id"]]}], "trends":[],
+                     "notable_developments":[{"heading":"Video development", "synthesis":"Channel C recorded the development.", "source_refs":[registry[0]["ref_id"]]}],
+                     "month_in_brief":"The persisted edition contained one isolated development.", "source_refs_used":[registry[0]["ref_id"]]}
 
         with patch.dict(os.environ, {"REPORT_KEY": "cyberlurch"}):
             md = reporter.to_markdown(
@@ -105,11 +110,14 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
                 report_title="Cyberlurch — Monthly",
                 report_language="en",
                 report_mode="monthly",
+                monthly_synthesis=synthesis,
+                monthly_source_registry=registry,
             )
 
-        self.assertIn("## Main themes", md)
-        self.assertIn("[Representative source: Video Three](https://example.com/three)", md)
-        self.assertNotIn("## Sources", md)
+        self.assertIn("## Key Trends", md)
+        self.assertIn("Channel C recorded the development.", md)
+        self.assertIn("## Sources", md)
+        self.assertIn("https://example.com/three", md)
 
 
     def legacy_test_daily_top_videos_present_and_sources_deduped(self):

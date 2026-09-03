@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 
 from .summarizer import normalize_pubmed_deep_dive, render_pubmed_deep_dive_from_abstract
 from .cybermed_quality import assert_no_generation_error_text
+from .cyberlurch_monthly import render_monthly
 
 try:  # Optional import; keep reporter usable without selector
     from .selector_medical import load_cybermed_selection_config
@@ -1377,6 +1378,8 @@ def to_markdown(
     cybermed_stats: Optional[Dict[str, Any]] = None,
     report_mode: Optional[str] = None,
     run_metadata: Optional[str] = None,
+    monthly_synthesis: Optional[Dict[str, Any]] = None,
+    monthly_source_registry: Optional[List[Dict[str, Any]]] = None,
 ) -> str:
     lang = _norm_language(report_language)
     title = report_title.strip()
@@ -1415,7 +1418,9 @@ def to_markdown(
     if is_cyberlurch and normalized_mode == "daily":
         return render_cyberlurch_daily_report(items, title=title, generated_at=now_str)
     if is_cyberlurch and normalized_mode == 'monthly':
-        return render_cyberlurch_monthly_trend_report(items, title='The Cyberlurch Report — Monthly', generated_at=datetime.now(tz=STO), diagnostics=run_metadata or {})
+        if monthly_synthesis is None or monthly_source_registry is None:
+            raise RuntimeError("Cyberlurch Monthly requires validated synthesis and source registry")
+        return render_monthly(title or 'The Cyberlurch Report — Monthly', monthly_synthesis, monthly_source_registry)
     meta_only = ""
     if overview_markdown:
         if is_cybermed:
