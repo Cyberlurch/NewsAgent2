@@ -20,7 +20,11 @@ def item(channel, day, ident, title="Title", topic="wrong-label"):
 
 def valid(registry):
     refs = [row["ref_id"] for row in registry]
-    return {"executive_summary":[{"heading":"Shared coverage", "synthesis":"Coverage developed across the month.", "source_refs":[refs[0], refs[1]]}],
+    return {"executive_summary":[
+                {"heading":"Shared coverage", "synthesis":"Coverage developed across the month.", "source_refs":[refs[0], refs[1]]},
+                {"heading":"Material shift", "synthesis":"A second material development shaped the month.", "source_refs":[refs[0], refs[1]]},
+                {"heading":"Continuing development", "synthesis":"The recurring development remained consequential.", "source_refs":[refs[0], refs[1]]},
+            ],
             "trends":[{"heading":"Semantically regrouped theme", "scope":"cross_source", "synthesis":"Alpha News and Alpine Network returned to a shared development.", "source_refs":refs[:2]}],
             "notable_developments":[{"heading":"Isolated event", "synthesis":"Canadian Prepper recorded a separate event.", "source_refs":[refs[-1]]}],
             "month_in_brief":"The month combined recurring coverage with one isolated event.", "source_refs_used":refs}
@@ -38,12 +42,13 @@ def test_deterministic_ids_collisions_and_same_day_suffixes():
 def test_citations_urls_attribution_and_semantic_theme_are_guarded():
     registry = build_source_registry([item("Alpha News", 2, "a"), item("Alpine Network", 3, "b"), item("Canadian Prepper", 4, "c")])
     synthesis = validate_synthesis(valid(registry), registry)
-    report = render_monthly("Monthly", synthesis, registry)
+    report = render_monthly("Monthly", synthesis, registry, "2026-08")
     assert "Semantically regrouped theme" in report and "wrong-label" not in report
     assert "the speaker" not in report.lower()
     assert "example.invalid" not in report
     for ref in synthesis["source_refs_used"]: assert f"[{ref}](https://" in report
     assert "— <https://" not in report
+    assert "**Monthly — August 2026**" in report
     bad = valid(registry); bad["trends"][0]["source_refs"] = ["FAKE 01/01"]; bad["source_refs_used"] = ["FAKE 01/01", registry[-1]["ref_id"]]
     with pytest.raises(MonthlySynthesisError): validate_synthesis(bad, registry)
     bad = valid(registry); bad["month_in_brief"] = "See https://invented.invalid"
@@ -68,6 +73,39 @@ def test_prompt_enforces_one_language_and_identified_sources():
     assert "Topic fields are fallible hints" in seen["system"]
     assert "generic 'the speaker'" in seen["system"]
     assert "Executive entries use 1-4 representative citations." in seen["system"]
+    assert "3-4 entries" in seen["system"]
+    assert "Normally include at most one source_specific trend" in seen["system"]
+
+
+def test_stockholm_boundary_and_authoritative_period_source_index_rendering():
+    boundary = item("Canadian Prepper", 1, "boundary", title="A very long YouTube title")
+    boundary["published_at"] = "2026-07-31T22:00:17+00:00"
+    other = item("Canadian Prepper", 21, "other", title="Another full title")
+    uncited = item("Unused Channel", 9, "unused", title="Must not appear")
+    registry = build_source_registry([boundary, other, uncited])
+    cp = [row for row in registry if row["source"] == "Canadian Prepper"]
+    assert cp[0]["source_date"] == "2026-08-01"
+    assert cp[0]["ref_id"] == "CP 01/08"
+    synthesis = {
+        "executive_summary": [
+            {"heading": f"Event {n}", "synthesis": "A material development mattered.", "source_refs": [cp[0]["ref_id"]]}
+            for n in range(1, 4)
+        ],
+        "trends": [{"heading": "Development", "scope": "source_specific", "source": "Canadian Prepper",
+                    "synthesis": "Canadian Prepper documented a material change.",
+                    "source_refs": [cp[0]["ref_id"], cp[1]["ref_id"], cp[0]["ref_id"]]}],
+        "notable_developments": [], "month_in_brief": "Material events shaped the month.",
+        "source_refs_used": [cp[0]["ref_id"], cp[1]["ref_id"]],
+    }
+    report = render_monthly("Monthly", synthesis, registry, "2026-08")
+    assert "Monthly — August 2026" in report and "Monthly — July 2026" not in report
+    index = report.split("## Source Index", 1)[1]
+    assert index.count("**Canadian Prepper (CP)**") == 1
+    assert "A very long YouTube title" not in index and "Another full title" not in index
+    assert "Unused Channel" not in index and "Must not appear" not in index
+    assert f"[01/08]({cp[0]['url']})" in index and f"[21/08]({cp[1]['url']})" in index
+    trend = report.split("### 1. Development", 1)[1].split("## Month in Brief", 1)[0]
+    assert "documented a material change.\n\n_Sources:" in trend
 
 
 def test_citation_presentation_is_normalized_without_retry():
@@ -181,6 +219,29 @@ def test_unrelated_cross_source_one_offs_fail_topic_coherence():
     registry = build_source_registry(rows)
     synthesis = valid(registry)
     with pytest.raises(MonthlySynthesisError, match="no shared persisted topic"):
+        validate_synthesis(synthesis, registry)
+
+
+def test_source_specific_trends_are_limited_when_three_cross_source_trends_exist():
+    registry = build_source_registry([
+        item("Alpha News", day, f"a-{day}", topic="shared") for day in (1, 2, 3)
+    ] + [
+        item("Beta News", day, f"b-{day}", topic="shared") for day in (4, 5, 6)
+    ])
+    alpha = [row["ref_id"] for row in registry if row["source"] == "Alpha News"]
+    beta = [row["ref_id"] for row in registry if row["source"] == "Beta News"]
+    synthesis = valid(registry)
+    synthesis["trends"] = [
+        {"heading": f"Shared development {n}", "scope": "cross_source",
+         "synthesis": "Alpha News and Beta News described the shared development.",
+         "source_refs": [alpha[n - 1], beta[n - 1]]}
+        for n in range(1, 4)
+    ] + [
+        {"heading": f"{source} framing changed", "scope": "source_specific", "source": source,
+         "synthesis": f"{source} materially changed its framing.", "source_refs": refs}
+        for source, refs in (("Alpha News", alpha), ("Beta News", beta))
+    ]
+    with pytest.raises(MonthlySynthesisError, match="at most one source-specific"):
         validate_synthesis(synthesis, registry)
 
 

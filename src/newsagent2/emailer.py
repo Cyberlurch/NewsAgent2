@@ -403,6 +403,27 @@ def _safe_markdown_to_html(md_body: str) -> str:
     return f"<pre>{escaped}</pre>"
 
 
+def _style_cyberlurch_monthly_html(html: str) -> str:
+    """Apply conservative, inline-compatible presentation to Monthly email only."""
+    styled = html
+    replacements = {
+        "<h1>": '<h1 style="font-size:30px;line-height:1.2;margin:0 0 18px;">',
+        "<h2>": '<h2 style="font-size:22px;line-height:1.3;margin:32px 0 14px;padding-top:16px;border-top:1px solid #d9dde3;">',
+        "<h3>": '<h3 style="font-size:18px;line-height:1.35;margin:24px 0 10px;">',
+        "<p>": '<p style="margin:0 0 16px;">',
+        "<hr>": '<hr style="border:0;border-top:1px solid #d9dde3;margin:28px 0;">',
+        "<a ": '<a style="color:#1558a6;text-decoration:underline;" ',
+    }
+    for original, replacement in replacements.items():
+        styled = styled.replace(original, replacement)
+    return (
+        '<div style="background:#ffffff;color:#202124;font-family:-apple-system,BlinkMacSystemFont,'
+        "&quot;Segoe UI&quot;,Arial,sans-serif;font-size:16px;line-height:1.55;"
+        'max-width:700px;margin:0 auto;padding:20px 18px;">'
+        + styled + "</div>"
+    )
+
+
 def send_markdown(subject: str, md_body: str) -> None:
     """Send the Markdown report as email (plain + HTML).
 
@@ -472,6 +493,8 @@ def send_markdown(subject: str, md_body: str) -> None:
     try:
         html_source = md_without_metadata if metadata_removed else md_body
         html = _safe_markdown_to_html(html_source)
+        if report_key.lower() == "cyberlurch" and report_mode.lower() == "monthly":
+            html = _style_cyberlurch_monthly_html(html)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
         print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")
         print(traceback.format_exc())

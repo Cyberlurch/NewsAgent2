@@ -5,6 +5,7 @@ import re
 from collections import defaultdict
 from datetime import datetime
 from typing import Any, Callable, Dict, Iterable, List, MutableMapping
+from zoneinfo import ZoneInfo
 
 
 MONTHLY_EVIDENCE_MAX = 80
@@ -13,6 +14,7 @@ MONTHLY_CHANNEL_SOFT_CAP = 8
 MONTHLY_SUMMARY_MAX_CHARS = 1200
 MONTHLY_DETAILS_MAX_CHARS = 700
 MONTHLY_DETAILS_MAX_POINTS = 4
+MONTHLY_TIMEZONE = ZoneInfo("Europe/Stockholm")
 
 
 class MonthlySynthesisError(RuntimeError):
@@ -67,9 +69,10 @@ def build_source_registry(items: Iterable[Dict[str, Any]]) -> List[Dict[str, Any
         url, title = str(row.get("url") or "").strip(), str(row.get("title") or "").strip()
         if not source or not url or not title:
             raise MonthlySynthesisError("persisted Monthly source lacks channel, title, or URL")
+        publication_day = date.astimezone(MONTHLY_TIMEZONE) if date.tzinfo else date.replace(tzinfo=MONTHLY_TIMEZONE)
         prepared.append({
-            "source": source, "source_date": date.strftime("%Y-%m-%d"),
-            "date_label": date.strftime("%d/%m"), "title": title, "url": url,
+            "source": source, "source_date": publication_day.strftime("%Y-%m-%d"),
+            "date_label": publication_day.strftime("%d/%m"), "title": title, "url": url,
             "source_identifier": str(row.get("id") or row.get("video_id") or "").strip(),
             "factual_summary": _persisted_fact(row),
             "supporting_details": _supporting_details(row),
@@ -214,9 +217,10 @@ def _supporting_details(row: Dict[str, Any]) -> List[str]:
 
 def monthly_prompt(registry: List[Dict[str, Any]], language: str) -> tuple[str, str]:
     lang = "English" if str(language).lower().startswith("en") else "German"
-    system = f"""You produce a neutral, information-dense monthly trend briefing from persisted facts only. Write all narrative prose and headings in {lang}; source names and titles may retain their original language. Return one JSON object, not Markdown, with keys executive_summary (4-6 objects with heading, synthesis, source_refs), trends (3-6 objects with heading, synthesis, source_refs, scope, and source when scope is source_specific), notable_developments (at most 3 objects with heading, synthesis, source_refs; may be empty), month_in_brief (one concise string), and source_refs_used (array).
-Trends have scope cross_source or source_specific. A cross_source trend needs representative evidence from at least two distinct channels (2-5 citations) that genuinely supports the same development; never combine unrelated one-offs under an invented causal theme. A source_specific trend needs 3-5 relevant records from one named channel, must name that channel in its heading and prose, and describes a change in that channel's coverage rather than an external-world trend. Write important trends at roughly 80-140 words when evidence supports that density. Explain what happened, change over the month, concrete examples, and source agreement or differences.
-Executive entries use a short descriptive heading. Executive entries use 1-4 representative citations. Notable developments use normally 1-2 citations and must be material standalone events. Exclude programming or promotional updates, isolated low-significance anecdotes, generic impersonation stories, and vague medical claims whose intervention is unidentified; omit rather than guess. Topic fields are fallible hints: regroup facts semantically. Prefer persisted names, actions, institutions, numbers, and concrete claims over abstractions, while clearly attributing allegations. Attribute commentary to the named channel. Never use generic 'the speaker', 'the presenter', 'the podcast', 'der Sprecher', or 'der Bericht'. Avoid advice, moral judgments, generic filler endings, invented facts, URLs, and source IDs. Put citations only in source_refs arrays; do not embed citations or URLs in prose."""
+    system = f"""You produce a neutral, information-dense monthly trend briefing from persisted facts only. Write all narrative prose and headings in {lang}; source names and titles may retain their original language. Return one JSON object, not Markdown, with keys executive_summary (3-4 objects with heading, synthesis, source_refs), trends (3-6 objects with heading, synthesis, source_refs, scope, and source when scope is source_specific), notable_developments (at most 3 objects with heading, synthesis, source_refs; may be empty), month_in_brief (one concise string), and source_refs_used (array).
+Trends have scope cross_source or source_specific. Prioritize external developments and cross-source trends. Normally include at most one source_specific trend; include more only when fewer than three valid cross-source trends can be formed from the supplied evidence. A cross_source trend needs representative evidence from at least two distinct channels (2-5 citations) that genuinely supports the same development; never combine unrelated one-offs under an invented causal theme. A source_specific trend needs 3-5 relevant records from one named channel, must name that channel in its heading and prose, and describes a materially informative change in that channel's framing or emphasis rather than ordinary publishing habits. Write important trends at roughly 80-140 words when evidence supports that density. Explain what happened, change over the month, concrete examples, and source agreement or differences.
+Executive Brief means what mattered, not abbreviated Key Trend prose: write 3-4 entries, normally about 35-60 words each, containing only the most material multi-source trends or an exceptionally important standalone event. Do not promote a low-impact interview or isolated commentary merely to fill it. Executive entries use a short descriptive heading. Executive entries use 1-4 representative citations. Notable developments normally number 1-2 (never more than 3), use normally 1-2 citations, and must be material standalone events. Do not repeat the same standalone development in Executive Brief and Worth Noting unless its Executive mention is necessary to understand the month.
+Month in Brief must summarize the actual material developments in 2-3 substantive sentences; never discuss evidence selection, channel diversity, report mechanics, or the persisted source pool. Exclude programming or promotional updates, isolated low-significance anecdotes, generic impersonation stories, and vague medical claims whose intervention is unidentified; omit rather than guess. Topic fields are fallible hints: regroup facts semantically. Prefer persisted names, actions, institutions, numbers, and concrete claims over abstractions. Explicitly attribute any allegation, prediction, disputed number, causal claim, or source interpretation supported by only one commentary source. Never upgrade an event to a causal characterization (for example, 'climate-related') unless persisted evidence explicitly supports it. Attribute commentary to the named channel without adding generic skeptical boilerplate. Never use generic 'the speaker', 'the presenter', 'the podcast', 'der Sprecher', or 'der Bericht'. Avoid advice, moral judgments, generic filler endings, invented facts, URLs, and source IDs. Put citations only in source_refs arrays; do not embed citations or URLs in prose."""
     payload_keys = ("ref_id", "source", "source_date", "title", "factual_summary", "supporting_details", "topic_hints", "temporality")
     payload = [{key: row.get(key) for key in payload_keys} for row in registry]
     return system, "Persisted Monthly sources (JSON):\n" + json.dumps(payload, ensure_ascii=False, indent=2)
@@ -302,6 +306,10 @@ def validate_synthesis(value: Any, registry: List[Dict[str, Any]]) -> Dict[str, 
                     raise MonthlySynthesisError("trend scope must be cross_source or source_specific")
             used.extend(refs); prose.extend([str(section["heading"]), str(section["synthesis"])])
     joined = " ".join(prose)
+    source_specific_count = sum(trend.get("scope") == "source_specific" for trend in trends)
+    cross_source_count = sum(trend.get("scope") == "cross_source" for trend in trends)
+    if source_specific_count > 1 and cross_source_count >= 3:
+        raise MonthlySynthesisError("at most one source-specific trend when three cross-source trends are available")
     if _VAGUE_ATTRIBUTION.search(joined):
         raise MonthlySynthesisError("generic unidentified attribution in Monthly prose")
     if any(row["url"] in joined for row in registry) or re.search(r"https?://", joined):
@@ -341,25 +349,35 @@ def synthesize_monthly(registry: List[Dict[str, Any]], language: str, call: Call
     raise MonthlySynthesisError(f"Monthly synthesis validation failed after one retry: {last_error}")
 
 
-def render_monthly(title: str, synthesis: Dict[str, Any], registry: List[Dict[str, Any]]) -> str:
+def render_monthly(title: str, synthesis: Dict[str, Any], registry: List[Dict[str, Any]], target_month: str) -> str:
     lookup = {row["ref_id"]: row for row in registry}
     def links(refs: List[str]) -> str:
-        return "(" + " · ".join(f"[{ref}]({lookup[ref]['url']})" for ref in refs) + ")"
-    month = datetime.strptime(registry[0]["source_date"], "%Y-%m-%d").strftime("%B %Y") if registry else "Monthly"
+        return "_Sources: " + " · ".join(f"[{ref}]({lookup[ref]['url']})" for ref in refs) + "_"
+    try:
+        month = datetime.strptime(target_month, "%Y-%m").strftime("%B %Y")
+    except (TypeError, ValueError) as exc:
+        raise MonthlySynthesisError("invalid authoritative Monthly target month") from exc
     lines = ["# The Cyberlurch Report", "", f"**Monthly — {month}**", "", "---", "", "## Executive Brief", ""]
     for entry in synthesis["executive_summary"]:
         heading = str(entry.get("heading") or "Monthly overview").rstrip(".")
-        lines += [f"**{heading}.**", f"{entry['synthesis']} {links(entry['source_refs'])}", ""]
+        lines += [f"**{heading}.**", str(entry['synthesis']), "", links(entry['source_refs']), ""]
     lines += ["---", "", "## Key Trends", ""]
     for index, trend in enumerate(synthesis["trends"], 1):
         lines += [f"### {index}. {trend['heading']}", "", trend['synthesis'], "", links(trend["source_refs"]), ""]
     if synthesis["notable_developments"]:
         lines += ["---", "", "## Worth Noting", ""]
         for item in synthesis["notable_developments"]:
-            lines += [f"**{item['heading'].rstrip('.')}.** {item['synthesis']} {links(item['source_refs'])}", ""]
-    lines += ["---", "", "## Month in Brief", "", synthesis["month_in_brief"], "", "---", "", "## Sources", ""]
+            lines += [f"**{item['heading'].rstrip('.')}.** {item['synthesis']}", "", links(item['source_refs']), ""]
+    lines += ["---", "", "## Month in Brief", "", synthesis["month_in_brief"], "", "---", "", "## Source Index", ""]
     used = set(synthesis["source_refs_used"])
+    grouped: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
     for row in registry:
         if row["ref_id"] in used:
-            lines.append(f"[{row['ref_id']}]({row['url']}) — {row['source']} — “{row['title']}”")
+            grouped[row["source"]].append(row)
+    for source in sorted(grouped, key=str.casefold):
+        rows = grouped[source]
+        abbreviation = rows[0]["ref_id"].split(" ", 1)[0]
+        lines += [f"**{source} ({abbreviation})**", " · ".join(
+            f"[{row['ref_id'].split(' ', 1)[1]}]({row['url']})" for row in rows
+        ), ""]
     return "\n".join(lines).rstrip() + "\n"

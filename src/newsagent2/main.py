@@ -5605,6 +5605,7 @@ def main() -> None:
         run_metadata=run_metadata,
         monthly_synthesis=monthly_synthesis,
         monthly_source_registry=monthly_source_registry,
+        monthly_target_month=cyberlurch_monthly_target_month if report_key == "cyberlurch" and report_mode == "monthly" else None,
     )
 
     if is_cybermed_run:

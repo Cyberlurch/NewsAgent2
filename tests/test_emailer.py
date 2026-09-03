@@ -10,6 +10,15 @@ from newsagent2 import emailer
 
 
 class MarkdownConversionTests(unittest.TestCase):
+    def test_cyberlurch_monthly_mobile_style(self):
+        raw = "<h1>Report</h1><h2>Section</h2><h3>Trend</h3><p>Text <a href=\"x\">link</a></p><hr>"
+        styled = emailer._style_cyberlurch_monthly_html(raw)
+        self.assertIn("max-width:700px", styled)
+        self.assertIn("-apple-system,BlinkMacSystemFont", styled)
+        self.assertIn("font-size:16px", styled)
+        self.assertIn("line-height:1.55", styled)
+        self.assertIn("border-top:1px solid #d9dde3", styled)
+
     def test_details_and_lists_render_without_error(self):
         md = """# Report\n\n<details markdown=\"1\">\n<summary>Run Metadata (click to expand)</summary>\n\n- bullet one\n- bullet two\n\n`inline code`\n</details>\n"""
         html = emailer._safe_markdown_to_html(md)
