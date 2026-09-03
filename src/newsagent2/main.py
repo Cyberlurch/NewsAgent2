@@ -5521,6 +5521,7 @@ def main() -> None:
 
     monthly_synthesis = None
     monthly_source_registry = None
+    monthly_evidence_diagnostics: Dict[str, Any] = {}
     if report_key.strip().lower() == "cyberlurch" and report_mode == "monthly":
         monthly_source_registry = build_source_registry(report_items)
         try:
@@ -5528,7 +5529,22 @@ def main() -> None:
                 monthly_source_registry,
                 report_language,
                 synthesize_cyberlurch_monthly_json,
+                monthly_evidence_diagnostics,
             )
+            monthly_usage = diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.to_dict().get(
+                "calls_by_stage_model", {}
+            )
+            monthly_rows = [
+                row for key, row in monthly_usage.items()
+                if key.startswith("cyberlurch_monthly_synthesis|")
+            ]
+            if monthly_rows:
+                monthly_evidence_diagnostics["monthly_provider_input_tokens"] = sum(
+                    row.get("input_tokens", 0) for row in monthly_rows
+                )
+                monthly_evidence_diagnostics["monthly_provider_output_tokens"] = sum(
+                    row.get("output_tokens", 0) for row in monthly_rows
+                )
         except Exception as exc:
             os.makedirs(report_dir, exist_ok=True)
             artifact = {
@@ -5545,7 +5561,10 @@ def main() -> None:
                 f"Cyberlurch Monthly delivery blocked: synthesis failed; diagnostics={error_path}"
             ) from exc
         print(
-            "[cyberlurch-monthly] synthesis provider_calls=1 collection_calls=0 "
+            "[cyberlurch-monthly] synthesis "
+            f"provider_calls={monthly_evidence_diagnostics['monthly_provider_operations']} collection_calls=0 "
+            f"evidence={monthly_evidence_diagnostics['monthly_evidence_items_selected']}/"
+            f"{monthly_evidence_diagnostics['monthly_persisted_records_available']} "
             f"trends={len(monthly_synthesis['trends'])} "
             f"notable={len(monthly_synthesis['notable_developments'])} "
             f"source_refs={len(monthly_synthesis['source_refs_used'])}"
@@ -5602,6 +5621,7 @@ def main() -> None:
             "items_by_temporality": items_by_temporality,
             **(cyberlurch_diag if report_key.strip().lower()=="cyberlurch" else {}),
             "deep_dives_by_topic": deep_dives_by_topic,
+            **monthly_evidence_diagnostics,
             "weekly_digest_items_total": weekly_digest_items_total,
             "weekly_digest_used_total": weekly_digest_used_total,
             "weekly_digest_fallback_collection_used": weekly_digest_fallback_collection_used,
