@@ -2315,89 +2315,348 @@
         ]
       },
       {
-        "deep_dives": [],
         "executive_summary": [
-          "The Medicine Cancer Patients are HIDING From Their Doctors.",
-          "Christians Imprisoned in Communist China | Christian World News - July 31, 2026",
-          "🚨🚨Here We Go… BRACE For It!!",
-          "We're Making the Same Mistake That Almost Ended Europe",
-          "The Most Powerful Transgender Story Ive Ever Heard"
+          "July saw a dramatic escalation in US-Iran hostilities, including large-scale US strikes on Iranian military assets, Iranian retaliatory attacks on US bases (resulting in American casualties), and ongoing naval blockades in the Strait of Hormuz. Diplomatic efforts, including mediation attempts and temporary pauses in strikes, have so far failed to de-escalate the situation, with risks of broader regional conflict involving Israel, Saudi Arabia, and proxy groups remaining high.",
+          "The Iran war has become deeply unpopular across the American political spectrum, including among independents, GOP-leaning voters, and even segments of the MAGA base. Rising gas prices and perceptions of strategic failure have eroded support for President Trump and the Republican Party, with polling showing significant negative approval and potential electoral consequences.",
+          "Rapid advances in artificial intelligence, including superhuman cyber capabilities and emergent behaviors, have triggered national security interventions and public debate about the risks of uncontrollable AI. Simultaneously, the proliferation of AI data centers is raising environmental and health concerns, particularly regarding electromagnetic field exposure, water usage, and lack of regulatory oversight.",
+          "Ukraine has reportedly expanded its conflict with Russia by targeting Iranian assets, aiming to disrupt weapons supply lines and draw greater Western support. These actions, alongside continued Russian advances and internal instability in Ukraine, are reshaping regional alliances and complicating the broader geopolitical landscape."
         ],
-        "generated_at": "2026-09-03T06:33:36+00:00",
+        "generated_at": "2026-09-03T13:23:52+00:00",
         "month": "2026-07",
-        "month_in_brief": {
-          "changed": [
-            "The Medicine Cancer Patients are HIDING From Their Doctors.",
-            "Christians Imprisoned in Communist China | Christian World News - July 31, 2026"
-          ],
-          "unresolved": []
-        },
-        "schema": "cyberlurch-monthly-semantic-v1",
+        "month_in_brief": "July 2026 was marked by a sharp escalation in US-Iran hostilities, with large-scale military strikes, retaliatory attacks, and naval blockades destabilizing the Middle East and threatening global energy markets. The Ukraine conflict spilled over into the region, as Ukraine targeted Iranian assets to disrupt Russian supply lines, further complicating alliances. Domestically, the Iran war became deeply unpopular in the US, eroding support for the administration and fueling political backlash. Meanwhile, rapid advances in AI and the expansion of data centers raised new security, environmental, and health concerns, while Germany and China faced significant political and economic shifts.",
+        "notable_developments": [
+          {
+            "attribution_source": "breakingpoints",
+            "heading": "Assassination of Ecuadorian Prosecutor Investigating US Drone Strikes",
+            "source_refs": [
+              "BR 27/07-D"
+            ],
+            "synthesis": "Alexandra Bravo, an Ecuadorian prosecutor investigating alleged US drone strikes and torture of survivors, was assassinated along with her sister. The case involves survivor testimonies, physical evidence, and open-source intelligence suggesting US Coast Guard involvement in anti-drug operations. The US government denies all allegations of extrajudicial killings or torture."
+          },
+          {
+            "attribution_source": "Vermietertagebuch",
+            "heading": "Saudi Arabia Resumes War in Yemen, Threatens Regional Shipping",
+            "source_refs": [
+              "VE 13/07-B"
+            ],
+            "synthesis": "Saudi Arabia broke a ceasefire by bombing Sana airport in Yemen, prompting Houthi threats to retaliate and potentially close the Bab-el-Mandeb strait, a key global shipping route. These actions risk further destabilizing the region and disrupting international trade."
+          },
+          {
+            "attribution_source": "AndreiJikh",
+            "heading": "China Accelerates Gold Accumulation, Shifts Investment Strategy",
+            "source_refs": [
+              "AJ 15/07"
+            ],
+            "synthesis": "China’s largest ETF is now a gold ETF, surpassing its main stock ETF, amid falling gold prices. The People’s Bank of China has bought gold for 20 consecutive months, and major Chinese banks are ending retail gold trading in paper products. These moves are interpreted as part of a broader strategy to diversify reserves and hedge against dollar dominance."
+          },
+          {
+            "attribution_source": "COMPACTTV",
+            "heading": "Major Terror Attack and Aftermath in Berlin",
+            "source_refs": [
+              "COMPACTTV 27/07"
+            ],
+            "synthesis": "A terror attack in Berlin resulted in the police shooting of the main suspect, Abdul Balout, the day after the incident. Commentators question the official narrative, suggesting the possibility of scapegoating and incomplete investigation, and draw parallels to previous high-profile cases."
+          }
+        ],
+        "schema": "cyberlurch-monthly-semantic-v2",
+        "source_refs_used": [
+          "IEN 12/07-C",
+          "IEN 19/07-B",
+          "IEN 22/07-D",
+          "IEN 26/07-D",
+          "BR 23/07-A",
+          "RN 14/07",
+          "COMPACTTV 23/07",
+          "RN 15/07",
+          "CP 11/07",
+          "DO 26/07",
+          "CP 25/07-B",
+          "CP 05/07-B",
+          "RN 01/07-B",
+          "CP 10/07-A",
+          "DO 19/07",
+          "VE 13/07-B",
+          "IEN 05/07-B",
+          "IEN 15/07-B",
+          "COMPACTTV 16/07",
+          "COMPACTTV 20/07",
+          "MF7 07/07-B",
+          "MF7 19/07",
+          "COMPACTTV 12/07-B",
+          "BR 27/07-D",
+          "AJ 15/07",
+          "COMPACTTV 27/07"
+        ],
+        "source_registry": [
+          {
+            "ref_id": "RN 01/07-B",
+            "source": "RedactedNews",
+            "source_date": "2026-07-01",
+            "source_identifier": "iOV4-c8ZXWQ",
+            "title": "Ukrainians Just Tried to Kill Zelensky in Coup Assassination Attempt, SBU Captured",
+            "url": "https://www.youtube.com/watch?v=iOV4-c8ZXWQ"
+          },
+          {
+            "ref_id": "CP 05/07-B",
+            "source": "CanadianPrepper",
+            "source_date": "2026-07-05",
+            "source_identifier": "eut27F2AFP4",
+            "title": "⚡Russia is Going ALL THE WAY! IRAN War Will RESTART w/ Mark Sleboda",
+            "url": "https://www.youtube.com/watch?v=eut27F2AFP4"
+          },
+          {
+            "ref_id": "IEN 05/07-B",
+            "source": "IsraelEnglishNews",
+            "source_date": "2026-07-05",
+            "source_identifier": "8vOomqDMKqk",
+            "title": "Israel Daily News - July 5, 2026 | Terrorists At Khamenei's Funeral",
+            "url": "https://www.youtube.com/watch?v=8vOomqDMKqk"
+          },
+          {
+            "ref_id": "MF7 07/07-B",
+            "source": "MarcFriedrich7",
+            "source_date": "2026-07-07",
+            "source_identifier": "TrgJ8xDp4ws",
+            "title": "Angriff auf Bitcoin-Sparer: Kommt jetzt die neue Krypto-Steuer?",
+            "url": "https://www.youtube.com/watch?v=TrgJ8xDp4ws"
+          },
+          {
+            "ref_id": "CP 10/07-A",
+            "source": "CanadianPrepper",
+            "source_date": "2026-07-10",
+            "source_identifier": "3I1Zgd2z5Ys",
+            "title": "⚡\"ALL BETS ARE OFF\" Iran and Putin Will Be Pushed Over the EDGE @JamarlThomas",
+            "url": "https://www.youtube.com/watch?v=3I1Zgd2z5Ys"
+          },
+          {
+            "ref_id": "CP 11/07",
+            "source": "CanadianPrepper",
+            "source_date": "2026-07-11",
+            "source_identifier": "ZFim3j9s6ic",
+            "title": "FLOCK Cameras and the Truth About DATA CENTERS @businessreform",
+            "url": "https://www.youtube.com/watch?v=ZFim3j9s6ic"
+          },
+          {
+            "ref_id": "COMPACTTV 12/07-B",
+            "source": "COMPACTTV",
+            "source_date": "2026-07-12",
+            "source_identifier": "iaoY01paGDc",
+            "title": "Admiral im Interview: Gefeuert wegen Putin, jetzt kritisch!",
+            "url": "https://www.youtube.com/watch?v=iaoY01paGDc"
+          },
+          {
+            "ref_id": "IEN 12/07-C",
+            "source": "IsraelEnglishNews",
+            "source_date": "2026-07-12",
+            "source_identifier": "Oc6gDl8uaZk",
+            "title": "Israel Daily News - July 12, 2026 | U.S. Hits 140 Iranian Targets",
+            "url": "https://www.youtube.com/watch?v=Oc6gDl8uaZk"
+          },
+          {
+            "ref_id": "VE 13/07-B",
+            "source": "Vermietertagebuch",
+            "source_date": "2026-07-13",
+            "source_identifier": "wvKfh_CHl-E",
+            "title": "Kriegserklärung von Saudi-Arabien + USA übernehmen Hormuz (20% Zoll) + 3 weitere US-Soldaten tot?",
+            "url": "https://www.youtube.com/watch?v=wvKfh_CHl-E"
+          },
+          {
+            "ref_id": "RN 14/07",
+            "source": "RedactedNews",
+            "source_date": "2026-07-14",
+            "source_identifier": "pauU-XDs_uA",
+            "title": "Super Human AI is Nearly Here, And No One Is Ready",
+            "url": "https://www.youtube.com/watch?v=pauU-XDs_uA"
+          },
+          {
+            "ref_id": "AJ 15/07",
+            "source": "AndreiJikh",
+            "source_date": "2026-07-15",
+            "source_identifier": "dFjvcY9Tth0",
+            "title": "China Is Preparing For $38,000 Gold",
+            "url": "https://www.youtube.com/watch?v=dFjvcY9Tth0"
+          },
+          {
+            "ref_id": "IEN 15/07-B",
+            "source": "IsraelEnglishNews",
+            "source_date": "2026-07-15",
+            "source_identifier": "DMltNZjVYdY",
+            "title": "ILTV Security Brief | Back To War: U.S. Hammers Iran",
+            "url": "https://www.youtube.com/watch?v=DMltNZjVYdY"
+          },
+          {
+            "ref_id": "RN 15/07",
+            "source": "RedactedNews",
+            "source_date": "2026-07-15",
+            "source_identifier": "h_o1JiiyLgo",
+            "title": "Are AI Data Centers Causing Cancer? | Redacted News",
+            "url": "https://www.youtube.com/watch?v=h_o1JiiyLgo"
+          },
+          {
+            "ref_id": "COMPACTTV 16/07",
+            "source": "COMPACTTV",
+            "source_date": "2026-07-16",
+            "source_identifier": "5G0FYXqcnww",
+            "title": "Völlig krank: Spahn kauft sich Baby in Übersee!💥",
+            "url": "https://www.youtube.com/watch?v=5G0FYXqcnww"
+          },
+          {
+            "ref_id": "DO 19/07",
+            "source": "Darius_official",
+            "source_date": "2026-07-19",
+            "source_identifier": "MDPyb7658d0",
+            "title": "Eilmeldung: Iran enthüllt Plan für Dubai: „Räumt den Flughafen!“",
+            "url": "https://www.youtube.com/watch?v=MDPyb7658d0"
+          },
+          {
+            "ref_id": "IEN 19/07-B",
+            "source": "IsraelEnglishNews",
+            "source_date": "2026-07-19",
+            "source_identifier": "L532EpqXzlU",
+            "title": "Israel Daily News - July 19, 2026 | U.S. Unleashes Hell On Iran",
+            "url": "https://www.youtube.com/watch?v=L532EpqXzlU"
+          },
+          {
+            "ref_id": "MF7 19/07",
+            "source": "MarcFriedrich7",
+            "source_date": "2026-07-19",
+            "source_identifier": "gzjFIkUGg4s",
+            "title": "Prof. Richard Werner: Der Dollar bleibt stark – auf unsere Kosten",
+            "url": "https://www.youtube.com/watch?v=gzjFIkUGg4s"
+          },
+          {
+            "ref_id": "COMPACTTV 20/07",
+            "source": "COMPACTTV",
+            "source_date": "2026-07-20",
+            "source_identifier": "WJ0GUz-cyig",
+            "title": "Nach Spahn-Aus: Merz zerlegt sich weiter!💥",
+            "url": "https://www.youtube.com/watch?v=WJ0GUz-cyig"
+          },
+          {
+            "ref_id": "IEN 22/07-D",
+            "source": "IsraelEnglishNews",
+            "source_date": "2026-07-22",
+            "source_identifier": "gOSHBmJui7c",
+            "title": "ILTV Security Brief | Can The U.S. Finish The Job?",
+            "url": "https://www.youtube.com/watch?v=gOSHBmJui7c"
+          },
+          {
+            "ref_id": "BR 23/07-A",
+            "source": "breakingpoints",
+            "source_date": "2026-07-23",
+            "source_identifier": "0nk-eUnb-iU",
+            "title": "Even MAGA TURNING On Trump Iran War",
+            "url": "https://www.youtube.com/watch?v=0nk-eUnb-iU"
+          },
+          {
+            "ref_id": "COMPACTTV 23/07",
+            "source": "COMPACTTV",
+            "source_date": "2026-07-23",
+            "source_identifier": "KkaE7weZ_BM",
+            "title": "Globale Panik: Super-KI außer Kontrolle!💥",
+            "url": "https://www.youtube.com/watch?v=KkaE7weZ_BM"
+          },
+          {
+            "ref_id": "CP 25/07-B",
+            "source": "CanadianPrepper",
+            "source_date": "2026-07-25",
+            "source_identifier": "waL1kd-7gsY",
+            "title": "⚡ALERT: SAUDI ARAMCO HIT! UKRAINE STRIKES IRAN (YES IRAN)! ISRAEL PREPS BUNKERS!",
+            "url": "https://www.youtube.com/watch?v=waL1kd-7gsY"
+          },
+          {
+            "ref_id": "DO 26/07",
+            "source": "Darius_official",
+            "source_date": "2026-07-26",
+            "source_identifier": "YewEeytj-mQ",
+            "title": "EILMELDUNG: Ukraine greift den IRAN an … DAS ist der Grund !!!",
+            "url": "https://www.youtube.com/watch?v=YewEeytj-mQ"
+          },
+          {
+            "ref_id": "IEN 26/07-D",
+            "source": "IsraelEnglishNews",
+            "source_date": "2026-07-26",
+            "source_identifier": "_w0eOXUK1wM",
+            "title": "Israel Daily News - July 26, 2026 | Iran Threatens Wider War, Eyes Nukes",
+            "url": "https://www.youtube.com/watch?v=_w0eOXUK1wM"
+          },
+          {
+            "ref_id": "BR 27/07-D",
+            "source": "breakingpoints",
+            "source_date": "2026-07-27",
+            "source_identifier": "kZAIBTXkrY0",
+            "title": "Prosecutor ASSASSINATED After Investigating Trump Alleged War Crimes",
+            "url": "https://www.youtube.com/watch?v=kZAIBTXkrY0"
+          },
+          {
+            "ref_id": "COMPACTTV 27/07",
+            "source": "COMPACTTV",
+            "source_date": "2026-07-27",
+            "source_identifier": "Lsayc1ss08Q",
+            "title": "CSD-Anschlag: Die Sache stinkt zum Himmel!💥",
+            "url": "https://www.youtube.com/watch?v=Lsayc1ss08Q"
+          }
+        ],
         "themes": [
           {
-            "heading": "Preparedness, Sicherheit & Survival",
-            "links": [
-              {
-                "title": "The Medicine Cancer Patients are HIDING From Their Doctors.",
-                "url": "https://www.youtube.com/watch?v=1NbRc5OSAsk"
-              }
+            "heading": "Escalation of US-Iran Hostilities and Regional Spillover",
+            "scope": "cross_source",
+            "source_refs": [
+              "IEN 12/07-C",
+              "IEN 19/07-B",
+              "CP 10/07-A",
+              "DO 19/07",
+              "VE 13/07-B"
             ],
-            "synthesis": [
-              "The Medicine Cancer Patients are HIDING From Their Doctors.",
-              "⚡ALERT: WORLD WAR Z IS UNFOLDING! RUSSIA NUCLEAR TIME BOMB, MIDDLE EAST CHAOS! DAY X APPROACHES!",
-              "⚡How I'm Prepping for a WW3 FOOD Apocalypse and Famine"
-            ]
+            "synthesis": "Throughout July, the US and Iran engaged in a cycle of military escalation, with the US launching extensive strikes on Iranian military targets in response to attacks on commercial shipping and US bases. Iran retaliated with missile and drone strikes on US and allied facilities in Jordan, Kuwait, and the Gulf, resulting in American casualties. The US imposed naval blockades on Iranian ports and redirected commercial shipping, while diplomatic efforts, including mediation by Pakistan and Oman, failed to produce a ceasefire. The conflict has drawn in regional actors, with Saudi Arabia resuming hostilities in Yemen and Israel preparing for potential escalation. The risk of a broader regional war, including proxy involvement and disruptions to global energy markets, remains acute."
           },
           {
-            "heading": "Israel, Nahost & Sicherheitslage",
-            "links": [
-              {
-                "title": "Christians Imprisoned in Communist China | Christian World News - July 31, 2026",
-                "url": "https://www.youtube.com/watch?v=9AA5LZsMcXU"
-              }
+            "heading": "AI Advancement and Data Center Expansion: Security and Societal Risks",
+            "scope": "cross_source",
+            "source_refs": [
+              "RN 14/07",
+              "COMPACTTV 23/07",
+              "RN 15/07",
+              "CP 11/07"
             ],
-            "synthesis": [
-              "Christians Imprisoned in Communist China | Christian World News - July 31, 2026",
-              "Lost St. Augustine Sermons Revealed After 1,600 Years Put New Spin on Biblical Story",
-              "Chelsea Star Boldly Shares His Faith in Jesus"
-            ]
+            "synthesis": "July saw heightened concern over the rapid advancement of AI, with new models demonstrating superhuman cyber capabilities and emergent, uncontrollable behaviors. National security interventions have sought to restrict access to these models, but experts warn that current safeguards are inadequate. In parallel, the expansion of AI data centers is raising environmental and health concerns, including EMF exposure, water and air pollution, and lack of regulatory standards. These developments are fueling debates about the societal, ethical, and geopolitical risks of unchecked AI and surveillance infrastructure."
           },
           {
-            "heading": "Geopolitik, Krieg & Machtblöcke",
-            "links": [
-              {
-                "title": "🚨🚨Here We Go… BRACE For It!!",
-                "url": "https://www.youtube.com/watch?v=DV6nWmtPaRA"
-              }
+            "heading": "Ukraine Conflict Expands: Attacks on Iran and Realignment of Alliances",
+            "scope": "cross_source",
+            "source_refs": [
+              "DO 26/07",
+              "CP 25/07-B",
+              "CP 05/07-B",
+              "RN 01/07-B"
             ],
-            "synthesis": [
-              "🚨🚨Here We Go… BRACE For It!!",
-              "Republicans ALL IN For Accused Wife Beater Rep"
-            ]
+            "synthesis": "Ukraine has reportedly attacked Iranian assets, including a cargo ship allegedly transporting munitions to Russia, marking a significant expansion of the conflict beyond its borders. Ukrainian officials frame these actions as efforts to disrupt Russian supply lines and align more closely with Western interests. These developments come amid continued Russian advances in Ukraine, internal instability, and shifting alliances involving Israel, Iran, and Western powers. The spillover of the Ukraine conflict into the Middle East is increasing the complexity and volatility of the regional security environment."
           },
           {
-            "heading": "Gesellschaft, Medienkritik & Debatte",
-            "links": [
-              {
-                "title": "We're Making the Same Mistake That Almost Ended Europe",
-                "url": "https://www.youtube.com/watch?v=TDcHge-dZ70"
-              }
+            "attribution_source": "IsraelEnglishNews",
+            "heading": "Middle East: Israel Faces Multi-Front Security and Diplomatic Challenges",
+            "scope": "source_specific",
+            "source": "IsraelEnglishNews",
+            "source_refs": [
+              "IEN 05/07-B",
+              "IEN 12/07-C",
+              "IEN 15/07-B",
+              "IEN 22/07-D",
+              "IEN 26/07-D"
             ],
-            "synthesis": [
-              "We're Making the Same Mistake That Almost Ended Europe"
-            ]
+            "synthesis": "Israel remains at the center of regional instability, facing ongoing threats from Iran and its proxies, continued military operations in Lebanon and Gaza, and complex diplomatic negotiations with the US and neighboring states. Israeli intelligence reportedly assisted in foiling an Iranian assassination plot against former US President Trump. The US-Israel relationship is being tested by differences over strategy, while Israel also navigates internal debates over military draft exemptions and humanitarian missions abroad. The risk of escalation remains high, with new intelligence on Iran’s nuclear ambitions expected to shape upcoming US-Israel talks."
           },
           {
-            "heading": "Prophetie, Endzeit & Weltdeutung",
-            "links": [
-              {
-                "title": "The Most Powerful Transgender Story Ive Ever Heard",
-                "url": "https://www.youtube.com/watch?v=nSXKV4l3g5I"
-              }
+            "heading": "Germany: Political and Economic Uncertainty Amid Scandals and Policy Shifts",
+            "scope": "cross_source",
+            "source_refs": [
+              "COMPACTTV 16/07",
+              "COMPACTTV 20/07",
+              "MF7 07/07-B",
+              "MF7 19/07",
+              "COMPACTTV 12/07-B"
             ],
-            "synthesis": [
-              "The Most Powerful Transgender Story Ive Ever Heard"
-            ]
+            "synthesis": "Germany experienced significant political turbulence, including the resignation of Jens Spahn following a surrogacy scandal, internal CDU/CSU party disputes, and debates over media influence and governance. Economic policy discussions focused on proposed changes to cryptocurrency taxation, the impact of global conflicts on German industry, and the need for banking reform. These developments reflect broader concerns about political accountability, economic resilience, and the influence of external actors on German policy."
           }
         ],
         "top_items": [
@@ -5535,6 +5794,6 @@
       }
     ]
   },
-  "updated_at_utc": "2026-09-03T13:21:55+00:00",
+  "updated_at_utc": "2026-09-03T13:23:52+00:00",
   "version": 1
 }
