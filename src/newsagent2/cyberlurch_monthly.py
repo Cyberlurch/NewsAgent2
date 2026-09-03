@@ -216,7 +216,7 @@ def monthly_prompt(registry: List[Dict[str, Any]], language: str) -> tuple[str, 
     lang = "English" if str(language).lower().startswith("en") else "German"
     system = f"""You produce a neutral, information-dense monthly trend briefing from persisted facts only. Write all narrative prose and headings in {lang}; source names and titles may retain their original language. Return one JSON object, not Markdown, with keys executive_summary (4-6 objects with heading, synthesis, source_refs), trends (3-6 objects with heading, synthesis, source_refs, scope, and source when scope is source_specific), notable_developments (at most 3 objects with heading, synthesis, source_refs; may be empty), month_in_brief (one concise string), and source_refs_used (array).
 Trends have scope cross_source or source_specific. A cross_source trend needs representative evidence from at least two distinct channels (2-5 citations) that genuinely supports the same development; never combine unrelated one-offs under an invented causal theme. A source_specific trend needs 3-5 relevant records from one named channel, must name that channel in its heading and prose, and describes a change in that channel's coverage rather than an external-world trend. Write important trends at roughly 80-140 words when evidence supports that density. Explain what happened, change over the month, concrete examples, and source agreement or differences.
-Executive entries use a short descriptive heading and 2-4 citations. Notable developments use normally 1-2 citations and must be material standalone events. Exclude programming or promotional updates, isolated low-significance anecdotes, generic impersonation stories, and vague medical claims whose intervention is unidentified; omit rather than guess. Topic fields are fallible hints: regroup facts semantically. Prefer persisted names, actions, institutions, numbers, and concrete claims over abstractions, while clearly attributing allegations. Attribute commentary to the named channel. Never use generic 'the speaker', 'the presenter', 'the podcast', 'der Sprecher', or 'der Bericht'. Avoid advice, moral judgments, generic filler endings, invented facts, URLs, and source IDs. Put citations only in source_refs arrays; do not embed citations or URLs in prose."""
+Executive entries use a short descriptive heading. Executive entries use 1-4 representative citations. Notable developments use normally 1-2 citations and must be material standalone events. Exclude programming or promotional updates, isolated low-significance anecdotes, generic impersonation stories, and vague medical claims whose intervention is unidentified; omit rather than guess. Topic fields are fallible hints: regroup facts semantically. Prefer persisted names, actions, institutions, numbers, and concrete claims over abstractions, while clearly attributing allegations. Attribute commentary to the named channel. Never use generic 'the speaker', 'the presenter', 'the podcast', 'der Sprecher', or 'der Bericht'. Avoid advice, moral judgments, generic filler endings, invented facts, URLs, and source IDs. Put citations only in source_refs arrays; do not embed citations or URLs in prose."""
     payload_keys = ("ref_id", "source", "source_date", "title", "factual_summary", "supporting_details", "topic_hints", "temporality")
     payload = [{key: row.get(key) for key in payload_keys} for row in registry]
     return system, "Persisted Monthly sources (JSON):\n" + json.dumps(payload, ensure_ascii=False, indent=2)
@@ -239,26 +239,51 @@ def validate_synthesis(value: Any, registry: List[Dict[str, Any]]) -> Dict[str, 
         raise MonthlySynthesisError("notable_developments exceeds maximum of three")
     used: List[str] = []
     prose = [brief]
+
+    def normalize_refs(entry: Dict[str, Any], section_name: str, maximum: int, *, diverse: bool = False) -> List[str]:
+        refs = entry.get("source_refs")
+        if (
+            not isinstance(refs, list) or not refs
+            or any(not isinstance(ref, str) or ref not in known for ref in refs)
+        ):
+            raise MonthlySynthesisError(f"unknown or missing source reference in {section_name}")
+        deduplicated = list(dict.fromkeys(refs))
+        if diverse and len(deduplicated) > maximum:
+            # Reserve space for the first representative of every channel (up to
+            # the display limit), then restore model order in the final subset.
+            representative_indexes: List[int] = []
+            represented: set[str] = set()
+            for index, ref in enumerate(deduplicated):
+                channel = str(by_ref[ref]["source"])
+                if channel not in represented and len(representative_indexes) < maximum:
+                    represented.add(channel)
+                    representative_indexes.append(index)
+            selected = set(representative_indexes)
+            for index in range(len(deduplicated)):
+                if len(selected) >= maximum:
+                    break
+                selected.add(index)
+            normalized = [ref for index, ref in enumerate(deduplicated) if index in selected]
+        else:
+            normalized = deduplicated[:maximum]
+        entry["source_refs"] = normalized
+        return normalized
+
     for entry in executive:
         if not isinstance(entry, dict) or not str(entry.get("heading") or "").strip() or not str(entry.get("synthesis") or "").strip():
             raise MonthlySynthesisError("invalid executive_summary entry")
-        refs = entry.get("source_refs")
-        if not isinstance(refs, list) or not refs or any(ref not in known for ref in refs):
-            raise MonthlySynthesisError("unknown or missing source reference in executive_summary")
-        if not min(2, len(known)) <= len(refs) <= 4:
-            raise MonthlySynthesisError("executive_summary must cite 2-4 records")
+        refs = normalize_refs(entry, "executive_summary", 4)
         used.extend(refs); prose.append(str(entry["synthesis"]))
     for section_name, sections in (("trend", trends), ("notable development", notable)):
         for section in sections:
             if not isinstance(section, dict) or not str(section.get("heading") or "").strip() or not str(section.get("synthesis") or "").strip():
                 raise MonthlySynthesisError(f"invalid {section_name}")
-            refs = section.get("source_refs")
-            if not isinstance(refs, list) or not refs or any(ref not in known for ref in refs):
-                raise MonthlySynthesisError(f"unknown or missing source reference in {section_name}")
-            if section_name == "notable development" and len(refs) > 2:
-                raise MonthlySynthesisError("notable development must cite at most two records")
+            scope = section.get("scope") if section_name == "trend" else None
+            refs = normalize_refs(
+                section, section_name, 2 if section_name == "notable development" else 5,
+                diverse=scope == "cross_source",
+            )
             if section_name == "trend":
-                scope = section.get("scope")
                 cited = [by_ref[ref] for ref in refs]
                 channels = {str(row["source"]) for row in cited}
                 if scope == "cross_source":
@@ -276,15 +301,12 @@ def validate_synthesis(value: Any, registry: List[Dict[str, Any]]) -> Dict[str, 
                 else:
                     raise MonthlySynthesisError("trend scope must be cross_source or source_specific")
             used.extend(refs); prose.extend([str(section["heading"]), str(section["synthesis"])])
-    declared = value.get("source_refs_used")
-    if not isinstance(declared, list) or set(declared) != set(used) or any(ref not in known for ref in declared):
-        raise MonthlySynthesisError("source_refs_used does not match section citations")
     joined = " ".join(prose)
     if _VAGUE_ATTRIBUTION.search(joined):
         raise MonthlySynthesisError("generic unidentified attribution in Monthly prose")
     if any(row["url"] in joined for row in registry) or re.search(r"https?://", joined):
         raise MonthlySynthesisError("model-generated prose contains a URL")
-    value["source_refs_used"] = sorted(set(used))
+    value["source_refs_used"] = list(dict.fromkeys(used))
     return value
 
 

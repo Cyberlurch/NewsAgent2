@@ -85,7 +85,7 @@ def test_save_failure_blocks_email(tmp_path, monkeypatch):
         main.main()
 
 
-def test_malformed_synthesis_blocks_delivery_after_one_retry(tmp_path, monkeypatch):
+def test_malformed_synthesis_blocks_delivery_after_one_retry(tmp_path, monkeypatch, capsys):
     path = _setup(tmp_path, monkeypatch)
     calls = []
     monkeypatch.setattr(main, "synthesize_cyberlurch_monthly_json", lambda *a: calls.append(a) or "not json")
@@ -94,6 +94,21 @@ def test_malformed_synthesis_blocks_delivery_after_one_retry(tmp_path, monkeypat
         main.main()
     assert len(calls) == 2
     assert not path.exists()
+    diagnostic = json.loads((tmp_path / "out" / "cyberlurch_monthly_synthesis_error.json").read_text())
+    assert diagnostic == {
+        "status": "failed",
+        "error_type": "MonthlySynthesisError",
+        "final_validator_error": "Monthly synthesis validation failed after one retry: Expecting value: line 1 column 1 (char 0)",
+        "provider_operation_count": 2,
+        "persisted_candidate_count": 1,
+        "evidence_selected_count": 1,
+        "unique_channels_represented": 1,
+        "prompt_character_count": diagnostic["prompt_character_count"],
+        "provider_input_tokens": None,
+        "provider_output_tokens": None,
+    }
+    assert diagnostic["prompt_character_count"] > 0
+    assert "[cyberlurch-monthly] synthesis failure" in capsys.readouterr().out
 
 
 def test_monthly_uses_one_synthesis_operation_and_persists_semantic_rollup(tmp_path, monkeypatch):

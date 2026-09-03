@@ -5530,13 +5530,8 @@ def main() -> None:
     if report_key.strip().lower() == "cyberlurch" and report_mode == "monthly":
         _annotate_cyberlurch_item_topics(monthly_synthesis_candidate_items, channel_topics)
         monthly_source_registry = build_source_registry(monthly_synthesis_candidate_items)
-        try:
-            monthly_synthesis = synthesize_monthly(
-                monthly_source_registry,
-                report_language,
-                synthesize_cyberlurch_monthly_json,
-                monthly_evidence_diagnostics,
-            )
+
+        def capture_monthly_usage() -> None:
             monthly_usage = diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.to_dict().get(
                 "calls_by_stage_model", {}
             )
@@ -5551,18 +5546,39 @@ def main() -> None:
                 monthly_evidence_diagnostics["monthly_provider_output_tokens"] = sum(
                     row.get("output_tokens", 0) for row in monthly_rows
                 )
+
+        try:
+            monthly_synthesis = synthesize_monthly(
+                monthly_source_registry,
+                report_language,
+                synthesize_cyberlurch_monthly_json,
+                monthly_evidence_diagnostics,
+            )
+            capture_monthly_usage()
         except Exception as exc:
+            capture_monthly_usage()
             os.makedirs(report_dir, exist_ok=True)
             artifact = {
                 "status": "failed",
                 "error_type": type(exc).__name__,
-                "error": str(exc),
-                "source_references_total": len(monthly_source_registry),
+                "final_validator_error": str(exc),
+                "provider_operation_count": monthly_evidence_diagnostics.get("monthly_provider_operations", 0),
+                "persisted_candidate_count": monthly_evidence_diagnostics.get(
+                    "monthly_persisted_records_available", len(monthly_source_registry)
+                ),
+                "evidence_selected_count": monthly_evidence_diagnostics.get("monthly_evidence_items_selected", 0),
+                "unique_channels_represented": monthly_evidence_diagnostics.get(
+                    "monthly_unique_channels_represented", 0
+                ),
+                "prompt_character_count": monthly_evidence_diagnostics.get("monthly_prompt_character_count", 0),
+                "provider_input_tokens": monthly_evidence_diagnostics.get("monthly_provider_input_tokens"),
+                "provider_output_tokens": monthly_evidence_diagnostics.get("monthly_provider_output_tokens"),
             }
             error_path = os.path.join(report_dir, "cyberlurch_monthly_synthesis_error.json")
             with open(error_path, "w", encoding="utf-8") as handle:
                 json.dump(artifact, handle, ensure_ascii=False, indent=2, sort_keys=True)
                 handle.write("\n")
+            print("[cyberlurch-monthly] synthesis failure " + json.dumps(artifact, sort_keys=True))
             raise MonthlySynthesisError(
                 f"Cyberlurch Monthly delivery blocked: synthesis failed; diagnostics={error_path}"
             ) from exc
