@@ -2475,6 +2475,7 @@ def main() -> None:
     weekly_digest_supplemental_collection_items_total = 0
     weekly_digest_full_text_ratio = 0.0
     monthly_digest_items_total = 0
+    monthly_synthesis_candidate_items: List[Dict[str, Any]] = []
     monthly_digest_used_total = 0
     monthly_digest_supplemental_collection_items_total = 0
     monthly_digest_period_start = ""
@@ -4601,6 +4602,10 @@ def main() -> None:
             reverse=True,
         )
         annotate_cyberlurch_temporality(items_sorted)
+        if report_key.strip().lower() == "cyberlurch" and report_mode == "monthly":
+            # Preserve the complete valid persisted month before legacy overview,
+            # deep-dive, and Daily-priority curation narrows report_items.
+            monthly_synthesis_candidate_items = list(items_sorted)
         curated_overview = _curate_cyberlurch_overview(items_sorted, report_mode, overview_items_max)
         overview_items = curated_overview
         full_text_items = [
@@ -5523,7 +5528,8 @@ def main() -> None:
     monthly_source_registry = None
     monthly_evidence_diagnostics: Dict[str, Any] = {}
     if report_key.strip().lower() == "cyberlurch" and report_mode == "monthly":
-        monthly_source_registry = build_source_registry(report_items)
+        _annotate_cyberlurch_item_topics(monthly_synthesis_candidate_items, channel_topics)
+        monthly_source_registry = build_source_registry(monthly_synthesis_candidate_items)
         try:
             monthly_synthesis = synthesize_monthly(
                 monthly_source_registry,

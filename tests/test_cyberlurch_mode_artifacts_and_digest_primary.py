@@ -33,12 +33,22 @@ def _common(monkeypatch, tmp_path, mode):
     def monthly_json(_system, user):
         sources = json.loads(user.split("Persisted Monthly sources (JSON):\n", 1)[1].split("\nYour prior output", 1)[0])
         refs = [row["ref_id"] for row in sources]
-        trends = ([{"heading":"Recurring coverage", "synthesis":"Named sources returned to the same development during the period.", "source_refs":refs[:2]}]
-                  if len(refs) >= 2 else [])
-        notable = [] if trends else [{"heading":"Recorded development", "synthesis":f"{sources[0]['source']} covered one persisted development.", "source_refs":refs}]
-        return json.dumps({"executive_summary":[{"synthesis":"The edition summarizes persisted developments without adding external facts.", "source_refs":[refs[0]]}], "trends":trends,
+        source_names = {row["source"] for row in sources}
+        if len(source_names) >= 2:
+            first = sources[0]["source"]
+            trend_refs = [refs[0], next(row["ref_id"] for row in sources if row["source"] != first)]
+            trends = [{"heading":"Recurring coverage", "scope":"cross_source", "synthesis":"Named sources returned to the same development during the period.", "source_refs":trend_refs}]
+        elif len(refs) >= 3:
+            source = sources[0]["source"]
+            trends = [{"heading":f"{source} coverage changed", "scope":"source_specific", "source":source, "synthesis":f"{source} returned to the same development during the period.", "source_refs":refs[:3]}]
+        else:
+            trends = []
+        notable = [] if trends else [{"heading":"Recorded development", "synthesis":f"{sources[0]['source']} covered one persisted development.", "source_refs":refs[:2]}]
+        executive = [{"heading":"Persisted developments", "synthesis":"The edition summarizes persisted developments without adding external facts.", "source_refs":refs[:min(2, len(refs))]}]
+        used = list(dict.fromkeys(ref for section in executive + trends + notable for ref in section["source_refs"]))
+        return json.dumps({"executive_summary":executive, "trends":trends,
                            "notable_developments":notable, "month_in_brief":"Coverage centered on the developments documented above.",
-                           "source_refs_used":refs[:2] if trends else refs})
+                           "source_refs_used":used})
     monkeypatch.setattr(main_mod, "synthesize_cyberlurch_monthly_json", monthly_json)
 
 
@@ -70,6 +80,38 @@ def test_monthly_digest_primary_skips_collection(tmp_path, monkeypatch):
     assert d.get("managed_transcript_attempted_total", 0) == 0
     t = d.get("items_by_temporality", {})
     assert sum(int(v) for v in t.values()) > 0
+
+
+def test_monthly_synthesis_boundary_uses_full_persisted_pool_without_daily_priority(tmp_path, monkeypatch):
+    ch = tmp_path / "channels.json"; _channels(ch)
+    path = tmp_path / "state" / "cyberlurch_digests.json"; path.parent.mkdir(parents=True)
+    now = dt.datetime.now(dt.timezone.utc).replace(microsecond=0)
+    records = []
+    for index in range(405):
+        channel = "Daily Priority" if index < 250 else f"Independent {index % 30}"
+        records.append({"video_id":f"v{index}", "title":f"Material report {index}", "channel":channel,
+                        "url":f"https://www.youtube.com/watch?v={index}", "published_at":now.replace(day=index % 28 + 1).isoformat(),
+                        "summary":f"Persisted factual summary {index} with concrete material detail.",
+                        "text_source":"managed_transcript", "topic_primary":"shared", "topics":["shared"]})
+    path.write_text(json.dumps({"version":1, "digests":records}))
+    _common(monkeypatch, tmp_path, "monthly")
+    monkeypatch.setenv("CYBERLURCH_PRIORITY_DAILY_CHANNELS", "Daily Priority")
+    original = main_mod.synthesize_cyberlurch_monthly_json
+    observed = {}
+    def capture(system, user):
+        evidence = json.loads(user.split("Persisted Monthly sources (JSON):\n", 1)[1].split("\nYour prior output", 1)[0])
+        observed["evidence"] = evidence
+        return original(system, user)
+    monkeypatch.setattr(main_mod, "synthesize_cyberlurch_monthly_json", capture)
+    monkeypatch.setattr(sys, "argv", ["main", "--channels", str(ch)])
+    main_mod.main()
+    diag = json.loads((tmp_path / "out" / "cyberlurch_monthly_youtube_diagnostics.json").read_text())
+    assert diag["monthly_persisted_records_available"] >= 400
+    assert len(observed["evidence"]) == diag["monthly_evidence_items_selected"] <= 80
+    assert len({row["source"] for row in observed["evidence"]}) > 5
+    assert sum(row["source"] == "Daily Priority" for row in observed["evidence"]) <= 8
+    assert diag["monthly_provider_operations"] == 1
+    assert diag["monthly_collection_operations"] == 0
 
 
 def test_monthly_digest_empty_falls_back_collection_in_explicit_audit_mode(tmp_path, monkeypatch):

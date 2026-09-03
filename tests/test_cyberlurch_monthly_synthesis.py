@@ -20,8 +20,8 @@ def item(channel, day, ident, title="Title", topic="wrong-label"):
 
 def valid(registry):
     refs = [row["ref_id"] for row in registry]
-    return {"executive_summary":[{"synthesis":"Coverage developed across the month.", "source_refs":[refs[0], refs[1]]}],
-            "trends":[{"heading":"Semantically regrouped theme", "synthesis":"Alpha News and Alpine Network returned to a shared development.", "source_refs":refs[:2]}],
+    return {"executive_summary":[{"heading":"Shared coverage", "synthesis":"Coverage developed across the month.", "source_refs":[refs[0], refs[1]]}],
+            "trends":[{"heading":"Semantically regrouped theme", "scope":"cross_source", "synthesis":"Alpha News and Alpine Network returned to a shared development.", "source_refs":refs[:2]}],
             "notable_developments":[{"heading":"Isolated event", "synthesis":"Canadian Prepper recorded a separate event.", "source_refs":[refs[-1]]}],
             "month_in_brief":"The month combined recurring coverage with one isolated event.", "source_refs_used":refs}
 
@@ -41,8 +41,9 @@ def test_citations_urls_attribution_and_semantic_theme_are_guarded():
     report = render_monthly("Monthly", synthesis, registry)
     assert "Semantically regrouped theme" in report and "wrong-label" not in report
     assert "the speaker" not in report.lower()
-    assert report.count("https://") == 3
-    for ref in synthesis["source_refs_used"]: assert f"[{ref}]" in report
+    assert "example.invalid" not in report
+    for ref in synthesis["source_refs_used"]: assert f"[{ref}](https://" in report
+    assert "— <https://" not in report
     bad = valid(registry); bad["trends"][0]["source_refs"] = ["FAKE 01/01"]; bad["source_refs_used"] = ["FAKE 01/01", registry[-1]["ref_id"]]
     with pytest.raises(MonthlySynthesisError): validate_synthesis(bad, registry)
     bad = valid(registry); bad["month_in_brief"] = "See https://invented.invalid"
@@ -92,6 +93,58 @@ def test_useful_same_source_repeats_and_prompt_is_minimal():
     assert '"url"' not in prompt
     assert '"_deep_dive_score"' not in prompt
     assert '"factual_summary"' in prompt
+
+
+def test_compact_persisted_supporting_details_reach_evidence_prompt():
+    row = item("Riks", 8, "detail")
+    row.update({
+        "transcript_key_points": ["Lottery sales on credit were alleged.", "Debt collection against elderly buyers was alleged."],
+        "transcript_notable_claims": ["Public bookings were alleged to benefit associated facilities."],
+        "important_details": ["Union-member consent was disputed.", "This fifth point must be omitted."],
+    })
+    registry = build_source_registry([row])
+    assert len(registry[0]["supporting_details"]) == 4
+    _, prompt = monthly_prompt(registry, "en")
+    assert "Lottery sales on credit" in prompt
+    assert "fifth point" not in prompt
+    assert len(registry[0]["factual_summary"]) <= 1200
+    assert sum(map(len, registry[0]["supporting_details"])) <= 700
+
+
+def test_trend_scope_channel_and_notable_rules_are_validated():
+    registry = build_source_registry([
+        item("Alpha News", 2, "a"), item("Alpine Network", 3, "b"),
+        item("Canadian Prepper", 4, "c"), item("Canadian Prepper", 9, "d"), item("Canadian Prepper", 18, "e"),
+    ])
+    base = valid(registry)
+    base["source_refs_used"] = list(dict.fromkeys(ref for section in base["executive_summary"] + base["trends"] + base["notable_developments"] for ref in section["source_refs"]))
+    assert validate_synthesis(base, registry)
+    one_channel = json.loads(json.dumps(base))
+    one_channel["trends"][0]["source_refs"] = [registry[2]["ref_id"], registry[3]["ref_id"]]
+    one_channel["source_refs_used"] = list(dict.fromkeys(ref for section in one_channel["executive_summary"] + one_channel["trends"] + one_channel["notable_developments"] for ref in section["source_refs"]))
+    with pytest.raises(MonthlySynthesisError, match="distinct channels"):
+        validate_synthesis(one_channel, registry)
+    specific = json.loads(json.dumps(base))
+    cp_refs = [r["ref_id"] for r in registry if r["source"] == "Canadian Prepper"]
+    specific["trends"] = [{"heading":"Canadian Prepper coverage changed", "synthesis":"Canadian Prepper moved toward continuity coverage.", "scope":"source_specific", "source":"Canadian Prepper", "source_refs":cp_refs}]
+    specific["notable_developments"] = []
+    specific["source_refs_used"] = list(dict.fromkeys(specific["executive_summary"][0]["source_refs"] + cp_refs))
+    assert validate_synthesis(specific, registry)
+    specific["trends"][0]["heading"] = "Preparedness coverage changed"
+    specific["trends"][0]["synthesis"] = "Coverage moved toward continuity measures."
+    with pytest.raises(MonthlySynthesisError, match="explicitly name"):
+        validate_synthesis(specific, registry)
+    too_many = json.loads(json.dumps(base)); too_many["notable_developments"] *= 4
+    with pytest.raises(MonthlySynthesisError, match="maximum of three"):
+        validate_synthesis(too_many, registry)
+
+
+def test_unrelated_cross_source_one_offs_fail_topic_coherence():
+    rows = [item("Flood News", 2, "flood", topic="flood"), item("Wine News", 3, "wine", topic="harvest")]
+    registry = build_source_registry(rows)
+    synthesis = valid(registry)
+    with pytest.raises(MonthlySynthesisError, match="no shared persisted topic"):
+        validate_synthesis(synthesis, registry)
 
 
 def test_large_synthesis_uses_selected_provenance_and_one_call():
