@@ -1376,6 +1376,23 @@ def summarize(items: List[Dict[str, Any]], *, language: str = "de", profile: str
         return f"## Kurzüberblick\n\n**Fehler:** Konnte Kurzüberblick nicht erzeugen: `{e!r}`\n"
 
 
+def synthesize_cyberlurch_monthly_json(system_prompt: str, user_prompt: str) -> str:
+    """Make one edition-level Cyberlurch Monthly provider call."""
+    client = _get_client()
+    response = _openai_chat_create(
+        client,
+        stage="cyberlurch_monthly_synthesis",
+        model=OPENAI_MODEL_CYBERLURCH_OVERVIEW,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        response_format={"type": "json_object"},
+        temperature=0.1,
+    )
+    return (response.choices[0].message.content or "").strip()
+
+
 def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile: str = "general") -> str:
     """
     Create a single-item deep dive (Markdown). Prompt varies by source.

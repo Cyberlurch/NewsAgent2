@@ -30,6 +30,16 @@ def _common(monkeypatch, tmp_path, mode):
     monkeypatch.setattr(main_mod, "send_markdown", lambda *a, **k: None)
     monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "## Executive Summary\n\nok")
     monkeypatch.setattr(main_mod, "summarize_item_detail", lambda *a, **k: "detail")
+    def monthly_json(_system, user):
+        sources = json.loads(user.split("Persisted Monthly sources (JSON):\n", 1)[1].split("\nYour prior output", 1)[0])
+        refs = [row["ref_id"] for row in sources]
+        trends = ([{"heading":"Recurring coverage", "synthesis":"Named sources returned to the same development during the period.", "source_refs":refs[:2]}]
+                  if len(refs) >= 2 else [])
+        notable = [] if trends else [{"heading":"Recorded development", "synthesis":f"{sources[0]['source']} covered one persisted development.", "source_refs":refs}]
+        return json.dumps({"executive_summary":[{"synthesis":"The edition summarizes persisted developments without adding external facts.", "source_refs":[refs[0]]}], "trends":trends,
+                           "notable_developments":notable, "month_in_brief":"Coverage centered on the developments documented above.",
+                           "source_refs_used":refs[:2] if trends else refs})
+    monkeypatch.setattr(main_mod, "synthesize_cyberlurch_monthly_json", monthly_json)
 
 
 def test_weekly_digest_primary_skips_collection(tmp_path, monkeypatch):
@@ -114,9 +124,9 @@ def test_monthly_rollup_contains_minimal_semantic_sections(tmp_path, monkeypatch
     main_mod.main()
     rollups = json.loads((tmp_path/"state"/"rollups.json").read_text(encoding="utf-8"))
     latest = rollups["reports"]["cyberlurch"][-1]
-    assert latest.get("schema") == "cyberlurch-monthly-semantic-v1"
+    assert latest.get("schema") == "cyberlurch-monthly-semantic-v2"
     assert isinstance(latest.get("themes"), list)
-    assert isinstance(latest.get("month_in_brief"), dict)
+    assert isinstance(latest.get("month_in_brief"), str)
     assert "top_channels" not in latest
 
 
