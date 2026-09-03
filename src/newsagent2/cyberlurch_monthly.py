@@ -22,6 +22,9 @@ class MonthlySynthesisError(RuntimeError):
 
 
 _VAGUE_ATTRIBUTION = re.compile(r"\b(?:the speaker|the presenter|the podcast|der sprecher|der bericht)\b", re.I)
+_GENERIC_NON_TREND_HEADINGS = {
+    "development", "insufficient pattern", "miscellaneous", "other", "other update", "update",
+}
 
 
 def _initial_abbreviation(name: str) -> str:
@@ -217,9 +220,21 @@ def _supporting_details(row: Dict[str, Any]) -> List[str]:
 
 def monthly_prompt(registry: List[Dict[str, Any]], language: str) -> tuple[str, str]:
     lang = "English" if str(language).lower().startswith("en") else "German"
-    system = f"""You produce a neutral, information-dense monthly trend briefing from persisted facts only. Write all narrative prose and headings in {lang}; source names and titles may retain their original language. Return one JSON object, not Markdown, with keys executive_summary (3-4 objects with heading, synthesis, source_refs), trends (3-6 objects with heading, synthesis, source_refs, scope, and source when scope is source_specific), notable_developments (at most 3 objects with heading, synthesis, source_refs; may be empty), month_in_brief (one concise string), and source_refs_used (array).
+    rich_month = len(registry) >= 50 and len({row["source"] for row in registry}) >= 15
+    density_guidance = (
+        "This is a content-rich month: aim for 4-6 supported Key Trends and 2-4 material Worth Noting items. "
+        "Aim for approximately 1,500-2,000 recipient-facing words, and permit up to roughly 2,500 words when the evidence genuinely supports it. "
+        "This is soft editorial guidance, not a validation requirement: never pad, repeat, or invent material to meet a count or word target."
+        if rich_month else
+        "Aim for 4-6 Key Trends and 2-4 Worth Noting items when supported, but let a sparse month remain shorter and never add filler."
+    )
+    system = f"""You produce a neutral, information-dense monthly trend briefing from persisted facts only. Write all narrative prose and headings in {lang}; source names and titles may retain their original language. Return one JSON object, not Markdown, with keys executive_summary (3-4 objects with heading, synthesis, source_refs), trends (2-6 objects with heading, synthesis, source_refs, scope, and source when scope is source_specific), notable_developments (at most 4 objects with heading, synthesis, source_refs; may be empty), month_in_brief (one concise string), and source_refs_used (array).
+{density_guidance}
 Trends have scope cross_source or source_specific. Prioritize external developments and cross-source trends. Normally include at most one source_specific trend; include more only when fewer than three valid cross-source trends can be formed from the supplied evidence. A cross_source trend needs representative evidence from at least two distinct channels (2-5 citations) that genuinely supports the same development; never combine unrelated one-offs under an invented causal theme. A source_specific trend needs 3-5 relevant records from one named channel, must name that channel in its heading and prose, and describes a materially informative change in that channel's framing or emphasis rather than ordinary publishing habits. Write important trends at roughly 80-140 words when evidence supports that density. Explain what happened, change over the month, concrete examples, and source agreement or differences.
-Executive Brief means what mattered, not abbreviated Key Trend prose: write 3-4 entries, normally about 35-60 words each, containing only the most material multi-source trends or an exceptionally important standalone event. Do not promote a low-impact interview or isolated commentary merely to fill it. Executive entries use a short descriptive heading. Executive entries use 1-4 representative citations. Notable developments normally number 1-2 (never more than 3), use normally 1-2 citations, and must be material standalone events. Do not repeat the same standalone development in Executive Brief and Worth Noting unless its Executive mention is necessary to understand the month.
+Executive Brief means what mattered, not abbreviated Key Trend prose: write 3-4 entries, normally about 35-60 words each, containing only the most material multi-source trends or an exceptionally important standalone event. Do not promote a low-impact interview or isolated commentary merely to fill it. Executive entries use a short descriptive heading. Executive entries use 1-4 representative citations.
+Worth Noting is the home for significant, informative non-trends, normally 2-4 when the evidence supports them, using normally 1-2 citations. This can include emerging environmental or weather signals, disasters, specific legal or regulatory action, significant technology developments, meaningful single-source risk assessments, concrete political or institutional events, and food, energy, or preparedness developments. For single-source commentary or forecasts, name the source and state its concrete claim without presenting it as consensus or established fact and without generic skeptical boilerplate. Do not repeat the same standalone development in Executive Brief and Worth Noting unless its Executive mention is necessary to understand the month.
+Treat materially distinct facts within one evidence record separately. Using a record to support a major trend must not suppress a different significant development in that same record; the secondary development may also use that source ref under Worth Noting when it does not meet the trend threshold.
+Before finalizing the JSON, perform a breadth check: ask whether repeated evidence about a dominant subject has crowded out more important, materially different developments. Prioritize importance rather than frequency. Do not force categories, but where evidence supports them preserve meaningful breadth across areas such as geopolitics/security, economics/finance, European/domestic politics, technology, disasters/environment/weather, food/energy/preparedness, and social/institutional developments.
 Month in Brief must summarize the actual material developments in 2-3 substantive sentences; never discuss evidence selection, channel diversity, report mechanics, or the persisted source pool. Exclude programming or promotional updates, isolated low-significance anecdotes, generic impersonation stories, and vague medical claims whose intervention is unidentified; omit rather than guess. Topic fields are fallible hints: regroup facts semantically. Prefer persisted names, actions, institutions, numbers, and concrete claims over abstractions. Explicitly attribute any allegation, prediction, disputed number, causal claim, or source interpretation supported by only one commentary source. Never upgrade an event to a causal characterization (for example, 'climate-related') unless persisted evidence explicitly supports it. Attribute commentary to the named channel without adding generic skeptical boilerplate. Never use generic 'the speaker', 'the presenter', 'the podcast', 'der Sprecher', or 'der Bericht'. Avoid advice, moral judgments, generic filler endings, invented facts, URLs, and source IDs. Put citations only in source_refs arrays; do not embed citations or URLs in prose."""
     payload_keys = ("ref_id", "source", "source_date", "title", "factual_summary", "supporting_details", "topic_hints", "temporality")
     payload = [{key: row.get(key) for key in payload_keys} for row in registry]
@@ -247,6 +262,7 @@ def validate_synthesis(
     trends_returned = len(trends)
     trends_dropped = 0
     trends_reclassified = 0
+    trends_reclassified_to_notable = 0
     notable_returned = len(notable)
 
     def normalize_refs(entry: Dict[str, Any], section_name: str, maximum: int, *, diverse: bool = False) -> List[str]:
@@ -296,6 +312,10 @@ def validate_synthesis(
             )
             if section_name == "trend" and scope not in {"cross_source", "source_specific"}:
                 raise MonthlySynthesisError("trend scope must be cross_source or source_specific")
+            if section_name == "notable development":
+                channels = {str(by_ref[ref]["source"]) for ref in refs}
+                if len(channels) == 1 and next(iter(channels)).casefold() not in str(section["synthesis"]).casefold():
+                    raise MonthlySynthesisError("single-source notable development requires explicit attribution")
             prose.extend([str(section["heading"]), str(section["synthesis"])])
     joined = " ".join(prose)
     if _VAGUE_ATTRIBUTION.search(joined):
@@ -304,6 +324,25 @@ def validate_synthesis(
         raise MonthlySynthesisError("model-generated prose contains a URL")
 
     normalized_trends: List[Dict[str, Any]] = []
+    reclassified_notable: List[Dict[str, Any]] = []
+
+    def preserve_as_notable(trend: Dict[str, Any], channels: set[str]) -> bool:
+        """Conservatively preserve a concrete, attributable 1-2-reference non-trend."""
+        nonlocal trends_reclassified_to_notable
+        refs = trend["source_refs"]
+        heading = str(trend["heading"]).strip()
+        synthesis = str(trend["synthesis"]).strip()
+        if len(refs) not in {1, 2} or heading.casefold() in _GENERIC_NON_TREND_HEADINGS:
+            return False
+        if len(synthesis.split()) < 8:
+            return False
+        if len(channels) == 1 and next(iter(channels)).casefold() not in synthesis.casefold():
+            return False
+        reclassified_notable.append({
+            "heading": heading, "synthesis": synthesis, "source_refs": refs,
+        })
+        trends_reclassified_to_notable += 1
+        return True
     for trend in trends:
         refs = trend["source_refs"]
         channels = {str(by_ref[ref]["source"]) for ref in refs}
@@ -321,12 +360,14 @@ def validate_synthesis(
                 else:
                     trends_dropped += 1
             else:
+                preserve_as_notable(trend, channels)
                 trends_dropped += 1
         else:
             source = str(trend.get("source") or "").strip()
             if 3 <= len(refs) <= 5 and channels == {source} and source.casefold() in attributed_prose:
                 normalized_trends.append(trend)
             else:
+                preserve_as_notable(trend, channels)
                 trends_dropped += 1
 
     if sum(trend["scope"] == "cross_source" for trend in normalized_trends) >= 3:
@@ -342,16 +383,18 @@ def validate_synthesis(
         normalized_trends = limited
 
     value["trends"] = normalized_trends
-    value["notable_developments"] = notable[:3]
-    notable_trimmed = max(0, notable_returned - len(value["notable_developments"]))
+    value["notable_developments"] = (notable + reclassified_notable)[:4]
+    notable_trimmed = max(0, notable_returned + len(reclassified_notable) - len(value["notable_developments"]))
     if diagnostics is not None:
         diagnostics.update({
             "monthly_trends_returned": trends_returned,
             "monthly_trends_retained": len(normalized_trends),
             "monthly_trends_dropped": trends_dropped,
             "monthly_trends_reclassified": trends_reclassified,
+            "monthly_trends_reclassified_to_notable": trends_reclassified_to_notable,
+            "monthly_notable_retained": len(value["notable_developments"]),
             "monthly_notable_trimmed": notable_trimmed,
-            "monthly_normalization_required": bool(trends_dropped or trends_reclassified or notable_trimmed),
+            "monthly_normalization_required": bool(trends_dropped or trends_reclassified or trends_reclassified_to_notable or notable_trimmed),
         })
     if len(normalized_trends) < 2:
         raise MonthlySynthesisError("Monthly synthesis needs at least two valid trends after normalization")

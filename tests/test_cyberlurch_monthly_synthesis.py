@@ -29,7 +29,7 @@ def valid(registry):
                 {"heading":"Semantically regrouped theme", "scope":"cross_source", "synthesis":"Alpha News and Alpine Network returned to a shared development.", "source_refs":refs[:2]},
                 {"heading":"Continuing shared theme", "scope":"cross_source", "synthesis":"Alpha News and Alpine Network also documented a continuing development.", "source_refs":refs[:2]},
             ],
-            "notable_developments":[{"heading":"Isolated event", "synthesis":"Canadian Prepper recorded a separate event.", "source_refs":[refs[-1]]}],
+            "notable_developments":[{"heading":"Isolated event", "synthesis":f"{registry[-1]['source']} recorded a separate event.", "source_refs":[refs[-1]]}],
             "month_in_brief":"The month combined recurring coverage with one isolated event.", "source_refs_used":refs}
 
 
@@ -215,7 +215,7 @@ def test_trend_scope_channel_and_notable_rules_are_validated():
     specific["trends"][1]["synthesis"] = "Coverage moved toward continuity measures."
     assert len(validate_synthesis(specific, registry)["trends"]) == 2
     too_many = json.loads(json.dumps(base)); too_many["notable_developments"] *= 4
-    assert len(validate_synthesis(too_many, registry)["notable_developments"]) == 3
+    assert len(validate_synthesis(too_many, registry)["notable_developments"]) == 4
 
 
 def test_persisted_topic_mismatch_is_not_a_hard_failure():
@@ -278,6 +278,83 @@ def test_same_channel_cross_source_is_reclassified_or_dropped_without_retry():
     assert diagnostics["monthly_trends_dropped"] == 1
     assert diagnostics["monthly_trends_reclassified"] == 1
     assert diagnostics["monthly_normalization_required"] is True
+
+
+def test_rich_month_density_guidance_is_soft_and_evidence_limits_are_unchanged():
+    registry = build_source_registry([
+        item(f"Source {index % 15}", index % 28 + 1, f"rich-{index}")
+        for index in range(72)
+    ])
+    system, _ = monthly_prompt(registry, "en")
+    assert "aim for 4-6 supported Key Trends and 2-4 material Worth Noting items" in system
+    assert "approximately 1,500-2,000 recipient-facing words" in system
+    assert "soft editorial guidance, not a validation requirement" in system
+    assert "up to roughly 2,500 words" in system
+
+    sparse_system, _ = monthly_prompt(registry[:49], "en")
+    assert "1,500-2,000" not in sparse_system
+    assert len(select_evidence_pack(build_source_registry([
+        item(f"Source {index % 15}", index % 28 + 1, f"limit-{index}")
+        for index in range(100)
+    ]))) == 72
+
+
+def test_one_record_can_support_a_trend_and_distinct_el_nino_notable():
+    iran_a = item("Canadian Prepper", 22, "cp-22", title="Iran and El Nino risk assessment")
+    iran_a["bottom_line"] = (
+        "Canadian Prepper discussed Iran and separately argued unusually warm El Nino-region "
+        "waters could increase extreme-weather and food-system disruption risks."
+    )
+    registry = build_source_registry([
+        iran_a, item("Global Affairs", 23, "iran-2"), item("Market Desk", 24, "market")
+    ])
+    synthesis = valid(registry)
+    shared_ref = next(row["ref_id"] for row in registry if row["source"] == "Canadian Prepper")
+    other_ref = next(row["ref_id"] for row in registry if row["source"] == "Global Affairs")
+    synthesis["trends"][0].update({
+        "heading": "Iran safeguards dispute", "synthesis": "Canadian Prepper and Global Affairs covered the Iran safeguards dispute.",
+        "source_refs": [shared_ref, other_ref],
+    })
+    synthesis["notable_developments"] = [{
+        "heading": "El Nino food-system risk",
+        "synthesis": "Canadian Prepper argued unusually warm El Nino-region waters could increase extreme-weather and food-system disruption risks.",
+        "source_refs": [shared_ref],
+    }]
+    result = validate_synthesis(synthesis, registry)
+    assert shared_ref in result["trends"][0]["source_refs"]
+    assert result["notable_developments"][0]["source_refs"] == [shared_ref]
+
+
+def test_single_source_notable_requires_named_attribution():
+    registry = build_source_registry([
+        item("Alpha News", 1, "a"), item("Beta News", 2, "b"), item("Risk Desk", 3, "risk")
+    ])
+    synthesis = valid(registry)
+    synthesis["notable_developments"][0]["synthesis"] = "Unusually warm waters could disrupt harvests and fertilizer supplies."
+    with pytest.raises(MonthlySynthesisError, match="explicit attribution"):
+        validate_synthesis(synthesis, registry)
+
+
+def test_dropped_material_nontrend_is_reclassified_without_provider_call_and_cap_is_four():
+    registry = build_source_registry([
+        item("Alpha News", 1, "a"), item("Beta News", 2, "b"), item("Risk Desk", 3, "risk")
+    ])
+    synthesis = valid(registry)
+    synthesis["notable_developments"] *= 4
+    synthesis["trends"].append({
+        "heading": "El Nino food and weather risk", "scope": "cross_source",
+        "synthesis": "Risk Desk argued that unusually warm regional waters could disrupt harvests and increase extreme-weather risks.",
+        "source_refs": [next(row["ref_id"] for row in registry if row["source"] == "Risk Desk")],
+    })
+    calls, diagnostics = [], {}
+    result = synthesize_monthly(
+        registry, "en", lambda *_: calls.append(1) or json.dumps(synthesis), diagnostics
+    )
+    assert calls == [1]
+    assert len(result["notable_developments"]) == 4
+    assert diagnostics["monthly_trends_dropped"] == 1
+    assert diagnostics["monthly_trends_reclassified_to_notable"] == 1
+    assert diagnostics["monthly_notable_retained"] == 4
 
 
 def test_fewer_than_two_trends_uses_the_single_repair_call():
