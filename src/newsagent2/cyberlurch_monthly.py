@@ -241,6 +241,13 @@ Month in Brief must summarize the actual material developments in 2-3 substantiv
     return system, "Persisted Monthly sources (JSON):\n" + json.dumps(payload, ensure_ascii=False, indent=2)
 
 
+def canonical_sources_for_refs(
+    source_refs: Iterable[str], by_ref: Dict[str, Dict[str, Any]],
+) -> List[str]:
+    """Derive canonical persisted source names from validated references only."""
+    return list(dict.fromkeys(str(by_ref[ref]["source"]) for ref in source_refs))
+
+
 def validate_synthesis(
     value: Any, registry: List[Dict[str, Any]],
     diagnostics: MutableMapping[str, Any] | None = None,
@@ -249,44 +256,34 @@ def validate_synthesis(
         raise MonthlySynthesisError("Monthly synthesis is not a JSON object")
     known = {row["ref_id"] for row in registry}
     by_ref = {row["ref_id"]: row for row in registry}
-    executive = value.get("executive_summary")
-    trends = value.get("trends")
-    notable = value.get("notable_developments", [])
-    brief = value.get("month_in_brief")
+    executive, trends = value.get("executive_summary"), value.get("trends")
+    notable, brief = value.get("notable_developments", []), value.get("month_in_brief")
     if not isinstance(executive, list) or not executive:
         raise MonthlySynthesisError("invalid executive_summary")
     if not isinstance(trends, list) or not isinstance(notable, list) or not isinstance(brief, str) or not brief.strip():
         raise MonthlySynthesisError("invalid Monthly section shape")
+
     used: List[str] = []
     prose = [brief]
     trends_returned = len(trends)
-    trends_dropped = 0
-    trends_reclassified = 0
-    trends_reclassified_to_notable = 0
-    notable_returned = len(notable)
+    trends_dropped = trends_reclassified = trends_reclassified_to_notable = 0
+    deterministic_attribution_added = trend_scopes_canonicalized = optional_sections_dropped = 0
 
     def normalize_refs(entry: Dict[str, Any], section_name: str, maximum: int, *, diverse: bool = False) -> List[str]:
         refs = entry.get("source_refs")
-        if (
-            not isinstance(refs, list) or not refs
-            or any(not isinstance(ref, str) or ref not in known for ref in refs)
-        ):
+        if not isinstance(refs, list) or not refs or any(not isinstance(ref, str) or ref not in known for ref in refs):
             raise MonthlySynthesisError(f"unknown or missing source reference in {section_name}")
         deduplicated = list(dict.fromkeys(refs))
         if diverse and len(deduplicated) > maximum:
-            # Reserve space for the first representative of every channel (up to
-            # the display limit), then restore model order in the final subset.
             representative_indexes: List[int] = []
             represented: set[str] = set()
             for index, ref in enumerate(deduplicated):
                 channel = str(by_ref[ref]["source"])
                 if channel not in represented and len(representative_indexes) < maximum:
-                    represented.add(channel)
-                    representative_indexes.append(index)
+                    represented.add(channel); representative_indexes.append(index)
             selected = set(representative_indexes)
             for index in range(len(deduplicated)):
-                if len(selected) >= maximum:
-                    break
+                if len(selected) >= maximum: break
                 selected.add(index)
             normalized = [ref for index, ref in enumerate(deduplicated) if index in selected]
         else:
@@ -299,106 +296,111 @@ def validate_synthesis(
             raise MonthlySynthesisError("invalid executive_summary entry")
         refs = normalize_refs(entry, "executive_summary", 4)
         used.extend(refs); prose.append(str(entry["synthesis"]))
-    # Validate provenance and prose before discarding anything. Normalization must
-    # never make an invented reference, URL, or unidentified attribution harmless.
     for section_name, sections in (("trend", trends), ("notable development", notable)):
         for section in sections:
             if not isinstance(section, dict) or not str(section.get("heading") or "").strip() or not str(section.get("synthesis") or "").strip():
                 raise MonthlySynthesisError(f"invalid {section_name}")
             scope = section.get("scope") if section_name == "trend" else None
-            refs = normalize_refs(
-                section, section_name, 2 if section_name == "notable development" else 5,
-                diverse=scope == "cross_source",
-            )
-            if section_name == "trend" and scope not in {"cross_source", "source_specific"}:
-                raise MonthlySynthesisError("trend scope must be cross_source or source_specific")
-            if section_name == "notable development":
-                channels = {str(by_ref[ref]["source"]) for ref in refs}
-                if len(channels) == 1 and next(iter(channels)).casefold() not in str(section["synthesis"]).casefold():
-                    raise MonthlySynthesisError("single-source notable development requires explicit attribution")
+            normalize_refs(section, section_name, 2 if section_name == "notable development" else 5, diverse=scope == "cross_source")
             prose.extend([str(section["heading"]), str(section["synthesis"])])
     joined = " ".join(prose)
-    if _VAGUE_ATTRIBUTION.search(joined):
-        raise MonthlySynthesisError("generic unidentified attribution in Monthly prose")
     if any(row["url"] in joined for row in registry) or re.search(r"https?://", joined):
         raise MonthlySynthesisError("model-generated prose contains a URL")
+    required_prose = " ".join([brief] + [str(entry["synthesis"]) for entry in executive])
+    if _VAGUE_ATTRIBUTION.search(required_prose):
+        raise MonthlySynthesisError("generic unidentified attribution in Monthly prose")
 
     normalized_trends: List[Dict[str, Any]] = []
     reclassified_notable: List[Dict[str, Any]] = []
 
-    def preserve_as_notable(trend: Dict[str, Any], channels: set[str]) -> bool:
-        """Conservatively preserve a concrete, attributable 1-2-reference non-trend."""
+    def preserve_as_notable(trend: Dict[str, Any], sources: List[str]) -> bool:
         nonlocal trends_reclassified_to_notable
-        refs = trend["source_refs"]
-        heading = str(trend["heading"]).strip()
-        synthesis = str(trend["synthesis"]).strip()
-        if len(refs) not in {1, 2} or heading.casefold() in _GENERIC_NON_TREND_HEADINGS:
+        refs, heading, synthesis = trend["source_refs"], str(trend["heading"]).strip(), str(trend["synthesis"]).strip()
+        if len(refs) not in {1, 2} or heading.casefold() in _GENERIC_NON_TREND_HEADINGS or len(synthesis.split()) < 8:
             return False
-        if len(synthesis.split()) < 8:
-            return False
-        if len(channels) == 1 and next(iter(channels)).casefold() not in synthesis.casefold():
-            return False
-        reclassified_notable.append({
-            "heading": heading, "synthesis": synthesis, "source_refs": refs,
-        })
+        item = {"heading": heading, "synthesis": synthesis, "source_refs": refs}
+        if len(sources) == 1:
+            item["attribution_source"] = sources[0]
+        reclassified_notable.append(item)
         trends_reclassified_to_notable += 1
         return True
+
     for trend in trends:
         refs = trend["source_refs"]
-        channels = {str(by_ref[ref]["source"]) for ref in refs}
-        attributed_prose = f"{trend['heading']} {trend['synthesis']}".casefold()
-        if trend["scope"] == "cross_source":
-            if len(refs) >= 2 and len(channels) >= 2:
-                normalized_trends.append(trend)
-            elif len(refs) >= 3 and len(channels) == 1:
-                source = next(iter(channels))
-                if source.casefold() in attributed_prose:
-                    trend["scope"] = "source_specific"
-                    trend["source"] = source
-                    trends_reclassified += 1
-                    normalized_trends.append(trend)
-                else:
-                    trends_dropped += 1
+        sources = canonical_sources_for_refs(refs, by_ref)
+        if _VAGUE_ATTRIBUTION.search(f"{trend['heading']} {trend['synthesis']}"):
+            trends_dropped += 1; optional_sections_dropped += 1
+            continue
+        scope = trend.get("scope")
+        if scope not in {"cross_source", "source_specific"}:
+            if len(sources) >= 2:
+                scope = "cross_source"
+            elif len(refs) >= 3 and len(sources) == 1:
+                scope = "source_specific"
             else:
-                preserve_as_notable(trend, channels)
-                trends_dropped += 1
+                preserve_as_notable(trend, sources)
+                trends_dropped += 1; optional_sections_dropped += 1
+                continue
+            trend["scope"] = scope
+            trend_scopes_canonicalized += 1
+        if scope == "cross_source":
+            if len(refs) >= 2 and len(sources) >= 2:
+                normalized_trends.append(trend)
+            elif len(refs) >= 3 and len(sources) == 1:
+                trend["scope"] = "source_specific"
+                trend["source"] = trend["attribution_source"] = sources[0]
+                trends_reclassified += 1; trend_scopes_canonicalized += 1
+                normalized_trends.append(trend)
+            else:
+                preserve_as_notable(trend, sources); trends_dropped += 1
+        elif 3 <= len(refs) <= 5 and len(sources) == 1:
+            trend["source"] = trend["attribution_source"] = sources[0]
+            normalized_trends.append(trend)
         else:
-            source = str(trend.get("source") or "").strip()
-            if 3 <= len(refs) <= 5 and channels == {source} and source.casefold() in attributed_prose:
-                normalized_trends.append(trend)
-            else:
-                preserve_as_notable(trend, channels)
-                trends_dropped += 1
+            preserve_as_notable(trend, sources); trends_dropped += 1
+
+    normalized_notable: List[Dict[str, Any]] = []
+    for item in notable:
+        if _VAGUE_ATTRIBUTION.search(f"{item['heading']} {item['synthesis']}"):
+            optional_sections_dropped += 1
+            continue
+        sources = canonical_sources_for_refs(item["source_refs"], by_ref)
+        if len(sources) == 1:
+            item["attribution_source"] = sources[0]
+            deterministic_attribution_added += 1
+        normalized_notable.append(item)
 
     if sum(trend["scope"] == "cross_source" for trend in normalized_trends) >= 3:
-        kept_source_specific = False
-        limited: List[Dict[str, Any]] = []
+        kept_source_specific = False; limited: List[Dict[str, Any]] = []
         for trend in normalized_trends:
             if trend["scope"] != "source_specific" or not kept_source_specific:
                 limited.append(trend)
-                if trend["scope"] == "source_specific":
-                    kept_source_specific = True
+                if trend["scope"] == "source_specific": kept_source_specific = True
             else:
-                trends_dropped += 1
+                trends_dropped += 1; optional_sections_dropped += 1
         normalized_trends = limited
 
     value["trends"] = normalized_trends
-    value["notable_developments"] = (notable + reclassified_notable)[:4]
-    notable_trimmed = max(0, notable_returned + len(reclassified_notable) - len(value["notable_developments"]))
+    value["notable_developments"] = (normalized_notable + reclassified_notable)[:4]
+    deterministic_attribution_added = sum(
+        bool(item.get("attribution_source"))
+        for item in normalized_trends + value["notable_developments"]
+    )
+    notable_trimmed = max(0, len(normalized_notable) + len(reclassified_notable) - len(value["notable_developments"]))
     if diagnostics is not None:
         diagnostics.update({
-            "monthly_trends_returned": trends_returned,
-            "monthly_trends_retained": len(normalized_trends),
-            "monthly_trends_dropped": trends_dropped,
-            "monthly_trends_reclassified": trends_reclassified,
+            "monthly_trends_returned": trends_returned, "monthly_trends_retained": len(normalized_trends),
+            "monthly_trends_dropped": trends_dropped, "monthly_trends_reclassified": trends_reclassified,
             "monthly_trends_reclassified_to_notable": trends_reclassified_to_notable,
-            "monthly_notable_retained": len(value["notable_developments"]),
-            "monthly_notable_trimmed": notable_trimmed,
-            "monthly_normalization_required": bool(trends_dropped or trends_reclassified or trends_reclassified_to_notable or notable_trimmed),
+            "monthly_deterministic_attribution_added": deterministic_attribution_added,
+            "monthly_trend_scopes_canonicalized": trend_scopes_canonicalized,
+            "monthly_trends_converted_to_source_specific": trends_reclassified,
+            "monthly_optional_sections_dropped": optional_sections_dropped,
+            "monthly_notable_retained": len(value["notable_developments"]), "monthly_notable_trimmed": notable_trimmed,
+            "monthly_normalization_required": bool(trends_dropped or trends_reclassified or trends_reclassified_to_notable or notable_trimmed or deterministic_attribution_added or trend_scopes_canonicalized or optional_sections_dropped),
         })
     if len(normalized_trends) < 2:
         raise MonthlySynthesisError("Monthly synthesis needs at least two valid trends after normalization")
-
     for section in executive + normalized_trends + value["notable_developments"]:
         used.extend(section["source_refs"])
     value["source_refs_used"] = list(dict.fromkeys(used))
@@ -450,11 +452,17 @@ def render_monthly(title: str, synthesis: Dict[str, Any], registry: List[Dict[st
         lines += [f"**{heading}.**", str(entry['synthesis']), "", links(entry['source_refs']), ""]
     lines += ["---", "", "## Key Trends", ""]
     for index, trend in enumerate(synthesis["trends"], 1):
-        lines += [f"### {index}. {trend['heading']}", "", trend['synthesis'], "", links(trend["source_refs"]), ""]
+        lines += [f"### {index}. {trend['heading']}", ""]
+        if trend.get("attribution_source"):
+            lines += [f"*Source: {trend['attribution_source']}*", ""]
+        lines += [trend['synthesis'], "", links(trend["source_refs"]), ""]
     if synthesis["notable_developments"]:
         lines += ["---", "", "## Worth Noting", ""]
         for item in synthesis["notable_developments"]:
-            lines += [f"**{item['heading'].rstrip('.')}.** {item['synthesis']}", "", links(item['source_refs']), ""]
+            lines += [f"**{item['heading'].rstrip('.')}.**"]
+            if item.get("attribution_source"):
+                lines += [f"*Source: {item['attribution_source']}*"]
+            lines += [item['synthesis'], "", links(item['source_refs']), ""]
     lines += ["---", "", "## Month in Brief", "", synthesis["month_in_brief"], "", "---", "", "## Source Index", ""]
     used = set(synthesis["source_refs_used"])
     grouped: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
