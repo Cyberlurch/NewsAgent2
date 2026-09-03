@@ -67,6 +67,43 @@ def test_prompt_enforces_one_language_and_identified_sources():
     assert "all narrative prose and headings in English" in seen["system"]
     assert "Topic fields are fallible hints" in seen["system"]
     assert "generic 'the speaker'" in seen["system"]
+    assert "Executive entries use 1-4 representative citations." in seen["system"]
+
+
+def test_citation_presentation_is_normalized_without_retry():
+    registry = build_source_registry([
+        item("Alpha News", 2, "a"), item("Alpine Network", 3, "b"),
+        item("Canadian Prepper", 4, "c"), item("Delta Report", 5, "d"),
+        item("Echo Report", 6, "e"), item("Foxtrot Report", 7, "f"),
+    ])
+    refs = [row["ref_id"] for row in registry]
+    synthesis = valid(registry)
+    synthesis["executive_summary"][0]["source_refs"] = [refs[0], refs[0], *refs[1:]]
+    synthesis["notable_developments"][0]["source_refs"] = [refs[-1], refs[-1], refs[2], refs[3]]
+    synthesis["source_refs_used"] = ["a redundant model field is ignored"]
+    calls = []
+
+    result = synthesize_monthly(
+        registry, "en", lambda *_: calls.append(1) or json.dumps(synthesis)
+    )
+
+    assert calls == [1]
+    assert result["executive_summary"][0]["source_refs"] == refs[:4]
+    assert result["notable_developments"][0]["source_refs"] == [refs[-1], refs[2]]
+    assert result["source_refs_used"] == list(dict.fromkeys(
+        ref for section in result["executive_summary"] + result["trends"] + result["notable_developments"]
+        for ref in section["source_refs"]
+    ))
+
+
+def test_single_source_executive_entry_is_valid():
+    registry = build_source_registry([
+        item("Alpha News", 2, "a"), item("Alpine Network", 3, "b"),
+        item("Canadian Prepper", 4, "c"),
+    ])
+    synthesis = valid(registry)
+    synthesis["executive_summary"][0]["source_refs"] = [registry[0]["ref_id"]]
+    assert validate_synthesis(synthesis, registry)["executive_summary"][0]["source_refs"] == [registry[0]["ref_id"]]
 
 
 def test_evidence_pack_bounds_diversifies_and_is_deterministic():
