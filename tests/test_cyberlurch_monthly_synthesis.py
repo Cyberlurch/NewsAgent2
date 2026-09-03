@@ -6,7 +6,8 @@ from datetime import datetime, timezone
 import pytest
 
 from newsagent2.cyberlurch_monthly import (
-    MonthlySynthesisError, build_source_registry, render_monthly,
+    MONTHLY_CHANNEL_SOFT_CAP, MONTHLY_EVIDENCE_MAX, MONTHLY_EVIDENCE_TARGET,
+    MonthlySynthesisError, build_source_registry, canonical_sources_for_refs, render_monthly,
     monthly_prompt, select_evidence_pack, source_abbreviations,
     synthesize_monthly, validate_synthesis,
 )
@@ -213,7 +214,9 @@ def test_trend_scope_channel_and_notable_rules_are_validated():
     specific["trends"].append(json.loads(json.dumps(base["trends"][1])))
     specific["trends"][1]["heading"] = "Preparedness coverage changed"
     specific["trends"][1]["synthesis"] = "Coverage moved toward continuity measures."
-    assert len(validate_synthesis(specific, registry)["trends"]) == 2
+    normalized_specific = validate_synthesis(specific, registry)
+    assert len(normalized_specific["trends"]) == 3
+    assert normalized_specific["trends"][1]["source"] == "Canadian Prepper"
     too_many = json.loads(json.dumps(base)); too_many["notable_developments"] *= 4
     assert len(validate_synthesis(too_many, registry)["notable_developments"]) == 4
 
@@ -325,14 +328,17 @@ def test_one_record_can_support_a_trend_and_distinct_el_nino_notable():
     assert result["notable_developments"][0]["source_refs"] == [shared_ref]
 
 
-def test_single_source_notable_requires_named_attribution():
+def test_single_source_notable_gets_canonical_attribution_without_literal_name():
     registry = build_source_registry([
         item("Alpha News", 1, "a"), item("Beta News", 2, "b"), item("Risk Desk", 3, "risk")
     ])
     synthesis = valid(registry)
     synthesis["notable_developments"][0]["synthesis"] = "Unusually warm waters could disrupt harvests and fertilizer supplies."
-    with pytest.raises(MonthlySynthesisError, match="explicit attribution"):
-        validate_synthesis(synthesis, registry)
+    result = validate_synthesis(synthesis, registry)
+    notable_item = result["notable_developments"][0]
+    assert notable_item["attribution_source"] == "Risk Desk"
+    report = render_monthly("Monthly", result, registry, "2026-08")
+    assert "*Source: Risk Desk*" in report
 
 
 def test_dropped_material_nontrend_is_reclassified_without_provider_call_and_cap_is_four():
@@ -375,21 +381,76 @@ def test_fewer_than_two_trends_uses_the_single_repair_call():
     assert len(result["trends"]) == 2
 
 
-def test_fatal_content_in_a_droppable_trend_is_not_hidden_by_normalization():
+def test_generic_optional_trend_is_dropped_but_url_remains_fatal():
     registry = build_source_registry([
         item("Alpha News", 1, "a"), item("Beta News", 2, "b")
     ])
-    for text, match in (
-        ("The presenter described it.", "generic unidentified"),
-        ("See https://invented.invalid", "contains a URL"),
-    ):
-        synthesis = valid(registry)
-        synthesis["trends"].append({
-            "heading": "Droppable", "scope": "cross_source",
-            "synthesis": text, "source_refs": [registry[0]["ref_id"]],
-        })
-        with pytest.raises(MonthlySynthesisError, match=match):
-            validate_synthesis(synthesis, registry)
+    synthesis = valid(registry)
+    synthesis["trends"].append({
+        "heading": "Droppable", "scope": "cross_source",
+        "synthesis": "The presenter described it.", "source_refs": [registry[0]["ref_id"]],
+    })
+    diagnostics = {}
+    assert len(validate_synthesis(synthesis, registry, diagnostics)["trends"]) == 2
+    assert diagnostics["monthly_optional_sections_dropped"] == 1
+
+    synthesis = valid(registry)
+    synthesis["trends"].append({
+        "heading": "Droppable", "scope": "cross_source",
+        "synthesis": "See https://invented.invalid", "source_refs": [registry[0]["ref_id"]],
+    })
+    with pytest.raises(MonthlySynthesisError, match="contains a URL"):
+        validate_synthesis(synthesis, registry)
+
+
+def test_provenance_normalizes_model_spelling_missing_source_and_invalid_scope():
+    registry = build_source_registry([
+        item("CanadianPrepper", day, f"cp-{day}") for day in (1, 2, 3)
+    ] + [item("Alpha News", 4, "a"), item("Beta News", 5, "b")])
+    cp_refs = [row["ref_id"] for row in registry if row["source"] == "CanadianPrepper"]
+    synthesis = valid(registry)
+    synthesis["trends"] = [
+        {"heading": "Preparedness emphasis", "scope": "source_specific",
+         "source": "Canadian Prepper", "synthesis": "Canadian Prepper argued that risks increased materially.",
+         "source_refs": cp_refs},
+        {"heading": "Second preparedness emphasis", "scope": "unexpected",
+         "synthesis": "Coverage documented another material shift without naming its channel.",
+         "source_refs": cp_refs},
+    ]
+    calls, diagnostics = [], {}
+    result = synthesize_monthly(registry, "en", lambda *_: calls.append(1) or json.dumps(synthesis), diagnostics)
+    assert calls == [1]
+    assert [trend["source"] for trend in result["trends"]] == ["CanadianPrepper", "CanadianPrepper"]
+    assert result["trends"][1]["scope"] == "source_specific"
+    assert diagnostics["monthly_trend_scopes_canonicalized"] == 1
+
+
+def test_cross_source_same_channel_and_reclassified_notable_use_canonical_refs():
+    registry = build_source_registry([
+        item("CanadianPrepper", day, f"cp-{day}") for day in (1, 2, 3)
+    ] + [item("Alpha News", 4, "a"), item("Beta News", 5, "b")])
+    cp_refs = [row["ref_id"] for row in registry if row["source"] == "CanadianPrepper"]
+    cross_refs = [row["ref_id"] for row in registry if row["source"] in {"Alpha News", "Beta News"}]
+    synthesis = valid(registry)
+    synthesis["trends"] = [
+        {"heading": "Preparedness emphasis", "scope": "cross_source",
+         "synthesis": "Coverage repeatedly emphasized a material development.", "source_refs": cp_refs},
+        {"heading": "Shared development", "scope": "cross_source",
+         "synthesis": "Alpha News and Beta News documented a shared development.", "source_refs": cross_refs},
+        {"heading": "Material isolated risk", "scope": "cross_source",
+         "synthesis": "Unusually warm regional waters could materially disrupt harvests and supplies.",
+         "source_refs": [cp_refs[0]]},
+    ]
+    result = validate_synthesis(synthesis, registry)
+    assert result["trends"][0]["scope"] == "source_specific"
+    assert result["trends"][0]["source"] == "CanadianPrepper"
+    reclassified = next(item for item in result["notable_developments"] if item["heading"] == "Material isolated risk")
+    assert reclassified["attribution_source"] == "CanadianPrepper"
+    assert canonical_sources_for_refs(cp_refs, {row["ref_id"]: row for row in registry}) == ["CanadianPrepper"]
+
+
+def test_monthly_evidence_limit_constants_remain_unchanged():
+    assert (MONTHLY_EVIDENCE_TARGET, MONTHLY_EVIDENCE_MAX, MONTHLY_CHANNEL_SOFT_CAP) == (72, 80, 8)
 
 
 def test_large_synthesis_uses_selected_provenance_and_one_call():
