@@ -26,6 +26,6 @@ def test_monthly_and_yearly_headings_present():
         'topic_primary':'Geopolitik','content_status':'full_text','text_source':'managed_transcript','bottom_line':'x'
     }]
     md_m = to_markdown(items, '## Executive Summary\n\nMonth.', {'1':'detail'}, report_title='The Cyberlurch Report — Monthly', report_language='en', report_mode='monthly')
-    assert 'Monthly trend map' in md_m and 'Topic streams' in md_m and 'Evergreen / long-shelf-life items' in md_m
+    assert 'Executive Summary' in md_m and 'Main themes' in md_m and 'Month in brief' in md_m
     md_y = to_markdown(items, '## Executive Summary\n\nYear.', {'1':'detail'}, report_title='The Cyberlurch Report — Year in Review', report_language='en', report_mode='yearly')
     assert 'Key themes across the year' in md_y and 'Crisis trajectories' in md_y and 'Recurring narratives' in md_y and 'Evergreen highlights' in md_y

@@ -103,7 +103,7 @@ def test_workflow_run_plan_log_formatting():
     assert "printf 'Run plan: modes=[%s] which_report=%s\\n' \"$run_modes\" \"$run_which_report\"" in yml
 
 
-def test_monthly_rollup_enrichment_contains_temporality_channels_themes(tmp_path, monkeypatch):
+def test_monthly_rollup_contains_minimal_semantic_sections(tmp_path, monkeypatch):
     ch = tmp_path / "channels.json"; _channels(ch)
     _digest_state(tmp_path/"state"/"cyberlurch_digests.json")
     _common(monkeypatch, tmp_path, "monthly")
@@ -114,9 +114,10 @@ def test_monthly_rollup_enrichment_contains_temporality_channels_themes(tmp_path
     main_mod.main()
     rollups = json.loads((tmp_path/"state"/"rollups.json").read_text(encoding="utf-8"))
     latest = rollups["reports"]["cyberlurch"][-1]
-    assert isinstance(latest.get("top_channels"), list)
-    assert isinstance(latest.get("top_themes"), list)
-    assert isinstance(latest.get("items_by_temporality"), dict)
+    assert latest.get("schema") == "cyberlurch-monthly-semantic-v1"
+    assert isinstance(latest.get("themes"), list)
+    assert isinstance(latest.get("month_in_brief"), dict)
+    assert "top_channels" not in latest
 
 
 def test_daily_diagnostics_include_digest_counters_when_zero(tmp_path, monkeypatch):
@@ -133,7 +134,7 @@ def test_daily_diagnostics_include_digest_counters_when_zero(tmp_path, monkeypat
     assert d.get("cyberlurch_digest_invalid_records_skipped_total") == 0
 
 
-def test_monthly_rollup_preserves_temporality_counts(tmp_path, monkeypatch):
+def test_monthly_rollup_preserves_substance_not_temporality_counts(tmp_path, monkeypatch):
     ch = tmp_path / "channels.json"; _channels(ch)
     _digest_state_mixed_temporality(tmp_path/"state"/"cyberlurch_digests.json")
     _common(monkeypatch, tmp_path, "monthly")
@@ -144,6 +145,6 @@ def test_monthly_rollup_preserves_temporality_counts(tmp_path, monkeypatch):
     main_mod.main()
     rollups = json.loads((tmp_path/"state"/"rollups.json").read_text(encoding="utf-8"))
     latest = rollups["reports"]["cyberlurch"][-1]
-    t = latest.get("items_by_temporality", {})
-    assert t.get("evergreen", 0) > 0
-    assert t.get("trend_analysis", 0) > 0
+    assert latest["themes"]
+    assert latest["executive_summary"]
+    assert "items_by_temporality" not in latest
