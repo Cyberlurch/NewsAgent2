@@ -14,6 +14,15 @@ def _setup(tmp_path: Path, monkeypatch, *, email_mode: str = "real") -> Path:
     channels = tmp_path / "channels.json"
     _channels(channels)
     _digest_state(tmp_path / "state" / "cyberlurch_digests.json")
+    digest_path = tmp_path / "state" / "cyberlurch_digests.json"
+    state = json.loads(digest_path.read_text())
+    original = state["digests"][0]
+    state["digests"] = [
+        {**original, "video_id": f"d{index}", "title": f"Digest {index}",
+         "url": f"https://www.youtube.com/watch?v=d{index}"}
+        for index in range(1, 4)
+    ]
+    digest_path.write_text(json.dumps(state), encoding="utf-8")
     _common(monkeypatch, tmp_path, "monthly")
     monkeypatch.setenv("EMAIL_MODE", email_mode)
     monkeypatch.setenv("ROLLUPS_STATE_PATH", str(tmp_path / "state" / "rollups.json"))
@@ -100,8 +109,8 @@ def test_malformed_synthesis_blocks_delivery_after_one_retry(tmp_path, monkeypat
         "error_type": "MonthlySynthesisError",
         "final_validator_error": "Monthly synthesis validation failed after one retry: Expecting value: line 1 column 1 (char 0)",
         "provider_operation_count": 2,
-        "persisted_candidate_count": 1,
-        "evidence_selected_count": 1,
+        "persisted_candidate_count": 3,
+        "evidence_selected_count": 3,
         "unique_channels_represented": 1,
         "prompt_character_count": diagnostic["prompt_character_count"],
         "provider_input_tokens": None,

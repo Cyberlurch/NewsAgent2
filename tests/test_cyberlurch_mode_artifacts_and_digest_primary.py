@@ -37,10 +37,16 @@ def _common(monkeypatch, tmp_path, mode):
         if len(source_names) >= 2:
             first = sources[0]["source"]
             trend_refs = [refs[0], next(row["ref_id"] for row in sources if row["source"] != first)]
-            trends = [{"heading":"Recurring coverage", "scope":"cross_source", "synthesis":"Named sources returned to the same development during the period.", "source_refs":trend_refs}]
+            trends = [
+                {"heading":"Recurring coverage", "scope":"cross_source", "synthesis":"Named sources returned to the same development during the period.", "source_refs":trend_refs},
+                {"heading":"Continuing coverage", "scope":"cross_source", "synthesis":"Named sources also documented a continuing development during the period.", "source_refs":trend_refs},
+            ]
         elif len(refs) >= 3:
             source = sources[0]["source"]
-            trends = [{"heading":f"{source} coverage changed", "scope":"source_specific", "source":source, "synthesis":f"{source} returned to the same development during the period.", "source_refs":refs[:3]}]
+            trends = [
+                {"heading":f"{source} coverage changed", "scope":"source_specific", "source":source, "synthesis":f"{source} returned to the same development during the period.", "source_refs":refs[:3]},
+                {"heading":f"{source} emphasis changed", "scope":"source_specific", "source":source, "synthesis":f"{source} also sustained a material emphasis during the period.", "source_refs":refs[:3]},
+            ]
         else:
             trends = []
         notable = [] if trends else [{"heading":"Recorded development", "synthesis":f"{sources[0]['source']} covered one persisted development.", "source_refs":refs[:2]}]
@@ -69,7 +75,7 @@ def test_weekly_digest_primary_skips_collection(tmp_path, monkeypatch):
 
 def test_monthly_digest_primary_skips_collection(tmp_path, monkeypatch):
     ch = tmp_path / "channels.json"; _channels(ch)
-    _digest_state(tmp_path/"state"/"cyberlurch_digests.json")
+    _digest_state_mixed_temporality(tmp_path/"state"/"cyberlurch_digests.json")
     _common(monkeypatch, tmp_path, "monthly")
     monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: (_ for _ in ()).throw(AssertionError("should not collect")))
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(ch), "--hours", "36"])
@@ -121,7 +127,10 @@ def test_monthly_digest_empty_falls_back_collection_in_explicit_audit_mode(tmp_p
     _common(monkeypatch, tmp_path, "monthly")
     monkeypatch.setenv("EMAIL_MODE", "none")
     monkeypatch.setenv("CYBERLURCH_MONTHLY_COLLECT_IF_DIGEST_AVAILABLE", "1")
-    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: [{"id":"x1","title":"x","channel":"tagesschau","published_at":dt.datetime.now(dt.timezone.utc),"url":"https://www.youtube.com/watch?v=x1","description":""}])
+    monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: [
+        {"id":f"x{index}","title":f"x{index}","channel":"tagesschau","published_at":dt.datetime.now(dt.timezone.utc),"url":f"https://www.youtube.com/watch?v=x{index}","description":""}
+        for index in range(1, 4)
+    ])
     monkeypatch.setattr(main_mod, "fetch_video_content", lambda **k: type("R", (), {"status":"success","text":"t"*1000,"source":"description"})())
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(ch), "--hours", "36"])
     main_mod.main()
@@ -157,7 +166,7 @@ def test_workflow_run_plan_log_formatting():
 
 def test_monthly_rollup_contains_minimal_semantic_sections(tmp_path, monkeypatch):
     ch = tmp_path / "channels.json"; _channels(ch)
-    _digest_state(tmp_path/"state"/"cyberlurch_digests.json")
+    _digest_state_mixed_temporality(tmp_path/"state"/"cyberlurch_digests.json")
     _common(monkeypatch, tmp_path, "monthly")
     monkeypatch.setenv("EMAIL_MODE", "real")
     monkeypatch.setenv("ROLLUPS_STATE_PATH", str(tmp_path/"state"/"rollups.json"))

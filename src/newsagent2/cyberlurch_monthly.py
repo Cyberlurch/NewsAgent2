@@ -226,7 +226,10 @@ Month in Brief must summarize the actual material developments in 2-3 substantiv
     return system, "Persisted Monthly sources (JSON):\n" + json.dumps(payload, ensure_ascii=False, indent=2)
 
 
-def validate_synthesis(value: Any, registry: List[Dict[str, Any]]) -> Dict[str, Any]:
+def validate_synthesis(
+    value: Any, registry: List[Dict[str, Any]],
+    diagnostics: MutableMapping[str, Any] | None = None,
+) -> Dict[str, Any]:
     if not isinstance(value, dict):
         raise MonthlySynthesisError("Monthly synthesis is not a JSON object")
     known = {row["ref_id"] for row in registry}
@@ -239,10 +242,12 @@ def validate_synthesis(value: Any, registry: List[Dict[str, Any]]) -> Dict[str, 
         raise MonthlySynthesisError("invalid executive_summary")
     if not isinstance(trends, list) or not isinstance(notable, list) or not isinstance(brief, str) or not brief.strip():
         raise MonthlySynthesisError("invalid Monthly section shape")
-    if len(notable) > 3:
-        raise MonthlySynthesisError("notable_developments exceeds maximum of three")
     used: List[str] = []
     prose = [brief]
+    trends_returned = len(trends)
+    trends_dropped = 0
+    trends_reclassified = 0
+    notable_returned = len(notable)
 
     def normalize_refs(entry: Dict[str, Any], section_name: str, maximum: int, *, diverse: bool = False) -> List[str]:
         refs = entry.get("source_refs")
@@ -278,6 +283,8 @@ def validate_synthesis(value: Any, registry: List[Dict[str, Any]]) -> Dict[str, 
             raise MonthlySynthesisError("invalid executive_summary entry")
         refs = normalize_refs(entry, "executive_summary", 4)
         used.extend(refs); prose.append(str(entry["synthesis"]))
+    # Validate provenance and prose before discarding anything. Normalization must
+    # never make an invented reference, URL, or unidentified attribution harmless.
     for section_name, sections in (("trend", trends), ("notable development", notable)):
         for section in sections:
             if not isinstance(section, dict) or not str(section.get("heading") or "").strip() or not str(section.get("synthesis") or "").strip():
@@ -287,33 +294,70 @@ def validate_synthesis(value: Any, registry: List[Dict[str, Any]]) -> Dict[str, 
                 section, section_name, 2 if section_name == "notable development" else 5,
                 diverse=scope == "cross_source",
             )
-            if section_name == "trend":
-                cited = [by_ref[ref] for ref in refs]
-                channels = {str(row["source"]) for row in cited}
-                if scope == "cross_source":
-                    if not 2 <= len(refs) <= 5 or len(channels) < 2:
-                        raise MonthlySynthesisError("cross-source trend needs 2-5 records from distinct channels")
-                    topic_sets = [{str(t).strip().casefold() for t in (row.get("topic_hints") or []) if str(t).strip()} for row in cited]
-                    shared = {topic for topics in topic_sets for topic in topics if sum(topic in other for other in topic_sets) >= 2}
-                    if topic_sets and all(topic_sets) and not shared:
-                        raise MonthlySynthesisError("cross-source trend evidence has no shared persisted topic")
-                elif scope == "source_specific":
-                    source = str(section.get("source") or "").strip()
-                    attributed_prose = f"{section['heading']} {section['synthesis']}".casefold()
-                    if not 3 <= len(refs) <= 5 or channels != {source} or source.casefold() not in attributed_prose:
-                        raise MonthlySynthesisError("source-specific trend must explicitly name its one source and cite 3-5 records")
-                else:
-                    raise MonthlySynthesisError("trend scope must be cross_source or source_specific")
-            used.extend(refs); prose.extend([str(section["heading"]), str(section["synthesis"])])
+            if section_name == "trend" and scope not in {"cross_source", "source_specific"}:
+                raise MonthlySynthesisError("trend scope must be cross_source or source_specific")
+            prose.extend([str(section["heading"]), str(section["synthesis"])])
     joined = " ".join(prose)
-    source_specific_count = sum(trend.get("scope") == "source_specific" for trend in trends)
-    cross_source_count = sum(trend.get("scope") == "cross_source" for trend in trends)
-    if source_specific_count > 1 and cross_source_count >= 3:
-        raise MonthlySynthesisError("at most one source-specific trend when three cross-source trends are available")
     if _VAGUE_ATTRIBUTION.search(joined):
         raise MonthlySynthesisError("generic unidentified attribution in Monthly prose")
     if any(row["url"] in joined for row in registry) or re.search(r"https?://", joined):
         raise MonthlySynthesisError("model-generated prose contains a URL")
+
+    normalized_trends: List[Dict[str, Any]] = []
+    for trend in trends:
+        refs = trend["source_refs"]
+        channels = {str(by_ref[ref]["source"]) for ref in refs}
+        attributed_prose = f"{trend['heading']} {trend['synthesis']}".casefold()
+        if trend["scope"] == "cross_source":
+            if len(refs) >= 2 and len(channels) >= 2:
+                normalized_trends.append(trend)
+            elif len(refs) >= 3 and len(channels) == 1:
+                source = next(iter(channels))
+                if source.casefold() in attributed_prose:
+                    trend["scope"] = "source_specific"
+                    trend["source"] = source
+                    trends_reclassified += 1
+                    normalized_trends.append(trend)
+                else:
+                    trends_dropped += 1
+            else:
+                trends_dropped += 1
+        else:
+            source = str(trend.get("source") or "").strip()
+            if 3 <= len(refs) <= 5 and channels == {source} and source.casefold() in attributed_prose:
+                normalized_trends.append(trend)
+            else:
+                trends_dropped += 1
+
+    if sum(trend["scope"] == "cross_source" for trend in normalized_trends) >= 3:
+        kept_source_specific = False
+        limited: List[Dict[str, Any]] = []
+        for trend in normalized_trends:
+            if trend["scope"] != "source_specific" or not kept_source_specific:
+                limited.append(trend)
+                if trend["scope"] == "source_specific":
+                    kept_source_specific = True
+            else:
+                trends_dropped += 1
+        normalized_trends = limited
+
+    value["trends"] = normalized_trends
+    value["notable_developments"] = notable[:3]
+    notable_trimmed = max(0, notable_returned - len(value["notable_developments"]))
+    if diagnostics is not None:
+        diagnostics.update({
+            "monthly_trends_returned": trends_returned,
+            "monthly_trends_retained": len(normalized_trends),
+            "monthly_trends_dropped": trends_dropped,
+            "monthly_trends_reclassified": trends_reclassified,
+            "monthly_notable_trimmed": notable_trimmed,
+            "monthly_normalization_required": bool(trends_dropped or trends_reclassified or notable_trimmed),
+        })
+    if len(normalized_trends) < 2:
+        raise MonthlySynthesisError("Monthly synthesis needs at least two valid trends after normalization")
+
+    for section in executive + normalized_trends + value["notable_developments"]:
+        used.extend(section["source_refs"])
     value["source_refs_used"] = list(dict.fromkeys(used))
     return value
 
@@ -343,7 +387,7 @@ def synthesize_monthly(registry: List[Dict[str, Any]], language: str, call: Call
             if diagnostics is not None:
                 diagnostics["monthly_provider_operations"] += 1
             raw = call(system, user + repair)
-            return validate_synthesis(json.loads(raw), evidence)
+            return validate_synthesis(json.loads(raw), evidence, diagnostics)
         except (json.JSONDecodeError, MonthlySynthesisError) as exc:
             last_error = exc
     raise MonthlySynthesisError(f"Monthly synthesis validation failed after one retry: {last_error}")
