@@ -5589,6 +5589,12 @@ def main() -> None:
             f"{monthly_evidence_diagnostics['monthly_persisted_records_available']} "
             f"trends={len(monthly_synthesis['trends'])} "
             f"notable={len(monthly_synthesis['notable_developments'])} "
+            f"monthly_trends_returned={monthly_evidence_diagnostics['monthly_trends_returned']} "
+            f"monthly_trends_retained={monthly_evidence_diagnostics['monthly_trends_retained']} "
+            f"monthly_trends_dropped={monthly_evidence_diagnostics['monthly_trends_dropped']} "
+            f"monthly_trends_reclassified={monthly_evidence_diagnostics['monthly_trends_reclassified']} "
+            f"monthly_notable_trimmed={monthly_evidence_diagnostics['monthly_notable_trimmed']} "
+            f"monthly_normalization_required={monthly_evidence_diagnostics['monthly_normalization_required']} "
             f"source_refs={len(monthly_synthesis['source_refs_used'])}"
         )
 

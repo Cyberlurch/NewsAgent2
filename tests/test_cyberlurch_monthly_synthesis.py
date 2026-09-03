@@ -25,7 +25,10 @@ def valid(registry):
                 {"heading":"Material shift", "synthesis":"A second material development shaped the month.", "source_refs":[refs[0], refs[1]]},
                 {"heading":"Continuing development", "synthesis":"The recurring development remained consequential.", "source_refs":[refs[0], refs[1]]},
             ],
-            "trends":[{"heading":"Semantically regrouped theme", "scope":"cross_source", "synthesis":"Alpha News and Alpine Network returned to a shared development.", "source_refs":refs[:2]}],
+            "trends":[
+                {"heading":"Semantically regrouped theme", "scope":"cross_source", "synthesis":"Alpha News and Alpine Network returned to a shared development.", "source_refs":refs[:2]},
+                {"heading":"Continuing shared theme", "scope":"cross_source", "synthesis":"Alpha News and Alpine Network also documented a continuing development.", "source_refs":refs[:2]},
+            ],
             "notable_developments":[{"heading":"Isolated event", "synthesis":"Canadian Prepper recorded a separate event.", "source_refs":[refs[-1]]}],
             "month_in_brief":"The month combined recurring coverage with one isolated event.", "source_refs_used":refs}
 
@@ -195,31 +198,31 @@ def test_trend_scope_channel_and_notable_rules_are_validated():
     base["source_refs_used"] = list(dict.fromkeys(ref for section in base["executive_summary"] + base["trends"] + base["notable_developments"] for ref in section["source_refs"]))
     assert validate_synthesis(base, registry)
     one_channel = json.loads(json.dumps(base))
+    one_channel["trends"].append(json.loads(json.dumps(one_channel["trends"][1])))
+    one_channel["trends"][-1]["heading"] = "Third valid development"
     one_channel["trends"][0]["source_refs"] = [registry[2]["ref_id"], registry[3]["ref_id"]]
     one_channel["source_refs_used"] = list(dict.fromkeys(ref for section in one_channel["executive_summary"] + one_channel["trends"] + one_channel["notable_developments"] for ref in section["source_refs"]))
-    with pytest.raises(MonthlySynthesisError, match="distinct channels"):
-        validate_synthesis(one_channel, registry)
+    normalized = validate_synthesis(one_channel, registry)
+    assert len(normalized["trends"]) == 2
     specific = json.loads(json.dumps(base))
     cp_refs = [r["ref_id"] for r in registry if r["source"] == "Canadian Prepper"]
-    specific["trends"] = [{"heading":"Canadian Prepper coverage changed", "synthesis":"Canadian Prepper moved toward continuity coverage.", "scope":"source_specific", "source":"Canadian Prepper", "source_refs":cp_refs}]
+    specific["trends"] = base["trends"][:1] + [{"heading":"Canadian Prepper coverage changed", "synthesis":"Canadian Prepper moved toward continuity coverage.", "scope":"source_specific", "source":"Canadian Prepper", "source_refs":cp_refs}]
     specific["notable_developments"] = []
     specific["source_refs_used"] = list(dict.fromkeys(specific["executive_summary"][0]["source_refs"] + cp_refs))
     assert validate_synthesis(specific, registry)
-    specific["trends"][0]["heading"] = "Preparedness coverage changed"
-    specific["trends"][0]["synthesis"] = "Coverage moved toward continuity measures."
-    with pytest.raises(MonthlySynthesisError, match="explicitly name"):
-        validate_synthesis(specific, registry)
+    specific["trends"].append(json.loads(json.dumps(base["trends"][1])))
+    specific["trends"][1]["heading"] = "Preparedness coverage changed"
+    specific["trends"][1]["synthesis"] = "Coverage moved toward continuity measures."
+    assert len(validate_synthesis(specific, registry)["trends"]) == 2
     too_many = json.loads(json.dumps(base)); too_many["notable_developments"] *= 4
-    with pytest.raises(MonthlySynthesisError, match="maximum of three"):
-        validate_synthesis(too_many, registry)
+    assert len(validate_synthesis(too_many, registry)["notable_developments"]) == 3
 
 
-def test_unrelated_cross_source_one_offs_fail_topic_coherence():
+def test_persisted_topic_mismatch_is_not_a_hard_failure():
     rows = [item("Flood News", 2, "flood", topic="flood"), item("Wine News", 3, "wine", topic="harvest")]
     registry = build_source_registry(rows)
     synthesis = valid(registry)
-    with pytest.raises(MonthlySynthesisError, match="no shared persisted topic"):
-        validate_synthesis(synthesis, registry)
+    assert len(validate_synthesis(synthesis, registry)["trends"]) == 2
 
 
 def test_source_specific_trends_are_limited_when_three_cross_source_trends_exist():
@@ -241,8 +244,75 @@ def test_source_specific_trends_are_limited_when_three_cross_source_trends_exist
          "synthesis": f"{source} materially changed its framing.", "source_refs": refs}
         for source, refs in (("Alpha News", alpha), ("Beta News", beta))
     ]
-    with pytest.raises(MonthlySynthesisError, match="at most one source-specific"):
-        validate_synthesis(synthesis, registry)
+    result = validate_synthesis(synthesis, registry)
+    assert [trend["scope"] for trend in result["trends"]] == [
+        "cross_source", "cross_source", "cross_source", "source_specific"
+    ]
+    assert result["trends"][-1]["source"] == "Alpha News"
+
+
+def test_same_channel_cross_source_is_reclassified_or_dropped_without_retry():
+    registry = build_source_registry([
+        item("Alpha News", day, f"a-{day}") for day in (1, 2, 3)
+    ] + [item("Beta News", 4, "b")])
+    alpha = [row["ref_id"] for row in registry if row["source"] == "Alpha News"]
+    beta = next(row["ref_id"] for row in registry if row["source"] == "Beta News")
+    synthesis = valid(registry)
+    synthesis["trends"] = [
+        {"heading": "Alpha News emphasis", "scope": "cross_source",
+         "synthesis": "Alpha News repeatedly covered the development.", "source_refs": alpha},
+        {"heading": "Insufficient pattern", "scope": "cross_source",
+         "synthesis": "Two records described a possible pattern.", "source_refs": alpha[:2]},
+        {"heading": "Shared pattern", "scope": "cross_source",
+         "synthesis": "Alpha News and Beta News covered the development.", "source_refs": [alpha[0], beta]},
+    ]
+    calls, diagnostics = [], {}
+    result = synthesize_monthly(
+        registry, "en", lambda *_: calls.append(1) or json.dumps(synthesis), diagnostics
+    )
+    assert calls == [1]
+    assert [trend["scope"] for trend in result["trends"]] == ["source_specific", "cross_source"]
+    assert result["trends"][0]["source"] == "Alpha News"
+    assert diagnostics["monthly_trends_returned"] == 3
+    assert diagnostics["monthly_trends_retained"] == 2
+    assert diagnostics["monthly_trends_dropped"] == 1
+    assert diagnostics["monthly_trends_reclassified"] == 1
+    assert diagnostics["monthly_normalization_required"] is True
+
+
+def test_fewer_than_two_trends_uses_the_single_repair_call():
+    registry = build_source_registry([
+        item("Alpha News", 1, "a"), item("Beta News", 2, "b")
+    ])
+    insufficient = valid(registry)
+    insufficient["trends"] = insufficient["trends"][:1]
+    repaired = valid(registry)
+    calls = []
+
+    def provider(*_):
+        calls.append(1)
+        return json.dumps(insufficient if len(calls) == 1 else repaired)
+
+    result = synthesize_monthly(registry, "en", provider)
+    assert len(calls) == 2
+    assert len(result["trends"]) == 2
+
+
+def test_fatal_content_in_a_droppable_trend_is_not_hidden_by_normalization():
+    registry = build_source_registry([
+        item("Alpha News", 1, "a"), item("Beta News", 2, "b")
+    ])
+    for text, match in (
+        ("The presenter described it.", "generic unidentified"),
+        ("See https://invented.invalid", "contains a URL"),
+    ):
+        synthesis = valid(registry)
+        synthesis["trends"].append({
+            "heading": "Droppable", "scope": "cross_source",
+            "synthesis": text, "source_refs": [registry[0]["ref_id"]],
+        })
+        with pytest.raises(MonthlySynthesisError, match=match):
+            validate_synthesis(synthesis, registry)
 
 
 def test_large_synthesis_uses_selected_provenance_and_one_call():
