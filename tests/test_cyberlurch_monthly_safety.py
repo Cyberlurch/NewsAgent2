@@ -144,3 +144,79 @@ def test_newsagent_workflow_wires_month_override():
     workflow = Path(".github/workflows/newsagent.yml").read_text()
     assert "rollup_month_override:" in workflow
     assert "ROLLUP_MONTH_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.rollup_month_override || '' }}" in workflow
+
+
+@pytest.mark.parametrize(
+    "report_key,report_mode,email_mode,send_email,month,flag,expected",
+    [
+        ("cyberlurch", "monthly", "none", "0", "2026-08", "1", True),
+        ("cyberlurch", "daily", "none", "0", "2026-08", "1", False),
+        ("cyberlurch", "weekly", "none", "0", "2026-08", "1", False),
+        ("cyberlurch", "yearly", "none", "0", "2026-08", "1", False),
+        ("cyberlurch", "monthly", "test", "1", "2026-08", "1", False),
+        ("cyberlurch", "monthly", "real", "1", "2026-08", "1", False),
+        ("cybermed", "monthly", "none", "0", "2026-08", "1", False),
+        ("cyberlurch", "monthly", "none", "0", "", "1", False),
+        ("cyberlurch", "monthly", "none", "0", "2026-13", "1", False),
+        ("cyberlurch", "monthly", "none", "0", "2026-08", "0", False),
+    ],
+)
+def test_manual_monthly_state_write_application_gate(
+    monkeypatch, report_key, report_mode, email_mode, send_email, month, flag, expected
+):
+    monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setenv("EMAIL_MODE", email_mode)
+    monkeypatch.setenv("SEND_EMAIL", send_email)
+    monkeypatch.setenv("ROLLUP_MONTH_OVERRIDE", month)
+    monkeypatch.setenv("CYBERLURCH_MONTHLY_MANUAL_STATE_WRITE", flag)
+
+    assert main._cyberlurch_monthly_manual_state_write_enabled(report_key, report_mode) is expected
+
+
+def test_manual_monthly_backfill_changes_only_rollups_and_upserts_target(tmp_path, monkeypatch):
+    rollups_path = _setup(tmp_path, monkeypatch, email_mode="none")
+    target_month = __import__("datetime").datetime.now(main.STO).strftime("%Y-%m")
+    monkeypatch.setenv("ROLLUP_MONTH_OVERRIDE", target_month)
+    monkeypatch.setenv("CYBERLURCH_MONTHLY_MANUAL_STATE_WRITE", "1")
+    monkeypatch.setenv("SEND_EMAIL", "0")
+
+    protected_paths = {
+        "processed": tmp_path / "state" / "processed_items.json",
+        "digests": tmp_path / "state" / "cyberlurch_digests.json",
+        "cybermed_daily": tmp_path / "state" / "cybermed_daily_digests.json",
+        "cybermed_weekly": tmp_path / "state" / "cybermed_weekly_digests.json",
+    }
+    protected_paths["processed"].write_bytes(b'{"fixed":"processed"}\n')
+    protected_paths["cybermed_daily"].write_bytes(b'{"fixed":"daily"}\n')
+    protected_paths["cybermed_weekly"].write_bytes(b'{"fixed":"weekly"}\n')
+    before = {name: path.read_bytes() for name, path in protected_paths.items()}
+    rollups_path.write_text(json.dumps({
+        "version": 1,
+        "updated_at_utc": "fixed",
+        "reports": {"cyberlurch": [
+            {"month": target_month, "generated_at": "old-1"},
+            {"month": target_month, "generated_at": "old-2"},
+            {"month": "2025-01", "generated_at": "keep"},
+        ]},
+    }))
+    monkeypatch.setenv("STATE_PATH", str(protected_paths["processed"]))
+    monkeypatch.setattr(main, "list_recent_videos", lambda *a, **k: pytest.fail("source collection called"))
+    monkeypatch.setattr(main, "fetch_video_content", lambda *a, **k: pytest.fail("transcript recollection called"))
+    monkeypatch.setattr(main, "send_markdown", lambda *a, **k: pytest.fail("email called"))
+
+    main.main()
+
+    assert {name: path.read_bytes() for name, path in protected_paths.items()} == before
+    records = json.loads(rollups_path.read_text())["reports"]["cyberlurch"]
+    assert sum(row.get("month") == target_month for row in records) == 1
+    assert sum(row.get("month") == "2025-01" for row in records) == 1
+
+
+def test_newsagent_workflow_has_strict_manual_monthly_gate_and_state_only_commit():
+    workflow = Path(".github/workflows/newsagent.yml").read_text()
+    assert "persist_monthly_rollup:" in workflow
+    assert "default: false" in workflow
+    assert 'manual_monthly_state_write=true' in workflow
+    assert 'CYBERLURCH_MONTHLY_MANUAL_STATE_WRITE: ${{ steps.compute_plan.outputs.manual_monthly_state_write' in workflow
+    assert "git status --porcelain -- state ':!state/rollups.json'" in workflow
+    assert "FILES=(state/rollups.json)" in workflow

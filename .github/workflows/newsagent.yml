@@ -30,6 +30,11 @@ on:
         description: "Optional Monthly target month (YYYY-MM)"
         required: false
         type: string
+      persist_monthly_rollup:
+        description: "Persist a no-email Cyberlurch Monthly backfill rollup"
+        required: false
+        default: false
+        type: boolean
       which_report:
         description: "Report target (Cybermed has a dedicated workflow)"
         default: cyberlurch
@@ -217,6 +222,18 @@ jobs:
           run_modes=""
           run_which_report="${{ env.WHICH_REPORT }}"
           schedule_expr="${{ github.event.schedule || '' }}"
+          manual_monthly_state_write=false
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.persist_monthly_rollup }}" = "true" ]; then
+            if [ "${{ env.WHICH_REPORT }}" != "cyberlurch" ] \
+              || [ "${{ env.REPORT_MODE }}" != "monthly" ] \
+              || [ "${{ env.EMAIL_MODE }}" != "none" ] \
+              || ! [[ "${{ env.ROLLUP_MONTH_OVERRIDE }}" =~ ^[0-9]{4}-(0[1-9]|1[0-2])$ ]]; then
+              echo "ERROR: persist_monthly_rollup requires workflow_dispatch, Cyberlurch Monthly, email_mode=none, and a valid YYYY-MM override." >&2
+              exit 1
+            fi
+            manual_monthly_state_write=true
+          fi
 
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             if [ "${{ env.REPORT_MODE }}" = "all" ]; then
@@ -250,6 +267,7 @@ jobs:
           echo "run_skip=false" >> "$GITHUB_OUTPUT"
           echo "run_modes=$run_modes" >> "$GITHUB_OUTPUT"
           echo "run_which_report=$run_which_report" >> "$GITHUB_OUTPUT"
+          echo "manual_monthly_state_write=$manual_monthly_state_write" >> "$GITHUB_OUTPUT"
           printf 'Run plan: modes=[%s] which_report=%s\n' "$run_modes" "$run_which_report"
 
       - name: Validate Cyberlurch SMTP configuration
@@ -312,6 +330,7 @@ jobs:
           RUN_LOG_PATH: out/run.log
           EMAIL_MODE: ${{ env.EMAIL_MODE }}
           SEND_EMAIL: ${{ env.SEND_EMAIL }}
+          CYBERLURCH_MONTHLY_MANUAL_STATE_WRITE: ${{ steps.compute_plan.outputs.manual_monthly_state_write == 'true' && '1' || '0' }}
           CYBERLURCH_CHANNELS_FILE_OVERRIDE: ${{ env.CYBERLURCH_CHANNELS_FILE_OVERRIDE }}
           YOUTUBE_TRANSCRIPT_PROVIDER: ${{ env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE != 'default' && env.MANAGED_TRANSCRIPT_PROVIDER_OVERRIDE || (vars.YOUTUBE_TRANSCRIPT_PROVIDER || 'none') }}
           YOUTUBE_TRANSCRIPT_API_KEY: ${{ secrets.YOUTUBE_TRANSCRIPT_API_KEY || '' }}
@@ -516,18 +535,33 @@ jobs:
         run: |
           set -euo pipefail
 
-          mkdir -p state
-          # Avoid YAML/heredoc indentation issues by using a compact python -c initializer.
-          python -c "from datetime import datetime, timezone; import json, pathlib; p=pathlib.Path('state')/'rollups.json'; payload={'version':1,'updated_at_utc':datetime.now(timezone.utc).replace(microsecond=0).isoformat(),'reports':{}}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
-          python -c "import json, pathlib; p=pathlib.Path('state')/'cyberlurch_digests.json'; payload={'version':1,'updated_at_utc':'','digests':[]}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
-
-          # Collect only existing state files (avoid git add pathspec failures)
-          FILES=()
-          for f in state/processed_items.json state/rollups.json state/cyberlurch_digests.json state/youtube_content_cache.json; do
-            if [ -f "$f" ]; then
-              FILES+=("$f")
+          if [ "${{ steps.compute_plan.outputs.manual_monthly_state_write }}" = "true" ]; then
+            unexpected="$(git status --porcelain -- state ':!state/rollups.json' || true)"
+            if [ -n "$unexpected" ]; then
+              echo "ERROR: manual Monthly backfill changed state outside state/rollups.json:" >&2
+              printf '%s\n' "$unexpected" >&2
+              exit 1
             fi
-          done
+            if git diff --quiet -- state/rollups.json; then
+              echo "No change in state/rollups.json."
+              exit 0
+            fi
+            FILES=(state/rollups.json)
+          else
+
+            mkdir -p state
+            # Avoid YAML/heredoc indentation issues by using compact Python initializers.
+            python -c "from datetime import datetime, timezone; import json, pathlib; p=pathlib.Path('state')/'rollups.json'; payload={'version':1,'updated_at_utc':datetime.now(timezone.utc).replace(microsecond=0).isoformat(),'reports':{}}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
+            python -c "import json, pathlib; p=pathlib.Path('state')/'cyberlurch_digests.json'; payload={'version':1,'updated_at_utc':'','digests':[]}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
+
+            # Collect only existing state files (avoid git add pathspec failures)
+            FILES=()
+            for f in state/processed_items.json state/rollups.json state/cyberlurch_digests.json state/youtube_content_cache.json; do
+              if [ -f "$f" ]; then
+                FILES+=("$f")
+              fi
+            done
+          fi
 
           if [ "${#FILES[@]}" -eq 0 ]; then
             echo "No state files found -> nothing to commit."

@@ -276,6 +276,20 @@ def _parse_iso_utc(value: str | None) -> datetime | None:
     return dt
 
 
+def _cyberlurch_monthly_manual_state_write_enabled(report_key: str, report_mode: str) -> bool:
+    """Return whether the narrowly scoped manual Monthly rollup write is safe."""
+    override = (os.getenv("ROLLUP_MONTH_OVERRIDE", "") or "").strip()
+    return (
+        report_key.strip().lower() == "cyberlurch"
+        and report_mode == "monthly"
+        and (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower() == "workflow_dispatch"
+        and (os.getenv("EMAIL_MODE", "") or "").strip().lower() == "none"
+        and (os.getenv("SEND_EMAIL", "") or "").strip() == "0"
+        and _env_bool("CYBERLURCH_MONTHLY_MANUAL_STATE_WRITE", False)
+        and re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", override) is not None
+    )
+
+
 def _is_cybermed(report_key: str, report_profile: str) -> bool:
     """Cybermed detection must be stable and avoid touching Cyberlurch logic."""
     rk = (report_key or "").strip().lower()
@@ -2482,6 +2496,9 @@ def main() -> None:
     monthly_digest_period_end = ""
     weekly_digest_fallback_collection_used = False
     monthly_digest_fallback_collection_used = False
+    cyberlurch_monthly_manual_state_write = _cyberlurch_monthly_manual_state_write_enabled(
+        report_key, report_mode
+    )
     cyberlurch_monthly_production_delivery = (
         report_key.strip().lower() == "cyberlurch"
         and report_mode == "monthly"
@@ -3049,7 +3066,9 @@ def main() -> None:
             use_digest = True
             collect_if_digest = False
             supplement = False
-        if report_mode == "monthly" and cyberlurch_monthly_production_delivery:
+        if report_mode == "monthly" and (
+            cyberlurch_monthly_production_delivery or cyberlurch_monthly_manual_state_write
+        ):
             use_digest = True
             if collect_if_digest or supplement:
                 print("[cyberlurch-monthly] production ignores supplemental/live collection flags")
@@ -5769,6 +5788,7 @@ def main() -> None:
     aggregate_state_write = (
         (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower() == "schedule"
         or (os.getenv("EMAIL_MODE", "") or "").strip().lower() == "real"
+        or cyberlurch_monthly_manual_state_write
     )
     if report_mode == "monthly" and aggregate_state_write:
         try:
