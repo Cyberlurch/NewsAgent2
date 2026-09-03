@@ -7,7 +7,8 @@ import pytest
 
 from newsagent2.cyberlurch_monthly import (
     MonthlySynthesisError, build_source_registry, render_monthly,
-    source_abbreviations, synthesize_monthly, validate_synthesis,
+    monthly_prompt, select_evidence_pack, source_abbreviations,
+    synthesize_monthly, validate_synthesis,
 )
 
 
@@ -65,3 +66,49 @@ def test_prompt_enforces_one_language_and_identified_sources():
     assert "all narrative prose and headings in English" in seen["system"]
     assert "Topic fields are fallible hints" in seen["system"]
     assert "generic 'the speaker'" in seen["system"]
+
+
+def test_evidence_pack_bounds_diversifies_and_is_deterministic():
+    rows = []
+    for index in range(430):
+        channel = "Flood Channel" if index < 360 else f"Channel {index % 12}"
+        rows.append(item(channel, index % 28 + 1, f"id-{index}"))
+    registry = build_source_registry(rows)
+    first = select_evidence_pack(registry)
+    second = select_evidence_pack(list(reversed(registry)))
+    assert len(first) <= 80
+    assert [row["ref_id"] for row in first] == [row["ref_id"] for row in second]
+    counts = {channel: sum(row["source"] == channel for row in first) for channel in {row["source"] for row in first}}
+    assert len(counts) > 1
+    assert counts["Flood Channel"] < len(first) / 2
+    assert {int(row["source_date"][8:10]) // 7 for row in first} >= {0, 1, 2, 3}
+
+
+def test_useful_same_source_repeats_and_prompt_is_minimal():
+    registry = build_source_registry([item("Trend Source", day, f"trend-{day}") for day in range(1, 13)])
+    evidence = select_evidence_pack(registry)
+    assert sum(row["source"] == "Trend Source" for row in evidence) > 2
+    _, prompt = monthly_prompt(evidence, "en")
+    assert '"url"' not in prompt
+    assert '"_deep_dive_score"' not in prompt
+    assert '"factual_summary"' in prompt
+
+
+def test_large_synthesis_uses_selected_provenance_and_one_call():
+    registry = build_source_registry([item(f"Source {index % 15}", index % 28 + 1, f"large-{index}") for index in range(405)])
+    evidence = select_evidence_pack(registry)
+    calls = []
+    diagnostics = {}
+    result = synthesize_monthly(
+        registry, "en",
+        lambda *_: calls.append(1) or json.dumps(valid(evidence[:3])),
+        diagnostics,
+    )
+    assert len(calls) == diagnostics["monthly_provider_operations"] == 1
+    assert diagnostics["monthly_evidence_items_selected"] <= 80
+    assert diagnostics["monthly_collection_operations"] == 0
+    assert set(result["source_refs_used"]) <= {row["ref_id"] for row in evidence}
+    invented = valid(evidence)
+    invented["month_in_brief"] = "Invented https://example.invalid"
+    with pytest.raises(MonthlySynthesisError):
+        validate_synthesis(invented, evidence)

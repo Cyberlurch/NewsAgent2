@@ -4,7 +4,12 @@ import json
 import re
 from collections import defaultdict
 from datetime import datetime
-from typing import Any, Callable, Dict, Iterable, List
+from typing import Any, Callable, Dict, Iterable, List, MutableMapping
+
+
+MONTHLY_EVIDENCE_MAX = 80
+MONTHLY_EVIDENCE_TARGET = 72
+MONTHLY_CHANNEL_SOFT_CAP = 8
 
 
 class MonthlySynthesisError(RuntimeError):
@@ -66,6 +71,9 @@ def build_source_registry(items: Iterable[Dict[str, Any]]) -> List[Dict[str, Any
             "factual_summary": _persisted_fact(row),
             "topic_hints": row.get("topics") or ([row.get("topic_primary")] if row.get("topic_primary") else []),
             "temporality": str(row.get("temporality") or "").strip(),
+            "_content_status": str(row.get("content_status") or "").strip(),
+            "_deep_dive_score": float(row.get("cyberlurch_deep_dive_score") or 0),
+            "_top_pick": bool(row.get("top_pick")),
             "_abbr": abbreviations[source],
         })
     prepared.sort(key=lambda row: (row["source_date"], row["_abbr"], row["source_identifier"], row["url"]))
@@ -78,6 +86,82 @@ def build_source_registry(items: Iterable[Dict[str, Any]]) -> List[Dict[str, Any
             row["ref_id"] = f"{row.pop('_abbr')} {row['date_label']}{suffix}"
             row.pop("date_label")
     return prepared
+
+
+def _evidence_score(row: Dict[str, Any]) -> tuple[float, str, str]:
+    """Rank persisted evidence without consulting live sources or a model."""
+    summary = str(row.get("factual_summary") or "").strip()
+    title = str(row.get("title") or "").strip()
+    score = min(len(summary), 900) / 180
+    if summary and summary != title:
+        score += 5
+    if row.get("_content_status") not in {"metadata_only", "unavailable"}:
+        score += 2
+    if row.get("temporality"):
+        score += 1
+    if row.get("topic_hints"):
+        score += 1
+    score += min(max(float(row.get("_deep_dive_score") or 0), 0), 10)
+    score += 3 if row.get("_top_pick") else 0
+    # The remaining fields make ties stable, independent of input order.
+    return score, str(row.get("source_date") or ""), str(row.get("ref_id") or "")
+
+
+def select_evidence_pack(
+    registry: List[Dict[str, Any]], *, target: int = MONTHLY_EVIDENCE_TARGET,
+    maximum: int = MONTHLY_EVIDENCE_MAX,
+) -> List[Dict[str, Any]]:
+    """Select a bounded, diverse evidence pack from the authoritative registry."""
+    limit = max(0, min(int(maximum), MONTHLY_EVIDENCE_MAX))
+    target = min(max(0, int(target)), limit)
+    useful = [
+        row for row in registry
+        if str(row.get("factual_summary") or "").strip()
+        and not (
+            row.get("_content_status") in {"metadata_only", "unavailable"}
+            and row.get("factual_summary") == row.get("title")
+            and not row.get("_top_pick")
+        )
+    ]
+    ranked = sorted(useful, key=lambda row: (-_evidence_score(row)[0], _evidence_score(row)[1], _evidence_score(row)[2]))
+    selected: List[Dict[str, Any]] = []
+    chosen: set[str] = set()
+    channel_counts: Dict[str, int] = defaultdict(int)
+
+    def add(row: Dict[str, Any], cap: int) -> bool:
+        ref = str(row["ref_id"])
+        source = str(row["source"])
+        if ref in chosen or channel_counts[source] >= cap or len(selected) >= target:
+            return False
+        chosen.add(ref); channel_counts[source] += 1; selected.append(row)
+        return True
+
+    # Seed calendar weeks, then channels. This protects temporal and source spread
+    # before quality-ranked filling, while the cap still permits source trends.
+    week_best: Dict[str, Dict[str, Any]] = {}
+    channel_best: Dict[str, Dict[str, Any]] = {}
+    for row in ranked:
+        week = str(row["source_date"])[:8] + str((int(str(row["source_date"])[8:10]) - 1) // 7)
+        week_best.setdefault(week, row)
+        channel_best.setdefault(str(row["source"]), row)
+    for row in sorted(week_best.values(), key=lambda r: (r["source_date"], r["ref_id"])):
+        add(row, MONTHLY_CHANNEL_SOFT_CAP)
+    for row in sorted(channel_best.values(), key=lambda r: (r["source"].casefold(), r["ref_id"])):
+        add(row, MONTHLY_CHANNEL_SOFT_CAP)
+    for row in ranked:
+        add(row, MONTHLY_CHANNEL_SOFT_CAP)
+
+    # A soft cap must not strand a sparse month below the target. Relax it only
+    # when the available channel mix cannot supply enough records.
+    cap = MONTHLY_CHANNEL_SOFT_CAP + 1
+    while len(selected) < target and len(selected) < len(ranked):
+        changed = False
+        for row in ranked:
+            changed = add(row, cap) or changed
+        cap += 1
+        if cap > target:
+            break
+    return sorted(selected, key=lambda row: (row["source_date"], row["ref_id"]))
 
 
 def _persisted_fact(row: Dict[str, Any]) -> str:
@@ -94,7 +178,8 @@ def _persisted_fact(row: Dict[str, Any]) -> str:
 def monthly_prompt(registry: List[Dict[str, Any]], language: str) -> tuple[str, str]:
     lang = "English" if str(language).lower().startswith("en") else "German"
     system = f"""You produce a neutral monthly briefing from persisted facts only. Write all narrative prose and headings in {lang}; source names and titles may retain their original language. Return one JSON object, not Markdown, with keys executive_summary (4-6 objects with synthesis and source_refs), trends (3-6 objects with heading, synthesis, source_refs), notable_developments (objects with heading, synthesis, source_refs; may be empty), month_in_brief (one string), and source_refs_used (array). Each trend must combine at least two source items. Put isolated items only in notable_developments. Topic fields are fallible hints: regroup facts semantically. Attribute commentary to the named channel. Never use generic 'the speaker', 'the presenter', 'the podcast', 'der Sprecher', or 'der Bericht'. Avoid advice, moral judgments, 'this highlights/underscores/reflects', invented facts, URLs, and source IDs. Put citations only in source_refs arrays; do not embed citations or URLs in prose."""
-    payload = [{k: v for k, v in row.items() if k != "date_label"} for row in registry]
+    payload_keys = ("ref_id", "source", "source_date", "title", "factual_summary", "topic_hints", "temporality")
+    payload = [{key: row.get(key) for key in payload_keys} for row in registry]
     return system, "Persisted Monthly sources (JSON):\n" + json.dumps(payload, ensure_ascii=False, indent=2)
 
 
@@ -141,14 +226,31 @@ def validate_synthesis(value: Any, registry: List[Dict[str, Any]]) -> Dict[str, 
     return value
 
 
-def synthesize_monthly(registry: List[Dict[str, Any]], language: str, call: Callable[[str, str], str]) -> Dict[str, Any]:
-    system, user = monthly_prompt(registry, language)
+def synthesize_monthly(registry: List[Dict[str, Any]], language: str, call: Callable[[str, str], str],
+                       diagnostics: MutableMapping[str, Any] | None = None) -> Dict[str, Any]:
+    evidence = select_evidence_pack(registry)
+    system, user = monthly_prompt(evidence, language)
+    if diagnostics is not None:
+        diagnostics.update({
+            "monthly_persisted_records_available": len(registry),
+            "monthly_evidence_items_selected": len(evidence),
+            "monthly_evidence_items_excluded": len(registry) - len(evidence),
+            "monthly_unique_channels_available": len({row["source"] for row in registry}),
+            "monthly_unique_channels_represented": len({row["source"] for row in evidence}),
+            "monthly_prompt_character_count": len(system) + len(user),
+            "monthly_provider_input_tokens": None,
+            "monthly_provider_output_tokens": None,
+            "monthly_provider_operations": 0,
+            "monthly_collection_operations": 0,
+        })
     last_error: Exception | None = None
     for attempt in range(2):
         repair = "" if attempt == 0 else f"\nYour prior output was invalid ({last_error}). Return a corrected JSON object using only the supplied sources."
         try:
+            if diagnostics is not None:
+                diagnostics["monthly_provider_operations"] += 1
             raw = call(system, user + repair)
-            return validate_synthesis(json.loads(raw), registry)
+            return validate_synthesis(json.loads(raw), evidence)
         except (json.JSONDecodeError, MonthlySynthesisError) as exc:
             last_error = exc
     raise MonthlySynthesisError(f"Monthly synthesis validation failed after one retry: {last_error}")
