@@ -11,45 +11,45 @@ from newsagent2 import reporter
 
 
 class CyberlurchPeriodicRenderingTests(unittest.TestCase):
-    def test_monthly_one_item_topic_uses_single_item_language(self):
+    def test_monthly_one_item_topic_is_substantive_and_has_no_diagnostics(self):
         items = [{
             "id": "m1", "title": "Only item", "url": "https://example.com/only", "channel": "Channel A",
             "topic": "Topic One", "transcript_full_summary": "Single summary point.",
         }]
         md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
-        self.assertIn("1 item", md)
-        self.assertIn("single representative item", md)
-        self.assertNotIn("discussion persisted across the month", md)
-        self.assertNotIn("iterative rather than one-off", md)
+        self.assertIn("## Main themes", md)
+        self.assertIn("Single summary point.", md)
+        self.assertNotIn("Full text items", md)
+        self.assertNotIn("Source/channel summary", md)
 
-    def test_monthly_multi_item_topic_allows_repeated_language(self):
+    def test_monthly_multi_item_topic_consolidates_repeated_records(self):
         items = [
             {"id": "m2", "title": "A", "url": "https://example.com/a", "channel": "Channel A", "topic": "Topic Two", "editorial_relevance": "A"},
             {"id": "m3", "title": "B", "url": "https://example.com/b", "channel": "Channel B", "topic": "Topic Two", "editorial_relevance": "B"},
         ]
         md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
-        self.assertIn("repeated topic stream", md)
-        self.assertIn("recurring analysis and updates across 2 items", md)
+        self.assertEqual(md.count("### Topic Two"), 1)
+        self.assertNotIn("recurring analysis", md)
 
-    def test_monthly_crisis_section_no_placeholder_and_concrete_fallback(self):
+    def test_monthly_has_required_conclusion_without_trajectory_boilerplate(self):
         items = [{"id": "m1", "title": "Only item", "url": "https://example.com/only", "channel": "Channel A", "topic": "Topic One"}]
         md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
-        self.assertIn("No multi-item crisis trajectory was detected in this period; current-affairs items are represented under Topic streams.", md)
-        self.assertNotIn("Focused on repeated current-affairs/trend clusters and month-over-month directionality.", md)
+        self.assertIn("## Month in brief", md)
+        self.assertNotIn("trajectory", md.lower())
 
-    def test_monthly_evergreen_section_lists_items(self):
+    def test_monthly_uses_persisted_summary(self):
         items = [{
             "id": "e1", "title": "Evergreen item", "url": "https://example.com/e1", "channel": "Channel E",
             "topic": "Topic E", "temporality": "evergreen", "transcript_full_summary": "Long shelf life summary.",
         }]
         md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
-        self.assertIn("Evergreen item", md)
         self.assertIn("Long shelf life summary.", md)
 
-    def test_monthly_evergreen_section_no_items_line(self):
-        items = [{"id": "n1", "title": "No evergreen", "url": "https://example.com/n1", "channel": "Channel N"}]
-        md = reporter.render_cyberlurch_monthly_trend_report(items, title="Monthly", generated_at="2026-01-01")
-        self.assertIn("No clear evergreen items were detected in this period.", md)
+    def test_monthly_theme_count_is_dynamic(self):
+        one = [{"title": "A", "topic": "One", "bottom_line": "Fact A"}]
+        three = one + [{"title": "B", "topic": "Two", "bottom_line": "Fact B"}, {"title": "C", "topic": "Three", "bottom_line": "Fact C"}]
+        self.assertEqual(len(reporter.build_cyberlurch_monthly_semantics(one)["themes"]), 1)
+        self.assertEqual(len(reporter.build_cyberlurch_monthly_semantics(three)["themes"]), 3)
 
     def test_weekly_top_videos_are_links_and_sources_removed(self):
         items = [
@@ -107,8 +107,8 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
                 report_mode="monthly",
             )
 
-        self.assertIn("## Monthly trend map", md)
-        self.assertIn("[Video Three](https://example.com/three)", md)
+        self.assertIn("## Main themes", md)
+        self.assertIn("[Representative source: Video Three](https://example.com/three)", md)
         self.assertNotIn("## Sources", md)
 
 

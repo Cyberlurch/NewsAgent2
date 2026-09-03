@@ -963,72 +963,109 @@ def _infer_track_and_subcategory(item: Dict[str, Any]) -> Tuple[str, str]:
 
 
 
+def _monthly_fact(item: dict) -> str:
+    """Best already-persisted substantive statement, without generating new text."""
+    for key in ("bottom_line", "transcript_full_summary_short", "transcript_full_summary", "summary", "editorial_relevance"):
+        value = item.get(key)
+        if isinstance(value, list):
+            value = "; ".join(str(part).strip() for part in value if str(part).strip())
+        value = re.sub(r"\s+", " ", str(value or "")).strip(" -")
+        low_information = (
+            "unable to summarize", "no concise item summary", "summary unavailable",
+            "highlights derived", "failed to generate",
+        )
+        if value and not any(phrase in value.casefold() for phrase in low_information):
+            return _trim_sentence_aware(value, 320)
+    return re.sub(r"\s+", " ", str(item.get("title") or "Untitled development")).strip()
+
+
+def _monthly_dedupe(items: list[dict]) -> list[dict]:
+    """Consolidate repeated persisted records using stable identities and title words."""
+    result: list[dict] = []
+    seen: set[str] = set()
+    for item in items:
+        identity = str(item.get("id") or item.get("url") or "").strip().lower()
+        title_words = re.findall(r"[a-z0-9äöüß]+", str(item.get("title") or "").lower())
+        title_key = " ".join(word for word in title_words if len(word) > 2)[:160]
+        key = identity or title_key
+        if key and key in seen:
+            continue
+        # Near-identical headlines commonly differ only by update/punctuation words.
+        word_set = set(title_key.split())
+        if word_set and any(len(word_set & prior) / max(1, len(word_set | prior)) >= .72 for prior in (row[1] for row in result if row[1])):
+            continue
+        seen.add(key)
+        result.append((item, word_set))
+    return [row[0] for row in result]
+
+
+def build_cyberlurch_monthly_semantics(items) -> dict:
+    """Build a deterministic semantic edition solely from persisted digest fields."""
+    unique = _monthly_dedupe([item for item in (items or []) if isinstance(item, dict)])
+    grouped: dict[str, list[dict]] = {}
+    for item in unique:
+        grouped.setdefault(_topic_from_item(item), []).append(item)
+    ranked = sorted(grouped.items(), key=lambda pair: (-len(pair[1]), pair[0].lower()))[:7]
+    themes = []
+    for heading, rows in ranked:
+        facts = []
+        for row in rows:
+            fact = _monthly_fact(row)
+            if fact and fact.casefold() not in {value.casefold() for value in facts}:
+                facts.append(fact)
+        links = [
+            {"title": str(row.get("title") or heading), "url": str(row.get("url") or "")}
+            for row in rows if str(row.get("url") or "").strip()
+        ][:1]
+        themes.append({"heading": heading, "synthesis": facts[:3], "links": links})
+    executive = []
+    for theme in themes:
+        if theme["synthesis"]:
+            executive.append(theme["synthesis"][0])
+        if len(executive) == 8:
+            break
+    # Extra detail is justified only when persisted prose goes materially beyond headlines.
+    deep_dives = [
+        theme for theme in themes
+        if len(theme["synthesis"]) >= 3 and sum(len(fact) >= 140 for fact in theme["synthesis"]) >= 2
+    ][:3]
+    unresolved = [theme["heading"] for theme in themes if any(
+        word in " ".join(theme["synthesis"]).lower() for word in ("unresolved", "unclear", "pending", "risk", "could", "may ")
+    )]
+    return {
+        "executive_summary": executive[:8],
+        "themes": themes,
+        "deep_dives": deep_dives,
+        "month_in_brief": {
+            "changed": executive[:2],
+            "unresolved": unresolved[:3],
+        },
+    }
+
+
 def render_cyberlurch_monthly_trend_report(items, *, title, generated_at, diagnostics=None) -> str:
-    items = items or []
-    diagnostics = diagnostics or {}
-    by_topic: dict[str, list[dict]] = {}
-    for it in items:
-        by_topic.setdefault(_topic_from_item(it), []).append(it)
-    top_channels = Counter(str(it.get("channel") or "Unknown") for it in items)
-    full_text_count = sum(1 for it in items if str(it.get("content_status") or "") != "metadata_only")
-    metadata_only_count = max(0, len(items) - full_text_count)
-    cap = max(1, int((os.getenv("CYBERLURCH_MONTHLY_REPRESENTATIVE_LINKS_PER_TOPIC", "3") or "3").strip() or "3"))
+    semantic = build_cyberlurch_monthly_semantics(items)
     lines = [f"# {title}", "", "## Executive Summary", ""]
-    lines += [f"- {len(items)} curated items across {len(by_topic)} active topics.", f"- Top channels were {', '.join([c for c,_ in top_channels.most_common(3)]) or 'limited coverage'}.", "- Coverage blended current affairs, trend analysis, and evergreen material.", "- Repeated themes clustered around major topic streams rather than isolated clips.", "- Representative links are compacted by topic for readability."]
-    lines += ["", "## Monthly trend map", ""]
-    for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
-        count = len(grouped)
-        ch = ", ".join([c for c,_ in Counter(str(i.get('channel') or 'Unknown') for i in grouped).most_common(3)])
-        trend_status = "single representative item" if count == 1 else "repeated topic stream"
-        summary_seed = next((str(i.get("transcript_full_summary") or i.get("editorial_relevance") or "").strip() for i in grouped if str(i.get("transcript_full_summary") or i.get("editorial_relevance") or "").strip()), "")
-        summary_note = _trim_sentence_aware(summary_seed, 180) if summary_seed else "No concise item summary available."
-        item_word = "item" if count == 1 else "items"
-        lines.append(f"- **{t}**: {count} {item_word}; main channels: {ch}; trend status: {trend_status}; summary: {summary_note}")
-    lines += ["", "## Topic streams", ""]
-    for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
-        count = len(grouped)
-        item_word = "item" if count == 1 else "items"
-        lines.append(f"### {t}")
-        if count == 1:
-            lines.append("- Discussed: single representative item this month.")
-            lines.append("- Pattern status: not yet a repeated monthly pattern; included as a representative item rather than a trend.")
-        else:
-            lines.append(f"- Discussed: recurring analysis and updates across {count} {item_word}.")
-            lines.append("- Changed/repeated: narratives were iterative rather than one-off.")
-        lines.append(f"- Representative channels: {', '.join([c for c,_ in Counter(str(i.get('channel') or 'Unknown') for i in grouped).most_common(3)])}.")
-        for it in grouped[:cap]:
-            if it.get('url'): lines.append(f"- [{it.get('title') or 'Untitled'}]({it.get('url')})")
+    lines.extend(f"- {fact}" for fact in semantic["executive_summary"])
+    lines += ["", "## Main themes", ""]
+    for theme in semantic["themes"]:
+        lines += [f"### {theme['heading']}", ""]
+        lines.extend(f"- {fact}" for fact in theme["synthesis"])
+        for link in theme["links"]:
+            lines.append(f"- [Representative source: {link['title']}]({link['url']})")
         lines.append("")
-    lines += ["## Crisis and development trajectories", ""]
-    trajectory_topics: list[tuple[str, list[dict]]] = []
-    for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
-        temps = {str(i.get("temporality") or "").strip() for i in grouped}
-        if len(grouped) >= 2 and temps.intersection({"current_affairs", "trend_analysis", "mixed"}):
-            trajectory_topics.append((t, grouped))
-    if trajectory_topics:
-        for t, grouped in trajectory_topics[:5]:
-            channels = ", ".join([c for c, _ in Counter(str(i.get("channel") or "Unknown") for i in grouped).most_common(3)])
-            concrete_sentence = next((str(i.get("transcript_full_summary") or i.get("editorial_relevance") or "").strip() for i in grouped if str(i.get("transcript_full_summary") or i.get("editorial_relevance") or "").strip()), "")
-            concrete_sentence = _trim_sentence_aware(concrete_sentence, 180) if concrete_sentence else "No concise item summary available."
-            lines.append(f"- **{t}**: {len(grouped)} related items across {channels}. {concrete_sentence}")
-    else:
-        lines.append("- No multi-item crisis trajectory was detected in this period; current-affairs items are represented under Topic streams.")
-
-    lines += ["", "## Evergreen / long-shelf-life items", ""]
-    evergreen_items = [it for it in items if str(it.get("temporality") or "").strip() == "evergreen"]
-    if evergreen_items:
-        for it in evergreen_items[:5]:
-            summary = _trim_sentence_aware(str(it.get("transcript_full_summary") or it.get("editorial_relevance") or "").strip(), 180) or "No concise item summary available."
-            lines.append(f"- **{it.get('channel') or 'Unknown'}** — {it.get('title') or 'Untitled'}: {summary}")
-    else:
-        lines.append("- No clear evergreen items were detected in this period.")
-
-    lines += ["", "## Representative links", ""]
-    for t, grouped in sorted(by_topic.items(), key=lambda kv: len(kv[1]), reverse=True):
-        lines.append(f"### {t}")
-        for it in grouped[:cap]:
-            if it.get('url'): lines.append(f"- [{it.get('title') or 'Untitled'}]({it.get('url')})")
-    lines += ["", "## Source/channel summary", "", f"- Full text items: {full_text_count}", f"- Metadata-only items: {metadata_only_count}"]
+    if semantic["deep_dives"]:
+        lines += ["## Selected developments / deep dives", ""]
+        for theme in semantic["deep_dives"]:
+            lines.append(f"### {theme['heading']}")
+            lines.append(" ".join(theme["synthesis"][1:3]))
+            lines.append("")
+    lines += ["## Month in brief", ""]
+    changed = semantic["month_in_brief"]["changed"]
+    if changed:
+        lines.append("Material changes: " + " ".join(changed))
+    unresolved = semantic["month_in_brief"]["unresolved"]
+    lines.append("Unresolved: " + (", ".join(unresolved) if unresolved else "No specific unresolved question was explicit in the persisted summaries."))
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -1049,6 +1086,16 @@ def render_cyberlurch_yearly_analysis(rollups, *, target_year, generated_at, dia
     channels, channel_names = Counter(), {}
     for r in by_month:
         month_topics = set()
+        # Semantic v1 is preferred; the legacy fields below remain readable.
+        for raw in r.get("themes") or []:
+            if not isinstance(raw, dict):
+                continue
+            label = raw.get("heading")
+            key = norm(label)
+            if key:
+                canonical.setdefault(key, re.sub(r"\s+", " ", str(label).strip()))
+                themes[key] += 1
+                month_topics.add(key)
         for raw in r.get("top_themes") or []:
             if isinstance(raw, dict):
                 label, count = raw.get("theme"), raw.get("count", 1)
@@ -1111,7 +1158,7 @@ def render_cyberlurch_yearly_analysis(rollups, *, target_year, generated_at, dia
              f"- Found months: {', '.join(found) or 'none'}", f"- Missing months: {', '.join(missing) or 'none'}",
              f"- Coverage incomplete: {'NO' if complete else 'YES'}", "", "## Executive Summary",
              f"- {len(by_month)} monthly rollups analyzed."]
-    if any(not r.get("topic_summaries") for r in by_month):
+    if any(not (r.get("themes") or r.get("topic_summaries")) for r in by_month):
         lines.append("- Some earlier months contain thinner rollup detail; summaries below use the available monthly titles, channels and derived summaries.")
     if ranked_themes: lines.append("- Leading aggregated themes: " + ", ".join(f"{canonical[k]} ({themes[k]})" for k in ranked_themes[:5]) + ".")
     if ranked_channels: lines.append("- Most represented channels: " + ", ".join(f"{channel_names[k]} ({channels[k]})" for k in ranked_channels[:5]) + ".")

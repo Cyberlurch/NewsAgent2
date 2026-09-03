@@ -96,6 +96,27 @@ def test_provider_error_summary_is_replaced_without_repair_call(tmp_path, monkey
     assert rollup["executive_summary"]
 
 
+def test_monthly_uses_zero_llm_calls_and_persists_semantic_rollup(tmp_path, monkeypatch):
+    path = _setup(tmp_path, monkeypatch)
+    for name in (
+        "summarize", "summarize_item_detail", "summarize_cyberlurch_bottom_line",
+        "summarize_youtube_transcript_direct", "summarize_youtube_transcript_chunks",
+    ):
+        monkeypatch.setattr(main, name, lambda *a, _name=name, **k: pytest.fail(f"Monthly called {_name}"))
+
+    main.main()
+
+    rollup = json.loads(path.read_text())["reports"]["cyberlurch"][-1]
+    assert rollup["schema"] == "cyberlurch-monthly-semantic-v1"
+    assert rollup["executive_summary"]
+    assert 1 <= len(rollup["themes"]) <= 7
+    assert all(theme["synthesis"] for theme in rollup["themes"])
+    assert "top_channels" not in rollup
+    report = next((tmp_path / "out").glob("cyberlurch_monthly_summary_*.md")).read_text()
+    assert "## Source/channel summary" not in report
+    assert "## Monthly trend map" not in report
+
+
 def test_newsagent_workflow_wires_month_override():
     workflow = Path(".github/workflows/newsagent.yml").read_text()
     assert "rollup_month_override:" in workflow

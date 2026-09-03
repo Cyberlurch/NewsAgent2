@@ -32,7 +32,7 @@ from .rollups import (
     upsert_monthly_rollup,
     sanitize_cyberlurch_generated_fields,
 )
-from .reporter import to_markdown
+from .reporter import build_cyberlurch_monthly_semantics, to_markdown
 from .cybermed_digest_store import (
     cybermed_weekly_reporting_period,
     latest_cybermed_daily_digest_generated_at,
@@ -4818,6 +4818,9 @@ def main() -> None:
                     print(f"[transcript-direct] error_kind={classify_direct_digest_error(exc)}")
             if full_text_call_made:
                 runtime_summarization_seconds += max(0.0, time.monotonic() - summarize_start)
+        elif report_key.strip().lower() == "cyberlurch" and report_mode == "monthly":
+            # Monthly renders directly from persisted lower-cadence summaries.
+            overview_body = ""
         elif (not is_cybermed_run) and all_overview_metadata_only:
             if report_language.lower().startswith("en"):
                 overview_body = (
@@ -5196,6 +5199,8 @@ def main() -> None:
     for it in detail_items:
         if is_cyberlurch_daily:
             continue
+        if report_key.strip().lower() == "cyberlurch" and report_mode == "monthly":
+            continue
         if is_cybermed_run and cybermed_digest_only_mode:
             continue
         if (not is_cybermed_run) and ((it.get("content_status") == "metadata_only") or (it.get("text_source") == "metadata_only")):
@@ -5360,7 +5365,7 @@ def main() -> None:
             if iid:
                 deep_dive_ids.add(iid)
 
-    if not is_cybermed_run and not is_cyberlurch_daily:
+    if not is_cybermed_run and not is_cyberlurch_daily and report_mode != "monthly":
         default_cap = 12
         if report_mode in {"weekly", "monthly"}:
             default_cap = 20
@@ -5694,7 +5699,10 @@ def main() -> None:
             if override and month_key != override:
                 print(f"[rollups] WARN: invalid ROLLUP_MONTH_OVERRIDE={override!r}; expected YYYY-MM")
             candidates = overview_items + detail_items + foamed_overview_items
-            if not (is_cybermed_run and cybermed_digest_only_mode):
+            if not (
+                (is_cybermed_run and cybermed_digest_only_mode)
+                or (report_key.strip().lower() == "cyberlurch" and report_mode == "monthly")
+            ):
                 _ensure_bottom_lines_for_rollup(candidates, language=report_language)
             rollup_items = _rollup_items_for_month(overview_items, detail_items, foamed_overview_items)
             if report_key.strip().lower() == "cyberlurch":
@@ -5712,22 +5720,13 @@ def main() -> None:
                 cyberlurch_monthly_generation_error_text_removed_total += removed
             extra_fields = None
             if report_key.strip().lower() == "cyberlurch":
-                tcounts = Counter(str(it.get("topic_primary") or "Other") for it in rollup_items)
-                ccounts = Counter(str(it.get("channel") or "Unknown") for it in rollup_items)
-                tmpcounts: Counter[str] = Counter()
-                for it in rollup_items:
-                    temporality_value = str(it.get("temporality") or "").strip() or "current_affairs"
-                    tmpcounts[temporality_value] += 1
+                semantics = build_cyberlurch_monthly_semantics(rollup_items)
+                executive_summary = semantics["executive_summary"]
                 extra_fields = {
-                    "topic_summaries": [f"{k}: {v} item(s)" for k, v in tcounts.most_common(8)],
-                    "topic_trajectories": [f"{k}: sustained stream" for k, v in tcounts.most_common(6) if v >= 2],
-                    "top_channels": [{"channel": k, "count": v} for k, v in ccounts.most_common(10)],
-                    "top_themes": [{"theme": k, "count": v} for k, v in tcounts.most_common(10)],
-                    "evergreen_highlights": [it.get("title") for it in rollup_items if str(it.get("temporality") or "") == "evergreen"][:8],
-                    "representative_items": rollup_items[:20],
-                    "full_text_count": sum(1 for it in rollup_items if str(it.get("content_status") or "") != "metadata_only"),
-                    "metadata_only_count": sum(1 for it in rollup_items if str(it.get("content_status") or "") == "metadata_only"),
-                    "items_by_temporality": dict(tmpcounts),
+                    "schema": "cyberlurch-monthly-semantic-v1",
+                    "themes": semantics["themes"],
+                    "deep_dives": semantics["deep_dives"],
+                    "month_in_brief": semantics["month_in_brief"],
                 }
             elif is_cybermed_run:
                 cybermed_monthly_items = [
