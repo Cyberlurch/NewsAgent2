@@ -5593,6 +5593,8 @@ def main() -> None:
             f"monthly_trends_retained={monthly_evidence_diagnostics['monthly_trends_retained']} "
             f"monthly_trends_dropped={monthly_evidence_diagnostics['monthly_trends_dropped']} "
             f"monthly_trends_reclassified={monthly_evidence_diagnostics['monthly_trends_reclassified']} "
+            f"monthly_trends_reclassified_to_notable={monthly_evidence_diagnostics['monthly_trends_reclassified_to_notable']} "
+            f"monthly_notable_retained={monthly_evidence_diagnostics['monthly_notable_retained']} "
             f"monthly_notable_trimmed={monthly_evidence_diagnostics['monthly_notable_trimmed']} "
             f"monthly_normalization_required={monthly_evidence_diagnostics['monthly_normalization_required']} "
             f"source_refs={len(monthly_synthesis['source_refs_used'])}"
