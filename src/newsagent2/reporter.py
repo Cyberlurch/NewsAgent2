@@ -1380,6 +1380,7 @@ def to_markdown(
     run_metadata: Optional[str] = None,
     monthly_synthesis: Optional[Dict[str, Any]] = None,
     monthly_source_registry: Optional[List[Dict[str, Any]]] = None,
+    monthly_target_month: Optional[str] = None,
 ) -> str:
     lang = _norm_language(report_language)
     title = report_title.strip()
@@ -1420,7 +1421,7 @@ def to_markdown(
     if is_cyberlurch and normalized_mode == 'monthly':
         if monthly_synthesis is None or monthly_source_registry is None:
             raise RuntimeError("Cyberlurch Monthly requires validated synthesis and source registry")
-        return render_monthly(title or 'The Cyberlurch Report — Monthly', monthly_synthesis, monthly_source_registry)
+        return render_monthly(title or 'The Cyberlurch Report — Monthly', monthly_synthesis, monthly_source_registry, monthly_target_month or "")
     meta_only = ""
     if overview_markdown:
         if is_cybermed:

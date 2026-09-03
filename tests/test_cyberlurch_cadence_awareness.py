@@ -28,7 +28,7 @@ def test_monthly_and_yearly_headings_present():
     }]
     registry = build_source_registry(items)
     synthesis = {'executive_summary':[{'synthesis':'Month.','source_refs':[registry[0]['ref_id']]}], 'trends':[], 'notable_developments':[{'heading':'Trend update','synthesis':'Channel recorded an isolated update.','source_refs':[registry[0]['ref_id']]}], 'month_in_brief':'One development was recorded.', 'source_refs_used':[registry[0]['ref_id']]}
-    md_m = to_markdown(items, '', {'1':'detail'}, report_title='The Cyberlurch Report — Monthly', report_language='en', report_mode='monthly', monthly_synthesis=synthesis, monthly_source_registry=registry)
+    md_m = to_markdown(items, '', {'1':'detail'}, report_title='The Cyberlurch Report — Monthly', report_language='en', report_mode='monthly', monthly_synthesis=synthesis, monthly_source_registry=registry, monthly_target_month='2026-08')
     assert 'Executive Brief' in md_m and 'Key Trends' in md_m and 'Month in Brief' in md_m and 'Sources' in md_m
     md_y = to_markdown(items, '## Executive Summary\n\nYear.', {'1':'detail'}, report_title='The Cyberlurch Report — Year in Review', report_language='en', report_mode='yearly')
     assert 'Key themes across the year' in md_y and 'Crisis trajectories' in md_y and 'Recurring narratives' in md_y and 'Evergreen highlights' in md_y

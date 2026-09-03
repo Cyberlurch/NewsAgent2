@@ -111,12 +111,13 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
                 report_language="en",
                 report_mode="monthly",
                 monthly_synthesis=synthesis,
+                monthly_target_month="2026-08",
                 monthly_source_registry=registry,
             )
 
         self.assertIn("## Key Trends", md)
         self.assertIn("Channel C recorded the development.", md)
-        self.assertIn("## Sources", md)
+        self.assertIn("## Source Index", md)
         self.assertIn("https://example.com/three", md)
 
 
