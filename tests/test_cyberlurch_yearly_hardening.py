@@ -9,13 +9,15 @@ from newsagent2 import main, rollups
 
 def _months(year=2025, count=12):
     return [{
-        "month": f"{year}-{month:02d}", "generated_at": f"{year}-{month:02d}-02T00:00:00Z",
+        "month": f"{year}-{month:02d}", "generated_at": f"{year}-{month:02d}-02T00:00:00Z", "full_text_count": 1,
         "executive_summary": ["Persisted safe summary"],
         "top_themes": [{"theme": " Preparedness ", "count": 2}],
         "top_channels": [{"channel": "Channel A", "count": 3}],
         "topic_summaries": ["preparedness: 2 item(s)"],
         "topic_trajectories": ["Preparedness: sustained stream"],
-        "representative_items": [{"video_id": "same", "title": "Safe title", "url": "https://youtu.be/same00"}],
+        "representative_items": [{"video_id": f"item-{month}", "title": "Safe title", "channel": f"Channel {month % 2}",
+                                  "date": f"{year}-{month:02d}-01", "bottom_line": "A persisted factual summary with useful substance.",
+                                  "url": f"https://youtu.be/safe{month:02d}"}],
     } for month in range(1, count + 1)]
 
 
@@ -28,6 +30,20 @@ def _run(tmp_path, monkeypatch, entries, *, mode="none", event="workflow_dispatc
     monkeypatch.setenv("GITHUB_EVENT_NAME", event)
     sent = []
     monkeypatch.setattr(main, "send_markdown", lambda *args: sent.append(args))
+    def provider(system, user):
+        marker = "Authoritative source metadata (JSON):\n"
+        sources = json.loads(user.split(marker, 1)[1].split("\nYour prior", 1)[0])
+        refs = [row["ref_id"] for row in sources]
+        pair = refs[:2]
+        return json.dumps({
+            "executive_summary": [{"heading": "Material shift", "synthesis": "Persisted evidence records a material shift.", "source_refs": pair}],
+            "annual_trends": [{"heading": "Cross-month development", "synthesis": "The development persisted across the year.", "source_refs": pair}],
+            "turning_points": [{"heading": "Important event", "synthesis": "One event changed the trajectory.", "source_refs": refs[:1]}],
+            "timeline": [{"period": "Early year", "synthesis": "The trajectory began in the early year.", "source_refs": refs[:1]}],
+            "year_in_brief": "Persisted evidence shows a changing annual trajectory.",
+            "source_refs_used": ["model compatibility value is ignored"],
+        })
+    monkeypatch.setattr(main, "synthesize_cyberlurch_yearly_json", provider)
     main._run_yearly_report(rollups_state_path=str(path), report_key="cyberlurch",
         base_report_title="Cyberlurch", base_report_subject="Cyberlurch", report_language="en",
         report_dir=str(tmp_path / "reports"))
@@ -61,17 +77,14 @@ def test_incomplete_production_blocks_before_email_and_is_readonly(tmp_path, mon
 def test_manual_partial_audit_visible_and_readonly(tmp_path, monkeypatch, mode, emails):
     path, original, sent, md = _run(tmp_path, monkeypatch, _months(count=11), mode=mode)
     assert path.read_bytes() == original
-    assert len(sent) == emails and "Coverage incomplete: YES" in md
+    assert len(sent) == emails and "This is a partial-year audit." in md
 
 
-def test_complete_year_aggregates_and_deduplicates(tmp_path, monkeypatch):
+def test_complete_year_uses_semantic_renderer_and_one_provider_call(tmp_path, monkeypatch):
     path, original, sent, md = _run(tmp_path, monkeypatch, _months(), mode="real")
     assert path.read_bytes() == original and len(sent) == 1
-    assert "Coverage incomplete: NO" in md
-    assert md.count("Preparedness — aggregate count") == 1
-    assert "present in 12 monthly rollups" in md
-    assert md.count("Channel A — 36 items") == 1
-    assert md.count("https://youtu.be/same00") == 1
+    assert "Calendar coverage is complete." in md
+    assert "## Major Trends" in md and "## Source Index" in md
     diag = json.loads((tmp_path / "reports" / "cyberlurch_yearly_diagnostics.json").read_text())
-    assert diag["cyberlurch_yearly_representative_duplicates_suppressed_total"] == 11
-    assert diag["cyberlurch_yearly_provider_calls_total"] == 0
+    assert diag["provider_operations"] == 1
+    assert diag["collection_operations"] == diag["daily_digest_inputs"] == 0
