@@ -403,8 +403,8 @@ def _safe_markdown_to_html(md_body: str) -> str:
     return f"<pre>{escaped}</pre>"
 
 
-def _style_cyberlurch_monthly_html(html: str) -> str:
-    """Apply conservative, inline-compatible presentation to Monthly email only."""
+def _style_cyberlurch_longform_html(html: str) -> str:
+    """Apply the shared, restrained Cyberlurch long-form email presentation."""
     styled = html
     replacements = {
         "<h1>": '<h1 style="font-size:30px;line-height:1.2;margin:0 0 18px;">',
@@ -422,6 +422,10 @@ def _style_cyberlurch_monthly_html(html: str) -> str:
         'max-width:700px;margin:0 auto;padding:20px 18px;">'
         + styled + "</div>"
     )
+
+
+# Compatibility for callers and tests which used the original Monthly name.
+_style_cyberlurch_monthly_html = _style_cyberlurch_longform_html
 
 
 def send_markdown(subject: str, md_body: str) -> None:
@@ -493,8 +497,8 @@ def send_markdown(subject: str, md_body: str) -> None:
     try:
         html_source = md_without_metadata if metadata_removed else md_body
         html = _safe_markdown_to_html(html_source)
-        if report_key.lower() == "cyberlurch" and report_mode.lower() == "monthly":
-            html = _style_cyberlurch_monthly_html(html)
+        if report_key.lower() == "cyberlurch" and report_mode.lower() in {"monthly", "yearly"}:
+            html = _style_cyberlurch_longform_html(html)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
         print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")
         print(traceback.format_exc())

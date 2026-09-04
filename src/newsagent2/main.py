@@ -34,6 +34,12 @@ from .rollups import (
 )
 from .reporter import build_cyberlurch_monthly_semantics, to_markdown
 from .cyberlurch_monthly import MonthlySynthesisError, build_source_registry, synthesize_monthly
+from .cyberlurch_yearly import (
+    YearlySynthesisError,
+    build_annual_evidence,
+    render_yearly as render_cyberlurch_yearly,
+    synthesize_yearly,
+)
 from .cybermed_digest_store import (
     cybermed_weekly_reporting_period,
     latest_cybermed_daily_digest_generated_at,
@@ -98,6 +104,7 @@ from .summarizer import (
     summarize_youtube_transcript_chunks,
     summarize_youtube_transcript_direct,
     synthesize_cyberlurch_monthly_json,
+    synthesize_cyberlurch_yearly_json,
     _parse_structured_pubmed_abstract_sections,
 )
 from .pmc_fulltext import fetch_and_extract_fulltext, get_oa_links, get_pmcids_for_pmids
@@ -1969,6 +1976,86 @@ def _run_yearly_report(
     found_months = prepared_diags["found_months"]
     missing_months = prepared_diags["missing_months"]
     coverage_complete = prepared_diags["coverage_complete"]
+    if not is_cybermed_yearly:
+        payload, annual_registry, yearly_diags = build_annual_evidence(entries, target_year)
+        # prepare_yearly_rollups and the semantic builder agree on calendar
+        # coverage; retain the established preparation diagnostics as aliases.
+        yearly_diags.update({
+            "duplicate_monthly_rollups_suppressed_total": prepared_diags["duplicate_monthly_rollups_suppressed_total"],
+            "generation_error_text_removed_total": prepared_diags["generation_error_text_removed_total"],
+            "months_with_sanitized_content_total": prepared_diags["months_with_sanitized_content_total"],
+            "provider_input_tokens": None,
+            "provider_output_tokens": None,
+        })
+        diagnostics_path = os.path.join(report_dir, "cyberlurch_yearly_diagnostics.json")
+
+        def write_yearly_diagnostics(status: str) -> None:
+            safe = {"status": status, **yearly_diags}
+            with open(diagnostics_path, "w", encoding="utf-8") as handle:
+                json.dump(safe, handle, ensure_ascii=False, indent=2, sort_keys=True)
+                handle.write("\n")
+
+        email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
+        production_delivery = event_name == "schedule" or email_mode == "real"
+        if production_delivery and not coverage_complete:
+            yearly_diags.update({"provider_operations": 0, "prompt_character_count": 0})
+            write_yearly_diagnostics("blocked_incomplete_calendar")
+            print(f"[yearly] target_year={target_year} found_months={found_months} missing_months={missing_months} coverage incomplete; delivery blocked")
+            raise RuntimeError(
+                f"{report_key}_yearly_incomplete_coverage: target_year={target_year} missing_months={missing_months}"
+            )
+
+        if not annual_registry:
+            # A manual empty/title-only audit has no facts that can safely be
+            # synthesized. Preserve audit routing with a coverage-only report.
+            yearly_diags.update({"provider_operations": 0, "prompt_character_count": 0,
+                                 "annual_trends_returned": 0, "annual_trends_retained": 0,
+                                 "annual_trends_reclassified": 0, "turning_points_retained": 0})
+            annual_synthesis = {"executive_summary": [], "annual_trends": [], "turning_points": [],
+                                "timeline": [], "year_in_brief": "No substantive persisted Monthly evidence was available for annual synthesis.",
+                                "source_refs_used": []}
+        else:
+            try:
+                annual_synthesis = synthesize_yearly(
+                    payload, annual_registry, report_language,
+                    synthesize_cyberlurch_yearly_json, yearly_diags,
+                )
+                yearly_usage = diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS.to_dict().get("calls_by_stage_model", {})
+                usage_rows = [row for key, row in yearly_usage.items() if key.startswith("cyberlurch_yearly_synthesis|")]
+                if usage_rows:
+                    yearly_diags["provider_input_tokens"] = sum(row.get("input_tokens", 0) for row in usage_rows)
+                    yearly_diags["provider_output_tokens"] = sum(row.get("output_tokens", 0) for row in usage_rows)
+            except Exception as exc:
+                yearly_diags["error_type"] = type(exc).__name__
+                write_yearly_diagnostics("failed")
+                print("[cyberlurch-yearly] synthesis failed; safe count-only diagnostics written")
+                raise YearlySynthesisError(
+                    f"Cyberlurch Yearly delivery blocked: synthesis failed; diagnostics={diagnostics_path}"
+                ) from exc
+
+        md = render_cyberlurch_yearly(
+            target_year, annual_synthesis, annual_registry, yearly_diags,
+            partial_audit=not coverage_complete and not production_delivery,
+        )
+        out_path = os.path.join(report_dir, f"{report_key}_yearly_review_{target_year}.md")
+        with open(out_path, "w", encoding="utf-8") as handle:
+            handle.write(md)
+        write_yearly_diagnostics("ok")
+        print(f"[report] Wrote yearly report to {out_path}")
+        print(
+            "[cyberlurch-yearly] "
+            f"provider_operations={yearly_diags['provider_operations']} collection_operations=0 "
+            f"daily_digest_inputs=0 evidence_units={yearly_diags['annual_evidence_units']}"
+        )
+        if email_mode == "none":
+            print("[email] Yearly email disabled (EMAIL_MODE=none).")
+            return
+        try:
+            send_markdown(report_subject, md)
+        except Exception as exc:
+            print(f"[email] WARN: failed to send yearly email (report was generated): {exc!r}")
+        return
+
     cybermed_yearly_diags: Dict[str, Any] = {
         "cybermed_yearly_editorial_mode": True,
         "cybermed_yearly_monthly_rollups_loaded_total": len(entries),
