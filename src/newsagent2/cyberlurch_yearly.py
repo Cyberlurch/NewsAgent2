@@ -11,6 +11,13 @@ from typing import Any, Callable, Iterable, MutableMapping
 
 SEMANTIC_SCHEMA = "cyberlurch-monthly-semantic-v2"
 LEGACY_ITEM_LIMIT = 16
+NOTABLE_DEVELOPMENT_LIMIT = 6
+
+
+_OVERLAP_STOPWORDS = {
+    "and", "are", "but", "for", "from", "into", "that", "the", "their", "this",
+    "through", "with", "during", "over", "under", "after", "before", "reported",
+}
 
 
 class YearlySynthesisError(RuntimeError):
@@ -19,6 +26,29 @@ class YearlySynthesisError(RuntimeError):
 
 def _text(value: Any, limit: int = 1800) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()[:limit]
+
+
+def _topic_terms(item: dict[str, Any]) -> set[str]:
+    """Return stable, moderately selective terms for conservative deduplication."""
+    words = re.findall(r"[a-z0-9]+", f"{item.get('heading', '')} {item.get('synthesis', '')}".casefold())
+    return {word for word in words if len(word) >= 5 and word not in _OVERLAP_STOPWORDS}
+
+
+def _obviously_overlaps_trend(item: dict[str, Any], trends: list[dict[str, Any]]) -> bool:
+    """Identify only high-confidence topic duplication backed by shared evidence."""
+    item_refs = set(item["source_refs"])
+    item_terms = _topic_terms(item)
+    for trend in trends:
+        trend_refs = set(trend["source_refs"])
+        shared_refs = len(item_refs & trend_refs) / min(len(item_refs), len(trend_refs))
+        trend_terms = _topic_terms(trend)
+        if not item_terms or not trend_terms:
+            continue
+        shared_terms = item_terms & trend_terms
+        topic_overlap = len(shared_terms) / min(len(item_terms), len(trend_terms))
+        if shared_refs >= .5 and len(shared_terms) >= 3 and topic_overlap >= .6:
+            return True
+    return False
 
 
 def _legacy_fact(item: dict[str, Any]) -> str:
@@ -222,7 +252,7 @@ def validate_yearly_synthesis(value: Any, registry: list[dict[str, Any]], diagno
     executive = section("executive_summary")
     trends_returned = section("annual_trends", required=False)
     turning_returned = section("turning_points", required=False)
-    notable = section("notable_developments", required=False)
+    notable_returned = section("notable_developments", required=False)
     timeline = section("timeline")
     retained, reclassified = [], []
     for trend in trends_returned:
@@ -231,7 +261,10 @@ def validate_yearly_synthesis(value: Any, registry: list[dict[str, Any]], diagno
             retained.append(trend)
         else:
             reclassified.append(trend)
-    notable.extend(reclassified)
+    # Keep model-returned Notables ahead of later reclassifications when applying
+    # the recipient-facing cap.
+    notable = list(notable_returned)
+    reclassified_notable: list[dict[str, Any]] = list(reclassified)
     dropped_overlap = 0
     turning: list[dict[str, Any]] = []
     reclassified_turning: list[dict[str, Any]] = []
@@ -246,9 +279,13 @@ def validate_yearly_synthesis(value: Any, registry: list[dict[str, Any]], diagno
         if len(channels) == 1:
             item["source_attribution"] = next(iter(channels))
             reclassified_turning.append(item)
-            notable.append(item)
+            reclassified_notable.append(item)
         else:
             turning.append(item)
+    notable_before_overlap = notable + reclassified_notable
+    notable = [item for item in notable_before_overlap if not _obviously_overlaps_trend(item, retained)]
+    notable_dropped_overlap = len(notable_before_overlap) - len(notable)
+    notable = notable[:NOTABLE_DEVELOPMENT_LIMIT]
     single_source_attributed = 0
     for item in notable:
         channels = {by_ref[ref]["source"] for ref in item["source_refs"]}
@@ -264,8 +301,11 @@ def validate_yearly_synthesis(value: Any, registry: list[dict[str, Any]], diagno
     if diagnostics is not None:
         diagnostics.update({"annual_trends_returned": len(trends_returned), "annual_trends_retained": len(retained),
                             "annual_trends_reclassified": len(reclassified),
-                            "notable_developments_returned": len(value.get("notable_developments") or []),
+                            "notable_developments_returned": len(notable_returned),
                             "notable_developments_retained": len(notable),
+                            "notable_developments_dropped_overlap": notable_dropped_overlap,
+                            "notable_developments_dropped_cap": max(
+                                0, len(notable_before_overlap) - notable_dropped_overlap - len(notable)),
                             "turning_points_returned": len(turning_returned),
                             "turning_points_retained": len(turning),
                             "turning_points_dropped_overlap": dropped_overlap,
@@ -325,17 +365,21 @@ def render_yearly(target_year: int, synthesis: dict[str, Any], registry: list[di
     lines = [f"# The Cyberlurch Year in Review — {target_year}", "", "**Year in Review**", "", "---", "", "## Coverage Note", "",
              " ".join(coverage_parts), ""]
 
-    def add_section(title: str, values: list[dict[str, Any]], label: str) -> None:
+    def add_section(title: str, values: list[dict[str, Any]], label: str, *, optional: bool = False) -> None:
+        if optional and not values:
+            return
         lines.extend(["---", "", f"## {title}", ""])
         for item in values:
-            lines.extend([f"### {item[label]}", "", item["synthesis"], "", f"_Sources: {_source_links(item['source_refs'], by_ref)}_", ""])
             if item.get("source_attribution"):
-                lines[-1:-1] = [f"_Source-specific reporting: {item['source_attribution']}_", ""]
+                lines.extend([f"### {item[label]}", "", f"*Source-specific reporting: {item['source_attribution']}*", "",
+                              item["synthesis"], "", f"_Sources: {_source_links(item['source_refs'], by_ref)}_", ""])
+            else:
+                lines.extend([f"### {item[label]}", "", item["synthesis"], "", f"_Sources: {_source_links(item['source_refs'], by_ref)}_", ""])
 
     add_section("Executive Brief", synthesis["executive_summary"], "heading")
     add_section("Major Trends", synthesis["annual_trends"], "heading")
-    add_section("Turning Points", synthesis["turning_points"], "heading")
-    add_section("Notable Developments", synthesis.get("notable_developments", []), "heading")
+    add_section("Turning Points", synthesis["turning_points"], "heading", optional=True)
+    add_section("Notable Developments", synthesis.get("notable_developments", []), "heading", optional=True)
     add_section("The Year in Motion", synthesis["timeline"], "period")
     lines.extend(["---", "", "## Year in Brief", "", synthesis["year_in_brief"], "", "---", "", "## Source Index", ""])
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)

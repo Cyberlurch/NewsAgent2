@@ -127,6 +127,91 @@ def test_human_coverage_note_and_notable_rendering():
     assert "Source-specific reporting: Alpha" in rendered
 
 
+def test_empty_optional_sections_are_suppressed_but_nonempty_turning_points_render():
+    _, registry, diagnostics = build_annual_evidence([
+        _semantic("2026-06", "Alpha", "https://a", "A"),
+        _semantic("2026-07", "Beta", "https://b", "B"),
+    ], 2026)
+    refs = [row["ref_id"] for row in registry]
+    synthesis = validate_yearly_synthesis(_output(refs), registry)
+    synthesis["turning_points"] = [{"heading": "Turn", "synthesis": "A supported event.",
+                                     "source_refs": refs[1:]}]
+    empty_render = render_yearly(2026, {**synthesis, "turning_points": [], "notable_developments": []},
+                                 registry, diagnostics, partial_audit=True)
+    assert "## Turning Points" not in empty_render
+    assert "## Notable Developments" not in empty_render
+    assert "## Major Trends" in empty_render and "## The Year in Motion" in empty_render
+
+    nonempty_render = render_yearly(2026, synthesis, registry, diagnostics, partial_audit=True)
+    assert "## Turning Points" in nonempty_render
+    assert "### Turn" in nonempty_render
+
+
+def test_final_notable_cap_prefers_original_items_after_all_reclassification():
+    months = [_semantic(f"2026-{month:02d}", f"Source {month}", f"https://{month}", f"R{month}")
+              for month in range(1, 10)]
+    _, registry, _ = build_annual_evidence(months, 2026)
+    refs = [row["ref_id"] for row in registry]
+    value = _output(refs, trend_refs=refs[:2])
+    value["notable_developments"] = [
+        {"heading": f"Original {number}", "synthesis": f"Distinct development number {number}.",
+         "source_refs": [refs[number + 1]]}
+        for number in range(6)
+    ]
+    value["annual_trends"].append(
+        {"heading": "Narrow candidate", "synthesis": "A separate narrow candidate.", "source_refs": [refs[8]]}
+    )
+    diagnostics = {}
+    result = validate_yearly_synthesis(value, registry, diagnostics)
+    assert [item["heading"] for item in result["notable_developments"]] == [f"Original {n}" for n in range(6)]
+    assert diagnostics["notable_developments_retained"] == 6
+    assert diagnostics["notable_developments_dropped_cap"] == 1
+
+
+def test_obvious_notable_trend_overlap_drops_but_distinct_subject_survives():
+    _, registry, _ = build_annual_evidence([
+        _semantic("2026-06", "Alpha", "https://a", "A"),
+        _semantic("2026-07", "Beta", "https://b", "B"),
+        _semantic("2026-08", "Gamma", "https://c", "C"),
+    ], 2026)
+    refs = [row["ref_id"] for row in registry]
+    value = _output(refs, trend_refs=refs[:2])
+    value["annual_trends"][0].update({
+        "heading": "Migration and social policy strains",
+        "synthesis": "Migration pressures intensified social policy strains across Europe.",
+    })
+    value["notable_developments"] = [
+        {"heading": "Migration social policy strains", "synthesis": "Migration pressures intensified social policy strains.",
+         "source_refs": refs[:2]},
+        {"heading": "Independent technology launch", "synthesis": "A satellite launch created distinct technical capacity.",
+         "source_refs": refs[2:]},
+    ]
+    diagnostics = {}
+    result = validate_yearly_synthesis(value, registry, diagnostics)
+    assert [item["heading"] for item in result["notable_developments"]] == ["Independent technology launch"]
+    assert diagnostics["notable_developments_dropped_overlap"] == 1
+
+
+def test_source_attribution_precedes_synthesis_and_uses_registry_only():
+    _, registry, diagnostics = build_annual_evidence([
+        _semantic("2026-06", "Registry Alpha", "https://a", "A"),
+        _semantic("2026-07", "Registry Beta", "https://b", "B"),
+    ], 2026)
+    refs = [row["ref_id"] for row in registry]
+    value = _output(refs)
+    value["notable_developments"] = [
+        {"heading": "Single", "synthesis": "Single-source factual claim.", "source_refs": refs[:1],
+         "source_attribution": "Invented Name"},
+        {"heading": "Multiple", "synthesis": "Multi-source factual claim.", "source_refs": refs},
+    ]
+    result = validate_yearly_synthesis(value, registry)
+    rendered = render_yearly(2026, result, registry, diagnostics, partial_audit=True)
+    assert rendered.index("*Source-specific reporting: Registry Alpha*") < rendered.index("Single-source factual claim.")
+    assert "Invented Name" not in rendered
+    multiple = rendered.split("### Multiple", 1)[1].split("## The Year in Motion", 1)[0]
+    assert "Source-specific reporting" not in multiple
+
+
 def test_trend_requires_two_months_and_two_channels():
     months = [_semantic("2026-06", "Same", "https://a", "A"), _semantic("2026-07", "Same", "https://b", "B")]
     _, registry, _ = build_annual_evidence(months, 2026)
