@@ -79,6 +79,33 @@ def test_partial_coverage_context_and_temporal_guard_reach_prompt():
     assert "Do not say ‘the year began’" in prompt
 
 
+def test_prompt_metadata_includes_titles_but_never_renderer_urls():
+    payload, registry, diagnostics = build_annual_evidence([
+        _semantic("2026-08", "CBN", "https://renderer-only.example/meta", "CBN 27/08"),
+    ], 2026)
+    system, prompt = yearly_prompt(payload, registry, "en", diagnostics)
+    metadata = json.loads(prompt.split("Authoritative source metadata (JSON):\n", 1)[1])
+    assert metadata == [{
+        "ref_id": "2026-08::CBN 27/08", "month": "2026-08", "source": "CBN",
+        "source_date": "2026-08-01", "title": "Persisted title",
+        "evidence_quality": "semantic_v2",
+    }]
+    assert "https://" not in system + prompt and "url" not in metadata[0]
+
+
+def test_prompt_requires_direct_provenance_attribution_and_monthly_notable_breadth():
+    system, _ = yearly_prompt([], [], "en")
+    assert "Do not use a source reference merely because it belongs to a broader Monthly theme" in system
+    assert "treat its source_refs as the preferred direct provenance" in system
+    assert "Major Trend may have multiple independent channels overall" in system
+    assert "attribute that narrow claim to the named source" in system
+    assert "Monthly notable_developments preferential consideration" in system
+    assert "add a genuinely different subject" in system
+    assert "hard maximum 7" in system
+    assert "do not add repetitive skeptical boilerplate" in system
+    assert "never force filler" in system and "force a seventh" in system
+
+
 def test_overlap_is_dropped_without_retry_and_single_source_moves_to_notable():
     _, registry, _ = build_annual_evidence([
         _semantic("2026-06", "Alpha", "https://a", "A"),
@@ -149,23 +176,38 @@ def test_empty_optional_sections_are_suppressed_but_nonempty_turning_points_rend
 
 def test_final_notable_cap_prefers_original_items_after_all_reclassification():
     months = [_semantic(f"2026-{month:02d}", f"Source {month}", f"https://{month}", f"R{month}")
-              for month in range(1, 10)]
+              for month in range(1, 11)]
     _, registry, _ = build_annual_evidence(months, 2026)
     refs = [row["ref_id"] for row in registry]
     value = _output(refs, trend_refs=refs[:2])
     value["notable_developments"] = [
         {"heading": f"Original {number}", "synthesis": f"Distinct development number {number}.",
          "source_refs": [refs[number + 1]]}
-        for number in range(6)
+        for number in range(7)
     ]
     value["annual_trends"].append(
-        {"heading": "Narrow candidate", "synthesis": "A separate narrow candidate.", "source_refs": [refs[8]]}
+        {"heading": "Narrow candidate", "synthesis": "A separate narrow candidate.", "source_refs": [refs[9]]}
     )
     diagnostics = {}
     result = validate_yearly_synthesis(value, registry, diagnostics)
-    assert [item["heading"] for item in result["notable_developments"]] == [f"Original {n}" for n in range(6)]
-    assert diagnostics["notable_developments_retained"] == 6
+    assert [item["heading"] for item in result["notable_developments"]] == [f"Original {n}" for n in range(7)]
+    assert diagnostics["notable_developments_retained"] == 7
     assert diagnostics["notable_developments_dropped_cap"] == 1
+
+
+def test_six_notables_remain_valid_without_filler():
+    months = [_semantic(f"2026-{month:02d}", f"Source {month}", f"https://{month}", f"R{month}")
+              for month in range(1, 9)]
+    _, registry, _ = build_annual_evidence(months, 2026)
+    refs = [row["ref_id"] for row in registry]
+    value = _output(refs, trend_refs=refs[:2])
+    value["notable_developments"] = [
+        {"heading": f"Distinct {number}", "synthesis": f"Material development {number}.",
+         "source_refs": [refs[number + 2]]}
+        for number in range(6)
+    ]
+    result = validate_yearly_synthesis(value, registry)
+    assert len(result["notable_developments"]) == 6
 
 
 def test_obvious_notable_trend_overlap_drops_but_distinct_subject_survives():
@@ -228,6 +270,26 @@ def test_urls_are_authoritative_and_model_urls_are_rejected():
     poisoned = _output(refs); poisoned["year_in_brief"] = "Visit https://invented.invalid"
     with pytest.raises(YearlySynthesisError, match="URL"):
         validate_yearly_synthesis(poisoned, registry)
+
+
+def test_source_index_sorts_refs_chronologically_within_channel():
+    months = [
+        _semantic("2026-06", "Alpha", "https://persisted/late", "A 20/06"),
+        _semantic("2026-07", "Beta", "https://persisted/beta", "B 01/07"),
+    ]
+    months[0]["source_registry"].append({
+        "ref_id": "A 05/06", "source": "Alpha", "source_date": "2026-06-05",
+        "title": "Earlier title", "url": "https://persisted/early",
+    })
+    months[0]["source_registry"][0]["source_date"] = "2026-06-20"
+    _, registry, diagnostics = build_annual_evidence(months, 2026)
+    refs = [row["ref_id"] for row in registry]
+    synthesis = validate_yearly_synthesis(_output(refs), registry)
+    synthesis["source_refs_used"] = [refs[0], refs[1], refs[2]]
+    rendered = render_yearly(2026, synthesis, registry, diagnostics, partial_audit=True)
+    alpha_index = rendered.split("**Alpha**", 1)[1].split("**Beta**", 1)[0]
+    assert alpha_index.index("A 05/06") < alpha_index.index("A 20/06")
+    assert "https://persisted/early" in alpha_index and "https://persisted/late" in alpha_index
 
 
 def test_unrecoverable_output_gets_only_one_repair():
