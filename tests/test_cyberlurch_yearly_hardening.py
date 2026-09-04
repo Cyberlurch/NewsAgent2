@@ -39,6 +39,7 @@ def _run(tmp_path, monkeypatch, entries, *, mode="none", event="workflow_dispatc
             "executive_summary": [{"heading": "Material shift", "synthesis": "Persisted evidence records a material shift.", "source_refs": pair}],
             "annual_trends": [{"heading": "Cross-month development", "synthesis": "The development persisted across the year.", "source_refs": pair}],
             "turning_points": [{"heading": "Important event", "synthesis": "One event changed the trajectory.", "source_refs": refs[:1]}],
+            "notable_developments": [{"heading": "Standalone development", "synthesis": "A separate material development.", "source_refs": refs[-1:]}],
             "timeline": [{"period": "Early year", "synthesis": "The trajectory began in the early year.", "source_refs": refs[:1]}],
             "year_in_brief": "Persisted evidence shows a changing annual trajectory.",
             "source_refs_used": ["model compatibility value is ignored"],

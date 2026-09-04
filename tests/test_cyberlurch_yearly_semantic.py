@@ -11,6 +11,7 @@ from newsagent2.cyberlurch_yearly import (
     render_yearly,
     synthesize_yearly,
     validate_yearly_synthesis,
+    yearly_prompt,
 )
 
 
@@ -29,6 +30,7 @@ def _output(refs, trend_refs=None):
         "executive_summary": [{"heading": "Brief", "synthesis": "A supported claim.", "source_refs": refs[:1]}],
         "annual_trends": [{"heading": "Trend", "synthesis": "A supported trend.", "source_refs": trend_refs or refs}],
         "turning_points": [{"heading": "Turn", "synthesis": "A supported event.", "source_refs": refs[:1]}],
+        "notable_developments": [],
         "timeline": [{"period": "Mid-year", "synthesis": "A supported trajectory.", "source_refs": refs[:1]}],
         "year_in_brief": "The evidence records material changes during the year.",
         "source_refs_used": ["ignored"],
@@ -56,8 +58,73 @@ def test_validation_reclassifies_single_month_and_derives_union_without_retry():
     calls, diagnostics = [], {}
     result = synthesize_yearly([], registry, "en", lambda *_: calls.append(1) or json.dumps(value), diagnostics)
     assert len(calls) == diagnostics["provider_operations"] == 1
-    assert not result["annual_trends"] and len(result["turning_points"]) == 2
+    assert not result["annual_trends"] and len(result["notable_developments"]) == 2
     assert result["source_refs_used"] == refs[:1]
+
+
+def test_partial_coverage_context_and_temporal_guard_reach_prompt():
+    diagnostics = {
+        "target_year": 2026, "calendar_coverage_complete": False,
+        "semantic_v2_months": ["2026-06", "2026-07", "2026-08"],
+        "enriched_legacy_months": ["2026-05"],
+        "thin_legacy_months": ["2026-01", "2026-02", "2026-03", "2026-04"],
+        "missing_months": ["2026-09"],
+        "enriched_legacy_source_date_coverage": {
+            "2026-05": {"earliest": "2026-05-26", "latest": "2026-05-29"},
+        },
+    }
+    _, prompt = yearly_prompt([], [], "en", diagnostics)
+    assert '"target_year":2026' in prompt and '"earliest":"2026-05-26"' in prompt
+    assert "thin legacy months contain no factual synthesis evidence" in prompt
+    assert "Do not say ‘the year began’" in prompt
+
+
+def test_overlap_is_dropped_without_retry_and_single_source_moves_to_notable():
+    _, registry, _ = build_annual_evidence([
+        _semantic("2026-06", "Alpha", "https://a", "A"),
+        _semantic("2026-07", "Beta", "https://b", "B"),
+        _semantic("2026-08", "Canonical Source", "https://c", "C"),
+    ], 2026)
+    refs = [row["ref_id"] for row in registry]
+    value = _output(refs, trend_refs=refs[:2])
+    value["turning_points"] = [
+        {"heading": "Duplicate", "synthesis": "Repeats the trend.", "source_refs": refs[:2]},
+        {"heading": "El Niño risk", "synthesis": "A material standalone food-system risk.", "source_refs": refs[2:]},
+    ]
+    calls, diagnostics = [], {}
+    result = synthesize_yearly([], registry, "en", lambda *_: calls.append(1) or json.dumps(value), diagnostics)
+    assert len(calls) == 1 and not result["turning_points"]
+    assert [item["heading"] for item in result["notable_developments"]] == ["El Niño risk"]
+    assert result["notable_developments"][0]["source_attribution"] == "Canonical Source"
+    assert diagnostics["turning_points_dropped_overlap"] == 1
+    assert diagnostics["turning_points_reclassified_to_notable"] == 1
+
+
+def test_human_coverage_note_and_notable_rendering():
+    months = [
+        {"month": "2026-01", "top_items": [{"title": "Archive"}]},
+        {"month": "2026-05", "full_text_count": 1, "top_items": [
+            {"title": "Late May", "url": "https://may", "channel": "May Source",
+             "date": "2026-05-26", "bottom_line": "Material detail."},
+            {"title": "Later May", "url": "https://may2", "channel": "May Source",
+             "date": "2026-05-29", "bottom_line": "More material detail."},
+        ]},
+        _semantic("2026-06", "Alpha", "https://june"),
+    ]
+    _, registry, diagnostics = build_annual_evidence(months, 2026)
+    ref = registry[-1]["ref_id"]
+    synthesis = {
+        "executive_summary": [], "annual_trends": [], "turning_points": [],
+        "notable_developments": [{"heading": "Standalone", "synthesis": "Material development.",
+                                  "source_refs": [ref], "source_attribution": "Alpha"}],
+        "timeline": [], "year_in_brief": "Material development.", "source_refs_used": [ref],
+    }
+    rendered = render_yearly(2026, synthesis, registry, diagnostics, partial_audit=True)
+    coverage_note = rendered.split("## Coverage Note", 1)[1].split("---", 1)[0]
+    assert "26–29 May" in coverage_note and "archive-level records" in coverage_note
+    assert "Semantic-v2" not in coverage_note and "enriched legacy" not in coverage_note
+    assert "## Notable Developments" in rendered
+    assert "Source-specific reporting: Alpha" in rendered
 
 
 def test_trend_requires_two_months_and_two_channels():

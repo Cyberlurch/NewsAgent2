@@ -2010,8 +2010,13 @@ def _run_yearly_report(
             # synthesized. Preserve audit routing with a coverage-only report.
             yearly_diags.update({"provider_operations": 0, "prompt_character_count": 0,
                                  "annual_trends_returned": 0, "annual_trends_retained": 0,
-                                 "annual_trends_reclassified": 0, "turning_points_retained": 0})
+                                 "annual_trends_reclassified": 0, "turning_points_retained": 0,
+                                 "turning_points_returned": 0, "turning_points_dropped_overlap": 0,
+                                 "turning_points_reclassified_to_notable": 0,
+                                 "notable_developments_returned": 0, "notable_developments_retained": 0,
+                                 "single_source_items_attributed": 0, "partial_coverage_guard_applied": True})
             annual_synthesis = {"executive_summary": [], "annual_trends": [], "turning_points": [],
+                                "notable_developments": [],
                                 "timeline": [], "year_in_brief": "No substantive persisted Monthly evidence was available for annual synthesis.",
                                 "source_refs_used": []}
         else:
