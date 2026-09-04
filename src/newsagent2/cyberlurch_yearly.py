@@ -164,14 +164,30 @@ def build_annual_evidence(
     return payload, registry, diagnostics
 
 
-def yearly_prompt(payload: list[dict[str, Any]], registry: list[dict[str, Any]], language: str) -> tuple[str, str]:
+def yearly_prompt(payload: list[dict[str, Any]], registry: list[dict[str, Any]], language: str,
+                  coverage: MutableMapping[str, Any] | None = None) -> tuple[str, str]:
     lang = "English" if str(language).lower().startswith("en") else "German"
-    system = f"""Produce a neutral, precise annual trend analysis in {lang}, using only the persisted Monthly evidence supplied. Return exactly one JSON object with executive_summary (4-5 objects), annual_trends (4-8 objects), turning_points (3-6 objects), timeline (4-8 chronological objects), year_in_brief (one substantive string), and source_refs_used (array). Every section object has heading (timeline uses period), synthesis, and source_refs. Return source IDs only: never return or write a URL.
-This is an annual analysis, not twelve monthly reports concatenated. Prioritize material change, cross-month trajectories, escalation/de-escalation, political/economic/technological shifts, turning points, and meaningful differences between sources. Do not count labels, channels, or publication frequency; reproduce Monthly briefs; add advice, moral judgments, filler, or unsupported causal links. Precisely attribute allegations, predictions, disputed numbers, causal interpretations, and single-commentary-source claims. A major trend must cite evidence from at least two months and two sources. Turning points may use one month. Thin legacy months have deliberately supplied no factual evidence and must not become claims. Aim for 120-220 words per major trend only where evidence supports it; never pad."""
+    system = f"""Produce a neutral, precise annual trend analysis in {lang}, using only the persisted Monthly evidence supplied. Return exactly one JSON object with executive_summary (3-4 objects), annual_trends (normally 4-6 objects), turning_points (only supported, non-redundant objects), notable_developments (normally 3-6 objects when the evidence is rich), timeline (4-8 chronological objects), year_in_brief (one substantive string), and source_refs_used (array). Every section object has heading (timeline uses period), synthesis, and source_refs. Return source IDs only: never return or write a URL.
+Section roles are distinct. Executive Brief is a 45-80-word-per-entry abstract and may orient readers to subjects analyzed later, but must not duplicate full trend explanations. Major Trends are the substantive cross-month analysis: each needs at least two distinct months and two distinct sources/channels and should use 120-220 words only when supported. Turning Points are discrete events or changes that demonstrably altered the covered trajectory; omit one that merely restates a Major Trend without independent event evidence, and prefer at least two sources. Notable Developments preserve significant material that is not sufficiently cross-month for a trend or trajectory-changing for a turning point. Ask explicitly: “Which materially different developments would otherwise disappear because the dominant trends consume most of the report?” Frequency must not equal importance; never force filler.
+This is an annual analysis, not twelve monthly reports concatenated. Prioritize material change, cross-month trajectories, escalation/de-escalation, political/economic/technological shifts, turning points, and meaningful differences between sources. Do not count labels, channels, or publication frequency; reproduce Monthly briefs; add advice, moral judgments, filler, or unsupported causal links. Precisely attribute allegations, predictions, disputed numbers, causal interpretations, and single-commentary-source claims. Thin legacy months have deliberately supplied no factual evidence and must not become claims. The Year in Brief may summarize only topics already represented in a preceding rendered section. Keep the timeline chronological and concise; describe narrow partial-month evidence as late/early month rather than implying full-month coverage. For a partial audit, 1,700-2,300 recipient-facing words is reasonable; reserve 2,500-3,500 guidance for a substantially complete rich year and never pad."""
     # URLs and titles are unnecessary model input. Registry metadata lets it reason
     # about source/month diversity while keeping URLs exclusively authoritative.
     source_metadata = [{key: row[key] for key in ("ref_id", "month", "source", "source_date", "evidence_quality")} for row in registry]
     user = "Annual Monthly evidence (JSON):\n" + json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+    if coverage is not None:
+        context = {key: coverage.get(key) for key in (
+            "target_year", "calendar_coverage_complete", "semantic_v2_months",
+            "enriched_legacy_months", "thin_legacy_months", "missing_months",
+            "enriched_legacy_source_date_coverage",
+        )}
+        user += "\nDeterministic coverage context (JSON):\n" + json.dumps(context, ensure_ascii=False, separators=(",", ":"))
+        if not context["calendar_coverage_complete"]:
+            user += ("\nPARTIAL-COVERAGE GUARD: thin legacy months contain no factual synthesis evidence. "
+                     "Do not say ‘the year began’, ‘throughout the year’, ‘all year’, or ‘over the entire year’ "
+                     "unless factual evidence truly spans that interval. Prefer ‘By June’, ‘From late May through "
+                     "August’, ‘In the available record’, or ‘During the covered period’, as the supplied dates warrant.")
+    # Keep this final for compatibility with controlled providers that parse the
+    # authoritative metadata marker through the end of the prompt.
     user += "\nAuthoritative source metadata (JSON):\n" + json.dumps(source_metadata, ensure_ascii=False, separators=(",", ":"))
     return system, user
 
@@ -185,7 +201,7 @@ def validate_yearly_synthesis(value: Any, registry: list[dict[str, Any]], diagno
     used: list[str] = []
 
     def section(name: str, *, required: bool = True) -> list[dict[str, Any]]:
-        values = value.get(name)
+        values = value.get(name, [] if not required else None)
         if not isinstance(values, list) or (required and not values):
             raise YearlySynthesisError(f"invalid {name}")
         result = []
@@ -205,7 +221,8 @@ def validate_yearly_synthesis(value: Any, registry: list[dict[str, Any]], diagno
 
     executive = section("executive_summary")
     trends_returned = section("annual_trends", required=False)
-    turning = section("turning_points", required=False)
+    turning_returned = section("turning_points", required=False)
+    notable = section("notable_developments", required=False)
     timeline = section("timeline")
     retained, reclassified = [], []
     for trend in trends_returned:
@@ -214,22 +231,52 @@ def validate_yearly_synthesis(value: Any, registry: list[dict[str, Any]], diagno
             retained.append(trend)
         else:
             reclassified.append(trend)
-    turning.extend(reclassified)
+    notable.extend(reclassified)
+    dropped_overlap = 0
+    turning: list[dict[str, Any]] = []
+    reclassified_turning: list[dict[str, Any]] = []
+    for item in turning_returned:
+        item_refs = set(item["source_refs"])
+        if any(item_refs <= set(trend["source_refs"]) or
+               (len(item_refs & set(trend["source_refs"])) / len(item_refs) >= .8)
+               for trend in retained):
+            dropped_overlap += 1
+            continue
+        channels = {by_ref[ref]["source"] for ref in item["source_refs"]}
+        if len(channels) == 1:
+            item["source_attribution"] = next(iter(channels))
+            reclassified_turning.append(item)
+            notable.append(item)
+        else:
+            turning.append(item)
+    single_source_attributed = 0
+    for item in notable:
+        channels = {by_ref[ref]["source"] for ref in item["source_refs"]}
+        if len(channels) == 1:
+            item["source_attribution"] = next(iter(channels))
+            single_source_attributed += 1
     brief = _text(value.get("year_in_brief"), 5000)
     if not brief:
         raise YearlySynthesisError("invalid year_in_brief")
-    authoritative_union = list(dict.fromkeys(ref for group in (executive, retained, turning, timeline) for item in group for ref in item["source_refs"]))
+    authoritative_union = list(dict.fromkeys(ref for group in (executive, retained, turning, notable, timeline) for item in group for ref in item["source_refs"]))
     out = {"executive_summary": executive, "annual_trends": retained, "turning_points": turning,
-           "timeline": timeline, "year_in_brief": brief, "source_refs_used": authoritative_union}
+           "notable_developments": notable, "timeline": timeline, "year_in_brief": brief, "source_refs_used": authoritative_union}
     if diagnostics is not None:
         diagnostics.update({"annual_trends_returned": len(trends_returned), "annual_trends_retained": len(retained),
-                            "annual_trends_reclassified": len(reclassified), "turning_points_retained": len(turning)})
+                            "annual_trends_reclassified": len(reclassified),
+                            "notable_developments_returned": len(value.get("notable_developments") or []),
+                            "notable_developments_retained": len(notable),
+                            "turning_points_returned": len(turning_returned),
+                            "turning_points_retained": len(turning),
+                            "turning_points_dropped_overlap": dropped_overlap,
+                            "turning_points_reclassified_to_notable": len(reclassified_turning),
+                            "single_source_items_attributed": single_source_attributed})
     return out
 
 
 def synthesize_yearly(payload: list[dict[str, Any]], registry: list[dict[str, Any]], language: str,
                       provider: Callable[[str, str], str], diagnostics: MutableMapping[str, Any]) -> dict[str, Any]:
-    system, user = yearly_prompt(payload, registry, language)
+    system, user = yearly_prompt(payload, registry, language, diagnostics)
     diagnostics["prompt_character_count"] = len(system) + len(user)
     diagnostics["provider_operations"] = 0
     error: Exception | None = None
@@ -255,19 +302,40 @@ def _source_links(refs: Iterable[str], by_ref: dict[str, dict[str, Any]]) -> str
 
 def render_yearly(target_year: int, synthesis: dict[str, Any], registry: list[dict[str, Any]], diagnostics: dict[str, Any], *, partial_audit: bool) -> str:
     by_ref = {row["ref_id"]: row for row in registry}
-    present = ", ".join(month[-2:] for month in diagnostics["found_months"]) or "none"
-    missing = ", ".join(month[-2:] for month in diagnostics["missing_months"]) or "none"
+    def month_names(months: Iterable[str]) -> str:
+        return ", ".join(datetime.strptime(month, "%Y-%m").strftime("%B") for month in months) or "none"
+
+    detailed = month_names(diagnostics["semantic_v2_months"])
+    archive = month_names(diagnostics["thin_legacy_months"])
+    missing = month_names(diagnostics["missing_months"])
+    coverage_parts = [f"Detailed Monthly evidence is available for {detailed}."]
+    for month in diagnostics["enriched_legacy_months"]:
+        dates = diagnostics.get("enriched_legacy_source_date_coverage", {}).get(month, {})
+        if dates.get("earliest") and dates.get("latest"):
+            start, end = datetime.fromisoformat(dates["earliest"]), datetime.fromisoformat(dates["latest"])
+            coverage_parts.append(f"{start.strftime('%B')} has partial detailed coverage from {start.day}–{end.day} {start.strftime('%B')}.")
+        else:
+            coverage_parts.append(f"{month_names([month])} has partial detailed coverage.")
+    if diagnostics["thin_legacy_months"]:
+        coverage_parts.append(f"{archive} are represented only by archive-level records and are therefore not used as factual foundations.")
+    if diagnostics["missing_months"]:
+        coverage_parts.append(f"{missing} are not yet available.")
+    coverage_parts.append("This is a partial-year audit." if partial_audit else "Calendar coverage is complete.")
+    diagnostics["partial_coverage_guard_applied"] = bool(partial_audit)
     lines = [f"# The Cyberlurch Year in Review — {target_year}", "", "**Year in Review**", "", "---", "", "## Coverage Note", "",
-             f"Calendar months present: {present}. Missing: {missing}. Semantic-v2: {', '.join(diagnostics['semantic_v2_months']) or 'none'}; enriched legacy: {', '.join(diagnostics['enriched_legacy_months']) or 'none'}; thin legacy/title-level archive coverage: {', '.join(diagnostics['thin_legacy_months']) or 'none'}. " + ("This is a partial-year audit." if partial_audit else "Calendar coverage is complete."), ""]
+             " ".join(coverage_parts), ""]
 
     def add_section(title: str, values: list[dict[str, Any]], label: str) -> None:
         lines.extend(["---", "", f"## {title}", ""])
         for item in values:
             lines.extend([f"### {item[label]}", "", item["synthesis"], "", f"_Sources: {_source_links(item['source_refs'], by_ref)}_", ""])
+            if item.get("source_attribution"):
+                lines[-1:-1] = [f"_Source-specific reporting: {item['source_attribution']}_", ""]
 
     add_section("Executive Brief", synthesis["executive_summary"], "heading")
     add_section("Major Trends", synthesis["annual_trends"], "heading")
     add_section("Turning Points", synthesis["turning_points"], "heading")
+    add_section("Notable Developments", synthesis.get("notable_developments", []), "heading")
     add_section("The Year in Motion", synthesis["timeline"], "period")
     lines.extend(["---", "", "## Year in Brief", "", synthesis["year_in_brief"], "", "---", "", "## Source Index", ""])
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
