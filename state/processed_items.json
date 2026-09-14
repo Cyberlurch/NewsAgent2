@@ -4,28 +4,28 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "ALiEM": {
-      "consecutive_failures": 98,
+      "consecutive_failures": 99,
       "disabled_until_utc": "2026-05-27T07:02:26+00:00",
       "last_health": "other",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "APSF Newsletter": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "Anesthesiology News": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "CanadiEM": {
       "consecutive_failures": 17,
@@ -37,80 +37,80 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "Critical Care Practitioner": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "Critical Care Reviews": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-paper-of-the-day-v1",
       "last_health": "ok_html",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "Deranged Physiology": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "Don't Forget the Bubbles": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "EM Cases": {
-      "consecutive_failures": 0,
+      "consecutive_failures": 1,
       "disabled_until_utc": "",
-      "last_health": "ok_rss",
+      "last_health": "blocked_403",
       "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "EMCrit": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "EMOttawa Blog": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "First10EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "Intensive Care Network": {
-      "consecutive_failures": 128,
+      "consecutive_failures": 129,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "JournalFeed (Critical Care)": {
-      "consecutive_failures": 2,
+      "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-article-a-day-v1",
-      "last_health": "parse_failed",
-      "last_ok_utc": "2026-09-09T08:22:17+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_health": "ok_html",
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "LITFL": {
       "consecutive_failures": 7,
@@ -123,29 +123,29 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "OpenAnesthesia": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "PulmCCM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "REBEL EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "REBEL EM Critical Care": {
       "consecutive_failures": 6,
@@ -154,73 +154,73 @@
       "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "SMACC": {
-      "consecutive_failures": 128,
+      "consecutive_failures": 129,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "St Emlyn's": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "Taming the SRU": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-squarespace-rss-v1",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "The Anaesthesia Collective": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "The Bottom Line": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "The Resus Room": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "Thinking Critical Care": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "WFSA Anaesthesia Tutorial of the Week": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     },
     "emDocs": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-11T08:18:56+00:00"
+      "last_ok_utc": "2026-09-14T09:14:20+00:00",
+      "last_seen_utc": "2026-09-14T09:14:20+00:00"
     }
   },
   "last_successful_daily_run_utc": "2026-09-14T09:13:10+00:00",
   "last_successful_daily_run_utc_by_report": {
-    "cybermed": "2026-09-11T08:19:57+00:00"
+    "cybermed": "2026-09-14T09:15:40+00:00"
   },
   "reports": {
     "cyberlurch": {
@@ -6160,11 +6160,23 @@
             "title": "Does Ramping Help or Hurt Intubation? - JournalFeed",
             "url": "https://journalfeed.org/article-a-day/2026/does-ramping-help-or-hurt-intubation/"
           },
+          "https://journalfeed.org/article-a-day/2026/lightning-does-strike-twice-vl-in-trauma-still-better/": {
+            "channel": "JournalFeed (Critical Care)",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Lightning Does Strike Twice - VL in Trauma Still Better - JournalFeed",
+            "url": "https://journalfeed.org/article-a-day/2026/lightning-does-strike-twice-vl-in-trauma-still-better/"
+          },
           "https://journalfeed.org/article-a-day/2026/predicting-the-crash-pediatric-cardiac-pocus/": {
             "channel": "JournalFeed (Critical Care)",
             "processed_at_utc": "2026-08-26T04:21:14+00:00",
             "title": "Predicting the Crash - Pediatric Cardiac POCUS - JournalFeed",
             "url": "https://journalfeed.org/article-a-day/2026/predicting-the-crash-pediatric-cardiac-pocus/"
+          },
+          "https://journalfeed.org/article-a-day/category/critical-care/": {
+            "channel": "JournalFeed (Critical Care)",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Advances in Critical Care Medicine Insights - JournalFeed",
+            "url": "https://journalfeed.org/article-a-day/category/critical-care/"
           },
           "https://nysora.com/education-news/individualised-peep-in-minimally-invasive-surgery/": {
             "channel": "NYSORA",
@@ -6226,6 +6238,12 @@
             "title": "Journal Feed Weekly Wrap-Up",
             "url": "https://www.emdocs.net/journal-feed-weekly-wrap-up-189/"
           },
+          "https://www.emdocs.net/journal-feed-weekly-wrap-up-190/": {
+            "channel": "emDocs",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Journal Feed Weekly Wrap-Up",
+            "url": "https://www.emdocs.net/journal-feed-weekly-wrap-up-190/"
+          },
           "https://www.stemlynsblog.org/aspired-ambulatory-ecg-monitoring-after-unexplained-syncope/": {
             "channel": "St Emlyn's",
             "processed_at_utc": "2026-09-03T08:17:45+00:00",
@@ -6237,6 +6255,12 @@
             "processed_at_utc": "2026-08-27T14:37:18+00:00",
             "title": "JC: Manual pressure augmentation during cardiac arrest: another lesson in physiology versus outcome",
             "url": "https://www.stemlynsblog.org/jc-manual-pressure-augmentation-during-cardiac-arrest-another-lesson-in-physiology-versus-outcome/"
+          },
+          "https://www.stemlynsblog.org/the-fifth-universal-definition-of-myocardial-infarction-what-emergency-clinicians-need-to-know/": {
+            "channel": "St Emlyn's",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "The Fifth Universal Definition of Myocardial Infarction: What Emergency Clinicians Need to Know",
+            "url": "https://www.stemlynsblog.org/the-fifth-universal-definition-of-myocardial-infarction-what-emergency-clinicians-need-to-know/"
           },
           "https://www.tamingthesru.com/blog/diagnostics/abnormal-uterine-bleeding": {
             "channel": "Taming the SRU",
@@ -7745,6 +7769,13 @@
             "screened_at_utc": "2026-09-02T08:09:02+00:00",
             "title": "Nerve Injury Following Birth, the Role of Epidural Analgesia-A Protocol for a Scoping Review.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42548252/"
+          },
+          "42549801": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Hypoxia Inducible Factor 1α-dependent Induction of Alveolar miR-147b Dampens SARS-CoV-2-associated Acute Respiratory Distress Syndrome via Direct Targeting of Viral RNA.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42549801/"
           },
           "42552852": {
             "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
@@ -9959,11 +9990,233 @@
             "sent_overview_at_utc": "2026-09-11T08:19:57+00:00",
             "title": "Drug allergy labels and complications after surgery: a prospective multicentre cohort study.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42722596/"
+          },
+          "42725660": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Era of Sugammadex: Comment.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725660/"
+          },
+          "42725662": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "The Secret Fire.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725662/"
+          },
+          "42725665": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Era of Sugammadex: Comment.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725665/"
+          },
+          "42725666": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Era of Sugammadex: Reply.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725666/"
+          },
+          "42725667": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Era of Sugammadex: Comment.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725667/"
+          },
+          "42725669": {
+            "channel": "PubMed: Anesthesiology",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Era of Sugammadex: Comment.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725669/"
+          },
+          "42725818": {
+            "channel": "PubMed: Critical Care Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_deep_dive_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_overview_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Mortality Effect of Peripheral Perfusion-Guided Resuscitation in Vasodilatory Shock: A Systematic Review and Dual Frequentist-Bayesian Meta-Analysis of Randomized Trials.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725818/"
+          },
+          "42725819": {
+            "channel": "PubMed: Critical Care Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_overview_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Comprehensive Driving Assessment to Enable Driving Resumption in Adults Recovering From Critical Illness: A Prospective Cohort Study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725819/"
+          },
+          "42725825": {
+            "channel": "PubMed: Critical Care Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "How Early Is Early? Prehospital Management of Septic Shock.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725825/"
+          },
+          "42725835": {
+            "channel": "PubMed: Critical Care Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_deep_dive_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_overview_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Landscape of Biomarker Use in Critically Ill Patients: Systematic Evidence Map of Acute Kidney Injury and Implications for Practice.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725835/"
+          },
+          "42725838": {
+            "channel": "PubMed: Critical Care Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Operationalizing Alternatives to Prospective Consent in Critical Care Trials.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725838/"
+          },
+          "42725840": {
+            "channel": "PubMed: Critical Care Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Returning to Driving: Developing a Roadmap to Inform Decision-Making After Critical Illness.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725840/"
+          },
+          "42725887": {
+            "channel": "PubMed: Science (medizin/biomed breit)",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Ban bets on unfinished clinical trials.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42725887/"
+          },
+          "42726103": {
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Pseudomonas Aeruginosa Abundotypes and Interactotypes Reflect Clinical Heterogeneity in Bronchiectasis.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42726103/"
+          },
+          "42726104": {
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Challenging Assumptions About Immunosuppression in Fibrotic ILD.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42726104/"
+          },
+          "42727589": {
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Unravelling of tuberculosis control in Ukraine.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727589/"
+          },
+          "42727697": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_overview_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "In-Hospital Cardiac Arrest in Impella-Supported Cardiogenic Shock: Insights From the J-PVAD Registry.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727697/"
+          },
+          "42727698": {
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Feasibility of Neurological Prognostication After Pediatric Cardiac Arrest with a Reduced Number of EEG Electrodes.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727698/"
+          },
+          "42727699": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_deep_dive_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_overview_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Intravenous or Intraosseous Vascular Access in Cardiac Arrest: An Individual Participant Data Meta-Analysis.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727699/"
+          },
+          "42727700": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Association of hypotension burden calculated from intermittently documented blood pressures and outcome after pediatric cardiac arrest.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727700/"
+          },
+          "42727701": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_overview_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Association between the first post-resuscitation partial pressure of arterial carbon dioxide and neurologic outcomes in children with out-of-hospital cardiac arrest: a multicenter retrospective cohort study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727701/"
+          },
+          "42727702": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_overview_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Barriers to dispatcher-assisted CPR are associated with delayed bystander CPR and worse outcomes in out-of-hospital cardiac arrest: A retrospective cohort study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727702/"
+          },
+          "42727703": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Prehospital critical care for cardiac arrest: which clinicians and what training?",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727703/"
+          },
+          "42727704": {
+            "channel": "PubMed: Resuscitation",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "The impact of the World Restart a Heart (WRAH) initiative - inspiring regions, countries and people all over the world.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727704/"
+          },
+          "42727981": {
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "When clinical trials do not go as planned.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727981/"
+          },
+          "42727982": {
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Ultrasound-guided percutaneous temporary vagus nerve stimulation for refractory post-traumatic chronic pain and post-traumatic stress disorder (PTSD): first reported case and implantation technique.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727982/"
+          },
+          "42727983": {
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_deep_dive_at_utc": "2026-09-14T09:15:40+00:00",
+            "sent_overview_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Caudal versus penile block and urethrocutaneous fistula formation following hypospadias repair in children <2 years: a multicenter randomized clinical trial.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42727983/"
+          },
+          "42728166": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Postoperative hypotension in patients recovering from noncardiac surgery: interpreting postoperative hypotension a prospective, blinded observational study. Comment on Br J Anaesth 2026; 137: 66-73.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42728166/"
+          },
+          "42728167": {
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Inequality in healthy lifespan after surgery: a longitudinal population study.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42728167/"
+          },
+          "42730744": {
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "processed_at_utc": "2026-09-14T09:15:40+00:00",
+            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "title": "Implementation of Relative Value Unit-Based Physician Compensation in Emergency Physicians: Operational Evidence From a National Group.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42730744/"
           }
         }
       }
     }
   },
-  "updated_at_utc": "2026-09-14T09:13:10+00:00",
+  "updated_at_utc": "2026-09-14T09:15:41+00:00",
   "version": 1
 }
