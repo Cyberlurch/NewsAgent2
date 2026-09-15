@@ -4,28 +4,28 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "ALiEM": {
-      "consecutive_failures": 99,
+      "consecutive_failures": 100,
       "disabled_until_utc": "2026-05-27T07:02:26+00:00",
       "last_health": "other",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "APSF Newsletter": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "Anesthesiology News": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "CanadiEM": {
       "consecutive_failures": 17,
@@ -37,115 +37,115 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "Critical Care Practitioner": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "Critical Care Reviews": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-paper-of-the-day-v1",
       "last_health": "ok_html",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "Deranged Physiology": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "Don't Forget the Bubbles": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "EM Cases": {
-      "consecutive_failures": 1,
+      "consecutive_failures": 2,
       "disabled_until_utc": "",
       "last_health": "blocked_403",
       "last_ok_utc": "2026-09-11T08:18:56+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "EMCrit": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "EMOttawa Blog": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "First10EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "Intensive Care Network": {
-      "consecutive_failures": 129,
+      "consecutive_failures": 130,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "JournalFeed (Critical Care)": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-article-a-day-v1",
       "last_health": "ok_html",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "LITFL": {
-      "consecutive_failures": 7,
-      "disabled_until_utc": "2026-09-15T08:19:37+00:00",
+      "consecutive_failures": 8,
+      "disabled_until_utc": "2026-09-22T08:57:56+00:00",
       "last_health": "blocked_403",
       "last_ok_utc": "2026-08-04T06:16:03+00:00",
-      "last_seen_utc": "2026-09-08T08:19:37+00:00"
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "NYSORA": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "OpenAnesthesia": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "PulmCCM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "REBEL EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "REBEL EM Critical Care": {
       "consecutive_failures": 6,
@@ -154,73 +154,73 @@
       "last_seen_utc": "2026-05-01T06:29:34+00:00"
     },
     "SMACC": {
-      "consecutive_failures": 129,
+      "consecutive_failures": 130,
       "disabled_until_utc": "",
       "last_health": "other",
       "last_ok_utc": "2026-05-11T06:54:12+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "St Emlyn's": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "Taming the SRU": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-squarespace-rss-v1",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "The Anaesthesia Collective": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "The Bottom Line": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "The Resus Room": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "Thinking Critical Care": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "WFSA Anaesthesia Tutorial of the Week": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     },
     "emDocs": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-09-14T09:14:20+00:00",
-      "last_seen_utc": "2026-09-14T09:14:20+00:00"
+      "last_ok_utc": "2026-09-15T08:57:56+00:00",
+      "last_seen_utc": "2026-09-15T08:57:56+00:00"
     }
   },
   "last_successful_daily_run_utc": "2026-09-15T08:57:07+00:00",
   "last_successful_daily_run_utc_by_report": {
-    "cybermed": "2026-09-14T09:15:40+00:00"
+    "cybermed": "2026-09-15T08:58:56+00:00"
   },
   "reports": {
     "cyberlurch": {
@@ -6076,6 +6076,12 @@
             "title": "Barriers to Safe Diagnosis",
             "url": "https://dontforgetthebubbles.com/barriers-to-safe-diagnosis/"
           },
+          "https://dontforgetthebubbles.com/neonatal-seizures/": {
+            "channel": "Don't Forget the Bubbles",
+            "processed_at_utc": "2026-09-15T08:58:56+00:00",
+            "title": "Neonatal Seizures",
+            "url": "https://dontforgetthebubbles.com/neonatal-seizures/"
+          },
           "https://dontforgetthebubbles.com/the-105th-bubble-wrap-dftb-26-bw-live-gen-paeds/": {
             "channel": "Don't Forget the Bubbles",
             "processed_at_utc": "2026-09-02T08:09:02+00:00",
@@ -6148,11 +6154,23 @@
             "title": "Opioid-free anesthesia versus conventional opioid anesthesia",
             "url": "https://nysora.com/education-news/opioid-free-anesthesia-versus-conventional-opioid-anesthesia/"
           },
+          "https://nysora.com/education-news/pediatric-nmb-whats-changed/": {
+            "channel": "NYSORA",
+            "processed_at_utc": "2026-09-15T08:58:56+00:00",
+            "title": "Pediatric NMB: What’s changed?",
+            "url": "https://nysora.com/education-news/pediatric-nmb-whats-changed/"
+          },
           "https://nysora.com/education-news/the-effect-of-intraoperative-dexamethasone-on-glycemic-responses-in-people-with-diabetes-mellitus/": {
             "channel": "NYSORA",
             "processed_at_utc": "2026-09-09T08:23:40+00:00",
             "title": "The effect of intraoperative dexamethasone on glycemic responses in people with diabetes mellitus",
             "url": "https://nysora.com/education-news/the-effect-of-intraoperative-dexamethasone-on-glycemic-responses-in-people-with-diabetes-mellitus/"
+          },
+          "https://rebelem.com/cirrhotic-bleeds/": {
+            "channel": "REBEL EM",
+            "processed_at_utc": "2026-09-15T08:58:56+00:00",
+            "title": "Revisiting a Core Practice: Antibiotic Prophylaxis in Cirrhotic Bleeds",
+            "url": "https://rebelem.com/cirrhotic-bleeds/"
           },
           "https://resources.wfsahq.org/atotw/vascular-access-management-handling-adult-patients-with-a-difficult-intravenous-access-part-2/": {
             "channel": "WFSA Anaesthesia Tutorial of the Week",
@@ -6213,6 +6231,30 @@
             "processed_at_utc": "2026-09-10T08:24:09+00:00",
             "title": "abnormal uterine bleeding in the non-pregnant individual draft",
             "url": "https://www.tamingthesru.com/blog/diagnostics/abnormal-uterine-bleeding"
+          },
+          "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-august-2026/": {
+            "channel": "The Bottom Line",
+            "processed_at_utc": "2026-09-15T08:58:56+00:00",
+            "title": "Critical Care Evidence Updates – August 2026",
+            "url": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-august-2026/"
+          },
+          "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-july-2026/": {
+            "channel": "The Bottom Line",
+            "processed_at_utc": "2026-09-15T08:58:56+00:00",
+            "title": "Critical Care Evidence Updates – July 2026",
+            "url": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-july-2026/"
+          },
+          "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-august-2026/": {
+            "channel": "The Bottom Line",
+            "processed_at_utc": "2026-09-15T08:58:56+00:00",
+            "title": "Emergency Evidence Updates – August 2026",
+            "url": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-august-2026/"
+          },
+          "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-july-2026/": {
+            "channel": "The Bottom Line",
+            "processed_at_utc": "2026-09-15T08:58:56+00:00",
+            "title": "Emergency Evidence Updates – July 2026",
+            "url": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-july-2026/"
           }
         }
       },
@@ -7672,8 +7714,8 @@
           },
           "42549801": {
             "channel": "PubMed: Anesthesiology",
-            "processed_at_utc": "2026-09-14T09:15:40+00:00",
-            "screened_at_utc": "2026-09-14T09:15:40+00:00",
+            "processed_at_utc": "2026-09-15T08:58:56+00:00",
+            "screened_at_utc": "2026-09-15T08:58:56+00:00",
             "title": "Hypoxia Inducible Factor 1α-dependent Induction of Alveolar miR-147b Dampens SARS-CoV-2-associated Acute Respiratory Distress Syndrome via Direct Targeting of Viral RNA.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42549801/"
           },
@@ -10068,11 +10110,18 @@
             "screened_at_utc": "2026-09-14T09:15:40+00:00",
             "title": "Implementation of Relative Value Unit-Based Physician Compensation in Emergency Physicians: Operational Evidence From a National Group.",
             "url": "https://pubmed.ncbi.nlm.nih.gov/42730744/"
+          },
+          "42734953": {
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "processed_at_utc": "2026-09-15T08:58:56+00:00",
+            "screened_at_utc": "2026-09-15T08:58:56+00:00",
+            "title": "Adoption of Adjunctive Azithromycin for Unscheduled Cesarean Delivery and Postpartum Infections.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42734953/"
           }
         }
       }
     }
   },
-  "updated_at_utc": "2026-09-15T08:57:07+00:00",
+  "updated_at_utc": "2026-09-15T08:58:56+00:00",
   "version": 1
 }
