@@ -4099,6 +4099,868 @@
             "url": "https://www.youtube.com/watch?v=uP6PCZTPQ2U"
           }
         ]
+      },
+      {
+        "executive_summary": [
+          "Attacks on Saudi oil infrastructure, Russian refinery disruptions, and Houthi actions in the Red Sea have triggered severe fuel shortages and export suspensions, especially impacting Europe. Diesel prices have reached record highs, and global energy investment shortfalls are raising the risk of widespread shortages and inflation.",
+          "Germany and Sweden experienced significant political upheaval: in Saxony-Anhalt, the AfD surged to record levels, prompting coalition talks, CDU defections, and leadership crises. In Sweden, allegations of voter mobilization, citizenship law changes, and party infighting have intensified debates over democracy and national identity.",
+          "Military confrontations and rhetoric escalated: the US and Iran exchanged strikes, the US extended deployments and raised enlistment ages, Russia upgraded its nuclear systems, and NATO–Russia tensions rose in the Baltics. The risk of broader conflict and nuclear posturing increased, with new civil defense measures and weapons deployments reported.",
+          "Warnings from AI researchers and industry leaders about existential risks have grown, with calls for slowed development and international coordination. Despite these, the US administration continues to favor industry self-regulation over legal controls, even as high-profile resignations and security incidents highlight ongoing vulnerabilities."
+        ],
+        "generated_at": "2026-10-01T10:22:32+00:00",
+        "month": "2026-09",
+        "month_in_brief": "September 2026 saw a convergence of global crises: attacks on Saudi oil infrastructure, Russian refinery outages, and Houthi actions in the Red Sea triggered severe fuel shortages and record-high diesel prices, especially threatening Europe. Political instability surged in Germany and Sweden, with the AfD's rise, CDU defections, and allegations of state-funded voter mobilization fueling debates over democracy and national identity. Military tensions escalated between the US, Iran, and Russia, with reciprocal strikes, nuclear posturing, and new civil defense measures. Meanwhile, AI safety concerns intensified amid high-profile resignations and security incidents, but the US government maintained a self-regulatory approach despite calls for stronger oversight.",
+        "notable_developments": [
+          {
+            "attribution_source": "Blocktrainer",
+            "heading": "Major Cryptocurrency Exchange Hack at Bitget",
+            "source_refs": [
+              "BLBL 25/09"
+            ],
+            "synthesis": "Bitget suffered a hack resulting in the theft of approximately $352 million from hot wallets, primarily in Ethereum, USDT, XRP, and other stablecoins. The exchange's Bitcoin reserves were not directly affected, but up to 4,100 Bitcoin may be sold to cover losses. The breach exploited backend access and manipulated signature systems."
+          },
+          {
+            "heading": "US Power Grid Vulnerabilities and Emergency Declaration",
+            "source_refs": [
+              "CP 07/09",
+              "PR 09/09"
+            ],
+            "synthesis": "Multiple sources reported that the US power grid remains vulnerable to EMP, cyber, and physical attacks, with hundreds of foreign-made transformers allegedly containing remote-access backdoors. Experts noted that Russia and China have invested in grid hardening, while the US has lagged in implementing protective technologies."
+          },
+          {
+            "attribution_source": "CBNnewsonline",
+            "heading": "Nor'easter Storm Causes Fatalities and Power Outages on US East Coast",
+            "source_refs": [
+              "CBN 29/09"
+            ],
+            "synthesis": "A nor'easter struck the US East Coast, resulting in at least one death, widespread power outages, and coastal flooding from Maine to North Carolina."
+          },
+          {
+            "attribution_source": "RedactedNews",
+            "heading": "Impeachment Proceedings Against US Secretary of Defense",
+            "source_refs": [
+              "RN 16/09"
+            ],
+            "synthesis": "Representative Thomas Massie introduced articles of impeachment against Secretary of Defense Pete Hegseth, alleging constitutional violations, civilian targeting errors, and unauthorized hostilities in Yemen."
+          }
+        ],
+        "schema": "cyberlurch-monthly-semantic-v2",
+        "source_refs_used": [
+          "CP 15/09",
+          "RN 18/09",
+          "AJ 23/09",
+          "BSS 18/09",
+          "VE 07/09",
+          "VE 08/09",
+          "VE 09/09",
+          "2745 30/09-B",
+          "CP 28/09",
+          "CP 05/09",
+          "CP 09/09",
+          "CP 10/09",
+          "BSS 14/09",
+          "SSV 11/09",
+          "TA 30/09-B",
+          "CBN 29/09",
+          "VE 10/09",
+          "RN 16/09",
+          "VE 01/09",
+          "VE 17/09",
+          "BLBL 25/09",
+          "CP 07/09",
+          "PR 09/09"
+        ],
+        "source_registry": [
+          {
+            "ref_id": "VE 01/09",
+            "source": "Vermietertagebuch",
+            "source_date": "2026-09-01",
+            "source_identifier": "o6sEcRIf_qg",
+            "title": "Polen: 2 Waffenfabriken explodieren, die Drohnen an Selensky liefern. Russisches Flugzeug filmt!",
+            "url": "https://www.youtube.com/watch?v=o6sEcRIf_qg"
+          },
+          {
+            "ref_id": "CP 05/09",
+            "source": "CanadianPrepper",
+            "source_date": "2026-09-05",
+            "source_identifier": "5A97FKRE5UE",
+            "title": "⚡ALERT! WTF!? 7 DOOMSDAY Planes Were Airborne! Trump Threatens PICKAXE Mountain! UK STOCKPILING FOOD",
+            "url": "https://www.youtube.com/watch?v=5A97FKRE5UE"
+          },
+          {
+            "ref_id": "CP 07/09",
+            "source": "CanadianPrepper",
+            "source_date": "2026-09-07",
+            "source_identifier": "KHcLL0MlqeM",
+            "title": "⚡ALERT! TRUMP Declares NATIONWIDE POWER GRID EMERGENCY!",
+            "url": "https://www.youtube.com/watch?v=KHcLL0MlqeM"
+          },
+          {
+            "ref_id": "VE 07/09",
+            "source": "Vermietertagebuch",
+            "source_date": "2026-09-07",
+            "source_identifier": "enVlCVN2E7Q",
+            "title": "3-5 CDU-Überläufer zur AfD bekannt – Siegmund wird Ministerpräsident!",
+            "url": "https://www.youtube.com/watch?v=enVlCVN2E7Q"
+          },
+          {
+            "ref_id": "VE 08/09",
+            "source": "Vermietertagebuch",
+            "source_date": "2026-09-08",
+            "source_identifier": "-E8U61guC24",
+            "title": "Siegmund deutet ganze Fraktion von Überläufern an (inkl. Video)",
+            "url": "https://www.youtube.com/watch?v=-E8U61guC24"
+          },
+          {
+            "ref_id": "CP 09/09",
+            "source": "CanadianPrepper",
+            "source_date": "2026-09-09",
+            "source_identifier": "tCZPKKssIVo",
+            "title": "⚡ALERT! ITS OVER. Trump Doesn't Care Anymore. Things Are About to Fall Apart.",
+            "url": "https://www.youtube.com/watch?v=tCZPKKssIVo"
+          },
+          {
+            "ref_id": "PR 09/09",
+            "source": "preppernewsflash",
+            "source_date": "2026-09-09",
+            "source_identifier": "xrX75VBgUTY",
+            "title": "⚡China and Russias Grids Are EMP/ Nuclear Proof, USA Declares Emergency!",
+            "url": "https://www.youtube.com/watch?v=xrX75VBgUTY"
+          },
+          {
+            "ref_id": "VE 09/09",
+            "source": "Vermietertagebuch",
+            "source_date": "2026-09-09",
+            "source_identifier": "ruV-I_Vnu7w",
+            "title": "Erster CDU-Abgeordneter unterstützt ÖFFENTLICH Ulrich Siegmund!",
+            "url": "https://www.youtube.com/watch?v=ruV-I_Vnu7w"
+          },
+          {
+            "ref_id": "CP 10/09",
+            "source": "CanadianPrepper",
+            "source_date": "2026-09-10",
+            "source_identifier": "QN2HCcGtRJk",
+            "title": "⚡ALERT! US Runs DRILLS on NUCLEAR Site, 10 TANKERS HIT! Yemen COLLAPSE! AI Doom INSANITY!!!",
+            "url": "https://www.youtube.com/watch?v=QN2HCcGtRJk"
+          },
+          {
+            "ref_id": "VE 10/09",
+            "source": "Vermietertagebuch",
+            "source_date": "2026-09-10",
+            "source_identifier": "Pxq61gA4a3M",
+            "title": "Regierungsgespräche beginnen + Trump gratuliert AfD + 180-Grad-Wende bei Haselhoff!",
+            "url": "https://www.youtube.com/watch?v=Pxq61gA4a3M"
+          },
+          {
+            "ref_id": "SSV 11/09",
+            "source": "SlingandStoneVideos",
+            "source_date": "2026-09-11",
+            "source_identifier": "hsuzV5oywos",
+            "title": "Something Strange Is Happening Right Now With Anthropic AI",
+            "url": "https://www.youtube.com/watch?v=hsuzV5oywos"
+          },
+          {
+            "ref_id": "BSS 14/09",
+            "source": "BlackScoutSurvival",
+            "source_date": "2026-09-14",
+            "source_identifier": "DOHArT3K7Vs",
+            "title": "WE MAY NOT SURVIVE THIS…",
+            "url": "https://www.youtube.com/watch?v=DOHArT3K7Vs"
+          },
+          {
+            "ref_id": "CP 15/09",
+            "source": "CanadianPrepper",
+            "source_date": "2026-09-15",
+            "source_identifier": "gKDtaH9iDF8",
+            "title": "⚡ALERT! SAUDI Oil COMPLETELY OFFLINE! US Admits WEAPONS IN SPACE! COSTCO Rationing, NUKES IN FINLAND",
+            "url": "https://www.youtube.com/watch?v=gKDtaH9iDF8"
+          },
+          {
+            "ref_id": "RN 16/09",
+            "source": "RedactedNews",
+            "source_date": "2026-09-16",
+            "source_identifier": "gdJ471YkXWQ",
+            "title": "Secretary of War Facing Impeachment",
+            "url": "https://www.youtube.com/watch?v=gdJ471YkXWQ"
+          },
+          {
+            "ref_id": "VE 17/09",
+            "source": "Vermietertagebuch",
+            "source_date": "2026-09-17",
+            "source_identifier": "P0s-nckID28",
+            "title": "Merz-Rauswurf am Sonntag: HIER der ultimative Beweis + AfD demütigt CDU in Sachsen-Anhalt.",
+            "url": "https://www.youtube.com/watch?v=P0s-nckID28"
+          },
+          {
+            "ref_id": "BSS 18/09",
+            "source": "BlackScoutSurvival",
+            "source_date": "2026-09-18",
+            "source_identifier": "ufgYxuh4INg",
+            "title": "SOMETHING VERY BAD MAY HAPPEN OCTOBER 1ST…",
+            "url": "https://www.youtube.com/watch?v=ufgYxuh4INg"
+          },
+          {
+            "ref_id": "RN 18/09",
+            "source": "RedactedNews",
+            "source_date": "2026-09-18",
+            "source_identifier": "NAPTxYNGqBc",
+            "title": "The Great Fuel Crisis Is Here, And Europe Is Facing DISASTER",
+            "url": "https://www.youtube.com/watch?v=NAPTxYNGqBc"
+          },
+          {
+            "ref_id": "AJ 23/09",
+            "source": "AndreiJikh",
+            "source_date": "2026-09-23",
+            "source_identifier": "OiUiDCPDDoA",
+            "title": "The Global Energy Crisis Is About To Start",
+            "url": "https://www.youtube.com/watch?v=OiUiDCPDDoA"
+          },
+          {
+            "ref_id": "BLBL 25/09",
+            "source": "Blocktrainer",
+            "source_date": "2026-09-25",
+            "source_identifier": "ujrN3CT_jZY",
+            "title": "MEGA HACK bei BITGET! 🚨 Droht jetzt BITCOIN-ABVERKAUF?",
+            "url": "https://www.youtube.com/watch?v=ujrN3CT_jZY"
+          },
+          {
+            "ref_id": "CP 28/09",
+            "source": "CanadianPrepper",
+            "source_date": "2026-09-28",
+            "source_identifier": "3bFAx5r7_Jc",
+            "title": "⚡ALERT! Russia Building MASSIVE NUCLEAR COMPLEX. Iran Warns of \"DOOMSDAY WAR\", Baltic War Drills",
+            "url": "https://www.youtube.com/watch?v=3bFAx5r7_Jc"
+          },
+          {
+            "ref_id": "CBN 29/09",
+            "source": "CBNnewsonline",
+            "source_date": "2026-09-29",
+            "source_identifier": "0p4BLYvzdbg",
+            "title": "Holdout Clancy Juror Strikes Back, Bill Gates AI Warning, Hebrews 13",
+            "url": "https://www.youtube.com/watch?v=0p4BLYvzdbg"
+          },
+          {
+            "ref_id": "2745 30/09-B",
+            "source": "frihetsnytt2745",
+            "source_date": "2026-09-30",
+            "source_identifier": "aNzbuKuy-nw",
+            "title": "Staten betalade partier miljontals kronor som fick invandrare att rösta",
+            "url": "https://www.youtube.com/watch?v=aNzbuKuy-nw"
+          },
+          {
+            "ref_id": "TA 30/09-B",
+            "source": "tagesschau",
+            "source_date": "2026-09-30",
+            "source_identifier": "EHUBrj0FJJE",
+            "title": "Warum der US-Präsident bei KI nicht auf gesetzliche Regulierung setzt",
+            "url": "https://www.youtube.com/watch?v=EHUBrj0FJJE"
+          }
+        ],
+        "themes": [
+          {
+            "heading": "Global Energy and Fuel Crisis: Supply Disruptions, Price Surges, and European Vulnerability",
+            "scope": "cross_source",
+            "source_refs": [
+              "CP 15/09",
+              "RN 18/09",
+              "AJ 23/09",
+              "BSS 18/09",
+              "CP 05/09"
+            ],
+            "synthesis": "A convergence of attacks on Saudi oil infrastructure, Russian refinery outages, and Houthi actions in the Red Sea has led to suspended exports, refinery bottlenecks, and record-high diesel prices. European gas storage is at historic lows, raising the risk of a severe winter crisis. Global underinvestment in fossil fuel infrastructure is compounding the problem, with warnings of persistent shortages and inflation into 2027. Major retailers have begun rationing, and governments are expanding emergency preparedness teams."
+          },
+          {
+            "heading": "Political Upheaval and Realignment in Germany and Sweden: AfD Surge, CDU Defections, and Voter Mobilization Controversies",
+            "scope": "cross_source",
+            "source_refs": [
+              "VE 07/09",
+              "VE 08/09",
+              "VE 09/09",
+              "VE 10/09",
+              "2745 30/09-B"
+            ],
+            "synthesis": "The AfD achieved a record 43.8% in Saxony-Anhalt, prompting CDU defections and coalition negotiations. Reports indicate at least one CDU lawmaker publicly supporting the AfD, with further defections suggested. In Sweden, allegations surfaced of state-funded voter mobilization targeting immigrant communities, new citizenship laws were upheld, and party infighting intensified. These developments have fueled debates over democratic legitimacy, national identity, and the future of established parties."
+          },
+          {
+            "heading": "Escalating Military Tensions: US–Iran Confrontation, Russian Nuclear Posturing, and NATO–Russia Friction",
+            "scope": "cross_source",
+            "source_refs": [
+              "CP 28/09",
+              "CP 05/09",
+              "CP 09/09",
+              "RN 16/09",
+              "VE 01/09"
+            ],
+            "synthesis": "US–Iran hostilities intensified with reciprocal strikes, extended US deployments, and increased military readiness. Russia reportedly upgraded its Perimeter nuclear system and conducted major construction at secret sites. NATO–Russia tensions rose, with Lithuania planning a national evacuation drill and Germany ramping up drone production for Ukraine. The US acknowledged weapons in space, and multiple sources reported highly unusual nuclear command aircraft activity, signaling heightened alert and strategic instability."
+          },
+          {
+            "heading": "AI Safety, Security Incidents, and Regulatory Divergence",
+            "scope": "cross_source",
+            "source_refs": [
+              "BSS 14/09",
+              "SSV 11/09",
+              "TA 30/09-B",
+              "CBN 29/09"
+            ],
+            "synthesis": "AI researchers and industry leaders have issued urgent warnings about existential risks from rapid AI progress, citing recent resignations, agent breakouts, and misuse attempts. Anthropic reported blocked attempts to use its models for biological weapons. Despite these concerns, the US government continues to rely on voluntary industry self-regulation, with President Trump declining to pursue statutory controls. High-profile figures, including Bill Gates, have called for stronger guardrails."
+          },
+          {
+            "attribution_source": "Vermietertagebuch",
+            "heading": "Source-Specific: Vermietertagebuch—German Political Crisis and AfD Ascendancy",
+            "scope": "source_specific",
+            "source": "Vermietertagebuch",
+            "source_refs": [
+              "VE 07/09",
+              "VE 08/09",
+              "VE 09/09",
+              "VE 10/09",
+              "VE 17/09"
+            ],
+            "synthesis": "Vermietertagebuch consistently reported on the AfD's electoral surge in Saxony-Anhalt, CDU defections, and coalition negotiations. The channel highlighted the AfD's claim to a stable majority, the public support of CDU lawmakers, and the SPD's internal leadership crisis. It also covered alleged constitutional loopholes and the SPD Frankfurt's push for party leadership change, reflecting a sustained focus on political realignment and instability."
+          }
+        ],
+        "top_items": [
+          {
+            "bottom_line": "",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-09-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "description",
+            "title": "Warum der US-Präsident bei KI nicht auf gesetzliche Regulierung setzt",
+            "top_pick": true,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "Der Beitrag berichtet, dass US-Präsident Trump weiterhin auf gesetzliche Regulierung von Künstlicher Intelligenz verzichtet und stattdessen freiwillige Selbstkontrolle der KI-Unternehmen fordert.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=EHUBrj0FJJE"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CBNnewsonline",
+            "content_status": "full_text",
+            "date": "2026-09-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "description",
+            "title": "Hundreds Baptized, MAID Victim UPDATE, Psalm 119:142",
+            "top_pick": true,
+            "topic_primary": "Israel, Nahost & Sicherheitslage",
+            "topics": [
+              "Israel, Nahost & Sicherheitslage"
+            ],
+            "transcript_full_summary_short": "The podcast covers nearly 900 baptisms at a Texas megachurch, a Canadian woman's questions about her grandmother's MAID death, Anthropic's warnings about AI existential risk, and Psalm 119:142 as the episode's verse.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=6qpBpUKNzRg"
+          },
+          {
+            "bottom_line": "",
+            "channel": "Riks",
+            "content_status": "full_text",
+            "date": "2026-09-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Jimmie Åkessons känga mot Magdalena Andersson",
+            "top_pick": true,
+            "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+            "topics": [
+              "Gesellschaft, Medienkritik & Debatte"
+            ],
+            "transcript_full_summary_short": "Journalisten beskriver en presskonferens där Jimmie Åkesson uppmanade talmannen att snabbt pröva Magdalena Andersson som statsminister och där Sverigedemokraterna varnade för stora bensin- och dieselprisökningar om skattesänkningar upphör.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=Keq4Xh0In48"
+          },
+          {
+            "bottom_line": "",
+            "channel": "frihetsnytt2745",
+            "content_status": "full_text",
+            "date": "2026-09-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Staten betalade partier miljontals kronor som fick invandrare att rösta",
+            "top_pick": false,
+            "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+            "topics": [
+              "Gesellschaft, Medienkritik & Debatte"
+            ],
+            "transcript_full_summary_short": "Programmet hävdar att skattefinansierade bidrag om 16,5 miljoner kronor användes för att mobilisera invandrare att rösta för främst Socialdemokraterna och Vänsterpartiet i valet.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=aNzbuKuy-nw"
+          },
+          {
+            "bottom_line": "",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-09-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Lage in der Ukraine: „Das wird ein Kriegswinter“ – Frederik Pleitgen im Gespräch | maischberger",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "Das Gespräch behandelt Deutschlands Rolle im Ukrainekrieg, die diplomatischen Kontakte zu Russland, die zunehmenden Angriffe und Probleme vor dem kommenden Kriegswinter sowie mögliche NATO‑ und US‑Reaktionen.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=x_PrPMwJQpg"
+          },
+          {
+            "bottom_line": "",
+            "channel": "sdwebbtv",
+            "content_status": "full_text",
+            "date": "2026-09-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Jimmie Åkesson och Oscar Sjöstedt håller pressträff",
+            "top_pick": false,
+            "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+            "topics": [
+              "Gesellschaft, Medienkritik & Debatte"
+            ],
+            "transcript_full_summary_short": "Jimmie Åkesson och Oscar Sjöstedt meddelade att Sverigedemokraterna kommer att föreslå att riksdagen förlänger tillfälliga bränsleskattenedsättningar och lägger ett utskottsinitiativ för att snabbt behandla frågan.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=mv3bb84DpTE"
+          },
+          {
+            "bottom_line": "",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-09-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Antisemitismus-Streit um die Linke: Jan van Aken und Peter Neumann diskutieren | maischberger",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "Die Diskussion in maischberger behandelt Vorwürfe von Antisemitismus und Nähe zu Extremismus innerhalb der Linken sowie mögliche Konsequenzen für Koalitionsgespräche und Regierungsfähigkeit in Berlin.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=5O2S-AUaW5Y"
+          },
+          {
+            "bottom_line": "",
+            "channel": "tagesschau",
+            "content_status": "full_text",
+            "date": "2026-09-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "description",
+            "title": "Lego-Prinzip: Wie viel Tempo schafft die neue Bauweise?",
+            "top_pick": false,
+            "topic_primary": "Mainstream DE/SE News",
+            "topics": [
+              "Mainstream DE/SE News"
+            ],
+            "transcript_full_summary_short": "The transcript reports that Germany is facing worsening bridge deterioration and that North Rhine-Westphalia is trying to speed up necessary repairs using modern prefabricated construction methods, citing traffic detours in Bonn caused by a closed Nordbrücke.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=QckRQHeIhVo"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-30",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! Russian Embassies Issue EXTREMELY RARE NUCLEAR WARNING, Kaliningrad Invasion Plans, Iran WW3",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript warns of escalating Russia-NATO tensions centering on the Kaliningrad exclave with rare Russian embassy nuclear threats and discusses related risks from Iran, NATO nuclear guarantees, and possible preemptive actions.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=Orzx2ZQgeKg"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-29",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! PUTIN ISSUES MOBILIZATION DECREE! IRAN FM Leaves NYC EARLY! Massive US Military Airlift",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker reports on Russian military mobilization, economic strain, Middle East and AI-related risks, and personal prepping advice while arguing that Russia may be covertly mobilizing far more troops than officially declared.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=5um4jal--28"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-29",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "The Perfect SHTF Property? Only 36 Hours to Make an Offer!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The presenter tours a 90-acre Saskatchewan riverside property with an old vandalized house, varied topography, beaver-modified waterways, abundant wildlife, utilities nearby, and a presentation-of-offers deadline within about 24–48 hours.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=bjqFF3utiU0"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-28",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! Russia Building MASSIVE NUCLEAR COMPLEX. Iran Warns of \"DOOMSDAY WAR\", Baltic War Drills",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker discusses alleged upgrades to Russia's Perimeter dead hand nuclear system, NATO-Russia tensions in the Baltics, Western involvement in Ukraine, Iran's threats of a 'doomsday war', and various civil-defense and energy concerns.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=3bFAx5r7_Jc"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-27",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "He Survived 78 Days in the Wilderness, This is His WARNING to the World",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "Juan Pablo Konz argues that modern civilization is entering a gradual but accelerating decline that requires intuitive, collective preparedness and simpler, resilient practices rather than blind faith in technology.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=Y-MCpXcafBs"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-26",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! Trump Knows Whats Coming. NO Deals. NO DIESEL. WW3 or BUST!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker claims that Donald Trump and his allies are indifferent to public opinion and are foregoing easy diplomatic wins to pursue kleptocratic and possibly autocratic plans that could lead to prolonged war and societal collapse.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=Dcdsn1v8IW0"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-25",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! Its ALL FAKE. US and China are 100% GOING to WAR.",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker argues that the Trump–Xi meeting was performative and deceptive and that escalating strategic competition across chips, trade, energy, finance, and military encirclement makes a US–China war increasingly likely.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=3jS83P0DEBY"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-23",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "description",
+            "title": "⚡ALERT! WW3 MILITARY DRAFT INCOMING. Trumps Brain is TOAST!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript consists entirely of promotional product links and discount codes for survival food, emergency medications, and a radiation detector without substantive commentary or claims about world events.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=vmRp0CUPYNc"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-21",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "description",
+            "title": "When WW3 Begins These Will be Targets, No NUKES Needed",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The video claims that conventional strikes against key infrastructure and systems can trigger national collapse without nuclear weapons.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=fwjQTFE2xEo"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-21",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "description",
+            "title": "⚡ALERT! WW3 Trigger EVENT in Coming Weeks, Widespread Global Military Preparations Underway",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript warns that an imminent major event could draw NATO into war and includes multiple commercial links for survival supplies and radiation detectors.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=6HHCT7-K21U"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "metadata_only",
+            "date": "2026-09-20",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "metadata_only",
+            "title": "⚡A Warning From a Biochemist About the Food Supply Collapse",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=Rgzwdl0Fp_A"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-19",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "description",
+            "title": "⚡ALERT! 500% TARIFFS! Trump DECLARES WAR! Arctic NUCLEAR Prep Underway, Big Event in Next 8 weeks.",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The transcript mostly contains promotional links for survival food, emergency medical supplies, and a radiation detector, with no substantive news content or claims about tariffs, Arctic preparations, or events.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=u9rT_FSan3I"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-18",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "You Better Get Your S#!T Together.",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker warns that extensive prepping cannot eliminate long-term shortages, constant security anxiety, and degrading living conditions after a major supply-chain collapse.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=-zgL8hSUM6c"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-17",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "Before Mass Starvation Begins... 2027",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The video explains the physiological and psychological effects of prolonged food shortages and urges viewers to learn food cultivation, storage, and preservation to prepare for potential systemic disruptions.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=St8z0bKFVOI"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-16",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "The Real Reason Everyones Talking About AI",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker argues that the primary driver behind the global AI and data center buildout is wealthy actors seeking longevity or immortality and that this race creates existential, economic, military, and social risks.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=cJLPsRfF57I"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-15",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! SAUDI Oil COMPLETELY OFFLINE! US Admits WEAPONS IN SPACE! COSTCO Rationing, NUKES IN FINLAND",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The presenter warns of converging global crises including Saudi oil infrastructure attacks, deployed weapons in space, rising fuel shortages and AI-driven military escalation while discussing geopolitical responses and preparedness measures.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=gKDtaH9iDF8"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-14",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡Major Shortages are Coming: STOCK UP RIGHT NOW.",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker warns of converging global crises driving food insecurity and reviews 25-year shelf-life freeze-dried food from Freeze Dry Wholesale, demonstrating rehydration, taste, and shelf-stability while rating several products and comparing brands.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=axNmfAiP6Xs"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-12",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "I Was About to Quit and then Something AMAZING Happened!.",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker describes reviving a struggling centropic food forest over several months by pruning, pest control, wind protection, and planning for root establishment to achieve higher future production.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=kKlWmSLIHQM"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-12",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! TOTAL DESTRUCTION in SAUDI ARABIA, its Really REALLY BAD. The REAL WAR Starts SOON.",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker reports a major destruction of a Saudi Arabian East–West pipeline pumping station, links the attack to Iran-linked militias or the Axis of Resistance, and warns that the damage could cause months of oil export disruption and escalate wider regional conflict.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=DUse51jaowA"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-11",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡Russia to INVADE NORTH and BALTICS, New WEAPON Being PREPPED for IRAN w/ David Pyne",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "David Pyne and the host discuss escalating conflicts involving Iran, NATO-Russia tensions, depleted US munitions, and cyber and infrastructure vulnerabilities amid strategic negotiations and possible limited Russian incursions into the Baltic states.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=kwfQn-B25SU"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-11",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! Pipeline DESTROYED! DIESEL PRICE BREAKS GAS STATIONS! Russia Oil Refinery IN FLAMES!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The speaker warns of escalating global conflict, infrastructure attacks, and economic stress, citing pipeline destruction, Houthi advances, rising fuel prices, and geopolitical tensions involving Iran, Russia, and Ukraine.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=4iK0s8cJ_rE"
+          },
+          {
+            "bottom_line": "",
+            "channel": "CanadianPrepper",
+            "content_status": "full_text",
+            "date": "2026-09-10",
+            "editorial_relevance": "",
+            "source": "youtube",
+            "text_source": "managed_transcript",
+            "title": "⚡ALERT! US Runs DRILLS on NUCLEAR Site, 10 TANKERS HIT! Yemen COLLAPSE! AI Doom INSANITY!!!",
+            "top_pick": false,
+            "topic_primary": "Preparedness, Sicherheit & Survival",
+            "topics": [
+              "Preparedness, Sicherheit & Survival"
+            ],
+            "transcript_full_summary_short": "The video summarizes escalating Middle East conflicts, alleged U.S. underground-weapons testing for strikes on Iranian facilities, recent Houthi advances toward the Bab-el-Mandeb Strait, and aggressive rhetoric from Donald Trump while touching on AI risks and related geopolitical developments.",
+            "transcript_processing": "",
+            "url": "https://www.youtube.com/watch?v=QN2HCcGtRJk"
+          }
+        ]
       }
     ],
     "cybermed": [
@@ -6623,6 +7485,6 @@
       }
     ]
   },
-  "updated_at_utc": "2026-09-04T08:13:55+00:00",
+  "updated_at_utc": "2026-10-01T10:22:32+00:00",
   "version": 1
 }
