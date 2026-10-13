@@ -46,12 +46,15 @@ concurrency:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   run-cybermed:
     runs-on: ubuntu-24.04
     timeout-minutes: 50
     env:
+      DELIVERY_RECIPIENT_HMAC_KEY: ${{ secrets.DELIVERY_RECIPIENT_HMAC_KEY }}
+      DELIVERY_RECOVERY_ACK_RUN_IDS: ${{ vars.DELIVERY_RECOVERY_ACK_RUN_IDS || '' }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1' }}
       OPENAI_MODEL_PUBMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE || 'gpt-4.1' }}
@@ -200,6 +203,12 @@ jobs:
           rm -rf out
           mkdir -p out
 
+      - name: Recover prior cybermed receipts before any sender
+        if: steps.plan.outputs.skip != 'true' && (github.event_name == 'schedule' || env.EMAIL_MODE == 'real')
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m src.newsagent2.workflow_delivery recover --report-key cybermed --workflow cybermed.yml
+
       - name: Run Cybermed reports
         if: steps.plan.outputs.skip != 'true'
         env:
@@ -260,48 +269,15 @@ jobs:
             python -u -m src.newsagent2.main --channels data/cybermed_channels.json --hours 24
           done
 
-      - name: Verify Cybermed reports and email attempts
-        if: steps.plan.outputs.skip != 'true'
+      - name: Verify each planned cybermed delivery result
+        if: always() && steps.plan.outputs.skip != 'true'
         env:
           RUN_MODES: ${{ steps.plan.outputs.modes }}
-          RUN_LOG_PATH: out/cybermed-run.log
         run: |
           set -euo pipefail
-          shopt -s nullglob
-          reports=(out/*.md)
-          if [ ${#reports[@]} -eq 0 ]; then
-            echo "ERROR: No Cybermed Markdown report was generated."
-            exit 1
-          fi
-          if [ ! -f "$RUN_LOG_PATH" ]; then
-            echo "ERROR: Cybermed run log is missing."
-            exit 1
-          fi
+          python -m src.newsagent2.workflow_delivery verify --report-key cybermed --modes $RUN_MODES
 
-          if echo " $RUN_MODES " | grep -Eq " (weekly|monthly) "; then
-            if grep -Eq "\[digest-store\] (weekly|monthly) loaded 0 digest item\(s\) for report\." "$RUN_LOG_PATH"; then
-              echo "ERROR: A Cybermed aggregate loaded no source items."
-              exit 1
-            fi
-            if grep -Eq "\[cybermed-empty-guard\]" "$RUN_LOG_PATH"; then
-              echo "ERROR: Cybermed aggregate empty guard was triggered."
-              exit 1
-            fi
-          fi
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${EMAIL_MODE:-none}" = "none" ]; then
-            if grep -q "\[email\] Sending email" "$RUN_LOG_PATH"; then
-              echo "ERROR: email_mode=none attempted an email."
-              exit 1
-            fi
-            exit 0
-          fi
-          if [ "${SEND_EMAIL:-1}" = "1" ] && ! grep -Eq "\[email\] Sending email \(report_key=cybermed.*recipients_count=([1-9][0-9]*)" "$RUN_LOG_PATH"; then
-            echo "ERROR: No Cybermed email attempt with recipients was logged."
-            exit 1
-          fi
-
-      - name: Upload Cybermed audit artifacts
+      - name: Upload cybermed report and recovery artifacts
         if: always() && steps.plan.outputs.skip != 'true'
         uses: actions/upload-artifact@v7
         with:
@@ -311,29 +287,23 @@ jobs:
             out/*diagnostics*.json
             out/*metadata*.json
             out/*metadata*.md
-            out/cybermed-run.log
-          if-no-files-found: error
-          retention-days: 7
+            out/*delivery_result.json
+          if-no-files-found: warn
+          retention-days: 14
 
-      - name: Commit Cybermed state files if changed
-        if: steps.plan.outputs.skip != 'true' && (contains(steps.plan.outputs.modes, 'daily') || contains(steps.plan.outputs.modes, 'weekly') || contains(steps.plan.outputs.modes, 'monthly'))
+      - name: Commit and publish validated cybermed state
+        if: success() && steps.plan.outputs.skip != 'true' && (github.event_name == 'schedule' || env.EMAIL_MODE == 'real')
         run: |
           set -euo pipefail
-          files=()
-          for path in state/processed_items.json state/rollups.json state/cybermed_daily_digests.json state/cybermed_weekly_digests.json; do
-            if [ -f "$path" ]; then
-              files+=("$path")
-            fi
-          done
-          if [ ${#files[@]} -eq 0 ] || [ -z "$(git status --porcelain -- "${files[@]}" || true)" ]; then
-            echo "No Cybermed state changes to commit."
-            exit 0
-          fi
           git config user.name "newsagent-bot"
           git config user.email "newsagent-bot@users.noreply.github.com"
-          git add -- "${files[@]}"
-          git commit -m "Update Cybermed state files [skip ci]"
-          git push origin "HEAD:${GITHUB_REF_NAME}" || {
-            git pull --rebase origin "$GITHUB_REF_NAME"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          }
+          python -m src.newsagent2.workflow_delivery publish --paths state/processed_items.json state/rollups.json state/delivery_journal.json state/cybermed_daily_digests.json state/cybermed_weekly_digests.json
+
+      - name: Upload cybermed delivery recovery
+        if: always() && steps.plan.outputs.skip != 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: cybermed-delivery-recovery-${{ github.run_id }}
+          path: out/recovery/
+          if-no-files-found: warn
+          retention-days: 30

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from .store_io import read_store, atomic_store, generated_store, digest_store, StoreError
 import copy
 import os
 import re
@@ -23,24 +24,11 @@ class CybermedDigestStoreError(RuntimeError):
 
 
 def load_cybermed_daily_digest_store(path: str) -> dict:
-    default = {"schema_version": 1, "digests": []}
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        if not isinstance(data, dict):
-            return default
-        digests = data.get("digests")
-        if not isinstance(digests, list):
-            return default
-        valid = []
-        for digest in digests:
-            if not isinstance(digest, dict) or not str(digest.get("digest_id") or "").strip():
-                continue
-            safe_digest, _ = sanitize_cybermed_payload(digest)
-            valid.append(safe_digest)
-        return {"schema_version": int(data.get("schema_version") or 1), "digests": valid}
-    except Exception:
-        return default
+    data = read_store(path, {"schema_version": 1, "digests": []}, kind="cybermed_daily", validate=digest_store)
+    data.setdefault("schema_version", 1)
+    # Keep legacy metadata and all records; sanitation is a non-writing view.
+    safe, _ = sanitize_cybermed_payload(data)
+    return safe
 
 
 def latest_cybermed_daily_digest_generated_at(store: dict) -> str:
@@ -133,18 +121,10 @@ def load_cybermed_weekly_digest_store(path: str) -> dict:
 
     default = {"schema_version": CYBERMED_WEEKLY_SCHEMA_VERSION, "digests": []}
     store_path = Path(path)
-    if not store_path.exists():
-        return default
     try:
-        data = json.loads(store_path.read_text(encoding="utf-8"))
-    except Exception as exc:
-        raise CybermedDigestStoreError(
-            f"Cybermed Weekly store is unreadable: {store_path}"
-        ) from exc
-    if not isinstance(data, dict) or not isinstance(data.get("digests"), list):
-        raise CybermedDigestStoreError(
-            f"Cybermed Weekly store has an invalid schema: {store_path}"
-        )
+        data = read_store(store_path, default, kind="cybermed_weekly", validate=digest_store)
+    except StoreError as exc:
+        raise CybermedDigestStoreError(str(exc)) from None
 
     valid: list[dict] = []
     for digest in data["digests"]:
@@ -161,34 +141,27 @@ def load_cybermed_weekly_digest_store(path: str) -> dict:
             )
         safe_digest, _ = sanitize_cybermed_payload(digest)
         valid.append(safe_digest)
-    return {
-        "schema_version": int(data.get("schema_version") or CYBERMED_WEEKLY_SCHEMA_VERSION),
-        "digests": valid,
-    }
+    result = dict(data)
+    result.setdefault("schema_version", CYBERMED_WEEKLY_SCHEMA_VERSION)
+    result["digests"] = valid
+    return result
 
 
 def save_cybermed_weekly_digest_store(path: str, store: dict) -> None:
-    """Atomically save and verify the dedicated Cybermed Weekly store."""
-
     target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    payload = {
-        "schema_version": CYBERMED_WEEKLY_SCHEMA_VERSION,
-        "digests": list(store.get("digests") or []),
-    }
+    if target.exists():
+        load_cybermed_weekly_digest_store(path)  # Never overwrite damaged history.
+    payload = copy.deepcopy(store)
+    payload.setdefault("schema_version", CYBERMED_WEEKLY_SCHEMA_VERSION)
     payload, _ = sanitize_cybermed_payload(payload)
     assert_no_generation_error_text(payload, boundary="weekly_digest_store")
-    tmp = target.with_name(f"{target.name}.tmp")
-    tmp.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
-    os.replace(tmp, target)
-    verified = load_cybermed_weekly_digest_store(str(target))
-    if len(verified["digests"]) != len(payload["digests"]):
-        raise CybermedDigestStoreError(
-            f"Cybermed Weekly store verification failed: {target}"
-        )
+    if not digest_store(payload):
+        raise CybermedDigestStoreError("cybermed_weekly:invalid_output")
+    for row in payload["digests"]:
+        if not row.get("digest_id") or not _valid_date(str(row.get("period_start") or "")) or not _valid_date(str(row.get("period_end") or "")):
+            raise CybermedDigestStoreError("cybermed_weekly:invalid_output")
+    generated_store(path, payload, kind="cybermed_weekly", validate=digest_store)
+
 
 
 def select_cybermed_weekly_digests_for_month(store: dict, month_key: str) -> list[dict]:

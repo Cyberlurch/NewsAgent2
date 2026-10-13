@@ -9,6 +9,7 @@ SRC = pathlib.Path(__file__).resolve().parents[1] / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 from newsagent2 import main
+from conftest import accepted_sender_stub
 
 
 def _run_weekly(monkeypatch, tmp_path, *, report_key="cybermed", report_mode="weekly", event_name="workflow_dispatch", fixture_mode="1", fixture_payload=None, fixture_path=None):
@@ -267,7 +268,7 @@ def _run_digest_store_report(monkeypatch, tmp_path, *, report_mode="weekly", dig
     monkeypatch.setattr(sys, "argv", ["newsagent2-main"])
     calls = []
     if send_func is None:
-        send_func = lambda subject, md: calls.append((subject, md))
+        send_func = lambda subject, md, **kwargs: (calls.append((subject, md)), accepted_sender_stub(subject, md, **kwargs))[1]
     monkeypatch.setattr(main, "send_markdown", send_func)
     monkeypatch.setattr(main, "_save_youtube_channel_id_cache", lambda *a, **k: None)
     main.main()

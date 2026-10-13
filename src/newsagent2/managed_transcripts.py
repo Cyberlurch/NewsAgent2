@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import os
 import json
+from .store_io import read_store, atomic_store
+from .run_context import path_for
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from statistics import median
@@ -17,20 +19,18 @@ ATTEMPTS_PATH = Path("state/youtube_transcript_attempts.json")
 def _utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
+def _attempts_valid(value):
+    return isinstance(value, dict) and isinstance(value.get("attempts"), dict)
+
+
 def _load_attempts() -> dict[str, Any]:
-    if not ATTEMPTS_PATH.exists():
-        return {"attempts": {}}
-    try:
-        data = json.loads(ATTEMPTS_PATH.read_text(encoding="utf-8"))
-        if isinstance(data, dict) and isinstance(data.get("attempts"), dict):
-            return data
-    except Exception:
-        pass
-    return {"attempts": {}}
+    return read_store(path_for("YOUTUBE_TRANSCRIPT_ATTEMPTS_PATH", ATTEMPTS_PATH), {"attempts": {}},
+                      kind="youtube_transcript_attempts", validate=_attempts_valid)
+
 
 def _save_attempts(data: dict[str, Any]) -> None:
-    ATTEMPTS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    ATTEMPTS_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+    atomic_store(path_for("YOUTUBE_TRANSCRIPT_ATTEMPTS_PATH", ATTEMPTS_PATH), data,
+                 kind="youtube_transcript_attempts", validate=_attempts_valid)
 
 def _status_retry_after(status: str) -> str:
     now = _utc_now()

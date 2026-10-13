@@ -40,8 +40,9 @@ def _with_nonempty_selection(monkeypatch):
     monkeypatch.setattr(selector_medical, "select_cybermed_foamed_items", lambda items, max_items=25: [{"id": "f1", "title": "F", "url": "fu", "top_pick": True}])
 
 
-def test_cybermed_daily_digest_store_created_and_deterministic_id(tmp_path, monkeypatch):
+def test_production_generation_without_mail_has_deterministic_digest_id(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
+    monkeypatch.setenv("EMAIL_MODE", "real")
 
     main.main()
 
@@ -182,28 +183,22 @@ def test_cybermed_daily_digest_store_replace_empty_not_allowed_for_schedule(tmp_
 
 def test_cybermed_daily_digest_store_write_failure_sets_verification_failed(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
+    monkeypatch.setenv("EMAIL_MODE", "real")
     dpath = tmp_path / "state" / "cybermed_daily_digests.json"
     dpath.parent.mkdir(parents=True, exist_ok=True)
     dpath.write_text(json.dumps({"schema_version": 1, "digests": []}), encoding="utf-8")
 
-    import builtins
-    real_open = builtins.open
-
-    writes = {"count": 0}
-    def _failing_open(path, *args, **kwargs):
-        if str(path) == str(dpath) and "w" in (args[0] if args else kwargs.get("mode", "r")):
-            writes["count"] += 1
-            if writes["count"] >= 1:
-                raise OSError("forced failure")
-        return real_open(path, *args, **kwargs)
-
-    monkeypatch.setattr(builtins, "open", _failing_open)
-    main.main()
-
-    diag = json.loads((tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
-    assert diag["cybermed_digest_store_written"] is False
-    assert diag["cybermed_digest_store_skipped_reason"] == "write_verification_failed"
-    assert diag["cybermed_digest_store_write_error_class"] != ""
+    from newsagent2.store_io import StoreError
+    raw = dpath.read_bytes()
+    def failed(path, *args, **kwargs):
+        if str(path) == str(dpath):
+            raise StoreError("cybermed_daily", "persistence_failed")
+    monkeypatch.setattr(main, "generated_store", failed)
+    with pytest.raises(RuntimeError, match="persistence_or_verification_failed"):
+        main.main()
+    assert dpath.read_bytes() == raw
+    result = json.loads((tmp_path / "out/cybermed_daily_delivery_result.json").read_text())
+    assert result["status"] == "failed"
 
 
 def test_cybermed_backfill_activates_only_in_safe_manual_none_mode(tmp_path, monkeypatch):
@@ -290,6 +285,7 @@ def test_cybermed_backfill_ignored_when_send_email_or_schedule(tmp_path, monkeyp
 
 def test_cybermed_daily_digest_store_persists_generated_deep_dive_markdown(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
+    monkeypatch.setenv("EMAIL_MODE", "real")
     _with_nonempty_selection(monkeypatch)
     detail_md = (
         "- **Study type:** Randomized trial\n"
@@ -322,6 +318,7 @@ def test_cybermed_generation_failures_degrade_without_render_or_persistence(
     tmp_path, monkeypatch, capsys
 ):
     _base_env(monkeypatch, tmp_path)
+    monkeypatch.setenv("EMAIL_MODE", "real")
     _with_nonempty_selection(monkeypatch)
     monkeypatch.setenv("REPORT_TITLE", "Cybermed Daily")
     monkeypatch.setenv("REPORT_LANGUAGE", "en")
@@ -368,7 +365,7 @@ def test_corrupt_cybermed_daily_store_fails_without_overwrite(tmp_path):
     original = b"{not-json\n"
     digest_path.write_bytes(original)
 
-    with pytest.raises(RuntimeError, match="cybermed_daily_digest_store_unreadable"):
+    with pytest.raises(RuntimeError, match="corrupted_existing_store"):
         main._load_cybermed_daily_digest_state(str(digest_path))
 
     assert digest_path.read_bytes() == original

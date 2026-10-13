@@ -160,5 +160,7 @@ def test_main_final_boundary_cannot_copy_an_unvalidated_overview(monkeypatch, tm
     report = next((tmp_path / "out").glob("cybermed_daily_*.md")).read_text()
     assert "intervention reduced delirium" not in report
     assert "225/641" in report and "201/614" in report and "P=.37" in report
-    stored = json.loads((tmp_path / "daily.json").read_text())["digests"][0]
+    assert not (tmp_path / "daily.json").exists()
+    local = next((tmp_path / "out").rglob("cybermed_daily_digests.json"))
+    stored = json.loads(local.read_text())["digests"][0]
     assert stored["items"]["pubmed"][0]["bottom_line"] == stored["deep_dives"][0]["bottom_line"]

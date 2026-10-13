@@ -7,6 +7,7 @@ from pathlib import Path
 import pytest
 
 from newsagent2 import main
+from conftest import accepted_sender_stub
 from test_cyberlurch_mode_artifacts_and_digest_primary import _channels, _common, _digest_state
 
 
@@ -34,6 +35,7 @@ def _setup(tmp_path: Path, monkeypatch, *, email_mode: str = "real") -> Path:
 def test_production_persists_and_verifies_before_email(event, tmp_path, monkeypatch):
     path = _setup(tmp_path, monkeypatch)
     monkeypatch.setenv("GITHUB_EVENT_NAME", event)
+    monkeypatch.setenv("SEND_EMAIL", "1")
     if event == "schedule":
         # Keep this fixture's current-month digest while exercising schedule semantics.
         from datetime import datetime
@@ -43,7 +45,7 @@ def test_production_persists_and_verifies_before_email(event, tmp_path, monkeypa
     real_load = main.load_rollups_state
     monkeypatch.setattr(main, "save_rollups_state", lambda *a, **k: (events.append("save"), real_save(*a, **k))[1])
     monkeypatch.setattr(main, "load_rollups_state", lambda *a, **k: (events.append("load"), real_load(*a, **k))[1])
-    monkeypatch.setattr(main, "send_markdown", lambda *a, **k: events.append("email"))
+    monkeypatch.setattr(main, "send_markdown", lambda *a, **k: (events.append("email"), accepted_sender_stub(*a, **k))[1])
 
     main.main()
 
@@ -75,10 +77,11 @@ def test_production_empty_store_fails_closed(event, email_mode, tmp_path, monkey
 @pytest.mark.parametrize("email_mode,emails", [("none", 0), ("test", 1)])
 def test_manual_audit_modes_do_not_mutate_rollups(email_mode, emails, tmp_path, monkeypatch):
     path = _setup(tmp_path, monkeypatch, email_mode=email_mode)
+    monkeypatch.setenv("SEND_EMAIL", "1" if email_mode == "test" else "0")
     original = b'{"version":1,"updated_at_utc":"fixed","reports":{}}\n'
     path.write_bytes(original)
     sent = []
-    monkeypatch.setattr(main, "send_markdown", lambda *a, **k: sent.append(a))
+    monkeypatch.setattr(main, "send_markdown", lambda *a, **k: (sent.append(a), accepted_sender_stub(*a, **k))[1])
 
     main.main()
 
@@ -219,4 +222,4 @@ def test_newsagent_workflow_has_strict_manual_monthly_gate_and_state_only_commit
     assert 'manual_monthly_state_write=true' in workflow
     assert 'CYBERLURCH_MONTHLY_MANUAL_STATE_WRITE: ${{ steps.compute_plan.outputs.manual_monthly_state_write' in workflow
     assert "git status --porcelain -- state ':!state/rollups.json'" in workflow
-    assert "FILES=(state/rollups.json)" in workflow
+    assert "publish --backfill-apply --paths state/rollups.json" in workflow

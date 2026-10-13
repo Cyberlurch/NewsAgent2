@@ -16,11 +16,15 @@ def test_loader_missing_file(tmp_path):
     assert data['digests'] == []
 
 
-def test_loader_skips_malformed_entries(tmp_path):
+def test_loader_rejects_malformed_entries_without_rewriting(tmp_path):
     p = tmp_path / 'd.json'
     p.write_text('{"schema_version":1,"digests":[{"digest_id":"ok","run_date":"2026-05-20"},"bad",{}]}', encoding='utf-8')
-    data = load_cybermed_daily_digest_store(str(p))
-    assert len(data['digests']) == 1
+    import pytest
+    from newsagent2.store_io import StoreError
+    raw = p.read_bytes()
+    with pytest.raises(StoreError, match="invalid_existing_store"):
+        load_cybermed_daily_digest_store(str(p))
+    assert p.read_bytes() == raw
 
 
 def test_latest_daily_generation_marker_is_report_specific_and_valid():

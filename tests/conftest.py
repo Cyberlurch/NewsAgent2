@@ -4,6 +4,20 @@ import os
 import socket
 
 
+def accepted_sender_stub(subject, body, *, coordinator=None, finalization=None):
+    """A structured SMTP mock, without connections or production credentials."""
+    from newsagent2.delivery import Coordinator
+    from newsagent2.emailer import _extract_run_metadata_for_email
+    coordinator = coordinator or Coordinator(os.getenv("REPORT_KEY") or "cyberlurch", os.getenv("REPORT_MODE") or "yearly")
+    clean, _, _ = _extract_run_metadata_for_email(body)
+    result = coordinator.generated(clean, finalization)
+    result.status = "accepted_by_smtp"
+    result.accepted = ["a" * 64]
+    result.recipient_key_id = "b" * 64
+    coordinator._persist(result)
+    return result
+
+
 @pytest.fixture(autouse=True)
 def offline_connections(monkeypatch):
     """Opt-in offline suite guard; provider mocks still exercise their budgets."""

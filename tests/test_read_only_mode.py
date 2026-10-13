@@ -69,8 +69,11 @@ class TestReadOnlyMode(unittest.TestCase):
     def test_cybermed_daily_uses_its_own_success_marker(self):
         state = {"last_successful_daily_run_utc": "2026-08-10T05:08:00+00:00"}
 
+        from newsagent2.delivery import DeliveryResult
+        receipt = DeliveryResult("cybermed", "daily", "2026-08-10", "2026-08-10", "cybermed:daily:2026-08-10:2026-08-10:production", "a" * 64, "<test@newsagent2.invalid>", status="accepted_by_smtp", accepted=["b" * 64])
         with mock.patch("newsagent2.main.save_state") as save_mock:
             main._update_state_after_run(
+                delivery_result=receipt,
                 state_path="state/processed_items.json",
                 state=state,
                 items_all_new=[],
