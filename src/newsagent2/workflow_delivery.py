@@ -141,8 +141,18 @@ def restore_generated_records(directory: Path, report_key: str) -> None:
     bindings = {"cybermed_daily": "CYBERMED_DAILY_DIGEST_STATE_PATH", "cybermed_weekly": "CYBERMED_WEEKLY_DIGEST_STATE_PATH",
                 "cyberlurch_digests": "CYBERLURCH_DIGEST_STATE_PATH", "rollups": "ROLLUPS_STATE_PATH"}
     from .cybermed_quality import assert_no_generation_error_text
+    # Check every staged manifest before restoring any of its records.
+    approved_staged = set()
+    from .pre_smtp_recovery import staged_delta_approved
     for artifact in sorted(directory.glob("*_generated_delta.json")):
         delta = read_store(artifact, {}, kind="generated_delta")
+        if delta.get("requires_ready_checkpoint") and delta.get("report_key") == report_key:
+            if staged_delta_approved(directory, delta, artifact.name):
+                approved_staged.add(artifact.name)
+    for artifact in sorted(directory.glob("*_generated_delta.json")):
+        delta = read_store(artifact, {}, kind="generated_delta")
+        if delta.get("requires_ready_checkpoint") and artifact.name not in approved_staged:
+            continue
         if not delta.get("production_target") or delta.get("report_key") != report_key:
             continue
         kind = delta.get("kind")
@@ -308,7 +318,7 @@ def retry_saved_rejected(edition: str, subject: str, *, failed: bool = False) ->
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["verify", "recover", "publish", "finalize-receipt", "confirm-pending-not-accepted", "retry-saved-rejected", "retry-saved-failed"])
+    parser.add_argument("action", choices=["verify", "recover", "publish", "finalize-receipt", "confirm-pending-not-accepted", "retry-saved-rejected", "retry-saved-failed", "replay-pre-smtp"])
     parser.add_argument("--report-key", choices=["cybermed", "cyberlurch"])
     parser.add_argument("--modes", nargs="+", default=[])
     parser.add_argument("--workflow")
@@ -317,9 +327,14 @@ def main():
     parser.add_argument("--backfill-apply", action="store_true")
     parser.add_argument("--confirm-smtp-reviewed", action="store_true")
     parser.add_argument("--subject")
+    parser.add_argument("--apply", action="store_true")
+    parser.add_argument("--confirm-replay", action="store_true")
     args = parser.parse_args()
     report_dir = Path(os.getenv("REPORT_DIR") or "out")
-    if args.action == "verify":
+    if args.action == "replay-pre-smtp":
+        from .pre_smtp_recovery import replay
+        print(json.dumps(replay(args.edition_id, apply=args.apply, confirm=args.confirm_replay), sort_keys=True))
+    elif args.action == "verify":
         verify_reports(report_dir, args.report_key, args.modes, mode=email_mode(),
                        send_required=email_mode() != "none" and send_enabled())
     elif args.action == "recover":

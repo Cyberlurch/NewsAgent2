@@ -153,6 +153,76 @@ invents acceptance. Previously accepted IDs remain accepted. If logs cannot
 establish the outcome, leave it unknown; do not use the command. Manual recovery
 and real probes are operator actions after review, not automatic setup steps.
 
+## Explicit replay after a generated-store failure before SMTP
+
+`generation_validated` alone is **not** permission to send. Production generation
+now stages Digest/Rollup candidates; its existing read-back checks validate the
+staged view. Only after the complete main path returns via its approved queue,
+including the existing medical/aggregate/coverage guards and an explicit marker
+policy, is a readiness checkpoint saved. It binds the exact Markdown, original
+subject, edition/period/Message-ID, audience HMACs/key ID, minimal marker Intents
+and a complete hash manifest of required generated-record deltas. The checkpoint
+is sealed with the existing `DELIVERY_RECIPIENT_HMAC_KEY`; no new secret is needed.
+The Markdown and checkpoint are saved durably before candidate production writes.
+Early staging artifacts cannot be restored as approved production records without
+that checkpoint. Generation diagnostics from inside main describe staged read-back
+validation; they do not establish SMTP or Git persistence.
+
+A candidate write failure at that boundary records
+`generated_persistence_failed_before_smtp` with positive `not_handed_off` phase
+evidence. The ordinary Daily path still blocks regeneration/resending and prints
+the corresponding preview command. A blocked normal run preserves that original
+failure category rather than severing the recovery path.
+
+After repairing the storage cause, use the intended checkout/state paths and
+original recipient configuration/key. Restore the failed run's recovery artifact
+files under `out/recovery/` (or `$REPORT_DIR/recovery/`). Keep all listed deltas,
+hashed Markdown and `journal.json` together. A missing branch receipt is read from
+the artifact for preview; Apply imports only the explicitly selected edition.
+An existing branch receipt takes precedence, so an older artifact cannot override
+known acceptance, partial acceptance or uncertainty. Review this **read-only**
+preview; it performs no SMTP, providers, store restoration or journal import:
+
+```bash
+EMAIL_MODE=real PYTHONPATH=src python -m newsagent2.workflow_delivery replay-pre-smtp \
+  --edition-id 'cybermed:daily:2026-10-12:2026-10-12:production'
+```
+
+Only after inspecting the preview and the original run, explicitly apply exactly
+that edition (replace the example ID with the actual failed edition):
+
+```bash
+EMAIL_MODE=real PYTHONPATH=src python -m newsagent2.workflow_delivery replay-pre-smtp \
+  --edition-id 'cybermed:daily:2026-10-12:2026-10-12:production' \
+  --apply --confirm-replay
+```
+
+The same command works for Cyberlurch using its own edition ID and recipient
+configuration. There is no subject override. All stores, content/subject/audience
+bindings and **every** required delta are checked before mutation or SMTP. Deltas
+are restored with their preimage hashes or recognized as already identical;
+newer conflicting data stop the operation. Main and this CLI share the same local
+writer lock. Preview does not create a missing lock; Apply serializes restoration,
+SMTP and marker finalization without nesting that lock.
+
+Before SMTP, the durable phase still becomes `handoff_started`/`outcome_unknown`.
+Only full known acceptance finalizes the original marker Intents. A timeout or
+partial acceptance blocks further blind Apply. Failed attempts retain safe phase/
+category history. Repeating Apply after acceptance sends nothing; an unpersisted
+receipt triggers only generated-record/marker repair, while a complete receipt
+is acknowledged without another SMTP call. Publish the reviewed state by an
+ordinary commit/push afterward; SMTP and Git still have no shared transaction.
+
+Apply is prohibited in none/test mode. Legacy receipts without the complete new
+readiness data, missing marker policy/Intents, pre-approval failures, incomplete
+deltas, changed body/subject/audience/key and uncertain earlier attempts require
+operator review. Empty accepted/unknown arrays are never used as proof of
+non-submission. `retry-saved-failed` retains its existing known SMTP-failure scope;
+its allowlist has not been broadened. Do not edit/delete journal rows or use
+`DELIVERY_RECOVERY_ACK_RUN_IDS` to bypass this guard. Known complete legacy SMTP
+receipts retain the existing marker-repair command; unverified legacy generation
+does not become a replay authorization.
+
 ## Git failure and rollback
 
 The publisher validates selected files, performs one ordinary commit/push and
@@ -167,6 +237,11 @@ unfinished editions first. Do not restore an old entire state tree over newer
 writes or assume old Sent markers prove delivery. Merge only reviewed record
 changes/marker Intents using their hashes and provenance. Existing authorized
 maintenance Apply tools remain available for targeted repairs.
+
+Older receipt readers reject the new optional readiness/phase fields. A code
+rollback can therefore stop production until a compatible reader is reviewed.
+Keep complete journals and recovery artifacts; do not strip fields or reset
+history merely to make an older version send again.
 
 ## Validation
 
@@ -187,7 +262,15 @@ provenance and Maintenance tests remain active. The preexisting five
 No real SMTP, provider, dispatch, global backfill or production state correction
 was performed during this change.
 
-Final isolated run: **584 passed, 5 known failures, 6 subtests passed**. The 57
+PR #225 baseline: **584 passed, 5 known failures, 6 subtests passed**. The 57
 new boundary cases passed. Plain `actionlint` passed both production workflows.
 All six existing production state files retained their original SHA-256 hashes;
 the tests additionally cover missing files and every centrally registered path.
+
+Pre-SMTP replay follow-up: **634 passed, the same 5 known RSS failures, 6 subtests
+passed**. All 50 new replay cases passed, including the actual Cybermed Daily and
+Cyberlurch Monthly generation paths with provider mocks, fresh-checkout artifacts,
+multi-delta completeness, legacy receipts and main/CLI lock serialization. The
+targeted Delivery/Recovery and touched Weekly/Monthly tests passed (148 cases).
+Production state SHA-256 hashes stayed identical. No workflow, model/budget or
+maintenance configuration was changed and no production recovery was performed.

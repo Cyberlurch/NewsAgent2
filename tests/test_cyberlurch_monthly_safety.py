@@ -12,6 +12,8 @@ from test_cyberlurch_mode_artifacts_and_digest_primary import _channels, _common
 
 
 def _setup(tmp_path: Path, monkeypatch, *, email_mode: str = "real") -> Path:
+    monkeypatch.setenv("DELIVERY_RECIPIENT_HMAC_KEY", "offline-recovery-key-at-least-thirty-two-bytes")
+    monkeypatch.setenv("RECIPIENTS_CONFIG_JSON", '["offline@example.test"]')
     channels = tmp_path / "channels.json"
     _channels(channels)
     _digest_state(tmp_path / "state" / "cyberlurch_digests.json")

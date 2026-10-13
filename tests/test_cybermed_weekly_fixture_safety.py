@@ -292,6 +292,8 @@ def test_cybermed_weekly_digest_only_empty_real_send_is_blocked(monkeypatch, tmp
 
 
 def test_cybermed_weekly_digest_only_with_items_real_send_succeeds(monkeypatch, tmp_path):
+    monkeypatch.setenv("DELIVERY_RECIPIENT_HMAC_KEY", "offline-recovery-key-at-least-thirty-two-bytes")
+    monkeypatch.setenv("RECIPIENTS_CONFIG_JSON", '["offline@example.test"]')
     today = main.datetime.now(tz=main.STO).date().strftime("%Y-%m-%d")
     digests = [{
         "digest_id": "today",
