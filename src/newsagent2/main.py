@@ -19,6 +19,7 @@ from .collectors_youtube import fetch_transcript, fetch_captions_text, list_rece
 from .collectors_youtube_rss import list_recent_videos_rss
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .collectors_youtube_api import fetch_video_snippets
+from .pubmed_facts import build_pubmed_facts, result_direction, candidate_issues
 from .emailer import send_markdown
 from .rollups import (
     derive_monthly_summary,
@@ -551,6 +552,9 @@ def _sanitize_cybermed_pubmed_item(item: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "item_id": str(item.get("id") or item.get("item_id") or "").strip(),
         "source_type": "pubmed",
+        "pubmed_facts": item.get("pubmed_facts"),
+        "facts_version": item.get("facts_version", ""),
+        "source_basis": item.get("source_basis", ""),
         "pmid": str(item.get("pmid") or "").strip(),
         "doi": str(item.get("doi") or "").strip(),
         "title": str(item.get("title") or "").strip(),
@@ -1232,66 +1236,40 @@ _HARM_CUES = ("increased harm", "worse", "higher adverse", "more adverse")
 
 
 def _build_pubmed_shared_synopsis(item: Dict[str, Any]) -> Dict[str, Any]:
-    abstract = str(item.get("abstract") or "").strip()
-    sections = _parse_structured_pubmed_abstract_sections(abstract)
-    design = str(sections.get("design") or "").strip()
-    setting = str(sections.get("setting") or "").strip()
-    subjects = str(sections.get("subjects") or "").strip()
-    interventions = str(sections.get("interventions") or "").strip()
-    measurements = str(sections.get("measurements") or "").strip()
-    results = str(sections.get("results") or "").strip()
-    conclusions = str(sections.get("conclusions") or "").strip()
-    objective = str(sections.get("objectives") or "").strip()
-    primary_source = measurements or objective or results
-    low_primary = primary_source.lower()
-    low_results = results.lower()
-    direction = "unclear"
-    significance = "not_reported"
-    if any(c in low_primary for c in _NEGATIVE_CUES):
-        direction = "negative_or_null"
-        significance = "not_significant"
-    elif "p<" in low_primary or "significant" in low_primary:
-        direction = "positive" if any(c in low_primary for c in ("reduced", "improved", "lower")) else "mixed_or_unclear"
-        significance = "significant_or_reported"
-    elif "borderline" in low_primary or "trend" in low_primary:
-        direction = "mixed_or_unclear"
-        significance = "borderline"
-    if "composite" in low_results and ("mixed" in low_results or "individual" in low_results):
-        direction = "mixed_or_unclear"
-    if not design and str(item.get("publication_types") or ""):
-        design = ", ".join(str(x) for x in (item.get("publication_types") or [])[:2])
-    bottom_line = str(item.get("bottom_line") or "").strip()
-    if not bottom_line:
-        if direction == "negative_or_null":
-            bottom_line = "Primary endpoint was not significantly improved; any secondary signals should be interpreted cautiously."
-        elif direction == "mixed_or_unclear":
-            bottom_line = "Results were mixed; interpret potential benefits cautiously and prioritize the primary endpoint."
-        else:
-            bottom_line = "Findings suggest potential benefit, but interpretation should stay aligned with reported endpoints and study limits."
+    # Aggregate readers consume persisted assertions; absent provenance is not a
+    # licence to regenerate or to invent a new result from a title.
+    if item.get("digest_derived"):
+        return {key: item.get(key, "") for key in (
+            "study_type", "population_setting", "intervention_or_exposure", "comparator",
+            "primary_endpoint", "primary_result_direction", "primary_result_significance",
+            "key_results", "key_secondary_results", "limitations", "clinical_interpretation", "bottom_line",
+        )}
+    facts = build_pubmed_facts(item)
     return {
-        "study_type": design,
-        "population_setting": "; ".join([x for x in (setting, subjects) if x]),
-        "intervention_or_exposure": interventions,
-        "comparator": "",
-        "primary_endpoint": objective or measurements,
-        "primary_result_direction": direction,
-        "primary_result_significance": significance,
-        "key_secondary_results": results,
-        "limitations": "Not explicitly stated in abstract." if not conclusions else "",
-        "clinical_interpretation": conclusions or bottom_line,
-        "bottom_line": bottom_line,
+        "study_type": facts.design, "population_setting": facts.population,
+        "intervention_or_exposure": facts.intervention_comparator, "comparator": "",
+        "primary_endpoint": facts.primary_endpoint, "key_results": facts.primary_results,
+        "primary_result_direction": facts.direction,
+        "primary_result_significance": "not_significant" if facts.direction == "negative_or_null" else "not_reported",
+        "key_secondary_results": facts.secondary_results, "limitations": facts.limitations,
+        "clinical_interpretation": facts.core(), "bottom_line": facts.core(),
+        "pubmed_facts": facts.to_dict(), "facts_version": facts.version,
+        "source_basis": facts.source_basis,
     }
 
 
 def _detect_pubmed_bottom_line_conflicts(overview: str, deep: str) -> List[str]:
-    ov = (overview or "").lower()
-    dd = (deep or "").lower()
+    ov, dd = result_direction(overview), result_direction(deep)
     conflicts: List[str] = []
-    if any(c in ov for c in _NEGATIVE_CUES) and any(c in dd for c in ("reduced", "improved", "beneficial")):
+    if ov == "negative_or_null" and dd == "positive":
         conflicts.append("negative_overview_vs_positive_deep_dive")
-    if any(c in ov for c in _HARM_CUES) and any(c in dd for c in ("safe", "no harm")):
+    if ov == "positive" and dd == "negative_or_null":
+        conflicts.append("positive_overview_vs_negative_deep_dive")
+    if ov == "harm" and re.search(r"safe|no harm", deep, re.I):
         conflicts.append("harm_overview_vs_safe_deep_dive")
-    if ("primary endpoint" in ov and any(c in ov for c in _NEGATIVE_CUES)) and "practice-changing" in dd:
+    if dd == "harm" and re.search(r"safe|no harm", overview, re.I):
+        conflicts.append("safe_overview_vs_harm_deep_dive")
+    if "primary endpoint" in overview.lower() and ov == "negative_or_null" and "practice-changing" in deep.lower():
         conflicts.append("negative_primary_vs_unqualified_practice_changing")
     return conflicts
 
@@ -4863,6 +4841,9 @@ def main() -> None:
         synopsis = _build_pubmed_shared_synopsis(it)
         pubmed_shared_synopsis[iid] = synopsis
         it["pubmed_shared_synopsis"] = synopsis
+        if is_cybermed_run and not cybermed_digest_only_mode:
+            it.update(synopsis)
+            it["bottom_line"] = build_pubmed_facts(it).core(report_language)
 
     if foamed_overview_items:
         for it in foamed_overview_items:
@@ -5406,7 +5387,6 @@ def main() -> None:
             consistency_checked_total += 1
             ov_item = overview_map[iid]
             synopsis = pubmed_shared_synopsis.get(iid) or _build_pubmed_shared_synopsis(ov_item)
-            shared_bottom_line = str(synopsis.get("bottom_line") or "").strip()
             overview_bl = str(ov_item.get("bottom_line") or "").strip()
             deep_text = str(details_for_report.get(iid) or details_by_id.get(f"pubmed:{iid}") or "").strip()
             conflicts = _detect_pubmed_bottom_line_conflicts(overview_bl, deep_text)
@@ -5415,12 +5395,23 @@ def main() -> None:
             if conflicts:
                 consistency_conflict_total += 1
                 consistency_conflict_type_counts.update(conflicts)
-                ov_item["bottom_line"] = shared_bottom_line or overview_bl
-                if shared_bottom_line:
-                    details_for_report[iid] = f"**BOTTOM LINE:** {shared_bottom_line}\n\n{deep_text}"
-                consistency_resolved_total += 1
-                status = "resolved_conflict"
-                action = "replace_overview_bottom_line_with_shared_synopsis"
+                status = "detected_conflict"
+            if not cybermed_digest_only_mode:
+                # Validate against primary-source facts, never against either
+                # unvalidated model bottom line. Replace the WHOLE block.
+                facts = build_pubmed_facts(it)
+                issues = candidate_issues(facts, deep_text)
+                core = facts.core(report_language)
+                ov_item["bottom_line"] = it["bottom_line"] = core
+                it.update(_build_pubmed_shared_synopsis(it))
+                it["bottom_line"] = core
+                block = facts.deep_dive(report_language)
+                for mapping in (details_for_report, details_by_id):
+                    mapping[iid] = mapping[f"pubmed:{iid}"] = block
+                if conflicts or issues:
+                    consistency_resolved_total += 1
+                    status = "source_grounded_reduction"
+                    action = "replace_both_views_from_source_facts"
             consistency_preview.append({
                 "evidence_strength_label": str(ov_item.get("evidence_strength_label") or ""),
                 "evidence_strength_label_basis": str(ov_item.get("evidence_strength_label_basis") or ""),
@@ -5432,6 +5423,17 @@ def main() -> None:
                 "conflict_types": conflicts,
                 "resolution_action": action,
             })
+
+    if is_cybermed_run and not cybermed_digest_only_mode:
+        # Final reader-facing boundary, also covers mocked/degraded generation
+        # and evidence enrichment performed after overview generation.
+        pubmed_rows = [row for row in overview_items if (row.get("source") or "").lower() == "pubmed"]
+        if pubmed_rows:
+            heading = "## Executive Summary" if report_language.lower().startswith("en") else "## Kurzüberblick"
+            overview_body = cybermed_meta_block + heading + "\n\n" + "\n".join(
+                f"- {row.get('title') or 'PubMed paper'}: {row.get('bottom_line') or build_pubmed_facts(row).core(report_language)}"
+                for row in pubmed_rows
+            )
 
     deep_dive_diag["enriched_fulltext_count"] = len(
         [
