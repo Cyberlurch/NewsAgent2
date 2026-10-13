@@ -20,7 +20,10 @@ from .collectors_youtube_rss import list_recent_videos_rss
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .collectors_youtube_api import fetch_video_snippets
 from .pubmed_facts import build_pubmed_facts, result_direction, candidate_issues
-from .emailer import send_markdown
+from .emailer import send_markdown, _extract_run_metadata_for_email, current_audience_refs
+from .delivery import Coordinator, DeliveryResult, DeliveryError, load_journal
+from .run_context import execution_context, current, path_for, email_mode, send_enabled
+from .store_io import read_store, atomic_store, generated_store, digest_store, StoreError
 from .rollups import (
     derive_monthly_summary,
     load_rollups_state,
@@ -441,35 +444,24 @@ def _item_from_digest_record(d: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def _load_cyberlurch_digest_state(path: str) -> Dict[str, Any]:
-    default = {"version": 1, "updated_at_utc": "", "digests": []}
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        if isinstance(data, dict) and isinstance(data.get("digests"), list):
-            data, _ = sanitize_cyberlurch_digest_state(data)
-            return data
-    except Exception:
-        pass
-    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(default, f, ensure_ascii=False, indent=2, sort_keys=True)
-        f.write("\n")
-    return default
+    data = read_store(path, {"version": 1, "updated_at_utc": "", "digests": []}, kind="cyberlurch_digests", validate=digest_store)
+    if any(not str(row.get("video_id") or "").strip() for row in data["digests"]):
+        raise StoreError("cyberlurch_digests", "invalid_existing_store")
+    data, _ = sanitize_cyberlurch_digest_state(data)
+    return data
 
 
 def _save_cyberlurch_digest_state(path: str, state: Dict[str, Any], *, read_only_mode: bool) -> None:
     if read_only_mode:
         return
-    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     state, _ = sanitize_cyberlurch_digest_state(state)
     state["updated_at_utc"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(state, f, ensure_ascii=False, indent=2, sort_keys=True)
-        f.write("\n")
+    generated_store(path, state, kind="cyberlurch_digests", validate=digest_store)
 
 
 def _sanitize_cyberlurch_digest_record(item: Dict[str, Any]) -> Dict[str, Any]:
-    out: Dict[str, Any] = {}
+    out: Dict[str, Any] = {key: value for key, value in item.items()
+                          if not key.startswith("_") and key not in {"text", "abstract", "full_text_excerpt", "description"}}
     for k in CYBERLURCH_DIGEST_SAFE_FIELDS:
         v = item.get(k)
         if k == "published_at" and isinstance(v, datetime):
@@ -507,23 +499,10 @@ def _upsert_cyberlurch_digests(state: Dict[str, Any], items: List[Dict[str, Any]
 
 
 def _load_cybermed_daily_digest_state(path: str) -> Dict[str, Any]:
-    default = {"schema_version": 1, "digests": []}
-    if not os.path.exists(path):
-        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(default, f, ensure_ascii=False, separators=(",", ":"))
-            f.write("\n")
-        return default
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        if isinstance(data, dict) and isinstance(data.get("digests"), list):
-            data["schema_version"] = 1
-            cleaned, _ = sanitize_cybermed_payload(data)
-            return cleaned
-    except Exception as exc:
-        raise RuntimeError("cybermed_daily_digest_store_unreadable") from None
-    raise RuntimeError("cybermed_daily_digest_store_invalid_schema")
+    data = read_store(path, {"schema_version": 1, "digests": []}, kind="cybermed_daily", validate=digest_store)
+    data.setdefault("schema_version", 1)
+    cleaned, _ = sanitize_cybermed_payload(data)
+    return cleaned
 
 
 def _cybermed_daily_lookback_marker(
@@ -707,24 +686,19 @@ def _channel_cache_key(channel: dict[str, Any]) -> str:
     return str(channel.get("url") or "").strip()
 
 
+def _channel_cache_valid(value):
+    return isinstance(value, dict) and isinstance(value.get("channels"), dict)
+
+
 def _load_youtube_channel_id_cache(path: str = "state/youtube_channel_ids.json") -> dict[str, Any]:
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        if isinstance(data, dict) and isinstance(data.get("channels"), dict):
-            return data
-    except Exception:
-        pass
-    return {"channels": {}}
+    return read_store(path_for("YOUTUBE_CHANNEL_ID_CACHE_PATH", path), {"channels": {}},
+                      kind="youtube_channel_ids", validate=_channel_cache_valid)
 
 
 def _save_youtube_channel_id_cache(cache: dict[str, Any], *, read_only_mode: bool, path: str = "state/youtube_channel_ids.json") -> None:
-    if read_only_mode:
-        return
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(cache, f, ensure_ascii=False, indent=2, sort_keys=True)
-        f.write("\n")
+    if not read_only_mode:
+        atomic_store(path_for("YOUTUBE_CHANNEL_ID_CACHE_PATH", path), cache,
+                     kind="youtube_channel_ids", validate=_channel_cache_valid)
 
 
 def _write_channel_id_suggestions(suggestions: dict[str, str], report_dir: str) -> None:
@@ -2025,18 +1999,13 @@ def _run_yearly_report(
             handle.write(md)
         write_yearly_diagnostics("ok")
         print(f"[report] Wrote yearly report to {out_path}")
+        _record_generation(report_subject, md)
         print(
             "[cyberlurch-yearly] "
             f"provider_operations={yearly_diags['provider_operations']} collection_operations=0 "
             f"daily_digest_inputs=0 evidence_units={yearly_diags['annual_evidence_units']}"
         )
-        if email_mode == "none":
-            print("[email] Yearly email disabled (EMAIL_MODE=none).")
-            return
-        try:
-            send_markdown(report_subject, md)
-        except Exception as exc:
-            print(f"[email] WARN: failed to send yearly email (report was generated): {exc!r}")
+        _queue_report(report_subject, md)
         return
 
     cybermed_yearly_diags: Dict[str, Any] = {
@@ -2087,6 +2056,7 @@ def _run_yearly_report(
     cybermed_yearly_diags["cybermed_yearly_coverage_incomplete"] = not coverage_complete
     if not entries and event_name == "schedule" and is_cybermed_yearly:
         print(f"[email] Scheduled yearly run found no rollups for {target_year} -> skipping email.")
+        _queue_report(report_subject, "", skip_reason="empty_scheduled_yearly")
         if is_cybermed_yearly:
             _write_cybermed_diagnostics(
                 report_dir,
@@ -2138,13 +2108,7 @@ def _run_yearly_report(
         raise RuntimeError(
             f"{report_key}_yearly_incomplete_coverage: target_year={target_year} missing_months={missing_months}"
         )
-    if email_mode == "none":
-        print("[email] Yearly email disabled (EMAIL_MODE=none).")
-        return
-    try:
-        send_markdown(report_subject, md)
-    except Exception as e:
-        print(f"[email] WARN: failed to send yearly email (report was generated): {e!r}")
+    _queue_report(report_subject, md)
 
 
 def _update_state_after_run(
@@ -2159,10 +2123,29 @@ def _update_state_after_run(
     report_mode: str,
     now_utc_iso: str,
     read_only: bool,
+    delivery_result: DeliveryResult | None = None,
 ) -> None:
     if read_only:
         print("[state] Read-only mode -> skipping state write and processed markers.")
         return
+
+    ctx = current()
+    if delivery_result is None:
+        if ctx is None:
+            raise RuntimeError("delivery_outcome_required_before_markers")
+        def minimal(rows):
+            return [{key: row.get(key) for key in ("source", "id", "title", "channel", "url") if row.get(key) is not None} for row in rows]
+        intents = dict(items_all_new=minimal(items_all_new), overview_items=minimal(overview_items),
+                       detail_items=minimal(detail_items), foamed_overview_items=minimal(foamed_overview_items),
+                       report_key=report_key, report_mode=report_mode, now_utc_iso=now_utc_iso)
+        ctx.finalization = intents
+        ctx.pending.append(lambda result: _update_state_after_run(
+            state_path=state_path, state=state, read_only=False, delivery_result=result, **intents))
+        return
+    if delivery_result.status != "accepted_by_smtp":
+        return
+    if delivery_result.report_key != report_key or delivery_result.cadence != report_mode:
+        raise RuntimeError("delivery_marker_report_mismatch")
 
     overview_pubmed_ids = {
         str(it.get("id") or "").strip()
@@ -2210,27 +2193,30 @@ def _update_state_after_run(
                     mark_processed(state, report_key, src, iid, meta=meta)
             else:
                 mark_processed(state, report_key, src, iid, meta=meta)
-        except Exception as e:
-            print(f"[state] WARN: mark_processed failed for {src}:{iid!r}: {e!r}")
+        except Exception:
+            raise StoreError("processed_items", "marker_finalization_failed") from None
 
     if report_mode == "daily":
         if (report_key or "").strip().lower() == "cybermed":
             by_report = state.get("last_successful_daily_run_utc_by_report")
             if not isinstance(by_report, dict):
                 by_report = {}
-            by_report["cybermed"] = now_utc_iso
+            previous = _parse_iso_utc(str(by_report.get("cybermed") or ""))
+            incoming = _parse_iso_utc(now_utc_iso)
+            if previous is None or (incoming is not None and incoming >= previous):
+                by_report["cybermed"] = now_utc_iso
             state["last_successful_daily_run_utc_by_report"] = by_report
         else:
             # Preserve the established marker used by Cyberlurch.
-            state["last_successful_daily_run_utc"] = now_utc_iso
+            previous = _parse_iso_utc(str(state.get("last_successful_daily_run_utc") or ""))
+            incoming = _parse_iso_utc(now_utc_iso)
+            if previous is None or (incoming is not None and incoming >= previous):
+                state["last_successful_daily_run_utc"] = now_utc_iso
 
-    try:
-        save_state(state_path, state)
-    except Exception as e:
-        print(f"[state] WARN: failed to save state: {e!r}")
+    save_state(state_path, state)
 
 
-def main() -> None:
+def _main() -> None:
     load_dotenv()
     run_started = time.monotonic()
 
@@ -2242,7 +2228,7 @@ def main() -> None:
     report_mode_raw = (os.getenv("REPORT_MODE", "daily") or "daily").strip().lower()
     report_mode = report_mode_raw if report_mode_raw in {"daily", "weekly", "monthly", "yearly"} else "daily"
     lookback_override = _parse_hours_override(os.getenv("LOOKBACK_HOURS_OVERRIDE", ""))
-    read_only_mode = report_mode in {"weekly", "monthly", "yearly"}
+    read_only_mode = False  # execution_context routes none/test writes to private scratch
 
     report_key = (os.getenv("REPORT_KEY", "cyberlurch") or "cyberlurch").strip()
     is_cyberlurch_daily = report_key.lower() == "cyberlurch" and report_mode == "daily"
@@ -2506,41 +2492,8 @@ def main() -> None:
 
     try:
         channels, channel_topics, topic_weights = load_channels_config(args.channels)
-    except Exception as e:
-        if _is_cybermed(report_key, report_profile):
-            raise RuntimeError("cybermed_channels_config_unavailable") from None
-        if report_language.lower().startswith("en"):
-            overview = f"## Executive Summary\n\n**Error:** Failed to load channels configuration: `{e!r}`\n"
-        else:
-            overview = f"## Kurzüberblick\n\n**Fehler:** Konnte Channels-Konfiguration nicht laden: `{e!r}`\n"
-        out_path = _report_output_path(report_dir, report_key, report_mode)
-        md = to_markdown(
-            [],
-            overview,
-            {},
-            report_title=report_title,
-            report_language=report_language,
-            report_mode=report_mode,
-            run_metadata=run_metadata,
-        )
-        with open(out_path, "w", encoding="utf-8") as f:
-            f.write(md)
-        print(f"[report] Wrote {out_path}")
-
-        if send_empty_email == "1":
-            try:
-                send_markdown(report_subject, md)
-            except Exception as se:
-                print(f"[email] WARN: failed to send error report email: {se!r}")
-        else:
-            print("[email] SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
-
-        if not read_only_mode:
-            try:
-                save_state(state_path, state)
-            except Exception as ee:
-                print(f"[state] WARN: failed to save state after config error: {ee!r}")
-        return
+    except Exception:
+        raise RuntimeError("channels_configuration_unavailable") from None
 
     print(f"[channels] Loaded channels: {len(channels)}")
     if _env_bool("FORCE_REPROCESS", False) and (os.getenv("YOUTUBE_TRANSCRIPT_PROVIDER") or "none").strip().lower() != "none":
@@ -4496,6 +4449,7 @@ def main() -> None:
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(md)
         print(f"[report] Wrote {out_path}")
+        _record_generation(report_subject, md)
 
         now_utc_iso = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
         _update_state_after_run(
@@ -4526,13 +4480,7 @@ def main() -> None:
             if _cybermed_digest_only_requires_empty_send_guard() and guard_reason:
                 _raise_cybermed_digest_only_empty_guard(report_mode, guard_reason)
 
-        if send_empty_email == "1":
-            try:
-                send_markdown(report_subject, md)
-            except Exception as e:
-                print(f"[email] WARN: failed to send empty report email: {e!r}")
-        else:
-            print("[email] No new items and SEND_EMPTY_REPORT_EMAIL=0 -> not sending email.")
+        _queue_report(report_subject, md, skip_reason="empty_report_policy" if send_empty_email != "1" else "")
         if report_key.strip().lower() == "cyberlurch":
             _write_cyberlurch_youtube_diagnostics(report_dir, youtube_diag, report_mode=report_mode)
             _write_run_metadata_artifact(report_dir, report_key, report_mode, run_metadata)
@@ -4577,13 +4525,11 @@ def main() -> None:
                                 dstate,
                                 boundary="daily_digest_store_empty",
                             )
-                            with open(digest_path, "w", encoding="utf-8") as f:
-                                json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
-                                f.write("\n")
+                            generated_store(digest_path, dstate, kind="cybermed_daily", validate=digest_store)
                         except Exception as e:
                             skip_reason = "write_verification_failed"
                             write_error_class = e.__class__.__name__
-                            print(f"[cybermed-digest-store] WARN: write failed/verification error: {e!r}")
+                            raise StoreError("cybermed_daily", "persistence_or_verification_failed") from None
                 write_verified = False
                 file_exists_after_write = os.path.exists(digest_path)
                 digest_count_after_write = 0
@@ -4597,11 +4543,11 @@ def main() -> None:
                         write_verified = file_exists_after_write and expected_digest_present
                         if not write_verified:
                             skip_reason = "write_verification_failed"
-                            print("[cybermed-digest-store] WARN: write verification failed")
+                            raise StoreError("cybermed_daily", "write_verification_failed")
                     except Exception as e:
                         skip_reason = "write_verification_failed"
                         write_error_class = e.__class__.__name__
-                        print(f"[cybermed-digest-store] WARN: write failed/verification error: {e!r}")
+                        raise StoreError("cybermed_daily", "persistence_or_verification_failed") from None
                 elif skip_reason == "digest_already_exists":
                     verified_state = _load_cybermed_daily_digest_state(digest_path)
                     verified_digests = list(verified_state.get("digests") or [])
@@ -5742,6 +5688,7 @@ def main() -> None:
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
     print(f"[report] Wrote {out_path}")
+    _record_generation(report_subject, md)
     if report_key.strip().lower() == "cyberlurch":
         items_by_topic: dict[str, int] = {}
         deep_dives_by_topic: dict[str, int] = {}
@@ -6215,9 +6162,7 @@ def main() -> None:
                             dstate,
                             boundary="daily_digest_store",
                         )
-                        with open(cybermed_digest_state_path, "w", encoding="utf-8") as f:
-                            json.dump(dstate, f, ensure_ascii=False, separators=(",", ":"))
-                            f.write("\n")
+                        generated_store(cybermed_digest_state_path, dstate, kind="cybermed_daily", validate=digest_store)
                         cybermed_digest_diag["cybermed_digest_store_file_exists_after_write"] = os.path.exists(cybermed_digest_state_path)
                         verified_state = _load_cybermed_daily_digest_state(cybermed_digest_state_path)
                         verified_digests = list(verified_state.get("digests") or [])
@@ -6242,11 +6187,11 @@ def main() -> None:
                             cybermed_digest_diag["cybermed_digest_store_written"] = True
                         else:
                             cybermed_digest_diag["cybermed_digest_store_skipped_reason"] = "write_verification_failed"
-                            print("[cybermed-digest-store] WARN: write verification failed")
+                            raise StoreError("cybermed_daily", "write_verification_failed")
                     except Exception as e:
                         cybermed_digest_diag["cybermed_digest_store_write_error_class"] = e.__class__.__name__
                         cybermed_digest_diag["cybermed_digest_store_skipped_reason"] = "write_verification_failed"
-                        print(f"[cybermed-digest-store] WARN: write failed/verification error: {e!r}")
+                        raise StoreError("cybermed_daily", "persistence_or_verification_failed") from None
         if skip_reason:
             cybermed_digest_diag["cybermed_digest_store_skipped_reason"] = skip_reason
             if skip_reason == "digest_already_exists":
@@ -6409,17 +6354,134 @@ def main() -> None:
         email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
         event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
         if event_name == "workflow_dispatch" and email_mode == "none":
-            print("[email] Cyberlurch Monthly email disabled (manual EMAIL_MODE=none).")
+            _queue_report(report_subject, md, skip_reason="send_disabled")
             return
         if cyberlurch_monthly_production_delivery and not cyberlurch_monthly_rollup_write_verified:
             raise RuntimeError("Cyberlurch Monthly delivery blocked: rollup persistence was not verified")
 
-    try:
-        email_start = time.monotonic()
-        send_markdown(report_subject, md)
-        runtime_email_seconds += max(0.0, time.monotonic() - email_start)
-    except Exception as e:
-        print(f"[email] WARN: failed to send email (report was generated and state saved): {e!r}")
+    _queue_report(report_subject, md)
+
+
+def _record_generation(subject: str, body: str) -> None:
+    ctx = current()
+    if ctx is not None:
+        clean, _, _ = _extract_run_metadata_for_email(body)
+        ctx.request = (subject, body, "")
+        ctx.coordinator.generated(clean)
+
+
+def _queue_report(subject: str, body: str, *, skip_reason: str = "") -> None:
+    ctx = current()
+    if ctx is None:
+        # Direct helper/library use has the same status-returning sender.
+        if skip_reason or email_mode() == "none":
+            Coordinator(os.getenv("REPORT_KEY") or "cyberlurch", os.getenv("REPORT_MODE") or "yearly").skip(body, skip_reason or "send_disabled")
+        else:
+            send_markdown(subject, body)
+        return
+    ctx.request = (subject, body, skip_reason)
+
+
+def _preflight_stores(report_key: str) -> None:
+    load_state(str(path_for("STATE_PATH")))
+    load_rollups_state_readonly(str(path_for("ROLLUPS_STATE_PATH")))
+    if report_key == "cybermed":
+        _load_cybermed_daily_digest_state(str(path_for("CYBERMED_DAILY_DIGEST_STATE_PATH")))
+        load_cybermed_weekly_digest_store(str(path_for("CYBERMED_WEEKLY_DIGEST_STATE_PATH")))
+    else:
+        _load_cyberlurch_digest_state(str(path_for("CYBERLURCH_DIGEST_STATE_PATH")))
+        _load_youtube_channel_id_cache()
+        from .youtube_content_providers import _load_cache
+        from .managed_transcripts import _load_attempts
+        _load_cache()
+        _load_attempts()
+
+
+def _guard_unknown_legacy_delivery(ctx) -> None:
+    """Existing generation is evidence of neither acceptance nor non-acceptance."""
+    coordinator = ctx.coordinator
+    if ctx.mode != "real" or not send_enabled() or coordinator.edition_id in coordinator.journal["editions"]:
+        return
+    key, cadence = coordinator.report_key, coordinator.cadence
+    found = False
+    if cadence == "monthly":
+        state = load_rollups_state_readonly(str(path_for("ROLLUPS_STATE_PATH")))
+        found = any(row.get("month") == coordinator.start[:7] for row in state.get("reports", {}).get(key, []))
+    elif key == "cybermed":
+        state = (load_cybermed_weekly_digest_store(str(path_for("CYBERMED_WEEKLY_DIGEST_STATE_PATH"))) if cadence == "weekly"
+                 else _load_cybermed_daily_digest_state(str(path_for("CYBERMED_DAILY_DIGEST_STATE_PATH"))))
+        found = any((row.get("run_date") == coordinator.start if cadence == "daily" else
+                     row.get("period_start") == coordinator.start and row.get("period_end") == coordinator.end)
+                    for row in state["digests"]) if cadence in {"daily", "weekly"} else False
+    elif cadence == "daily":
+        state = _load_cyberlurch_digest_state(str(path_for("CYBERLURCH_DIGEST_STATE_PATH")))
+        found = any(str(row.get("processed_at_utc") or "")[:10] == coordinator.start for row in state["digests"])
+    if found:
+        import hashlib
+        version = hashlib.sha256(b"").hexdigest()
+        message = hashlib.sha256((coordinator.edition_id + ":" + version).encode()).hexdigest()
+        receipt = DeliveryResult(key, cadence, coordinator.start, coordinator.end, coordinator.edition_id,
+                                 version, f"<{message}@newsagent2.invalid>", status="outcome_unknown",
+                                 category="legacy_delivery_history_unknown", generation_validated=False)
+        coordinator._persist(receipt)
+        raise DeliveryError(receipt)
+
+
+def main() -> None:
+    load_dotenv()
+    with execution_context() as ctx:
+        report_key = (os.getenv("REPORT_KEY") or "cyberlurch").strip().lower()
+        cadence = (os.getenv("REPORT_MODE") or "daily").strip().lower()
+        ctx.coordinator = Coordinator(report_key, cadence, mode=ctx.mode)
+        try:
+            _preflight_stores(report_key)
+            from .workflow_delivery import finalize_pending_receipts
+            if ctx.mode == "real":
+                finalize_pending_receipts(report_key)
+                ctx.coordinator.journal = load_journal(ctx.coordinator.path)
+            _guard_unknown_legacy_delivery(ctx)
+            previous = ctx.coordinator.journal["editions"].get(ctx.coordinator.edition_id)
+            if ctx.mode == "real" and send_enabled() and previous:
+                if previous["status"] == "accepted_by_smtp":
+                    if current_audience_refs(report_key, cadence) != set(previous["accepted"]):
+                        raise RuntimeError("recipient_set_changed_requires_operator_review")
+                    # Restore delivery markers from the ORIGINAL receipt, with
+                    # no collection/model calls and no second SMTP submission.
+                    from .workflow_delivery import finalize_receipt
+                    finalize_receipt(ctx.coordinator.edition_id)
+                    return
+                if previous["status"] in {"partially_accepted", "outcome_unknown"}:
+                    result = DeliveryResult(**previous)
+                    ctx.coordinator._persist(result)
+                    raise DeliveryError(result)
+                if previous["status"] == "failed" and previous["generation_validated"]:
+                    # Avoid regenerating a different content version on retry.
+                    raise RuntimeError("saved_generation_requires_operator_replay_or_persistence_repair")
+            _main()
+            if not hasattr(ctx, "request"):
+                raise RuntimeError("planned_report_without_generation_or_skip")
+            subject, body, reason = ctx.request
+            intents = getattr(ctx, "finalization", {})
+            if reason or ctx.mode == "none" or not send_enabled():
+                clean, _, _ = _extract_run_metadata_for_email(body)
+                result = ctx.coordinator.skip(clean, reason or "send_disabled", finalization=intents)
+            else:
+                result = send_markdown(subject, body, coordinator=ctx.coordinator, finalization=intents)
+            if not isinstance(result, DeliveryResult):
+                raise RuntimeError("sender_returned_no_structured_result")
+            ctx.result = result
+            ctx.coordinator.finalize(ctx.pending)
+        except Exception as exc:
+            # Safe categories only. Accepted/partial/unknown receipts survive.
+            category = exc.category if isinstance(exc, StoreError) else (
+                exc.result.category if isinstance(exc, DeliveryError) else "generation_or_finalization_failed")
+            ctx.coordinator.failure(category)
+            if isinstance(exc, DeliveryError) and exc.result is not ctx.coordinator.result:
+                atomic_store(ctx.coordinator.report_dir / f"{report_key}_{cadence}_delivery_result.json",
+                             exc.result.public(), kind="delivery_result")
+            if isinstance(exc, (DeliveryError, StoreError)):
+                raise RuntimeError(f"report_run_failed:{report_key}:{cadence}:{category}") from None
+            raise
 
 
 if __name__ == "__main__":

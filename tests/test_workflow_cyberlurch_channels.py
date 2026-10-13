@@ -26,7 +26,7 @@ def test_scheduled_cyberlurch_defaults_to_full_channels_not_youtube_only():
 
 def test_manual_override_allows_youtube_only_only_when_explicit_and_validated():
     text = _workflow_text()
-    run_step = re.search(r"- name: Run reports(?P<body>.*?)- name: Verify reports", text, re.S).group("body")
+    run_step = re.search(r"- name: Run reports(?P<body>.*?)- name: Verify each planned", text, re.S).group("body")
     assert 'github.event_name }}" = "workflow_dispatch"' in run_step
     assert "CYBERLURCH_CHANNELS_FILE_OVERRIDE" in run_step
     assert "data/*.json" in run_step

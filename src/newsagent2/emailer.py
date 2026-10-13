@@ -6,7 +6,9 @@ import json
 import os
 import re
 import smtplib
-import traceback
+import ssl
+import hashlib
+import hmac
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pathlib import Path
@@ -15,6 +17,9 @@ from typing import Dict, List, Tuple, Union
 from markdown import markdown
 
 from .cybermed_quality import assert_no_generation_error_text
+from .delivery import Coordinator, DeliveryResult, DeliveryError
+from .run_context import email_mode, send_enabled
+from .store_io import StoreError
 
 
 def _clean_recipient_list(value: object) -> List[str]:
@@ -374,7 +379,7 @@ def _safe_markdown_to_html(md_body: str) -> str:
     """Convert Markdown to HTML safely, falling back to a preformatted block.
 
     - Tries minimal extension sets that work with current Markdown versions.
-    - Logs concise stack traces on failures (without dumping the whole report).
+    - Logs safe failure categories without exception text or report contents.
     - Never raises; always returns HTML (escaped as <pre> if conversion fails).
     """
 
@@ -394,9 +399,8 @@ def _safe_markdown_to_html(md_body: str) -> str:
         except Exception as exc:
             print(
                 f"[email] WARN: markdown conversion failed "
-                f"(extensions={attempt['extensions']}): {exc!r}"
+                f"(extensions={attempt['extensions']}, category=rendering_failure)"
             )
-            print(traceback.format_exc())
 
     escaped = html_module.escape(md_body or "")
     print("[email] WARN: falling back to <pre> HTML rendering for email body.")
@@ -428,69 +432,62 @@ def _style_cyberlurch_longform_html(html: str) -> str:
 _style_cyberlurch_monthly_html = _style_cyberlurch_longform_html
 
 
-def send_markdown(subject: str, md_body: str) -> None:
-    """Send the Markdown report as email (plain + HTML).
-
-    Env vars:
-      SEND_EMAIL = "1" -> send
-                  "0" -> disable
-                  empty/unset -> defaults to "1"
-
-      SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS,
-      EMAIL_FROM
-
-      Recipients (preferred):
-        RECIPIENTS_JSON_<REPORT_KEY_UPPER>  (JSON list or dict)
-        RECIPIENTS_JSON                    (fallback)
-
-      Backward compatible:
-        EMAIL_TO (comma-separated)
-        data/recipients.json
-    """
-    send_flag = (os.getenv("SEND_EMAIL") or "1").strip()
-    print(f"[email] SEND_EMAIL={send_flag!r}")
-    if send_flag != "1":
-        print("[email] SEND_EMAIL != '1' -> email sending disabled.")
-        return
-
-    report_key = (os.getenv("REPORT_KEY", "default") or "default").strip() or "default"
-    report_mode = (os.getenv("REPORT_MODE", "daily") or "daily").strip() or "daily"
-    if report_key.lower() == "cybermed":
-        assert_no_generation_error_text(md_body, boundary="email_body")
-
-    host = os.getenv("SMTP_HOST")
-    port_str = os.getenv("SMTP_PORT", "587")
-    user = os.getenv("SMTP_USER")
-    pw = os.getenv("SMTP_PASS")
-    from_addr = os.getenv("EMAIL_FROM", user or "newsagent@localhost")
-
-    if report_mode.lower() == "yearly":
-        to_list, recipients_source = _get_recipients_union(report_key)
+def _delivery_recipients(report_key: str, report_mode: str, mode: str):
+    if mode == "test":
+        try:
+            config = json.loads(os.getenv("TEST_RECIPIENTS_CONFIG_JSON") or "null")
+        except ValueError:
+            config = None
+        if report_mode == "yearly":
+            to_list = _dedupe_preserve([r for cadence in ("daily", "weekly", "monthly", "yearly")
+                for r in _resolve_recipients_from_mapping(config, report_key, cadence)])
+        else:
+            to_list = _resolve_recipients_from_mapping(config, report_key, report_mode)
+        recipients_source = "test_config"
     else:
-        to_list, recipients_source = _get_recipients(report_key, report_mode)
+        to_list, recipients_source = (_get_recipients_union(report_key) if report_mode == "yearly"
+                                      else _get_recipients(report_key, report_mode))
+    return _dedupe_preserve(to_list), recipients_source
 
+
+def current_audience_refs(report_key: str, cadence: str) -> set[str]:
+    key = os.getenv("DELIVERY_RECIPIENT_HMAC_KEY") or ""
+    if len(key.encode()) < 32:
+        raise RuntimeError("recipient_hmac_key_missing")
+    recipients, _ = _delivery_recipients(report_key, cadence, email_mode())
+    if not recipients:
+        raise RuntimeError("smtp_recipient_configuration_missing")
+    return {hmac.new(key.encode(), recipient.strip().casefold().encode(), hashlib.sha256).hexdigest() for recipient in recipients}
+
+
+def send_markdown(subject: str, md_body: str, *, coordinator: Coordinator | None = None,
+                  finalization: dict | None = None, retry_rejected: bool = False) -> DeliveryResult:
+    """Return a journalled SMTP outcome; required errors fail without raw logs.
+
+    Test mode resolves ONLY TEST_RECIPIENTS_CONFIG_JSON, never production
+    recipient variables, EMAIL_TO or the private production recipients file.
+    """
+    report_key = (os.getenv("REPORT_KEY") or "cyberlurch").strip().lower()
+    report_mode = (os.getenv("REPORT_MODE") or "daily").strip().lower()
+    mode = email_mode()
+    coordinator = coordinator or Coordinator(report_key, report_mode, mode=mode)
+    if report_key == "cybermed":
+        assert_no_generation_error_text(md_body, boundary="email_body")
+    md_without_metadata, _, _ = _extract_run_metadata_for_email(md_body)
+    if mode == "none" or not send_enabled():
+        return coordinator.skip(md_without_metadata, "send_disabled", finalization=finalization)
+
+    host, user, pw = os.getenv("SMTP_HOST"), os.getenv("SMTP_USER"), os.getenv("SMTP_PASS")
+    from_addr = os.getenv("EMAIL_FROM") or user
     try:
-        port = int(port_str)
+        port = int(os.getenv("SMTP_PORT") or "587")
     except ValueError:
-        print(f"[email] Invalid SMTP_PORT={port_str!r} -> abort.")
-        return
-
-    if not (host and port and user and pw and to_list):
-        print("[email] SMTP configuration incomplete -> NOT sending.")
-        print(
-            "[email] Missing fields:",
-            {
-                "host": bool(host),
-                "port": bool(port),
-                "user": bool(user),
-                "pw": bool(pw),
-                "recipients_count": len(to_list),
-                "report_key": report_key,
-                "recipients_source": recipients_source or "(none)",
-            },
-        )
-        return
-
+        port = 0
+    to_list, recipients_source = _delivery_recipients(report_key, report_mode, mode)
+    to_list = _dedupe_preserve(to_list)
+    if not (host and user and pw and from_addr and to_list and 0 < port <= 65535):
+        coordinator.generated(md_without_metadata, finalization)
+        raise DeliveryError(coordinator.failure("smtp_configuration_missing", generated=True))
     # Keep recipient-facing email bodies clean by removing run metadata from outgoing markdown.
     md_without_metadata, _, metadata_removed = _extract_run_metadata_for_email(md_body)
 
@@ -500,8 +497,7 @@ def send_markdown(subject: str, md_body: str) -> None:
         if report_key.lower() == "cyberlurch" and report_mode.lower() in {"monthly", "yearly"}:
             html = _style_cyberlurch_longform_html(html)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
-        print(f"[email] WARN: unexpected markdown conversion failure: {exc!r}")
-        print(traceback.format_exc())
+        print("[email] WARN: markdown rendering failure; using escaped text")
         html = f"<pre>{html_module.escape((html_source or ''))}</pre>"
 
     if "<details" in (md_body or "") and "<details" not in (html or ""):
@@ -532,15 +528,44 @@ def send_markdown(subject: str, md_body: str) -> None:
     alternative.attach(MIMEText(html, "html", "utf-8"))
     msg.attach(alternative)
 
-    try:
-        # Do not log host/from/to addresses.
-        print(
-            f"[email] Sending email (report_key={report_key}, recipients_count={len(to_list)}, source={recipients_source})"
-        )
-        with smtplib.SMTP(host, port, timeout=60) as s:
-            s.starttls()
-            s.login(user, pw)
-            s.sendmail(from_addr, to_list, msg.as_string())
-        print("[email] Email sent.")
-    except Exception as e:
-        print(f"[email] ERROR during email send: {e!r}")
+    def transport(message_id, recipients, inflight, outcome):
+        msg["Message-ID"] = message_id
+        smtp = None
+        data_started = False
+        try:
+            smtp = smtplib.SMTP(host, port, timeout=60)
+            smtp.starttls(context=ssl.create_default_context())
+            smtp.login(user, pw)
+            inflight()
+            data_started = True
+            refused = smtp.sendmail(from_addr, recipients, msg.as_string())
+            if not isinstance(refused, dict) or not set(refused).issubset(set(recipients)):
+                outcome("outcome_unknown", [], [], "invalid_smtp_response")
+            else:
+                rejected = [r for r in recipients if r in refused]
+                accepted = [r for r in recipients if r not in refused]
+                status = "accepted_by_smtp" if not rejected else ("partially_accepted" if accepted else "failed")
+                outcome(status, accepted, rejected, "recipient_rejection" if rejected else "")
+        except (StoreError, DeliveryError):
+            raise
+        except smtplib.SMTPRecipientsRefused as exc:
+            if set(exc.recipients) == set(recipients):
+                outcome("failed", [], recipients, "all_recipients_rejected")
+            else:
+                outcome("outcome_unknown", [], [], "ambiguous_recipient_rejection")
+        except smtplib.SMTPResponseException:
+            outcome("failed", [], recipients, "smtp_explicit_rejection")
+        except Exception:
+            outcome("outcome_unknown" if data_started else "failed", [], [] if data_started else recipients,
+                    "smtp_completion_unknown" if data_started else "smtp_connection_failed")
+        finally:
+            if smtp is not None:
+                try:
+                    smtp.quit()
+                except Exception:
+                    # QUIT failure cannot reverse a known DATA acceptance.
+                    pass
+    result = coordinator.deliver(md_without_metadata, to_list, transport, finalization=finalization,
+                                 retry_rejected=retry_rejected)
+    print(f"[email] smtp_result={result.status} accepted_count={len(result.accepted)} rejected_count={len(result.rejected)}")
+    return result

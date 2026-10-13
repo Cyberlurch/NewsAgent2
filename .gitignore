@@ -15,3 +15,7 @@ reports/
 
 # Recipients (keep real addresses out of repo)
 data/recipients.json
+
+# Local execution output and writer locks
+out/
+state/*.lock

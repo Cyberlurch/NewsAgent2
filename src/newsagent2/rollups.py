@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from .store_io import read_store, atomic_store, generated_store, rollups_store as reports_store
 import os
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -194,107 +195,22 @@ def _sanitize_rollups_state(state: Dict[str, Any]) -> bool:
 
 
 def load_rollups_state(path: str, *, create_if_missing: bool = True) -> Dict[str, Any]:
-    if not path:
-        print("[rollups] WARN: empty path -> starting fresh")
-        return _new_state()
-    if not os.path.exists(path):
-        print(f"[rollups] No state file found at {path!r} -> starting fresh")
-        state = _new_state()
-        if create_if_missing:
-            try:
-                save_rollups_state(path, state)
-            except Exception as e:
-                print(f"[rollups] WARN: failed to initialize rollups state at {path!r}: {e!r}")
-        return state
-
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            raw = f.read().strip()
-        if not raw:
-            print(f"[rollups] WARN: state file {path!r} is empty -> starting fresh")
-            state = _new_state()
-            if create_if_missing:
-                try:
-                    save_rollups_state(path, state)
-                except Exception as e:
-                    print(f"[rollups] WARN: failed to reinitialize empty rollups state at {path!r}: {e!r}")
-            return state
-
-        data = json.loads(raw)
-        if not isinstance(data, dict):
-            print(f"[rollups] WARN: invalid JSON root type in {path!r} -> starting fresh")
-            return _new_state()
-
-        data.setdefault("version", 1)
-        data.setdefault("updated_at_utc", _utc_now_iso())
-        data.setdefault("reports", {})
-        if not isinstance(data.get("reports"), dict):
-            data["reports"] = {}
-
-        changed = _sanitize_rollups_state(data)
-        if changed and path:
-            try:
-                save_rollups_state(path, data)
-            except Exception as e:
-                print(f"[rollups] WARN: failed to self-heal state at {path!r}: {e!r}")
-
-        return data
-    except Exception as e:
-        ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-        corrupt = f"{path}.corrupt.{ts}"
-        try:
-            os.replace(path, corrupt)
-            print(
-                f"[rollups] ERROR: failed to parse {path!r}: {e!r}. "
-                f"Renamed to {corrupt!r} and starting fresh."
-            )
-        except Exception as e2:
-            print(
-                f"[rollups] ERROR: failed to parse {path!r}: {e!r}. "
-                f"Also failed to rename corrupt file: {e2!r}. Starting fresh."
-            )
-        return _new_state()
+    # Kept for caller compatibility: readers never create or self-heal files.
+    del create_if_missing
+    data = read_store(path, _new_state(), kind="rollups", validate=reports_store)
+    data.setdefault("version", 1)
+    data.setdefault("reports", {})
+    return data
 
 
 def load_rollups_state_readonly(path: str) -> Dict[str, Any]:
-    """Load rollups without self-healing, creating, renaming, or writing files."""
-    if not path or not os.path.exists(path):
-        return _new_state()
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        if not isinstance(data, dict):
-            return _new_state()
-        # Yearly deliberately consumes the persisted representation. Rendering
-        # performs its own non-mutating normalization and sanitation.
-        return data
-    except Exception as exc:
-        print(f"[rollups] WARN: read-only load failed for {path!r}: {exc!r}")
-        return _new_state()
+    return load_rollups_state(path, create_if_missing=False)
 
 
 def save_rollups_state(path: str, state: Dict[str, Any]) -> None:
-    if not path:
-        print("[rollups] WARN: empty path -> not saving")
-        return
-
-    if not isinstance(state, dict):
-        raise TypeError(f"save_rollups_state expects dict state, got {type(state)!r}")
-
-    try:
-        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    except Exception as e:
-        print(f"[rollups] ERROR: cannot create state directory for {path!r}: {e!r}")
-        raise
-
-    state["updated_at_utc"] = _utc_now_iso()
-    payload = json.dumps(state, ensure_ascii=False, indent=2, sort_keys=True)
-    tmp_path = f"{path}.tmp"
-    with open(tmp_path, "w", encoding="utf-8") as f:
-        f.write(payload)
-        f.write("\n")
-    os.replace(tmp_path, path)
-    print(f"[rollups] Saved rollups to {path!r}")
+    payload = deepcopy(state)
+    payload["updated_at_utc"] = _utc_now_iso()
+    generated_store(path, payload, kind="rollups", validate=reports_store)
 
 
 def _sanitize_item(it: Dict[str, Any]) -> Dict[str, Any]:
@@ -394,6 +310,8 @@ def upsert_monthly_rollup(
         payload.update(extra_fields)
 
     replaced = False
+    legacy = next((entry for entry in rollups if isinstance(entry, dict) and entry.get("month") == month_key), {})
+    payload = {**legacy, **payload}  # Additive update of this explicitly generated edition.
     for idx, entry in enumerate(rollups):
         if isinstance(entry, dict) and entry.get("month") == month_key:
             rollups[idx] = payload
@@ -401,6 +319,9 @@ def upsert_monthly_rollup(
             break
     if not replaced:
         rollups.append(payload)
+    # Deduplicate only the explicitly upserted report/month, never other history.
+    matching = [entry for entry in rollups if entry.get("month") != month_key]
+    rollups[:] = matching + [payload]
 
     rollups.sort(key=lambda e: _month_sort_key(str(e.get("month") or "")))
     state["updated_at_utc"] = _utc_now_iso()

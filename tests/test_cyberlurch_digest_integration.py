@@ -6,10 +6,10 @@ from datetime import datetime, timezone
 from newsagent2 import main
 
 
-def test_digest_state_initializer_writes_minimal(tmp_path):
+def test_missing_digest_reader_returns_minimal_without_creating(tmp_path):
     p = tmp_path / 'state' / 'cyberlurch_digests.json'
     state = main._load_cyberlurch_digest_state(str(p))
-    assert p.exists()
+    assert not p.exists()
     assert state == {'version': 1, 'updated_at_utc': '', 'digests': []}
 
 
@@ -36,5 +36,5 @@ def test_digest_sanitize_no_full_text_payload():
 
 def test_workflow_commits_digest_state_file():
     yml = open('.github/workflows/newsagent.yml', encoding='utf-8').read()
-    assert 'Commit updated state files if changed' in yml
+    assert 'Commit and publish validated cyberlurch state' in yml
     assert 'state/cyberlurch_digests.json' in yml

@@ -1,4 +1,6 @@
 import json
+import pytest
+from newsagent2.store_io import StoreError
 import pathlib
 from datetime import datetime
 import sys
@@ -109,13 +111,13 @@ def test_prune_rollups_handles_missing_and_empty(tmp_path):
     state_missing = rollups.load_rollups_state(str(missing_path))
     rollups.prune_rollups(state_missing, report_key="cybermed", max_months=12, keep_month="2024-01")
     assert state_missing["reports"] == {}
-    assert missing_path.exists()
+    assert not missing_path.exists()
 
     empty_path = tmp_path / "empty.json"
     empty_path.write_text("", encoding="utf-8")
-    state_empty = rollups.load_rollups_state(str(empty_path))
-    rollups.prune_rollups(state_empty, report_key="cybermed", max_months=12, keep_month="2024-01")
-    assert state_empty["reports"] == {}
+    with pytest.raises(StoreError, match="corrupted_existing_store"):
+        rollups.load_rollups_state(str(empty_path))
+    assert empty_path.read_bytes() == b""
 
 
 def test_yearly_markdown_guardrails_and_limits():
@@ -301,7 +303,7 @@ def test_yearly_markdown_includes_bottom_lines():
     assert "Use video laryngoscopy for improved first-pass success. Consider device availability." in md
 
 
-def test_load_rollups_state_self_heals_existing_file(tmp_path):
+def test_load_rollups_state_preserves_existing_file(tmp_path):
     path = tmp_path / "rollups.json"
     raw_state = {
         "reports": {
@@ -321,15 +323,14 @@ def test_load_rollups_state_self_heals_existing_file(tmp_path):
 
     state = rollups.load_rollups_state(str(path))
     summary = state["reports"]["cybermed"][0]["executive_summary"]
-    assert "metadata" not in " ".join(summary).lower()
-    assert summary[0] == "Highlights derived from top items."
+    assert summary == raw_state["reports"]["cybermed"][0]["executive_summary"]
 
     cleaned = json.loads(path.read_text(encoding="utf-8"))
     cleaned_summary = cleaned["reports"]["cybermed"][0]["executive_summary"]
-    assert "metadata" not in " ".join(cleaned_summary).lower()
+    assert cleaned_summary == raw_state["reports"]["cybermed"][0]["executive_summary"]
 
 
-def test_load_rollups_state_dedupes_latest_month(tmp_path):
+def test_load_rollups_state_does_not_rewrite_legacy_duplicate_months(tmp_path):
     path = tmp_path / "rollups.json"
     payload = {
         "reports": {
@@ -343,6 +344,5 @@ def test_load_rollups_state_dedupes_latest_month(tmp_path):
 
     state = rollups.load_rollups_state(str(path))
     entries = state["reports"]["cybermed"]
-    assert len(entries) == 1
-    assert entries[0]["generated_at"] == "2026-01-01T00:00:00Z"
-    assert entries[0]["executive_summary"] == ["New"]
+    assert entries == payload["reports"]["cybermed"]
+    assert json.loads(path.read_text()) == payload

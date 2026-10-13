@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from .store_io import read_store, atomic_store, StoreError, processed_store as reports_store
 import os
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Optional, Tuple
@@ -23,105 +24,34 @@ def _new_state() -> Dict[str, Any]:
 
 
 def load_state(path: str) -> Dict[str, Any]:
-    """Load JSON state from disk (defensive)."""
-    if not path:
-        print("[state] WARN: empty state path -> starting fresh")
-        return _new_state()
-
-    if not os.path.exists(path):
-        print(f"[state] No state file found at {path!r} -> starting fresh")
-        return _new_state()
-
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            raw = f.read().strip()
-        if not raw:
-            print(f"[state] WARN: state file {path!r} is empty -> starting fresh")
-            return _new_state()
-
-        data = json.loads(raw)
-        if not isinstance(data, dict):
-            print(f"[state] WARN: invalid JSON root type in {path!r} -> starting fresh")
-            return _new_state()
-
-        data.setdefault("version", 1)
-        data.setdefault("updated_at_utc", _utc_now_iso())
-        data.setdefault("reports", {})
-        if not isinstance(data.get("reports"), dict):
-            data["reports"] = {}
-
-        return data
-    except Exception as e:
-        ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-        corrupt = f"{path}.corrupt.{ts}"
-        try:
-            os.replace(path, corrupt)
-            print(
-                f"[state] ERROR: failed to parse {path!r}: {e!r}. "
-                f"Renamed to {corrupt!r} and starting fresh."
-            )
-        except Exception as e2:
-            print(
-                f"[state] ERROR: failed to parse {path!r}: {e!r}. "
-                f"Also failed to rename corrupt file: {e2!r}. Starting fresh."
-            )
-        return _new_state()
+    data = read_store(path, _new_state(), kind="processed_items", validate=reports_store)
+    data.setdefault("version", 1)
+    data.setdefault("reports", {})
+    return data
 
 
 def save_state(path: str, state: Dict[str, Any]) -> None:
-    """Persist JSON state atomically (defensive, never silent)."""
-    if not path:
-        print("[state] WARN: empty state path -> not saving")
-        return
-
-    if not isinstance(state, dict):
-        raise TypeError(f"save_state expects dict state, got {type(state)!r}")
-
-    try:
-        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    except Exception as e:
-        print(f"[state] ERROR: cannot create state directory for {path!r}: {e!r}")
-        raise
-
-    try:
-        state["updated_at_utc"] = _utc_now_iso()
-        payload = json.dumps(state, ensure_ascii=False, indent=2, sort_keys=True)
-        tmp_path = f"{path}.tmp"
-        with open(tmp_path, "w", encoding="utf-8") as f:
-            f.write(payload)
-            f.write("\n")
-        os.replace(tmp_path, path)
-        print(f"[state] Saved state to {path!r}")
-    except Exception as e:
-        print(f"[state] ERROR: failed to save state to {path!r}: {e!r}")
-        try:
-            if os.path.exists(f"{path}.tmp"):
-                os.remove(f"{path}.tmp")
-        except Exception:
-            pass
-        raise
+    payload = dict(state)
+    payload["updated_at_utc"] = _utc_now_iso()
+    atomic_store(path, payload, kind="processed_items", validate=reports_store)
 
 
 def _ensure_bucket(state: Dict[str, Any], report_key: str, source: str) -> Dict[str, Any]:
     reports = state.setdefault("reports", {})
     if not isinstance(reports, dict):
-        state["reports"] = {}
-        reports = state["reports"]
+        raise StoreError("processed_items", "invalid_output")
 
     rep = reports.setdefault(report_key, {})
     if not isinstance(rep, dict):
-        reports[report_key] = {}
-        rep = reports[report_key]
+        raise StoreError("processed_items", "invalid_output")
 
     src = rep.setdefault(source, {})
     if not isinstance(src, dict):
-        rep[source] = {}
-        src = rep[source]
+        raise StoreError("processed_items", "invalid_output")
 
     processed = src.setdefault("processed", {})
     if not isinstance(processed, dict):
-        src["processed"] = {}
-        processed = src["processed"]
+        raise StoreError("processed_items", "invalid_output")
 
     return processed
 
@@ -262,6 +192,12 @@ def mark_processed(
         "processed_at_utc": processed_at_utc or base.get("processed_at_utc") or _utc_now_iso(),
         **(meta or {}),
     }
+    # Recovery of an older receipt must not move newer screening/sent clocks
+    # backwards or undo a later edition's cooldown markers.
+    for field in ("processed_at_utc", "screened_at_utc", "sent_overview_at_utc", "sent_deep_dive_at_utc"):
+        previous, incoming = _parse_iso_utc(base.get(field)), _parse_iso_utc(merged.get(field))
+        if previous is not None and (incoming is None or previous > incoming):
+            merged[field] = base[field]
     processed[str(item_id)] = merged
 
 
@@ -367,8 +303,7 @@ def prune_state(
         state = prune_state(state, ...)
     """
     if not isinstance(state, dict):
-        print(f"[state] WARN: prune_state got non-dict state={type(state)!r} -> resetting")
-        return _new_state()
+        raise StoreError("processed_items", "invalid_input")
 
     removed_age = 0
     removed_cap = 0

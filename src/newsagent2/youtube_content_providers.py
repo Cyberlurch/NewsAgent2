@@ -3,6 +3,8 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import json
+from .store_io import read_store, atomic_store
+from .run_context import path_for
 import os
 import time
 from dataclasses import dataclass
@@ -98,17 +100,11 @@ class MetadataOnlyProvider(BaseProvider):
 
 
 def _load_cache() -> dict[str, Any]:
-    if not CACHE_PATH.exists():
-        return {}
-    try:
-        return json.loads(CACHE_PATH.read_text(encoding="utf-8"))
-    except Exception:
-        return {}
+    return read_store(path_for("YOUTUBE_CONTENT_CACHE_PATH", CACHE_PATH), {}, kind="youtube_content_cache")
 
 
 def _save_cache(cache: dict[str, Any]) -> None:
-    CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    CACHE_PATH.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+    atomic_store(path_for("YOUTUBE_CONTENT_CACHE_PATH", CACHE_PATH), cache, kind="youtube_content_cache")
 
 
 def _cache_ttl_days() -> int:

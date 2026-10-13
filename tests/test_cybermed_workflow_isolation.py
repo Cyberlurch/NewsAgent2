@@ -78,10 +78,10 @@ def test_cyberlurch_email_runs_fail_when_dedicated_smtp_config_is_missing():
 
 def test_cybermed_artifacts_are_uploaded_for_scheduled_and_manual_runs():
     text = CYBERMED_WORKFLOW.read_text(encoding="utf-8")
-    upload_header = "- name: Upload Cybermed audit artifacts"
+    upload_header = "- name: Upload cybermed report and recovery artifacts"
 
     assert upload_header in text
-    upload = text.split(upload_header, 1)[1].split("- name: Commit Cybermed", 1)[0]
+    upload = text.split(upload_header, 1)[1].split("- name: Commit and publish", 1)[0]
     assert "github.event_name == 'workflow_dispatch'" not in upload
     assert "out/*diagnostics*.json" in upload
 
@@ -91,7 +91,8 @@ def test_cybermed_commits_dedicated_weekly_store():
 
     assert "state/cybermed_daily_digests.json" in text
     assert "state/cybermed_weekly_digests.json" in text
-    assert "contains(steps.plan.outputs.modes, 'weekly')" in text
+    assert "success() &&" in text
+    assert "workflow_delivery publish" in text
 
 
 def test_weekly_backfill_is_manual_audit_then_hash_gated_apply():

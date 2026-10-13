@@ -1,3 +1,12 @@
+import pytest
+
+@pytest.fixture(autouse=True)
+def isolated_smtp_receipts(monkeypatch, tmp_path):
+    monkeypatch.setenv("EMAIL_MODE", "real")
+    monkeypatch.setenv("DELIVERY_RECIPIENT_HMAC_KEY", "offline-key-with-at-least-thirty-two-bytes")
+    monkeypatch.setenv("DELIVERY_JOURNAL_PATH", str(tmp_path / "journal.json"))
+    monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
+
 import os
 import sys
 import unittest
@@ -111,7 +120,7 @@ Hello.
             def __exit__(self, exc_type, exc, tb):
                 return False
 
-            def starttls(self):
+            def starttls(self, **kwargs):
                 return None
 
             def login(self, user, pw):
@@ -119,6 +128,7 @@ Hello.
 
             def sendmail(self, from_addr, to_addrs, msg_data):
                 self.sent.append(msg_data)
+                return {}
 
         md = """
 # Cybermed Report
@@ -192,7 +202,7 @@ Hello.
             def __exit__(self, exc_type, exc, tb):
                 return False
 
-            def starttls(self):
+            def starttls(self, **kwargs):
                 return None
 
             def login(self, user, pw):
@@ -200,6 +210,7 @@ Hello.
 
             def sendmail(self, from_addr, to_addrs, msg_data):
                 self.sent.append(msg_data)
+                return {}
 
         md = """
 # Cyberlurch Report
@@ -274,7 +285,7 @@ Hi.
             def __exit__(self, exc_type, exc, tb):
                 return False
 
-            def starttls(self):
+            def starttls(self, **kwargs):
                 return None
 
             def login(self, user, pw):
@@ -283,6 +294,7 @@ Hi.
             def sendmail(self, from_addr, to_addrs, msg_data):
                 self.sent.append(msg_data)
                 self.to_addrs.append(to_addrs)
+                return {}
 
         md = "# Multi recipient privacy test"
 
@@ -331,7 +343,7 @@ Hi.
             def __exit__(self, exc_type, exc, tb):
                 return False
 
-            def starttls(self):
+            def starttls(self, **kwargs):
                 return None
 
             def login(self, user, pw):
@@ -340,6 +352,7 @@ Hi.
             def sendmail(self, from_addr, to_addrs, msg_data):
                 self.sent.append(msg_data)
                 self.to_addrs.append(to_addrs)
+                return {}
 
         md = "# Multi recipient disclosure opt-in"
 

@@ -62,7 +62,7 @@ def test_yearly_scheduled_empty_blocks_email(monkeypatch, tmp_path):
     assert calls == []
 
 
-def test_yearly_manual_empty_still_sends(monkeypatch, tmp_path):
+def test_yearly_manual_empty_is_explicitly_skipped_without_send(monkeypatch, tmp_path):
     calls = []
     monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
     monkeypatch.delenv("YEAR_IN_REVIEW_YEAR", raising=False)
@@ -80,7 +80,7 @@ def test_yearly_manual_empty_still_sends(monkeypatch, tmp_path):
         report_dir=str(report_dir),
     )
 
-    assert len(calls) == 1
+    assert len(calls) == 0
     assert list(report_dir.glob("cyberlurch_yearly_review_*.md"))
 
 

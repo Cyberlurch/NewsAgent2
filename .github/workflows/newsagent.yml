@@ -72,6 +72,7 @@ concurrency:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   run:
@@ -81,6 +82,8 @@ jobs:
     # - Do NOT pass recipient email addresses via env/vars (they can leak in logs).
     # - Recipients must be passed only as JSON via GitHub Secrets.
     env:
+      DELIVERY_RECIPIENT_HMAC_KEY: ${{ secrets.DELIVERY_RECIPIENT_HMAC_KEY }}
+      DELIVERY_RECOVERY_ACK_RUN_IDS: ${{ vars.DELIVERY_RECOVERY_ACK_RUN_IDS || '' }}
       # OpenAI
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1' }}
@@ -320,6 +323,12 @@ jobs:
           rm -rf out
           mkdir -p out
 
+      - name: Recover prior cyberlurch receipts before any sender
+        if: steps.compute_plan.outputs.run_skip != 'true' && (github.event_name == 'schedule' || env.EMAIL_MODE == 'real')
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m src.newsagent2.workflow_delivery recover --report-key cyberlurch --workflow newsagent.yml
+
       - name: Run reports
         if: steps.compute_plan.outputs.run_skip != 'true'
         env:
@@ -427,175 +436,50 @@ jobs:
 
           done
 
-      - name: Verify reports and email attempts
-        if: steps.compute_plan.outputs.run_skip != 'true'
+      - name: Verify each planned cyberlurch delivery result
+        if: always() && steps.compute_plan.outputs.run_skip != 'true'
         env:
           RUN_MODES: ${{ steps.compute_plan.outputs.run_modes }}
-          RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}
-          REPORT_DIR: ${{ env.REPORT_DIR }}
-          RUN_LOG_PATH: out/run.log
-          EMAIL_MODE: ${{ env.EMAIL_MODE }}
-          SEND_EMAIL: ${{ env.SEND_EMAIL }}
         run: |
           set -euo pipefail
+          python -m src.newsagent2.workflow_delivery verify --report-key cyberlurch --modes $RUN_MODES
 
-          report_dir="${REPORT_DIR:-out}"
-          log_path="${RUN_LOG_PATH:-out/run.log}"
-
-          if [ "${{ github.event_name }}" = "schedule" ]; then
-            schedule_expr="${{ github.event.schedule || '' }}"
-            offset=$(TZ=Europe/Stockholm date +%z)
-            dow=$(TZ=Europe/Stockholm date +%u)
-            dom=$(TZ=Europe/Stockholm date +%d)
-
-            expected_cron="30 3 * * *"
-            if [ "$offset" = "+0100" ]; then
-              expected_cron="30 4 * * *"
-            fi
-
-            should_run=true
-            if [ "$schedule_expr" != "$expected_cron" ]; then
-              should_run=false
-            fi
-            if [ "$dow" -ge 6 ] && [ "$dom" != "01" ]; then
-              should_run=false
-            fi
-
-            echo "Gate diagnostics: schedule='${schedule_expr}' expected='${expected_cron}' offset='${offset}' dow=${dow} dom=${dom} should_run=${should_run}"
-
-            if [ "$should_run" != "true" ]; then
-              echo "Verification bypassed: scheduled run not aligned to Stockholm 05:30 delivery slot."
-              exit 0
-            fi
-          fi
-
-          if [ ! -f "$log_path" ]; then
-            echo "ERROR: Run log not found at $log_path"
-            exit 1
-          fi
-
-          shopt -s nullglob
-          md_files=("$report_dir"/*.md)
-          if [ ${#md_files[@]} -eq 0 ]; then
-            echo "ERROR: No newsletter markdown files were generated in ${report_dir} for modes: ${RUN_MODES}."
-            exit 1
-          fi
-
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${EMAIL_MODE:-none}" = "none" ]; then
-            echo "Verification passed: reports exist; manual email_mode=none does not require email attempts."
-            exit 0
-          fi
-
-          if [ "${SEND_EMAIL:-1}" != "1" ]; then
-            echo "Verification passed: reports exist; SEND_EMAIL is not 1 so email attempts are not required."
-            exit 0
-          fi
-
-          cybermed_digest_check_required=false
-          if { [ "${{ github.event_name }}" = "schedule" ] || [ "${EMAIL_MODE:-none}" = "real" ]; } \
-            && { [ "${RUN_WHICH_REPORT:-both}" = "both" ] || [ "${RUN_WHICH_REPORT:-both}" = "cybermed" ]; } \
-            && echo " ${RUN_MODES:-} " | grep -Eq " (weekly|monthly) "; then
-            cybermed_digest_check_required=true
-          fi
-
-          if [ "$cybermed_digest_check_required" = "true" ]; then
-            if grep -Eq "\[digest-store\] (weekly|monthly) loaded 0 digest item\(s\) for report\." "$log_path"; then
-              echo "ERROR: Cybermed weekly/monthly digest-only report loaded 0 digest items during a scheduled/real run."
-              exit 1
-            fi
-            if grep -Eq "\[cybermed-empty-guard\]|cybermed_(weekly|monthly)_empty_guard_triggered[=:] ?[Tt]rue" "$log_path"; then
-              echo "ERROR: Cybermed digest-only empty-send guard marker was present during a scheduled/real run."
-              exit 1
-            fi
-          fi
-
-          send_lines=$(grep -E "\[email\] Sending email \(report_key=.*recipients_count=([1-9][0-9]*)" "$log_path" || true)
-          if [ -z "$send_lines" ]; then
-            echo "ERROR: No email send attempts detected for non-empty recipient lists. Check recipient secrets and SMTP settings."
-            exit 1
-          fi
-
-          echo "Verification passed: reports exist and email attempts were logged."
-
-      - name: Upload generated Markdown reports
-        if: steps.compute_plan.outputs.run_skip != 'true' && github.event_name == 'workflow_dispatch'
+      - name: Upload cyberlurch report and recovery artifacts
+        if: always() && steps.compute_plan.outputs.run_skip != 'true'
         uses: actions/upload-artifact@v7
         with:
-          name: newsagent2-markdown-reports-${{ github.run_id }}
+          name: cyberlurch-reports-${{ github.run_id }}
           path: |
-            ${{ env.REPORT_DIR }}/*.md
-            ${{ env.REPORT_DIR }}/*diagnostics*.json
-            ${{ env.REPORT_DIR }}/*metadata*.json
-            ${{ env.REPORT_DIR }}/*metadata*.md
-          if-no-files-found: error
-          retention-days: 7
+            out/*.md
+            out/*diagnostics*.json
+            out/*metadata*.json
+            out/*metadata*.md
+            out/*delivery_result.json
+          if-no-files-found: warn
+          retention-days: 14
 
-      - name: Commit updated state files if changed
-        if: steps.compute_plan.outputs.run_skip != 'true' && (contains(steps.compute_plan.outputs.run_modes, 'daily') || contains(steps.compute_plan.outputs.run_modes, 'monthly'))
+      - name: Commit and publish validated cyberlurch state
+        if: success() && steps.compute_plan.outputs.run_skip != 'true' && (github.event_name == 'schedule' || env.EMAIL_MODE == 'real' || steps.compute_plan.outputs.manual_monthly_state_write == 'true')
         run: |
           set -euo pipefail
-
-          if [ "${{ steps.compute_plan.outputs.manual_monthly_state_write }}" = "true" ]; then
-            unexpected="$(git status --porcelain -- state ':!state/rollups.json' || true)"
-            if [ -n "$unexpected" ]; then
-              echo "ERROR: manual Monthly backfill changed state outside state/rollups.json:" >&2
-              printf '%s\n' "$unexpected" >&2
-              exit 1
-            fi
-            if git diff --quiet -- state/rollups.json; then
-              echo "No change in state/rollups.json."
-              exit 0
-            fi
-            FILES=(state/rollups.json)
-          else
-
-            mkdir -p state
-            # Avoid YAML/heredoc indentation issues by using compact Python initializers.
-            python -c "from datetime import datetime, timezone; import json, pathlib; p=pathlib.Path('state')/'rollups.json'; payload={'version':1,'updated_at_utc':datetime.now(timezone.utc).replace(microsecond=0).isoformat(),'reports':{}}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
-            python -c "import json, pathlib; p=pathlib.Path('state')/'cyberlurch_digests.json'; payload={'version':1,'updated_at_utc':'','digests':[]}; 0 if p.exists() else (p.parent.mkdir(parents=True, exist_ok=True) or p.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+'\n', encoding='utf-8') or print(f'Initialized {p}'))"
-
-            # Collect only existing state files (avoid git add pathspec failures)
-            FILES=()
-            for f in state/processed_items.json state/rollups.json state/cyberlurch_digests.json state/youtube_content_cache.json; do
-              if [ -f "$f" ]; then
-                FILES+=("$f")
-              fi
-            done
-          fi
-
-          if [ "${#FILES[@]}" -eq 0 ]; then
-            echo "No state files found -> nothing to commit."
-            exit 0
-          fi
-
-          changed="$(git status --porcelain -- "${FILES[@]}" || true)"
-          if [ -z "$changed" ]; then
-            echo "No changes in state files."
-            exit 0
-          fi
-
-          echo "State file(s) changed -> committing."
           git config user.name "newsagent-bot"
           git config user.email "newsagent-bot@users.noreply.github.com"
-
-          git add -A "${FILES[@]}"
-          git commit -m "Update state files [skip ci]" || {
-            echo "Nothing to commit (commit returned non-zero)."
-            exit 0
-          }
-
-          if [ -n "${GITHUB_REF_NAME:-}" ]; then
-            echo "Pushing commit to branch: ${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}" || {
-              echo "Initial push failed; attempting rebase onto origin/${GITHUB_REF_NAME} and retry."
-              git fetch origin "${GITHUB_REF_NAME}"
-              git rebase "origin/${GITHUB_REF_NAME}" || {
-                echo "Rebase failed; aborting rebase and leaving state unpushed."
-                git rebase --abort || true
-                exit 1
-              }
-              git push origin "HEAD:${GITHUB_REF_NAME}"
-            }
+          if [ "${{ steps.compute_plan.outputs.manual_monthly_state_write }}" = "true" ]; then
+            unexpected="$(git status --porcelain -- state ':!state/rollups.json')"
+            if [ -n "$unexpected" ]; then
+              echo "ERROR: backfill modified state outside the approved rollup"
+              exit 1
+            fi
+            python -m src.newsagent2.workflow_delivery publish --backfill-apply --paths state/rollups.json
           else
-            echo "GITHUB_REF_NAME not set; skipping push."
+            python -m src.newsagent2.workflow_delivery publish --paths state/processed_items.json state/rollups.json state/delivery_journal.json state/cyberlurch_digests.json state/youtube_content_cache.json state/youtube_channel_ids.json state/youtube_transcript_attempts.json
           fi
+
+      - name: Upload cyberlurch delivery recovery
+        if: always() && steps.compute_plan.outputs.run_skip != 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: cyberlurch-delivery-recovery-${{ github.run_id }}
+          path: out/recovery/
+          if-no-files-found: warn
+          retention-days: 30
