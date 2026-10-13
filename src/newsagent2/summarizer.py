@@ -11,6 +11,7 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional
 
 from openai import OpenAI
+from .pubmed_facts import build_pubmed_facts, evidence_input, candidate_issues
 from .cybermed_quality import (
     CybermedGenerationError,
     classify_generation_error,
@@ -1298,7 +1299,10 @@ def _slim_items(items: List[Dict[str, Any]], max_text_chars: int = 2000) -> List
     out: List[Dict[str, Any]] = []
     for it in items:
         text = (it.get("transcript_full_summary") or it.get("text") or "").strip()
-        if len(text) > max_text_chars:
+        if _is_cybermed_generation() and (it.get("source") or "").lower() == "pubmed":
+            facts = build_pubmed_facts(it)
+            text = facts.core() + "\n" + evidence_input(it, budget=6000)[0]
+        elif len(text) > max_text_chars:
             text = text[:max_text_chars].rstrip()
 
         published = it.get("published_at")
@@ -1366,7 +1370,16 @@ def summarize(items: List[Dict[str, Any]], *, language: str = "de", profile: str
         )
         content = (r.choices[0].message.content or "").strip()
         if report_key == "cybermed":
-            return validate_generated_text(content, stage="overview")
+            validate_generated_text(content, stage="overview")
+            if any((it.get("source") or "").lower() == "pubmed" for it in items):
+                # The overview cannot make a second, unconstrained medical
+                # assertion different from the per-paper canonical core.
+                rows = ["## Executive Summary" if lang == "en" else "## Kurzüberblick", ""]
+                for it in items:
+                    if (it.get("source") or "").lower() == "pubmed":
+                        rows.append(f"- {it.get('title') or 'PubMed paper'}: {build_pubmed_facts(it).core(lang)}")
+                return "\n".join(rows)
+            return content
         return content
     except Exception as e:
         if report_key == "cybermed":
@@ -1521,6 +1534,16 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
             "doi": (item.get("doi") or "").strip(),
             "text": text,
         }
+    if src == "pubmed" and is_cybermed:
+        facts = build_pubmed_facts(item)
+        meta["text"] = facts.evidence
+        meta["abstract"] = evidence_input({"abstract": item.get("abstract") or item.get("text")}, budget=8000)[0]
+        meta["canonical_facts"] = facts.to_dict()
+        meta["canonical_facts"].pop("evidence", None)
+        meta["canonical_bottom_line"] = facts.core(lang)
+        if fulltext_excerpt:
+            meta["full_text_excerpt"] = evidence_input({"full_text_excerpt": fulltext_excerpt}, budget=8000)[0]
+        sys_prompt += "\nNever infer efficacy from objectives. Use the canonical primary outcome, groups, denominators, significance and uncertainty; secondary outcomes do not replace primary results.\n"
     payload = json.dumps(meta, ensure_ascii=False, indent=2)
 
     user_prompt = (
@@ -1576,6 +1599,9 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
                     response_format={"type": "json_object"},
                 )
                 raw_json = (r_json.choices[0].message.content or "").strip()
+                if is_cybermed and getattr(r_json.choices[0], "finish_reason", None) not in {None, "stop"}:
+                    item["_pubmed_evidence_reduction"] = ["incomplete_response"]
+                    return facts.deep_dive(lang)
                 if is_cybermed:
                     raw_json = validate_generated_text(
                         raw_json,
@@ -1755,6 +1781,13 @@ def summarize_item_detail(item: Dict[str, Any], *, language: str = "de", profile
         )
         item["_deep_dive_not_reported_fields"] = not_reported_fields
         item["_deep_dive_all_fields_placeholder"] = not_reported_fields >= 7
+        if src == "pubmed" and is_cybermed:
+            facts = build_pubmed_facts(item)
+            item["_pubmed_evidence_reduction"] = candidate_issues(facts, content)
+            # Fields without verifiable source/endpoint binding are reduced to
+            # extractive evidence. No extra provider retry is introduced.
+            content = facts.deep_dive(lang)
+            item["bottom_line"] = facts.core(lang)
         return content
     except Exception as e:
         if is_cybermed:
@@ -1773,7 +1806,10 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
 
     lang = _norm_language(language)
     text = ((item.get("text") or item.get("abstract") or "")).strip()
-    if len(text) > 2000:
+    if _is_cybermed_generation():
+        facts = build_pubmed_facts(item)
+        text = facts.evidence
+    elif len(text) > 2000:
         text = text[:2000].rstrip()
 
     published = item.get("published_at")
@@ -1790,6 +1826,10 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
         "published_at": published_str,
         "text": text,
     }
+    if _is_cybermed_generation():
+        meta["canonical_facts"] = facts.to_dict()
+        meta["canonical_facts"].pop("evidence", None)
+        meta["canonical_bottom_line"] = facts.core(lang)
 
     sys_prompt = (
         "You are a concise clinical summarizer. Write strictly in English.\n"
@@ -1828,7 +1868,13 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
         )
         content = (r.choices[0].message.content or "").strip()
         if _is_cybermed_generation():
-            return validate_generated_text(content, stage="pubmed_bottom_line")
+            validate_generated_text(content, stage="pubmed_bottom_line")
+            item["_pubmed_evidence_reduction"] = candidate_issues(
+                facts, content, finish_reason=getattr(r.choices[0], "finish_reason", None)
+            )
+            item["pubmed_facts"] = facts.to_dict()
+            item["facts_version"] = facts.version
+            return facts.core(lang)
         return content
     except Exception as e:
         if _is_cybermed_generation():
