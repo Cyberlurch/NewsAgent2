@@ -21,7 +21,8 @@ and development packages, then runs `pip check`. Production and maintenance
 workflows use `bash tools/install_dependencies.sh runtime`; pytest and PyYAML
 are development-only requirements. The lock includes direct and transitive
 dependencies and preserves the already tested environment's versions.
-Actionlint 1.7.7 is downloaded from its upstream release and SHA-256 verified.
+Actionlint 1.7.12 is downloaded from its upstream release and SHA-256 verified;
+it supports the production workflows' native `schedule.timezone` syntax.
 
 Run checks in a separate filesystem copy when auditing state integrity. This
 does not require a Git worktree. For example, after activating the environment:

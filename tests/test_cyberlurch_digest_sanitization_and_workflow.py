@@ -27,8 +27,10 @@ def test_sanitize_digest_state_removes_synthetic_records():
 def test_workflow_dispatch_all_modes_and_overrides_present():
     yml = Path('.github/workflows/newsagent.yml').read_text(encoding='utf-8')
     assert '- all' in yml
-    assert 'run_modes="daily weekly monthly yearly"' in yml
-    assert 'which_report=$run_which_report' in yml
+    from newsagent2.edition_plan import CADENCES
+    assert list(CADENCES) == ['daily','weekly','monthly','yearly']
+    assert 'edition_plan --report-key cyberlurch' in yml
+    assert 'RUN_WHICH_REPORT: ${{ steps.compute_plan.outputs.run_which_report }}' in yml
     assert 'Manual email mode' in yml
 
 
@@ -40,8 +42,9 @@ def test_yearly_cyberlurch_no_clinical_fallback_strings():
 
 def test_schedule_crons_and_gate_target_0530_stockholm_and_order():
     yml = Path('.github/workflows/newsagent.yml').read_text(encoding='utf-8')
-    assert '30 3 * * *' in yml
-    assert '30 4 * * *' in yml
-    assert 'Gate scheduled runs to 05:30 Europe/Stockholm' in yml
-    assert 'expected_cron="30 3 * * *"' in yml
-    assert 'expected_cron="30 4 * * *"' in yml
+    assert 'cron: "30 5 * * *"' in yml and 'timezone: Europe/Stockholm' in yml
+    assert 'NEWSAGENT_PLAN_PATH:' in yml
+    assert 'edition_plan --report-key cyberlurch' in yml
+    from newsagent2.edition_plan import planned_modes
+    from datetime import date
+    assert planned_modes('cyberlurch',date(2027,1,1)) == ['monthly','yearly','daily','weekly']

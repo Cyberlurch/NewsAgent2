@@ -13,10 +13,11 @@ def test_cybermed_weekly_shifts_from_midsummer_friday_to_thursday():
 
 
 def test_monthly_and_yearly_shift_forward_from_jan1():
-    modes = compute_cybermed_modes_for_date(date(2022, 1, 3))
+    modes = compute_cybermed_modes_for_date(date(2022, 1, 7))
     assert "monthly" in modes and "yearly" in modes
 
 
 def test_cyberlurch_independent_of_swedish_no_send():
     modes = compute_cyberlurch_modes_for_date(date(2026, 6, 20))
-    assert "daily" in modes
+    assert "daily" not in modes
+    assert compute_cyberlurch_modes_for_date(date(2026,11,1)) == ["monthly"]

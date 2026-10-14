@@ -159,9 +159,18 @@ def test_workflow_has_no_pull_rebase_pattern():
     assert 'pull --rebase' not in yml
 
 
-def test_workflow_run_plan_log_formatting():
+def test_workflow_run_plan_log_formatting(monkeypatch, tmp_path, capsys):
+    from newsagent2 import edition_plan
     yml = pathlib.Path('.github/workflows/newsagent.yml').read_text(encoding='utf-8')
-    assert "printf 'Run plan: modes=[%s] which_report=%s\\n' \"$run_modes\" \"$run_which_report\"" in yml
+    assert 'edition_plan --report-key cyberlurch' in yml
+    monkeypatch.setenv('NEWSAGENT_PLAN_PATH',str(tmp_path/'plan.json'))
+    monkeypatch.setenv('GITHUB_EVENT_NAME','manual')
+    monkeypatch.setenv('REPORT_MODE','all')
+    monkeypatch.setattr(sys,'argv',['plan','--report-key','cyberlurch','--created-at','2026-10-30T12:00:00Z','--job-started-at','2026-10-30T12:01:00Z'])
+    edition_plan.main()
+    message=json.loads(capsys.readouterr().out)
+    assert message['report_key']=='cyberlurch' and message['modes']=='daily weekly monthly yearly'
+    assert set(message)=={'report_key','modes','reason','slot_source'}
 
 
 def test_monthly_rollup_contains_minimal_semantic_sections(tmp_path, monkeypatch):

@@ -5,24 +5,13 @@ from datetime import date, timedelta
 from .swedish_calendar import (
     cybermed_holiday_greeting_for_date,
     is_swedish_no_send_day,
-    next_swedish_business_day,
-    previous_swedish_business_day,
     swedish_no_send_days,
 )
 
 
 def compute_cyberlurch_modes_for_date(d: date, report_mode_request: str = "scheduled") -> list[str]:
-    if report_mode_request != "scheduled":
-        return [report_mode_request]
-    modes: list[str] = []
-    if d.day == 1:
-        modes.append("monthly")
-        if d.month == 1:
-            modes.append("yearly")
-    modes.append("daily")
-    if d.weekday() == 4:
-        modes.append("weekly")
-    return modes
+    from .edition_plan import planned_modes
+    return planned_modes("cyberlurch", d) if report_mode_request == "scheduled" else [report_mode_request]
 
 
 def _weekly_target_friday(d: date) -> date:
@@ -30,32 +19,8 @@ def _weekly_target_friday(d: date) -> date:
 
 
 def compute_cybermed_modes_for_date(d: date, report_mode_request: str = "scheduled") -> list[str]:
-    if report_mode_request != "scheduled":
-        return [report_mode_request]
-    modes: list[str] = []
-    if not is_swedish_no_send_day(d):
-        modes.append("daily")
-
-    friday = _weekly_target_friday(d)
-    if d <= friday:
-        weekly_run = previous_swedish_business_day(friday + timedelta(days=1)) if is_swedish_no_send_day(friday) else friday
-        if d == weekly_run:
-            modes.append("weekly")
-
-    if d.day == 1:
-        if not is_swedish_no_send_day(d):
-            modes.append("monthly")
-            if d.month == 1:
-                modes.append("yearly")
-    else:
-        first = date(d.year, d.month, 1)
-        if is_swedish_no_send_day(first) and d == next_swedish_business_day(first):
-            modes.append("monthly")
-        if d.month == 1:
-            jan1 = date(d.year, 1, 1)
-            if is_swedish_no_send_day(jan1) and d == next_swedish_business_day(jan1):
-                modes.append("yearly")
-    return modes
+    from .edition_plan import planned_modes
+    return planned_modes("cybermed", d) if report_mode_request == "scheduled" else [report_mode_request]
 
 
 def compute_scheduled_run_plan(d: date) -> dict:
@@ -67,9 +32,10 @@ def compute_scheduled_run_plan(d: date) -> dict:
     if "weekly" in cybermed_modes and d.weekday() != 4:
         shifted.append("weekly")
     first = date(d.year, d.month, 1)
-    if "monthly" in cybermed_modes and d != first:
+    base_friday = first + timedelta(days=(4-first.weekday()) % 7)
+    if "monthly" in cybermed_modes and d != base_friday:
         shifted.append("monthly")
-    if "yearly" in cybermed_modes and d != date(d.year, 1, 1):
+    if "yearly" in cybermed_modes and d != base_friday:
         shifted.append("yearly")
     return {
         "cybermed_modes": cybermed_modes,

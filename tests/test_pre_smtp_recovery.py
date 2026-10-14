@@ -161,7 +161,8 @@ def test_explicit_no_marker_policy_is_bound_and_replayable(saved):
 
 @pytest.mark.parametrize('key',['cybermed','cyberlurch'])
 @pytest.mark.parametrize('instant',['2024-02-29T12:00:00+00:00','2026-12-31T12:00:00+00:00','2027-01-01T12:00:00+00:00'])
-def test_real_generation_pipeline_is_fully_approved_before_replay_checkpoint(saved,key,instant,monkeypatch,freeze_clock):
+@pytest.mark.parametrize('planned',[False,True])
+def test_real_generation_pipeline_is_fully_approved_before_replay_checkpoint(saved,key,instant,monkeypatch,freeze_clock,planned):
     prepare,cli,SMTP,calls,generation,root=saved
     from datetime import datetime,timezone
     import calendar
@@ -200,6 +201,13 @@ def test_real_generation_pipeline_is_fully_approved_before_replay_checkpoint(sav
         target=path_for('CYBERMED_DAILY_DIGEST_STATE_PATH')
     monkeypatch.setenv('EMAIL_MODE','real'); monkeypatch.setenv('SEND_EMAIL','1')
     monkeypatch.setattr(main,'send_markdown',emailer.send_markdown)
+    if planned:
+        from newsagent2.edition_plan import make_plan, validate_plan
+        request='monthly' if key=='cyberlurch' else 'daily'
+        plan=make_plan(key,created_at=instant,job_started_at=instant,trigger='workflow_dispatch',request=request,mode='real')
+        plan_path=root/'plan.json'
+        store_io.atomic_store(plan_path,plan,kind='test_plan',validate=validate_plan)
+        monkeypatch.setenv('NEWSAGENT_PLAN_PATH',str(plan_path))
     original=store_io.atomic_store
     def fail_output(path,*a,**k):
         if Path(path)==target: raise StoreError('generated_output','persistence_failed')
