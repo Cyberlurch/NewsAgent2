@@ -58,8 +58,8 @@ settings and credential variables, sets `EMAIL_MODE=none`/`SEND_EMAIL=0`, and
 injects every registered `run_context.PATHS` destination into a session temp dir.
 Each test receives its own temporary paths and may deliberately override them.
 The registry covers processed items (including FOAMed health), rollups, both
-Cybermed stores, Cyberlurch digests, YouTube channel IDs/content/attempts and the
-delivery journal. The writer lock is derived from the injected journal;
+Cybermed stores, Cyberlurch digests, YouTube channel IDs/content/attempts, the delivery journal and the dedicated
+Cybermed PubMed ingestion store. The writer lock is derived from the injected journal;
 `REPORT_DIR` isolates reports, diagnostics, local state and recovery receipts.
 Provider-local temporaries also use the test temp directory.
 

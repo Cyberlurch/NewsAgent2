@@ -125,13 +125,16 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
                     if info.is_dir():
                         continue
                     name = Path(info.filename).name
-                    if name not in {"journal.json", "git_persistence.json"} and not re.fullmatch(r"[0-9a-f]{64}\.md|(?:[a-f0-9]{16}_)?(?:cybermed|cyberlurch)_[a-z]+_[a-z_]+_generated_delta\.json", name):
+                    if name not in {"journal.json", "git_persistence.json", "cybermed_pubmed_ingestion.json"} and not re.fullmatch(r"[0-9a-f]{64}\.md|(?:[a-f0-9]{16}_)?(?:cybermed|cyberlurch)_[a-z]+_[a-z_]+_generated_delta\.json", name):
                         continue
                     (directory / name).write_bytes(archive.read(info))
             if not (directory / "journal.json").is_file():
                 raise ValueError("missing_journal")
             import_recovery(directory, recovery_dir=report_dir / "recovery")
             restore_generated_records(directory, report_key)
+            if report_key == "cybermed":
+                from .pubmed_ingestion import restore
+                restore(directory)
         except (ValueError, OSError, requests.RequestException, zipfile.BadZipFile):
             raise RuntimeError("delivery_recovery_artifact_invalid") from None
 
@@ -218,6 +221,11 @@ def publish_state(paths: list[str], *, report_dir: Path, backfill_apply: bool = 
             load_cybermed_weekly_digest_store(path)
         elif path.endswith("delivery_journal.json"):
             load_journal(Path(path))
+        elif path.endswith("cybermed_pubmed_ingestion.json"):
+            if os.getenv("REPORT_KEY") != "cybermed":
+                raise RuntimeError("publication_newsletter_scope_mismatch")
+            from .pubmed_ingestion import valid
+            read_store(path, {}, kind="cybermed_pubmed_ingestion", validate=valid)
         else:
             read_store(path, {}, kind="publication_input")
     branch = os.getenv("GITHUB_REF_NAME", "")

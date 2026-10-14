@@ -251,7 +251,7 @@ jobs:
           set -euo pipefail
           git config user.name "newsagent-bot"
           git config user.email "newsagent-bot@users.noreply.github.com"
-          python -m src.newsagent2.workflow_delivery publish --paths state/processed_items.json state/rollups.json state/delivery_journal.json state/cybermed_daily_digests.json state/cybermed_weekly_digests.json
+          python -m src.newsagent2.workflow_delivery publish --paths state/processed_items.json state/rollups.json state/delivery_journal.json state/cybermed_daily_digests.json state/cybermed_weekly_digests.json state/cybermed_pubmed_ingestion.json
 
       - name: Upload cybermed delivery recovery
         if: always() && steps.plan.outputs.skip != 'true'
