@@ -455,6 +455,9 @@ def _parse_pubmed_xml(xml_text: str, max_items: int, *, preserve_unknown_dates: 
             [_extract_text(mh) for mh in art.findall(".//MeshHeadingList/MeshHeading/DescriptorName")]
         )
         keywords = _extract_unique_values([_extract_text(kw) for kw in art.findall(".//KeywordList/Keyword")])
+        comments_corrections = [{"ref_type": str(node.attrib.get("RefType") or ""),
+                                 "pmid": _extract_text(node.find("PMID"))}
+                                for node in art.findall(".//CommentsCorrectionsList/CommentsCorrections")]
         abstract_sections = _extract_abstract_sections(art)
         evidence_tags = _derive_evidence_tags(
             publication_types=publication_types,
@@ -493,6 +496,7 @@ def _parse_pubmed_xml(xml_text: str, max_items: int, *, preserve_unknown_dates: 
                 "pmcid": pmcid,
                 "pii": pii,
                 "publication_types": publication_types,
+                "comments_corrections": comments_corrections,
                 "mesh_headings": mesh_headings,
                 "keywords": keywords,
                 "abstract_sections": abstract_sections,

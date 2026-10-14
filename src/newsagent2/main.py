@@ -534,6 +534,9 @@ def _sanitize_cybermed_pubmed_item(item: Dict[str, Any]) -> Dict[str, Any]:
         "source_type": "pubmed",
         "pubmed_facts": item.get("pubmed_facts"),
         "facts_version": item.get("facts_version", ""),
+        "paper_delivery": item.get("paper_delivery"),
+        "paper_update": item.get("paper_update", ""),
+        "comments_corrections": list(item.get("comments_corrections") or []),
         "query_provenance": list(item.get("query_provenance") or []),
         "ingestion_window": item.get("ingestion_window"),
         "newly_ingested": bool(item.get("newly_ingested")),
@@ -2143,10 +2146,11 @@ def _update_state_after_run(
     if delivery_result is None:
         if ctx is None:
             raise RuntimeError("delivery_outcome_required_before_markers")
-        def minimal(rows):
-            return [{key: row.get(key) for key in ("source", "id", "title", "channel", "url") if row.get(key) is not None} for row in rows]
-        intents = dict(items_all_new=minimal(items_all_new), overview_items=minimal(overview_items),
-                       detail_items=minimal(detail_items), foamed_overview_items=minimal(foamed_overview_items),
+        def minimal(rows, *, paper_fields=False):
+            fields = ("source", "id", "title", "channel", "url") + (("paper_delivery",) if paper_fields else ())
+            return [{key: row.get(key) for key in fields if row.get(key) is not None} for row in rows]
+        intents = dict(items_all_new=minimal(items_all_new), overview_items=minimal(overview_items, paper_fields=True),
+                       detail_items=minimal(detail_items, paper_fields=True), foamed_overview_items=minimal(foamed_overview_items),
                        report_key=report_key, report_mode=report_mode, now_utc_iso=now_utc_iso)
         ctx.finalization = intents
         ctx.finalization_policy = "markers"
@@ -3170,11 +3174,26 @@ def _main() -> None:
                 print(f"[digest-store] {report_mode} no digest records available; using collection fallback.")
 
     ingestion = None
+    paper_ledger = None
+    source_updates = []
     if is_cybermed_run and report_mode == "daily" and not qa_replay_enabled and not backfill_enabled:
         from .pubmed_ingestion import IngestionSession
         ingestion = IngestionSession(now_utc)
         current().pubmed_ingestion = ingestion
         channels = ingestion.order(channels)
+        from .paper_delivery import PaperLedger
+        def audience_binding():
+            import hashlib, hmac
+            refs = current_audience_refs(report_key, "daily")
+            key = (os.getenv("DELIVERY_RECIPIENT_HMAC_KEY") or "").encode()
+            return refs, hmac.new(key, b"newsagent2-key-id", hashlib.sha256).hexdigest()
+        paper_ledger = PaperLedger(current().coordinator.journal, report_key=report_key,
+            legacy_digests=_load_cybermed_daily_digest_state(cybermed_digest_state_path),
+            state=load_state(state_path), audience=audience_binding if current().production and send_enabled() else None)
+        if current().production:
+            unknown = current().coordinator.journal.setdefault("paper_legacy_unknown", {"version": 1, "reports": {}})
+            unknown["reports"][report_key] = sorted(set(unknown["reports"].get(report_key, [])) | {i for i in paper_ledger.legacy if i.isdigit()})
+        ingestion.refresh_reviews(paper_ledger)
     if (not use_digest_store_primary) or collect_with_digest_supplement:
         for ch in channels:
             cname = ch["name"]
@@ -3426,9 +3445,24 @@ def _main() -> None:
                     if not pmid:
                         continue
 
+                    paper_meta = None
+                    paper_decision = None
+                    if paper_ledger:
+                        from .paper_delivery import paper_metadata
+                        paper_meta = paper_metadata(a)
+                        paper_decision = paper_ledger.decide(paper_meta)
+                        ingestion.paper_decisions[pmid] = {"action": paper_decision.action,
+                            "category": paper_decision.category, "edition_ids": list(paper_decision.edition_ids)}
+                        if paper_decision.action == "review":
+                            ingestion.quarantine(pmid, a, paper_decision)
+                            continue
+                        if paper_decision.action == "duplicate":
+                            ingestion.deduplicated.add(pmid)
+                            continue
+
                     skip_by_state = False
                     if not read_only_mode and not qa_replay_enabled and not backfill_enabled:
-                        if is_cybermed_run:
+                        if is_cybermed_run and paper_ledger is None:
                             skip_by_state, skip_reason = should_skip_pubmed_item(
                                 state,
                                 report_key,
@@ -3438,7 +3472,7 @@ def _main() -> None:
                             )
                             if skip_by_state:
                                 pubmed_state_skip_reasons[skip_reason] = pubmed_state_skip_reasons.get(skip_reason, 0) + 1
-                        else:
+                        elif not is_cybermed_run:
                             skip_by_state = is_processed(state, report_key, "pubmed", pmid)
 
                     if skip_by_state:
@@ -3473,6 +3507,9 @@ def _main() -> None:
                             "doi": (a.get("doi") or "").strip(),
                             "description": (a.get("journal") or "").strip(),
                             "pmid": pmid,
+                            "paper_delivery": paper_meta,
+                            "paper_update": paper_decision.category if paper_decision else "",
+                            "comments_corrections": list(a.get("comments_corrections") or []),
                             "query_provenance": list(a.get("query_provenance") or []),
                             "ingestion_window": a.get("ingestion_window"),
                             "newly_ingested": bool(a.get("newly_ingested")),
@@ -3488,6 +3525,14 @@ def _main() -> None:
                             "evidence_tags": list(a.get("evidence_tags") or []),
                         }
                     )
+
+                    if paper_decision and paper_decision.category in {
+                            "retraction_notice", "correction_notice", "expression_of_concern_notice",
+                            "corrected_republication", "retracted_original", "source_status_update"}:
+                        update = items.pop()
+                        from .paper_delivery import describe_update
+                        update["bottom_line"] = describe_update(update, paper_decision.category)
+                        source_updates.append(update)
 
             else:
                 print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
@@ -4473,7 +4518,7 @@ def _main() -> None:
     else:
         report_items = list(items)
 
-    if not report_items:
+    if not report_items and not source_updates:
         if report_language.lower().startswith("en"):
             overview = cybermed_meta_block + "## Executive Summary\n\nNo new content in the last 24 hours.\n"
         else:
@@ -4667,6 +4712,11 @@ def _main() -> None:
         _write_cybermed_diagnostics(report_dir, report_mode, cybermed_diagnostics_payload)
         return
 
+    if source_updates:
+        source_updates = sorted(_dedupe_items(source_updates), key=lambda row: (
+            0 if row["paper_delivery"]["kind"] in {"retraction_notice", "retracted_original", "expression_of_concern_notice"} else 1,
+            int(row["id"])))[:min(3, max(1, overview_items_max))]
+
     detail_items: List[Dict[str, Any]] = []
     deep_dive_ids: Set[str] = set()
     deep_dive_skip_note = ""
@@ -4678,7 +4728,7 @@ def _main() -> None:
                 pubmed_overview_items,
                 key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=timezone.utc),
                 reverse=True,
-            )[: max(1, overview_items_max)]
+            )[: max(0, max(1, overview_items_max) - len(source_updates))]
 
         detail_items = list(pubmed_deep_dive_items)[: max(0, deep_dive_limit)]
         report_items = _dedupe_items(overview_items + detail_items + foamed_overview_items)
@@ -5037,11 +5087,14 @@ def _main() -> None:
                             youtube_diag.managed_transcript_full_within_limit_total += 1
                             youtube_diag.transcript_processing_not_needed_total += 1
                     summarize_start = time.monotonic()
-                    raw_overview = summarize(
-                        overview_items,
-                        language=report_language,
-                        profile=report_profile,
-                    ).strip()
+                    if source_updates and not overview_items:
+                        raw_overview = "Only PubMed source notices were captured; see the source updates section."
+                    else:
+                        raw_overview = summarize(
+                            overview_items,
+                            language=report_language,
+                            profile=report_profile,
+                        ).strip()
                     if is_cybermed_run:
                         overview_body = safe_generated_text(raw_overview)
                         if not overview_body:
@@ -5732,6 +5785,14 @@ def _main() -> None:
         monthly_target_month=cyberlurch_monthly_target_month if report_key == "cyberlurch" and report_mode == "monthly" else None,
     )
 
+    if ingestion:
+        rendered_ids = set(cybermed_run_stats.get("pubmed_rendered_ids", []))
+        overview_items = [row for row in overview_items if row["id"] in rendered_ids]
+        detail_items = [row for row in detail_items if row["id"] in rendered_ids]
+    if source_updates:
+        from .paper_delivery import notice_markdown
+        source_updates = _dedupe_items(source_updates)
+        md += notice_markdown(source_updates)
     if is_cybermed_run:
         assert_no_generation_error_text(md, boundary="rendered_markdown")
         cybermed_generation_leak_guard_passed = True
@@ -5746,7 +5807,7 @@ def _main() -> None:
         f.write(md)
     print(f"[report] Wrote {out_path}")
     if ingestion:
-        current().pubmed_generated_ids = {str(row.get("id") or "") for row in report_items if row.get("source") == "pubmed"}
+        current().pubmed_generated_ids = {str(row.get("id") or "") for row in overview_items + detail_items + source_updates if row.get("source") == "pubmed"}
         note = ingestion.reader_note()
         if note:
             md += "\n\n> " + note + "\n"
@@ -6088,7 +6149,7 @@ def _main() -> None:
             dstate = _load_cybermed_daily_digest_state(cybermed_digest_state_path)
             digests = list(dstate.get("digests") or [])
             existing_idx = next((i for i, d in enumerate(digests) if str((d or {}).get("digest_id") or "") == digest_id), -1)
-            pubmed_items = [_sanitize_cybermed_pubmed_item(it) for it in pubmed_overview_items]
+            pubmed_items = [_sanitize_cybermed_pubmed_item(it) for it in _dedupe_items(overview_items + detail_items + source_updates)]
             foamed_items = [_sanitize_cybermed_foamed_item(it) for it in foamed_overview_items]
             deep_dives = []
             for it in pubmed_deep_dive_items:
@@ -6387,8 +6448,8 @@ def _main() -> None:
     _update_state_after_run(
         state_path=state_path,
         state=state,
-        items_all_new=(daily_screened_metadata if is_cyberlurch_daily else items_all_new),
-        overview_items=overview_items,
+        items_all_new=(daily_screened_metadata if is_cyberlurch_daily else items_all_new + source_updates),
+        overview_items=overview_items + source_updates,
         detail_items=detail_items,
         foamed_overview_items=foamed_overview_items,
         report_key=report_key,

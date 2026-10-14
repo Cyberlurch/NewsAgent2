@@ -57,6 +57,10 @@ def import_recovery(directory: Path, *, journal_path: Path | None = None, recove
             # a failed Git push does not establish markers in this checkout.
             row["state_persisted"] = False
         existing["editions"][edition] = row
+    if incoming.get("paper_legacy_unknown") and any(key.endswith(":production") for key in incoming["editions"]):
+        retained = existing.setdefault("paper_legacy_unknown", {"version": 1, "reports": {}})
+        for report, ids in incoming["paper_legacy_unknown"]["reports"].items():
+            retained["reports"][report] = sorted(set(retained["reports"].get(report, [])) | set(ids))
     atomic_store(target, existing, kind="delivery_journal", validate=journal_valid)
     if recovery_dir:
         recovery_dir.mkdir(parents=True, exist_ok=True)

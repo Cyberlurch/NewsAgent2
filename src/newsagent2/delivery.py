@@ -102,6 +102,14 @@ class DeliveryError(RuntimeError):
 def journal_valid(value) -> bool:
     if not isinstance(value, dict) or not isinstance(value.get("editions"), dict):
         return False
+    unknown = value.get("paper_legacy_unknown")
+    if unknown is not None:
+        if (not isinstance(unknown, dict) or unknown.get("version") != 1
+                or not isinstance(unknown.get("reports"), dict)
+                or any(key not in {"cybermed", "cyberlurch"} or not isinstance(ids, list)
+                       or any(not isinstance(i, str) or not i.isdigit() for i in ids)
+                       for key, ids in unknown["reports"].items())):
+            return False
     for key, row in value["editions"].items():
         try:
             result = DeliveryResult(**row)
@@ -146,7 +154,18 @@ def journal_valid(value) -> bool:
                 return False
             for field_name in ("items_all_new", "overview_items", "detail_items", "foamed_overview_items"):
                 rows = result.finalization.get(field_name, [])
-                if not isinstance(rows, list) or any(not isinstance(row, dict) or set(row) - {"source", "id", "title", "channel", "url"} for row in rows):
+                if not isinstance(rows, list) or any(not isinstance(row, dict) or set(row) - {"source", "id", "title", "channel", "url", "paper_delivery"} for row in rows):
+                    return False
+                from .paper_delivery import metadata_valid
+                for item in rows:
+                    if "paper_delivery" in item and (item.get("source") != "pubmed" or
+                            not metadata_valid(item["paper_delivery"]) or item.get("id") != item["paper_delivery"]["pmid"]):
+                        return False
+            if result.recovery and any("paper_delivery" in item for field in
+                    ("items_all_new", "overview_items", "detail_items", "foamed_overview_items")
+                    for item in result.finalization.get(field, [])):
+                from .paper_delivery import digest
+                if result.recovery["finalization_hash"] != digest(result.finalization):
                     return False
             if result.status == "accepted_by_smtp" and (not result.accepted or result.rejected or result.unknown):
                 return False

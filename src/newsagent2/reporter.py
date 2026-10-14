@@ -1612,6 +1612,8 @@ def to_markdown(
                     md.extend([f"#### {sub}", ""])
                     for idx, it in enumerate(sub_items):
                         iid = str(it.get("id") or "").strip()
+                        if isinstance(cybermed_stats, dict):
+                            cybermed_stats.setdefault("pubmed_rendered_ids", []).append(iid)
                         url = str(it.get("url") or "").strip()
                         title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
                         display_title = title_lbl
@@ -1625,6 +1627,9 @@ def to_markdown(
                             f"**[{display_title}]({url})** — *{label}*" if url else f"**{display_title}** — *{label}*"
                         )
                         compact = _pubmed_compact_line(it)
+                        if normalized_mode == "daily" and it.get("paper_update") == "reported_results_update":
+                            md.append("")
+                            md.append("*Source update: changed reported primary-result figures; no independent medical revalidation is claimed.*")
                         if normalized_mode == "daily" and it.get("newly_ingested") and it.get("older_publication"):
                             md.append("")
                             publication = it.get("published_at")
@@ -1788,6 +1793,8 @@ def to_markdown(
             title_lbl = _md_escape_label(str(it.get("title") or "").strip() or "Untitled")
             url = str(it.get("url") or "").strip()
             if is_cybermed and str(it.get("source") or "").strip().lower() == "pubmed":
+                if isinstance(cybermed_stats, dict):
+                    cybermed_stats.setdefault("pubmed_rendered_ids", []).append(str(it.get("id") or ""))
                 heading_body = _cybermed_pubmed_deep_dive_heading_body(it, title_lbl, url)
             else:
                 ch = _md_escape_label(str(it.get("channel") or it.get("source") or "Source").strip() or "Source")
