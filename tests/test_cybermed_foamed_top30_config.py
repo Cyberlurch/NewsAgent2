@@ -6,15 +6,16 @@ def _load():
     return json.loads(Path('data/cybermed_foamed_sources.json').read_text(encoding='utf-8'))
 
 
-def test_top30_source_config_shape_and_count():
+def test_source_config_shape_and_unique_roles():
     cfg = _load()
-    assert len(cfg) == 30
+    assert cfg
+    assert len({s["name"] for s in cfg}) == len(cfg)
     for src in cfg:
         assert src.get('name')
         assert src.get('homepage') or src.get('feed_url')
         assert src.get('domain_group') in {'critical_care','emergency_medicine','anesthesiology','pediatric_emergency','mixed'}
         assert src.get('priority_tier') in {'1 core','2 important','3 audit_optional'}
-        assert src.get('extraction_strategy') in {'rss_then_article','html_only','rss_only','audit_only','disabled'}
+        assert src.get('extraction_strategy') in {'rss_then_article','html_only','rss_only','audit_only','disabled','reference'}
 
 
 def test_journalfeed_and_rebel_and_aliem_profiles():
@@ -35,7 +36,8 @@ def test_repaired_official_source_endpoints_and_health_epochs():
     by_name = {s['name']: s for s in _load()}
     ccr = by_name['Critical Care Reviews']
     assert ccr['homepage'] == 'https://criticalcarereviews.com/latest-evidence/paper-of-the-day'
-    assert ccr['listing_page_as_item'] is True
+    assert ccr['listing_page_as_item'] is False
+    assert ccr['listing_adapter'] == 'ccr_dated_articles_v1'
     assert ccr['health_epoch']
 
     taming = by_name['Taming the SRU']

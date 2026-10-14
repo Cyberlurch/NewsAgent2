@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from .foamed_sources import commentary_identity
 from .store_io import read_store, atomic_store, generated_store, digest_store, StoreError
 import copy
 import os
@@ -377,6 +378,8 @@ def normalized_title(text: str) -> str:
 
 
 def dedupe_key(item: Dict[str, Any]) -> Tuple[str, str]:
+    if key := commentary_identity(item):
+        return key
     for key in ("pmid", "doi", "url", "item_id", "id"):
         v = str(item.get(key) or "").strip().lower()
         if v:
@@ -633,6 +636,8 @@ def _source_type(item: Dict[str, Any]) -> str:
 
 
 def _match_keys(item: Dict[str, Any]) -> list[tuple[str, str]]:
+    if key := commentary_identity(item):
+        return [key]
     keys: list[tuple[str, str]] = []
     for field in ("item_id", "id", "pmid", "doi", "url"):
         value = str(item.get(field) or "").strip().lower()

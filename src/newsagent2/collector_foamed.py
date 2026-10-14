@@ -14,6 +14,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
 
 import feedparser
+from .foamed_sources import parse_feed, freshness, ccr_items
 import requests
 from bs4 import BeautifulSoup
 from dateutil import parser as dateparser
@@ -64,6 +65,8 @@ class _FetchResult:
     content: Optional[bytes]
     final_url: Optional[str]
     error: Optional[str]
+    content_type: str | None = None
+    redirects: int = 0
 
 
 def _median(vals: List[int]) -> int:
@@ -392,11 +395,11 @@ def _fetch_url(
         r = session.get(url, timeout=timeout_s, allow_redirects=True, headers=headers)
         status = int(getattr(r, "status_code", 0) or 0) or None
         if r.ok:
-            return _FetchResult(ok=True, status_code=status, content=r.content, final_url=str(r.url), error=None)
+            return _FetchResult(ok=True, status_code=status, content=r.content, final_url=str(r.url), error=None, content_type=getattr(r, "headers", {}).get("Content-Type"), redirects=len(getattr(r, "history", [])))
         # Keep common 'meaningful failures' for diagnostics.
         if status in (401, 402, 403, 404, 410, 429):
-            return _FetchResult(ok=False, status_code=status, content=r.content, final_url=str(r.url), error=None)
-        return _FetchResult(ok=False, status_code=status, content=None, final_url=str(r.url), error=None)
+            return _FetchResult(ok=False, status_code=status, content=r.content, final_url=str(r.url), error=None, content_type=getattr(r, "headers", {}).get("Content-Type"), redirects=len(getattr(r, "history", [])))
+        return _FetchResult(ok=False, status_code=status, content=None, final_url=str(r.url), error=None, content_type=getattr(r, "headers", {}).get("Content-Type"), redirects=len(getattr(r, "history", [])))
     except requests.exceptions.RequestException as e:
         return _FetchResult(ok=False, status_code=None, content=None, final_url=None, error=f"request_exception:{type(e).__name__}")
     except Exception as e:  # pragma: no cover - ultra-safety
@@ -594,7 +597,11 @@ def _run_html_pass(
     headers: Optional[Dict[str, str]],
     feed_type: str,
     listing_page_as_item: bool = False,
+    listing_adapter: str = "",
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    # Old source configurations must not revive page-wide CCR extraction.
+    if name == "Critical Care Reviews":
+        listing_adapter = "ccr_dated_articles_v1"
     stats = {
         "candidates_seen": 0,
         "pages_fetched": 0,
@@ -636,6 +643,23 @@ def _run_html_pass(
             continue
 
         soup = BeautifulSoup(sr.content, "html.parser")
+        stats["homepage_content_type"] = sr.content_type
+        stats["homepage_final_url"] = sr.final_url
+        stats["homepage_redirects"] = sr.redirects
+        if listing_adapter == "ccr_dated_articles_v1":
+            rows, diag = ccr_items(sr.content, str(sr.final_url or seed), name, now_utc, cutoff)
+            stats.update(diag)
+            stats["last_published"] = datetime.fromisoformat(diag["newest_entry_datetime"]) if diag["newest_entry_datetime"] else None
+            for row in rows:
+                row["legacy_listing_ids"] = sorted({homepage, seed, str(sr.final_url or seed),
+                    _extract_canonical_url(soup, str(sr.final_url or seed))})
+                if row["id"] not in listing_urls_seen:
+                    listing_urls_seen.add(row["id"])
+                    items.append(row)
+            stats["pages_with_date"] = diag["dated_entries"]
+            stats["items_in_window"] = len(items)
+            # Never fall back to page-wide extraction or unrelated article URLs.
+            continue
         if listing_page_as_item:
             listing_item = _listing_page_item(
                 soup=soup,
@@ -897,6 +921,7 @@ def collect_foamed_items(
     sources_config: List[Dict[str, Any]],
     now_utc: datetime,
     lookback_hours: int = 24,
+    *, session: requests.Session | None = None, probe: bool = False,
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     """
     Fetch FOAMed/blog posts from RSS/Atom feeds.
@@ -922,7 +947,7 @@ def collect_foamed_items(
 
     collection_started = time.monotonic()
     collection_budget_seconds = _collection_budget_seconds_from_env()
-    session = _session_with_retries(
+    session = session or _session_with_retries(
         DEFAULT_USER_AGENT,
         retry_total=0 if collection_budget_seconds > 0 else 2,
     )
@@ -930,16 +955,16 @@ def collect_foamed_items(
         setattr(
             session,
             _COLLECTION_DEADLINE_ATTR,
-            collection_started + collection_budget_seconds,
+            min(collection_started + collection_budget_seconds, getattr(session, _COLLECTION_DEADLINE_ATTR, float("inf"))),
         )
     setattr(session, _COLLECTION_BUDGET_EXHAUSTED_ATTR, False)
-    audit_enabled = (os.getenv("FOAMED_AUDIT", "0") or "0").strip() == "1"
+    audit_enabled = not probe and (os.getenv("FOAMED_AUDIT", "0") or "0").strip() == "1"
     forced_fallback_sources = {
         s.strip().lower()
-        for s in (os.getenv("FOAMED_FORCE_FALLBACK_SOURCES", "") or "").split(",")
+        for s in ("" if probe else (os.getenv("FOAMED_FORCE_FALLBACK_SOURCES", "") or "")).split(",")
         if s.strip()
     }
-    article_fetch_enabled = (os.getenv("FOAMED_ARTICLE_FETCH", "0") or "0").strip() == "1"
+    article_fetch_enabled = not probe and (os.getenv("FOAMED_ARTICLE_FETCH", "0") or "0").strip() == "1"
     article_fetch_max = max(0, int((os.getenv("FOAMED_ARTICLE_FETCH_MAX_PER_RUN", "25") or "25").strip() or 25))
     article_fetch_done = 0
     items: List[Dict[str, Any]] = []
@@ -1066,7 +1091,7 @@ def collect_foamed_items(
             headers = dict(DEFAULT_FOAMED_HEADERS)
 
         strategy = str(src.get("extraction_strategy") or "rss_then_article").strip().lower() or "rss_then_article"
-        if strategy not in {"rss_then_article", "html_only", "rss_only", "audit_only", "disabled"}:
+        if strategy not in {"rss_then_article", "html_only", "rss_only", "audit_only", "disabled", "reference"}:
             strategy = "rss_then_article"
         if strategy == "html_only":
             stats["foamed_html_only_sources_total"] += 1
@@ -1076,6 +1101,10 @@ def collect_foamed_items(
             stats["foamed_strategy_override_disabled_total"] += 1
 
         per_source = {
+            "attempted": False, "probe_only": bool(probe or src.get("strategy_override_disabled")), "skipped_reason": "",
+            "configured_health_epoch_changed": bool(src.get("configured_health_epoch_changed")),
+            "feed_parse_result": "not_attempted", "freshness": "unknown",
+            "selected_items": None,
             "items_raw": 0,
             "items_with_date": 0,
             "items_date_unknown": 0,
@@ -1125,6 +1154,15 @@ def collect_foamed_items(
             "final_text_lengths": [],
             "collection_incomplete_due_to_budget": False,
         }
+        if strategy in {"disabled", "audit_only", "reference"} or (src.get("disabled") and not probe):
+            reason = strategy if strategy in {"disabled", "audit_only", "reference"} else "disabled"
+            per_source.update(health="skipped", skipped_reason=reason, source_status=reason)
+            stats["per_source"][name] = per_source
+            stats["foamed_source_strategy_summary"].append({"name": name, "source_status": reason,
+                "extraction_strategy": strategy, "attempted": False, "domain_group": per_source["domain_group"],
+                "priority_tier": per_source["priority_tier"]})
+            continue
+        per_source["attempted"] = True
         rss_urls_in_window: List[str] = []
 
         def record_item(item: Dict[str, Any]) -> None:
@@ -1155,20 +1193,21 @@ def collect_foamed_items(
 
         if feed_url and not forced_fallback and run_rss_stage:
             fr = _fetch_url(session, feed_url, timeout_s=timeout_feed_s, headers=headers or None)
-            per_source["feed_status_code"] = fr.status_code
+            per_source.update(feed_status_code=fr.status_code, feed_content_type=fr.content_type,
+                              feed_final_url=fr.final_url, feed_redirects=fr.redirects)
             if fr.status_code == 403:
                 per_source["blocked"] = True
             if fr.ok and fr.content:
-                parsed = feedparser.parse(fr.content)
-                entries = list(getattr(parsed, "entries", []) or [])
-                per_source["feed_ok"] = True
-                per_source["feed_failed"] = False
+                entries, parse_result = parse_feed(fr.content)
+                per_source.update(feed_parse_result=parse_result, feed_content_type=fr.content_type,
+                    feed_final_url=fr.final_url, feed_redirects=fr.redirects)
+                per_source["feed_ok"] = parse_result in {"entries", "empty_feed"}
+                per_source["feed_failed"] = not per_source["feed_ok"]
                 per_source["method"] = "rss"
-                per_source["why"] = "feed_ok"
-                if getattr(parsed, "bozo", 0) and not entries:
-                    parse_failed = True
-                    be = getattr(parsed, "bozo_exception", None)
-                    per_source["error"] = f"feed_parse_failed:{type(be).__name__}" if be else "feed_parse_failed"
+                per_source["why"] = parse_result
+                parse_failed = not per_source["feed_ok"]
+                if parse_failed:
+                    per_source["error"] = parse_result
             else:
                 per_source["feed_failed"] = True
                 if fr.status_code is not None:
@@ -1181,7 +1220,8 @@ def collect_foamed_items(
         # --- Feed autodiscovery (homepage) ---------------------------------
         if (not entries or not per_source["feed_ok"]) and homepage and not forced_fallback and run_rss_stage:
             hr = _fetch_url(session, homepage, timeout_s=timeout_html_s, headers=headers or None)
-            per_source["homepage_status_code"] = hr.status_code
+            per_source.update(homepage_status_code=hr.status_code, homepage_content_type=hr.content_type,
+                              homepage_final_url=hr.final_url, homepage_redirects=hr.redirects)
             if hr.status_code == 403:
                 per_source["blocked"] = True
             if hr.ok and hr.content:
@@ -1201,17 +1241,19 @@ def collect_foamed_items(
                     if fr2.status_code == 403:
                         per_source["blocked"] = True
                     if fr2.ok and fr2.content:
-                        parsed2 = feedparser.parse(fr2.content)
-                        entries2 = list(getattr(parsed2, "entries", []) or [])
-                        if entries2:
+                        entries2, result2 = parse_feed(fr2.content)
+                        if result2 in {"entries", "empty_feed"}:
                             entries = entries2
                             per_source["feed_ok"] = True
                             per_source["feed_failed"] = False
                             per_source["method"] = "discovered_feed"
                             per_source["why"] = "autodiscovered_feed_ok"
-                        elif getattr(parsed2, "bozo", 0):
+                            per_source.update(feed_parse_result=result2, feed_content_type=fr2.content_type,
+                                feed_final_url=fr2.final_url, feed_redirects=fr2.redirects)
+                            parse_failed = False
+                        else:
                             parse_failed = True
-                            be = getattr(parsed2, "bozo_exception", None)
+                            be = None
                             per_source["error"] = f"feed_parse_failed:{type(be).__name__}" if be else "feed_parse_failed"
 
         # --- Parse RSS entries --------------------------------------------
@@ -1373,7 +1415,12 @@ def collect_foamed_items(
                     headers=headers or None,
                     feed_type=feed_type,
                     listing_page_as_item=bool(src.get("listing_page_as_item")),
+                    listing_adapter=str(src.get("listing_adapter") or ""),
                 )
+                for field in ("homepage_content_type", "homepage_final_url", "homepage_redirects",
+                              "adapter", "adapter_result", "rejected_entries", "dated_entries", "entries_truncated"):
+                    if field in html_stats:
+                        per_source[field] = html_stats[field]
                 per_source["candidates_found"] = html_stats.get("candidates_seen", 0)
                 per_source["pages_fetched"] = html_stats.get("pages_fetched", 0)
                 per_source["pages_with_date"] = html_stats.get("pages_with_date", 0)
@@ -1455,7 +1502,7 @@ def collect_foamed_items(
             except Exception as e:
                 per_source["errors"] += 1
                 per_source["error"] = f"html_fallback_failed:{type(e).__name__}"[:200]
-                print(f"[foamed] WARN source={name!r}: html fallback failed: {e!r}")
+                print(f"[foamed] WARN source={name!r}: html fallback failed: {type(e).__name__}")
 
         if per_source["html_fallback_used"] and not per_source.get("method"):
             per_source["method"] = "html_fallback"
@@ -1528,8 +1575,8 @@ def collect_foamed_items(
             stats["collection_sources_incomplete_budget_total"] += 1
 
         # --- Health classification & counters ------------------------------
-        html_parse_failed = bool(per_source.get("html_fallback_used") and not ok_html and (per_source.get("pages_fetched") or 0) > 0)
-        health = "other"
+        html_parse_failed = False  # No dated items alone is not a parse failure.
+        health = "no_dated_entries" if per_source.get("homepage_status_code") == 200 else "other"
         if collection_incomplete_due_to_budget:
             health = "budget_exhausted"
         elif per_source.get("blocked"):
@@ -1543,6 +1590,7 @@ def collect_foamed_items(
         elif parse_failed or html_parse_failed:
             health = "parse_failed"
 
+        per_source["freshness"] = freshness(per_source.get("newest_entry_datetime"), now_utc, src.get("expected_interval_days"))
         per_source["health"] = health
         source_items = [it for it in items if (it.get("foamed_source") or "").strip() == name]
         tstats = _text_len_stats(source_items)
@@ -1606,7 +1654,7 @@ def collect_foamed_items(
 
         if health in ("ok_rss", "ok_html"):
             stats["sources_ok"] += 1
-        elif not collection_incomplete_due_to_budget:
+        elif not collection_incomplete_due_to_budget and health in {"blocked_403", "not_found_404", "parse_failed", "other"}:
             stats["sources_failed"] += 1
         if strategy == "html_only":
             stats["foamed_html_only_article_fetch_attempted_total"] += int(per_source.get("article_fetch_attempted", 0) or 0)
@@ -1617,7 +1665,7 @@ def collect_foamed_items(
         stats["per_source"][name] = per_source
         wp_stats = {"wp_rest_available": False, "wp_rest_items_seen": 0, "wp_rest_items_in_window": 0}
         sm_stats = {"sitemap_available": False, "sitemap_items_seen": 0, "sitemap_items_in_window": 0}
-        if homepage and (audit_enabled or bool(src.get("disabled", False))):
+        if homepage and audit_enabled:
             wp_rest_url = str(src.get("wp_rest_url") or homepage).strip()
             wp_stats = _wp_rest_audit(session, wp_rest_url, timeout_html_s, headers or None, cutoff, now_utc)
             sitemap_url = str(src.get("sitemap_url") or homepage).strip()

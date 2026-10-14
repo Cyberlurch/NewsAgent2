@@ -381,7 +381,7 @@ def test_html_only_fetch_runs_before_state_filtering_audit_shape(monkeypatch):
 
 def test_dated_listing_page_is_a_usable_html_item(monkeypatch):
     now = datetime(2026, 8, 11, 12, 0, tzinfo=timezone.utc)
-    page = "https://criticalcarereviews.example/paper-of-the-day"
+    page = "https://journalfeed.example/paper-of-the-day"
     html = (
         '<html><head><title>Paper of the Day</title>'
         f'<link rel="canonical" href="{page}"></head><body>'
@@ -390,7 +390,7 @@ def test_dated_listing_page_is_a_usable_html_item(monkeypatch):
         '<p>added August 11th</p></main></body></html>'
     ).encode()
     cfg = [{
-        "name": "Critical Care Reviews",
+        "name": "JournalFeed (Critical Care)",
         "homepage": page,
         "extraction_strategy": "html_only",
         "listing_page_as_item": True,
@@ -413,7 +413,7 @@ def test_dated_listing_page_is_a_usable_html_item(monkeypatch):
     assert items[0]["published_field"] == "html_listing_date"
     assert items[0]["content_source"].startswith("html_")
     assert items[0]["extraction_method"] != "rss"
-    assert stats["per_source"]["Critical Care Reviews"]["health"] == "ok_html"
+    assert stats["per_source"]["JournalFeed (Critical Care)"]["health"] == "ok_html"
 
 
 def test_date_only_listing_keeps_yesterday_in_early_daily_window():

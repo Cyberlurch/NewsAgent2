@@ -133,7 +133,7 @@ class TestFoamedAutoDisable(unittest.TestCase):
         self.assertEqual(filtered, [])
         self.assertEqual(stats.get("strategy_override_disabled_count"), 0)
 
-    def test_health_epoch_retries_source_after_endpoint_repair(self):
+    def test_health_epoch_preserves_existing_ban_after_endpoint_repair(self):
         now = datetime(2026, 8, 11, tzinfo=timezone.utc)
         state = {
             "foamed_source_health": {
@@ -157,12 +157,13 @@ class TestFoamedAutoDisable(unittest.TestCase):
             auto_disable_enabled=True,
         )
 
-        self.assertEqual(len(filtered), 1)
-        self.assertEqual(stats.get("health_epoch_reset_count"), 1)
+        self.assertEqual(filtered, [])
+        self.assertEqual(stats.get("health_epoch_reset_count"), 0)
         entry = state["foamed_source_health"]["Taming the SRU"]
-        self.assertEqual(entry["consecutive_failures"], 0)
-        self.assertEqual(entry["disabled_until_utc"], "")
-        self.assertEqual(entry["health_epoch"], "2026-08-squarespace-rss-v1")
+        self.assertEqual(entry["consecutive_failures"], 4)
+        self.assertEqual(entry["disabled_until_utc"], (now + timedelta(days=12)).isoformat())
+        self.assertEqual(entry["last_health"], "not_found_404")
+        self.assertNotIn("health_epoch", entry)
 
     def test_budget_truncated_source_does_not_change_health_state(self):
         now = datetime(2026, 8, 11, tzinfo=timezone.utc)
