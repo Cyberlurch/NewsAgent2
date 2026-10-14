@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import calendar
 from pathlib import Path
 import re
 import time
@@ -1881,7 +1882,7 @@ def _run_yearly_report(
     os.makedirs(report_dir, exist_ok=True)
     is_cybermed_yearly = _is_cybermed(report_key, os.getenv("REPORT_PROFILE", ""))
     rollups_state = load_rollups_state_readonly(rollups_state_path)
-    now_sto = datetime.now(tz=STO)
+    now_sto = _edition_now()
     event_name = (os.getenv("GITHUB_EVENT_NAME", "") or "").strip().lower()
     target_year = _determine_year_in_review_year(
         now_sto=now_sto,
@@ -2355,7 +2356,7 @@ def _main() -> None:
     elif report_mode == "monthly":
         effective_hours = 720
     else:
-        now_sto = datetime.now(tz=STO)
+        now_sto = _edition_now()
         if now_sto.weekday() == 0:
             if last_successful_daily:
                 hours_since = max(
@@ -2367,7 +2368,7 @@ def _main() -> None:
                 effective_hours = max(args.hours, 72)
 
     args.hours = effective_hours
-    now_utc = datetime.now(timezone.utc)
+    now_utc = _edition_now().astimezone(timezone.utc)
     report_since_utc = now_utc - timedelta(hours=args.hours)
 
     print("=== NewsAgent2 run ===")
@@ -2646,7 +2647,7 @@ def _main() -> None:
                         "CYBERMED_DIGEST_BACKFILL_RUN_DATE must use YYYY-MM-DD"
                     ) from exc
             else:
-                backfill_run_date = datetime.now(tz=STO).strftime("%Y-%m-%d")
+                backfill_run_date = _edition_now().strftime("%Y-%m-%d")
             backfill_digest_id = f"cybermed_daily_{backfill_run_date}"
             backfill_hours = (os.getenv("CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS", "") or "").strip()
             if backfill_hours:
@@ -2782,7 +2783,7 @@ def _main() -> None:
             daily = list(store.get("digests") or [])
             if cybermed_monthly_digest_only:
                 month_key = determine_monthly_rollup_month(
-                    datetime.now(tz=STO),
+                    _edition_now(),
                     os.getenv("GITHUB_EVENT_NAME", ""),
                     os.getenv("ROLLUP_MONTH_OVERRIDE"),
                 )
@@ -2794,7 +2795,7 @@ def _main() -> None:
                 monthly_digest_period_end = cybermed_expected_period_end
         elif cybermed_monthly_digest_only:
             month_key = determine_monthly_rollup_month(
-                datetime.now(tz=STO),
+                _edition_now(),
                 os.getenv("GITHUB_EVENT_NAME", ""),
                 os.getenv("ROLLUP_MONTH_OVERRIDE"),
             )
@@ -2806,7 +2807,7 @@ def _main() -> None:
             monthly_digest_period_end = cybermed_expected_period_end
             daily, cybermed_monthly_coverage = prepare_cybermed_monthly_source_digests(store, month_key)
         else:
-            today_sto = datetime.now(tz=STO).date()
+            today_sto = _edition_now().date()
             week_start, week_end = cybermed_weekly_reporting_period(today_sto)
             cybermed_expected_period_start = str(week_start)
             cybermed_expected_period_end = str(week_end)
@@ -3105,21 +3106,22 @@ def _main() -> None:
             dstate, removed_invalid = sanitize_cyberlurch_digest_state(dstate)
             cyberlurch_digest_invalid_records_removed_total += removed_invalid
             digest_store_loaded_total = len(dstate.get("digests", []))
-            now = datetime.now(timezone.utc)
+            now = _edition_now().astimezone(timezone.utc)
             selected = []
             if report_mode == "monthly":
                 cyberlurch_monthly_target_month = determine_monthly_rollup_month(
-                    datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME", ""), os.getenv("ROLLUP_MONTH_OVERRIDE")
+                    _edition_now(), os.getenv("GITHUB_EVENT_NAME", ""), os.getenv("ROLLUP_MONTH_OVERRIDE")
                 )
                 monthly_digest_period_start = f"{cyberlurch_monthly_target_month}-01"
-                monthly_digest_period_end = f"{cyberlurch_monthly_target_month}-31"
+                month_start = datetime.strptime(monthly_digest_period_start, "%Y-%m-%d")
+                monthly_digest_period_end = month_start.replace(day=calendar.monthrange(month_start.year, month_start.month)[1]).date().isoformat()
             for d in dstate.get("digests", []):
                 if not _is_valid_cyberlurch_digest_record(d):
                     continue
                 pub = _parse_iso_utc(str(d.get("published_at") or ""))
                 if not pub:
                     continue
-                if report_mode == "weekly" and pub >= now - timedelta(days=7):
+                if report_mode == "weekly" and now - timedelta(days=7) <= pub <= now:
                     selected.append(d)
                 elif report_mode == "monthly":
                     if pub.astimezone(STO).strftime("%Y-%m") == cyberlurch_monthly_target_month:
@@ -3267,6 +3269,10 @@ def _main() -> None:
                 for v in vids:
                     if v.get("_skip_after_enrichment"):
                         continue
+                    if os.getenv("NEWSAGENT_LOGICAL_DATE"):
+                        publication = v.get("published_at")
+                        if isinstance(publication, datetime) and publication.replace(tzinfo=publication.tzinfo or timezone.utc) > now_utc:
+                            continue  # Keep later material out of this frozen edition.
                     vid = str(v.get("id") or "").strip()
                     if not vid:
                         continue
@@ -3521,11 +3527,11 @@ def _main() -> None:
     if is_cybermed_run and not cybermed_digest_only_mode:
         foamed_sources = load_foamed_sources_config(foamed_sources_path)
         if foamed_sources:
-            now_utc = datetime.now(timezone.utc)
+            now_utc = _edition_now().astimezone(timezone.utc)
             foamed_sources_filtered, filter_stats = _filter_disabled_foamed_sources(
                 foamed_sources,
                 state,
-                now_utc,
+                datetime.now(timezone.utc),
                 auto_disable_enabled=foamed_auto_disable_enabled,
             )
             foamed_collect_start = time.monotonic()
@@ -3536,7 +3542,7 @@ def _main() -> None:
             auto_disable_meta = _update_foamed_health_state(
                 state,
                 (foamed_collection_stats or {}).get("per_source"),
-                now_utc,
+                datetime.now(timezone.utc),
                 auto_disable_enabled=foamed_auto_disable_enabled,
                 disable_after_403=foamed_disable_after_403,
                 disable_days_403=foamed_disable_days_403,
@@ -4492,7 +4498,7 @@ def _main() -> None:
                 digest_path = (os.getenv("CYBERMED_DAILY_DIGEST_STATE_PATH", "state/cybermed_daily_digests.json") or "state/cybermed_daily_digests.json").strip()
                 digest_path = digest_path or "state/cybermed_daily_digests.json"
                 digest_abs_path = str(Path(digest_path).resolve())
-                digest_run_date = backfill_run_date or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                digest_run_date = backfill_run_date or os.getenv("NEWSAGENT_LOGICAL_DATE") or datetime.now(timezone.utc).strftime("%Y-%m-%d")
                 digest_id = backfill_digest_id or f"cybermed_daily_{digest_run_date}"
                 email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
                 send_email = (os.getenv("SEND_EMAIL", "1") or "1").strip()
@@ -5807,6 +5813,13 @@ def _main() -> None:
                     "duplicates_suppressed_total": int(cybermed_weekly_diag.get("cybermed_weekly_duplicates_suppressed_total", 0) or 0),
                 },
             )
+            from .edition_plan import planned_entry, required_daily_dates, weekly_dates
+            edition = planned_entry(report_key, report_mode)
+            if edition:
+                weekly_digest.update(calendar_policy=edition["calendar_policy"], coverage_end=edition["coverage_end"],
+                    expected_daily_dates=required_daily_dates(edition["period_start"], edition["coverage_end"]),
+                    coverage_status="complete" if (set(required_daily_dates(edition["period_start"], edition["coverage_end"])) <= set(weekly_digest["source_run_dates"])
+                        and edition["coverage_end"] == weekly_dates(datetime.strptime(edition["period_start"], "%Y-%m-%d").date())[2].isoformat()) else "incomplete")
             weekly_store_diag["cybermed_weekly_store_digest_id"] = weekly_digest["digest_id"]
             weekly_store = load_cybermed_weekly_digest_store(cybermed_weekly_digest_state_path)
             manual_safe_overwrite = (
@@ -5846,7 +5859,7 @@ def _main() -> None:
                 )
             rollups_state = load_rollups_state(rollups_state_path)
             override = (os.getenv("ROLLUP_MONTH_OVERRIDE") or "").strip()
-            month_key = determine_monthly_rollup_month(datetime.now(tz=STO), os.getenv("GITHUB_EVENT_NAME", ""), override)
+            month_key = determine_monthly_rollup_month(_edition_now(), os.getenv("GITHUB_EVENT_NAME", ""), override)
             if override and month_key != override:
                 print(f"[rollups] WARN: invalid ROLLUP_MONTH_OVERRIDE={override!r}; expected YYYY-MM")
             candidates = overview_items + detail_items + foamed_overview_items
@@ -6000,7 +6013,8 @@ def _main() -> None:
         qa_replay_allow = _env_bool("CYBERMED_DIGEST_STORE_ALLOW_QA_REPLAY", False)
         overwrite_requested = _env_bool("CYBERMED_DIGEST_STORE_OVERWRITE", False)
         replace_empty_requested = _env_bool("CYBERMED_DIGEST_STORE_REPLACE_EMPTY", False)
-        digest_id = backfill_digest_id or f"cybermed_daily_{datetime.now(timezone.utc).strftime('%Y-%m-%d')}"
+        digest_run_date = backfill_run_date or os.getenv("NEWSAGENT_LOGICAL_DATE") or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        digest_id = backfill_digest_id or f"cybermed_daily_{digest_run_date}"
         safe_mutation_allowed = email_mode == "none" and send_email == "0" and event_name in {"workflow_dispatch", "manual"}
         overwrite_allowed = overwrite_requested and safe_mutation_allowed
         backfill_overwrite_empty_only = _env_bool("CYBERMED_DIGEST_BACKFILL_OVERWRITE_EMPTY_ONLY", True)
@@ -6123,7 +6137,7 @@ def _main() -> None:
                     "digest_id": digest_id,
                     "report_key": "cybermed",
                     "cadence": "daily",
-                    "run_date": backfill_run_date or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    "run_date": backfill_run_date or os.getenv("NEWSAGENT_LOGICAL_DATE") or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
                     "generated_at_utc": now_utc_iso,
                     "lookback_hours": int(args.hours),
                     "qa_replay": bool(qa_replay_enabled),
@@ -6433,13 +6447,33 @@ def _guard_unknown_legacy_delivery(ctx) -> None:
         raise DeliveryError(receipt)
 
 
+def _edition_now():
+    now = datetime.now(tz=STO)
+    logical = os.getenv("NEWSAGENT_LOGICAL_DATE")
+    if not logical:
+        return now
+    day = datetime.strptime(logical, "%Y-%m-%d").date()
+    # The acquisition boundary is the planned local slot, not the next day.
+    return datetime(day.year, day.month, day.day, 5, 40 if os.getenv("REPORT_KEY") == "cybermed" else 30, tzinfo=STO)
+
+
 def main() -> None:
+    from .edition_plan import bind_entry
+    load_dotenv()
+    with bind_entry((os.getenv("REPORT_KEY") or "cyberlurch").strip().lower(),
+                    (os.getenv("REPORT_MODE") or "daily").strip().lower()):
+        _execute_main()
+
+
+def _execute_main() -> None:
     load_dotenv()
     with execution_context() as ctx:
         report_key = (os.getenv("REPORT_KEY") or "cyberlurch").strip().lower()
         cadence = (os.getenv("REPORT_MODE") or "daily").strip().lower()
         ctx.coordinator = Coordinator(report_key, cadence, mode=ctx.mode)
         try:
+            from .run_timing import record
+            record(report_key, cadence, "application_started_at")
             _preflight_stores(report_key)
             from .workflow_delivery import finalize_pending_receipts
             if ctx.mode == "real":
@@ -6455,6 +6489,7 @@ def main() -> None:
                     # no collection/model calls and no second SMTP submission.
                     from .workflow_delivery import finalize_receipt
                     finalize_receipt(ctx.coordinator.edition_id)
+                    record(report_key, cadence, outcome="already_accepted", delivery_status="accepted_by_smtp")
                     return
                 if previous["status"] in {"partially_accepted", "outcome_unknown"}:
                     result = DeliveryResult(**previous)
@@ -6464,6 +6499,9 @@ def main() -> None:
                     # Avoid regenerating a different content version on retry.
                     command = "EMAIL_MODE=real PYTHONPATH=src python -m newsagent2.workflow_delivery replay-pre-smtp --edition-id " + ctx.coordinator.edition_id
                     raise RuntimeError("saved_generation_requires_operator_replay_or_persistence_repair; inspect with: " + command)
+            from .edition_plan import planned_entry, check_ready
+            if ctx.mode == "real":
+                check_ready(planned_entry(report_key, cadence))
             ctx.defer_generation = ctx.mode == "real"
             _main()
             if not hasattr(ctx, "request") or not getattr(ctx, "delivery_approved", False):
@@ -6498,6 +6536,8 @@ def main() -> None:
             category = exc.category if isinstance(exc, StoreError) else (
                 exc.result.category if isinstance(exc, DeliveryError) else "generation_or_finalization_failed")
             ctx.coordinator.failure(category)
+            record(report_key, cadence, outcome="blocked_basis" if str(exc).startswith("edition_") else "failed",
+                   delivery_status=ctx.coordinator.result.status if ctx.coordinator.result else None)
             if isinstance(exc, DeliveryError) and exc.result is not ctx.coordinator.result:
                 atomic_store(ctx.coordinator.report_dir / f"{report_key}_{cadence}_delivery_result.json",
                              exc.result.public(), kind="delivery_result")

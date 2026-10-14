@@ -61,5 +61,6 @@ def test_workflow_yaml_dispatch_shape_and_schedule_crons():
         m = re.search(r'cron:\s*"([^"]+)"', line)
         if m:
             crons.append(m.group(1))
-    assert "30 3 * * *" in crons
-    assert "30 4 * * *" in crons
+    assert crons == ["30 5 * * *"]
+    assert "timezone: Europe/Stockholm" in y
+    assert "edition_plan --report-key cyberlurch" in y

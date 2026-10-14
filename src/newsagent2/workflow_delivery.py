@@ -247,6 +247,8 @@ def publish_state(paths: list[str], *, report_dir: Path, backfill_apply: bool = 
         category = "git_persisted"
     finally:
         atomic_store(report_dir / "recovery/git_persistence.json", {"category": category, "commit": sha, "branch": branch}, kind="git_recovery")
+        from .run_timing import publication
+        publication(report_dir, category)
 
 
 def finalize_receipt(edition: str) -> None:
@@ -266,7 +268,7 @@ def finalize_receipt(edition: str) -> None:
                                 delivery_result=result, **intents)
     result.state_persisted = True
     result.category = ""
-    coordinator = Coordinator(result.report_key, result.cadence, mode="real")
+    coordinator = Coordinator(result.report_key, result.cadence, mode="real", period_dates=(result.period_start, result.period_end))
     coordinator._persist(result)
 
 
@@ -290,7 +292,7 @@ def confirm_pending_not_accepted(edition: str) -> None:
     result.unknown = []
     result.status = "partially_accepted" if result.accepted else "failed"
     result.category = "operator_confirmed_not_accepted"
-    coordinator = Coordinator(result.report_key, result.cadence, mode="real")
+    coordinator = Coordinator(result.report_key, result.cadence, mode="real", period_dates=(result.period_start, result.period_end))
     coordinator._persist(result)
 
 

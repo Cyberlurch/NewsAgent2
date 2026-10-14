@@ -92,13 +92,14 @@ def test_manual_partial_audit_is_immutable(monkeypatch, tmp_path, email_mode):
 
 
 def test_workflow_first_friday_orders_monthly_before_yearly():
+    from datetime import date
+    from newsagent2.edition_plan import planned_modes
     workflow = open(".github/workflows/cybermed.yml", encoding="utf-8").read()
-    plan = workflow[workflow.index("planned=()"):workflow.index('modes="${planned[*]}"')]
-    assert 'if [ "$dom" = "01" ]' not in plan
-    assert 'if [ "$dom" -le 7 ]' in plan
-    assert plan.index('planned+=("daily")') < plan.index('planned+=("weekly")')
-    assert plan.index('planned+=("weekly")') < plan.index('planned+=("monthly")')
-    assert plan.index('planned+=("monthly")') < plan.index('planned+=("yearly")')
+    assert 'edition_plan --report-key cybermed' in workflow
+    assert 'for mode in $RUN_MODES; do' in workflow
+    assert planned_modes('cybermed',date(2026,1,2))==['daily','weekly','monthly','yearly']
+    assert planned_modes('cybermed',date(2027,1,1))==[]
+    assert planned_modes('cybermed',date(2027,1,4))==['daily','monthly','yearly']
 
 
 def test_real_incomplete_fails_before_send(monkeypatch, tmp_path):

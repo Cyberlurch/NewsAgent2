@@ -4,11 +4,15 @@ name: NewsAgent2 Cybermed
 
 on:
   schedule:
-    # Ten minutes after the Cyberlurch slot; local gate keeps one 05:40 Stockholm run.
-    - cron: "40 3 * * *"
-    - cron: "40 4 * * *"
+    # Native local slot; GitHub still provides no punctuality guarantee.
+    - cron: "40 5 * * *"
+      timezone: Europe/Stockholm
   workflow_dispatch:
     inputs:
+      logical_date:
+        description: "Optional explicit edition date (YYYY-MM-DD); no automatic historical replay"
+        required: false
+        type: string
       report_mode:
         description: "Cybermed cadence"
         default: daily
@@ -98,6 +102,9 @@ jobs:
       FOAMED_ROLLING_AUDIT_DAYS: ${{ vars.FOAMED_ROLLING_AUDIT_DAYS || '0' }}
       FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ROLLING_AUDIT_FETCH_MAX_PER_RUN || '60' }}
 
+      NEWSAGENT_PLAN_PATH: out/cybermed_plan_metadata.json
+      NEWSAGENT_REQUESTED_DATE: ${{ github.event_name == 'workflow_dispatch' && inputs.logical_date || '' }}
+      NEWSAGENT_TRIGGER_SCHEDULE: ${{ github.event.schedule || '' }}
       REPORT_DIR: out
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && inputs.lookback_hours || '' }}
@@ -111,96 +118,36 @@ jobs:
       CYBERMED_HEAVY_AUDIT_MODE: ${{ vars.CYBERMED_HEAVY_AUDIT_MODE || '0' }}
 
     steps:
+      - name: Capture observed job start
+        run: echo "NEWSAGENT_JOB_STARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+
       - name: Checkout
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
 
-      - name: Gate scheduled runs to 05:40 Europe/Stockholm
-        id: gate_stockholm
-        run: |
-          set -euo pipefail
-          if [ "${{ github.event_name }}" != "schedule" ]; then
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          expected_cron="40 3 * * *"
-          if [ "$(TZ=Europe/Stockholm date +%z)" = "+0100" ]; then
-            expected_cron="40 4 * * *"
-          fi
-          schedule_expr="${{ github.event.schedule || '' }}"
-          dow=$(TZ=Europe/Stockholm date +%u)
-          dom=$(TZ=Europe/Stockholm date +%d)
-          should_run=true
-          if [ "$schedule_expr" != "$expected_cron" ]; then
-            should_run=false
-          fi
-          if [ "$dow" -ge 6 ]; then
-            should_run=false
-          fi
-          echo "should_run=$should_run" >> "$GITHUB_OUTPUT"
-          echo "Cybermed gate: schedule=$schedule_expr expected=$expected_cron dow=$dow dom=$dom should_run=$should_run"
-
-      - name: Compute Cybermed run plan
-        id: plan
-        run: |
-          set -euo pipefail
-          if [ "${{ steps.gate_stockholm.outputs.should_run }}" != "true" ]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "modes=" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          modes=""
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            if [ "${{ env.REPORT_MODE }}" = "all" ]; then
-              modes="daily weekly monthly yearly"
-            else
-              modes="${{ env.REPORT_MODE }}"
-            fi
-          else
-            dow=$(TZ=Europe/Stockholm date +%u)
-            dom=$(TZ=Europe/Stockholm date +%d)
-            month=$(TZ=Europe/Stockholm date +%m)
-            planned=()
-            if [ "$dow" -ge 1 ] && [ "$dow" -le 5 ]; then
-              planned+=("daily")
-            fi
-            if [ "$dow" = "5" ]; then
-              planned+=("weekly")
-              if [ "$dom" -le 7 ]; then
-                planned+=("monthly")
-                if [ "$month" = "01" ]; then
-                  planned+=("yearly")
-                fi
-              fi
-            fi
-            modes="${planned[*]}"
-          fi
-          if [ -z "$modes" ]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-          fi
-          echo "modes=$modes" >> "$GITHUB_OUTPUT"
-          echo "Cybermed run plan: $modes"
-
       - name: Set up Python
-        if: steps.plan.outputs.skip != 'true'
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
       - name: Install dependencies
-        if: steps.plan.outputs.skip != 'true'
         run: bash tools/install_dependencies.sh runtime
+
+      - name: Compute frozen cybermed run plan
+        id: plan
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          ROLLUP_MONTH_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && inputs.rollup_month_override || '' }}
+          YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && inputs.year_in_review_year || '' }}
+        run: |
+          set -euo pipefail
+          python -m src.newsagent2.edition_plan --report-key cybermed
 
       - name: Prepare output directory
         if: steps.plan.outputs.skip != 'true'
         run: |
-          rm -rf out
           mkdir -p out
 
       - name: Recover prior cybermed receipts before any sender
@@ -277,6 +224,13 @@ jobs:
           set -euo pipefail
           python -m src.newsagent2.workflow_delivery verify --report-key cybermed --modes $RUN_MODES
 
+      - name: Preserve failure before plan creation
+        if: always()
+        run: |
+          if [ ! -f "$NEWSAGENT_PLAN_PATH" ]; then
+            python -c 'from src.newsagent2.run_timing import write_plan_failure; write_plan_failure("cybermed", "workflow_failed_before_plan")'
+          fi
+
       - name: Upload cybermed report and recovery artifacts
         if: always() && steps.plan.outputs.skip != 'true'
         uses: actions/upload-artifact@v7
@@ -305,5 +259,17 @@ jobs:
         with:
           name: cybermed-delivery-recovery-${{ github.run_id }}
           path: out/recovery/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload cybermed plan and observed timing
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cybermed-run-metadata-${{ github.run_id }}
+          path: |
+            out/*plan_metadata.json
+            out/*plan_failure_metadata.json
+            out/*timing_metadata.json
           if-no-files-found: warn
           retention-days: 30

@@ -29,6 +29,10 @@ def now_iso() -> str:
 
 
 def period(cadence: str, today: date | None = None, report_key: str | None = None) -> tuple[str, str]:
+    from .edition_plan import planned_entry
+    entry = None if any((os.getenv("DELIVERY_PERIOD_START"), os.getenv("DELIVERY_PERIOD_END"))) else planned_entry(report_key or os.getenv("REPORT_KEY") or "cyberlurch", cadence)
+    if entry and not any((os.getenv("DELIVERY_PERIOD_START"), os.getenv("DELIVERY_PERIOD_END"))):
+        return entry["period_start"], entry["period_end"]
     today = today or datetime.now(ZoneInfo("Europe/Stockholm")).date()
     explicit = (os.getenv("DELIVERY_PERIOD_START"), os.getenv("DELIVERY_PERIOD_END"))
     if any(explicit):
@@ -159,13 +163,15 @@ def load_journal(path: Path) -> dict:
 
 class Coordinator:
     def __init__(self, report_key: str, cadence: str, *, journal_path: Path | None = None,
-                 report_dir: Path | None = None, mode: str | None = None):
+                 report_dir: Path | None = None, mode: str | None = None, period_dates: tuple[str, str] | None = None):
         self.report_key, self.cadence = report_key, cadence
         self.mode = mode or email_mode()
         self.path = journal_path or path_for("DELIVERY_JOURNAL_PATH")
         self.report_dir = report_dir or Path(os.getenv("REPORT_DIR") or "reports")
         self.recovery = self.report_dir / "recovery"
-        start, end = period(cadence, report_key=report_key)
+        start, end = period_dates or period(cadence, report_key=report_key)
+        if date.fromisoformat(end) < date.fromisoformat(start):
+            raise ValueError("invalid_delivery_period")
         self.start, self.end = start, end
         purpose = "production" if self.mode == "real" else self.mode
         self.edition_id = f"{report_key}:{cadence}:{start}:{end}:{purpose}"
@@ -218,6 +224,8 @@ class Coordinator:
                 result.prior_attempts.append({"status": previous.status, "category": previous.category,
                                               "content_version": previous.content_version, "smtp_phase": previous.smtp_phase})
         self._persist(result)
+        from .run_timing import record
+        record(self.report_key, self.cadence, "generated_at", outcome="generated", delivery_status="generated", edition_id=result.edition_id)
         return result
 
     def skip(self, body: str, reason: str, *, finalization: dict | None = None) -> DeliveryResult:
@@ -305,6 +313,8 @@ class Coordinator:
             if result.accepted and result.rejected and not result.unknown:
                 result.status = "partially_accepted"
             self._persist(result)  # Before QUIT and before state finalization.
+            from .run_timing import record
+            record(self.report_key, self.cadence, "smtp_accepted_at" if result.status == "accepted_by_smtp" else None, outcome=result.status, delivery_status=result.status, edition_id=result.edition_id)
 
         transport(result.message_id, recipients, inflight, outcome)
         if result.status != "accepted_by_smtp":
@@ -327,10 +337,16 @@ class Coordinator:
             result.state_persisted = True
             result.category = ""
             self._persist(result)
+            from .run_timing import record
+            record(self.report_key, self.cadence, "state_persisted_at", edition_id=result.edition_id)
         return result
 
 
 def verify_reports(report_dir: Path, report_key: str, cadences: list[str], *, mode: str, send_required: bool) -> None:
+    def expected_period(cadence):
+        from .edition_plan import planned_entry
+        entry = planned_entry(report_key, cadence)
+        return (entry["period_start"], entry["period_end"]) if entry else period(cadence, report_key=report_key)
     errors = []
     for cadence in cadences:
         path = report_dir / f"{report_key}_{cadence}_delivery_result.json"
@@ -338,7 +354,7 @@ def verify_reports(report_dir: Path, report_key: str, cadences: list[str], *, mo
         try:
             result = DeliveryResult(**data)
         except TypeError:
-            start, end = period(cadence, report_key=report_key)
+            start, end = expected_period(cadence)
             identity = f"{report_key}:{cadence}:{start}:{end}:{'production' if mode == 'real' else mode}"
             version = hashlib.sha256(b"").hexdigest()
             message = hashlib.sha256((identity + ":" + version).encode()).hexdigest()
@@ -346,14 +362,18 @@ def verify_reports(report_dir: Path, report_key: str, cadences: list[str], *, mo
                 f"<{message}@newsagent2.invalid>", status="failed", category="planned_result_missing", generation_validated=False)
             atomic_store(path, result.public(), kind="planned_delivery_result")
             errors.append(f"missing_planned_delivery_result:{report_key}:{cadence}")
+            from .run_timing import record
+            record(report_key, cadence, outcome="failed", delivery_status="failed")
             continue
         if result.report_key != report_key or result.cadence != cadence or result.status not in STATUSES:
             errors.append("mismatched_planned_delivery_result")
             continue
-        expected_start, expected_end = period(cadence, report_key=report_key)
+        expected_start, expected_end = expected_period(cadence)
         if (result.period_start, result.period_end) != (expected_start, expected_end):
             errors.append(f"mismatched_planned_delivery_period:{report_key}:{cadence}")
             continue
+        from .run_timing import record
+        record(report_key, cadence, outcome=result.status, delivery_status=result.status, edition_id=result.edition_id)
         if send_required:
             if result.status != "accepted_by_smtp" or (mode == "real" and not result.state_persisted):
                 errors.append(f"planned_delivery_not_finalized:{report_key}:{cadence}")

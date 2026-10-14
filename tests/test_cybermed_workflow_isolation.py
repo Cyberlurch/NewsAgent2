@@ -25,11 +25,11 @@ def test_cybermed_has_independent_schedule_concurrency_and_timeout():
     text = CYBERMED_WORKFLOW.read_text(encoding="utf-8")
 
     assert 'name: NewsAgent2 Cybermed' in text
-    assert 'cron: "40 3 * * *"' in text
-    assert 'cron: "40 4 * * *"' in text
+    assert 'cron: "40 5 * * *"' in text
+    assert 'timezone: Europe/Stockholm' in text
     assert 'group: newsagent2-state-writers-${{ github.ref }}' in text
     assert 'timeout-minutes: 50' in text
-    assert 'Gate scheduled runs to 05:40 Europe/Stockholm' in text
+    assert 'edition_plan --report-key cybermed' in text
 
 
 def test_cybermed_workflow_has_no_cyberlurch_runtime_or_youtube_dependencies():
@@ -48,7 +48,7 @@ def test_existing_workflow_no_longer_invokes_or_commits_cybermed():
 
     run_step = text.split("- name: Run reports", 1)[1].split("- name: Verify reports", 1)[0]
     assert "REPORT_KEY=cybermed" not in run_step
-    assert 'run_which_report="cyberlurch"' in text
+    assert 'edition_plan --report-key cyberlurch' in text
     assert "state/cybermed_daily_digests.json" not in text
 
 

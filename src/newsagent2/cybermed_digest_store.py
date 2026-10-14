@@ -84,6 +84,12 @@ def cybermed_weekly_reporting_period(today: date, timezone: str = "Europe/Stockh
 
 def select_cybermed_daily_digests_for_week(store: dict, today: date, timezone: str = "Europe/Stockholm") -> list[dict]:
     week_start, week_end = cybermed_weekly_reporting_period(today, timezone)
+    coverage = os.getenv("CYBERMED_WEEKLY_COVERAGE_END")
+    if coverage:
+        coverage_end = date.fromisoformat(coverage)
+        if not week_start <= coverage_end <= week_end:
+            raise ValueError("weekly_coverage_outside_logical_period")
+        week_end = coverage_end
 
     selected = []
     for d in store.get("digests", []):

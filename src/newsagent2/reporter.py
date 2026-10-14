@@ -1663,7 +1663,7 @@ def to_markdown(
         if foamed_items:
             foamed_sorted = sorted(
                 foamed_items,
-                key=lambda it: it.get("published_at") or datetime.min.replace(tz=STO),
+                key=lambda it: it.get("published_at") or datetime.min.replace(tzinfo=STO),
                 reverse=True,
             )
             for idx, it in enumerate(foamed_sorted):
