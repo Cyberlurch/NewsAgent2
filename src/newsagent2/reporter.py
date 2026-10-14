@@ -1625,6 +1625,12 @@ def to_markdown(
                             f"**[{display_title}]({url})** — *{label}*" if url else f"**{display_title}** — *{label}*"
                         )
                         compact = _pubmed_compact_line(it)
+                        if normalized_mode == "daily" and it.get("newly_ingested") and it.get("older_publication"):
+                            md.append("")
+                            publication = it.get("published_at")
+                            publication_date = publication.date().isoformat() if isinstance(publication, datetime) else str(publication or "")[:10]
+                            md.append(f"*Newly captured older publication (published {publication_date}).*" if lang == "en" else
+                                      f"*Neu erfasste ältere Publikation (publiziert {publication_date}).*")
                         if it.get("top_pick") is True:
                             compact = _join_compact_segments(["⭐ Top pick", compact])
                         if compact:

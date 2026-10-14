@@ -22,6 +22,7 @@ PATHS = {
     "YOUTUBE_CONTENT_CACHE_PATH": "youtube_content_cache.json",
     "YOUTUBE_TRANSCRIPT_ATTEMPTS_PATH": "youtube_transcript_attempts.json",
     "DELIVERY_JOURNAL_PATH": "delivery_journal.json",
+    "CYBERMED_PUBMED_INGESTION_PATH": "cybermed_pubmed_ingestion.json",
 }
 
 

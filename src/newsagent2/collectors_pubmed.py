@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import json
+from contextlib import contextmanager
+from contextvars import ContextVar
+from dataclasses import dataclass
 import os
 import time
 import urllib.parse
@@ -114,118 +117,132 @@ def _build_headers(email: Optional[str]) -> Dict[str, str]:
     return {"User-Agent": ua}
 
 
-def _request_with_retries(
-    *,
-    url: str,
-    params: Dict[str, Any],
-    timeout_s: int,
-    expect: str,
-) -> Any:
-    """
-    expect: "json" or "text"
-    """
+class PubMedError(RuntimeError):
+    """Only a safe category crosses the collector boundary."""
+    def __init__(self, category: str):
+        self.category = category
+        super().__init__("pubmed:" + category)
+
+
+@dataclass
+class RetrievalBudget:
+    seconds: float = 120.0
+    max_requests: int = 60
+    max_records: int = 650
+    requests: int = 0
+    records: int = 0
+
+    def __post_init__(self):
+        self.deadline = time.monotonic() + self.seconds
+
+    def remaining(self):
+        left = self.deadline - time.monotonic()
+        if left <= 0:
+            raise PubMedError("time_budget")
+        return left
+
+    def pause(self, seconds):
+        if seconds >= self.remaining():
+            raise PubMedError("time_budget")
+        time.sleep(max(0.0, seconds))
+        self.remaining()
+
+    def request(self, timeout):
+        if self.requests >= self.max_requests:
+            raise PubMedError("request_budget")
+        left = self.remaining()
+        self.requests += 1
+        return min(timeout, left)
+
+
+_BUDGET = ContextVar("pubmed_retrieval_budget", default=None)
+
+
+@contextmanager
+def retrieval_budget(budget):
+    token = _BUDGET.set(budget)
+    try:
+        yield
+    finally:
+        _BUDGET.reset(token)
+
+
+def _request_with_retries(*, url, params, timeout_s, expect):
     api_key, tool, email = _get_ncbi_params()
-
-    # Inject optional NCBI parameters.
-    if api_key and "api_key" not in params:
-        params["api_key"] = api_key
-    if tool and "tool" not in params:
-        params["tool"] = tool
-    if email and "email" not in params:
-        params["email"] = email
-
+    params = dict(params)
+    for name, value in (("api_key", api_key), ("tool", tool), ("email", email)):
+        if value and name not in params:
+            params[name] = value
     headers = _build_headers(email)
-
-    raw_retries = (os.getenv("PUBMED_MAX_RETRIES", "") or "").strip()
-    max_retries = 4
-    if raw_retries:
-        try:
-            max_retries = int(raw_retries)
-        except Exception:
-            print(f"[pubmed] WARN: invalid PUBMED_MAX_RETRIES={raw_retries!r} -> using default {max_retries}")
-    max_retries = max(1, min(max_retries, 10))
-
-    raw_backoff = (os.getenv("PUBMED_BACKOFF_BASE_S", "") or "").strip()
-    backoff_base = 1.0
-    if raw_backoff:
-        try:
-            backoff_base = float(raw_backoff)
-        except Exception:
-            print(f"[pubmed] WARN: invalid PUBMED_BACKOFF_BASE_S={raw_backoff!r} -> using default {backoff_base}")
-
-    last_err: Optional[str] = None
-
-    for attempt in range(1, max_retries + 1):
-        _rate_limit_sleep(api_key)
-
-        try:
-            r = _SESSION.get(url, params=params, headers=headers, timeout=timeout_s)
-        except requests.RequestException as e:
-            last_err = f"request error: {e!r}"
-            print(f"[pubmed] WARN: {last_err} (attempt {attempt}/{max_retries}, url={url})")
-            if attempt < max_retries:
-                time.sleep(backoff_base * (2 ** (attempt - 1)))
-            continue
-
-        if r.status_code == 429:
-            retry_after = (r.headers.get("Retry-After") or "").strip()
-            sleep_s = None
-            if retry_after:
-                try:
-                    sleep_s = float(retry_after)
-                except Exception:
-                    sleep_s = None
-
-            if sleep_s is None:
-                sleep_s = backoff_base * (2 ** (attempt - 1))
-
-            print(f"[pubmed] WARN: 429 Too Many Requests -> sleeping {sleep_s:.1f}s (attempt {attempt}/{max_retries})")
-            if attempt < max_retries:
-                time.sleep(max(0.5, sleep_s))
-                continue
-
-            last_err = "429 Too Many Requests (exhausted retries)"
-            print(f"[pubmed] ERROR: {last_err} (url={url})")
-            return {} if expect == "json" else ""
-
-        if 500 <= r.status_code <= 599:
-            last_err = f"server error {r.status_code}"
-            print(f"[pubmed] WARN: {last_err} (attempt {attempt}/{max_retries})")
-            if attempt < max_retries:
-                time.sleep(backoff_base * (2 ** (attempt - 1)))
-                continue
-            print(f"[pubmed] ERROR: {last_err} (url={url})")
-            return {} if expect == "json" else ""
-
-        try:
-            r.raise_for_status()
-        except requests.RequestException as e:
-            last_err = f"http error: {e} (status={r.status_code})"
-            print(f"[pubmed] ERROR: {last_err} (url={url})")
-            return {} if expect == "json" else ""
-
-        if expect == "json":
+    try:
+        retries = max(1, min(int(os.getenv("PUBMED_MAX_RETRIES") or 4), 10))
+        backoff = max(0.0, min(float(os.getenv("PUBMED_BACKOFF_BASE_S") or 1), 30.0))
+    except ValueError:
+        raise PubMedError("invalid_retry_configuration") from None
+    budget = _BUDGET.get()
+    pause = budget.pause if budget else time.sleep
+    category = "transport_failed"
+    for attempt in range(retries):
+        if budget:
+            global _LAST_REQUEST_TS
             try:
-                return r.json()
-            except json.JSONDecodeError as e:
-                last_err = f"invalid JSON: {e!r}"
-                print(f"[pubmed] ERROR: {last_err} (url={url})")
-                return {}
+                pause(max(0.0, _min_interval_s(api_key) - (time.monotonic() - _LAST_REQUEST_TS)))
+                timeout = budget.request(timeout_s)
+            except PubMedError:
+                if attempt:
+                    raise PubMedError(category) from None
+                raise
+            _LAST_REQUEST_TS = time.monotonic()
         else:
-            return r.text
+            _rate_limit_sleep(api_key)
+            timeout = timeout_s
+        delay = min(30.0, backoff * 2 ** attempt)
+        try:
+            response = _SESSION.get(url, params=params, headers=headers, timeout=timeout)
+        except requests.Timeout:
+            category = "timeout"
+        except requests.RequestException:
+            category = "transport_failed"
+        else:
+            if budget:
+                budget.remaining()
+            if response.status_code == 429 or 500 <= response.status_code <= 599:
+                category = "rate_limited" if response.status_code == 429 else "server_error"
+                try:
+                    delay = max(delay, float(response.headers.get("Retry-After") or 0))
+                except ValueError:
+                    pass
+                delay = min(30.0, delay)
+            else:
+                if response.status_code != 200:
+                    raise PubMedError("http_error")
+                if expect == "text":
+                    if not isinstance(response.text, str) or not response.text.strip():
+                        raise PubMedError("empty_response")
+                    return response.text
+                try:
+                    data = response.json()
+                except ValueError:
+                    raise PubMedError("invalid_json") from None
+                if not isinstance(data, dict):
+                    raise PubMedError("invalid_json_structure")
+                return data
+        if attempt + 1 < retries:
+            try:
+                pause(delay)
+            except PubMedError:
+                # Budget exhaustion cannot relabel an observed source failure
+                # as an ordinary bounded successful partial report.
+                raise PubMedError(category) from None
+    raise PubMedError(category) from None
 
-    print(f"[pubmed] ERROR: request failed after retries: {last_err or 'unknown error'} (url={url})")
-    return {} if expect == "json" else ""
+
+def _request_json(url, params, timeout_s=25):
+    return _request_with_retries(url=url, params=params, timeout_s=timeout_s, expect="json")
 
 
-def _request_json(url: str, params: Dict[str, Any], timeout_s: int = 25) -> Dict[str, Any]:
-    data = _request_with_retries(url=url, params=dict(params), timeout_s=timeout_s, expect="json")
-    return data if isinstance(data, dict) else {}
-
-
-def _request_text(url: str, params: Dict[str, Any], timeout_s: int = 35) -> str:
-    text = _request_with_retries(url=url, params=dict(params), timeout_s=timeout_s, expect="text")
-    return text if isinstance(text, str) else ""
+def _request_text(url, params, timeout_s=35):
+    return _request_with_retries(url=url, params=params, timeout_s=timeout_s, expect="text")
 
 
 def _pubmed_search_url(term: str) -> str:
@@ -351,9 +368,7 @@ def _derive_evidence_tags(
     return tags
 
 
-def _parse_pub_date(article: ET.Element) -> datetime:
-    now = _utc_now()
-
+def _parse_pub_date(article: ET.Element) -> Optional[datetime]:
     def _try_date(parent_xpath: str) -> Optional[datetime]:
         node = article.find(parent_xpath)
         if node is None:
@@ -394,18 +409,16 @@ def _parse_pub_date(article: ET.Element) -> datetime:
         if dt:
             return dt
 
-    return now
+    return None
 
 
-def _parse_pubmed_xml(xml_text: str, max_items: int) -> List[Dict[str, Any]]:
-    if not xml_text.strip():
-        return []
-
+def _parse_pubmed_xml(xml_text: str, max_items: int, *, preserve_unknown_dates: bool = False) -> List[Dict[str, Any]]:
     try:
         root = ET.fromstring(xml_text)
-    except ET.ParseError as e:
-        print(f"[pubmed] ERROR: could not parse XML: {e}")
-        return []
+    except ET.ParseError:
+        raise PubMedError("invalid_xml") from None
+    if root.tag != "PubmedArticleSet":
+        raise PubMedError("invalid_xml_structure")
 
     articles: List[Dict[str, Any]] = []
     for art in root.findall(".//PubmedArticle"):
@@ -423,6 +436,8 @@ def _parse_pubmed_xml(xml_text: str, max_items: int) -> List[Dict[str, Any]]:
         abstract = _extract_abstract(art)
 
         pub_dt = _parse_pub_date(art)
+        if pub_dt is None and not preserve_unknown_dates:
+            pub_dt = _utc_now()  # Compatibility for the legacy publication-date collector.
 
         article_ids: Dict[str, str] = {}
         for aid in art.findall(".//ArticleIdList/ArticleId"):
@@ -457,7 +472,8 @@ def _parse_pubmed_xml(xml_text: str, max_items: int) -> List[Dict[str, Any]]:
         text_chunks.append(f"PMID: {pmid}")
         if doi:
             text_chunks.append(f"DOI: {doi}")
-        text_chunks.append(f"Published: {pub_dt.date().isoformat()}")
+        if pub_dt is not None:
+            text_chunks.append(f"Published: {pub_dt.date().isoformat()}")
         text_chunks.append("")
         text_chunks.append(title)
         if abstract:
@@ -501,8 +517,12 @@ def search_recent_pubmed(
     timeout_s: int = 25,
     return_metadata: bool = False,
     reference_now_utc: datetime | None = None,
+    ingestion_session=None,
+    query_name: str = "",
 ) -> Any:
     term = (term or "").strip()
+    if ingestion_session is not None:
+        return ingestion_session.collect(query_name, term, max_items)
     if not term:
         print("[pubmed] WARN: empty term -> returning 0 items")
         empty_meta = {"query_term": "", "retmax": int(max_items), "esearch_count_total": 0, "idlist_count": 0, "fetched_xml_count": 0, "parsed_article_count": 0, "possibly_truncated": False}
@@ -532,12 +552,7 @@ def search_recent_pubmed(
     )
 
     data = _request_json(PUBMED_ESEARCH_URL, params, timeout_s=timeout_s)
-    esearch = data.get("esearchresult", {}) if isinstance(data, dict) else {}
-    idlist = esearch.get("idlist", []) if isinstance(esearch, dict) else []
-    try:
-        esearch_count_total = int(str((esearch.get("count") if isinstance(esearch, dict) else 0) or 0))
-    except Exception:
-        esearch_count_total = 0
+    esearch_count_total, idlist = validate_esearch(data)
     if not idlist:
         meta = {"query_term": term, "retmax": int(max_items), "esearch_count_total": esearch_count_total, "idlist_count": 0, "fetched_xml_count": 0, "parsed_article_count": 0, "possibly_truncated": esearch_count_total > 0}
         return ([], meta) if return_metadata else []
@@ -546,7 +561,9 @@ def search_recent_pubmed(
     fetch_params = {"db": "pubmed", "id": ids, "retmode": "xml"}
     xml_text = _request_text(PUBMED_EFETCH_URL, fetch_params, timeout_s=max(35, timeout_s))
     parsed = _parse_pubmed_xml(xml_text, max_items=max_items)
-    meta = {"query_term": term, "retmax": int(max_items), "esearch_count_total": esearch_count_total, "idlist_count": len(idlist), "fetched_xml_count": len(idlist), "parsed_article_count": len(parsed), "possibly_truncated": esearch_count_total > len(idlist)}
+    if {row["id"] for row in parsed} != set(idlist):
+        raise PubMedError("missing_fetch_ids")
+    meta = {"query_term": term, "retmax": int(max_items), "esearch_count_total": esearch_count_total, "idlist_count": len(idlist), "fetched_xml_count": len(parsed), "parsed_article_count": len(parsed), "possibly_truncated": esearch_count_total > len(idlist)}
     return (parsed, meta) if return_metadata else parsed
 
 
@@ -561,23 +578,78 @@ def fetch_pubmed_abstracts(pmids: List[str], timeout_s: int = 25) -> Dict[str, s
     unique_pmids = list(dict.fromkeys(pmids_clean))
     params = {"db": "pubmed", "id": ",".join(unique_pmids), "retmode": "xml"}
 
-    xml_text = _request_text(PUBMED_EFETCH_URL, params, timeout_s=max(35, timeout_s))
-    if not xml_text.strip():
-        return {}
+    records = fetch_pubmed_records(unique_pmids, timeout_s=timeout_s)
+    return {row["id"]: row["abstract"] for row in records if row.get("abstract")}
 
-    try:
-        root = ET.fromstring(xml_text)
-    except ET.ParseError as e:
-        print(f"[pubmed] ERROR: could not parse XML in fetch_pubmed_abstracts: {e}")
-        return {}
 
-    abstracts: Dict[str, str] = {}
-    for art in root.findall(".//PubmedArticle"):
-        pmid = _extract_text(art.find(".//PMID"))
-        if not pmid:
-            continue
-        abstract = _extract_abstract(art)
-        if abstract:
-            abstracts[pmid] = abstract
+def validate_esearch(data):
+    result = data.get("esearchresult") if isinstance(data, dict) else None
+    if not isinstance(result, dict) or "error" in result or result.get("errorlist") or data.get("error"):
+        raise PubMedError("invalid_esearch")
+    count = result.get("count")
+    ids = result.get("idlist")
+    if not isinstance(count, (str, int)) or isinstance(count, bool) or not str(count).isdigit():
+        raise PubMedError("invalid_esearch_count")
+    count = int(count)
+    if (not isinstance(ids, list) or any(not isinstance(i, str) or not i.isdigit() for i in ids)
+            or len(set(ids)) != len(ids) or len(ids) > count or (count == 0 and ids)):
+        raise PubMedError("invalid_esearch_ids")
+    if count and not ids:
+        raise PubMedError("missing_search_ids")
+    return count, ids
 
-    return abstracts
+
+def discover_pubmed_ids(term, start, end, *, page_size=500):
+    """Snapshot at most the documented 10,000 PubMed ESearch IDs.
+
+    Never persist a retstart offset into a mutable result set. A truncated or
+    changing snapshot is retried from zero; fetched work remains in the store.
+    """
+    query = f'({term}) AND ("{start:%Y/%m/%d}"[crdt] : "{end:%Y/%m/%d}"[crdt])'
+    found = []
+    count = None
+    pages = 0
+    history = None
+    budget = _BUDGET.get()
+    # A very small remaining request budget must not repeatedly abandon the
+    # same prefix. PubMed's entire supported ID range fits one bounded request.
+    if budget and budget.max_requests - budget.requests < (10000 + page_size - 1) // page_size + 1:
+        page_size = 10000
+    while count is None or len(found) < count:
+        params = {"db": "pubmed", "term": query if history is None else "#" + history[1],
+                  "retmode": "json", "retstart": str(len(found)), "retmax": str(page_size),
+                  "sort": "pub date", "usehistory": "y"}
+        if history:
+            params["WebEnv"] = history[0]
+        data = _request_json(PUBMED_ESEARCH_URL, params)
+        total, ids = validate_esearch(data)
+        pages += 1
+        if total > 10000:
+            raise PubMedError("api_result_limit")
+        if count is not None and total != count:
+            raise PubMedError("search_snapshot_changed")
+        count = total
+        if pages == 1 and count > len(ids):
+            result = data["esearchresult"]
+            webenv, querykey = result.get("webenv"), result.get("querykey")
+            if not isinstance(webenv, str) or not webenv or not isinstance(querykey, str) or not querykey.isdigit():
+                raise PubMedError("invalid_esearch_history")
+            history = (webenv, querykey)
+        if set(ids) & set(found):
+            raise PubMedError("search_snapshot_changed")
+        found.extend(ids)
+        if len(found) > count:
+            raise PubMedError("invalid_esearch_count")
+    return found, {"esearch_count_total": count, "pages": pages,
+                   "window_start": start.isoformat(), "window_end": end.isoformat(), "date_basis": "crdt"}
+
+
+def fetch_pubmed_records(ids, timeout_s=25):
+    if not ids:
+        return []
+    xml = _request_text(PUBMED_EFETCH_URL, {"db": "pubmed", "id": ",".join(ids), "retmode": "xml"}, timeout_s)
+    records = _parse_pubmed_xml(xml, max_items=len(ids) + 1, preserve_unknown_dates=True)
+    actual = [row["id"] for row in records]
+    if len(actual) != len(set(actual)) or set(actual) != set(ids):
+        raise PubMedError("missing_fetch_ids")
+    return records

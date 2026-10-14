@@ -534,6 +534,10 @@ def _sanitize_cybermed_pubmed_item(item: Dict[str, Any]) -> Dict[str, Any]:
         "source_type": "pubmed",
         "pubmed_facts": item.get("pubmed_facts"),
         "facts_version": item.get("facts_version", ""),
+        "query_provenance": list(item.get("query_provenance") or []),
+        "ingestion_window": item.get("ingestion_window"),
+        "newly_ingested": bool(item.get("newly_ingested")),
+        "older_publication": bool(item.get("older_publication")),
         "source_basis": item.get("source_basis", ""),
         "pmid": str(item.get("pmid") or "").strip(),
         "doi": str(item.get("doi") or "").strip(),
@@ -1510,6 +1514,9 @@ def _dedupe_items(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             continue
         key = f"{src}:{iid}"
         if key in seen:
+            if src == "pubmed":
+                previous = next(row for row in out if str(row.get("id") or "").strip() == iid and row.get("source") == src)
+                previous["query_provenance"] = sorted(set(previous.get("query_provenance") or []) | set(it.get("query_provenance") or []))
             continue
         seen.add(key)
         out.append(it)
@@ -3162,6 +3169,12 @@ def _main() -> None:
                 digest_store_collection_fallback_used = True
                 print(f"[digest-store] {report_mode} no digest records available; using collection fallback.")
 
+    ingestion = None
+    if is_cybermed_run and report_mode == "daily" and not qa_replay_enabled and not backfill_enabled:
+        from .pubmed_ingestion import IngestionSession
+        ingestion = IngestionSession(now_utc)
+        current().pubmed_ingestion = ingestion
+        channels = ingestion.order(channels)
     if (not use_digest_store_primary) or collect_with_digest_supplement:
         for ch in channels:
             cname = ch["name"]
@@ -3364,6 +3377,8 @@ def _main() -> None:
                             max_items=pubmed_max_items,
                             return_metadata=True,
                             reference_now_utc=now_utc,
+                            ingestion_session=ingestion,
+                            query_name=cname,
                         )
                     else:
                         arts = search_recent_pubmed(term=query, hours=args.hours, max_items=pubmed_max_items)
@@ -3371,17 +3386,27 @@ def _main() -> None:
                     if is_cybermed_run:
                         runtime_pubmed_collect_seconds += max(0.0, time.monotonic() - pubmed_collect_start)
                 except Exception as e:
-                    print(f"[collect] ERROR source=pubmed channel={cname!r}: search_recent_pubmed failed: {e!r}")
+                    from .collectors_pubmed import PubMedError
+                    if isinstance(e, StoreError):
+                        raise
+                    category = e.category if isinstance(e, PubMedError) else "collector_failed"
+                    print(f"[collect] ERROR source=pubmed category={category}")
+                    if ingestion:
+                        ingestion.failed = True
                     if is_cybermed_run:
                         pubmed_query_failures += 1
                         pubmed_failed_channels.add(cname)
                     continue
 
                 if is_cybermed_run:
+                    if pubmed_meta.get("status") == "failed":
+                        pubmed_query_failures += 1
+                        pubmed_failed_channels.add(cname)
                     pubmed_candidates_total += len(arts)
                     pubmed_candidates_by_channel[cname] = len(arts)
                     all_pubmed_raw_items.extend(arts)
                     pubmed_channel_completeness[cname] = {
+                        **pubmed_meta,
                         "raw_count": int(len(arts)),
                         "esearch_count_total": int(pubmed_meta.get("esearch_count_total", 0) or 0),
                         "retmax": int(pubmed_meta.get("retmax", pubmed_max_items) or pubmed_max_items),
@@ -3417,6 +3442,8 @@ def _main() -> None:
                             skip_by_state = is_processed(state, report_key, "pubmed", pmid)
 
                     if skip_by_state:
+                        if ingestion:
+                            ingestion.terminal.add(pmid)
                         skipped_by_state += 1
                         if is_cybermed_run:
                             pubmed_skipped_by_state += 1
@@ -3446,6 +3473,10 @@ def _main() -> None:
                             "doi": (a.get("doi") or "").strip(),
                             "description": (a.get("journal") or "").strip(),
                             "pmid": pmid,
+                            "query_provenance": list(a.get("query_provenance") or []),
+                            "ingestion_window": a.get("ingestion_window"),
+                            "newly_ingested": bool(a.get("newly_ingested")),
+                            "older_publication": bool(a.get("older_publication")),
                             "pmcid": (a.get("pmcid") or "").strip(),
                             "pii": (a.get("pii") or "").strip(),
                             "text": text,
@@ -3461,6 +3492,11 @@ def _main() -> None:
             else:
                 print(f"[collect] WARN: unknown source={source!r} for channel={cname!r} -> skipping")
                 continue
+
+    if ingestion and ingestion.failed:
+        _write_cybermed_diagnostics(report_dir, report_mode, {
+            "pubmed_ingestion": ingestion.metadata, "pubmed_ingestion_status": "failed"})
+        raise RuntimeError("pubmed_ingestion_failed:daily_delivery_blocked")
 
     if is_cyberlurch_daily:
         # Discovery is deliberately complete before any potentially billable content
@@ -3750,6 +3786,8 @@ def _main() -> None:
             )
             selection_result = sel_res
             selection_stats = dict(getattr(sel_res, "stats", {}) or {})
+            if ingestion:
+                ingestion.terminal.update(selection_stats.get("ingestion_terminal_ids", []))
         except Exception as e:
             print(f"[select] WARN: Cybermed selector unavailable/failed; using pass-through selection. err={e!r}")
             selection_stats = {"enabled": False, "error": "selector_failed"}
@@ -4440,6 +4478,12 @@ def _main() -> None:
             overview = cybermed_meta_block + "## Executive Summary\n\nNo new content in the last 24 hours.\n"
         else:
             overview = cybermed_meta_block + "## Kurzüberblick\n\nKeine neuen Inhalte in den letzten 24 Stunden.\n"
+        if ingestion:
+            overview = cybermed_meta_block + ("## Executive Summary\n\nNo content selected for this edition.\n"
+                if report_language.lower().startswith("en") else "## Kurzüberblick\n\nKeine für diese Ausgabe ausgewählten Inhalte.\n")
+            note = ingestion.reader_note()
+            if note:
+                overview += "\n> " + note + "\n"
         out_path = _report_output_path(report_dir, report_key, report_mode)
         md = to_markdown(
             [],
@@ -4451,6 +4495,10 @@ def _main() -> None:
             run_metadata=run_metadata if report_key.strip().lower() == "cyberlurch" else None,
         )
 
+        if ingestion:
+            note = ingestion.reader_note()
+            if note and note not in md:
+                md += "\n\n> " + note + "\n"
         if is_cybermed_run:
             assert_no_generation_error_text(md, boundary="empty_report")
             cybermed_generation_leak_guard_passed = True
@@ -5697,6 +5745,12 @@ def _main() -> None:
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
     print(f"[report] Wrote {out_path}")
+    if ingestion:
+        current().pubmed_generated_ids = {str(row.get("id") or "") for row in report_items if row.get("source") == "pubmed"}
+        note = ingestion.reader_note()
+        if note:
+            md += "\n\n> " + note + "\n"
+            Path(out_path).write_text(md, encoding="utf-8")
     _record_generation(report_subject, md)
     if report_key.strip().lower() == "cyberlurch":
         items_by_topic: dict[str, int] = {}
@@ -6396,6 +6450,12 @@ def _queue_report(subject: str, body: str, *, skip_reason: str = "", no_markers:
         else:
             send_markdown(subject, body)
         return
+    ingestion = getattr(ctx, "pubmed_ingestion", None)
+    if ingestion:
+        note = ingestion.reader_note()
+        if note and note not in body:
+            body = body + "\n\n> " + note + "\n"
+        ingestion.consumed.update(getattr(ctx, "pubmed_generated_ids", set()))
     ctx.request = (subject, body, skip_reason)
     if no_markers:
         ctx.finalization_policy = "no_markers"
@@ -6406,6 +6466,9 @@ def _preflight_stores(report_key: str) -> None:
     load_state(str(path_for("STATE_PATH")))
     load_rollups_state_readonly(str(path_for("ROLLUPS_STATE_PATH")))
     if report_key == "cybermed":
+        if os.getenv("REPORT_MODE", "daily") == "daily":
+            from .pubmed_ingestion import load as load_ingestion
+            load_ingestion()
         _load_cybermed_daily_digest_state(str(path_for("CYBERMED_DAILY_DIGEST_STATE_PATH")))
         load_cybermed_weekly_digest_store(str(path_for("CYBERMED_WEEKLY_DIGEST_STATE_PATH")))
     else:
@@ -6522,6 +6585,9 @@ def _execute_main() -> None:
                     from .pre_smtp_recovery import FAILURE
                     raise StoreError("generated_output", FAILURE) from None
                 raise
+            ingestion = getattr(ctx, "pubmed_ingestion", None)
+            if ingestion:
+                ingestion.acknowledge_generation()
             if reason or ctx.mode == "none" or not send_enabled():
                 clean, _, _ = _extract_run_metadata_for_email(body)
                 result = ctx.coordinator.skip(clean, reason or "send_disabled", finalization=intents)

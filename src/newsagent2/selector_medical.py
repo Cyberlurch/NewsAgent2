@@ -1132,6 +1132,9 @@ def select_cybermed_pubmed_items(
         },
     }
 
+    eligible_ids = {str(row.get("id") or "") for row in overview_pool
+                    if row.get("overview_eligible") and not row.get("final_context_floor_reasons")}
+    stats["ingestion_terminal_ids"] = sorted({str(row.get("id") or "") for row in pubmed_items} - eligible_ids)
     return SelectionResult(
         overview_items=overview_items,
         deep_dive_items=deep_dive_items,
