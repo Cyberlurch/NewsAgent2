@@ -81,8 +81,8 @@ def test_missing_api_key_misconfigured():
 
 def test_provider_success_sets_source_in_content_pipeline():
     with tempfile.TemporaryDirectory() as td, patch.dict(os.environ, _env(MANAGED_TRANSCRIPT_IGNORE_RETRY_STATE="0"), clear=False):
-        with patch("newsagent2.youtube_content_providers.CACHE_PATH", pathlib.Path(td) / "cache.json"):
-            with patch("newsagent2.managed_transcripts.ATTEMPTS_PATH", pathlib.Path(td) / "attempts.json"):
+        with patch.dict(os.environ, {"YOUTUBE_CONTENT_CACHE_PATH": str(pathlib.Path(td) / "cache.json")}):
+            with patch.dict(os.environ, {"YOUTUBE_TRANSCRIPT_ATTEMPTS_PATH": str(pathlib.Path(td) / "attempts.json")}):
                 resp = Mock(status_code=200, content=b"x")
                 resp.json.return_value = {"text": "hello transcript managed"}
                 with patch("newsagent2.managed_transcripts.requests.get", return_value=resp):
@@ -126,7 +126,7 @@ def test_budget_25_sets_counters():
 def test_retry_state_previous_success_skips():
     diag = {}
     with tempfile.TemporaryDirectory() as td, patch.dict(os.environ, _env(MANAGED_TRANSCRIPT_IGNORE_RETRY_STATE="0"), clear=False):
-        with patch("newsagent2.managed_transcripts.ATTEMPTS_PATH", pathlib.Path(td)/"attempts.json"):
+        with patch.dict(os.environ, {"YOUTUBE_TRANSCRIPT_ATTEMPTS_PATH": str(pathlib.Path(td)/"attempts.json")}):
             pathlib.Path(td, "attempts.json").write_text('{"attempts":{"transcriptapi:abc":{"video_id":"abc","provider":"transcriptapi","status":"success","retry_after_utc":""}}}', encoding="utf-8")
             out = fetch_managed_transcript("abc", diagnostics=diag)
     assert out["status"] == "cooldown"

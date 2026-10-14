@@ -185,6 +185,7 @@ def test_daily_diagnostics_include_digest_counters_when_zero(tmp_path, monkeypat
     ch = tmp_path / "channels.json"; _channels(ch)
     _common(monkeypatch, tmp_path, "daily")
     monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: [])
+    monkeypatch.setattr(main_mod, "list_recent_videos_rss", lambda *a, **k: [])
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(ch), "--hours", "36"])
     main_mod.main()
     d = json.loads((tmp_path/"out"/"cyberlurch_daily_youtube_diagnostics.json").read_text(encoding="utf-8"))

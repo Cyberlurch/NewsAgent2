@@ -160,30 +160,36 @@ def test_explicit_no_marker_policy_is_bound_and_replayable(saved):
 
 
 @pytest.mark.parametrize('key',['cybermed','cyberlurch'])
-def test_real_generation_pipeline_is_fully_approved_before_replay_checkpoint(saved,key,monkeypatch):
+@pytest.mark.parametrize('instant',['2024-02-29T12:00:00+00:00','2026-12-31T12:00:00+00:00','2027-01-01T12:00:00+00:00'])
+def test_real_generation_pipeline_is_fully_approved_before_replay_checkpoint(saved,key,instant,monkeypatch,freeze_clock):
     prepare,cli,SMTP,calls,generation,root=saved
     from datetime import datetime,timezone
+    import calendar
+    import test_cyberlurch_mode_artifacts_and_digest_primary as helpers
+    clock=freeze_clock(instant,aliases=[(helpers,'dt')])
     provider_calls=[]
     if key=='cyberlurch':
         from test_cyberlurch_monthly_safety import _setup
         target=_setup(root,monkeypatch)
-        monkeypatch.setenv('DELIVERY_PERIOD_START',datetime.now(main.STO).strftime('%Y-%m-01'))
-        monkeypatch.setenv('DELIVERY_PERIOD_END','2026-10-31')
+        now=clock.now(main.STO)
+        monkeypatch.setenv('DELIVERY_PERIOD_START',now.strftime('%Y-%m-01'))
+        monkeypatch.setenv('DELIVERY_PERIOD_END',now.replace(day=calendar.monthrange(now.year,now.month)[1]).date().isoformat())
     else:
         from test_pubmed_facts import paper,CORRECTION
-        day=datetime.now(main.STO).date().isoformat()
+        day=clock.now(main.STO).date().isoformat()
         monkeypatch.setenv('DELIVERY_PERIOD_START',day); monkeypatch.setenv('DELIVERY_PERIOD_END',day)
         monkeypatch.setenv('REPORT_PROFILE','medical')
         monkeypatch.setenv('REPORT_LANGUAGE','en')
         monkeypatch.setenv('REPORT_TITLE','Cybermed Report')
         monkeypatch.setenv('REPORT_SUBJECT','Cybermed Report')
         monkeypatch.setattr(sys,'argv',['main'])
-        item=paper(published_at=datetime.now(timezone.utc),text=CORRECTION['abstract'])
+        item=paper(published_at=clock.now(timezone.utc),text=CORRECTION['abstract'])
         monkeypatch.setattr(main,'load_channels_config',lambda *a: ([{'source':'pubmed','name':'Test','query':'mock'}],{},{}))
         def collect(*a,**k):
             return ([item],{}) if k.get('return_metadata') else [item]
         monkeypatch.setattr(main,'search_recent_pubmed',collect)
         monkeypatch.setattr(main,'collect_foamed_items',lambda *a,**k: ([],{}))
+        monkeypatch.setattr(main,'get_pmcids_for_pmids',lambda *a,**k:{})
         monkeypatch.setattr(main,'_select_pubmed_deep_dives_with_content',lambda rows,**k: rows[:1])
         def summary(*a,**k):
             provider_calls.append('mocked summary')

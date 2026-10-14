@@ -44,6 +44,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install checked dependencies
+        run: bash tools/install_dependencies.sh runtime
+
       - name: Validate inputs
         env:
           ACTION: ${{ inputs.action }}

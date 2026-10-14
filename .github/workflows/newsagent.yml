@@ -313,8 +313,7 @@ jobs:
       - name: Install dependencies
         if: steps.compute_plan.outputs.run_skip != 'true'
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          bash tools/install_dependencies.sh runtime
 
       - name: Prepare output directory
         if: steps.compute_plan.outputs.run_skip != 'true'
