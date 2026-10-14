@@ -9,6 +9,7 @@ from newsagent2 import main
 
 def _base_env(monkeypatch, tmp_path):
     monkeypatch.setenv("REPORT_KEY", "cybermed")
+    monkeypatch.setenv("REPORT_TITLE", "The Cybermed Report")
     monkeypatch.setenv("REPORT_MODE", "daily")
     monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
     monkeypatch.setenv("STATE_PATH", str(tmp_path / "state.json"))
@@ -37,7 +38,7 @@ def _with_nonempty_selection(monkeypatch):
     from newsagent2 import selector_medical
     monkeypatch.setattr(main, "search_recent_pubmed", lambda *a, **k: ([{"id": "p1", "source": "pubmed", "pmid": "1", "title": "T", "journal": "J", "url": "u"}], {}) if k.get("return_metadata") else [{"id": "p1", "source": "pubmed", "pmid": "1", "title": "T", "journal": "J", "url": "u"}])
     monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([{"id": "f1", "title": "F", "url": "fu"}], {"sources_total": 1, "sources_ok": 1, "sources_failed": 0, "items_raw": 1, "items_with_date": 1, "items_date_unknown": 0, "kept_last24h": 1, "newly_disabled_count": 0, "per_source": {}}))
-    monkeypatch.setattr(selector_medical, "select_cybermed_pubmed_items", lambda _items: types.SimpleNamespace(overview_items=[{"id": "p1", "pmid": "1", "title": "T", "journal": "J", "url": "u", "top_pick": True}], deep_dive_items=[{"id": "p1", "source": "pubmed", "pmid": "1", "title": "T", "journal": "J", "url": "u"}], stats={"selection_diagnostics": {}}))
+    monkeypatch.setattr(selector_medical, "select_cybermed_pubmed_items", lambda _items: types.SimpleNamespace(overview_items=[{"id": "p1", "source": "pubmed", "pmid": "1", "title": "T", "journal": "J", "url": "u", "top_pick": True}], deep_dive_items=[{"id": "p1", "source": "pubmed", "pmid": "1", "title": "T", "journal": "J", "url": "u"}], stats={"selection_diagnostics": {}}))
     monkeypatch.setattr(selector_medical, "select_cybermed_foamed_items", lambda items, max_items=25: [{"id": "f1", "title": "F", "url": "fu", "top_pick": True}])
 
 
@@ -310,9 +311,17 @@ def test_cybermed_daily_digest_store_persists_generated_deep_dive_markdown(tmp_p
     assert stored["title"] == "T"
     assert stored["journal"] == "J"
     assert stored["url"] == "u"
-    assert stored["deep_dive_markdown"] == detail_md
+    # This fixture has no result source. Cybermed's existing evidence guard
+    # must persist its validated fallback, not unsupported provider claims.
+    assert stored["deep_dive_markdown"]
+    assert "unbekannt" in stored["deep_dive_markdown"]
     assert "Study type" in stored["deep_dive_markdown"]
     assert "Key results" in stored["deep_dive_markdown"]
+    assert "Lower postoperative nausea" not in stored["deep_dive_markdown"]
+    assert "Use a multimodal plan" not in stored["deep_dive_markdown"]
+    report = next((tmp_path / "out").glob("cybermed_daily_summary*.md")).read_text()
+    assert "Lower postoperative nausea" not in report
+    assert "unbekannt" in report
 
 
 def test_cybermed_generation_failures_degrade_without_render_or_persistence(

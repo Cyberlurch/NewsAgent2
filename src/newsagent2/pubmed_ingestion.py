@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 import os
+import re
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -49,12 +50,15 @@ def valid(value):
                 if (not isinstance(active, dict) or not _day(active["day"])
                         or not row["initial_start"] <= active["day"] <= row["next_date"]
                         or not _ids(active["ids"]) or not _ids(active["done"])
+                        or not _ids(active.get("parked", []))
+                        or not set(active.get("parked", [])) <= set(active["ids"])
+                        or set(active.get("parked", [])) & set(active["done"])
                         or not set(active["done"]) <= set(active["ids"])
                         or type(active["search_count"]) is not int or not 0 <= active["search_count"] <= 10000
                         or type(active["closed_day_snapshot"]) is not bool
                         or not isinstance(active["snapshot_reference"], str)
                         or not isinstance(active["records"], dict)
-                        or not set(active["records"]) <= set(active["ids"]) - set(active["done"])):
+                        or not set(active["records"]) <= set(active["ids"]) - set(active["done"]) - set(active.get("parked", []))):
                     return False
                 observed = datetime.fromisoformat(active["snapshot_reference"])
                 if observed.tzinfo is None or observed.astimezone(timezone.utc).date() < date.fromisoformat(active["day"]):
@@ -68,6 +72,24 @@ def valid(value):
                         return False
                     if record.get("published_at") is not None:
                         datetime.fromisoformat(record["published_at"])
+            if not isinstance(row.get("review", {}), dict):
+                return False
+            for review_key, review in row.get("review", {}).items():
+                if (not isinstance(review, dict) or not _day(review["day"])
+                        or review.get("status") != "review_required" or not isinstance(review.get("record"), dict)
+                        or not str(review["record"].get("id") or "").isdigit()
+                        or not isinstance(review.get("category"), str) or not re.fullmatch(r"[a-z0-9_]+", review["category"])
+                        or not isinstance(review.get("edition_ids"), list)
+                        or any(not isinstance(i, str) or not re.fullmatch(r"(?:cybermed|cyberlurch):daily:\d{4}-\d{2}-\d{2}:\d{4}-\d{2}-\d{2}:production", i) for i in review["edition_ids"])
+                        or not isinstance(review["record"].get("text"), str) or not isinstance(review["record"].get("title"), str)
+                        or review_key != str(review["record"]["id"]) + ":" + review["source_version"]):
+                    return False
+                from .paper_delivery import paper_metadata, metadata_valid
+                metadata = paper_metadata(review["record"])
+                if not metadata_valid(metadata) or metadata["source_version"] != review["source_version"]:
+                    return False
+                if review["record"].get("published_at") is not None:
+                    datetime.fromisoformat(review["record"]["published_at"])
             for day, receipts in row.get("processing_receipts", {}).items():
                 if not _day(day) or not isinstance(receipts, list):
                     return False
@@ -77,7 +99,8 @@ def valid(value):
                 for receipt in receipts:
                     if (not isinstance(receipt, dict) or not _ids(receipt["generated"])
                             or not _ids(receipt["screened_out"])
-                            or not (set(receipt["generated"]) | set(receipt["screened_out"])) <= handled
+                            or not _ids(receipt.get("deduplicated", []))
+                            or not (set(receipt["generated"]) | set(receipt["screened_out"]) | set(receipt.get("deduplicated", []))) <= handled
                             or receipt.get("delivery_claim") is not False
                             or not isinstance(receipt.get("edition_id"), (str, type(None)))):
                         return False
@@ -160,6 +183,9 @@ class IngestionSession:
         self.failed = False
         self.consumed = set()
         self.terminal = set()
+        self.deduplicated = set()
+        self.paper_decisions = {}
+        self.paper_ledger = None
         self.offered = set()
         self.used_queries = set()
 
@@ -224,17 +250,19 @@ class IngestionSession:
                         if active:
                             done.update(active["done"])
                         saved = active["records"] if active else {}
+                        parked = set(active.get("parked", [])) if active else set()
+                        parked.update(review["record"]["id"] for review in row.get("review", {}).values() if review["day"] == day.isoformat())
                         # Result disappearance is not safe evidence to discard an
                         # already fetched candidate; retain its identity too.
-                        ids = list(dict.fromkeys(ids + list(saved) + list(done)))
+                        ids = list(dict.fromkeys(ids + list(saved) + list(done) + sorted(parked)))
                         active = row["active"] = {"day": day.isoformat(), "ids": ids,
-                            "done": sorted(done), "records": saved,
+                            "done": sorted(done), "parked": sorted(parked), "records": saved,
                             "closed_day_snapshot": day < self.today,
                             "snapshot_reference": self.reference.isoformat(), "search_count": search_meta["esearch_count_total"]}
                         self.save()
                     records = [copy.deepcopy(active["records"][i]) for i in active["ids"]
                                if i in active["records"]][:limit]
-                    missing = [i for i in active["ids"] if i not in active["done"] and i not in active["records"]]
+                    missing = [i for i in active["ids"] if i not in active["done"] and i not in active.get("parked", []) and i not in active["records"]]
                     capacity = min(max(0, limit - len(active["records"])), self.budget.max_records - self.budget.records)
                     if missing and capacity > 0:
                         batch = missing[:capacity]
@@ -258,7 +286,7 @@ class IngestionSession:
                         esearch_count_total=active["search_count"], idlist_count=len(active["ids"]),
                         fetched_xml_count=len(active["records"]) + len(active["done"]),
                         parsed_article_count=len(active["records"]) + len(active["done"]))
-                    if records or set(active["ids"]) != set(active["done"]):
+                    if records or set(active["ids"]) != set(active["done"]) | set(active.get("parked", [])):
                         meta["category"] = "pending_processing" if records else "record_budget"
                         break
                     if day == self.today:
@@ -278,14 +306,16 @@ class IngestionSession:
         self.save()
         meta["requests"] = self.budget.requests - requests_before
         meta["open_candidates"] = len(row["active"]["ids"]) - len(row["active"]["done"]) if row["active"] else 0
-        meta["processed_through"] = ((date.fromisoformat(row["next_date"]) - timedelta(days=1)).isoformat()
+        meta["retrieved_through"] = ((date.fromisoformat(row["next_date"]) - timedelta(days=1)).isoformat()
                                      if row["next_date"] > row["initial_start"] else None)
+        meta["processed_through"] = self.processed_through(row)
+        meta["review_required"] = len(row.get("review", {}))
         meta["reference_utc"] = self.reference.isoformat()
         meta["date_granularity"] = "day"
         meta["initial_start"] = row["initial_start"]
         if (meta["status"] != "failed" and date.fromisoformat(row["next_date"]) >= self.today
                 and row["active"] and row["active"]["day"] == self.today.isoformat()
-                and not records and not meta["open_candidates"]):
+                and not records and not meta["open_candidates"] and not row.get("review")):
             meta.update(status="complete", category="closed_days_complete", possibly_truncated=False)
         self.metadata[name] = meta
         for record in records:
@@ -293,6 +323,55 @@ class IngestionSession:
                 record["published_at"] = datetime.fromisoformat(record["published_at"])
         self.offered.update(record["id"] for record in records)
         return records, meta
+
+    def processed_through(self, row):
+        boundary = date.fromisoformat(row["next_date"])
+        if row.get("review"):
+            boundary = min(boundary, min(date.fromisoformat(r["day"]) for r in row["review"].values()))
+        return (boundary - timedelta(days=1)).isoformat() if boundary > date.fromisoformat(row["initial_start"]) else None
+
+    def quarantine(self, pmid, record, decision):
+        from .paper_delivery import paper_metadata
+        metadata = paper_metadata(record)
+        if metadata is None:
+            raise StoreError(KIND, "paper_identity_invalid")
+        for key in self.used_queries:
+            row = self.data["queries"][key]
+            active = row["active"]
+            if not active or pmid not in active["records"]:
+                continue
+            review_key = pmid + ":" + metadata["source_version"]
+            row.setdefault("review", {}).setdefault(review_key, {
+                "status": "review_required", "day": active["day"], "source_version": metadata["source_version"],
+                "record": copy.deepcopy(active["records"][pmid]), "category": decision.category,
+                "edition_ids": list(decision.edition_ids)})
+            del active["records"][pmid]
+            active["parked"] = sorted(set(active.get("parked", [])) | {pmid})
+        self.save()
+
+    def refresh_reviews(self, ledger):
+        """Only an authoritative duplicate resolution consumes held work.
+
+        Failed/unknown/source-change work has no automatic send release. Explicit
+        delivery recovery must first establish full SMTP acceptance.
+        """
+        for row in self.data["queries"].values():
+            for key, review in list(row.get("review", {}).items()):
+                from .paper_delivery import paper_metadata
+                decision = ledger.decide(paper_metadata(review["record"]))
+                if decision.action != "duplicate":
+                    review["category"] = decision.category
+                    review["edition_ids"] = list(decision.edition_ids)
+                    continue
+                pmid, day = review["record"]["id"], review["day"]
+                active = row["active"]
+                if active and active["day"] == day:
+                    active["parked"] = [i for i in active.get("parked", []) if i != pmid]
+                    active["done"] = sorted(set(active["done"]) | {pmid})
+                else:
+                    row["recent_done"][day] = sorted(set(row["recent_done"].get(day, [])) | {pmid})
+                del row["review"][key]
+        self.save()
 
     def _close(self, row):
         active = row["active"]
@@ -317,7 +396,7 @@ class IngestionSession:
         if (ctx is None or not getattr(ctx, "delivery_approved", False) or ctx.coordinator is None
                 or ctx.coordinator.result is None or not ctx.coordinator.result.generation_validated):
             raise StoreError(KIND, "generation_approval_required")
-        handled = (self.consumed | self.terminal) & self.offered
+        handled = (self.consumed | self.terminal | self.deduplicated) & self.offered
         for key in self.used_queries:
             row = self.data["queries"][key]
             active = row["active"]
@@ -329,13 +408,14 @@ class IngestionSession:
                 coordinator = current().coordinator
                 result = coordinator.result if coordinator else None
                 receipt = {"generated": sorted(selected & self.consumed),
-                           "screened_out": sorted(selected - self.consumed), "delivery_claim": False,
+                           "screened_out": sorted(selected - self.consumed - self.deduplicated),
+                           "deduplicated": sorted(selected & self.deduplicated), "delivery_claim": False,
                            "edition_id": coordinator.edition_id if coordinator else None,
                            "content_version": result.content_version if result else None}
                 row.setdefault("processing_receipts", {}).setdefault(active["day"], []).append(receipt)
             for pmid in selected:
                 del active["records"][pmid]
-            if set(active["ids"]) == set(active["done"]) and active["closed_day_snapshot"]:
+            if set(active["ids"]) == set(active["done"]) | set(active.get("parked", [])) and active["closed_day_snapshot"]:
                 self._close(row)
         self.save()
         diagnostics = {}
@@ -344,13 +424,17 @@ class IngestionSession:
             active = row["active"]
             diagnostics[name] = dict(metadata,
                 open_candidates=len(active["ids"]) - len(active["done"]) if active else 0,
-                processed_through=(date.fromisoformat(row["next_date"]) - timedelta(days=1)).isoformat()
-                    if row["next_date"] > row["initial_start"] else None)
+                processed_through=self.processed_through(row), review_required=len(row.get("review", {})))
         atomic_store(Path(os.getenv("REPORT_DIR") or "reports") / "cybermed_daily_ingestion_diagnostics.json",
                      {"queries": diagnostics, "requests": self.budget.requests, "records_fetched": self.budget.records,
-                      "progress_is_delivery": False}, kind=KIND)
+                      "progress_is_delivery": False, "paper_decisions": self.paper_decisions}, kind=KIND)
 
     def reader_note(self):
+        pending_reviews = sum(len(row.get("review", {})) for row in self.data["queries"].values())
+        if pending_reviews:
+            return ("Some papers are withheld pending source/delivery review; complete coverage is not established."
+                    if os.getenv("REPORT_LANGUAGE", "de").lower().startswith("en") else
+                    "Einige Papers bleiben zur Quellen-/Versandprüfung zurückgehalten; vollständige Abdeckung ist nicht bestätigt.")
         incomplete = sum(m["status"] != "complete" for m in self.metadata.values())
         if not incomplete:
             return ""
