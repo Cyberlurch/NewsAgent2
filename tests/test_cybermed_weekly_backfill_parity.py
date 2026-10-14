@@ -19,13 +19,13 @@ def _identity(row: dict) -> str:
     )
 
 
-def test_august_weekly_backfill_matches_restored_production_digest(monkeypatch):
+def test_august_weekly_backfill_matches_restored_production_digest(monkeypatch, saved_store_snapshot):
     # Aggregation has no provider dependency.  Making accidental network use
     # fatal protects that property as the implementation evolves.
     monkeypatch.setattr("socket.socket.connect", lambda *_: (_ for _ in ()).throw(
         AssertionError("Weekly aggregation must not call a provider")
     ))
-    daily_store = json.loads(Path("state/cybermed_daily_digests.json").read_text())
+    daily_store = json.loads(saved_store_snapshot("cybermed_daily_digests.json").read_text())
     source = [row for row in daily_store["digests"] if row.get("run_date") in DAILY_DATES]
 
     candidates = build_weekly_backfill_candidates(
@@ -50,8 +50,8 @@ def test_august_weekly_backfill_matches_restored_production_digest(monkeypatch):
     assert [_identity(row) for row in candidate["deep_dives"]] == DEEP_DIVES
 
 
-def test_weekly_backfill_still_rejects_incomplete_week():
-    daily_store = json.loads(Path("state/cybermed_daily_digests.json").read_text())
+def test_weekly_backfill_still_rejects_incomplete_week(saved_store_snapshot):
+    daily_store = json.loads(saved_store_snapshot("cybermed_daily_digests.json").read_text())
     source = [
         row for row in daily_store["digests"]
         if "2026-08-10" <= row.get("run_date", "") <= "2026-08-13"

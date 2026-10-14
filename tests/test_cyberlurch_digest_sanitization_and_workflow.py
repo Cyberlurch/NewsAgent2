@@ -5,8 +5,8 @@ from newsagent2 import main
 from newsagent2 import rollups
 
 
-def test_state_digest_file_has_no_synthetic_records():
-    data = json.loads(Path('state/cyberlurch_digests.json').read_text(encoding='utf-8'))
+def test_state_digest_file_has_no_synthetic_records(saved_store_snapshot):
+    data = json.loads(saved_store_snapshot('cyberlurch_digests.json').read_text(encoding='utf-8'))
     banned_channels = {'Test Channel', 'C'}
     banned_ids = {'fallback123','v1','id1','id2','ok1','m1','new1','c2','c3','c9'}
     banned_titles = {'Metadata Only Title','t','A','B','T','Meta','Newer title','Short','Long','FailDirect'}

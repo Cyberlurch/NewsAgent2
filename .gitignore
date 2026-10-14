@@ -19,3 +19,6 @@ data/recipients.json
 # Local execution output and writer locks
 out/
 state/*.lock
+.pytest_cache/
+.ci-results/
+.venv/

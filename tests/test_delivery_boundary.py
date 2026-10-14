@@ -202,6 +202,8 @@ def test_none_test_isolate_all_paths_and_use_only_test_recipients(smtp, monkeypa
     prod = root / "production"; prod.mkdir()
     monkeypatch.delenv("DELIVERY_JOURNAL_PATH")
     monkeypatch.setenv("NEWSAGENT_STATE_DIR", str(prod))
+    for variable in PATHS:
+        monkeypatch.delenv(variable, raising=False)  # Exercise the central directory fallback explicitly.
     monkeypatch.setenv("REPORT_KEY", report_key); monkeypatch.setenv("REPORT_MODE", cadence); monkeypatch.setenv("EMAIL_MODE", mode)
     monkeypatch.setenv("TEST_RECIPIENTS_CONFIG_JSON", '["test@private.test"]')
     for name in PATHS.values():
@@ -414,6 +416,8 @@ def test_operator_reconciliation_retains_unknown_attempt_history(smtp):
 def test_true_backfill_flag_keeps_only_authorized_rollup_path(monkeypatch, tmp_path):
     prod = tmp_path / "state"; prod.mkdir()
     monkeypatch.setenv("NEWSAGENT_STATE_DIR", str(prod))
+    for variable in PATHS:
+        monkeypatch.delenv(variable, raising=False)
     monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
     monkeypatch.setenv("EMAIL_MODE", "none"); monkeypatch.setenv("SEND_EMAIL", "0")
     monkeypatch.setenv("REPORT_KEY", "cyberlurch"); monkeypatch.setenv("REPORT_MODE", "monthly")

@@ -195,7 +195,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.plan.outputs.skip != 'true'
-        run: pip install -r requirements.txt
+        run: bash tools/install_dependencies.sh runtime
 
       - name: Prepare output directory
         if: steps.plan.outputs.skip != 'true'

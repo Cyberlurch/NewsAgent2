@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: bash tools/install_dependencies.sh runtime
       - name: Run maintenance backfill tool
         run: |
           PYTHONPATH=src python -m newsagent2.maintenance.backfill_digest_stores \

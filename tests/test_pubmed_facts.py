@@ -149,6 +149,7 @@ def test_main_final_boundary_cannot_copy_an_unvalidated_overview(monkeypatch, tm
     def collect(*args, **kwargs):
         return ([item], {}) if kwargs.get("return_metadata") else [item]
     monkeypatch.setattr(main, "search_recent_pubmed", collect)
+    monkeypatch.setattr(main, "get_pmcids_for_pmids", lambda *a, **k: {})
     monkeypatch.setattr(main, "collect_foamed_items", lambda *a, **k: ([], {}))
     monkeypatch.setattr(main, "_select_pubmed_deep_dives_with_content", lambda rows, **kw: rows[:1])
     monkeypatch.setattr(main, "summarize_pubmed_bottom_line", lambda *a, **k: "The intervention reduced delirium.")
