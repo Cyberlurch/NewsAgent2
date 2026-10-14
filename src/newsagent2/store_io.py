@@ -16,6 +16,24 @@ class StoreError(RuntimeError):
         super().__init__(f"store_error:{kind}:{category}")
 
 
+def atomic_text(path: Path, text: str) -> None:
+    """Durably retain exact generated content before sealing its checkpoint."""
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        fd, name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as stream:
+                stream.write(text); stream.flush(); os.fsync(stream.fileno())
+            os.replace(name, path)
+            directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+            try: os.fsync(directory)
+            finally: os.close(directory)
+        finally:
+            if os.path.exists(name): os.unlink(name)
+    except OSError:
+        raise StoreError("generated_content", "persistence_failed") from None
+
+
 def object_store(value: Any) -> bool:
     return isinstance(value, dict)
 
@@ -58,6 +76,14 @@ def read_store(path: str | Path, default: dict, *, kind: str,
     if not str(path):
         raise StoreError(kind, "empty_path")
     target = Path(path)
+    from .run_context import current
+    ctx = current()
+    candidate = ctx.generated_candidates.get(target.resolve()) if ctx else None
+    if candidate is not None:
+        data = copy.deepcopy(candidate["data"])
+        if not validate(data):
+            raise StoreError(kind, "invalid_staged_store")
+        return data
     try:
         raw = target.read_text(encoding="utf-8")
     except FileNotFoundError:
@@ -120,7 +146,10 @@ def generated_store(path: str | Path, data: dict, *, kind: str, validate=object_
     if not validate(data):
         raise StoreError(kind, "invalid_output")
     target = Path(path)
+    previous = ctx.generated_candidates.pop(target.resolve(), None)
     old = read_store(target, {}, kind=kind, validate=validate)
+    if previous is not None:
+        ctx.generated_candidates[target.resolve()] = previous
     report_key = os.getenv("REPORT_KEY") or "cyberlurch"
     cadence = os.getenv("REPORT_MODE") or "daily"
     def rows(value):
@@ -135,6 +164,7 @@ def generated_store(path: str | Path, data: dict, *, kind: str, validate=object_
     before, after = grouped(old), grouped(data)
     edition = ctx.coordinator.edition_id if ctx.coordinator is not None else f"{report_key}:{cadence}:local"
     delta = {"kind": kind, "report_key": report_key, "cadence": cadence, "mode": ctx.mode,
+             "requires_ready_checkpoint": ctx.defer_generation,
              "production_target": target.resolve() in ctx.production_paths,
              "edition_id": edition,
              "base_sha256": hashlib.sha256(target.read_bytes()).hexdigest() if target.exists() else None,
@@ -144,6 +174,36 @@ def generated_store(path: str | Path, data: dict, *, kind: str, validate=object_
     prefix = hashlib.sha256(edition.encode()).hexdigest()[:16]
     artifact = Path(os.getenv("REPORT_DIR") or "reports") / "recovery" / f"{prefix}_{report_key}_{cadence}_{kind}_generated_delta.json"
     atomic_store(artifact, delta, kind="generated_delta")
+    if ctx.defer_generation:
+        # The existing store verification/quality paths read this validated
+        # candidate. Production publication waits until _main fully approves.
+        json.dumps(data, ensure_ascii=False, allow_nan=False)
+        ctx.generated_candidates[target.resolve()] = {"data": copy.deepcopy(data), "kind": kind,
+            "validate": validate, "artifact": artifact, "base_sha256": delta["base_sha256"]}
+        return
     atomic_store(target, data, kind=kind, validate=validate)
     delta["filesystem_persisted"] = True
     atomic_store(artifact, delta, kind="generated_delta")
+
+
+def store_exists(path: str | Path) -> bool:
+    from .run_context import current
+    ctx = current()
+    return bool(ctx and Path(path).resolve() in ctx.generated_candidates) or Path(path).exists()
+
+
+def commit_generated_candidates() -> None:
+    from .run_context import current
+    ctx = current()
+    if ctx is None:
+        return
+    candidates = dict(ctx.generated_candidates)
+    # Validate ALL preimages before any write, and stop using the staged view.
+    ctx.generated_candidates.clear()
+    for target, candidate in candidates.items():
+        actual = hashlib.sha256(target.read_bytes()).hexdigest() if target.exists() else None
+        if actual != candidate["base_sha256"]:
+            raise StoreError(candidate["kind"], "generated_preimage_conflict")
+        read_store(target, {}, kind=candidate["kind"], validate=candidate["validate"])
+    for target, candidate in candidates.items():
+        atomic_store(target, candidate["data"], kind=candidate["kind"], validate=candidate["validate"])

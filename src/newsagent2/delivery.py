@@ -18,7 +18,7 @@ from typing import Callable
 from zoneinfo import ZoneInfo
 
 from .run_context import path_for, email_mode
-from .store_io import StoreError, atomic_store, read_store
+from .store_io import StoreError, atomic_store, read_store, atomic_text
 
 
 STATUSES = {"generated", "intentionally_skipped", "accepted_by_smtp", "partially_accepted", "failed", "outcome_unknown"}
@@ -82,6 +82,8 @@ class DeliveryResult:
     finalization: dict = field(default_factory=dict)
     workflow_run_id: str = field(default_factory=lambda: os.getenv("GITHUB_RUN_ID") or "local")
     prior_attempts: list[dict] = field(default_factory=list)
+    smtp_phase: str = "legacy_unknown"
+    recovery: dict = field(default_factory=dict)
 
     def public(self) -> dict:
         return asdict(self)
@@ -99,6 +101,9 @@ def journal_valid(value) -> bool:
     for key, row in value["editions"].items():
         try:
             result = DeliveryResult(**row)
+            from .pre_smtp_recovery import recovery_valid
+            if result.smtp_phase not in {"legacy_unknown", "not_handed_off", "handoff_started", "completed"} or not recovery_valid(result.recovery):
+                return False
             if result.edition_id != key or result.status not in STATUSES:
                 return False
             if result.report_key not in {"cybermed", "cyberlurch"} or result.cadence not in {"daily", "weekly", "monthly", "yearly"}:
@@ -126,7 +131,8 @@ def journal_valid(value) -> bool:
                 return False
             datetime.fromisoformat(result.updated_at_utc.replace("Z", "+00:00"))
             if not isinstance(result.prior_attempts, list) or any(not isinstance(attempt, dict)
-                or set(attempt) - {"status", "category", "content_version"}
+                or set(attempt) - {"status", "category", "content_version", "smtp_phase"}
+                or attempt.get("smtp_phase", "legacy_unknown") not in {"legacy_unknown", "not_handed_off", "handoff_started", "completed"}
                 or attempt.get("status") not in STATUSES
                 or not re.fullmatch(r"[a-z0-9_]*", attempt.get("category", ""))
                 or not re.fullmatch(r"[a-f0-9]{64}", attempt.get("content_version", "")) for attempt in result.prior_attempts):
@@ -184,9 +190,7 @@ class Coordinator:
         message = hashlib.sha256((self.edition_id + ":" + version).encode()).hexdigest()
         result = DeliveryResult(self.report_key, self.cadence, self.start, self.end,
                                 self.edition_id, version, f"<{message}@newsagent2.invalid>",
-                                finalization=finalization or {})
-        self.recovery.mkdir(parents=True, exist_ok=True)
-        (self.recovery / f"{message}.md").write_text(body, encoding="utf-8")
+                                finalization=finalization or {}, smtp_phase="not_handed_off")
         old = self.journal["editions"].get(self.edition_id) if self.mode != "none" else None
         if old:
             previous = DeliveryResult(**old)
@@ -198,15 +202,21 @@ class Coordinator:
             if previous.status in {"accepted_by_smtp", "partially_accepted", "outcome_unknown"}:
                 self.result = previous
                 return previous
+            if previous.recovery:
+                if finalization is not None and finalization != previous.finalization:
+                    raise DeliveryError(DeliveryResult(**{**previous.public(), "status": "failed",
+                        "category": "recovery_finalization_changed"}))
+                self.result = previous
+                return previous
         self.recovery.mkdir(parents=True, exist_ok=True)
         target = self.recovery / f"{message}.md"
         # The exact validated outgoing Markdown is retained for explicit replay.
-        target.write_text(body, encoding="utf-8")
+        atomic_text(target, body)
         if old:
             result.prior_attempts = previous.prior_attempts
             if previous.status == "failed":
                 result.prior_attempts.append({"status": previous.status, "category": previous.category,
-                                              "content_version": previous.content_version})
+                                              "content_version": previous.content_version, "smtp_phase": previous.smtp_phase})
         self._persist(result)
         return result
 
@@ -240,7 +250,14 @@ class Coordinator:
             version = hashlib.sha256(b"").hexdigest()
             message = hashlib.sha256((self.edition_id + ":" + version).encode()).hexdigest()
             result = DeliveryResult(self.report_key, self.cadence, self.start, self.end,
-                self.edition_id, version, f"<{message}@newsagent2.invalid>", generation_validated=generated)
+                self.edition_id, version, f"<{message}@newsagent2.invalid>", generation_validated=generated,
+                smtp_phase="not_handed_off")
+        from .pre_smtp_recovery import FAILURE
+        if result.status == "failed" and result.recovery and result.category == FAILURE:
+            # A blocked ordinary run/preflight must retain the proven original
+            # persistence failure, rather than severing its explicit replay path.
+            self._persist(result)
+            return result
         # A known SMTP receipt survives generation/state/push failure unchanged.
         if result.status not in {"accepted_by_smtp", "partially_accepted", "outcome_unknown"}:
             result.status, result.category = "failed", category
@@ -273,12 +290,15 @@ class Coordinator:
 
         def inflight():
             result.status, result.category = "outcome_unknown", "smtp_in_flight"
+            result.smtp_phase = "handoff_started"
             result.unknown = sorted(set(refs.values()))
             result.rejected = []
             self._persist(result)  # Must succeed BEFORE DATA/sendmail.
 
         def outcome(status: str, accepted: list[str], rejected: list[str], category: str):
             result.status, result.category = status, category
+            if status != "outcome_unknown" and result.smtp_phase == "handoff_started":
+                result.smtp_phase = "completed"
             result.accepted = sorted(prior_accepted | {refs[r] for r in accepted})
             result.rejected = sorted({refs[r] for r in rejected})
             result.unknown = sorted(set(refs.values()) - set(result.accepted) - set(result.rejected))

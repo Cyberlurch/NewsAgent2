@@ -74,6 +74,8 @@ class RunContext:
     result: object | None = None
     coordinator: object | None = None
     production_paths: set[Path] = field(default_factory=set)
+    defer_generation: bool = False
+    generated_candidates: dict = field(default_factory=dict)
 
     @property
     def production(self) -> bool:
@@ -85,6 +87,27 @@ _CURRENT: ContextVar[RunContext | None] = ContextVar("newsagent_run", default=No
 
 def current() -> RunContext | None:
     return _CURRENT.get()
+
+
+@contextmanager
+def writer_lock(*, write: bool = True):
+    """Same local lock for the report CLI and explicit recovery commands.
+
+    A preview never creates a missing lock. Only mutating entry points need a
+    new lock; helpers called under an existing lock do not acquire it again.
+    """
+    lock_path = path_for("DELIVERY_JOURNAL_PATH").with_suffix(".lock")
+    if not write and not lock_path.exists():
+        yield
+        return
+    if write:
+        lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with lock_path.open("a" if write else "r") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(lock, fcntl.LOCK_UN)
 
 
 @contextmanager
@@ -110,14 +133,8 @@ def execution_context():
                 destinations[name] = target
         for name, target in destinations.items():
             os.environ[name] = str(target)
-        lock_path = destinations["DELIVERY_JOURNAL_PATH"].with_suffix(".lock")
-        lock_path.parent.mkdir(parents=True, exist_ok=True)
-        with lock_path.open("a") as lock:
-            fcntl.flock(lock, fcntl.LOCK_EX)
-            try:
-                yield ctx
-            finally:
-                fcntl.flock(lock, fcntl.LOCK_UN)
+        with writer_lock():
+            yield ctx
     finally:
         _CURRENT.reset(token)
         for name, value in original.items():

@@ -12,8 +12,9 @@ def accepted_sender_stub(subject, body, *, coordinator=None, finalization=None):
     clean, _, _ = _extract_run_metadata_for_email(body)
     result = coordinator.generated(clean, finalization)
     result.status = "accepted_by_smtp"
-    result.accepted = ["a" * 64]
-    result.recipient_key_id = "b" * 64
+    result.accepted = result.recovery.get("audience", ["a" * 64])
+    result.recipient_key_id = result.recovery.get("recipient_key_id", "b" * 64)
+    result.smtp_phase = "completed"
     coordinator._persist(result)
     return result
 

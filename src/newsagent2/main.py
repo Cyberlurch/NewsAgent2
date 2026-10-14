@@ -23,7 +23,7 @@ from .pubmed_facts import build_pubmed_facts, result_direction, candidate_issues
 from .emailer import send_markdown, _extract_run_metadata_for_email, current_audience_refs
 from .delivery import Coordinator, DeliveryResult, DeliveryError, load_journal
 from .run_context import execution_context, current, path_for, email_mode, send_enabled
-from .store_io import read_store, atomic_store, generated_store, digest_store, StoreError
+from .store_io import read_store, atomic_store, generated_store, digest_store, StoreError, store_exists, commit_generated_candidates
 from .rollups import (
     derive_monthly_summary,
     load_rollups_state,
@@ -2005,7 +2005,7 @@ def _run_yearly_report(
             f"provider_operations={yearly_diags['provider_operations']} collection_operations=0 "
             f"daily_digest_inputs=0 evidence_units={yearly_diags['annual_evidence_units']}"
         )
-        _queue_report(report_subject, md)
+        _queue_report(report_subject, md, no_markers=True)
         return
 
     cybermed_yearly_diags: Dict[str, Any] = {
@@ -2056,7 +2056,7 @@ def _run_yearly_report(
     cybermed_yearly_diags["cybermed_yearly_coverage_incomplete"] = not coverage_complete
     if not entries and event_name == "schedule" and is_cybermed_yearly:
         print(f"[email] Scheduled yearly run found no rollups for {target_year} -> skipping email.")
-        _queue_report(report_subject, "", skip_reason="empty_scheduled_yearly")
+        _queue_report(report_subject, "", skip_reason="empty_scheduled_yearly", no_markers=True)
         if is_cybermed_yearly:
             _write_cybermed_diagnostics(
                 report_dir,
@@ -2108,7 +2108,7 @@ def _run_yearly_report(
         raise RuntimeError(
             f"{report_key}_yearly_incomplete_coverage: target_year={target_year} missing_months={missing_months}"
         )
-    _queue_report(report_subject, md)
+    _queue_report(report_subject, md, no_markers=True)
 
 
 def _update_state_after_run(
@@ -2125,11 +2125,13 @@ def _update_state_after_run(
     read_only: bool,
     delivery_result: DeliveryResult | None = None,
 ) -> None:
+    ctx = current()
     if read_only:
+        if ctx is not None:
+            ctx.finalization_policy = "no_markers"
         print("[state] Read-only mode -> skipping state write and processed markers.")
         return
 
-    ctx = current()
     if delivery_result is None:
         if ctx is None:
             raise RuntimeError("delivery_outcome_required_before_markers")
@@ -2139,6 +2141,7 @@ def _update_state_after_run(
                        detail_items=minimal(detail_items), foamed_overview_items=minimal(foamed_overview_items),
                        report_key=report_key, report_mode=report_mode, now_utc_iso=now_utc_iso)
         ctx.finalization = intents
+        ctx.finalization_policy = "markers"
         ctx.pending.append(lambda result: _update_state_after_run(
             state_path=state_path, state=state, read_only=False, delivery_result=result, **intents))
         return
@@ -4531,7 +4534,7 @@ def _main() -> None:
                             write_error_class = e.__class__.__name__
                             raise StoreError("cybermed_daily", "persistence_or_verification_failed") from None
                 write_verified = False
-                file_exists_after_write = os.path.exists(digest_path)
+                file_exists_after_write = store_exists(digest_path)
                 digest_count_after_write = 0
                 expected_digest_present = False
                 if skip_reason == "":
@@ -6163,7 +6166,7 @@ def _main() -> None:
                             boundary="daily_digest_store",
                         )
                         generated_store(cybermed_digest_state_path, dstate, kind="cybermed_daily", validate=digest_store)
-                        cybermed_digest_diag["cybermed_digest_store_file_exists_after_write"] = os.path.exists(cybermed_digest_state_path)
+                        cybermed_digest_diag["cybermed_digest_store_file_exists_after_write"] = store_exists(cybermed_digest_state_path)
                         verified_state = _load_cybermed_daily_digest_state(cybermed_digest_state_path)
                         verified_digests = list(verified_state.get("digests") or [])
                         cybermed_digest_diag["cybermed_digest_store_digest_count_after_write"] = len(verified_digests)
@@ -6370,7 +6373,7 @@ def _record_generation(subject: str, body: str) -> None:
         ctx.coordinator.generated(clean)
 
 
-def _queue_report(subject: str, body: str, *, skip_reason: str = "") -> None:
+def _queue_report(subject: str, body: str, *, skip_reason: str = "", no_markers: bool = False) -> None:
     ctx = current()
     if ctx is None:
         # Direct helper/library use has the same status-returning sender.
@@ -6380,6 +6383,9 @@ def _queue_report(subject: str, body: str, *, skip_reason: str = "") -> None:
             send_markdown(subject, body)
         return
     ctx.request = (subject, body, skip_reason)
+    if no_markers:
+        ctx.finalization_policy = "no_markers"
+    ctx.delivery_approved = True
 
 
 def _preflight_stores(report_key: str) -> None:
@@ -6456,12 +6462,28 @@ def main() -> None:
                     raise DeliveryError(result)
                 if previous["status"] == "failed" and previous["generation_validated"]:
                     # Avoid regenerating a different content version on retry.
-                    raise RuntimeError("saved_generation_requires_operator_replay_or_persistence_repair")
+                    command = "EMAIL_MODE=real PYTHONPATH=src python -m newsagent2.workflow_delivery replay-pre-smtp --edition-id " + ctx.coordinator.edition_id
+                    raise RuntimeError("saved_generation_requires_operator_replay_or_persistence_repair; inspect with: " + command)
+            ctx.defer_generation = ctx.mode == "real"
             _main()
-            if not hasattr(ctx, "request"):
+            if not hasattr(ctx, "request") or not getattr(ctx, "delivery_approved", False):
                 raise RuntimeError("planned_report_without_generation_or_skip")
             subject, body, reason = ctx.request
             intents = getattr(ctx, "finalization", {})
+            if ctx.mode == "real" and send_enabled() and not reason:
+                from .pre_smtp_recovery import checkpoint
+                if getattr(ctx, "finalization_policy", None) not in {"markers", "no_markers"}:
+                    raise RuntimeError("recovery_finalization_approval_missing")
+                if (ctx.finalization_policy == "markers") != bool(ctx.pending):
+                    raise RuntimeError("recovery_finalization_approval_inconsistent")
+                checkpoint(ctx.coordinator, subject, body, intents, ctx.generated_candidates, markers_required=bool(ctx.pending))
+            try:
+                commit_generated_candidates()
+            except StoreError:
+                if ctx.coordinator.result and ctx.coordinator.result.recovery:
+                    from .pre_smtp_recovery import FAILURE
+                    raise StoreError("generated_output", FAILURE) from None
+                raise
             if reason or ctx.mode == "none" or not send_enabled():
                 clean, _, _ = _extract_run_metadata_for_email(body)
                 result = ctx.coordinator.skip(clean, reason or "send_disabled", finalization=intents)
