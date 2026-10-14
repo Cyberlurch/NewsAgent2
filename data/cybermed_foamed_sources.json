@@ -35,13 +35,14 @@
     "domain_group": "critical_care",
     "priority_tier": "1 core",
     "extraction_strategy": "html_only",
-    "listing_page_as_item": true,
+    "listing_page_as_item": false,
     "health_epoch": "2026-08-paper-of-the-day-v1",
     "force_html_fallback": true,
     "allow_feed_failure_if_html_ok": true,
     "article_fetch_required": false,
     "ignore_auto_disable_if_strategy_viable": true,
-    "notes_diagnostic": "Official Paper of the Day listing is the primary dated HTML source; no stable site feed is advertised."
+    "notes_diagnostic": "Dated article blocks with explicit time and primary reference only; unsupported layouts withheld. Legacy landingpage IDs require review.",
+    "listing_adapter": "ccr_dated_articles_v1"
   },
   {
     "name": "The Bottom Line",
@@ -60,7 +61,7 @@
   {
     "name": "PulmCCM",
     "homepage": "https://pulmccm.org/",
-    "feed_url": "https://pulmccm.org/feed/",
+    "feed_url": "https://www.pulmccm.org/feed",
     "type": "rss",
     "domain_group": "critical_care",
     "priority_tier": "2 important",
@@ -69,7 +70,8 @@
     "allow_feed_failure_if_html_ok": false,
     "article_fetch_required": true,
     "ignore_auto_disable_if_strategy_viable": false,
-    "notes_diagnostic": "Pulmonary and critical care commentary"
+    "notes_diagnostic": "Pulmonary and critical care commentary",
+    "endpoint_basis": "Audit 2026-10-13; not re-probed in PR05c"
   },
   {
     "name": "Deranged Physiology",
@@ -92,12 +94,12 @@
     "type": "rss",
     "domain_group": "anesthesiology",
     "priority_tier": "1 core",
-    "extraction_strategy": "rss_then_article",
+    "extraction_strategy": "reference",
     "force_html_fallback": false,
     "allow_feed_failure_if_html_ok": false,
     "article_fetch_required": true,
     "ignore_auto_disable_if_strategy_viable": false,
-    "notes_diagnostic": "Anesthesiology education"
+    "notes_diagnostic": "Audit 2026-10-13: feed returned HTTP200 without entries. Reference only until reviewed dated adapter; no automated collection."
   },
   {
     "name": "ACCRAC",
@@ -162,12 +164,12 @@
     "type": "rss",
     "domain_group": "anesthesiology",
     "priority_tier": "2 important",
-    "extraction_strategy": "rss_only",
+    "extraction_strategy": "reference",
     "force_html_fallback": false,
     "allow_feed_failure_if_html_ok": false,
     "article_fetch_required": false,
     "ignore_auto_disable_if_strategy_viable": false,
-    "notes_diagnostic": "Anesthesia news and commentary"
+    "notes_diagnostic": "Audit 2026-10-13: feed returned HTTP200 without entries. Reference only until reviewed dated adapter; no automated collection."
   },
   {
     "name": "APSF Newsletter",
@@ -242,7 +244,7 @@
   {
     "name": "The Resus Room",
     "homepage": "https://www.theresusroom.co.uk/",
-    "feed_url": "https://www.theresusroom.co.uk/feed/",
+    "feed_url": "https://theresusroom.libsyn.com/rss",
     "type": "rss",
     "domain_group": "emergency_medicine",
     "priority_tier": "2 important",
@@ -251,7 +253,8 @@
     "allow_feed_failure_if_html_ok": false,
     "article_fetch_required": true,
     "ignore_auto_disable_if_strategy_viable": false,
-    "notes_diagnostic": "Resuscitation and critical care podcast"
+    "notes_diagnostic": "Resuscitation and critical care podcast",
+    "endpoint_basis": "Audit 2026-10-13; not re-probed in PR05c"
   },
   {
     "name": "NYSORA",

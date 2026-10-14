@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .foamed_sources import commentary_identity
 
 import json
 from .store_io import read_store, atomic_store, generated_store, rollups_store as reports_store
@@ -716,6 +717,8 @@ def render_yearly_markdown(
             return text
 
         def _identity(it: Dict[str, Any]) -> tuple[str, str]:
+            if key := commentary_identity(it):
+                return key
             for field in ("pmid", "doi", "url"):
                 value = str(it.get(field) or "").strip().lower()
                 if value:

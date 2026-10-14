@@ -50,10 +50,25 @@ def reports_store(value: Any) -> bool:
 def processed_store(value: Any) -> bool:
     if not reports_store(value) or not all(isinstance(row, dict) for row in value.get("reports", {}).values()):
         return False
+    if "foamed_source_health" in value and not foamed_health_store(value["foamed_source_health"]):
+        return False
     for report in value.get("reports", {}).values():
         for name in ("pubmed", "youtube", "foamed"):
             if name in report and (not isinstance(report[name], dict) or not isinstance(report[name].get("processed", {}), dict)):
                 return False
+    return True
+
+
+def foamed_health_store(value: Any) -> bool:
+    """Validate only known Health fields; retain additive legacy metadata."""
+    if not isinstance(value, dict) or any(not isinstance(row, dict) for row in value.values()):
+        return False
+    for row in value.values():
+        failures = row.get("consecutive_failures")
+        if failures is not None and (type(failures) is not int or failures < 0):
+            return False
+        if any(key in row and not isinstance(row[key], str) for key in ("disabled_until_utc", "last_health", "health_epoch")):
+            return False
     return True
 
 

@@ -569,6 +569,7 @@ def _sanitize_cybermed_foamed_item(item: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "item_id": str(item.get("id") or item.get("item_id") or "").strip(),
         "source_type": "foamed",
+        **{k: item[k] for k in ("source_role", "primary_references", "published_precision", "legacy_listing_id", "legacy_listing_ids") if k in item},
         "source_name": str(item.get("source_name") or item.get("source") or "").strip(),
         "title": str(item.get("title") or "").strip(),
         "url": str(item.get("url") or "").strip(),
@@ -590,6 +591,7 @@ def _sanitize_cybermed_foamed_item(item: Dict[str, Any]) -> Dict[str, Any]:
 def _sanitize_cybermed_monthly_rollup_item(item: Dict[str, Any]) -> Dict[str, Any]:
     source_type = str(item.get("source_type") or item.get("source") or "").strip().lower()
     return {
+        **{k: item[k] for k in ("source_role", "primary_references", "published_precision", "legacy_listing_id", "legacy_listing_ids") if k in item},
         "item_id": str(item.get("item_id") or item.get("id") or item.get("pmid") or item.get("url") or "").strip(),
         "source_type": source_type,
         "source": source_type,
@@ -1258,10 +1260,11 @@ def _detect_pubmed_bottom_line_conflicts(overview: str, deep: str) -> List[str]:
 def _foamed_health_bucket(state: Dict[str, Any]) -> Dict[str, Any]:
     if not isinstance(state, dict):
         return {}
-    bucket = state.setdefault("foamed_source_health", {})
-    if not isinstance(bucket, dict):
-        bucket = {}
-        state["foamed_source_health"] = bucket
+    from .store_io import foamed_health_store, StoreError
+    bucket = state.get("foamed_source_health", {})
+    if not foamed_health_store(bucket):
+        raise StoreError("foamed_health", "invalid_existing_store")
+    state.setdefault("foamed_source_health", bucket)
     return bucket
 
 
@@ -1278,7 +1281,7 @@ def _filter_disabled_foamed_sources(
     now_utc: datetime,
     *,
     auto_disable_enabled: bool,
-) -> Tuple[List[Dict[str, Any]], Dict[str, int]]:
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     health = _foamed_health_bucket(state)
     foamed_audit_enabled = _env_bool("FOAMED_AUDIT", False)
     filtered: List[Dict[str, Any]] = []
@@ -1286,6 +1289,8 @@ def _filter_disabled_foamed_sources(
     active_disabled = 0
     strategy_overrides = 0
     health_epoch_resets = 0
+    health_epoch_changes = 0
+    skipped_sources = []
 
     for src in sources:
         name = (src.get("name") or "").strip()
@@ -1294,13 +1299,9 @@ def _filter_disabled_foamed_sources(
         entry = health.get(name) or {}
         configured_health_epoch = str(src.get("health_epoch") or "").strip()
         stored_health_epoch = str(entry.get("health_epoch") or "").strip()
-        if configured_health_epoch and stored_health_epoch != configured_health_epoch:
-            entry = dict(entry)
-            entry["health_epoch"] = configured_health_epoch
-            entry["consecutive_failures"] = 0
-            entry["disabled_until_utc"] = ""
-            health[name] = entry
-            health_epoch_resets += 1
+        # Adapter changes do not authorize resetting failure history or bans.
+        epoch_changed = bool(configured_health_epoch and stored_health_epoch != configured_health_epoch)
+        health_epoch_changes += int(epoch_changed)
         if _foamed_source_disabled(entry, now_utc):
             active_disabled += 1
             strategy = str(src.get("extraction_strategy") or "").strip().lower()
@@ -1312,11 +1313,15 @@ def _filter_disabled_foamed_sources(
                 continue
             if auto_disable_enabled:
                 skipped += 1
+                skipped_sources.append({"name": name, "attempted": False, "health": "skipped",
+                    "skipped_reason": "disabled_until", "source_status": "disabled",
+                    "configured_health_epoch_changed": epoch_changed})
                 continue
         filtered.append(dict(
             src,
             strategy_override_disabled=False,
             disabled_state_present=bool(_foamed_source_disabled(entry, now_utc)),
+            configured_health_epoch_changed=epoch_changed,
         ))
 
     return filtered, {
@@ -1324,6 +1329,8 @@ def _filter_disabled_foamed_sources(
         "disabled_active_count": active_disabled,
         "strategy_override_disabled_count": strategy_overrides,
         "health_epoch_reset_count": health_epoch_resets,
+        "health_epoch_changed_count": health_epoch_changes,
+        "skipped_sources": skipped_sources,
     }
 
 
@@ -1348,7 +1355,9 @@ def _update_foamed_health_state(
     for name, stats in per_source_stats.items():
         if not isinstance(stats, dict):
             continue
-        if bool(stats.get("collection_incomplete_due_to_budget")):
+        if (stats.get("attempted") is False or stats.get("probe_only")
+                or stats.get("health") in {"skipped", "budget_exhausted"}
+                or bool(stats.get("collection_incomplete_due_to_budget"))):
             # A deadline-truncated source was not fully checked. Preserve its
             # prior health instead of treating the degraded run as a failure.
             continue
@@ -1366,7 +1375,7 @@ def _update_foamed_health_state(
             failures = 0
             health_entry["disabled_until_utc"] = ""
             health_entry["last_ok_utc"] = now_iso
-        elif health:
+        elif health in {"blocked_403", "not_found_404", "parse_failed", "other"}:
             failures += 1
             if auto_disable_enabled and health == "blocked_403" and disable_after_403 > 0 and failures >= disable_after_403:
                 health_entry["disabled_until_utc"] = (
@@ -1377,6 +1386,11 @@ def _update_foamed_health_state(
                     now_utc + timedelta(days=max(0, disable_days_404))
                 ).replace(microsecond=0).astimezone(timezone.utc).isoformat()
 
+        for field in ("feed_status_code", "homepage_status_code", "feed_content_type", "homepage_content_type",
+                      "feed_parse_result", "newest_entry_datetime", "freshness", "median_final_text_length",
+                      "article_fetch_attempted", "article_fetch_success", "article_fetch_failed"):
+            if field in stats:
+                health_entry[field] = stats[field]
         health_entry["consecutive_failures"] = failures
         if health:
             health_entry["last_health"] = health
@@ -1491,20 +1505,15 @@ def load_channels_config(path: str) -> Tuple[List[Dict[str, Any]], Dict[str, Lis
 
 
 def load_foamed_sources_config(path: str) -> List[Dict[str, Any]]:
-    """
-    Load FOAMed/blog sources from JSON. Returns an empty list on errors for safety.
-    """
+    from .foamed_sources import load_sources
+    return load_sources(path)
 
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        if isinstance(data, list):
-            return [x for x in data if isinstance(x, dict)]
-    except FileNotFoundError:
-        print(f"[foamed] WARN: sources config not found at {path!r}")
-    except Exception as e:
-        print(f"[foamed] WARN: failed to load sources config {path!r}: {e!r}")
-    return []
+
+def _foamed_processed_guard(state, report_key, item):
+    iid = str(item.get("id") or item.get("url") or "").strip()
+    aliases = list(item.get("legacy_listing_ids") or []) + [item.get("legacy_listing_id")]
+    return bool(is_processed(state, report_key, "foamed", iid)
+                or any(alias and is_processed(state, report_key, "foamed", alias) for alias in aliases))
 
 
 def _dedupe_items(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -3617,6 +3626,8 @@ def _main() -> None:
             )
             foamed_collect_start = time.monotonic()
             foamed_collected, foamed_collection_stats = collect_foamed_items(foamed_sources_filtered, now_utc, lookback_hours=args.hours)
+            for skipped_source in filter_stats.get("skipped_sources", []):
+                foamed_collection_stats.setdefault("per_source", {})[skipped_source["name"]] = skipped_source
             runtime_foamed_collect_seconds += max(0.0, time.monotonic() - foamed_collect_start)
             runtime_foamed_article_fetch_seconds += float((foamed_collection_stats or {}).get("article_fetch_duration_seconds", 0.0) or 0.0)
             foamed_screened_total = len(foamed_collected)
@@ -3642,7 +3653,7 @@ def _main() -> None:
                 iid = str(it.get("id") or it.get("url") or "").strip()
                 if not iid:
                     continue
-                if not read_only_mode and not qa_replay_enabled and not backfill_enabled and is_processed(state, report_key, "foamed", iid):
+                if not read_only_mode and not qa_replay_enabled and not backfill_enabled and _foamed_processed_guard(state, report_key, it):
                     foamed_skipped_by_state += 1
                     continue
                 if qa_replay_enabled or backfill_enabled:
@@ -3874,6 +3885,9 @@ def _main() -> None:
         print(f"[select] Cybermed selected {len(pubmed_overview_items)} of {len(pubmed_new_items)} new PubMed item(s) for the report.")
         print(f"[select] Cybermed included {len(foamed_overview_items)} FOAMed item(s) ({len(foamed_top_picks)} top picks).")
 
+        selected_by_source = Counter(str(it.get("source_name") or it.get("foamed_source") or "") for it in foamed_overview_items)
+        for name, source_stats in (foamed_collection_stats.get("per_source") or {}).items():
+            source_stats["selected_items"] = selected_by_source.get(name, 0)
         foamed_meta_stats = {
             "screened": foamed_screened_total,
             "after_state": foamed_after_state,
