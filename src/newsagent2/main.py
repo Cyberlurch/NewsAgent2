@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .clinical_editorial import CONTEXT_FIELDS, attach_context, finalize_favorite, limitation_value
 
 import argparse
 import json
@@ -530,6 +531,9 @@ def _cybermed_daily_lookback_marker(
 
 def _sanitize_cybermed_pubmed_item(item: Dict[str, Any]) -> Dict[str, Any]:
     return {
+        "limitations": limitation_value(item.get("limitations")),
+        "population_setting": str(item.get("population_setting") or ""),
+        **{key: item[key] for key in CONTEXT_FIELDS if key in item},
         "item_id": str(item.get("id") or item.get("item_id") or "").strip(),
         "source_type": "pubmed",
         "pubmed_facts": item.get("pubmed_facts"),
@@ -567,6 +571,7 @@ def _sanitize_cybermed_pubmed_item(item: Dict[str, Any]) -> Dict[str, Any]:
 
 def _sanitize_cybermed_foamed_item(item: Dict[str, Any]) -> Dict[str, Any]:
     return {
+        **{key: item[key] for key in CONTEXT_FIELDS if key in item},
         "item_id": str(item.get("id") or item.get("item_id") or "").strip(),
         "source_type": "foamed",
         **{k: item[k] for k in ("source_role", "primary_references", "published_precision", "legacy_listing_id", "legacy_listing_ids") if k in item},
@@ -591,6 +596,9 @@ def _sanitize_cybermed_foamed_item(item: Dict[str, Any]) -> Dict[str, Any]:
 def _sanitize_cybermed_monthly_rollup_item(item: Dict[str, Any]) -> Dict[str, Any]:
     source_type = str(item.get("source_type") or item.get("source") or "").strip().lower()
     return {
+        "limitations": limitation_value(item.get("limitations")),
+        "population_setting": str(item.get("population_setting") or ""),
+        **{key: item[key] for key in CONTEXT_FIELDS if key in item},
         **{k: item[k] for k in ("source_role", "primary_references", "published_precision", "legacy_listing_id", "legacy_listing_ids") if k in item},
         "item_id": str(item.get("item_id") or item.get("id") or item.get("pmid") or item.get("url") or "").strip(),
         "source_type": source_type,
@@ -2937,8 +2945,9 @@ def _main() -> None:
                 str(render_row.get("source_type") or render_row.get("source") or "").strip().lower(),
                 str(render_row.get("item_id") or render_row.get("id") or render_row.get("pmid") or render_row.get("url") or "").strip().lower(),
             )
-            render_row["top_pick"] = render_key in selected_top_pick_keys
+            finalize_favorite(render_row, cadence=report_mode, candidate=render_key in selected_top_pick_keys, legacy_period=True)
             render_candidates.append(render_row)
+        selected_top_picks = [row for row in render_candidates if row.get("top_pick")]
         items = [
             _normalize_cybermed_weekly_digest_item(it, deep_dive_ids=selected_deep_dive_ids)
             for it in render_candidates
@@ -4824,7 +4833,7 @@ def _main() -> None:
     if not overview_items and detail_items:
         overview_items = list(detail_items)
 
-    if report_mode in {"weekly", "monthly"} and not (is_cybermed_run and cybermed_digest_only_mode):
+    if report_mode in {"weekly", "monthly"} and not is_cybermed_run:
         for it in overview_items[: max(1, min(3, len(overview_items)))]:
             if not it.get("top_pick"):
                 it["top_pick"] = True
@@ -5630,11 +5639,15 @@ def _main() -> None:
             if bl:
                 details_for_report[iid] = f"**BOTTOM LINE:** {bl}"
 
-    if is_cybermed_run and deep_dive_ids:
+    if is_cybermed_run:
         for it in report_items + detail_items:
-            iid = str(it.get("id") or it.get("url") or it.get("title") or "").strip()
-            if iid and iid in deep_dive_ids:
-                it["top_pick"] = True
+            # Detail format cannot override the selector's editorial decision.
+            if not cybermed_digest_only_mode:
+                attach_context(it, refresh=True)
+            finalize_favorite(it, cadence=report_mode, legacy_period=cybermed_digest_only_mode)
+        cybermed_run_stats['editorial_final_favorites_total'] = sum(it.get('top_pick') is True for it in report_items)
+        cybermed_run_stats['editorial_favorite_reasons'] = dict(Counter(
+            (it.get('top_pick_decision') or {}).get('reason', 'unknown') for it in report_items))
 
     if is_cybermed_run:
         cybermed_run_stats.setdefault("pubmed", {})
@@ -6179,6 +6192,7 @@ def _main() -> None:
                         detail_block = str(details_for_report.get(detail_key) or "").strip()
                         break
                 record = {
+                    **{key: it[key] for key in CONTEXT_FIELDS if key in it},
                     "item_id": item_id,
                     "pmid": str(it.get("pmid") or "").strip(),
                     "doi": str(it.get("doi") or "").strip(),
@@ -6196,7 +6210,7 @@ def _main() -> None:
                     "comparator": str(it.get("comparator") or "").strip(),
                     "primary_endpoint": str(it.get("primary_endpoint") or "").strip(),
                     "key_results": str(it.get("key_results") or "").strip(),
-                    "limitations": str(it.get("limitations") or "").strip(),
+                    "limitations": limitation_value(it.get("limitations")),
                     "primary_result_direction": str(it.get("primary_result_direction") or "").strip(),
                     "primary_result_significance": str(it.get("primary_result_significance") or "").strip(),
                     "key_secondary_results": str(it.get("key_secondary_results") or "").strip(),

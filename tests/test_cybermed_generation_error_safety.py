@@ -65,7 +65,7 @@ def test_generation_error_detection_and_sanitization_are_content_safe():
         ),
         (
             lambda: summarizer.summarize_foamed_bottom_line(
-                {"title": "Commentary", "text": "Article", "url": "https://example.test"},
+                {"title": "Commentary", "text": "A clinical source paragraph explains the scope of bedside assessment. " * 4, "url": "https://example.test"},
                 language="en",
             ),
             "foamed_bottom_line",

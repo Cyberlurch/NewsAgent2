@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from .clinical_editorial import clinical_text, context_for, attach_context, finalize_favorite
 import os
 import re
 from collections import Counter
@@ -114,11 +115,7 @@ def _journal_tier(item: Dict[str, Any], tiers: Dict[str, Any]) -> str:
 
 
 def _text_haystack(item: Dict[str, Any]) -> str:
-    # Keep bounded to avoid large prompts/logging overhead; selector only needs signals.
-    title = str(item.get("title") or "")
-    journal = str(item.get("journal") or item.get("channel") or "")
-    text = str(item.get("text") or item.get("summary") or "")
-    return f"{title}\n{journal}\n{text[:2000]}".lower()
+    return clinical_text(item)
 
 
 def _matches_any_regex(text: str, patterns: List[str]) -> bool:
@@ -650,6 +647,13 @@ def select_cybermed_pubmed_items(
         tier_counts[tier or "unclassified"] += 1
         domain_any, domain_flags = _domain_signals(hay, domain_cfg)
         clinical_intent, intent_flags = _clinical_intent(hay, intent_cfg)
+        # General-journal prestige is not a clinical-domain signal. Keep query
+        # identity/cursors unchanged; reject locally before any summarization.
+        if tier in {"tier2_general_high_impact", "tier2_high_impact", "tier2_high_impact_fallback"} and context_for(it)["track"] == "unknown":
+            excluded_overview_offtopic += 1
+            exclusion_reason_counts["general_journal_without_clinical_domain"] += 1
+            continue
+
         for flag, active in domain_flags.items():
             if active:
                 domain_signal_counts[str(flag)] += 1
@@ -931,9 +935,13 @@ def select_cybermed_pubmed_items(
             top_pick = False
             top_pick_floor_rejection_counts["clinical_or_practice"] += 1
         cand["top_pick"] = bool(top_pick)
+        finalize_favorite(cand, cadence="daily")
+        top_pick = cand["top_pick"]
         star_reasons=[r for r in cand.get("reason_labels",[]) if r in {"guideline_or_consensus","randomized_trial","systematic_review_or_meta_analysis","high_impact_journal","patient_centered_outcomes","strong_clinical_relevance"}]
         if top_pick and not star_reasons:
             star_reasons=["practice_changing_signal"]
+        if not top_pick:
+            star_reasons = []
         cand["star_reasons"] = star_reasons
         for sr in star_reasons: top_pick_reason_counts[sr]+=1
 
@@ -1281,6 +1289,7 @@ def _attach_evidence_hint_labels(item: Dict[str, Any], *, foamed: bool=False) ->
             relevance = min(relevance, 2 if direct_clinical else 1)
         item["clinical_usefulness_1_5"] = max(1, min(5, usefulness))
         item["practice_relevance_1_5"] = max(1, min(5, relevance))
+        attach_context(item)
         return
     ev=float(item.get('evidence_strength_score',0.0) or 0.0)
     pub_types = {str(v).strip().lower() for v in (item.get("publication_types") or []) if str(v).strip()}
@@ -1328,7 +1337,9 @@ def _attach_evidence_hint_labels(item: Dict[str, Any], *, foamed: bool=False) ->
     impact = int(round(impact_base + 1 + impact_bonus))
     item['clinical_relevance_1_5']=max(1,min(5,rel))
     item['practice_change_potential_1_5']=max(1,min(5,impact))
-    item['text_confidence_label']='high' if str(item.get('content_length_bucket')) in {'long','very_long'} else ('moderate' if str(item.get('content_length_bucket')) in {'medium','short'} else 'low')
+    attach_context(item)
+    coverage = item['clinical_context']['text_coverage']
+    item['text_confidence_label'] = 'moderate' if coverage in {'results_reported', 'bounded_excerpt'} else 'low'
     item['evidence_label_reason']=f"article-level heuristic: {basis}"
 def _foamed_domain_score(hay: str) -> Tuple[float, Dict[str, bool], bool]:
     """

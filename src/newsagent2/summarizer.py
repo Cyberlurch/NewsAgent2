@@ -1961,8 +1961,22 @@ def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
 
     lang = _norm_language(language)
     text = ((item.get("text") or item.get("abstract") or "")).strip()
-    if len(text) > 1500:
-        text = text[:1500].rstrip()
+    if len(text) < 160:
+        return ""  # Too little source text; do not pay to elaborate a title.
+    # Existing input budget; retain whole source sentences only.
+    from .pubmed_facts import sentences
+    references = [{k: ref[k] for k in ('kind', 'value', 'url')}
+                  for ref in (item.get('primary_references') or [])[:2]
+                  if isinstance(ref, dict) and all(isinstance(ref.get(k), str) and len(ref[k]) <= 140 for k in ('kind', 'value', 'url'))]
+    role = 'commentary' if item.get('source_role') == 'commentary' else 'FOAMed context'
+    text_budget = max(500, 1500 - len(json.dumps(references)) - len(role) - 100)
+    kept = []
+    for sentence in sentences(text):
+        if len(" ".join(kept + [sentence])) <= text_budget:
+            kept.append(sentence)
+    text = " ".join(kept)
+    if len(text) < 160:
+        return ""
 
     published = item.get("published_at")
     if isinstance(published, datetime):
@@ -1976,18 +1990,23 @@ def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
         "url": (item.get("url") or "").strip(),
         "published_at": published_str,
         "text": text,
+        "source_role": role,
+        "primary_references": references,
     }
 
     sys_prompt = (
         "You are a concise clinical summarizer. Write one sentence, 40–55 words, starting with 'BOTTOM LINE:'. "
         "Base your statement strictly on the provided title/excerpt. If the content is commentary or education without new data, state that plainly. "
+        "State a concrete learning point supported by the excerpt; a generic no-original-research disclaimer alone is insufficient. "
+        "Separate the author’s recommendation from study results; cite no URLs absent from the supplied provenance. "
         "Avoid speculation and do not invent study results."
     )
     if lang != "en":
         sys_prompt = (
             "Du bist ein prägnanter klinischer Zusammenfasser. Schreibe einen Satz (40–55 Wörter), beginnend mit 'BOTTOM LINE:'. "
             "Nutze nur den bereitgestellten Titel/Excerpt. Wenn es sich um Kommentar oder Lehrinhalt ohne neue Daten handelt, formuliere das klar. "
-            "Keine Spekulation, keine erfundenen Studienergebnisse."
+            "Nenne eine konkrete belegte Lernbotschaft statt nur keine Originalforschung. Trenne Autorenempfehlung und Studienergebnis. "
+            "Keine neuen Links, keine Spekulation, keine erfundenen Studienergebnisse."
         )
 
     payload = json.dumps(meta, ensure_ascii=False, indent=2)
@@ -2013,7 +2032,24 @@ def summarize_foamed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
         )
         content = (r.choices[0].message.content or "").strip()
         if _is_cybermed_generation():
-            return validate_generated_text(content, stage="foamed_bottom_line")
+            clean = validate_generated_text(content, stage="foamed_bottom_line")
+            if getattr(r.choices[0], "finish_reason", None) not in {None, "stop"} or not re.search(r"[.!?][\"’”']?$", clean):
+                return ""
+            allowed_urls = {str(item.get("url") or "")} | {str(ref.get("url") or "") for ref in item.get("primary_references", []) if isinstance(ref, dict)}
+            if any(url.rstrip(".,;)") not in allowed_urls for url in re.findall(r"https?://[^\s<>]+", clean)):
+                return ""
+            # Conservative local guards, not an efficacy assessment. Unsafe
+            # outputs are omitted without another model call.
+            source = json.dumps(meta, ensure_ascii=False).lower()
+            numbers = re.findall(r"\b\d+(?:\.\d+)?%?", clean)
+            if any(number not in source for number in numbers):
+                return ""
+            if re.search(r"\b(?:reduc\w*|prevent\w*|improv\w*|senk\w*|verhinder\w*)[^.!?]{0,70}(?:mortality|delirium|survival|infection|complications|sterblichkeit)", clean, re.I):
+                return ""
+            # A role disclaimer alone has no source-grounded learning content.
+            if re.fullmatch(r"(?:BOTTOM LINE:\s*)?(?:This is |Dies ist )?(?:a |ein )?(?:commentary|Kommentar|educational (?:post|content))(?: with no (?:new data|original research))?[.!]", clean, re.I):
+                return ""
+            return clean
         return content
     except Exception as e:
         if _is_cybermed_generation():

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .clinical_editorial import context_for, context_line, finalize_favorite, favorite_label, reference_line
 
 import ast
 import os, re
@@ -134,16 +135,17 @@ def _pubmed_compact_line(item: Dict[str, Any]) -> str:
     segs: List[str] = []
     ev = _label_text(item.get("evidence_strength_label"))
     if ev:
-        segs.append(f"Evidence {ev}")
+        segs.append(f"Design hint {ev} (article heuristic, not GRADE)")
     rel = item.get("clinical_relevance_1_5")
     if rel not in {None, ""}:
         segs.append(f"Relevance {int(rel)}/5")
     impact = item.get("practice_change_potential_1_5")
     if impact not in {None, ""}:
         segs.append(f"Practice impact {int(impact)}/5")
-    conf = _label_text(item.get("text_confidence_label"))
+    conf = _label_text(item.get("text_confidence_label")) if isinstance(item.get("clinical_context"), dict) else "Unknown (legacy basis)"
     if conf:
-        segs.append(f"Confidence {conf}")
+        segs.append(f"Text coverage {conf} (not effect certainty)")
+    segs.append(context_line(item))
     return _join_compact_segments(segs)
 
 
@@ -151,16 +153,18 @@ def _foamed_compact_line(item: Dict[str, Any]) -> str:
     segs: List[str] = []
     quality = _label_text(item.get("source_quality_label"))
     if quality:
-        segs.append(f"Source quality {quality}")
+        segs.append(f"Source priority {quality}")
     useful = item.get("clinical_usefulness_1_5")
     if useful not in {None, ""}:
         segs.append(f"Usefulness {int(useful)}/5")
     pr = item.get("practice_relevance_1_5")
     if pr not in {None, ""}:
         segs.append(f"Practice relevance {int(pr)}/5")
-    conf = _label_text(item.get("text_confidence_label"))
+    conf = _label_text(item.get("text_confidence_label")) if isinstance(item.get("clinical_context"), dict) else "Unknown (legacy basis)"
     if conf:
-        segs.append(f"Confidence {conf}")
+        segs.append(f"Text coverage {conf} (not effect certainty)")
+    segs.append(context_line(item))
+    segs.append(reference_line(item))
     return _join_compact_segments(segs)
 
 
@@ -838,9 +842,11 @@ def _fallback_bottom_line(item: Dict[str, Any]) -> str:
     title = (item.get("title") or "").strip()
     strength = _study_strength_from_text((item.get("text") or "").strip())
     anchor = "This paper" if not title else f"This paper ({title[:90].rstrip()}...)"
+    hint_label = ('Design hint (article heuristic, not GRADE)' if str(item.get('source') or item.get('source_type') or '').lower() == 'pubmed'
+                  else 'Evidence strength (best-effort from abstract keywords)')
     return (
         f"{anchor} was listed, but no deep-dive summary was generated for it in this run; treat any clinical implication as preliminary. "
-        f"Evidence strength (best-effort from abstract keywords): {strength}."
+        f"{hint_label}: {strength}."
     )
 
 
@@ -861,106 +867,14 @@ def _ensure_pubmed_deep_dive_template(detail_md: str, fallback_bottom_line: str,
     return normalized or f"BOTTOM LINE: {fallback_bottom_line or 'Not reported'}"
 
 def _infer_track_and_subcategory(item: Dict[str, Any]) -> Tuple[str, str]:
-    hay = " ".join((str(item.get(k) or "") for k in ("title", "journal", "channel"))).lower()
-
-    journal_category = _journal_category(item)
-    track: Optional[str] = None
-    sub: Optional[str] = None
-
-    if journal_category == "emergency":
-        track, sub = "Critical Care", "Other Critical Care"
-    elif journal_category == "intensive":
-        track = "Critical Care"
-    elif journal_category == "anesthesia":
-        track = "Anaesthesiology"
-    elif journal_category == "pain":
-        track, sub = "Anaesthesiology", "Pain/Regional Anesthesia"
-
-    ana_hits = any(
-        k in hay
-        for k in (
-            "anaesth",
-            "anesth",
-            "anesthesia",
-            "perioper",
-            "postoperative",
-            "regional",
-            "neuraxial",
-            "epidural",
-            "spinal",
-            "nerve block",
-            "pain",
-            "analges",
-        )
-    )
-    cc_hits = any(
-        k in hay
-        for k in (
-            "icu",
-            "intensive care",
-            "critical care",
-            "sepsis",
-            "shock",
-            "ventilat",
-            "ards",
-            "ecmo",
-            "resuscitation",
-            "cardiac arrest",
-            "crrt",
-            "dialysis",
-            "vasopressor",
-            "norepinephrine",
-        )
-    )
-
-    if journal_category == "general" and track is None:
-        if cc_hits and not ana_hits:
-            track = "Critical Care"
-        elif ana_hits and not cc_hits:
-            track = "Anaesthesiology"
-        elif cc_hits and ana_hits:
-            track = "Critical Care"
-        else:
-            track, sub = "Critical Care", "Other Critical Care"
-
-    if track is None:
-        if any(k in hay for k in ("acta anaesthesiol scand", "anaesthesia", "br j anaesth", "anesth analg", "reg anesth pain med", "pain")):
-            track = "Anaesthesiology"
-        elif any(k in hay for k in ("intensive care med", "crit care", "resuscitation")):
-            track = "Critical Care"
-        else:
-            if ana_hits and not cc_hits:
-                track = "Anaesthesiology"
-            elif cc_hits and not ana_hits:
-                track = "Critical Care"
-            else:
-                track = "Critical Care" if cc_hits else "Anaesthesiology"
-
-    if sub is None:
-        if track == "Critical Care":
-            if any(k in hay for k in ("shock", "vasopressor", "norepinephrine", "hemodynamic", "haemodynamic", "circulat", "cardiac", "arrest", "ecpr")):
-                sub = "Circulation"
-            elif any(k in hay for k in ("ventilat", "ards", "oxygen", "respir", "intubat", "airway", "ecmo", "pneumonia")):
-                sub = "Respiration"
-            elif any(k in hay for k in ("sepsis", "septic", "infection", "bacter", "antibiotic", "fungal", "pneumonia")):
-                sub = "Infection/Sepsis"
-            elif any(k in hay for k in ("renal", "kidney", "crrt", "dialysis", "hemofiltration", "haemofiltration")):
-                sub = "Renal/CRRT"
-            elif any(k in hay for k in ("neuro", "brain", "stroke", "delirium", "seizure", "intracran", "cerebral")):
-                sub = "Neuro"
-            else:
-                sub = "Other Critical Care"
-        else:
-            if any(k in hay for k in ("regional", "nerve block", "block", "neuraxial", "epidural", "spinal", "analges", "pain")):
-                sub = "Pain/Regional Anesthesia"
-            elif any(k in hay for k in ("perioper", "postoperative", "post-operative", "surgery", "surgical", "anemia", "anaemia")):
-                sub = "Perioperative Medicine"
-            elif any(k in hay for k in ("induction", "maintenance", "airway", "volatile", "propofol", "ketamine", "anesthetic", "anaesthetic")):
-                sub = "General Anesthesia"
-            else:
-                sub = "Other Anaesthesiology"
-
-    return track, sub
+    context = context_for(item)
+    if context['track'] != 'unknown':
+        return context['track'], context['subcategory']
+    # Weak layout fallback only; the compact line explicitly says Domain unknown.
+    category = _journal_category(item)
+    if category in {'anesthesia', 'pain'}:
+        return 'Anaesthesiology', 'Pain/Regional Anesthesia' if category == 'pain' else 'Other Anaesthesiology'
+    return 'Critical Care', 'Other Critical Care'
 
 
 
@@ -1416,6 +1330,11 @@ def to_markdown(
         elif "monthly" in title_lower:
             normalized_mode = "monthly"
     is_cyberlurch_periodic = is_cyberlurch and normalized_mode in {"weekly", "monthly", "yearly"}
+    if is_cybermed:
+        # A non-mutating view; no legacy flag becomes a new endorsement.
+        items = [dict(row) for row in items]
+        for row in items:
+            finalize_favorite(row, cadence=normalized_mode or 'daily', legacy_period=normalized_mode in {'weekly', 'monthly', 'yearly'})
     if is_cyberlurch and normalized_mode == "daily":
         return render_cyberlurch_daily_report(items, title=title, generated_at=now_str)
     if is_cyberlurch and normalized_mode == 'monthly':
@@ -1499,7 +1418,7 @@ def to_markdown(
                     period_line = f"Period: {start or '?'} to {end or '?'}."
             if period_line:
                 md.append(period_line)
-            md.append(f"Top picks (⭐) first; Daily digests used this period; total included: {pubmed_count} papers, {foamed_count} FOAMed, {top_pick_count} top picks.")
+            md.append(f"Priority selections (⭐) first; legacy rankings are not revalidated; Daily digests used this period; total included: {pubmed_count} papers, {foamed_count} FOAMed, {top_pick_count} top picks.")
             md.append("")
             top_items = [it for it in items if it.get("top_pick") is True]
             if top_items:
@@ -1637,7 +1556,7 @@ def to_markdown(
                             md.append(f"*Newly captured older publication (published {publication_date}).*" if lang == "en" else
                                       f"*Neu erfasste ältere Publikation (publiziert {publication_date}).*")
                         if it.get("top_pick") is True:
-                            compact = _join_compact_segments(["⭐ Top pick", compact])
+                            compact = _join_compact_segments([favorite_label(it), compact])
                         if compact:
                             md.append("")
                             md.append(compact)
@@ -1686,7 +1605,7 @@ def to_markdown(
                 md.append(line)
                 compact = _foamed_compact_line(it)
                 if it.get("top_pick") is True:
-                    compact = _join_compact_segments(["⭐ Top pick", compact])
+                    compact = _join_compact_segments([favorite_label(it), compact])
                 if compact:
                     md.append("")
                     md.append(compact)
@@ -1694,7 +1613,7 @@ def to_markdown(
                 if bottom_line and not bottom_line.lower().startswith("bottom line"):
                     bottom_line = f"BOTTOM LINE: {bottom_line}"
                 if not bottom_line:
-                    bottom_line = "BOTTOM LINE: No stored bottom line available."
+                    bottom_line = "BOTTOM LINE: No reliable learning summary available; consult the source."
                 md.append("")
                 if bottom_line.upper().startswith("BOTTOM LINE:"):
                     md.append(re.sub(r"(?i)^BOTTOM LINE:\s*", "**BOTTOM LINE:** ", bottom_line, count=1))
@@ -1833,6 +1752,8 @@ def to_markdown(
                 detail_block = _normalize_deep_dive_headings(detail_block, item_title=str(it.get("title") or "").strip())
             detail_block = _bold_bottom_line_label(detail_block)
             detail_block = _normalize_detail_block_headings(detail_block)
+            if is_cybermed:
+                md.append(context_line(it))
             md.append(detail_block)
             md.append("")
 

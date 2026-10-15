@@ -7,7 +7,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 from newsagent2 import reporter
 
 
-def test_pubmed_compact_line_and_top_pick_rendered():
+def test_pubmed_compact_line_does_not_revalidate_unproven_favorite():
     items = [{
         "source": "pubmed", "id": "p1", "title": "Paper", "url": "https://x",
         "journal": "J", "evidence_strength_label": "b", "clinical_relevance_1_5": 4,
@@ -15,7 +15,9 @@ def test_pubmed_compact_line_and_top_pick_rendered():
         "bottom_line": "Useful"
     }]
     md = reporter.to_markdown(items, "", {}, report_title="Cybermed Daily", report_language="en", report_mode="daily")
-    assert "⭐ Top pick · Evidence B · Relevance 4/5 · Practice impact 3/5 · Confidence High" in md
+    assert "Design hint B (article heuristic, not GRADE) · Relevance 4/5 · Practice impact 3/5 · Text coverage Unknown (legacy basis) (not effect certainty)" in md
+    assert "⭐ Top pick" not in md
+    assert items[0]['top_pick'] is True  # Historical input is not mutated.
 
 
 def test_compact_lines_omit_missing_without_dangling_separators():
@@ -27,7 +29,7 @@ def test_compact_lines_omit_missing_without_dangling_separators():
     assert "Relevance 4/5" in md
     assert "Source quality" not in md
     assert "· ·" not in md
-    assert "Confidence Moderate" in md
+    assert "Text coverage Unknown (legacy basis) (not effect certainty)" in md
 
 
 def test_foamed_compact_line_rendered_and_top_pick_false_not_shown():
@@ -37,7 +39,7 @@ def test_foamed_compact_line_rendered_and_top_pick_false_not_shown():
         "text_confidence_label": "high", "bottom_line": "Useful", "published_at": datetime.now(timezone.utc)
     }]
     md = reporter.to_markdown(items, "", {}, report_title="Cybermed Daily", report_language="en", report_mode="daily")
-    assert "Source quality Core · Usefulness 4/5 · Practice relevance 3/5 · Confidence High" in md
+    assert "Source priority Core · Usefulness 4/5 · Practice relevance 3/5 · Text coverage Unknown (legacy basis) (not effect certainty)" in md
     assert "⭐ Top pick" not in md
 
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 from .foamed_sources import commentary_identity
+from .clinical_editorial import context_line, limitation_value, reference_line
 
 import json
 from .store_io import read_store, atomic_store, generated_store, rollups_store as reports_store
@@ -789,6 +790,10 @@ def render_yearly_markdown(
             md.append(f"- [{t}]({u})" if u else f"- {t}")
             if bl:
                 md.append(f"  - **BOTTOM LINE:** {bl}")
+            md.append(f"  - {context_line(it)}")
+            limits = limitation_value(it.get("limitations"))
+            if limits:
+                md.append("  - Limitations: " + ("; ".join(limits) if isinstance(limits, list) else limits))
         md.extend(["", "## Potentially practice-changing items"])
         for it in practice_changing:
             md.append(f"- {(it.get('title') or 'Untitled').strip()} — impact {it.get('practice_change_potential_1_5')}")
@@ -826,6 +831,7 @@ def render_yearly_markdown(
             md.extend(["", "## FOAMed & commentary"])
             for it in foamed[:5]:
                 md.append(f"- {(it.get('title') or 'Untitled').strip()}")
+                md.append("  - " + reference_line(it))
         md.extend(["", "## What to watch next year"])
         for it in ranked[:5]:
             md.append(f"- Recurring signal: {(it.get('topic_primary') or it.get('title') or 'General').strip()}")

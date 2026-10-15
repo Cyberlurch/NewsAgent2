@@ -201,7 +201,8 @@ def test_monthly_fixture_intro_and_diagnostics_top_pick_counts(monkeypatch, tmp_
     assert "## Executive editorial summary" in md
     assert "## This month’s clinical themes" in md
     assert "## Practice-impact section" in md
-    assert md.count("⭐ Top pick") == 5
+    assert md.count("⭐ Stored ranking (not revalidated)") == 5
+    assert "⭐ Top pick" not in md
     assert isinstance(md, str)
     assert diag["cybermed_monthly_editorial_mode"] is True
     assert diag["cybermed_monthly_editorial_summary_generated_from_digest"] is True
