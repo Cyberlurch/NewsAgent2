@@ -101,7 +101,10 @@ SMTP. An already accepted current edition bypasses collection/generation and
 checks the original audience before acknowledging that receipt.
 
 If a SMTP-capable failed/cancelled run has no usable artifact (including an
-expired artifact or a killed runner before upload), production stops. Inspect
+expired artifact or a killed runner before upload), production stops. The
+[reviewed legacy transition](legacy-transition.md) explicitly bounds five inspected
+pre-journal runs; all other runs retain this rule. Historical attempt holds are
+reported separately and never create delivery success or replace a journal row. Inspect
 SMTP logs and the branch, restore available receipts and generation records,
 then acknowledge **only those individually reconciled run IDs** in repository
 variable `DELIVERY_RECOVERY_ACK_RUN_IDS` (comma-separated). This is not a generic

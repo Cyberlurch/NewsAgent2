@@ -110,8 +110,19 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
     runs = get(f"/repos/{repository}/actions/workflows/{workflow}/runs", params={"branch": branch, "status": "completed", "per_page": 100})
     candidates = sorted([r for r in runs["workflow_runs"] if str(r["id"]) != os.getenv("GITHUB_RUN_ID")
                          and r["conclusion"] in {"failure", "cancelled", "timed_out", "action_required"}], key=lambda r: r["id"])
+    from .legacy_transition import reviewed_failure, POLICY_SHA256
+    legacy_findings = []
     for run in candidates:
         if str(run["id"]) in acknowledged:
+            continue
+        finding = reviewed_failure(run, report_key, workflow, load_journal(path_for("DELIVERY_JOURNAL_PATH")))
+        if finding:
+            legacy_findings.append(finding)
+            atomic_store(report_dir / f"{report_key}_legacy_plan_metadata.json",
+                {"schema_version": 1, "report_key": report_key, "policy_sha256": POLICY_SHA256,
+                 "workflow_run_id": os.getenv("GITHUB_RUN_ID", "local"), "reviewed_legacy_runs": legacy_findings,
+                 "smtp_success_invented": False}, kind="legacy_transition_evidence")
+            print(f"[recovery] reviewed legacy run {run['id']}: {finding['finding']}; no historical resend")
             continue
         jobs = get(f"/repos/{repository}/actions/runs/{run['id']}/jobs", params={"per_page": 100})
         capable = any(step.get("name") in {"Run reports", "Run Cybermed reports"} and step.get("started_at")

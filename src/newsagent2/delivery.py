@@ -195,6 +195,9 @@ class Coordinator:
         purpose = "production" if self.mode == "real" else self.mode
         self.edition_id = f"{report_key}:{cadence}:{start}:{end}:{purpose}"
         self.journal = load_journal(self.path)
+        # Keep the original observation separate from this invocation's staged
+        # generation; staging must not manufacture a historical replay permit.
+        self.initial_receipt = self.journal["editions"].get(self.edition_id)
         self.result: DeliveryResult | None = None
 
     def _persist(self, result: DeliveryResult) -> None:
@@ -293,6 +296,8 @@ class Coordinator:
 
     def deliver(self, body: str, recipients: list[str], transport: Callable, *, finalization: dict | None = None,
                 retry_rejected: bool = False) -> DeliveryResult:
+        from .legacy_transition import guard_submission
+        guard_submission(self)
         result = self.generated(body, finalization)
         if result.status == "outcome_unknown" or (result.status == "partially_accepted" and not retry_rejected):
             raise DeliveryError(result)  # Operator reconciliation, never blind retry.
@@ -370,6 +375,13 @@ def verify_reports(report_dir: Path, report_key: str, cadences: list[str], *, mo
     for cadence in cadences:
         path = report_dir / f"{report_key}_{cadence}_delivery_result.json"
         data = read_store(path, {}, kind="planned_delivery_result")
+        if data.get("kind") == "reviewed_legacy_hold":
+            from .legacy_transition import verify_hold
+            try:
+                verify_hold(data, report_key, cadence, report_dir, mode)
+            except RuntimeError:
+                errors.append(f"legacy_hold_verification_failed:{report_key}:{cadence}")
+            continue
         try:
             result = DeliveryResult(**data)
         except TypeError:

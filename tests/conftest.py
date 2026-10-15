@@ -96,6 +96,9 @@ def isolated_paths(monkeypatch, tmp_path, offline_connections):
     monkeypatch.setenv("REPORT_DIR", str(tmp_path / "out"))
     monkeypatch.setenv("EMAIL_MODE", "none")
     monkeypatch.setenv("SEND_EMAIL", "0")
+    # Historical fixtures do not inherit the real operator's finite transition.
+    # Transition regressions explicitly select the actual repository binding.
+    monkeypatch.setenv("GITHUB_REPOSITORY", "offline-tests/fixtures")
     monkeypatch.setattr(tempfile, "tempdir", str(tmp_path))
     import dotenv
     original = dotenv.load_dotenv
