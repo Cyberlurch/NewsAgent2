@@ -84,6 +84,14 @@ def test_known_placeholder_only_record_is_not_replaced_by_a_factual_title():
     assert registry[0]["factual_summary"] == "" and select_evidence_pack(registry) == []
 
 
+def test_actual_key_points_can_supply_context_when_only_the_summary_is_unavailable():
+    item = row(transcript_full_summary="", bottom_line="Summary unavailable.",
+        transcript_key_points=["River City postponed construction pending an environmental review."])
+    registry = build_source_registry([item])
+    assert registry[0]["factual_summary"] == item["transcript_key_points"][0]
+    assert len(select_evidence_pack(registry)) == 1
+
+
 @pytest.mark.parametrize("text", [
     "Die Stadt plant einen neuen Hochwasserschutz. Die Finanzierung ist noch nicht gesichert.",
     "Staden planerar en ny översvämningsbarriär. Finansieringen är ännu inte säkrad.",
@@ -100,7 +108,7 @@ def test_never_clips_a_long_sentence_or_uses_editorial_relevance_as_a_fact():
 
 
 def test_monthly_skips_placeholder_and_technical_details_before_model_input():
-    item = row(transcript_full_summary="", bottom_line="Summary unavailable.",
+    item = row(transcript_full_summary="", bottom_line="Summary unavailable.", transcript_key_points=[],
         transcript_notable_claims=["Unable to summarize reliably.", "River City postponed construction."],
         important_details=["Provider error: insufficient_quota."])
     registry = build_source_registry([item])

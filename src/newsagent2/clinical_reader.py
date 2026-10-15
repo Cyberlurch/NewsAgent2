@@ -127,23 +127,31 @@ def reader_summary_issues(item: dict, facts: PubMedFacts, text: str, quote: str,
         issues.append("missing_reported_finding")
     direction, quoted_direction = _direction(finding), _direction(quote)
     known = facts.direction if facts.direction not in {"unclear", "mixed_or_unclear"} else quoted_direction
-    question = re.search(r"(?:examined|assessed|investigated|evaluated|tested)\b|compared|randomi[sz]ed", parts[0] if parts else "", re.I)
-    if known == "negative_or_null" and parts and not question and _direction(parts[0]) == "positive":
+    first = parts[0] if parts else ""
+    question = re.search(r"\b(?:examined|assessed|investigated|evaluated|tested|compared|comparison|whether)\b", first, re.I)
+    context_claim = not question or re.search(r"\b(?:showed|demonstrated|found|reported|led to|resulted in)\b", first, re.I)
+    if known == "negative_or_null" and context_claim and _direction(first) == "positive":
         issues.append("unsupported_context_benefit")
+    if known == "positive" and context_claim and _direction(first) in {"negative_or_null", "harm"}:
+        issues.append("reader_result_reversal")
+    if not source and not _unstructured_result(facts, quote) and context_claim and _direction(first) in {"positive", "harm"}:
+        issues.append("results_unavailable")
     if known == "negative_or_null" and direction in {"positive", "harm"}:
         issues.append("unsupported_reader_benefit")
     if known in {"positive", "negative_or_null", "noninferiority", "harm"} and direction == "unclear" and not recommendation:
         issues.append("missing_reported_finding")
     if known == "positive" and direction in {"negative_or_null", "harm"}:
         issues.append("reader_result_reversal")
+    if known == "harm" and direction in {"positive", "negative_or_null"}:
+        issues.append("reader_result_reversal")
     unqualified = re.sub(r"(?:does not|do not|cannot|not)\s+(?:establish|demonstrate|prove|imply)\s+(?:superiority|equivalence|causality)|"
-                         r"(?:superiority|equivalence|causality)\s+(?:was|is)\s+not\s+(?:established|demonstrated|proven)", "", finding, flags=re.I)
+                         r"(?:superiority|equivalence|causality)\s+(?:was|is)\s+not\s+(?:established|demonstrated|proven)", "", text, flags=re.I)
     if facts.direction == "noninferiority" and re.search(r"superior|equivalen|as effective", unqualified, re.I):
         issues.append("reader_noninferiority_overclaim")
     if re.search(r"noninferior", quote, re.I) and re.search(r"not (?:shown|demonstrated|established)|failed|did not", quote, re.I):
         if re.search(r"noninferior", finding, re.I) and not re.search(r"not (?:shown|demonstrated|established)|failed|did not", finding, re.I):
             issues.append("reader_failed_noninferiority_upgraded")
-    if facts.observational and re.search(r"\bcaused?|\bprevent\w*|\bproves?|will reduce|led to", unqualified, re.I):
+    if facts.observational and re.search(r"\bcaused?\b|\bprevent(?:s|ed)\b|\bproves?\b|will reduce|led to", unqualified, re.I):
         issues.append("reader_causal_overclaim")
     if not facts.primary_endpoint and re.search(r"\bprimary (?:outcome|endpoint)\s+(?:improved|was reduced|benefit)", finding, re.I):
         issues.append("unmapped_primary_claim")
@@ -160,7 +168,7 @@ def reader_summary_issues(item: dict, facts: PubMedFacts, text: str, quote: str,
         aliases.update(comparison)
         left, right = map(_terms, comparison)
         aliases.update((left ^ right) - {"high", "low", "dose", "oral", "intravenous", "daily", "therapy"})
-    source_winner, reader_winner = _winner(quote, aliases), _winner(finding, aliases)
+    source_winner, reader_winner = _winner(quote, aliases), _winner(text, aliases)
     if reader_winner and (not source_winner or not reader_winner <= source_winner):
         issues.append("unverified_reader_group_direction")
     return list(dict.fromkeys(issues))

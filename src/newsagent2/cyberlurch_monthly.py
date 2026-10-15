@@ -191,7 +191,7 @@ def _persisted_fact(row: Dict[str, Any]) -> str:
         # the existing Monthly model; saved unprocessed rows cannot supply titles.
         return str(row.get("text") or "")[:MONTHLY_SUMMARY_MAX_CHARS] if row.get("_source_live_text") else ""
     rejected = False
-    for key in ("bottom_line", "transcript_full_summary", "summary", "transcript_notable_claims", "important_details"):
+    for key in ("bottom_line", "transcript_full_summary", "summary", "transcript_key_points", "transcript_notable_claims", "important_details"):
         value = row.get(key)
         if isinstance(value, list):
             raw = value
