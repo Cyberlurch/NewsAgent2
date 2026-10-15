@@ -120,7 +120,14 @@ def favorite_eligible(item: dict) -> tuple[bool, str]:
         if item.get("evidence_strength_label") not in {"A", "B", "C"} or item.get("low_evidence_radar") or item.get("floor_rejection_reason"):
             return False, "design_floor"
         if context.get("result_basis") not in {"primary_reported", "recommendation_reported"}:
-            return False, "results_unknown"
+            facts = build_pubmed_facts(item)
+            # A clinically important null/harm/noninferiority finding may be an
+            # editorial priority even if an abstract does not label a primary
+            # endpoint. This never supplies a missing primary-benefit claim.
+            clinical_result = re.search(r"mortality|survival|delirium|complications|pain|hypotension|"
+                                        r"ventilat|hospital stay|icu stay|quality of life", facts.primary_results, re.I)
+            if not clinical_result or facts.direction not in {"negative_or_null", "harm", "noninferiority"}:
+                return False, "results_unknown"
     return True, "clinical_priority_not_proven_benefit"
 
 
@@ -142,8 +149,6 @@ def finalize_favorite(item: dict, *, cadence: str, candidate: bool | None = None
 
 
 def favorite_label(item: dict) -> str:
-    if (item.get("top_pick_decision") or {}).get("reason") == "legacy_period_ranking_not_revalidated":
-        return "⭐ Stored ranking (not revalidated)"
     return "⭐ Top pick"
 
 

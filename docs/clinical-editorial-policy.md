@@ -42,31 +42,50 @@ separately in [history-coverage.md](history-coverage.md) and
 
 ## Reader labels
 
-- A–E remains a compatible **article design heuristic**, explicitly labelled
-  **not GRADE**. Source type and trial design do not establish risk of bias,
+- The compact reader line is `⭐ Top pick · Evidence A · Relevance 5/5 ·
+  Practice impact 5/5 · Confidence High`, using actual available scores and
+  labels. A star appears only for a selected priority; missing values are omitted.
+  A–E remains an **article design heuristic, not GRADE**. Source type and trial design do not establish risk of bias,
   recommendation strength, effect certainty, or clinical benefit.
-- “Text coverage … (not effect certainty)” is separate from the study-design
-  hint. New PubMed coverage is based on available results/source omission,
-  rather than promoting a long abstract to high confidence. The context line
-  distinguishes Abstract, Abstract plus full-text excerpt, bounded excerpts,
-  unavailable results, population and source-reported uncertainty.
-- An explicit primary endpoint and primary result must be available before a
-  result can support a new paper favorite. Unmapped results stay unknown.
+- `Confidence` describes the available source text, not certainty of a treatment
+  effect. Source coverage, endpoint mapping and policy reason codes stay in
+  structured diagnostics; they are not repeated in each reader header. Existing
+  labels are displayed as stored, including legacy labels; this is no new
+  assessment of historical evidence. Population belongs in the short clinical
+  statement when it is known from the source, not a repeated context line.
+- Primary benefit still requires a mapped primary endpoint/result. Unmapped
+  results stay unknown in the clinical statement. A selected, clinically
+  important null, harm or noninferiority finding may remain an editorial priority
+  without an explicit primary label; biomarker-only positive signals do not.
   A source-reported conditional guideline recommendation can support editorial
   priority; it does not become a strong recommendation or a proven effect.
 - A clinically important null result can be a favorite. Its validated common
   statement still says that significance was not demonstrated, without treating
   this as proof of no effect/equivalence. Observational statements retain the
   canonical facts guard against causal upgrading.
-- FOAMed source **priority** is editorial source configuration, not evidence
-  quality. The learning/context role and known primary references are visible.
-  A missing legacy text basis is shown as unknown even if an old length-based
-  `text_confidence_label` says high.
+- FOAMed `Source quality` reflects editorial source configuration, not a formal
+  evidence grade. Known primary references remain linked; repetitive missing-
+  reference notices are omitted. Learning summaries and source floors remain.
 
 The existing canonical PubMed facts and shared overview/deep-dive core remain
 authoritative. These labels do not replace that guard or add a second clinical
 model verdict. Unknown endpoints, missing data and uncertainty are not repaired
 with invented findings.
+
+The reader projection is deterministic and adds no provider calls. It uses a
+short qualitative result sentence with the same finding as the primary facts,
+or a conservative outcome-specific description. It does not use objectives as
+results or let positive secondary results replace a null/unknown primary result.
+Statistical estimates, P-values, IQRs, group counts and specific limitations stay
+in Deep Dives. Clinically meaningful qualifiers are retained; dense subgroup
+findings are not generalized into overall benefit. The overview and Deep Dive
+share the same short Bottom Line. Full internal facts, detailed results,
+consistency checks and stored records are preserved. This is a bounded editorial
+projection, not perfect medical validation or a retroactive history rewrite.
+Short legacy statements without a source facts record retain their existing
+wording, including a separately stored Deep Dive statement. They are not
+silently revalidated or replaced from a title; dense legacy result text remains
+in the detailed view when that view is available.
 
 ## Favorites and historical ranking
 
@@ -74,7 +93,8 @@ The selector keeps its existing score/type/content floors. A shared final
 decision checks the actual displayed scores: both relevance and practice impact
 must be at least 3/5 for a new paper favorite, the design hint must pass the
 existing A–C floor, the clinical domain must be source-based, and the primary
-result or a reported guideline recommendation must be available. Clinical
+result, a reported guideline recommendation, or the bounded null/harm/
+noninferiority clinical-priority case above must be available. Clinical
 importance is not a claim of benefit. A deep dive cannot force a star afterward;
 there is no minimum number of favorites.
 
@@ -92,13 +112,14 @@ rows with `clinical_context`, the same eligibility floors apply. Legacy rows
 without that source context retain the existing historical period-ranking
 algorithm, including the explicitly authorized historical backfill parity.
 Their compatible `top_pick` flag **does not assert current clinical approval**:
-it is labelled **“Stored ranking (not revalidated)”**, never “Top pick”. An old
+it uses the compact **“Top pick”** reader label, while its internal reason stays
+`legacy_period_ranking_not_revalidated`. An old
 score, guideline label or star is not newly assessed by a model. The original
 Daily flag and its provenance are preserved separately; period ranking is not
 misrepresented as the original Daily decision.
 
 This compatibility path can retain a low-scored or unscored historical rank.
-Its explicit label is essential. Applying today's rule to rewrite those past
+The stored provenance distinguishes that case. Applying today's rule to rewrite those past
 decisions would require a separate reviewed maintenance scope. Missing legacy
 facts are not regenerated, silently added to source context, or used to infer
 SMTP history. An unproven flag on a new Daily item is rejected.

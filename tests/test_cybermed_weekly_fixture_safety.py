@@ -196,13 +196,13 @@ def test_monthly_fixture_intro_and_diagnostics_top_pick_counts(monkeypatch, tmp_
     assert diag["cybermed_monthly_pubmed_items_selected_total"] == 8
     assert diag["cybermed_monthly_foamed_items_selected_total"] == 6
     assert diag["cybermed_monthly_deep_dives_selected_total"] <= 2
-    assert "total included: 8 papers, 6 FOAMed, 5 top picks." in md
+    assert "This period: 8 papers, 6 FOAMed articles and 5 top picks (⭐)." in md
     assert "Cybermed Monthly Report – 2026-05" in md
     assert "## Executive editorial summary" in md
     assert "## This month’s clinical themes" in md
     assert "## Practice-impact section" in md
-    assert md.count("⭐ Stored ranking (not revalidated)") == 5
-    assert "⭐ Top pick" not in md
+    assert md.count("⭐ Top pick") == 5
+    assert "Stored ranking (not revalidated)" not in md
     assert isinstance(md, str)
     assert diag["cybermed_monthly_editorial_mode"] is True
     assert diag["cybermed_monthly_editorial_summary_generated_from_digest"] is True
@@ -535,7 +535,7 @@ def _section_between(markdown: str, start: str, end: str) -> str:
     return markdown[start_idx:end_idx]
 
 
-def test_cybermed_weekly_pubmed_deep_dive_heading_uses_pubmed_label_with_empty_channel():
+def test_cybermed_weekly_pubmed_deep_dive_heading_uses_journal_and_link_without_prefix():
     from newsagent2 import reporter
 
     md = reporter.to_markdown(
@@ -563,8 +563,8 @@ def test_cybermed_weekly_pubmed_deep_dive_heading_uses_pubmed_label_with_empty_c
         cybermed_stats={},
     )
 
-    assert "### ⭐ PubMed: Journal of Useful Findings: [Deep Dive Paper](https://pubmed.ncbi.nlm.nih.gov/1/)" in md
-    assert "### ⭐ PubMed:" in md
+    assert "### ⭐ Journal of Useful Findings: [Deep Dive Paper](https://pubmed.ncbi.nlm.nih.gov/1/)" in md
+    assert "### ⭐ PubMed:" not in md
     assert "### ⭐ :" not in md
     assert "### :" not in md
 
