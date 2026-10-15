@@ -1,0 +1,191 @@
+{
+  "pmid": "42854247",
+  "source_url": "https://pubmed.ncbi.nlm.nih.gov/42854247/",
+  "source_basis": "abstract",
+  "evidence_review": "Numerical findings supplied in the operator's 2026-10-13 primary-abstract audit; verify against the linked PubMed abstract before apply. No secondary source or model was used.",
+  "correction_sha256": "c3be07f3776a3e3aa34a29028fa014f3009856610a8a6543be7ac1dbeb006163",
+  "input_sha256": {
+    "cybermed_daily_digests.json": "5b298aaa63dee9a2395b4372f61a41c6e4f4fc850ec165fd4fd3974ffd4b6ef9",
+    "cybermed_weekly_digests.json": "0ece1b186aa799ea8cbda0222afd4beadbf9e771a5dcc5796214ad016269af40",
+    "rollups.json": "d6ee970afd849da3929d552cb4722483bf615b3d113e00c25a27ad9a54f65906"
+  },
+  "output_sha256": {
+    "cybermed_daily_digests.json": "02b0b325ed77244ac6085fab9c3d4aa5cd76b000290119e3cb44bee53ac84a96",
+    "cybermed_weekly_digests.json": "0ece1b186aa799ea8cbda0222afd4beadbf9e771a5dcc5796214ad016269af40",
+    "rollups.json": "d6ee970afd849da3929d552cb4722483bf615b3d113e00c25a27ad9a54f65906"
+  },
+  "changes": [
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/items/pubmed/1/bottom_line",
+      "before": "In this large pragmatic randomized controlled trial, an AI-driven clinical decision support tool integrated into the electronic health record improved adherence to perioperative best practices among anesthesia teams and reduced postoperative delirium in cognitively impaired surgical patients, providing strong evidence for the clinical utility of AI-based interventions in perioperative care.",
+      "after": "A statistically significant benefit was not demonstrated; this does not prove absence of an effect. Interpret secondary signals cautiously. Reported results: Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated. Limitations: Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/items/pubmed/1/pubmed_facts",
+      "before": null,
+      "after": {
+        "pmid": "42854247",
+        "design": "Pragmatic randomized controlled trial.",
+        "population": "7294 surgical patients with cognitive impairment were randomized.",
+        "intervention_comparator": "AI-driven perioperative clinical decision support versus routine care.",
+        "primary_endpoint": "Postoperative delirium within seven postoperative days.",
+        "reported_results": "Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated. Adherence to best practices showed no significant differences (all P>.05).",
+        "primary_results": "Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated.",
+        "secondary_results": "Adherence to best practices showed no significant differences (all P>.05).",
+        "conclusions": "These data do not establish a delirium-prevention benefit.",
+        "limitations": "Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect.",
+        "uncertainty": "No statistically significant benefit demonstrated; no-effect/equivalence not established",
+        "source_basis": "abstract",
+        "evidence": "Abstract / results: Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated. Adherence to best practices showed no significant differences (all P>.05).\nAbstract / conclusions: These data do not establish a delirium-prevention benefit.\nAbstract / limitations: Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect.\nAbstract / endpoint: Postoperative delirium within seven postoperative days.\nAbstract / design: Pragmatic randomized controlled trial.\nAbstract / population: 7294 surgical patients with cognitive impairment were randomized.\nAbstract / interventions: AI-driven perioperative clinical decision support versus routine care.",
+        "input_omitted": false,
+        "direction": "negative_or_null",
+        "observational": false
+      }
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/items/pubmed/1/facts_version",
+      "before": null,
+      "after": "1890f07cf0da8443d0e7be73ef733f10422359e7de6f5dcaf17f5754ef4489ea"
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/items/pubmed/1/source_basis",
+      "before": null,
+      "after": "abstract"
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/items/pubmed/1/evidence_correction",
+      "before": null,
+      "after": {
+        "pmid": "42854247",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42854247/",
+        "correction_sha256": "c3be07f3776a3e3aa34a29028fa014f3009856610a8a6543be7ac1dbeb006163"
+      }
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/bottom_line",
+      "before": "In this large pragmatic randomized controlled trial, an AI-driven clinical decision support tool integrated into the electronic health record improved adherence to perioperative best practices among anesthesia teams and reduced postoperative delirium in cognitively impaired surgical patients, providing strong evidence for the clinical utility of AI-based interventions in perioperative care.",
+      "after": "A statistically significant benefit was not demonstrated; this does not prove absence of an effect. Interpret secondary signals cautiously. Reported results: Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated. Limitations: Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/pubmed_facts",
+      "before": null,
+      "after": {
+        "pmid": "42854247",
+        "design": "Pragmatic randomized controlled trial.",
+        "population": "7294 surgical patients with cognitive impairment were randomized.",
+        "intervention_comparator": "AI-driven perioperative clinical decision support versus routine care.",
+        "primary_endpoint": "Postoperative delirium within seven postoperative days.",
+        "reported_results": "Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated. Adherence to best practices showed no significant differences (all P>.05).",
+        "primary_results": "Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated.",
+        "secondary_results": "Adherence to best practices showed no significant differences (all P>.05).",
+        "conclusions": "These data do not establish a delirium-prevention benefit.",
+        "limitations": "Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect.",
+        "uncertainty": "No statistically significant benefit demonstrated; no-effect/equivalence not established",
+        "source_basis": "abstract",
+        "evidence": "Abstract / results: Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated. Adherence to best practices showed no significant differences (all P>.05).\nAbstract / conclusions: These data do not establish a delirium-prevention benefit.\nAbstract / limitations: Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect.\nAbstract / endpoint: Postoperative delirium within seven postoperative days.\nAbstract / design: Pragmatic randomized controlled trial.\nAbstract / population: 7294 surgical patients with cognitive impairment were randomized.\nAbstract / interventions: AI-driven perioperative clinical decision support versus routine care.",
+        "input_omitted": false,
+        "direction": "negative_or_null",
+        "observational": false
+      }
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/facts_version",
+      "before": null,
+      "after": "1890f07cf0da8443d0e7be73ef733f10422359e7de6f5dcaf17f5754ef4489ea"
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/source_basis",
+      "before": null,
+      "after": "abstract"
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/evidence_correction",
+      "before": null,
+      "after": {
+        "pmid": "42854247",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42854247/",
+        "correction_sha256": "c3be07f3776a3e3aa34a29028fa014f3009856610a8a6543be7ac1dbeb006163"
+      }
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/deep_dive_markdown",
+      "before": "BOTTOM LINE: An AI-driven clinical decision support intervention did not significantly reduce postoperative delirium or improve adherence to best practices among surgical patients with cognitive impairment.\n\n- Study type: Pragmatic randomized controlled trial\n- Population/setting: 7294 surgical patients with preoperative cognitive impairment at The Mount Sinai Hospital, New York City, from June 2023 to August 2024\n- Intervention/exposure & comparator: AI-driven non-interruptive clinical decision support intervention versus routine perioperative care\n- Primary endpoints: Incidence of postoperative delirium assessed with the 4 A's Test within seven days postoperatively\n- Key results: No statistically significant difference in postoperative delirium incidence between intervention and control groups (35.1% vs 32.7%, P = .37); no significant difference in adherence to perioperative best practices (all P > .05).\n- Limitations:\n- Less than 20% of patients had documented delirium assessments\n- Variability in routine postoperative delirium screening practices\n- Limited ability to draw definitive conclusions about intervention effectiveness\n- Why this matters: Effective strategies are needed to prevent postoperative delirium in cognitively impaired patients, but this AI-driven intervention did not demonstrate benefit in this setting.",
+      "after": "BOTTOM LINE: A statistically significant benefit was not demonstrated; this does not prove absence of an effect. Interpret secondary signals cautiously. Reported results: Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated. Limitations: Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect.\n\n- Study type: Pragmatic randomized controlled trial.\n- Population/setting: 7294 surgical patients with cognitive impairment were randomized.\n- Intervention/exposure & comparator: AI-driven perioperative clinical decision support versus routine care.\n- Primary endpoints: Postoperative delirium within seven postoperative days.\n- Key results: Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated.\n- Secondary results (do not replace the primary outcome): Adherence to best practices showed no significant differences (all P>.05).\n- Limitations:\n- Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect.\n- Source basis: abstract\n- Why this matters: Interpretation is limited to these source facts; clinical benefit is not inferred from the study objective."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/study_type",
+      "before": "",
+      "after": "Pragmatic randomized controlled trial."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/population_setting",
+      "before": "",
+      "after": "7294 surgical patients with cognitive impairment were randomized."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/intervention_or_exposure",
+      "before": "",
+      "after": "AI-driven perioperative clinical decision support versus routine care."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/primary_endpoint",
+      "before": "",
+      "after": "Postoperative delirium within seven postoperative days."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/key_results",
+      "before": "",
+      "after": "Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/limitations",
+      "before": "",
+      "after": "Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/key_secondary_results",
+      "before": "",
+      "after": "Adherence to best practices showed no significant differences (all P>.05)."
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/primary_result_direction",
+      "before": "",
+      "after": "negative_or_null"
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/primary_result_significance",
+      "before": "",
+      "after": "not_significant"
+    },
+    {
+      "file": "cybermed_daily_digests.json",
+      "pointer": "/digests/99/deep_dives/1/clinical_interpretation",
+      "before": "",
+      "after": "A statistically significant benefit was not demonstrated; this does not prove absence of an effect. Interpret secondary signals cautiously. Reported results: Delirium assessments were documented in 1255 patients. In those assessed, delirium occurred in 225/641 (35.1%) in the intervention group versus 201/614 (32.7%) in the control group, P=.37; a statistically significant difference was not demonstrated. Limitations: Missing delirium assessments in most randomized patients limit interpretation; absence of statistical significance is not proof of no effect."
+    }
+  ],
+  "links": [],
+  "manual_review": [],
+  "apply": false,
+  "missing_target_ids": []
+}
