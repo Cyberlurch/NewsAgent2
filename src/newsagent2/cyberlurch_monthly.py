@@ -1,5 +1,6 @@
 from __future__ import annotations
 from .youtube_source import stored_basis, basis_label
+from .cyberlurch_readability import substantive_prose
 
 import json
 import re
@@ -189,13 +190,19 @@ def _persisted_fact(row: Dict[str, Any]) -> str:
         # Explicit audit collection may provide actual bounded source text to
         # the existing Monthly model; saved unprocessed rows cannot supply titles.
         return str(row.get("text") or "")[:MONTHLY_SUMMARY_MAX_CHARS] if row.get("_source_live_text") else ""
+    rejected = False
     for key in ("bottom_line", "transcript_full_summary", "summary", "transcript_notable_claims", "important_details"):
         value = row.get(key)
         if isinstance(value, list):
-            value = "; ".join(str(part) for part in value)
-        text = re.sub(r"\s+", " ", str(value or "")).strip()
+            raw = value
+            value = "; ".join(text for part in value if (text := substantive_prose(part)))
+            rejected = rejected or bool(raw) and not value
+        text = substantive_prose(str(value or ""))
         if text:
             return text[:MONTHLY_SUMMARY_MAX_CHARS]
+        rejected = rejected or bool(value)
+    if rejected:
+        return ""  # A known unusable summary is not factual evidence from its title.
     return str(row.get("title") or "").strip()
 
 
@@ -209,7 +216,7 @@ def _supporting_details(row: Dict[str, Any]) -> List[str]:
         value = row.get(key)
         candidates = value if isinstance(value, list) else [value]
         for candidate in candidates:
-            point = re.sub(r"\s+", " ", str(candidate or "")).strip(" -•\t")
+            point = substantive_prose(str(candidate or "")).strip(" -•\t")
             normalized = point.casefold()
             if not point or point == summary or normalized in seen:
                 continue
