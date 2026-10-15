@@ -121,6 +121,13 @@ jobs:
       - name: Capture observed job start
         run: echo "NEWSAGENT_JOB_STARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
 
+      - name: "NewsAgent2 recovery v1 / cybermed / ${{ env.EMAIL_MODE }}"
+        run: |
+          case "$EMAIL_MODE" in
+            none|test|real) echo "Recovery mode validated." ;;
+            *) exit 1 ;;
+          esac
+
       - name: Checkout
         uses: actions/checkout@v5
         with:

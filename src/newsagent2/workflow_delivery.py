@@ -23,15 +23,37 @@ from .run_context import email_mode, path_for, PATHS, send_enabled
 from .store_io import StoreError, atomic_store, read_store, digest_store, rollups_store
 
 
-def import_recovery(directory: Path, *, journal_path: Path | None = None, recovery_dir: Path | None = None) -> None:
+def import_recovery(directory: Path, *, journal_path: Path | None = None, recovery_dir: Path | None = None,
+                    report_key: str | None = None, source_run_id: str | None = None) -> bool:
     if not (directory / "journal.json").is_file():
         raise StoreError("delivery_recovery", "missing_journal")
     target = journal_path or path_for("DELIVERY_JOURNAL_PATH")
-    existing = load_journal(target)
     incoming = load_journal(directory / "journal.json")
-    for edition, row in incoming["editions"].items():
-        if not edition.endswith(":production"):
-            continue  # Test receipts can never become production delivery history.
+    if report_key not in {None, "cybermed", "cyberlurch"}:
+        raise StoreError("delivery_recovery", "invalid_report_scope")
+    if source_run_id is not None:
+        matching = [row for row in incoming["editions"].values()
+                    if row["report_key"] == report_key and row["workflow_run_id"] == str(source_run_id)]
+        purposes = {row["edition_id"].rsplit(":", 1)[1] for row in matching}
+        if "production" in purposes and purposes != {"production"}:
+            raise StoreError("delivery_recovery", "mixed_source_run_modes")
+        if purposes and "production" not in purposes:
+            return False  # Ignore inherited production receipts in a preview's copied journal too.
+    eligible = {edition: row for edition, row in incoming["editions"].items()
+                if edition.endswith(":production") and (report_key is None or row["report_key"] == report_key)}
+    if not eligible:
+        if source_run_id is not None:
+            # An old unlabelled artifact is positive non-production evidence
+            # only for its actual originating run/newsletter, not an empty or
+            # foreign journal left behind before the failed sender started.
+            raise StoreError("delivery_recovery", "production_scope_missing")
+        return False  # No target/lock/export creation, even for a missing store.
+    existing = load_journal(target)
+    reports = {row["report_key"] for row in eligible.values()}
+    content_files = {}
+    for edition, row in eligible.items():
+        filename = hashlib.sha256((edition + ":" + row["content_version"]).encode()).hexdigest() + ".md"
+        content_files[filename] = row["content_version"]
         previous = existing["editions"].get(edition)
         if previous:
             if previous["content_version"] != row["content_version"]:
@@ -45,7 +67,6 @@ def import_recovery(directory: Path, *, journal_path: Path | None = None, recove
                         len(previous.get("prior_attempts", [])) > len(row.get("prior_attempts", [])))):
                 continue
         if row["generation_validated"]:
-            filename = hashlib.sha256((edition + ":" + row["content_version"]).encode()).hexdigest() + ".md"
             source = directory / filename
             if not source.is_file() or hashlib.sha256(source.read_bytes()).hexdigest() != row["content_version"]:
                 if previous == row:
@@ -57,29 +78,75 @@ def import_recovery(directory: Path, *, journal_path: Path | None = None, recove
             # a failed Git push does not establish markers in this checkout.
             row["state_persisted"] = False
         existing["editions"][edition] = row
-    if incoming.get("paper_legacy_unknown") and any(key.endswith(":production") for key in incoming["editions"]):
+    legacy_reports = {report: ids for report, ids in incoming.get("paper_legacy_unknown", {}).get("reports", {}).items()
+                      if report in reports}
+    if legacy_reports:
         retained = existing.setdefault("paper_legacy_unknown", {"version": 1, "reports": {}})
-        for report, ids in incoming["paper_legacy_unknown"]["reports"].items():
+        for report, ids in legacy_reports.items():
             retained["reports"][report] = sorted(set(retained["reports"].get(report, [])) | set(ids))
     atomic_store(target, existing, kind="delivery_journal", validate=journal_valid)
     if recovery_dir:
         recovery_dir.mkdir(parents=True, exist_ok=True)
         for source in directory.glob("*.md"):
-            if re.fullmatch(r"[0-9a-f]{64}\.md", source.name):
-                (recovery_dir / source.name).write_bytes(source.read_bytes())
+            if source.name in content_files:
+                body = source.read_bytes()
+                if hashlib.sha256(body).hexdigest() == content_files[source.name]:
+                    (recovery_dir / source.name).write_bytes(body)
         for source in directory.glob("*_generated_delta.json"):
             value = read_store(source, {}, kind="generated_delta")
+            if value.get("report_key") not in reports:
+                continue
             if value.get("generation_validated") is not True or not isinstance(value.get("records"), list):
                 raise StoreError("generated_delta", "invalid_recovery")
             if not value.get("production_target"):
                 continue  # Never promote an ordinary none/test generation delta.
             atomic_store(recovery_dir / source.name, value, kind="generated_delta")
         candidate_artifact = directory / "cyberlurch_candidates.json"
-        if candidate_artifact.is_file():
+        if "cyberlurch" in reports and candidate_artifact.is_file():
             from .cyberlurch_candidates import envelope_valid
             value = read_store(candidate_artifact, {}, kind="cyberlurch_candidates", validate=envelope_valid)
             atomic_store(recovery_dir / candidate_artifact.name, value, kind="cyberlurch_candidates", validate=envelope_valid)
         atomic_store(recovery_dir / "journal.json", existing, kind="delivery_recovery", validate=journal_valid)
+    return True
+
+
+def _job_recovery_scope(job, report_key):
+    prefix = f"NewsAgent2 recovery v1 / {report_key} / "
+    markers = [step for step in job.get("steps", []) if step.get("name", "").startswith(prefix)]
+    if len(markers) != 1:
+        return None
+    marker = markers[0]
+    senders = [step for step in job.get("steps", []) if step.get("name") in {"Run reports", "Run Cybermed reports"}
+               and step.get("started_at") and step.get("conclusion") != "skipped"]
+    if (marker.get("conclusion") != "success" or not marker.get("started_at")
+            or type(marker.get("number")) is not int or marker["number"] < 1
+            or not senders or any(type(s.get("number")) is not int or s["number"] <= marker["number"] for s in senders)):
+        return None
+    return marker["name"][len(prefix):]
+
+
+def _nonproduction_jobs(run, jobs, report_key):
+    """Positive runner step evidence, never infer mode from a free-text title."""
+    if run.get("event") != "workflow_dispatch" or not jobs:
+        return False
+    return all(_job_recovery_scope(job, report_key) in {"none", "test"} for job in jobs)
+
+
+def _maintenance_month(run, jobs, report_key):
+    if run.get("event") != "workflow_dispatch" or report_key != "cyberlurch" or not jobs:
+        return None
+    scopes = {_job_recovery_scope(job, report_key) for job in jobs}
+    if len(scopes) != 1:
+        return None
+    scope = scopes.pop()
+    if not isinstance(scope, str) or not re.fullmatch(r"maintenance:\d{4}-(?:0[1-9]|1[0-2])", scope):
+        return None
+    from datetime import date
+    try:
+        date.fromisoformat(scope.split(":")[1] + "-01")
+    except ValueError:
+        return None
+    return scope.split(":")[1]
 
 
 def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> None:
@@ -125,10 +192,14 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
             print(f"[recovery] reviewed legacy run {run['id']}: {finding['finding']}; no historical resend")
             continue
         jobs = get(f"/repos/{repository}/actions/runs/{run['id']}/jobs", params={"per_page": 100})
-        capable = any(step.get("name") in {"Run reports", "Run Cybermed reports"} and step.get("started_at")
-                      and step.get("conclusion") != "skipped" for job in jobs["jobs"] for step in job.get("steps", []))
-        if not capable:
+        capable_jobs = [job for job in jobs["jobs"] if any(
+            step.get("name") in {"Run reports", "Run Cybermed reports"} and step.get("started_at")
+            and step.get("conclusion") != "skipped" for step in job.get("steps", []))]
+        if not capable_jobs:
             continue  # Positive evidence: no report/sender step started.
+        if _nonproduction_jobs(run, capable_jobs, report_key):
+            continue  # Failed previews/test mails cannot block production or import State.
+        maintenance_month = _maintenance_month(run, capable_jobs, report_key)
         artifacts = get(f"/repos/{repository}/actions/runs/{run['id']}/artifacts", params={"per_page": 100})
         matches = [a for a in artifacts["artifacts"] if a["name"] == f"{report_key}-delivery-recovery-{run['id']}" and not a["expired"]]
         if not matches:
@@ -150,7 +221,24 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
                     (directory / name).write_bytes(archive.read(info))
             if not (directory / "journal.json").is_file():
                 raise ValueError("missing_journal")
-            import_recovery(directory, recovery_dir=report_dir / "recovery")
+            if maintenance_month:
+                packet = load_journal(directory / "journal.json")
+                own = [row for row in packet["editions"].values()
+                       if row["workflow_run_id"] == str(run["id"]) and row["report_key"] == report_key]
+                if not own or any(row["cadence"] != "monthly" or not row["edition_id"].endswith(":none")
+                                  or row["period_start"][:7] != maintenance_month for row in own):
+                    raise StoreError("delivery_recovery", "maintenance_scope_mismatch")
+                # This gate authorizes one Monthly rollup, never delivery
+                # receipts, candidate memory, caches or another newsletter.
+                restore_generated_records(directory, report_key, maintenance_month=maintenance_month)
+                continue
+            imported = import_recovery(directory, recovery_dir=report_dir / "recovery",
+                                       report_key=report_key, source_run_id=str(run["id"]))
+            if not imported:
+                if (run.get("event") != "workflow_dispatch" or
+                        all(_job_recovery_scope(job, report_key) == "real" for job in capable_jobs)):
+                    raise StoreError("delivery_recovery", "source_mode_conflict")
+                continue  # Matching old none/test receipt: never restore any accompanying deltas/caches.
             restore_generated_records(directory, report_key)
             if report_key == "cyberlurch":
                 from .cyberlurch_candidates import restore
@@ -162,7 +250,7 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
             raise RuntimeError("delivery_recovery_artifact_invalid") from None
 
 
-def restore_generated_records(directory: Path, report_key: str) -> None:
+def restore_generated_records(directory: Path, report_key: str, *, maintenance_month: str | None = None) -> None:
     """Recover only validated record deltas with matching preimages; no resets."""
     bindings = {"cybermed_daily": "CYBERMED_DAILY_DIGEST_STATE_PATH", "cybermed_weekly": "CYBERMED_WEEKLY_DIGEST_STATE_PATH",
                 "cyberlurch_digests": "CYBERLURCH_DIGEST_STATE_PATH", "rollups": "ROLLUPS_STATE_PATH"}
@@ -170,6 +258,19 @@ def restore_generated_records(directory: Path, report_key: str) -> None:
     # Check every staged manifest before restoring any of its records.
     approved_staged = set()
     from .pre_smtp_recovery import staged_delta_approved
+    if maintenance_month is not None:
+        if report_key != "cyberlurch":
+            raise StoreError("generated_delta", "maintenance_scope_mismatch")
+        # Validate the entire maintenance scope before changing any file.
+        for artifact in sorted(directory.glob("*_generated_delta.json")):
+            delta = read_store(artifact, {}, kind="generated_delta")
+            if not delta.get("production_target"):
+                continue
+            if (delta.get("report_key") != report_key or delta.get("kind") != "rollups"
+                    or delta.get("generation_validated") is not True or not isinstance(delta.get("records"), list)
+                    or any(not isinstance(r, dict) or r.get("month") != maintenance_month for r in delta["records"])
+                    or delta.get("removed_record_ids")):
+                raise StoreError("generated_delta", "maintenance_scope_mismatch")
     for artifact in sorted(directory.glob("*_generated_delta.json")):
         delta = read_store(artifact, {}, kind="generated_delta")
         if delta.get("requires_ready_checkpoint") and delta.get("report_key") == report_key:

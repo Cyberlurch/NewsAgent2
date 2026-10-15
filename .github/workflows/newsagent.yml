@@ -175,23 +175,32 @@ jobs:
         id: compute_plan
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          PERSIST_MONTHLY_ROLLUP_REQUEST: ${{ inputs.persist_monthly_rollup && 'true' || 'false' }}
           ROLLUP_MONTH_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && inputs.rollup_month_override || '' }}
           YEAR_IN_REVIEW_YEAR: ${{ github.event_name == 'workflow_dispatch' && inputs.year_in_review_year || '' }}
         run: |
           set -euo pipefail
           manual_monthly_state_write=false
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.persist_monthly_rollup }}" = "true" ]; then
-            if [ "${{ env.WHICH_REPORT }}" != "cyberlurch" ] \
-              || [ "${{ env.REPORT_MODE }}" != "monthly" ] \
-              || [ "${{ env.EMAIL_MODE }}" != "none" ] \
-              || ! [[ "${{ env.ROLLUP_MONTH_OVERRIDE }}" =~ ^[0-9]{4}-(0[1-9]|1[0-2])$ ]]; then
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ] && [ "$PERSIST_MONTHLY_ROLLUP_REQUEST" = "true" ]; then
+            if [ "$WHICH_REPORT" != "cyberlurch" ] \
+              || [ "$REPORT_MODE" != "monthly" ] \
+              || [ "$EMAIL_MODE" != "none" ] \
+              || ! [[ "${ROLLUP_MONTH_OVERRIDE:-}" =~ ^[0-9]{4}-(0[1-9]|1[0-2])$ ]]; then
               echo "ERROR: persist_monthly_rollup requires workflow_dispatch, Cyberlurch Monthly, email_mode=none, and a valid YYYY-MM override." >&2
               exit 1
             fi
             manual_monthly_state_write=true
+            echo "maintenance_month=$ROLLUP_MONTH_OVERRIDE" >> "$GITHUB_OUTPUT"
           fi
           echo "manual_monthly_state_write=$manual_monthly_state_write" >> "$GITHUB_OUTPUT"
           python -m src.newsagent2.edition_plan --report-key cyberlurch
+
+      - name: "NewsAgent2 recovery v1 / cyberlurch / ${{ steps.compute_plan.outputs.manual_monthly_state_write == 'true' && format('maintenance:{0}', steps.compute_plan.outputs.maintenance_month) || env.EMAIL_MODE }}"
+        run: |
+          case "$EMAIL_MODE" in
+            none|test|real) echo "Recovery mode validated." ;;
+            *) exit 1 ;;
+          esac
 
       - name: Validate Cyberlurch SMTP configuration
         if: steps.compute_plan.outputs.run_skip != 'true'
