@@ -135,9 +135,10 @@ def reader_bottom_line(item: dict, *, language: str = "en") -> str:
                     continue
                 if subgroup_only and not re.search(r"subgroup|post[- ]hoc|exploratory|only (?:in|among)", candidate, re.I):
                     continue
-                if facts.observational and not re.search(r"associat|correlat|linked", candidate, re.I):
+                if facts.observational and (not re.search(r"associat|correlat|linked", candidate, re.I)
+                        or re.search(r"\bcaused?|\bprevents?|\bproves?|will reduce|led to", candidate, re.I)):
                     continue
-                if facts.direction == "noninferiority" and re.search(r"superior|equivalent|as effective", candidate, re.I):
+                if facts.direction == "noninferiority" and re.search(r"superior|equivalen|as effective", candidate, re.I):
                     continue
                 if population and not re.search(r"patients|participants|adults|children|neonat", candidate, re.I):
                     candidate = f"In {population}, " + _lower_start(candidate)

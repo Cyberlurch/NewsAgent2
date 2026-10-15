@@ -81,6 +81,16 @@ def test_observation_keeps_association_and_removes_statistics():
     assert "caused" not in brief and "prevents" not in brief
 
 
+@pytest.mark.parametrize("design,result,forbidden", [
+    ("Observational cohort", "Exposure was associated with lower mortality and prevented fatal events.", "prevented"),
+    ("Noninferiority trial", "Treatment A was noninferior for mortality and equivalence was established.", "equivalence was established"),
+])
+def test_source_overclaim_is_not_promoted_when_redundant_caution_is_removed(design, result, forbidden):
+    brief = reader_bottom_line(paper(abstract=f"Design: {design}. Primary outcome: Mortality. Results: {result}"))
+    assert forbidden not in brief
+    assert "mortality" in brief
+
+
 def test_numerical_subgroup_qualifier_is_not_stripped_into_overall_benefit():
     item = paper(abstract="Design: Randomized trial. Participants: Adult patients. Primary endpoint: Mortality. Results: Mortality was lower (only in a subgroup aged 70 years, P=.03).")
     brief = reader_bottom_line(item)
