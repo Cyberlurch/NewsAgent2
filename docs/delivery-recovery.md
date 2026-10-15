@@ -73,6 +73,32 @@ metadata is preserved; no legacy generation/processing marker is invented as
 an SMTP receipt. Existing generated editions without known delivery history
 stop required production resubmission as `legacy_delivery_history_unknown`.
 
+## Recovery mode and newsletter scope
+
+The production workflows record a successful, numbered recovery-scope step from
+that job's effective `EMAIL_MODE` before any report process. Recovery excludes a
+failed manual `none`/`test` job only when **every** started sender job has matching
+newsletter mode evidence completed before its sender step. Run titles, incomplete
+or contradictory markers and `schedule` events are not non-production proof.
+Real or unclassified failures still require their recovery artifacts. This keeps a
+failed preview/test mail from blocking production after its artifact expires.
+
+For older unlabelled artifacts, a receipt from the exact source run/newsletter can
+establish a non-production attempt. Inherited production rows in that preview's
+copied journal are ignored. Such an import creates/changes no production journal,
+exports, generated records, ingestion or candidate caches. Empty/foreign packets,
+mixed production/non-production source rows and conflicts with a real-mode marker
+stop recovery. Production imports merge only the selected newsletter's receipts,
+paper holds, validated body files and generated deltas; another newsletter's
+metadata cannot be promoted from the same global journal snapshot.
+
+The existing explicit Cyberlurch Monthly state-write gate is labelled separately
+as `maintenance:YYYY-MM`. It remains available. On failure, only its approved month
+can recover validated rollup deltas with matching preimages, without importing
+mail receipts, caches, another newsletter or pruning other months. Its scope is
+checked before any restoration. An ordinary `none`/`test` marker grants no such
+permission. Writer concurrency, branch checkout and artifact retention are unchanged.
+
 ## Recovery sequence
 
 SMTP and Git do not share a transaction. There is **no exactly-once guarantee**,
