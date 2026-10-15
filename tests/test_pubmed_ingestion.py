@@ -533,3 +533,16 @@ def test_english_coverage_note_contains_no_technical_error(monkeypatch):
         note=run.reader_note()
         assert 'complete source coverage is not established' in note
         assert 'request_budget' not in note and 'PubMedError' not in note
+
+
+def test_review_hold_stays_internal_without_masking_real_capture_incompleteness(monkeypatch):
+    with production(monkeypatch):
+        run=ingestion.IngestionSession(REFERENCE)
+        run.data['queries']['held']={'review':{'1':{'category':'paper_delivery_uncertain'}}}
+        before=copy.deepcopy(run.data)
+        monkeypatch.setenv('REPORT_LANGUAGE','en')
+        assert run.reader_note()==''
+        run.metadata={'ICU':{'status':'incomplete','category':'request_budget'}}
+        note=run.reader_note()
+        assert 'open search windows/candidates remain' in note
+        assert 'withheld' not in note and run.data==before

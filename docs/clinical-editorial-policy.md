@@ -92,6 +92,19 @@ does not turn a claimed benefit into a study question. A correct second
 sentence cannot excuse a contradictory positive/negative lead. Named-arm,
 observational-causality and noninferiority checks cover the whole short prose.
 
+Deep Dive labels such as **Key results:** and **Limitations:** are bold. A
+limitation label and its text form one row, including older numbered/list
+formats. Embedded abstract headings such as **Conclusions and relevance:**
+start a separate block rather than running into the result paragraph. Per-item
+Source/Source basis metadata is hidden from this view; paper links and actual
+reference links remain. The formatter changes reader Markdown only, preserving
+canonical facts, source-basis metadata and stored history.
+
+Source/delivery review holds remain enforced and recorded in the ingestion
+ledger/diagnostics. Their generic withholding disclaimer is omitted from reader
+editions. A genuinely incomplete capture retains its existing coverage notice;
+omitting the operational disclaimer does not assert complete coverage.
+
 The optional `clinical_summary` is tied to the facts version and paper identity,
 rechecked when rendered, and preserved additively with the canonical facts in
 new Daily → Weekly → Monthly → Yearly inputs. A changed source version requires
@@ -130,6 +143,11 @@ result, a reported guideline recommendation, or the bounded null/harm/
 noninferiority clinical-priority case above must be available. Clinical
 importance is not a claim of benefit. A deep dive cannot force a star afterward;
 there is no minimum number of favorites.
+
+Favorites are weighted by clinical relevance and the existing evidence/content
+criteria. There is no percentage target, quota or one-star limit; zero or several
+papers may qualify in an edition. A desired visual density never lowers the
+quality floors or invents an endorsement.
 
 FOAMed retains its usefulness/relevance/source/text floors and needs an actual
 learning summary before it can remain a new favorite. Thin/unsafe output does

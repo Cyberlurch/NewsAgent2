@@ -103,7 +103,7 @@ def test_actual_reporter_bottom_line_and_detail_list_stay_separate(monkeypatch):
     assert paragraph.find("strong", string="BOTTOM LINE:")
     assert "Population unknown" not in paragraph.get_text()
     assert paragraph.find_next_sibling("ul")
-    assert styled.find("li", string=re.compile("Study type:"))
+    assert styled.find("strong", string="Study type:").find_parent("li")
 
 
 def test_conversion_failure_keeps_escaped_readable_multiline_fallback():
