@@ -1,6 +1,6 @@
 from __future__ import annotations
 from .youtube_source import stored_basis, basis_label
-from .cyberlurch_readability import substantive_prose
+from .cyberlurch_readability import substantive_prose, SOURCE_VOICE_RULE
 
 import json
 import re
@@ -249,6 +249,7 @@ Worth Noting is the home for significant, informative non-trends, normally 2-4 w
 Treat materially distinct facts within one evidence record separately. Using a record to support a major trend must not suppress a different significant development in that same record; the secondary development may also use that source ref under Worth Noting when it does not meet the trend threshold.
 Before finalizing the JSON, perform a breadth check: ask whether repeated evidence about a dominant subject has crowded out more important, materially different developments. Prioritize importance rather than frequency. Do not force categories, but where evidence supports them preserve meaningful breadth across areas such as geopolitics/security, economics/finance, European/domestic politics, technology, disasters/environment/weather, food/energy/preparedness, and social/institutional developments.
 Month in Brief must summarize the actual material developments in 2-3 substantive sentences; never discuss evidence selection, channel diversity, report mechanics, or the persisted source pool. Exclude programming or promotional updates, isolated low-significance anecdotes, generic impersonation stories, and vague medical claims whose intervention is unidentified; omit rather than guess. Topic fields are fallible hints: regroup facts semantically. Prefer persisted names, actions, institutions, numbers, and concrete claims over abstractions. Explicitly attribute any allegation, prediction, disputed number, causal claim, or source interpretation supported by only one commentary source. Never upgrade an event to a causal characterization (for example, 'climate-related') unless persisted evidence explicitly supports it. Attribute commentary to the named channel without adding generic skeptical boilerplate. Never use generic 'the speaker', 'the presenter', 'the podcast', 'der Sprecher', or 'der Bericht'. Avoid advice, moral judgments, generic filler endings, invented facts, URLs, and source IDs. Put citations only in source_refs arrays; do not embed citations or URLs in prose."""
+    system += "\nReader voice: " + SOURCE_VOICE_RULE
     payload_keys = ("ref_id", "source", "source_date", "title", "factual_summary", "supporting_details", "topic_hints", "temporality")
     payload = [{key: row.get(key) for key in payload_keys} for row in registry]
     return system, "Persisted Monthly sources (JSON):\n" + json.dumps(payload, ensure_ascii=False, indent=2)

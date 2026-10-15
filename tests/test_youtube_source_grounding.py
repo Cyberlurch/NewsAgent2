@@ -137,7 +137,8 @@ def test_cli_source_basis_late_information_and_both_reader_views(monkeypatch, tm
     assert row["source_basis"]["coverage"] == ("partial" if provider == "description" else "available_text")
     for deep in (False, True):
         md = reporter.render_cyberlurch_daily_report([{**row, "cyberlurch_daily_deep_dive": deep}], title="Cyberlurch", generated_at="now")
-        assert "has not occurred" in md and "According to Channel0" in md
+        assert "has not occurred" in md and "*Channel0 ·" in md
+        assert "According to Channel0" not in md
         assert source.basis_label(row) in md and "['" not in md
 
 

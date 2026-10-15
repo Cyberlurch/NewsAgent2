@@ -27,7 +27,8 @@ def test_daily_keeps_subject_action_and_uncertainty_before_isolated_facts(deep):
     md = reporter.render_cyberlurch_daily_report([item], title="Cyberlurch Daily", generated_at="now")
     snapshot, body = md.split("## Selected items", 1)
     assert SUMMARY.split(". ", 1)[0] in snapshot
-    assert f"**In brief:** Local Briefing: {SUMMARY}" in body
+    assert SUMMARY in body and "*Local Briefing ·" in body
+    assert "**In brief:**" not in body
     assert "funding has not been finalized" in body and "20 million euros" in body
     assert item == before
 
@@ -51,11 +52,12 @@ def test_generic_text_does_not_override_contextual_saved_prose(field):
 
 
 @pytest.mark.parametrize("deep", [False, True])
-def test_placeholder_claim_is_removed_before_named_attribution(deep):
+def test_placeholder_claim_is_removed_and_source_is_identified_once_per_block(deep):
     md = reporter.render_cyberlurch_daily_report([row(cyberlurch_daily_deep_dive=deep,
         transcript_notable_claims=["Unable to summarize reliably from the available excerpt.", "The barrier could reduce future flood losses."])], title="Cyberlurch", generated_at="now")
     assert "Unable to summarize" not in md
-    assert "According to Local Briefing, The barrier could reduce future flood losses." in md
+    assert "The barrier could reduce future flood losses." in md
+    assert "*Local Briefing ·" in md and "According to Local Briefing" not in md
 
 
 @pytest.mark.parametrize("extra", [
