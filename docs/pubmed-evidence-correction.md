@@ -45,7 +45,42 @@ interpretation rather than assert an unverified benefit. Stored assertions are
 not silently reinterpreted from titles. The Daily→Weekly→Monthly→Yearly chain
 and its source IDs remain authoritative.
 
-## Prepared correction: dry run only in this PR
+## Reviewed correction of the saved Daily
+
+The saved 12 October Daily still contained the erroneous benefit claim after the
+pipeline fix. This follow-up includes the existing targeted correction as a
+reviewable State diff. The [field-level reviewed plan](../data/corrections/cybermed_42854247_reviewed_plan.json)
+shows all **21 changed fields in exactly two records**: the PMID 42854247 overview
+and Deep Dive. The compact store format is retained; use the plan to review the
+bounded before/after values without comparing an entire one-line store.
+
+Both views now use the same cautious core: the reported comparison did not
+establish a significant delirium-prevention benefit; missing assessments limit
+interpretation, and nonsignificance does not prove absence of effect. The
+numerical basis is the operator's quoted 13 October primary-abstract audit above.
+A fresh independent NCBI EFetch verification was blocked by this environment's
+proxy; **no independent online revalidation is claimed**. Review the linked primary
+abstract and the field diff before merging this State correction. No secondary
+source or model was used.
+
+Input Daily SHA-256: `5b298aaa63dee9a2395b4372f61a41c6e4f4fc850ec165fd4fd3974ffd4b6ef9`.
+Reviewed output: `02b0b325ed77244ac6085fab9c3d4aa5cd76b000290119e3cb44bee53ac84a96`.
+The plan also binds the unchanged Weekly/Rollup inputs and correction file.
+There are no stored aggregate provenance links to this Daily in the inspected
+State, so no aggregate is rewritten. Other papers, original edition identities,
+generation timestamps, clinical scores, delivery/process markers, Health, caches
+and Cyberlurch are unchanged.
+
+The existing CLI was dry-run, reviewed and applied to a temporary State copy with
+private preimage backups. All input/output hashes matched; a second Apply was an
+idempotent `already_corrected` no-op. Only that reviewed Daily output is included
+in this branch. No productive workflow, mail, model or collection was run. After
+merge, the same reviewed plan is a no-op; it does not authorize a new edition or
+mail replay. A rollback must restore only this bounded correction after checking
+its current hashes against newer edits; never reset the complete State tree.
+
+## Historical preparation of the correction
+
 
 No production store was changed. On main `5fef56b`, the tool identified exactly
 two records in `cybermed_daily_2026-10-12`:
@@ -108,8 +143,9 @@ safe provider failures, bounded prompts, read-only correction, hash mismatch,
 backup/idempotence, provenance links and corrupt-file preservation. Existing
 model-budget and error-leak tests remain in the suite. Tests run in a separate
 copied checkout with socket connections blocked; all production `state` files
-are hashed before/after. The audit baseline's five YouTube RSS tests remain
-known failures and are reported separately, not deleted.
+are hashed before/after. The counts below are historical PR #224 results. The five RSS regressions
+were resolved by subsequent dependency/provider repairs; they are not current
+known failures. See [development.md](development.md) for current offline checks.
 
 Run from an isolated copy of the checkout (not the production working tree):
 
