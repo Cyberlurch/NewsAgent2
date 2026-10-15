@@ -105,6 +105,28 @@ Historical issue coverage and its remaining uncertainty are described in
 [the coverage guide](history-coverage.md); source-text coverage does not establish
 a complete edition history.
 
+## Reader context
+
+Daily uses the already-saved full summary to introduce the actual subject,
+action and context before selected supporting facts. The Executive Snapshot
+can include its first complete sentence; the item block retains up to two
+complete sentences and 90 words, with the named channel beside the prose.
+Sentences are extracted rather than regenerated or clipped into fragments.
+Existing source attribution, uncertainty, negation and language are preserved.
+An identical supporting sentence is not repeated as a bullet; a differing
+negative statement is retained. Ordinary items may use important details too.
+The existing 12-item/2-Deep-Dive limits, acquisition/model budgets, source-basis
+labels and delivery boundaries are unchanged.
+
+Known old “Unable to summarize” placeholders and recognized technical errors
+are not reader facts. They cannot take precedence over a substantive saved
+summary in Monthly evidence. A known placeholder-only row cannot acquire a
+factual summary from its title. Explicit metadata-only/unprocessed sources do
+not supply Daily context or fact bullets; the existing source-basis label shows
+that limitation. Missing historical narratives are not reconstructed or
+silently revalidated. This change makes no new generation/source calls, edits
+no stored history, and does not change Monthly/Yearly synthesis contracts.
+
 ## Operator inspection (not executed live for this PR)
 
 Local inspection only, no network or file creation:

@@ -87,6 +87,11 @@ remain authoritative. The same pinned model and one existing call are used;
 its Cybermed output ceiling is 240 instead of 90 tokens to fit complete prose
 plus its short supporting quote. Run-wide token, cost and call caps are unchanged.
 
+The lead sentence is checked too: merely calling something a randomized trial
+does not turn a claimed benefit into a study question. A correct second
+sentence cannot excuse a contradictory positive/negative lead. Named-arm,
+observational-causality and noninferiority checks cover the whole short prose.
+
 The optional `clinical_summary` is tied to the facts version and paper identity,
 rechecked when rendered, and preserved additively with the canonical facts in
 new Daily → Weekly → Monthly → Yearly inputs. A changed source version requires

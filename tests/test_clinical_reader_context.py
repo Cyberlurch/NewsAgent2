@@ -68,6 +68,17 @@ def test_reader_rejects_generic_or_unbound_proposals(text, quote, finish, issue)
     assert "decision support" in fallback and "routine care" in fallback
 
 
+@pytest.mark.parametrize("lead", [
+    "A randomized trial showed that AI-guided decision support reduced delirium in surgical patients with cognitive impairment compared with routine care.",
+    "A randomized trial compared AI-guided decision support with routine care in surgical patients and demonstrated a benefit for delirium prevention.",
+])
+def test_correct_second_sentence_cannot_hide_a_positive_false_lead(lead):
+    item = paper()
+    bind(item, lead + " The authors reported no significant reduction in postoperative delirium, and missing assessments limit interpretation.")
+    assert "unsupported_context_benefit" in item["_reader_summary_issues"]
+    assert not verified_reader_summary(item)
+
+
 def test_unlabelled_primary_outcome_still_explains_the_actual_comparison():
     item = paper(id="context", pmid="context", title="Norepinephrine versus dopamine for shock",
         abstract="Design: Randomized trial. Population: Adult patients with shock. Interventions: Norepinephrine versus dopamine. Results: Vasopressor requirements were 5 versus 6 units, P=.37.")
@@ -169,6 +180,20 @@ def test_reader_keeps_noninferiority_and_association_boundaries(design, result, 
     facts = build_pubmed_facts(item)
     issues = reader_summary_issues(item, facts, text, result)
     assert (not issues) if issue is None else issue in issues
+
+
+@pytest.mark.parametrize("design,result,text,issue", [
+    ("Randomized trial", "Drug A reduced mortality compared with Drug B.",
+     "A randomized trial reported no significant reduction in mortality with Drug A compared with Drug B in adults with shock. The authors reported lower mortality with Drug A in this population.", "reader_result_reversal"),
+    ("Noninferiority randomized trial", "Drug A was noninferior to Drug B for mortality.",
+     "A randomized trial reported that Drug A was superior to Drug B for mortality in adults with shock. Drug A was noninferior; superiority was not established.", "reader_noninferiority_overclaim"),
+    ("Observational cohort", "Drug A was associated with lower mortality than Drug B.",
+     "An observational study reported that Drug A caused lower mortality than Drug B in adults with shock. The authors reported an association with lower mortality, without establishing causality.", "reader_causal_overclaim"),
+])
+def test_clinical_boundaries_apply_to_the_lead_as_well_as_the_finding(design, result, text, issue):
+    item = paper(id="lead", pmid="lead", title="Drug A versus Drug B in shock",
+        abstract=f"Design: {design}. Population: Adults with shock. Interventions: Drug A versus Drug B. Primary outcome: Mortality. Results: {result}")
+    assert issue in reader_summary_issues(item, build_pubmed_facts(item), text, result)
 
 
 def test_renderer_uses_same_contextual_text_in_overview_and_deep_dive(monkeypatch):

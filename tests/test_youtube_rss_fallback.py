@@ -337,7 +337,7 @@ def test_chunking_not_needed_counter_for_short_transcript(tmp_path, monkeypatch)
     calls=[]
     def direct(item, **kwargs):
         calls.append(item["_full_text_for_processing"])
-        return {"transcript_full_summary": "The source described a specific operational change.", "chars_processed_total": len(short_text)}
+        return {"transcript_full_summary": "The source described a specific operational change.", "chars_processed_total": len(short_text), "unique_chars_processed": len(short_text)}
     monkeypatch.setattr(main_mod, "summarize_youtube_transcript_direct", direct)
     monkeypatch.setattr(main_mod, "summarize_youtube_transcript_chunks", lambda *a, **k: pytest.fail("Short transcript must not be chunked"))
     monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "## Executive Summary\n\nok")
@@ -364,7 +364,7 @@ def test_long_managed_transcript_uses_chunking_path(tmp_path, monkeypatch):
     calls=[]
     def chunks(item, **kwargs):
         calls.append(item["_full_text_for_processing"])
-        return {"transcript_key_points": ["The source described a sustained operational change."], "chunks_total": 2, "chars_processed_total": len(long_text)}
+        return {"transcript_full_summary": "The source described a sustained operational change.", "transcript_key_points": ["The source described a sustained operational change."], "chunks_total": 2, "chars_processed_total": len(long_text), "unique_chars_processed": len(long_text)}
     monkeypatch.setattr(main_mod, "summarize_youtube_transcript_chunks", chunks)
     monkeypatch.setattr(main_mod, "summarize_youtube_transcript_direct", lambda *a, **k: pytest.fail("Long transcript must use chunk synthesis"))
     monkeypatch.setattr(main_mod, "summarize", lambda *a, **k: "## Executive Summary\n\nok")
