@@ -38,9 +38,14 @@ def object_store(value: Any) -> bool:
     return isinstance(value, dict)
 
 
+def _coverage_valid(row):
+    from .history_coverage import coverage_fields_valid
+    return coverage_fields_valid(row)
+
+
 def digest_store(value: Any) -> bool:
     return (isinstance(value, dict) and isinstance(value.get("digests"), list)
-            and all(isinstance(row, dict) for row in value["digests"]))
+            and all(isinstance(row, dict) and _coverage_valid(row) for row in value["digests"]))
 
 
 def reports_store(value: Any) -> bool:
@@ -77,7 +82,7 @@ def foamed_health_store(value: Any) -> bool:
 
 
 def rollups_store(value: Any) -> bool:
-    return reports_store(value) and all(isinstance(rows, list) and all(isinstance(row, dict) for row in rows)
+    return reports_store(value) and all(isinstance(rows, list) and all(isinstance(row, dict) and _coverage_valid(row) for row in rows)
                                        for rows in value.get("reports", {}).values())
 
 

@@ -119,15 +119,17 @@ def test_monthly_missing_closing_week_becomes_ready_without_changing_id(monkeypa
     entry=next(e for e in plan['entries'] if e['cadence']=='monthly'); identity=entry['edition_id']
     path=Path(os.environ['CYBERMED_WEEKLY_DIGEST_STATE_PATH']);store={'schema_version':1,'digests':[]}
     _,diag=prepare_cybermed_monthly_source_digests(store,'2026-10')
-    rows=[]
+    rows=[];all_daily=[]
     for label in diag['expected_weekly_periods']:
         start,end=label.split('..')
-        daily=[{'run_date':d} for d in ep.required_daily_dates(start,end,policy='legacy')]
+        daily=[{'digest_id':'cybermed_daily_'+d,'run_date':d} for d in ep.required_daily_dates(start,end,policy='legacy')]
+        all_daily.extend(daily)
         rows.append(make_cybermed_weekly_digest(period_start=start,period_end=end,generated_at_utc='fixed',source_digests=daily,pubmed_items=[],foamed_items=[],deep_dives=[],top_picks=[],diagnostic_summary={}))
     store['digests']=rows[:-1];path.write_text(json.dumps(store))
     before=path.read_bytes()
     with pytest.raises(RuntimeError,match='closing_week'): ep.check_ready(entry)
     assert path.read_bytes()==before
+    Path(os.environ['CYBERMED_DAILY_DIGEST_STATE_PATH']).write_text(json.dumps({'digests':all_daily}))
     store['digests']=rows;path.write_text(json.dumps(store));ep.check_ready(entry)
     later=ep.make_plan('cybermed',created_at='2026-11-09T12:00:00Z',job_started_at='2026-11-09T12:01:00Z',trigger='schedule',mode='real')
     assert next(e for e in later['entries'] if e['cadence']=='monthly')['edition_id']==identity

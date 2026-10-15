@@ -292,7 +292,12 @@ def test_cybermed_weekly_digest_only_empty_real_send_is_blocked(monkeypatch, tmp
     assert calls == []
 
 
-def test_cybermed_weekly_digest_only_with_items_real_send_succeeds(monkeypatch, tmp_path):
+def test_cybermed_weekly_digest_only_with_items_real_send_succeeds(monkeypatch, tmp_path, freeze_clock):
+    from newsagent2 import edition_plan as ep
+    from datetime import date
+    freeze_clock('2026-10-16T12:00:00+00:00')
+    entry=ep.entry_for('cybermed','weekly',date(2026,10,16),'manual','real')
+    monkeypatch.setattr(ep,'planned_entry',lambda *a: entry)
     monkeypatch.setenv("DELIVERY_RECIPIENT_HMAC_KEY", "offline-recovery-key-at-least-thirty-two-bytes")
     monkeypatch.setenv("RECIPIENTS_CONFIG_JSON", '["offline@example.test"]')
     today = main.datetime.now(tz=main.STO).date().strftime("%Y-%m-%d")
@@ -306,6 +311,8 @@ def test_cybermed_weekly_digest_only_with_items_real_send_succeeds(monkeypatch, 
         "deep_dives": [],
         "top_picks": [],
     }]
+    digests += [{'digest_id': 'cybermed_daily_'+d, 'run_date':d, 'items':{'pubmed':[],'foamed':[]}}
+                for d in ep.required_daily_dates(entry['period_start'],entry['coverage_end']) if d != today]
     calls = _run_digest_store_report(monkeypatch, tmp_path, report_mode="weekly", digests=digests)
     assert len(calls) == 1
     assert "Useful paper" in calls[0][1]
@@ -313,12 +320,13 @@ def test_cybermed_weekly_digest_only_with_items_real_send_succeeds(monkeypatch, 
     weekly_store = json.loads((tmp_path / "weekly_output.json").read_text(encoding="utf-8"))
     persisted = weekly_store["digests"][0]
     assert persisted["cadence"] == "weekly"
-    assert persisted["source_daily_digest_ids"] == ["today"]
+    assert set(persisted["source_daily_digest_ids"]) == {d["digest_id"] for d in digests}
+    assert persisted["history_coverage"]["status"] == "complete"
 
 
 def test_cybermed_monthly_digest_only_empty_real_send_is_blocked(monkeypatch, tmp_path):
     calls = []
-    with pytest.raises(RuntimeError, match="Cybermed digest-only report was blocked because it had no digest content"):
+    with pytest.raises(RuntimeError, match="cybermed_monthly_history_coverage:unknown"):
         _run_digest_store_report(
             monkeypatch,
             tmp_path,

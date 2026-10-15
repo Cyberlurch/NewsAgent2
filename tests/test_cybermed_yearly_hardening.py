@@ -120,9 +120,30 @@ def test_real_incomplete_fails_before_send(monkeypatch, tmp_path):
     assert not sent
 
 
-def test_real_complete_coverage_sends_and_reports_exact_months(monkeypatch, tmp_path):
+def test_real_complete_coverage_sends_and_reports_exact_months(monkeypatch, tmp_path, freeze_clock):
+    from newsagent2 import history_coverage as hc
+    from newsagent2.cybermed_digest_store import make_cybermed_weekly_digest
+    from datetime import date, timedelta
+    import os
+    freeze_clock('2027-01-15T12:00:00+00:00')
+    daily_by_id, weeks_by_id = {}, {}
+    months = _months()
+    for m in months:
+        start,end=hc.month_bounds(m['month']);cursor=date.fromisoformat(start)
+        cursor-=timedelta(days=cursor.weekday());refs=[]
+        if (cursor+timedelta(days=4)).isoformat()<start:cursor+=timedelta(days=7)
+        while cursor.isoformat()<=end:
+            first=cursor.isoformat();last=(cursor+timedelta(days=4)).isoformat()
+            ds=[{'digest_id':'cybermed_daily_'+d,'run_date':d} for d in hc.expected_dates(first,last,hc.POLICY)]
+            w=make_cybermed_weekly_digest(period_start=first,period_end=last,generated_at_utc='2027-01-15T12:00:00Z',source_digests=ds,pubmed_items=[],foamed_items=[],deep_dives=[],top_picks=[])
+            w['calendar_policy']=hc.POLICY
+            weeks_by_id[w['digest_id']]=w;refs.append(w['digest_id'])
+            daily_by_id.update({d['digest_id']:d for d in ds});cursor+=timedelta(days=7)
+        m.update(calendar_policy=hc.POLICY,source_weekly_digest_ids=refs)
+    for name,rows in [('CYBERMED_DAILY_DIGEST_STATE_PATH',list(daily_by_id.values())),('CYBERMED_WEEKLY_DIGEST_STATE_PATH',list(weeks_by_id.values()))]:
+        __import__('pathlib').Path(os.environ[name]).write_text(json.dumps({'digests':rows}))
     path = tmp_path / "rollups.json"
-    path.write_text(json.dumps({"reports": {"cybermed": _months()}}))
+    path.write_text(json.dumps({"reports": {"cybermed": months}}))
     monkeypatch.setenv("REPORT_PROFILE", "medical")
     monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
     monkeypatch.setenv("YEAR_IN_REVIEW_YEAR", "2026")

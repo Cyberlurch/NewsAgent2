@@ -1946,6 +1946,14 @@ def _run_yearly_report(
         }
     else:
         entries, prepared_diags = prepare_yearly_rollups(raw_entries, target_year)
+        prepared_diags['coverage_complete'] = prepared_diags['calendar_presence_complete'] and not prepared_diags['duplicate_monthly_rollups_suppressed_total']
+    from .history_coverage import yearly_coverage, load_inputs, preview_note
+    history_daily, history_weekly, _ = load_inputs(report_key)
+    history_year = yearly_coverage(report_key, target_year, raw_entries, weekly_rows=history_weekly,
+        daily_rows=history_daily, as_of=_edition_now().isoformat())
+    prepared_diags['history_coverage'] = history_year
+    if is_cybermed_yearly:
+        prepared_diags['coverage_complete'] = history_year['final_year_ready']
     yearly_sanitized_total = 0
     if _is_cybermed(report_key, os.getenv("REPORT_PROFILE", "")):
         entries, yearly_sanitized_total = sanitize_cybermed_payload(entries)
@@ -1959,6 +1967,7 @@ def _run_yearly_report(
         # prepare_yearly_rollups and the semantic builder agree on calendar
         # coverage; retain the established preparation diagnostics as aliases.
         yearly_diags.update({
+            "history_coverage_status": history_year["status"],
             "duplicate_monthly_rollups_suppressed_total": prepared_diags["duplicate_monthly_rollups_suppressed_total"],
             "generation_error_text_removed_total": prepared_diags["generation_error_text_removed_total"],
             "months_with_sanitized_content_total": prepared_diags["months_with_sanitized_content_total"],
@@ -1975,7 +1984,7 @@ def _run_yearly_report(
 
         email_mode = (os.getenv("EMAIL_MODE", "") or "").strip().lower()
         production_delivery = event_name == "schedule" or email_mode == "real"
-        if production_delivery and not coverage_complete:
+        if production_delivery and (not coverage_complete or history_year["status"] == "incomplete"):
             yearly_diags.update({"provider_operations": 0, "prompt_character_count": 0})
             write_yearly_diagnostics("blocked_incomplete_calendar")
             print(f"[yearly] target_year={target_year} found_months={found_months} missing_months={missing_months} coverage incomplete; delivery blocked")
@@ -2020,6 +2029,7 @@ def _run_yearly_report(
             target_year, annual_synthesis, annual_registry, yearly_diags,
             partial_audit=not coverage_complete and not production_delivery,
         )
+        md = preview_note(history_year) + md
         out_path = os.path.join(report_dir, f"{report_key}_yearly_review_{target_year}.md")
         with open(out_path, "w", encoding="utf-8") as handle:
             handle.write(md)
@@ -2052,6 +2062,9 @@ def _run_yearly_report(
         "found_months": found_months,
         "missing_months": missing_months,
         "coverage_complete": coverage_complete,
+        "history_coverage_status": history_year["status"],
+        "history_final_year_ready": history_year["final_year_ready"],
+        "history_due_months": history_year["horizon"]["due_months"],
         "monthly_rollups_loaded_total": len(entries),
     }
     if not is_cybermed_yearly:
@@ -2100,6 +2113,7 @@ def _run_yearly_report(
         diagnostics=cybermed_yearly_diags,
     )
 
+    md = preview_note(history_year) + md
     out_path = os.path.join(report_dir, f"{report_key}_yearly_review_{target_year}.md")
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(md)
@@ -2840,6 +2854,18 @@ def _main() -> None:
             monthly_digest_period_start = cybermed_expected_period_start
             monthly_digest_period_end = cybermed_expected_period_end
             daily, cybermed_monthly_coverage = prepare_cybermed_monthly_source_digests(store, month_key)
+            from .history_coverage import monthly_coverage, require_complete
+            from .edition_plan import planned_entry
+            planned = planned_entry(report_key, report_mode)
+            history_month = monthly_coverage({'month': month_key,
+                'source_weekly_digest_ids': [r['digest_id'] for r in daily],
+                'calendar_policy': planned['calendar_policy'] if planned else None}, store['digests'],
+                load_cybermed_daily_digest_store(cybermed_digest_state_path)['digests'])
+            cybermed_monthly_coverage['history_coverage'] = history_month
+            cybermed_monthly_coverage['coverage_complete'] &= history_month['status'] == 'complete'
+            if (os.getenv('EMAIL_MODE') or '').lower() == 'real' or os.getenv('GITHUB_EVENT_NAME') == 'schedule':
+                require_complete(history_month, 'cybermed_monthly_history_coverage')
+
         else:
             today_sto = _edition_now().date()
             week_start, week_end = cybermed_weekly_reporting_period(today_sto)
@@ -5872,6 +5898,33 @@ def _main() -> None:
         monthly_target_month=cyberlurch_monthly_target_month if report_key == "cyberlurch" and report_mode == "monthly" else None,
     )
 
+    if report_mode in {'weekly', 'monthly'}:
+        from .history_coverage import preview_note, result as coverage_result
+        if is_cybermed_run and report_mode == 'monthly':
+            rendered_coverage = cybermed_monthly_coverage.get('history_coverage', coverage_result([('unknown', 'edition_history_unknown')]))
+        elif is_cybermed_run:
+            from .history_coverage import weekly_coverage
+            from .edition_plan import planned_entry
+            planned = planned_entry(report_key, report_mode)
+            rendered_coverage = weekly_coverage({'period_start': cybermed_expected_period_start,
+                'period_end': cybermed_expected_period_end,
+                'coverage_end': planned['coverage_end'] if planned else cybermed_expected_period_end,
+                'calendar_policy': planned['calendar_policy'] if planned else None,
+                'source_daily_digest_ids': [r['digest_id'] for r in daily if r.get('digest_id')]}, daily)
+        elif report_mode == 'monthly':
+            from .history_coverage import cyberlurch_monthly_coverage, require_complete
+            used_refs = set(monthly_synthesis.get('source_refs_used', []))
+            rendered_coverage = cyberlurch_monthly_coverage({'month': cyberlurch_monthly_target_month,
+                'source_registry': [row for row in (monthly_source_registry or []) if row['ref_id'] in used_refs],
+                'source_refs_used': monthly_synthesis.get('source_refs_used', []),
+                'themes': monthly_synthesis.get('trends', []),
+                'notable_developments': monthly_synthesis.get('notable_developments', [])})
+            if rendered_coverage['status'] == 'incomplete' and cyberlurch_monthly_production_delivery:
+                require_complete(rendered_coverage, 'cyberlurch_monthly_history_coverage')
+        else:
+            rendered_coverage = coverage_result([('unknown', 'edition_history_unknown')])
+        md = preview_note(rendered_coverage) + md
+
     if ingestion:
         rendered_ids = set(cybermed_run_stats.get("pubmed_rendered_ids", []))
         overview_items = [row for row in overview_items if row["id"] in rendered_ids]
@@ -6022,6 +6075,14 @@ def _main() -> None:
                     expected_daily_dates=required_daily_dates(edition["period_start"], edition["coverage_end"]),
                     coverage_status="complete" if (set(required_daily_dates(edition["period_start"], edition["coverage_end"])) <= set(weekly_digest["source_run_dates"])
                         and edition["coverage_end"] == weekly_dates(datetime.strptime(edition["period_start"], "%Y-%m-%d").date())[2].isoformat()) else "incomplete")
+            from .history_coverage import weekly_coverage, require_complete
+            weekly_digest['history_coverage'] = weekly_coverage(weekly_digest, daily)
+            weekly_digest['coverage_status'] = weekly_digest['history_coverage']['status']
+            if current() and current().coordinator and current().coordinator.result:
+                weekly_digest['edition_id'] = current().coordinator.edition_id
+                weekly_digest['content_version'] = current().coordinator.result.content_version
+            if (os.getenv('EMAIL_MODE') or '').lower() == 'real' or os.getenv('GITHUB_EVENT_NAME') == 'schedule':
+                require_complete(weekly_digest['history_coverage'], 'cybermed_weekly_history_coverage')
             weekly_store_diag["cybermed_weekly_store_digest_id"] = weekly_digest["digest_id"]
             weekly_store = load_cybermed_weekly_digest_store(cybermed_weekly_digest_state_path)
             manual_safe_overwrite = (
@@ -6121,6 +6182,21 @@ def _main() -> None:
                     ]),
                     "cybermed_deep_dives_total": len(detail_items),
                 }
+            from .history_coverage import result as coverage_result
+            if extra_fields is None:
+                extra_fields = {}
+            if is_cybermed_run:
+                extra_fields['history_coverage'] = cybermed_monthly_coverage.get('history_coverage', coverage_result([('unknown', 'edition_history_unknown')]))
+                from .edition_plan import planned_entry
+                planned = planned_entry(report_key, report_mode)
+                if planned:
+                    extra_fields['calendar_policy'] = planned['calendar_policy']
+            else:
+                from .history_coverage import cyberlurch_monthly_coverage
+                extra_fields['history_coverage'] = cyberlurch_monthly_coverage({'month': month_key, **extra_fields})
+            if current() and current().coordinator and current().coordinator.result:
+                extra_fields['edition_id'] = current().coordinator.edition_id
+                extra_fields['content_version'] = current().coordinator.result.content_version
             upsert_monthly_rollup(
                 rollups_state,
                 report_key=report_key,

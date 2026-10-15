@@ -131,6 +131,8 @@ def _delta_plan(artifact: Path, row: dict):
         if identity_key not in inserted: merged.extend(group)
     if kind == "rollups": value.setdefault("reports", {})[row["report_key"]] = merged
     else: value["digests"] = merged
+    if not validate(value):
+        raise RuntimeError("recovery_delta_invalid_store")
     from .cybermed_quality import assert_no_generation_error_text
     assert_no_generation_error_text(value, boundary="pre_smtp_recovery")
     if kind == "cybermed_weekly":
