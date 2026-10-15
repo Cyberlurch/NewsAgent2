@@ -54,7 +54,8 @@ separately in [history-coverage.md](history-coverage.md) and
   assessment of historical evidence. Population belongs in the short clinical
   statement when it is known from the source, not a repeated context line.
 - Primary benefit still requires a mapped primary endpoint/result. Unmapped
-  results stay unknown in the clinical statement. A selected, clinically
+  primary benefit stays unknown; an explicitly attributed, source-bound
+  measured finding may still be described. A selected, clinically
   important null, harm or noninferiority finding may remain an editorial priority
   without an explicit primary label; biomarker-only positive signals do not.
   A source-reported conditional guideline recommendation can support editorial
@@ -72,9 +73,29 @@ authoritative. These labels do not replace that guard or add a second clinical
 model verdict. Unknown endpoints, missing data and uncertainty are not repaired
 with invented findings.
 
-The reader projection is deterministic and adds no provider calls. It uses a
-short qualitative result sentence with the same finding as the primary facts,
-or a conservative outcome-specific description. It does not use objectives as
+The reader projection adds no provider calls. The existing Cybermed Bottom Line
+call proposes 2–3 complete sentences: the actual patients and question/comparison,
+the reported finding, and a useful clinical implication or specific limitation.
+It returns JSON containing that prose and an exact supporting result excerpt.
+Local checks bind the excerpt to the canonical primary result (or an explicit
+measured result sentence in an unstructured abstract), check scope, direction,
+population, named groups, noninferiority and association, and reject truncation,
+unbound quotes, generic text and statistical walls. This is bounded lexical
+validation, not a second independent medical assessment or a guarantee against
+every paraphrase error. The full canonical facts and final consistency guard
+remain authoritative. The same pinned model and one existing call are used;
+its Cybermed output ceiling is 240 instead of 90 tokens to fit complete prose
+plus its short supporting quote. Run-wide token, cost and call caps are unchanged.
+
+The optional `clinical_summary` is tied to the facts version and paper identity,
+rechecked when rendered, and preserved additively with the canonical facts in
+new Daily → Weekly → Monthly → Yearly inputs. A changed source version requires
+revalidation during generation; stale or foreign stored proposals are rejected.
+Existing history is not rewritten and aggregates make no generation calls.
+When a proposal cannot be used, a deterministic fallback names the actual
+study question/comparison before describing the known finding or missing result.
+It never publishes only “the clinical implication remains uncertain.”
+It does not use objectives as
 results or let positive secondary results replace a null/unknown primary result.
 Statistical estimates, P-values, IQRs, group counts and specific limitations stay
 in Deep Dives. Clinically meaningful qualifiers are retained; dense subgroup
@@ -86,6 +107,13 @@ Short legacy statements without a source facts record retain their existing
 wording, including a separately stored Deep Dive statement. They are not
 silently revalidated or replaced from a title; dense legacy result text remains
 in the detailed view when that view is available.
+
+For example, the paraphrased PMID 42854247 regression explains that surgical
+patients with cognitive impairment were randomized to AI-guided decision support
+or routine care, that a significant reduction in delirium was not demonstrated,
+and that incomplete assessments limit interpretation. The counts and P-value
+remain in the Deep Dive; nonsignificance is not described as proof of no effect.
+This is an offline example, not a new source verification or a sent newsletter.
 
 ## Favorites and historical ranking
 

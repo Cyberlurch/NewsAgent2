@@ -9,7 +9,8 @@ import re
 
 from .pubmed_facts import build_pubmed_facts, evidence_input
 
-CONTEXT_FIELDS = ("clinical_context", "top_pick_decision", "stored_top_pick")
+CONTEXT_FIELDS = ("clinical_context", "top_pick_decision", "stored_top_pick",
+                  "clinical_summary", "pubmed_facts", "facts_version")
 
 
 def clinical_text(item: dict) -> str:

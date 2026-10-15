@@ -796,7 +796,20 @@ def render_yearly_markdown(
             ratings = reader_rating_line(it)
             if ratings:
                 md.append("  - " + ("⭐ Top pick · " if it.get("top_pick") else "") + ratings)
-        detailed = [it for it in ranked[:10] if it.get("key_results") or it.get("limitations")]
+        detailed = []
+        for it in ranked[:10]:
+            # Monthly records retain the canonical facts additively. Reuse
+            # their details without regenerating or changing stored history.
+            detail = dict(it)
+            facts = it.get("pubmed_facts")
+            if isinstance(facts, dict):
+                for target, source in (("study_type", "design"), ("population_setting", "population"),
+                        ("primary_endpoint", "primary_endpoint"), ("key_results", "primary_results"),
+                        ("limitations", "limitations")):
+                    if not detail.get(target) and isinstance(facts.get(source), str):
+                        detail[target] = facts[source]
+            if detail.get("key_results") or detail.get("limitations"):
+                detailed.append(detail)
         if detailed:
             md.extend(["", "## Deep Dives", ""])
             for it in detailed:

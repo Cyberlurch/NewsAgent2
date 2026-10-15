@@ -11,13 +11,15 @@ from types import SimpleNamespace
 
 from .pubmed_facts import build_pubmed_facts, result_direction, sentences
 from .cybermed_quality import safe_generated_text
+from .clinical_reader import verified_reader_summary, source_comparison
 
 
 _STATISTICS = re.compile(r"\b(?:IQR|CI|SD|HR|RR|(?-i:OR))\b|\bp\s*[=<>≤≥]|\d\s*%|\d\s*/\s*\d", re.I)
 _BOILERPLATE = re.compile(r"does not prove absence|not proof of no effect|interpret secondary signals|"
                           r"no unqualified benefit|no benefit can be inferred|reported results:|"
                           r"limited to these source facts|bounded evidence excerpt", re.I)
-_FIELDS = ("population", "primary_endpoint", "primary_results", "conclusions", "direction", "observational")
+_FIELDS = ("design", "population", "intervention_comparator", "primary_endpoint", "primary_results",
+           "conclusions", "direction", "observational", "evidence")
 
 
 def _lower_start(text: str) -> str:
@@ -44,9 +46,10 @@ def _facts(item: dict):
     if not _legacy(item) and (item.get("abstract") or item.get("text")):
         return build_pubmed_facts(item)
     # Aggregates project persisted assertions; they never regenerate evidence.
-    return SimpleNamespace(population=item.get("population_setting") or "",
+    return SimpleNamespace(design=item.get("study_type") or "", population=item.get("population_setting") or "",
+        intervention_comparator=" versus ".join(str(v) for v in (item.get("intervention_or_exposure"), item.get("comparator")) if v),
         primary_endpoint=item.get("primary_endpoint") or "", primary_results=item.get("key_results") or "",
-        conclusions="", direction=item.get("primary_result_direction") or "unclear",
+        conclusions="", evidence="", direction=item.get("primary_result_direction") or "unclear",
         observational=bool(re.search(r"cohort|observational", str(item.get("study_type") or ""), re.I)))
 
 
@@ -101,7 +104,7 @@ def _direction(text: str) -> str:
     return result_direction(text)
 
 
-def reader_bottom_line(item: dict, *, language: str = "en") -> str:
+def _source_finding(item: dict, *, language: str = "en") -> str:
     if (item.get("source") or item.get("source_type")) == "foamed":
         return re.sub(r"^(?:\*\*)?BOTTOM LINE:(?:\*\*)?\s*", "", str(item.get("bottom_line") or ""), flags=re.I).strip()
     if _legacy(item) and (legacy := _legacy_prose(item.get("bottom_line"))):
@@ -144,6 +147,21 @@ def reader_bottom_line(item: dict, *, language: str = "en") -> str:
                     candidate = f"In {population}, " + _lower_start(candidate)
                 if len(candidate.split()) <= 60:
                     return candidate
+    if primary and not facts.primary_endpoint and facts.direction not in {"unclear", "mixed_or_unclear"}:
+        for sentence in sentences(primary):
+            candidate = _qualitative(sentence)
+            if not candidate or _direction(candidate) != facts.direction:
+                continue
+            if facts.observational and (not re.search(r"associat|correlat|linked", candidate, re.I)
+                    or re.search(r"\bcaused?|\bprevents?|\bproves?|will reduce|led to", candidate, re.I)):
+                continue
+            if facts.direction == "noninferiority" and re.search(r"superior|equivalen|as effective", candidate, re.I):
+                continue
+            if subgroup_only and not re.search(r"subgroup|post[- ]hoc|exploratory|only (?:in|among)", candidate, re.I):
+                continue
+            # Report what the source actually says, without inventing which
+            # endpoint was primary or deriving a practice recommendation.
+            return "The authors reported: " + candidate
     if not primary or not facts.primary_endpoint:
         finding = ("The clinical implication of the reported findings remains uncertain." if primary else
                    "The primary clinical result is not reported in the available source.")
@@ -162,6 +180,55 @@ def reader_bottom_line(item: dict, *, language: str = "en") -> str:
     else:
         finding = f"The finding for {endpoint} remains inconclusive."
     return f"In {population}, {finding[0].lower() + finding[1:]}" if population else finding
+
+
+def _study_context(item: dict, facts, language: str) -> str:
+    population = _population(facts, item)
+    design = str(facts.design or "")
+    kind = ("noninferiority trial" if re.search(r"noninferior", design, re.I) else
+            "randomized trial" if re.search(r"randomi[sz]|\bRCT\b", design, re.I) else
+            "observational study" if facts.observational else "study")
+    comparison = source_comparison(str(facts.intervention_comparator or ""))
+    if comparison:
+        context = f"The {kind} compared {comparison[0]} with {comparison[1]}"
+        if population and not re.search(r"patients|participants|adults|children|neonat", context, re.I):
+            context = f"In {population}, " + _lower_start(context)
+        return context.rstrip(" .") + "."
+    # Prefer an actual methods sentence, not a sentence of stock uncertainty.
+    method = str(facts.intervention_comparator or "")
+    if not method:
+        match = re.search(r"Abstract / methods: (.+)", str(facts.evidence or ""))
+        method = match[1] if match else ""
+    for sentence in sentences(method):
+        if len(sentence.split()) <= 48 and len(sentence.split()) >= 8 and re.search(r"compar|randomi[sz]|cohort|patients|participants", sentence, re.I) and not _STATISTICS.search(sentence):
+            return sentence if sentence.endswith(".") else sentence + "."
+    title = str(item.get("title") or "").strip(" .")
+    if title:
+        if re.match(r"(?:effects?|impact|association|comparison|use|management|treatment)\b", title, re.I):
+            return f"The {kind} examined the {_lower_start(title)}."
+        return f"The {kind} addressed “{title}”."
+    endpoint = _endpoint(facts)
+    return f"The {kind} examined {endpoint}" + (f" in {population}." if population else ".")
+
+
+def reader_bottom_line(item: dict, *, language: str = "en") -> str:
+    if text := verified_reader_summary(item, language=language):
+        return text
+    finding = _source_finding(item, language=language)
+    if (item.get("source") or item.get("source_type")) == "foamed" or _legacy(item):
+        return finding
+    facts = _facts(item)
+    context = _study_context(item, facts, language)
+    # Keep source-grounded findings; restore the named study question before
+    # an uncertainty statement instead of publishing uncertainty on its own.
+    population = _population(facts, item)
+    if population and context.lower().startswith("in " + population.lower() + ", "):
+        finding = re.sub(r"^In " + re.escape(population) + r",\s*", "", finding, flags=re.I)
+        if finding:
+            finding = finding[0].upper() + finding[1:]
+    if context.casefold().rstrip(" .") in finding.casefold():
+        return finding
+    return context + " " + finding
 
 
 def reader_rating_line(item: dict) -> str:
