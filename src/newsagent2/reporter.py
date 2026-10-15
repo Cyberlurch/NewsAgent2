@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .youtube_source import basis_label
 from .clinical_editorial import context_for, finalize_favorite, favorite_label, reference_line
-from .pubmed_presentation import reader_bottom_line, reader_deep_dive, reader_rating_line
+from .pubmed_presentation import reader_bottom_line, reader_deep_dive, reader_rating_line, format_reader_detail
 
 import ast
 import os, re
@@ -1740,6 +1740,10 @@ def to_markdown(
                     abstract = (it.get("abstract") or it.get("text") or "").strip()
                     if len(abstract) >= 200:
                         detail_block = render_pubmed_deep_dive_from_abstract(abstract)
+                # Normalize reader-only bullets before the legacy template
+                # parser can mistake numbered limitations/source labels for
+                # other clinical fields. Canonical facts remain unchanged.
+                detail_block = format_reader_detail(detail_block)
                 detail_block = _ensure_pubmed_deep_dive_template(detail_block, best_bottom_line, lang=lang)
             if not detail_block and is_cybermed:
                 detail_block = f"**BOTTOM LINE:** {best_bottom_line}"
@@ -1751,6 +1755,8 @@ def to_markdown(
             detail_block = _normalize_detail_block_headings(detail_block)
             if is_cybermed and str(it.get("source") or "").lower() == "pubmed":
                 detail_block = reader_deep_dive(it, detail_block, language=lang)
+            elif is_cybermed:
+                detail_block = format_reader_detail(detail_block)
             md.append(detail_block)
             md.append("")
 

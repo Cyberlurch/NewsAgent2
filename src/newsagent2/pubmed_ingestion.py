@@ -430,11 +430,9 @@ class IngestionSession:
                       "progress_is_delivery": False, "paper_decisions": self.paper_decisions}, kind=KIND)
 
     def reader_note(self):
-        pending_reviews = sum(len(row.get("review", {})) for row in self.data["queries"].values())
-        if pending_reviews:
-            return ("Some papers are withheld pending source/delivery review; complete coverage is not established."
-                    if os.getenv("REPORT_LANGUAGE", "de").lower().startswith("en") else
-                    "Einige Papers bleiben zur Quellen-/Versandprüfung zurückgehalten; vollständige Abdeckung ist nicht bestätigt.")
+        # Review holds remain in the ledger/diagnostics. They are operational
+        # detail, not a generic disclaimer in every reader edition. A genuinely
+        # incomplete capture still gets the existing bounded-coverage note.
         incomplete = sum(m["status"] != "complete" for m in self.metadata.values())
         if not incomplete:
             return ""

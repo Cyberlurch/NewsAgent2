@@ -75,6 +75,7 @@ def _endpoint(facts) -> str:
 
 
 def _qualitative(sentence: str) -> str:
+    sentence = re.sub(r"^(?:CONCLUSIONS AND RELEVANCE|CONCLUSIONS?|INTERPRETATION|RESULTS|FINDINGS)\s*:\s*", "", sentence, flags=re.I)
     # Discard statistical parentheses, not clinical parentheticals or negation.
     def statistical_parenthesis(match):
         inner = match[0][1:-1].strip()
@@ -252,6 +253,75 @@ def reader_rating_line(item: dict) -> str:
     return " · ".join(parts)
 
 
+_DETAIL_LABELS = {
+    label.casefold(): label for label in (
+        "Study type", "Population/setting", "Population", "Intervention/exposure & comparator",
+        "Intervention/exposure", "Primary endpoints", "Key results", "Secondary results",
+        "Limitations", "Why this matters", "Source", "Source basis", "Reported result (saved report)",
+        "Background", "Importance", "Objectives", "Design", "Methods", "Setting", "Participants",
+        "Interventions", "Main outcomes and measures", "Results", "Findings", "Conclusions",
+        "Conclusions and relevance", "Interpretation", "Design, setting, and participants",
+    )}
+_DETAIL_LABELS.update({"primary endpoint": "Primary endpoints", "primary outcome": "Primary endpoints",
+    "objective": "Objectives", "secondary results (do not replace the primary outcome)": "Secondary results"})
+_DETAIL_FIELD = re.compile(r"^\s*(?:(?:[-*•]|\d+[.)])\s+)?(?:\*\*)?(" +
+    "|".join(re.escape(label) for label in sorted(_DETAIL_LABELS, key=len, reverse=True)) +
+    r")(?:\*\*)?\s*:(?:\*\*)?\s*(.*)$", re.I)
+_SOURCE_SECTIONS = re.compile(r"(?<!\S)(?:(?:[-*•]|\d+[.)]|#{1,6})\s+)?(?:\*\*)?(" + "|".join(re.escape(label.upper()) for label in (
+    "Conclusions and relevance", "Design, setting, and participants", "Main outcomes and measures",
+    "Conclusions", "Interpretation", "Results", "Findings", "Background", "Importance", "Objective",
+    "Objectives", "Methods", "Setting", "Participants", "Interventions")) +
+    r"|(?i:Conclusions and relevance))\s*:(?:\*\*)?\s*")
+
+
+def format_reader_detail(detail: str) -> str:
+    """Reader typography only; preserve result wording, numbers and uncertainty.
+
+    Fold a label and its continuation bullets into one row, without changing
+    canonical facts or any saved Markdown. Source metadata remains internal;
+    actual reference links are retained when present.
+    """
+    def section_break(match):
+        line_start = detail.rfind("\n", 0, match.start()) + 1
+        prefix = "\n" if detail[line_start:match.start()].strip() else ""
+        return prefix + "- " + _DETAIL_LABELS[match[1].casefold()] + ": "
+    detail = _SOURCE_SECTIONS.sub(section_break, detail)
+    detail = re.sub(r"(?i)\bSecondary results \(do not replace the primary outcome\):\s*",
+                    "\n- Secondary results: ", detail)
+    rows, values, label = [], [], ""
+
+    def flush():
+        if label and values:
+            text = " ".join(values).strip().rstrip(";")
+            if label not in {"Source", "Source basis"}:
+                rows.append(f"- **{label}:** {text}")
+            elif re.search(r"https?://", text):
+                rows.extend(["", text, ""])  # Keep a real citation, omit its redundant label.
+
+    for raw in detail.splitlines():
+        match = _DETAIL_FIELD.match(raw)
+        if match:
+            flush()
+            label, values = _DETAIL_LABELS[match[1].casefold()], []
+            if match[2].strip():
+                values.append(match[2].strip())
+        elif not raw.strip():
+            if label == "Limitations" or label and not values:
+                continue
+            flush()
+            label, values = "", []
+            if rows and rows[-1]:
+                rows.append("")
+        elif label and not re.match(r"\s*(?:#{1,6}\s|\*\*BOTTOM LINE:)", raw, re.I):
+            values.append(re.sub(r"^\s*(?:[-*•]|\d+[.)])\s+", "", raw).strip())
+        else:
+            flush()
+            label, values = "", []
+            rows.append(raw)
+    flush()
+    return "\n".join(rows).strip()
+
+
 def reader_deep_dive(item: dict, detail: str, *, language: str = "en") -> str:
     """Keep detailed primary results and limitations, with one short core."""
     rows, old_core = [], str(item.get("_reader_original_bottom_line") or item.get("bottom_line") or "")
@@ -261,12 +331,9 @@ def reader_deep_dive(item: dict, detail: str, *, language: str = "en") -> str:
             continue
         if "Interpretation is limited to these source facts" in line:
             continue
-        if line.startswith("- Source basis:"):
-            label = line.split(":", 1)[1].strip()
-            line = "- Source: " + {"abstract": "Abstract", "abstract_and_fulltext_excerpt": "Abstract and full-text excerpt"}.get(label, label)
         rows.append(line)
     if _STATISTICS.search(old_core) and not _STATISTICS.search("\n".join(rows)):
         reported = old_core.split("Reported results:", 1)[-1].strip()
         rows.extend(["", "- Reported result (saved report): " + reported])
     brief = _legacy_prose(old_core) if _legacy(item) else ""
-    return f"**BOTTOM LINE:** {brief or reader_bottom_line(item, language=language)}\n\n" + "\n".join(rows).strip()
+    return f"**BOTTOM LINE:** {brief or reader_bottom_line(item, language=language)}\n\n" + format_reader_detail("\n".join(rows))
