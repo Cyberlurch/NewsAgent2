@@ -375,7 +375,7 @@ def _extract_run_metadata_for_email(md_body: str) -> Tuple[str, str, bool]:
     return working_body, metadata_text.strip(), metadata_removed
 
 
-def _safe_markdown_to_html(md_body: str) -> str:
+def _safe_markdown_to_html(md_body: str, *, preserve_line_breaks: bool = False) -> str:
     """Convert Markdown to HTML safely, falling back to a preformatted block.
 
     - Tries minimal extension sets that work with current Markdown versions.
@@ -393,7 +393,7 @@ def _safe_markdown_to_html(md_body: str) -> str:
         try:
             return markdown(
                 md_body,
-                extensions=attempt["extensions"],
+                extensions=attempt["extensions"] + (["nl2br"] if preserve_line_breaks else []),
                 output_format="html5",
             )
         except Exception as exc:
@@ -430,6 +430,69 @@ def _style_cyberlurch_longform_html(html: str) -> str:
 
 # Compatibility for callers and tests which used the original Monthly name.
 _style_cyberlurch_monthly_html = _style_cyberlurch_longform_html
+
+
+def _style_cybermed_html(html: str) -> str:
+    """Give Cybermed explicit spacing without relying on mail-client defaults.
+
+    Styles are inline because many email clients discard document stylesheets.
+    This only changes presentation; source text, links and list structure stay
+    intact. No external fonts, images or stylesheets are requested.
+    """
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "html.parser")
+    styles = {
+        "h1": "font-size:28px;line-height:1.25;margin:0 0 12px;font-weight:700;",
+        "h2": "font-size:23px;line-height:1.3;margin:32px 0 16px;padding-bottom:10px;border-bottom:1px solid #d9e2ec;",
+        "h3": "font-size:20px;line-height:1.4;margin:26px 0 12px;",
+        "h4": "font-size:17px;line-height:1.4;margin:22px 0 12px;",
+        "h5": "font-size:16px;line-height:1.4;margin:20px 0 10px;",
+        "h6": "font-size:16px;line-height:1.4;margin:18px 0 10px;",
+        "p": "font-size:16px;line-height:1.6;margin:0 0 16px;",
+        "ul": "margin:0 0 18px;padding-left:24px;",
+        "ol": "margin:0 0 18px;padding-left:24px;",
+        "li": "font-size:16px;line-height:1.6;margin:0 0 8px;",
+        "a": "color:#145c91;text-decoration:underline;overflow-wrap:break-word;word-wrap:break-word;",
+        "hr": "border:0;border-top:1px solid #d9e2ec;height:0;margin:28px 0;",
+        "blockquote": "border-left:3px solid #d9e2ec;margin:0 0 18px;padding:0 0 0 16px;",
+        "table": "border-collapse:collapse;width:100%;margin:0 0 18px;",
+        "th": "border:1px solid #d9e2ec;padding:8px;text-align:left;vertical-align:top;",
+        "td": "border:1px solid #d9e2ec;padding:8px;vertical-align:top;",
+        "pre": "white-space:pre-wrap;overflow-wrap:break-word;word-wrap:break-word;font-size:14px;line-height:1.6;margin:0 0 16px;",
+        "code": "font-family:Consolas,monospace;font-size:14px;",
+    }
+    for tag in soup.find_all(list(styles)):
+        previous = str(tag.get("style") or "").rstrip("; ")
+        tag["style"] = (previous + ";" if previous else "") + styles[tag.name]
+
+    # A presentation table works without flex/grid or a retained <head> block.
+    wrapper = soup.new_tag("table", attrs={
+        "role": "presentation", "width": "100%", "align": "center",
+        "cellpadding": "0", "cellspacing": "0", "border": "0",
+        "style": "width:100%;max-width:720px;table-layout:fixed;border-collapse:collapse;background:#ffffff;",
+    })
+    row = soup.new_tag("tr")
+    cell = soup.new_tag("td", attrs={"style": (
+        "padding:20px 16px;color:#243247;font-family:Arial,Helvetica,sans-serif;"
+        "font-size:16px;line-height:1.6;overflow-wrap:break-word;word-wrap:break-word;"
+    )})
+    for node in list(soup.contents):
+        cell.append(node)
+    row.append(cell)
+    wrapper.append(row)
+    return str(wrapper)
+
+
+def _render_email_html(md_body: str, *, report_key: str, cadence: str) -> str:
+    """Use the same deterministic presentation for sending and offline previews."""
+    report_key, cadence = report_key.lower(), cadence.lower()
+    html = _safe_markdown_to_html(md_body, preserve_line_breaks=report_key == "cybermed")
+    if report_key == "cybermed":
+        return _style_cybermed_html(html)
+    if report_key == "cyberlurch" and cadence in {"monthly", "yearly"}:
+        return _style_cyberlurch_longform_html(html)
+    return html
 
 
 def _delivery_recipients(report_key: str, report_mode: str, mode: str):
@@ -493,9 +556,7 @@ def send_markdown(subject: str, md_body: str, *, coordinator: Coordinator | None
 
     try:
         html_source = md_without_metadata if metadata_removed else md_body
-        html = _safe_markdown_to_html(html_source)
-        if report_key.lower() == "cyberlurch" and report_mode.lower() in {"monthly", "yearly"}:
-            html = _style_cyberlurch_longform_html(html)
+        html = _render_email_html(html_source, report_key=report_key, cadence=report_mode)
     except Exception as exc:  # pragma: no cover - ultra-safety guard
         print("[email] WARN: markdown rendering failure; using escaped text")
         html = f"<pre>{html_module.escape((html_source or ''))}</pre>"
