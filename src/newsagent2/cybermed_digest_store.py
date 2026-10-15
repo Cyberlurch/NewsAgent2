@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from .clinical_editorial import favorite_eligible, finalize_favorite
 from .foamed_sources import commentary_identity
 from .store_io import read_store, atomic_store, generated_store, digest_store, StoreError
 import copy
@@ -485,6 +486,7 @@ def aggregate_cybermed_digest_inputs(
                 if not isinstance(row, dict):
                     continue
                 annotated = dict(row)
+                annotated.setdefault("stored_top_pick", {"cadence": "daily", "selected": bool(row.get("top_pick")), "source_run_date": run_date})
                 if _valid_date(run_date):
                     annotated["source_daily_run_dates"] = sorted(set(annotated.get("source_daily_run_dates") or []) | {run_date})
                 target.append(annotated)
@@ -540,8 +542,8 @@ def aggregate_cybermed_digest_inputs(
     top_picks = [
         row
         for row in ranked_pubmed
-        if any(key in selected_deep_keys for key in _match_keys(row))
-        or not any(key in deep_lookup for key in _match_keys(row))
+        if (favorite_eligible(row)[0] or "clinical_context" not in row) and (any(key in selected_deep_keys for key in _match_keys(row))
+        or not any(key in deep_lookup for key in _match_keys(row)))
     ][: max(0, int(top_pick_cap))]
     top_pick_keys = {key for row in top_picks for key in _match_keys(row)}
     ranked_pubmed = [
@@ -549,6 +551,9 @@ def aggregate_cybermed_digest_inputs(
         for row in ranked_pubmed
     ]
     ranked_foamed = [{**row, "top_pick": False} for row in ranked_foamed]
+    for row in ranked_pubmed + ranked_foamed:
+        finalize_favorite(row, cadence='weekly', legacy_period=True)
+
     return {
         "pubmed": ranked_pubmed,
         "foamed": ranked_foamed,
