@@ -87,7 +87,7 @@ def test_cyberlurch_keeps_its_existing_html_and_soft_break_behavior(cadence):
     assert not dom(original).find("br")
 
 
-def test_actual_reporter_context_and_bottom_line_have_a_visible_break(monkeypatch):
+def test_actual_reporter_bottom_line_and_detail_list_stay_separate(monkeypatch):
     monkeypatch.setenv("REPORT_KEY", "cybermed")
     item = {"source": "pubmed", "id": "layout-1", "title": "Illustrative paper",
             "url": "https://example.test/paper", "bottom_line": "Primary benefit is unknown.",
@@ -100,7 +100,9 @@ def test_actual_reporter_context_and_bottom_line_have_a_visible_break(monkeypatc
     assert baseline_paragraph.find("strong", string="BOTTOM LINE:") and not baseline_paragraph.find("br")
     styled = dom(emailer._render_email_html(md, report_key="cybermed", cadence="daily"))
     paragraph = styled.find("h2", string="Deep Dives").find_next("p")
-    assert paragraph.find("br").find_next_sibling("strong").get_text() == "BOTTOM LINE:"
+    assert paragraph.find("strong", string="BOTTOM LINE:")
+    assert "Population unknown" not in paragraph.get_text()
+    assert paragraph.find_next_sibling("ul")
     assert styled.find("li", string=re.compile("Study type:"))
 
 

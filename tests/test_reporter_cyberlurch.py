@@ -382,7 +382,7 @@ class CyberlurchPeriodicRenderingTests(unittest.TestCase):
         details = {"pm1": "# Key takeaways\n- point\n\n## Details & reasoning\n- detail"}
         with patch.dict(os.environ, {"REPORT_KEY": "cybermed"}):
             md = reporter.to_markdown(items, overview_markdown="", details_by_id=details, report_title="Cybermed Daily", report_language="en", report_mode="daily")
-        self.assertIn("### PubMed: Journal: [Paper](https://pubmed.example/1)", md)
+        self.assertIn("### Journal: [Paper](https://pubmed.example/1)", md)
         self.assertIn("**BOTTOM LINE:**", md)
         self.assertNotIn("[Watch here]", md)
 

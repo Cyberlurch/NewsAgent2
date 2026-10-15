@@ -67,8 +67,9 @@ def test_long_incomplete_abstract_is_not_high_certainty():
     assert item['clinical_context']['result_basis'] == 'unknown'
     assert item['text_confidence_label'] != 'high'
     line = reporter._pubmed_compact_line(item)
-    assert 'not GRADE' in line and 'not effect certainty' in line
-    assert 'Primary results unknown' in line
+    assert 'Confidence High' not in line
+    assert 'not GRADE' not in line and 'not effect certainty' not in line
+    assert 'Primary results unknown' in item['clinical_context']['uncertainty']
 
 
 @pytest.mark.parametrize('relevance,impact', [(2, 1), (5, 1), (1, 5), (None, None), (True, 4)])
@@ -136,11 +137,12 @@ def test_selector_main_renderer_and_stored_aggregate_share_decision_and_context(
     assert monthly['limitations'] == daily['limitations']
     assert daily == snapshot
     md = reporter.to_markdown([row], '', {row['id']: 'Study type: Trial\nPopulation/setting: Adult ICU patients\nBOTTOM LINE: No benefit demonstrated.'}, report_title='Cybermed Daily', report_language='en', report_mode='daily')
-    assert '⭐ Top pick' in md and 'not GRADE' in md and 'not effect certainty' in md
-    assert md.count('Population adult') >= 2
+    assert '⭐ Top pick' in md and 'Evidence A' in md
+    assert 'not GRADE' not in md and 'not effect certainty' not in md
+    assert 'Population adult ·' not in md
     from newsagent2.rollups import render_yearly_markdown
     year = render_yearly_markdown(report_title='Cybermed', report_language='en', year=2026, rollups=[{'month': '2026-10', 'cybermed_items': [monthly]}])
-    assert 'Population adult' in year and 'Missing assessments.' in year
+    assert 'Population adult ·' not in year and 'Missing assessments.' in year
     assert "['Missing assessments.'" not in year
 
 
@@ -153,8 +155,9 @@ def test_legacy_ranking_is_preserved_without_claiming_new_validation():
     assert row['stored_top_pick']['selected'] is True
     assert row['top_pick_decision']['reason'] == 'legacy_period_ranking_not_revalidated'
     md = reporter.to_markdown([row], '', {}, report_title='Cybermed Weekly', report_mode='weekly', report_language='en')
-    assert 'Stored ranking (not revalidated)' in md and '⭐ Top pick' not in md
-    assert 'Unknown (legacy basis)' in md and legacy == before
+    assert '⭐ Top pick' in md and 'Stored ranking (not revalidated)' not in md
+    assert row['top_pick_decision']['reason'] == 'legacy_period_ranking_not_revalidated'
+    assert 'Unknown (legacy basis)' not in md and legacy == before
 
 
 @pytest.mark.parametrize('value', [['First limitation.', 'Second limitation.'], 'First limitation; second limitation.'])

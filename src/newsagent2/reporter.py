@@ -1,6 +1,7 @@
 from __future__ import annotations
 from .youtube_source import basis_label
-from .clinical_editorial import context_for, context_line, finalize_favorite, favorite_label, reference_line
+from .clinical_editorial import context_for, finalize_favorite, favorite_label, reference_line
+from .pubmed_presentation import reader_bottom_line, reader_deep_dive, reader_rating_line
 
 import ast
 import os, re
@@ -123,8 +124,8 @@ def _cybermed_pubmed_deep_dive_heading_body(item: Dict[str, Any], title_lbl: str
     journal_lbl = _md_escape_label(journal) if journal else ""
     title_part = f"[{title_lbl}]({url})" if url else title_lbl
     if journal_lbl:
-        return f"PubMed: {journal_lbl}: {title_part}"
-    return f"PubMed: {title_part}"
+        return f"{journal_lbl}: {title_part}"
+    return title_part
 
 
 def _join_compact_segments(segments: List[str]) -> str:
@@ -133,40 +134,11 @@ def _join_compact_segments(segments: List[str]) -> str:
 
 
 def _pubmed_compact_line(item: Dict[str, Any]) -> str:
-    segs: List[str] = []
-    ev = _label_text(item.get("evidence_strength_label"))
-    if ev:
-        segs.append(f"Design hint {ev} (article heuristic, not GRADE)")
-    rel = item.get("clinical_relevance_1_5")
-    if rel not in {None, ""}:
-        segs.append(f"Relevance {int(rel)}/5")
-    impact = item.get("practice_change_potential_1_5")
-    if impact not in {None, ""}:
-        segs.append(f"Practice impact {int(impact)}/5")
-    conf = _label_text(item.get("text_confidence_label")) if isinstance(item.get("clinical_context"), dict) else "Unknown (legacy basis)"
-    if conf:
-        segs.append(f"Text coverage {conf} (not effect certainty)")
-    segs.append(context_line(item))
-    return _join_compact_segments(segs)
+    return reader_rating_line(item)
 
 
 def _foamed_compact_line(item: Dict[str, Any]) -> str:
-    segs: List[str] = []
-    quality = _label_text(item.get("source_quality_label"))
-    if quality:
-        segs.append(f"Source priority {quality}")
-    useful = item.get("clinical_usefulness_1_5")
-    if useful not in {None, ""}:
-        segs.append(f"Usefulness {int(useful)}/5")
-    pr = item.get("practice_relevance_1_5")
-    if pr not in {None, ""}:
-        segs.append(f"Practice relevance {int(pr)}/5")
-    conf = _label_text(item.get("text_confidence_label")) if isinstance(item.get("clinical_context"), dict) else "Unknown (legacy basis)"
-    if conf:
-        segs.append(f"Text coverage {conf} (not effect certainty)")
-    segs.append(context_line(item))
-    segs.append(reference_line(item))
-    return _join_compact_segments(segs)
+    return reader_rating_line({**item, "source": "foamed"})
 
 
 def _is_cybermed_report(report_title: str, report_language: str) -> bool:
@@ -618,7 +590,7 @@ def _build_source_label(item: Dict[str, Any]) -> str:
             journal = journal.split(":", 1)[1].strip()
     first_author = str(item.get("first_author") or item.get("author_first") or "").strip()
     parts = [p for p in (year, journal, first_author) if p]
-    return " · ".join(parts) if parts else "PubMed"
+    return " · ".join(parts)
 
 
 def _parse_cybermed_counts(meta_block: str) -> Tuple[Optional[int], Optional[int]]:
@@ -1343,6 +1315,9 @@ def to_markdown(
         items = [dict(row) for row in items]
         for row in items:
             finalize_favorite(row, cadence=normalized_mode or 'daily', legacy_period=normalized_mode in {'weekly', 'monthly', 'yearly'})
+            if str(row.get("source") or "").lower() == "pubmed":
+                row["_reader_original_bottom_line"] = row.get("bottom_line")
+                row["bottom_line"] = reader_bottom_line(row, language=lang)
     if is_cyberlurch and normalized_mode == "daily":
         return render_cyberlurch_daily_report(items, title=title, generated_at=now_str)
     if is_cyberlurch and normalized_mode == 'monthly':
@@ -1426,7 +1401,7 @@ def to_markdown(
                     period_line = f"Period: {start or '?'} to {end or '?'}."
             if period_line:
                 md.append(period_line)
-            md.append(f"Priority selections (⭐) first; legacy rankings are not revalidated; Daily digests used this period; total included: {pubmed_count} papers, {foamed_count} FOAMed, {top_pick_count} top picks.")
+            md.append(f"This period: {pubmed_count} paper{'s' if pubmed_count != 1 else ''}, {foamed_count} FOAMed article{'s' if foamed_count != 1 else ''} and {top_pick_count} top pick{'s' if top_pick_count != 1 else ''} (⭐).")
             md.append("")
             top_items = [it for it in items if it.get("top_pick") is True]
             if top_items:
@@ -1438,11 +1413,9 @@ def to_markdown(
                     url = str(it.get("url") or "").strip()
                     source_name = str(it.get("source") or "").strip().lower()
                     compact = _pubmed_compact_line(it) if source_name == "pubmed" else _foamed_compact_line(it)
-                    md.append(
-                        f"**⭐ [{title_lbl}]({url})** — {'PubMed' if source_name == 'pubmed' else 'FOAMed'}"
-                        if url
-                        else f"**⭐ {title_lbl}** — {'PubMed' if source_name == 'pubmed' else 'FOAMed'}"
-                    )
+                    heading = f"**⭐ [{title_lbl}]({url})**" if url else f"**⭐ {title_lbl}**"
+                    source_label = str(it.get("journal") or it.get("foamed_source") or "").strip()
+                    md.append(heading + (f" — *{_md_escape_label(source_label)}*" if source_label else ""))
                     if compact:
                         md.append("")
                         md.append(compact)
@@ -1533,7 +1506,7 @@ def to_markdown(
                 base = cc_order if track == "Critical Care" else an_order
                 extra = sorted([s for s in subs.keys() if s not in base])
                 for sub in [s for s in base if s in subs] + extra:
-                    sub_items = subs.get(sub, [])
+                    sub_items = sorted(subs.get(sub, []), key=lambda row: not bool(row.get("top_pick")))
                     if not sub_items:
                         continue
                     md.extend([f"#### {sub}", ""])
@@ -1550,9 +1523,8 @@ def to_markdown(
                             bottom = (it.get("bottom_line") or "").strip()
                         else:
                             bottom = (it.get("bottom_line") or "").strip() if normalized_mode == "weekly" else _best_bottom_line(it, detail)
-                        md.append(
-                            f"**[{display_title}]({url})** — *{label}*" if url else f"**{display_title}** — *{label}*"
-                        )
+                        heading = f"**[{display_title}]({url})**" if url else f"**{display_title}**"
+                        md.append(heading + (f" — *{label}*" if label else ""))
                         compact = _pubmed_compact_line(it)
                         if normalized_mode == "daily" and it.get("paper_update") == "reported_results_update":
                             md.append("")
@@ -1627,6 +1599,8 @@ def to_markdown(
                     md.append(re.sub(r"(?i)^BOTTOM LINE:\s*", "**BOTTOM LINE:** ", bottom_line, count=1))
                 else:
                     md.append(bottom_line)
+                if it.get("primary_references"):
+                    md.extend(["", reference_line(it)])
                 if normalized_mode == "weekly":
                     md.append("")
                 elif idx < len(foamed_sorted) - 1:
@@ -1762,8 +1736,8 @@ def to_markdown(
                 detail_block = _normalize_deep_dive_headings(detail_block, item_title=str(it.get("title") or "").strip())
             detail_block = _bold_bottom_line_label(detail_block)
             detail_block = _normalize_detail_block_headings(detail_block)
-            if is_cybermed:
-                md.append(context_line(it))
+            if is_cybermed and str(it.get("source") or "").lower() == "pubmed":
+                detail_block = reader_deep_dive(it, detail_block, language=lang)
             md.append(detail_block)
             md.append("")
 

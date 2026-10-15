@@ -1,6 +1,7 @@
 from __future__ import annotations
 from .foamed_sources import commentary_identity
-from .clinical_editorial import context_line, limitation_value, reference_line
+from .clinical_editorial import limitation_value, reference_line
+from .pubmed_presentation import reader_bottom_line, reader_rating_line, reader_deep_dive
 
 import json
 from .store_io import read_store, atomic_store, generated_store, rollups_store as reports_store
@@ -783,19 +784,30 @@ def render_yearly_markdown(
             "## Executive summary",
         ])
         for it in ranked[:8]:
-            md.append(f"- {(_bottom_line(it.get('bottom_line')) or it.get('title') or 'Stored item').strip()}")
+            md.append(f"- {reader_bottom_line(it, language=report_language)}")
         md.extend(["", "## Top papers of the year"])
         for it in ranked[:10]:
             t = it.get("title") or "Untitled"
             u = it.get("url") or ""
-            bl = _bottom_line(it.get("bottom_line"))
+            bl = reader_bottom_line(it, language=report_language)
             md.append(f"- [{t}]({u})" if u else f"- {t}")
             if bl:
                 md.append(f"  - **BOTTOM LINE:** {bl}")
-            md.append(f"  - {context_line(it)}")
-            limits = limitation_value(it.get("limitations"))
-            if limits:
-                md.append("  - Limitations: " + ("; ".join(limits) if isinstance(limits, list) else limits))
+            ratings = reader_rating_line(it)
+            if ratings:
+                md.append("  - " + ("⭐ Top pick · " if it.get("top_pick") else "") + ratings)
+        detailed = [it for it in ranked[:10] if it.get("key_results") or it.get("limitations")]
+        if detailed:
+            md.extend(["", "## Deep Dives", ""])
+            for it in detailed:
+                md.extend([f"### {it.get('title') or 'Untitled'}", ""])
+                rows = [f"- {label}: {it[key]}" for label, key in (
+                    ("Study type", "study_type"), ("Population/setting", "population_setting"),
+                    ("Primary endpoints", "primary_endpoint"), ("Key results", "key_results")) if it.get(key)]
+                limits = limitation_value(it.get("limitations"))
+                if limits:
+                    rows.append("- Limitations: " + ("; ".join(limits) if isinstance(limits, list) else limits))
+                md.extend([reader_deep_dive(it, "\n".join(rows), language=report_language), ""])
         md.extend(["", "## Potentially practice-changing items"])
         for it in practice_changing:
             md.append(f"- {(it.get('title') or 'Untitled').strip()} — impact {it.get('practice_change_potential_1_5')}")
