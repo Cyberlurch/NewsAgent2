@@ -163,6 +163,11 @@ class YouTubeDiagnosticsCounters:
     cyberlurch_digest_store_total: int = 0
     cyberlurch_digest_invalid_records_removed_total: int = 0
     cyberlurch_digest_invalid_records_skipped_total: int = 0
+    youtube_listing_status_counts: dict[str, int] = field(default_factory=dict)
+    youtube_identity_status_counts: dict[str, int] = field(default_factory=dict)
+    youtube_identity_requests_total: int = 0
+    youtube_identity_errors_total: int = 0
+    youtube_uploader_conflicts_total: int = 0
     youtube_api_budget_requested_ids_total: int = 0
     youtube_api_budget_enriched_ids_total: int = 0
     youtube_api_budget_requests_total: int = 0
@@ -409,6 +414,8 @@ class YouTubeDiagnosticsCounters:
             "cyberlurch_digest_store_total",
             "cyberlurch_digest_invalid_records_removed_total",
             "cyberlurch_digest_invalid_records_skipped_total",
+            "youtube_listing_status_counts", "youtube_identity_status_counts",
+            "youtube_identity_requests_total", "youtube_identity_errors_total", "youtube_uploader_conflicts_total",
             "youtube_api_budget_requested_ids_total",
             "youtube_api_budget_enriched_ids_total",
             "youtube_api_budget_requests_total",

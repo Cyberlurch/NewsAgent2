@@ -7,7 +7,7 @@ from .store_io import read_store, atomic_store
 from .run_context import path_for
 import os
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -27,6 +27,7 @@ class ProviderResult:
     source: str
     error_kind: str = ""
     duration_s: float = 0.0
+    source_basis: dict = field(default_factory=dict)
 
 
 class BaseProvider:
@@ -146,7 +147,9 @@ def fetch_video_content(*, video_id: str, video_url: str, description: str, diag
             text = str(cached.get("text") or "").strip()
             if text:
                 diagnostics["cache_hit_total"] = int(diagnostics.get("cache_hit_total", 0)) + 1
-                return ProviderResult("success", text, str(cached.get("source") or "description"))
+                from .youtube_source import stored_basis
+                return ProviderResult("success", text, str(cached.get("source") or "description"),
+                    source_basis=stored_basis(cached))
             diagnostics["cache_metadata_hit_no_text_total"] = int(diagnostics.get("cache_metadata_hit_no_text_total", 0)) + 1
     diagnostics["cache_miss_total"] = int(diagnostics.get("cache_miss_total", 0)) + 1
 
@@ -168,9 +171,11 @@ def fetch_video_content(*, video_id: str, video_url: str, description: str, diag
         if result.status == "success" and result.text.strip():
             diagnostics["provider_success_by_name"][name] = diagnostics["provider_success_by_name"].get(name, 0) + 1
             text = result.text.strip()
+            from .youtube_source import basis
+            result.source_basis = basis(result.source, text)
             cache_text = (os.getenv("YOUTUBE_CONTENT_CACHE_TEXT") or "0").strip() == "1"
             cache_key = video_id if name != "managed_transcript" else f"{video_id}::managed_transcript"
-            cache[cache_key] = {"status": "success", "source": result.source, "fetched_at_utc": now.isoformat(), "text_hash": hashlib.sha256(text.encode("utf-8")).hexdigest(), "text": text if cache_text else ""}
+            cache[cache_key] = {"source_basis": result.source_basis, "status": "success", "source": result.source, "fetched_at_utc": now.isoformat(), "text_hash": hashlib.sha256(text.encode("utf-8")).hexdigest(), "text": text if cache_text else ""}
             _save_cache(cache)
             diagnostics["cache_write_total"] = int(diagnostics.get("cache_write_total", 0)) + 1
             return result

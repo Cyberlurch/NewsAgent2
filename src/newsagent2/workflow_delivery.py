@@ -175,6 +175,9 @@ def restore_generated_records(directory: Path, report_key: str) -> None:
             raise StoreError("generated_delta", "invalid_recovery")
         target = path_for(bindings[kind])
         validator = rollups_store if kind == "rollups" else digest_store
+        if kind == "cyberlurch_digests":
+            from .youtube_source import digest_valid
+            validator = digest_valid
         default = {"version": 1, "reports": {}} if kind == "rollups" else {"schema_version": 1, "digests": []}
         if kind == "cyberlurch_digests": default = {"version": 1, "digests": []}
         value = read_store(target, default, kind=kind, validate=validator)
@@ -238,6 +241,9 @@ def publish_state(paths: list[str], *, report_dir: Path, backfill_apply: bool = 
                 raise RuntimeError("publication_newsletter_scope_mismatch")
             from .pubmed_ingestion import valid
             read_store(path, {}, kind="cybermed_pubmed_ingestion", validate=valid)
+        elif Path(path).name == "cyberlurch_digests.json":
+            from .main import _load_cyberlurch_digest_state
+            _load_cyberlurch_digest_state(path)
         elif Path(path).name == "processed_items.json":
             from .state_manager import load_state
             load_state(path)

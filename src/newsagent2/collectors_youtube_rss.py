@@ -10,9 +10,6 @@ import feedparser
 import requests
 
 
-_CHANNEL_ID_RE = re.compile(r"/channel/(UC[0-9A-Za-z_-]{20,})")
-_UC_RE = re.compile(r"\b(UC[0-9A-Za-z_-]{20,})\b")
-_HANDLE_RE = re.compile(r"/(?:@)([^/?#]+)")
 
 
 def _diag_inc(diagnostics: dict[str, Any] | None, key: str, amount: int = 1) -> None:
@@ -102,85 +99,102 @@ def parse_youtube_rss(xml_text: str, *, hours: int = 24, max_items: int = 10, no
     return out
 
 
-def resolve_channel_id(channel: Dict[str, Any], *, timeout_s: float = 10.0, diagnostics: dict[str, Any] | None = None) -> str:
-    configured = str(channel.get("channel_id") or "").strip()
-    if configured.startswith("UC"):
-        return configured
-    url = str(channel.get("url") or "").strip()
-    m = _CHANNEL_ID_RE.search(url)
-    if m:
-        return m.group(1)
-
-    handle = ""
-    hm = _HANDLE_RE.search(url)
-    if hm:
-        handle = hm.group(1).strip()
-
-    api_key = (os.getenv("YOUTUBE_API_KEY") or "").strip()
+def resolve_identity(channel, *, timeout_s=10.0, diagnostics=None, client=None, allow_api=True):
+    from .youtube_source import configured_identity, owner_identity, Identity, CHANNEL_ID
+    identity = configured_identity(channel)
+    if identity.status != "unresolved":
+        return identity
+    client = client or requests
+    url = identity.source_url
+    handle = url.rsplit("/@", 1)[-1] if "/@" in url else ""
+    api_key = (os.getenv("YOUTUBE_API_KEY") or "").strip() if allow_api else ""
+    # At most one forHandle request and one owner-page fallback. A failed API
+    # request is counted separately from the video enrichment ID budget.
     if api_key and handle:
+        _diag_inc(diagnostics, "youtube_identity_requests_total")
         try:
-            resp = requests.get(
-                "https://www.googleapis.com/youtube/v3/channels",
-                params={"part": "id", "forHandle": handle, "key": api_key},
-                timeout=timeout_s,
-            )
-            resp.raise_for_status()
-            data = resp.json()
-            items = data.get("items") or []
-            if items and str(items[0].get("id") or "").startswith("UC"):
-                return str(items[0].get("id"))
+            response = client.get("https://www.googleapis.com/youtube/v3/channels",
+                params={"part": "id", "forHandle": handle, "key": api_key}, timeout=timeout_s)
+            response.raise_for_status()
+            items = response.json().get("items", [])
+            if len(items) == 1 and CHANNEL_ID.fullmatch(items[0].get("id", "")):
+                return Identity("resolved", items[0]["id"], "for_handle", url)
+            if len(items) > 1:
+                return Identity("conflict", evidence="ambiguous_for_handle", source_url=url)
         except Exception:
-            _diag_inc(diagnostics, "rss_fallback_error_total")
-
+            _diag_inc(diagnostics, "youtube_identity_errors_total")
     if url:
+        _diag_inc(diagnostics, "youtube_identity_requests_total")
         try:
-            resp = requests.get(url, timeout=timeout_s, headers={"User-Agent": "NewsAgent2/1.0"})
-            resp.raise_for_status()
-            text = resp.text or ""
-            for pattern in (
-                r'"channelId"\s*:\s*"(UC[0-9A-Za-z_-]{20,})"',
-                r'"externalId"\s*:\s*"(UC[0-9A-Za-z_-]{20,})"',
-                r'"browseId"\s*:\s*"(UC[0-9A-Za-z_-]{20,})"',
-            ):
-                match = re.search(pattern, text)
-                if match:
-                    return match.group(1)
-            match = _UC_RE.search(text)
-            if match:
-                return match.group(1)
+            response = client.get(url, timeout=timeout_s, headers={"User-Agent": "NewsAgent2/1.0"})
+            response.raise_for_status()
+            actual_url = getattr(response, "url", url)
+            if isinstance(actual_url, str) and "consent." in actual_url:
+                return Identity(evidence="consent", source_url=url)
+            result = owner_identity(response.text or "", url)
+            if result.status == "unresolved" and any(host in (response.text or "") for host in ("consent.youtube.com", "consent.google.com")):
+                result.evidence = "consent"
+            return result
+        except requests.exceptions.SSLError:
+            return Identity(evidence="tls_error", source_url=url)
         except Exception:
-            _diag_inc(diagnostics, "rss_fallback_error_total")
+            _diag_inc(diagnostics, "youtube_identity_errors_total")
+    return identity
 
-    return ""
+
+def resolve_channel_id(channel: Dict[str, Any], *, timeout_s: float = 10.0, diagnostics=None) -> str:
+    """Compatibility adapter; a legacy name cache is never verification."""
+    result = resolve_identity(channel, timeout_s=timeout_s, diagnostics=diagnostics)
+    return result.channel_id if result.status in {"configured", "resolved"} else ""
 
 
-def list_recent_videos_rss(
-    channel: Dict[str, Any],
-    *,
-    hours: int = 24,
-    max_items: int = 10,
-    diagnostics: dict[str, Any] | None = None,
-    now_utc: dt.datetime | None = None,
-) -> List[Dict[str, Any]]:
+def list_recent_videos_rss(channel, *, hours=24, max_items=10, diagnostics=None, now_utc=None,
+                           client=None, allow_api=True):
+    from .youtube_source import Listing, Identity
+    import xml.etree.ElementTree as ET
     _diag_inc(diagnostics, "rss_fallback_attempted_total")
-    channel_id = resolve_channel_id(channel, diagnostics=diagnostics)
-    if not channel_id:
+    identity = resolve_identity(channel, diagnostics=diagnostics, client=client, allow_api=allow_api)
+    if identity.status not in {"configured", "resolved"}:
         _diag_inc(diagnostics, "rss_fallback_resolution_failed_total")
-        return []
+        return Listing(status="identity_conflict" if identity.status == "conflict" else "identity_unresolved", identity=identity)
+    client = client or requests
+    http_status = None
     try:
-        resp = requests.get(
-            "https://www.youtube.com/feeds/videos.xml",
-            params={"channel_id": channel_id},
-            timeout=10,
-            headers={"User-Agent": "NewsAgent2/1.0"},
-        )
-        resp.raise_for_status()
-        items = parse_youtube_rss(resp.text, hours=hours, max_items=max_items, now_utc=now_utc)
-        if items:
-            _diag_inc(diagnostics, "rss_fallback_success_total")
-            _diag_inc(diagnostics, "videos_listed_total", len(items))
-            _diag_inc(diagnostics, "videos_kept_after_date_total", len(items))
-        return items
+        response = client.get("https://www.youtube.com/feeds/videos.xml", params={"channel_id": identity.channel_id},
+                              timeout=10, headers={"User-Agent": "NewsAgent2/1.0"})
+        http_status = response.status_code
+        response.raise_for_status()
+    except requests.exceptions.SSLError:
+        _diag_inc(diagnostics, "rss_fallback_error_total")
+        return Listing(status="tls_error", identity=identity)
     except Exception:
         _diag_inc(diagnostics, "rss_fallback_error_total")
-        return []
+        return Listing(status="access_blocked" if http_status in {403, 429} else "fetch_error", identity=identity, http_status=http_status)
+    text = response.text or ""
+    try:
+        root = ET.fromstring(text)
+        atom = "{http://www.w3.org/2005/Atom}"
+        if root.tag != atom + "feed":
+            raise ValueError("not_atom_feed")
+        feed_id = root.findtext(atom + "id", "")
+        if feed_id.startswith("yt:channel:") and feed_id.rsplit(":", 1)[-1] != identity.channel_id:
+            return Listing(status="identity_conflict", identity=Identity("conflict", identity.channel_id, "feed_mismatch", identity.source_url), http_status=http_status)
+        entries = root.findall(atom + "entry")
+        uploaders = [e.findtext("{http://www.youtube.com/xml/schemas/2015}channelId", "") for e in [root] + entries]
+        if any(cid and cid != identity.channel_id for cid in uploaders):
+            return Listing(status="identity_conflict", identity=Identity("conflict", identity.channel_id, "feed_mismatch", identity.source_url), http_status=http_status)
+        items = parse_youtube_rss(text, hours=hours, max_items=max_items, now_utc=now_utc)
+        # A malformed entry is not evidence of a valid old/empty channel.
+        if entries and not items:
+            parsed = feedparser.parse(text)
+            if any(not _video_id_from_entry(e) or not _parse_feed_dt(getattr(e, "published", "") or getattr(e, "updated", "")) for e in parsed.entries):
+                return Listing(status="parse_error", identity=identity, http_status=http_status)
+        _diag_inc(diagnostics, "rss_fallback_success_total")
+        _diag_inc(diagnostics, "videos_listed_total", len(entries))
+        _diag_inc(diagnostics, "videos_kept_after_date_total", len(items))
+        return Listing(items, status="items" if items else ("outside_window" if entries else "empty_valid"),
+                       identity=identity, raw_count=len(entries), http_status=http_status)
+    except (ValueError, ET.ParseError):
+        _diag_inc(diagnostics, "rss_fallback_error_total")
+        return Listing(status="consent_or_html" if "<html" in text.lower() else "parse_error",
+                       identity=identity, http_status=http_status)
