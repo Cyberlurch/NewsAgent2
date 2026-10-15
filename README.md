@@ -26,6 +26,7 @@ papers or checking the claims of a source.
 | Installation, offline tests and CI isolation | [Development](docs/development.md) |
 | Schedule, logical editions and observed timing | [Calendar and timing](docs/calendar-and-timing.md) |
 | SMTP receipts, failed runs and Git recovery | [Delivery and recovery](docs/delivery-recovery.md) |
+| Five reviewed pre-journal failures and historical attempt holds | [Legacy transition](docs/legacy-transition.md) |
 | Historical provenance and missing editions | [Coverage audit](docs/history-coverage.md), [dated inventory](docs/history-audit-2026-10-15.md) |
 | Reviewed Daily/Weekly reconstruction | [Maintenance](docs/reviewed-maintenance.md) |
 | Medical content correction | [Evidence and targeted correction](docs/pubmed-evidence-correction.md) |

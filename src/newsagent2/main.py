@@ -6790,6 +6790,10 @@ def _execute_main() -> None:
             if ctx.mode == "real":
                 finalize_pending_receipts(report_key)
                 ctx.coordinator.journal = load_journal(ctx.coordinator.path)
+                from .legacy_transition import write_hold
+                from .edition_plan import planned_entry
+                if write_hold(ctx.coordinator, planned_entry(report_key, cadence)):
+                    return
             _guard_unknown_legacy_delivery(ctx)
             previous = ctx.coordinator.journal["editions"].get(ctx.coordinator.edition_id)
             if ctx.mode == "real" and send_enabled() and previous:
