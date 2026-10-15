@@ -16,9 +16,9 @@ from .cybermed_quality import contains_generation_error_text
 
 _HEADINGS = re.compile(
     r"(?im)(?:^|\b)(background|objectives?|aims?|design|study design|methods?|"
-    r"setting|subjects|participants|patients|interventions?|comparators?|"
+    r"setting|population|subjects|participants|patients|interventions?|comparators?|"
     r"measurements and main results|measurements|primary (?:endpoints?|outcomes?)|"
-    r"main results|results|conclusions?|limitations?)\s*(?::|\n)\s*"
+    r"main outcomes? and measures|main results|findings|results|conclusions?|limitations?)\s*(?::|\n)\s*"
 )
 _ALIASES = {
     "objective": "objectives", "aim": "objectives", "aims": "objectives",
@@ -26,6 +26,7 @@ _ALIASES = {
     "patients": "population", "subjects": "population", "intervention": "interventions",
     "comparator": "comparators", "main results": "results",
     "measurements and main results": "results", "conclusion": "conclusions",
+    "findings": "results", "main outcomes and measures": "endpoint", "main outcome and measures": "endpoint",
     "limitation": "limitations", "primary endpoint": "endpoint",
     "primary endpoints": "endpoint", "primary outcome": "endpoint", "primary outcomes": "endpoint",
 }
@@ -227,7 +228,7 @@ def build_pubmed_facts(item: dict[str, Any]) -> PubMedFacts:
     population = " ".join(filter(None, [s.get("population"), s.get("setting")]))
     if not population:
         population = " ".join(x for x in sentences(methods + " " + results) if re.search(r"\bpatients|participants|randomi[sz]ed", x, re.I))
-    intervention = " ".join(filter(None, [s.get("interventions"), s.get("comparators")]))
+    intervention = " versus ".join(filter(None, [s.get("interventions"), s.get("comparators")]))
     if not intervention:
         intervention = " ".join(x for x in sentences(methods) if re.search(r"versus|\bvs\b|control|intervention", x, re.I))
     # Bind primary interpretation to explicit endpoint sentences where possible.

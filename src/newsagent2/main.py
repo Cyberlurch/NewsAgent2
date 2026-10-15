@@ -23,6 +23,7 @@ from .collectors_youtube_rss import list_recent_videos_rss
 from .collectors_pubmed import fetch_pubmed_abstracts, search_recent_pubmed
 from .collectors_youtube_api import fetch_video_snippets
 from .pubmed_facts import build_pubmed_facts, result_direction, candidate_issues
+from .clinical_reader import verified_reader_summary
 from .emailer import send_markdown, _extract_run_metadata_for_email, current_audience_refs
 from .delivery import Coordinator, DeliveryResult, DeliveryError, load_journal
 from .run_context import execution_context, current, path_for, email_mode, send_enabled
@@ -1232,6 +1233,11 @@ def _build_pubmed_shared_synopsis(item: Dict[str, Any]) -> Dict[str, Any]:
             "key_results", "key_secondary_results", "limitations", "clinical_interpretation", "bottom_line",
         )}
     facts = build_pubmed_facts(item)
+    # Enrichment may change the fact version; keep a proposed reader summary
+    # only if its quote/context still validate against the current facts.
+    summary_meta = item.get("clinical_summary")
+    verified_reader_summary(item, facts=facts,
+                            language=summary_meta.get("language", "en") if isinstance(summary_meta, dict) else "en", rebind=True)
     return {
         "study_type": facts.design, "population_setting": facts.population,
         "intervention_or_exposure": facts.intervention_comparator, "comparator": "",

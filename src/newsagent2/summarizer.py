@@ -14,6 +14,7 @@ from typing import Any, Dict, List, Optional
 
 from openai import OpenAI
 from .pubmed_facts import build_pubmed_facts, evidence_input, candidate_issues
+from .clinical_reader import capture_reader_summary
 from .cybermed_quality import (
     CybermedGenerationError,
     classify_generation_error,
@@ -1831,7 +1832,7 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
     if _is_cybermed_generation():
         meta["canonical_facts"] = facts.to_dict()
         meta["canonical_facts"].pop("evidence", None)
-        meta["canonical_bottom_line"] = facts.core(lang)
+        # The audit core is deliberately not a prose template for readers.
 
     sys_prompt = (
         "You are a concise clinical summarizer. Write strictly in English.\n"
@@ -1845,6 +1846,21 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
             "You will receive one PubMed abstract (title + journal + PMID/DOI + date + abstract text).\n"
             "Return only a 1–2 sentence BOTTOM LINE capturing what is new, how strong the evidence is (if stated), and why it matters clinically.\n"
             "Keine Überschriften oder Aufzählungen."
+        )
+
+    if _is_cybermed_generation():
+        sys_prompt = (
+            f"Write a clear clinical Bottom Line in {'English' if lang == 'en' else 'German'}, 2–3 complete sentences and 45–90 words. "
+            "Explain what was studied in which patients, name the intervention/exposure and comparator, then state the reported finding and its practical meaning or a specific limitation. "
+            "A generic statement that implications are uncertain is not a summary. Do not merely restate the title, objectives or study design. "
+            "Use only the supplied evidence. Keep primary and secondary outcomes separate; never turn an objective or positive secondary signal into primary benefit. "
+            "If a primary endpoint is not explicitly identified, attribute the measured finding to the authors without calling it a proven primary or practice-changing benefit. "
+            "Preserve population, comparison direction, null results, noninferiority and observational uncertainty. Conditional recommendations stay conditional. "
+            "Do not equate nonsignificance with no effect or noninferiority with superiority/equivalence. Avoid repetitive stock cautions and dense P-values, IQRs or group counts; those belong in the Deep Dive. "
+            "Return only JSON with exactly two string keys: summary and result_quote. "
+            "result_quote must be an exact, short excerpt from canonical_facts.primary_results supporting the finding (not a secondary result or objective). "
+            "If an unstructured abstract has clear measured findings not captured by that field, quote its exact result-bearing sentence, attribute the measurement to the authors, and do not invent a primary-outcome designation. "
+            "For a reported guideline recommendation without trial results, quote the recommendation from conclusions. If no results are available, use an empty quote and explain the concrete study question and the lack of results."
         )
 
     payload = json.dumps(meta, ensure_ascii=False, indent=2)
@@ -1866,7 +1882,7 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.2,
-            max_tokens=90,
+            max_tokens=240 if _is_cybermed_generation() else 90,
         )
         content = (r.choices[0].message.content or "").strip()
         if _is_cybermed_generation():
@@ -1876,6 +1892,8 @@ def summarize_pubmed_bottom_line(item: Dict[str, Any], *, language: str = "en") 
             )
             item["pubmed_facts"] = facts.to_dict()
             item["facts_version"] = facts.version
+            capture_reader_summary(item, facts, content, language=lang,
+                                   finish_reason=getattr(r.choices[0], "finish_reason", None))
             return facts.core(lang)
         return content
     except Exception as e:
