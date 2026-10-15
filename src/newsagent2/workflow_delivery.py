@@ -74,6 +74,11 @@ def import_recovery(directory: Path, *, journal_path: Path | None = None, recove
             if not value.get("production_target"):
                 continue  # Never promote an ordinary none/test generation delta.
             atomic_store(recovery_dir / source.name, value, kind="generated_delta")
+        candidate_artifact = directory / "cyberlurch_candidates.json"
+        if candidate_artifact.is_file():
+            from .cyberlurch_candidates import envelope_valid
+            value = read_store(candidate_artifact, {}, kind="cyberlurch_candidates", validate=envelope_valid)
+            atomic_store(recovery_dir / candidate_artifact.name, value, kind="cyberlurch_candidates", validate=envelope_valid)
         atomic_store(recovery_dir / "journal.json", existing, kind="delivery_recovery", validate=journal_valid)
 
 
@@ -129,13 +134,16 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
                     if info.is_dir():
                         continue
                     name = Path(info.filename).name
-                    if name not in {"journal.json", "git_persistence.json", "cybermed_pubmed_ingestion.json"} and not re.fullmatch(r"[0-9a-f]{64}\.md|(?:[a-f0-9]{16}_)?(?:cybermed|cyberlurch)_[a-z]+_[a-z_]+_generated_delta\.json", name):
+                    if name not in {"journal.json", "git_persistence.json", "cybermed_pubmed_ingestion.json", "cyberlurch_candidates.json"} and not re.fullmatch(r"[0-9a-f]{64}\.md|(?:[a-f0-9]{16}_)?(?:cybermed|cyberlurch)_[a-z]+_[a-z_]+_generated_delta\.json", name):
                         continue
                     (directory / name).write_bytes(archive.read(info))
             if not (directory / "journal.json").is_file():
                 raise ValueError("missing_journal")
             import_recovery(directory, recovery_dir=report_dir / "recovery")
             restore_generated_records(directory, report_key)
+            if report_key == "cyberlurch":
+                from .cyberlurch_candidates import restore
+                restore(directory)
             if report_key == "cybermed":
                 from .pubmed_ingestion import restore
                 restore(directory)
@@ -230,6 +238,9 @@ def publish_state(paths: list[str], *, report_dir: Path, backfill_apply: bool = 
                 raise RuntimeError("publication_newsletter_scope_mismatch")
             from .pubmed_ingestion import valid
             read_store(path, {}, kind="cybermed_pubmed_ingestion", validate=valid)
+        elif Path(path).name == "processed_items.json":
+            from .state_manager import load_state
+            load_state(path)
         else:
             read_store(path, {}, kind="publication_input")
     branch = os.getenv("GITHUB_REF_NAME", "")
