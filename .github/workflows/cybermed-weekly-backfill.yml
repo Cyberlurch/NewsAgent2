@@ -4,28 +4,31 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: Audit first; apply only after reviewing the artifact and copying its SHA-256
+        description: Audit first; apply only the reviewed frozen plan
         required: true
         type: choice
         default: audit
-        options:
-          - audit
-          - apply
+        options: [audit, apply]
       from_date:
-        description: First Daily digest date (YYYY-MM-DD)
+        description: First whole-week boundary (YYYY-MM-DD)
         required: true
         type: string
       to_date:
-        description: Last Daily digest date (YYYY-MM-DD)
+        description: Last whole-week boundary (YYYY-MM-DD)
         required: true
         type: string
+      review_run_id:
+        description: Successful audit workflow run ID
+        required: false
+        type: string
       expected_sha256:
-        description: Required for apply; copy candidate_sha256 from the reviewed audit artifact
+        description: plan_sha256 from reviewed artifact (not candidate_sha256)
         required: false
         type: string
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
   group: newsagent2-state-writers-${{ github.ref }}
@@ -33,80 +36,112 @@ concurrency:
 
 jobs:
   audit-or-apply:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
         with:
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
-
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-
       - name: Install checked dependencies
         run: bash tools/install_dependencies.sh runtime
-
-      - name: Validate inputs
+      - name: Build reviewed candidate set
+        if: inputs.action == 'audit'
         env:
-          ACTION: ${{ inputs.action }}
           FROM_DATE: ${{ inputs.from_date }}
           TO_DATE: ${{ inputs.to_date }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python -m newsagent2.maintenance.backfill_cybermed_weekly \
+            --from-date "$FROM_DATE" --to-date "$TO_DATE" \
+            --output out/cybermed_weekly_backfill_audit.json
+
+      - name: Validate reviewed run identity
+        if: inputs.action == 'apply'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEW_RUN_ID: ${{ inputs.review_run_id }}
           EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          import datetime
-          import os
-          import re
-
-          start = datetime.date.fromisoformat(os.environ["FROM_DATE"])
-          end = datetime.date.fromisoformat(os.environ["TO_DATE"])
-          if end < start:
-              raise SystemExit("to_date must not precede from_date")
-          if os.environ["ACTION"] == "apply" and not re.fullmatch(
-              r"[0-9a-f]{64}", os.environ.get("EXPECTED_SHA256", "")
-          ):
-              raise SystemExit("apply requires the 64-character SHA-256 from a reviewed audit")
+          python - <<'PY'
+          import os,re
+          if not re.fullmatch(r'[0-9]{1,20}',os.environ['REVIEW_RUN_ID']):
+              raise SystemExit('Apply requires a reviewed audit run ID')
+          if not re.fullmatch(r'[a-f0-9]{64}',os.environ['EXPECTED_SHA256']):
+              raise SystemExit('Apply requires plan_sha256')
+          PY
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REVIEW_RUN_ID" > "$RUNNER_TEMP/review-run.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          p=json.loads((Path(os.environ['RUNNER_TEMP'])/'review-run.json').read_text())
+          if (p.get('conclusion')!='success' or p.get('event')!='workflow_dispatch'
+              or p.get('head_branch')!=os.environ['GITHUB_REF_NAME']
+              or p.get('path')!='.github/workflows/cybermed-weekly-backfill.yml'
+              or p.get('head_repository',{}).get('full_name')!=os.environ['GITHUB_REPOSITORY']):
+              raise SystemExit('Reviewed audit run identity mismatch')
           PY
 
-      - name: Build reviewed candidate set
+      - name: Download reviewed audit into isolated temporary directory
+        if: inputs.action == 'apply'
+        uses: actions/download-artifact@v5
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.review_run_id }}
+          name: cybermed-weekly-reviewed-audit-${{ inputs.review_run_id }}
+          path: ${{ runner.temp }}/reviewed-download
+
+      - name: Validate downloaded file allowlist
+        if: inputs.action == 'apply'
+        run: python tools/verify_reviewed_artifact.py --source "$RUNNER_TEMP/reviewed-download" --output out --cadence weekly
+
+      - name: Apply exact reviewed candidate offline (no providers)
+        if: inputs.action == 'apply'
         env:
-          ACTION: ${{ inputs.action }}
+          EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
           FROM_DATE: ${{ inputs.from_date }}
           TO_DATE: ${{ inputs.to_date }}
-          EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
         run: |
           set -euo pipefail
-          args=(
-            --from-date "$FROM_DATE"
-            --to-date "$TO_DATE"
-            --output out/cybermed_weekly_backfill_audit.json
-          )
-          if [ "$ACTION" = "apply" ]; then
-            args+=(--apply --expected-sha256 "$EXPECTED_SHA256")
-          fi
-          PYTHONPATH=src python3 -m newsagent2.maintenance.backfill_cybermed_weekly "${args[@]}"
+          PYTHONPATH=src python -m newsagent2.maintenance.backfill_cybermed_weekly \
+            --cadence weekly --apply --reviewed-plan out/cybermed_weekly_backfill_audit.json \
+            --from-date "$FROM_DATE" --to-date "$TO_DATE" \
+            --expected-sha256 "$EXPECTED_SHA256" \
+            --backup-dir "$RUNNER_TEMP/private-maintenance-backup" \
+            --output out/weekly_apply_result.json
 
-      - name: Upload audit artifact
+      - name: Upload reviewed audit artifact
+        if: ${{ inputs.action == 'audit' }}
         uses: actions/upload-artifact@v7
         with:
-          name: cybermed-weekly-backfill-${{ inputs.action }}-${{ github.run_id }}
-          path: out/cybermed_weekly_backfill_audit.json
+          name: cybermed-weekly-reviewed-audit-${{ github.run_id }}
+          path: |
+            out/cybermed_weekly_backfill_audit.json
           if-no-files-found: error
           retention-days: 14
 
-      - name: Commit approved Weekly store
+      - name: Commit and push only reviewed weekly postimage
         if: inputs.action == 'apply'
+        env:
+          TARGET_REF: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          path=state/cybermed_weekly_digests.json
-          if [ ! -f "$path" ] || [ -z "$(git status --porcelain -- "$path" || true)" ]; then
-            echo "No approved Weekly backfill changes to commit."
-            exit 0
-          fi
-          git config user.name "newsagent-bot"
-          git config user.email "newsagent-bot@users.noreply.github.com"
-          git add -- "$path"
-          git commit -m "Backfill approved Cybermed Weekly digests"
-          git push
+          # Allowlist is state/cybermed_weekly_digests.json only; failures propagate.
+          python tools/publish_maintenance.py --cadence weekly \
+            --plan out/cybermed_weekly_backfill_audit.json --ref "$TARGET_REF"
+
+      - name: Retain reviewed plan and safe result after failure
+        if: ${{ always() && (inputs.action == 'apply') }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: cybermed-weekly-maintenance-result-${{ github.run_id }}
+          path: |
+            out/cybermed_weekly_backfill_audit.json
+            out/weekly_apply_result.json
+          if-no-files-found: warn
+          retention-days: 30
+          # Private preimage backups are never uploaded to this public repository.

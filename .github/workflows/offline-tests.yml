@@ -46,10 +46,26 @@ jobs:
           bash -n tools/install_dependencies.sh tools/install_actionlint.sh
       - name: Run isolated offline suite
         run: python -m pytest -q --junitxml=.ci-results/pytest.xml
+      - name: Verify exact test result files
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for name in ('pytest.xml','integrity.json'):
+              if not (Path('.ci-results')/name).is_file():
+                  raise SystemExit('Missing required offline result: '+name)
+          evidence=json.loads(Path('.ci-results/integrity.json').read_text())
+          if not evidence.get('unchanged') or evidence.get('session_violations'):
+              raise SystemExit('Offline integrity verification failed')
+          PY
       - name: Upload test results and integrity evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: offline-ci-results
-          path: .ci-results/
-          if-no-files-found: warn
+          path: |
+            .ci-results/pytest.xml
+            .ci-results/integrity.json
+          include-hidden-files: true
+          if-no-files-found: error

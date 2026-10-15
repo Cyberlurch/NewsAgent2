@@ -18,6 +18,14 @@ on:
         required: true
         default: "72"
         type: string
+      review_run_id:
+        description: "For apply: successful audit workflow run ID containing the reviewed candidate"
+        required: false
+        type: string
+      expected_sha256:
+        description: "For apply: plan_sha256 from the reviewed plan, not the candidate hash"
+        required: false
+        type: string
       apply:
         description: "Write the reconstructed digest after an audit run"
         required: true
@@ -30,39 +38,13 @@ concurrency:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   audit-or-apply:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1' }}
-      OPENAI_MODEL_PUBMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE || 'gpt-4.1' }}
-      OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK || '' }}
-      OPENAI_MODEL_CYBERMED: ${{ vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
-      OPENAI_MODEL_CYBERMED_OVERVIEW: ${{ vars.OPENAI_MODEL_CYBERMED_OVERVIEW || vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
-      OPENAI_MODEL_CYBERMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_CYBERMED_DEEPDIVE || vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
-      OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK: ""
-      OPENAI_MODEL_CYBERMED_BOTTOM_LINE: ${{ vars.OPENAI_MODEL_CYBERMED_BOTTOM_LINE || vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
-      CYBERMED_OPENAI_MAX_CALLS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_CALLS_PER_RUN || '96' }}
-      CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN || '350000' }}
-      CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN || '80000' }}
-      CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN || '1.50' }}
-      CYBERMED_MODEL_EVAL_MODE: "0"
-      NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
-      NCBI_TOOL: ${{ vars.NCBI_TOOL || 'NewsAgent2' }}
-      NCBI_EMAIL: ${{ vars.NCBI_EMAIL || '' }}
-      UNPAYWALL_EMAIL: ${{ vars.UNPAYWALL_EMAIL || vars.NCBI_EMAIL || '' }}
-      PUBMED_MIN_INTERVAL_S: ${{ vars.PUBMED_MIN_INTERVAL_S || '0.40' }}
-      PUBMED_MAX_RETRIES: ${{ vars.PUBMED_MAX_RETRIES || '4' }}
-      PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
-      PUBMED_DATE_TYPE: ${{ vars.PUBMED_DATE_TYPE || 'pdat' }}
-      PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT || 'true' }}
-      PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT || 'true' }}
-      CYBERMED_MAX_ITEMS_PER_CHANNEL: ${{ vars.CYBERMED_MAX_ITEMS_PER_CHANNEL || '25' }}
-      FOAMED_ARTICLE_FETCH: ${{ vars.FOAMED_ARTICLE_FETCH || '0' }}
-      FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}
       REPORT_KEY: cybermed
       REPORT_MODE: daily
       REPORT_TITLE: Cybermed Report
@@ -84,15 +66,17 @@ jobs:
       CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC: ${{ inputs.reference_utc }}
       CYBERMED_DIGEST_BACKFILL_LOOKBACK_HOURS: ${{ inputs.lookback_hours }}
       CYBERMED_DIGEST_BACKFILL_OVERWRITE_EMPTY_ONLY: "1"
-      CYBERMED_DIGEST_BACKFILL_APPLY: ${{ inputs.apply && '1' || '0' }}
+      CYBERMED_DIGEST_BACKFILL_APPLY: "0"
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - name: Validate bounded historical request
+        if: ${{ !inputs.apply }}
         run: |
           python - <<'PY'
           import os
@@ -117,61 +101,137 @@ jobs:
       - name: Install dependencies
         run: bash tools/install_dependencies.sh runtime
 
-      - name: Run Cybermed backfill
+      - name: Generate audit candidate (explicit operator request; may use providers)
+        if: ${{ !inputs.apply }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1' }}
+          OPENAI_MODEL_PUBMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE || 'gpt-4.1' }}
+          OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK: ${{ vars.OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK || '' }}
+          OPENAI_MODEL_CYBERMED: ${{ vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
+          OPENAI_MODEL_CYBERMED_OVERVIEW: ${{ vars.OPENAI_MODEL_CYBERMED_OVERVIEW || vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
+          OPENAI_MODEL_CYBERMED_DEEPDIVE: ${{ vars.OPENAI_MODEL_CYBERMED_DEEPDIVE || vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
+          OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK: ""
+          OPENAI_MODEL_CYBERMED_BOTTOM_LINE: ${{ vars.OPENAI_MODEL_CYBERMED_BOTTOM_LINE || vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}
+          CYBERMED_OPENAI_MAX_CALLS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_CALLS_PER_RUN || '96' }}
+          CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN || '350000' }}
+          CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN || '80000' }}
+          CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN || '1.50' }}
+          CYBERMED_MODEL_EVAL_MODE: "0"
+          NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
+          NCBI_TOOL: ${{ vars.NCBI_TOOL || 'NewsAgent2' }}
+          NCBI_EMAIL: ${{ vars.NCBI_EMAIL || '' }}
+          UNPAYWALL_EMAIL: ${{ vars.UNPAYWALL_EMAIL || vars.NCBI_EMAIL || '' }}
+          PUBMED_MIN_INTERVAL_S: ${{ vars.PUBMED_MIN_INTERVAL_S || '0.40' }}
+          PUBMED_MAX_RETRIES: ${{ vars.PUBMED_MAX_RETRIES || '4' }}
+          PUBMED_BACKOFF_BASE_S: ${{ vars.PUBMED_BACKOFF_BASE_S || '1.0' }}
+          PUBMED_DATE_TYPE: ${{ vars.PUBMED_DATE_TYPE || 'pdat' }}
+          PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_PMC_OA_FULLTEXT || 'true' }}
+          PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT: ${{ vars.PUBMED_DEEPDIVE_USE_UNPAYWALL_FULLTEXT || 'true' }}
+          CYBERMED_MAX_ITEMS_PER_CHANNEL: ${{ vars.CYBERMED_MAX_ITEMS_PER_CHANNEL || '25' }}
+          FOAMED_ARTICLE_FETCH: ${{ vars.FOAMED_ARTICLE_FETCH || '0' }}
+          FOAMED_ARTICLE_FETCH_MAX_PER_RUN: ${{ vars.FOAMED_ARTICLE_FETCH_MAX_PER_RUN || '25' }}
         run: python -m src.newsagent2.main --channels data/cybermed_channels.json --hours 24
 
-      - name: Verify audit or apply result
+      - name: Verify generated audit
+        if: ${{ !inputs.apply }}
         run: |
+          set -euo pipefail
+          test -s out/cybermed_daily_reviewed_plan.json
+          test -s out/cybermed_daily_candidate.json
           python - <<'PY'
           import json
-          import os
           from pathlib import Path
-
-          diag = json.loads(Path("out/cybermed_daily_diagnostics.json").read_text(encoding="utf-8"))
-          apply_requested = os.environ["CYBERMED_DIGEST_BACKFILL_APPLY"] == "1"
-          if not diag.get("cybermed_digest_backfill_safety_passed"):
-              raise SystemExit("Cybermed backfill safety checks did not pass")
-          if diag.get("cybermed_digest_backfill_reference_utc") != os.environ["CYBERMED_DIGEST_BACKFILL_REFERENCE_UTC"]:
-              raise SystemExit("Historical reference timestamp was not applied")
-          selected = sum(int(diag.get(k, 0) or 0) for k in (
-              "cybermed_digest_backfill_current_pubmed_total",
-              "cybermed_digest_backfill_current_foamed_total",
-          ))
-          if selected <= 0:
-              raise SystemExit("Backfill produced no PubMed or FOAMed items; refusing to apply")
-          if apply_requested and not diag.get("cybermed_digest_store_written"):
-              raise SystemExit("Apply was requested but the digest was not written")
-          if not apply_requested and diag.get("cybermed_digest_store_written"):
-              raise SystemExit("Audit-only run unexpectedly wrote the digest store")
+          p=json.loads(Path('out/cybermed_daily_reviewed_plan.json').read_text())
+          if p['smtp_authorized'] or not p['generation_only']:
+              raise SystemExit('Unexpected maintenance scope')
+          print('Review plan_sha256:',p['plan_sha256'])
           PY
 
-      - name: Upload audit artifacts
+      - name: Validate reviewed run identity
+        if: inputs.apply
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REVIEW_RUN_ID: ${{ inputs.review_run_id }}
+          EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os,re
+          if not re.fullmatch(r'[0-9]{1,20}',os.environ['REVIEW_RUN_ID']):
+              raise SystemExit('Apply requires a reviewed audit run ID')
+          if not re.fullmatch(r'[a-f0-9]{64}',os.environ['EXPECTED_SHA256']):
+              raise SystemExit('Apply requires plan_sha256')
+          PY
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REVIEW_RUN_ID" > "$RUNNER_TEMP/review-run.json"
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          p=json.loads((Path(os.environ['RUNNER_TEMP'])/'review-run.json').read_text())
+          if (p.get('conclusion')!='success' or p.get('event')!='workflow_dispatch'
+              or p.get('head_branch')!=os.environ['GITHUB_REF_NAME']
+              or p.get('path')!='.github/workflows/cybermed-daily-backfill.yml'
+              or p.get('head_repository',{}).get('full_name')!=os.environ['GITHUB_REPOSITORY']):
+              raise SystemExit('Reviewed audit run identity mismatch')
+          PY
+
+      - name: Download reviewed audit into isolated temporary directory
+        if: inputs.apply
+        uses: actions/download-artifact@v5
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.review_run_id }}
+          name: cybermed-daily-reviewed-audit-${{ inputs.review_run_id }}
+          path: ${{ runner.temp }}/reviewed-download
+
+      - name: Validate downloaded file allowlist
+        if: inputs.apply
+        run: python tools/verify_reviewed_artifact.py --source "$RUNNER_TEMP/reviewed-download" --output out --cadence daily
+
+      - name: Apply exact reviewed candidate offline (no providers)
+        if: inputs.apply
+        env:
+          EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
+          FROM_DATE: ${{ inputs.run_date }}
+          TO_DATE: ${{ inputs.run_date }}
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src python -m newsagent2.maintenance.backfill_cybermed_weekly \
+            --cadence daily --apply --reviewed-plan out/cybermed_daily_reviewed_plan.json \
+            --from-date "$FROM_DATE" --to-date "$TO_DATE" \
+            --expected-sha256 "$EXPECTED_SHA256" \
+            --backup-dir "$RUNNER_TEMP/private-maintenance-backup" \
+            --output out/daily_apply_result.json
+
+      - name: Upload reviewed audit artifact
+        if: ${{ !inputs.apply }}
         uses: actions/upload-artifact@v7
         with:
-          name: cybermed-daily-backfill-${{ inputs.run_date }}-${{ inputs.apply && 'apply' || 'audit' }}
+          name: cybermed-daily-reviewed-audit-${{ github.run_id }}
           path: |
-            out/*.md
-            out/*diagnostics*.json
+            out/cybermed_daily_candidate.json
+            out/cybermed_daily_reviewed_plan.json
           if-no-files-found: error
           retention-days: 14
 
-      - name: Commit reconstructed digest
-        if: ${{ inputs.apply }}
+      - name: Commit and push only reviewed daily postimage
+        if: inputs.apply
+        env:
+          TARGET_REF: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          target="state/cybermed_daily_digests.json"
-          unexpected=$(git status --porcelain -- state | grep -v " $target$" || true)
-          if [ -n "$unexpected" ]; then
-            echo "ERROR: Backfill changed unexpected state files."
-            echo "$unexpected"
-            exit 1
-          fi
-          if git diff --quiet -- "$target"; then
-            echo "ERROR: Apply completed without a digest-store change."
-            exit 1
-          fi
-          git config user.name "newsagent-bot"
-          git config user.email "newsagent-bot@users.noreply.github.com"
-          git add -- "$target"
-          git commit -m "Backfill Cybermed Daily ${{ inputs.run_date }} [skip ci]"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          # Allowlist is state/cybermed_daily_digests.json only; failures propagate.
+          python tools/publish_maintenance.py --cadence daily \
+            --plan out/cybermed_daily_reviewed_plan.json --ref "$TARGET_REF"
+
+      - name: Retain reviewed plan and safe result after failure
+        if: ${{ always() && (inputs.apply) }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: cybermed-daily-maintenance-result-${{ github.run_id }}
+          path: |
+            out/cybermed_daily_reviewed_plan.json
+            out/daily_apply_result.json
+          if-no-files-found: warn
+          retention-days: 30
+          # Private preimage backups are never uploaded to this public repository.

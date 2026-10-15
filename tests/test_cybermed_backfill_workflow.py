@@ -22,14 +22,16 @@ def test_cybermed_backfill_defaults_to_audit_and_bounded_august_replay():
     assert 'default: "2026-08-10T05:11:00+00:00"' in text
     assert 'default: "72"' in text
     assert "default: false" in text
-    assert "CYBERMED_DIGEST_BACKFILL_APPLY: ${{ inputs.apply && '1' || '0' }}" in text
-    assert "Backfill produced no PubMed or FOAMed items; refusing to apply" in text
+    assert 'CYBERMED_DIGEST_BACKFILL_APPLY: "0"' in text
+    assert "--reviewed-plan" in text and "--backup-dir" in text and "--expected-sha256" in text
+    assert "if: ${{ !inputs.apply }}" in text
+    assert "out/cybermed_daily_candidate.json" in text
 
 
 def test_cybermed_backfill_commits_only_daily_digest_store():
     text = WORKFLOW.read_text(encoding="utf-8")
 
-    assert 'target="state/cybermed_daily_digests.json"' in text
-    assert "git add -- \"$target\"" in text
+    assert "state/cybermed_daily_digests.json" in text
+    assert "tools/publish_maintenance.py --cadence daily" in text
     assert "state/processed_items.json" not in text
     assert "cyberlurch" not in text.lower()

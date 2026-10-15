@@ -98,21 +98,17 @@ scheduled closing slot, the open month and future months. Due calculations use
 Stockholm slot times and independent newsletter calendars. Historical applicability
 of those horizon rules is explicitly unverified unless evidenced separately.
 
-## Recovery boundary / next part 07b
+## Recovery boundary and reviewed maintenance
 
-See [the audited inventory](history-audit-2026-10-15.md). Coverage diagnosis does not
-establish that a recoverable historical source exists. Before any separate Apply,
-review exact target IDs, original source availability and provenance, source and
-target byte hashes, backup, proposed diff and idempotence. Preserve valid-empty
-and existing valid Daily/Weekly records. Reconstructed output needs truthful
-reconstruction timestamps; never invent an original generation time or SMTP receipt.
-
-Existing `.github/workflows/cybermed-daily-backfill.yml` explicitly separates Apply;
-`cybermed-weekly-backfill.yml` uses a reviewed candidate hash and insert-only tool.
-Their broader source/target hash, backup and conflict protections are work for 07b,
-not certified by this PR. `maintenance-backfill.yml` remains audit-only. Existing
-sealed pre-SMTP recovery keeps its receipt/HMAC requirements; malformed new
-coverage cannot bypass store validation. This audit never authorizes SMTP replay.
+Coverage diagnosis does not establish that a recoverable historical source exists.
+See [the bounded inventory](history-audit-2026-10-15.md) and
+[reviewed maintenance instructions](reviewed-maintenance.md) for source/target
+hashes, immutable reviewed candidates, private backup, insert-only publication,
+idempotence and Git recovery. The existing Daily workflow now separates generation
+from offline Apply; the Weekly tool uses the same review boundary. The generic
+maintenance CLI remains audit-only. Existing sealed pre-SMTP recovery keeps its
+independent HMAC/receipt contract; a historical reconstruction never authorizes
+SMTP replay or fabricates original delivery.
 
 Report retention is already 14 days; recovery/timing is 30 days in both newsletter
 workflows. Do not upload whole stores/caches, recipients, credentials or full
