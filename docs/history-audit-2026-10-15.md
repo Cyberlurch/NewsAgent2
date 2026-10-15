@@ -94,3 +94,52 @@ report retention is 14 days, recovery/timing 30 days; expired artifacts cannot b
 assumed available. Reviewed Daily/Weekly backfill and sealed recovery paths exist,
 but source/target-hash and backup hardening belongs to 07b. No Apply was added,
 no valid history was overwritten and no SMTP success was inferred.
+
+
+## 07b bounded source follow-up
+
+Rechecked on 15 October 2026 (11:52 UTC) from main
+`3e75ce0e8122af33765f39638cce17a8af9dfb65`. Only the identified 1 September
+Daily and the previously established Weekly/Monthly links were in scope. The
+following five Daily-store versions changed during 30 August–5 September;
+strictly reading their JSON found **zero** target ID/run-date matches in each.
+
+| Git commit | Daily-store SHA-256 |
+|---|---|
+| `daf5a5acb60d18f75bb1e942fe668051e9d58634` | `127c060189fd463ec646f4de5c2145ec2b9c4352c1c7220bac69e0d3c0ebbf46` |
+| `8d8c57655310dac3eca5ab21b51c5fe337d36500` | `d4a15d22e35a3d81e830e038a5d131f0dcbb8b704562434dc416cba87384249a` |
+| `b1754daad945eecb5a1ae1ca53e6c47923026b01` | `c2674adb485c00685f90494f85f062dba9a5051eebf743f31f17795e5c33148c` |
+| `ae10df6b14abf9f388e9c8a7ee394bc8c163f7e7` | `e43f7814446e05500dd4637d754d1f5b59aef8f9cd6b854f7d07d38df35e7e60` |
+| `5f7b5afa5f62209033dd98f07acbe20b5de434b7` | `fe2184446029e6cc19499f7f3f9c1781b3acbfa081b15b3cb3f80d4b250708a1` |
+
+The GitHub artifact API returned total_count=9 (one page, no hidden remaining
+pages). All listed artifacts were created 9–15 October, none in September.
+Only metadata was inspected: no archive download or source/provider request.
+
+| Artifact ID | Name | Created (UTC) |
+|---|---|---|
+| `11959340886` | `cybermed-run-metadata-38706781025` | `2026-10-15T08:36:09Z` |
+| `11958837259` | `cybermed-reports-38706781025` | `2026-10-15T08:36:08Z` |
+| `11957613861` | `cyberlurch-run-metadata-38705847136` | `2026-10-15T08:28:28Z` |
+| `11957593918` | `cyberlurch-reports-38705847136` | `2026-10-15T08:28:27Z` |
+| `11881168084` | `cyberlurch-reports-38538599641` | `2026-10-14T08:55:59Z` |
+| `11881073561` | `cybermed-reports-38539070053` | `2026-10-14T08:59:51Z` |
+| `11806483287` | `cybermed-reports-38387351992` | `2026-10-13T11:03:16Z` |
+| `11742409260` | `cybermed-reports-38241625348` | `2026-10-12T11:18:50Z` |
+| `11612095370` | `cybermed-reports-37920227646` | `2026-10-09T10:54:05Z` |
+
+These checks establish **no recoverable original in the bounded sources inspected**,
+not universal nonexistence. External private archives, mailboxes and unlisted
+copies were not searched. Expired/unavailable sources are not replaced with
+current medical retrieval. With no original source identified, no import diff or
+production correction is proposed: Daily 2026-09-01 remains absent, the valid
+four-Daily Weekly and explicitly linked September Monthly remain unchanged, and
+historical policy/delivery remain unknown. No actual Yearly publication was
+established, so none is declared corrected.
+
+The implementation provides [reviewed insert-only maintenance](reviewed-maintenance.md)
+with source/target hashes, private backup, Diff/plan and idempotence. It does not
+claim to reconstruct the missing original. Existing valid snapshots, including
+valid-empty, are preserved; editorial changes to them require a separately
+reviewed correction rather than this insert contract. No State, rollup, Health,
+processed/Paper/Delivery receipt or Sent marker was changed during this work.

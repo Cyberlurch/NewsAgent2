@@ -218,7 +218,7 @@ def test_cybermed_backfill_activates_only_in_safe_manual_none_mode(tmp_path, mon
     assert not (tmp_path / "state" / "cybermed_daily_digests.json").exists()
 
 
-def test_historical_backfill_audits_then_applies_only_to_empty_digest(tmp_path, monkeypatch):
+def test_historical_backfill_exports_reviewed_plan_and_preserves_valid_empty(tmp_path, monkeypatch):
     _base_env(monkeypatch, tmp_path)
     _with_nonempty_selection(monkeypatch)
     monkeypatch.setattr(main, "summarize_pubmed_bottom_line", lambda *a, **k: "Useful result")
@@ -260,19 +260,14 @@ def test_historical_backfill_audits_then_applies_only_to_empty_digest(tmp_path, 
     assert audit_diag["cybermed_digest_backfill_lookback_hours"] == 72
     assert audit_diag["cybermed_digest_backfill_write_skipped_reason"] == "backfill_audit_only_apply_false"
 
+    plan = json.loads((tmp_path / "out" / "cybermed_daily_reviewed_plan.json").read_text())
+    assert plan['actions'][0]['action'] == 'preserve_existing'
+    assert plan['candidates'][0]['generated_at_utc'] != audit_diag['cybermed_digest_backfill_reference_utc']
     monkeypatch.setenv("CYBERMED_DIGEST_BACKFILL_APPLY", "1")
-    main.main()
-    applied = json.loads(dpath.read_text(encoding="utf-8"))
-    digest = applied["digests"][0]
-    assert digest["digest_id"] == "cybermed_daily_2026-08-10"
-    assert digest["run_date"] == "2026-08-10"
-    assert digest["lookback_hours"] == 72
-    assert digest["items"]["pubmed"]
-    apply_diag = json.loads(
-        (tmp_path / "out" / "cybermed_daily_diagnostics.json").read_text(encoding="utf-8")
-    )
-    assert apply_diag["cybermed_digest_backfill_apply_requested"] is True
-    assert apply_diag["cybermed_digest_backfill_write_allowed"] is True
+    import pytest
+    with pytest.raises(RuntimeError, match='reviewed_backfill_apply_required'):
+        main.main()
+    assert dpath.read_text(encoding='utf-8') == before
 
 
 def test_cybermed_backfill_ignored_when_send_email_or_schedule(tmp_path, monkeypatch):

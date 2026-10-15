@@ -2623,6 +2623,8 @@ def _main() -> None:
     qa_replay_state_bypass_foamed_total = 0
     qa_replay_state_mutation_disabled = False
     qa_replay_email_disabled_confirmed = False
+    if _env_bool('CYBERMED_DIGEST_BACKFILL_APPLY', False):
+        raise RuntimeError('reviewed_backfill_apply_required')
     backfill_requested = _env_bool("CYBERMED_DIGEST_BACKFILL_MODE", False)
     backfill_enabled = False
     backfill_safety_passed = False
@@ -6407,6 +6409,46 @@ def _main() -> None:
                     "cybermed_digest_store_deep_dives_total": existing_deep_dives_total,
                     "cybermed_digest_store_top_picks_total": existing_top_picks_total,
                 })
+            digest_payload = {
+                "digest_id": digest_id,
+                "report_key": "cybermed",
+                "cadence": "daily",
+                "run_date": backfill_run_date or os.getenv("NEWSAGENT_LOGICAL_DATE") or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                "generated_at_utc": now_utc_iso,
+                "lookback_hours": int(args.hours),
+                "qa_replay": bool(qa_replay_enabled),
+                "backfill_mode": bool(backfill_enabled),
+                "email_mode": email_mode,
+                "items": {"pubmed": pubmed_items, "foamed": foamed_items},
+                "deep_dives": deep_dives,
+                "top_picks": top_picks,
+                "diagnostic_summary": {
+                    "pubmed_selected_total": len(pubmed_items),
+                    "pubmed_deep_dive_total": len(deep_dives),
+                    "pubmed_evidence_label_counts": dict(Counter(str(it.get("evidence_strength_label") or "") for it in pubmed_items if str(it.get("evidence_strength_label") or "").strip())),
+                    "foamed_selected_total": len(foamed_items),
+                    "foamed_top_pick_total": len([1 for it in foamed_items if it.get("top_pick")]),
+                    "foamed_source_quality_counts": dict(Counter(str(it.get("source_quality_label") or "") for it in foamed_items if str(it.get("source_quality_label") or "").strip())),
+                    "foamed_text_confidence_counts": dict(Counter(str(it.get("text_confidence_label") or "") for it in foamed_items if str(it.get("text_confidence_label") or "").strip())),
+                    "summary_consistency_conflict_total": int(consistency_conflict_total),
+                    "summary_consistency_resolved_total": int(consistency_resolved_total),
+                    "qa_replay": bool(qa_replay_enabled),
+                    "state_mutation_disabled": bool(qa_replay_state_mutation_disabled),
+                },
+            }
+            if backfill_enabled and current_digest_nonempty:
+                from .maintenance import reviewed_backfill as reviewed
+                stamp = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+                digest_payload.update(generated_at_utc=stamp, reconstructed_at=stamp,
+                    reconstruction_basis='historical_window_generation', reference_utc=backfill_reference_utc)
+                candidate_path = Path(report_dir)/'cybermed_daily_candidate.json'
+                real_target = current().input_paths['CYBERMED_DAILY_DIGEST_STATE_PATH']
+                candidate_path = reviewed.external_output(candidate_path,target=real_target,sources={})
+                from .store_io import atomic_text
+                atomic_text(candidate_path,json.dumps({'schema_version':1,'digests':[digest_payload]},ensure_ascii=False,indent=2)+'\n')
+                plan=reviewed.build_plan('daily',[digest_payload],target=real_target,sources={'candidate':candidate_path},
+                    start=digest_run_date,end=digest_run_date,created_at=stamp)
+                reviewed.write_plan(plan,Path(report_dir)/'cybermed_daily_reviewed_plan.json')
             if backfill_enabled and not backfill_apply_requested:
                 skip_reason = "backfill_audit_only_apply_false"
             elif backfill_enabled and not current_digest_nonempty:
@@ -6414,33 +6456,6 @@ def _main() -> None:
             elif existing_idx >= 0 and not overwrite_allowed and not replace_empty_allowed:
                 skip_reason = "digest_already_exists"
             else:
-                digest_payload = {
-                    "digest_id": digest_id,
-                    "report_key": "cybermed",
-                    "cadence": "daily",
-                    "run_date": backfill_run_date or os.getenv("NEWSAGENT_LOGICAL_DATE") or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-                    "generated_at_utc": now_utc_iso,
-                    "lookback_hours": int(args.hours),
-                    "qa_replay": bool(qa_replay_enabled),
-                    "backfill_mode": bool(backfill_enabled),
-                    "email_mode": email_mode,
-                    "items": {"pubmed": pubmed_items, "foamed": foamed_items},
-                    "deep_dives": deep_dives,
-                    "top_picks": top_picks,
-                    "diagnostic_summary": {
-                        "pubmed_selected_total": len(pubmed_items),
-                        "pubmed_deep_dive_total": len(deep_dives),
-                        "pubmed_evidence_label_counts": dict(Counter(str(it.get("evidence_strength_label") or "") for it in pubmed_items if str(it.get("evidence_strength_label") or "").strip())),
-                        "foamed_selected_total": len(foamed_items),
-                        "foamed_top_pick_total": len([1 for it in foamed_items if it.get("top_pick")]),
-                        "foamed_source_quality_counts": dict(Counter(str(it.get("source_quality_label") or "") for it in foamed_items if str(it.get("source_quality_label") or "").strip())),
-                        "foamed_text_confidence_counts": dict(Counter(str(it.get("text_confidence_label") or "") for it in foamed_items if str(it.get("text_confidence_label") or "").strip())),
-                        "summary_consistency_conflict_total": int(consistency_conflict_total),
-                        "summary_consistency_resolved_total": int(consistency_resolved_total),
-                        "qa_replay": bool(qa_replay_enabled),
-                        "state_mutation_disabled": bool(qa_replay_state_mutation_disabled),
-                    },
-                }
                 if existing_idx >= 0:
                     digests[existing_idx] = digest_payload
                 else:
@@ -6748,8 +6763,12 @@ def _edition_now():
 
 
 def main() -> None:
+    if _env_bool('CYBERMED_DIGEST_BACKFILL_APPLY', False):
+        raise RuntimeError('reviewed_backfill_apply_required; use the offline maintenance CLI with --reviewed-plan --expected-sha256 --backup-dir')
     from .edition_plan import bind_entry
     load_dotenv()
+    if _env_bool("CYBERMED_DIGEST_BACKFILL_APPLY", False):
+        raise RuntimeError("reviewed_backfill_apply_required; use the offline maintenance CLI")
     with bind_entry((os.getenv("REPORT_KEY") or "cyberlurch").strip().lower(),
                     (os.getenv("REPORT_MODE") or "daily").strip().lower()):
         _execute_main()
@@ -6757,6 +6776,8 @@ def main() -> None:
 
 def _execute_main() -> None:
     load_dotenv()
+    if _env_bool("CYBERMED_DIGEST_BACKFILL_APPLY", False):
+        raise RuntimeError("reviewed_backfill_apply_required")
     with execution_context() as ctx:
         report_key = (os.getenv("REPORT_KEY") or "cyberlurch").strip().lower()
         cadence = (os.getenv("REPORT_MODE") or "daily").strip().lower()

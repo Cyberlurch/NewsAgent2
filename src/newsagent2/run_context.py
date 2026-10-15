@@ -58,9 +58,6 @@ def backfill_paths() -> set[str]:
     manual = os.getenv("GITHUB_EVENT_NAME", "") in {"workflow_dispatch", "manual", ""}
     safe = manual and email_mode() == "none" and os.getenv("SEND_EMAIL") == "0"
     allowed: set[str] = set()
-    if safe and os.getenv("REPORT_KEY") == "cybermed" and os.getenv("REPORT_MODE", "daily") == "daily":
-        if enabled("CYBERMED_DIGEST_BACKFILL_MODE") and enabled("CYBERMED_DIGEST_BACKFILL_APPLY"):
-            allowed.add("CYBERMED_DAILY_DIGEST_STATE_PATH")
     if (safe and os.getenv("GITHUB_EVENT_NAME") == "workflow_dispatch" and os.getenv("REPORT_KEY") == "cyberlurch"
             and os.getenv("REPORT_MODE") == "monthly" and enabled("CYBERLURCH_MONTHLY_MANUAL_STATE_WRITE")
             and re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", os.getenv("ROLLUP_MONTH_OVERRIDE", ""))):
@@ -77,6 +74,7 @@ class RunContext:
     production_paths: set[Path] = field(default_factory=set)
     defer_generation: bool = False
     generated_candidates: dict = field(default_factory=dict)
+    input_paths: dict[str, Path] = field(default_factory=dict)
 
     @property
     def production(self) -> bool:
@@ -118,6 +116,7 @@ def execution_context():
     token = _CURRENT.set(ctx)
     try:
         destinations = {name: path_for(name) for name in PATHS}
+        ctx.input_paths = dict(destinations)
         allowed = backfill_paths()
         ctx.production_paths = {target.resolve() for name, target in destinations.items() if ctx.production or name in allowed}
         if not ctx.production:

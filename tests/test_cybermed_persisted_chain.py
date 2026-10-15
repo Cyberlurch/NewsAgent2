@@ -109,18 +109,22 @@ def test_weekly_backfill_requires_reviewed_hash_before_mutation(tmp_path):
         from_date=date(2026, 8, 1),
         to_date=date(2026, 8, 14),
     )
-    assert audit["candidate_weekly_digests_total"] == 2
-    assert audit["apply_executed"] is False
+    assert len(audit["candidates"]) == 2
+    assert audit["generation_only"] is True
+    assert all(row["coverage_status"] == "unknown" for row in audit["candidates"])
     assert not weekly_path.exists()
 
-    with pytest.raises(SystemExit, match="does not match"):
-        apply_audit(audit, weekly_path=weekly_path, expected_sha256="0" * 64)
+    from newsagent2.maintenance.reviewed_backfill import ReviewError
+    backup = tmp_path.parent / (tmp_path.name + '-backup')
+    with pytest.raises(ReviewError, match='hash_mismatch'):
+        apply_audit(audit, weekly_path=weekly_path, daily_path=daily_path, backup_dir=backup, expected_sha256="0" * 64)
     assert not weekly_path.exists()
 
     applied = apply_audit(
         audit,
         weekly_path=weekly_path,
-        expected_sha256=audit["candidate_sha256"],
+        expected_sha256=audit["plan_sha256"],
+        daily_path=daily_path, backup_dir=backup,
     )
     assert applied["inserted_total"] == 2
     assert len(load_cybermed_weekly_digest_store(str(weekly_path))["digests"]) == 2

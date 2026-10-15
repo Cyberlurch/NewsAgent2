@@ -579,6 +579,7 @@ def build_weekly_backfill_candidates(
 ) -> List[Dict[str, Any]]:
     """Build Monday-Friday Weekly snapshots from persisted Daily digests."""
 
+    from .history_coverage import POLICY, weekly_coverage
     grouped: dict[date, list[dict]] = {}
     for digest in daily_digests:
         run_date = str((digest or {}).get("run_date") or "").strip()
@@ -595,7 +596,13 @@ def build_weekly_backfill_candidates(
         rows.sort(key=lambda row: str(row.get("run_date") or ""))
         period_end = week_start + timedelta(days=4)
         source_dates = {str(row.get("run_date") or "").strip() for row in rows}
-        if period_end.isoformat() not in source_dates:
+        policies = {row.get('calendar_policy') for row in rows}
+        policy = next(iter(policies)) if len(policies) == 1 else None
+        closing = period_end
+        if policy == POLICY:
+            from .edition_plan import weekly_dates
+            closing = weekly_dates(week_start)[2]
+        if closing.isoformat() not in source_dates:
             # Never persist a partial current week: it would share the same
             # deterministic ID as Friday's completed Weekly snapshot.
             continue
@@ -633,6 +640,12 @@ def build_weekly_backfill_candidates(
                 },
             )
         )
+        candidate = candidates[-1]
+        if policy:
+            candidate['calendar_policy'] = policy
+        candidate['coverage_end'] = closing.isoformat()
+        candidate['history_coverage'] = weekly_coverage(candidate, rows)
+        candidate['coverage_status'] = candidate['history_coverage']['status']
     return candidates
 
 
