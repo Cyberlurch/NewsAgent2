@@ -55,8 +55,12 @@ def valid(value):
     fields = {"id", "source", "title", "channel", "url", "description", "topics", "policy", "published_at",
               "screened_at", "expires_at", "attempts", "last_attempt_day", "stage"}
     for key, row in records.items():
-        if not isinstance(row, dict) or set(row) != fields or row.get("id") != key or row.get("source") != "youtube":
+        if not isinstance(row, dict) or set(row) - fields - {"channel_identity"} or not fields <= set(row) or row.get("id") != key or row.get("source") != "youtube":
             return False
+        if "channel_identity" in row:
+            from .youtube_source import identity_valid
+            if not identity_valid(row["channel_identity"]):
+                return False
         if any(not isinstance(row.get(f), str) or len(row[f]) > n for f, n in
                (("id", 128), ("title", 500), ("channel", 200), ("url", 1000), ("description", 1500), ("last_attempt_day", 10))):
             return False
@@ -160,6 +164,7 @@ class Candidates:
                 self.counts["expired"] += 1
                 continue
             records[iid] = {
+                **({"channel_identity": item["channel_identity"]} if "channel_identity" in item else {}),
                 "id": iid, "source": "youtube", "title": str(item.get("title") or "")[:500],
                 "channel": str(item.get("channel") or "")[:200], "url": str(item.get("url") or "")[:1000],
                 "description": str(item.get("description") or "")[:1500],

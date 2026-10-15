@@ -1,6 +1,7 @@
 """Semantic Cyberlurch Yearly reporting from persisted Monthly rollups only."""
 
 from __future__ import annotations
+from .youtube_source import stored_basis, basis_label
 
 import json
 import re
@@ -119,7 +120,7 @@ def build_annual_evidence(
                     continue
                 annual_ref = f"{month}::{local_ref}"
                 ref_map[local_ref] = annual_ref
-                registry.append({"ref_id": annual_ref, "month": month, "source": channel,
+                registry.append({"source_basis": stored_basis(source), "ref_id": annual_ref, "month": month, "source": channel,
                                  "source_date": _text(source.get("source_date"), 40), "title": title,
                                  "url": url, "evidence_quality": quality, "local_ref": local_ref})
 
@@ -197,7 +198,7 @@ def build_annual_evidence(
 def yearly_prompt(payload: list[dict[str, Any]], registry: list[dict[str, Any]], language: str,
                   coverage: MutableMapping[str, Any] | None = None) -> tuple[str, str]:
     lang = "English" if str(language).lower().startswith("en") else "German"
-    system = f"""Produce a neutral, precise annual trend analysis in {lang}, using only the persisted Monthly evidence supplied. Return exactly one JSON object with executive_summary (3-4 objects), annual_trends (normally 4-6 objects), turning_points (only supported, non-redundant objects), notable_developments (normally 5-7 objects when the evidence is rich; hard maximum 7), timeline (4-8 chronological objects), year_in_brief (one substantive string), and source_refs_used (array). Every section object has heading (timeline uses period), synthesis, and source_refs. Return source IDs only: never return or write a URL.
+    system = f"""Produce a neutral, precise annual trend analysis in {lang}, using only the persisted Monthly evidence supplied. Preserve source_basis and attribution; descriptions and unknown text coverage do not become verified transcripts, predictions or commentary do not become observed facts. Return exactly one JSON object with executive_summary (3-4 objects), annual_trends (normally 4-6 objects), turning_points (only supported, non-redundant objects), notable_developments (normally 5-7 objects when the evidence is rich; hard maximum 7), timeline (4-8 chronological objects), year_in_brief (one substantive string), and source_refs_used (array). Every section object has heading (timeline uses period), synthesis, and source_refs. Return source IDs only: never return or write a URL.
 Section roles are distinct. Executive Brief is a 45-80-word-per-entry abstract and may orient readers to subjects analyzed later, but must not duplicate full trend explanations. Major Trends are the substantive cross-month analysis: each needs at least two distinct months and two distinct sources/channels and should use 120-220 words only when supported. Turning Points are discrete events or changes that demonstrably altered the covered trajectory; omit one that merely restates a Major Trend without independent event evidence, and prefer at least two sources. Notable Developments preserve significant material that is not sufficiently cross-month for a trend or trajectory-changing for a turning point. Give Monthly notable_developments preferential consideration for annual Notable Developments when they are materially significant, add a genuinely different subject, and are not already adequately represented in Executive Brief, Major Trends, or Turning Points. Do not mechanically include every Monthly notable_development, use predefined categories, or force a seventh item; use a seventh only when it adds materially distinct information. Ask explicitly: “Which materially different developments would otherwise disappear because the dominant trends consume most of the report?” Frequency must not equal importance; never force filler.
 Preserve direct provenance for narrow claims. Do not use a source reference merely because it belongs to a broader Monthly theme. For a narrow factual development, cite only evidence that directly supports that development. If the same development exists as a Monthly notable_development, treat its source_refs as the preferred direct provenance. Narrow Turning Points may still arise from themes and need not all originate in Monthly notable_developments.
 This is an annual analysis, not twelve monthly reports concatenated. Prioritize material change, cross-month trajectories, escalation/de-escalation, political/economic/technological shifts, turning points, and meaningful differences between sources. Do not count labels, channels, or publication frequency; reproduce Monthly briefs; add advice, moral judgments, filler, or unsupported causal links. A Major Trend may have multiple independent channels overall while a factual subclaim within it is supported by only one persisted source; attribute that narrow claim to the named source rather than presenting it as independently established. Apply this precise attribution to allegations, casualty numbers, settlement amounts, predictions, disputed statistics, financial interpretations, causal claims, and other source-specific claims. Precise attribution is sufficient; do not add repetitive skeptical boilerplate. Thin legacy months have deliberately supplied no factual evidence and must not become claims. The Year in Brief may summarize only topics already represented in a preceding rendered section. Keep the timeline chronological and concise; describe narrow partial-month evidence as late/early month rather than implying full-month coverage. For a partial audit, 1,700-2,300 recipient-facing words is reasonable; reserve 2,500-3,500 guidance for a substantially complete rich year and never pad."""
@@ -388,5 +389,6 @@ def render_yearly(target_year: int, synthesis: dict[str, Any], registry: list[di
         grouped[by_ref[ref]["source"]].append(by_ref[ref])
     for source in sorted(grouped, key=str.casefold):
         rows = sorted(grouped[source], key=lambda row: (row["source_date"], row["ref_id"]))
-        lines.extend([f"**{source}**", _source_links([row["ref_id"] for row in rows], by_ref), ""])
+        lines.extend([f"**{source}**", _source_links([row["ref_id"] for row in rows], by_ref),
+                      " · ".join(sorted({basis_label(row) for row in rows})), ""])
     return "\n".join(lines).rstrip() + "\n"

@@ -207,7 +207,7 @@ def test_extraction_prompt_requires_complete_facts_and_filters_promotion(monkeyp
     assert "donation links or financial information are provided" in prompt
     assert "upload, publication, or release date" in prompt
     assert "Keep dates for substantive events, actions, decisions, or deadlines" in prompt
-    assert "preserve the title's spelling when the transcript conflicts" in prompt
+    assert "Do not prefer it over conflicting source text" in prompt
 
 
 @pytest.mark.parametrize("message,status", [("insufficient_quota",429),("authentication failed",401),("timed out",429)])

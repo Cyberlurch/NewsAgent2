@@ -189,9 +189,10 @@ def test_direct_digest_fallback_text_when_json_invalid(monkeypatch):
                     return type("R",(object,),{"choices":[type("x",(object,),{"message":type("m",(object,),{"content":"not-json-output"})()})()]})()
     monkeypatch.setattr(summarizer, "_get_client", lambda: C())
     out = summarizer.summarize_youtube_transcript_direct({"text":"abc"}, language="en")
-    assert out["fallback_text_used"] is True
-    assert out["transcript_full_summary"] == "not-json-output"
-    assert out.get("_direct_digest_fallback_text") is True
+    assert out["fallback_text_used"] is False
+    assert out["transcript_full_summary"] == ""
+    assert out["transcript_generation_status"] == "unavailable"
+    assert "not-json-output" not in str(out)
 
 
 def test_direct_digest_does_not_retry_without_response_format(monkeypatch):

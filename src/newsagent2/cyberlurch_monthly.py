@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .youtube_source import stored_basis, basis_label
 
 import json
 import re
@@ -74,6 +75,7 @@ def build_source_registry(items: Iterable[Dict[str, Any]]) -> List[Dict[str, Any
             raise MonthlySynthesisError("persisted Monthly source lacks channel, title, or URL")
         publication_day = date.astimezone(MONTHLY_TIMEZONE) if date.tzinfo else date.replace(tzinfo=MONTHLY_TIMEZONE)
         prepared.append({
+            "source_basis": stored_basis(row),
             "source": source, "source_date": publication_day.strftime("%Y-%m-%d"),
             "date_label": publication_day.strftime("%d/%m"), "title": title, "url": url,
             "source_identifier": str(row.get("id") or row.get("video_id") or "").strip(),
@@ -183,6 +185,10 @@ def select_evidence_pack(
 
 
 def _persisted_fact(row: Dict[str, Any]) -> str:
+    if isinstance(row.get("source_basis"), dict) and stored_basis(row)["coverage"] == "none":
+        # Explicit audit collection may provide actual bounded source text to
+        # the existing Monthly model; saved unprocessed rows cannot supply titles.
+        return str(row.get("text") or "")[:MONTHLY_SUMMARY_MAX_CHARS] if row.get("_source_live_text") else ""
     for key in ("bottom_line", "transcript_full_summary", "summary", "transcript_notable_claims", "important_details"):
         value = row.get(key)
         if isinstance(value, list):
@@ -228,7 +234,7 @@ def monthly_prompt(registry: List[Dict[str, Any]], language: str) -> tuple[str, 
         if rich_month else
         "Aim for 4-6 Key Trends and 2-4 Worth Noting items when supported, but let a sparse month remain shorter and never add filler."
     )
-    system = f"""You produce a neutral, information-dense monthly trend briefing from persisted facts only. Write all narrative prose and headings in {lang}; source names and titles may retain their original language. Return one JSON object, not Markdown, with keys executive_summary (3-4 objects with heading, synthesis, source_refs), trends (2-6 objects with heading, synthesis, source_refs, scope, and source when scope is source_specific), notable_developments (at most 4 objects with heading, synthesis, source_refs; may be empty), month_in_brief (one concise string), and source_refs_used (array).
+    system = f"""You produce a neutral, information-dense monthly trend briefing from persisted facts only. Preserve source_basis coverage and attribution: description is not transcript, unknown is not verified, predictions and source claims are not established events. Write all narrative prose and headings in {lang}; source names and titles may retain their original language. Return one JSON object, not Markdown, with keys executive_summary (3-4 objects with heading, synthesis, source_refs), trends (2-6 objects with heading, synthesis, source_refs, scope, and source when scope is source_specific), notable_developments (at most 4 objects with heading, synthesis, source_refs; may be empty), month_in_brief (one concise string), and source_refs_used (array).
 {density_guidance}
 Trends have scope cross_source or source_specific. Prioritize external developments and cross-source trends. Normally include at most one source_specific trend; include more only when fewer than three valid cross-source trends can be formed from the supplied evidence. A cross_source trend needs representative evidence from at least two distinct channels (2-5 citations) that genuinely supports the same development; never combine unrelated one-offs under an invented causal theme. A source_specific trend needs 3-5 relevant records from one named channel, must name that channel in its heading and prose, and describes a materially informative change in that channel's framing or emphasis rather than ordinary publishing habits. Write important trends at roughly 80-140 words when evidence supports that density. Explain what happened, change over the month, concrete examples, and source agreement or differences.
 Executive Brief means what mattered, not abbreviated Key Trend prose: write 3-4 entries, normally about 35-60 words each, containing only the most material multi-source trends or an exceptionally important standalone event. Do not promote a low-impact interview or isolated commentary merely to fill it. Executive entries use a short descriptive heading. Executive entries use 1-4 representative citations.
@@ -473,6 +479,6 @@ def render_monthly(title: str, synthesis: Dict[str, Any], registry: List[Dict[st
         rows = grouped[source]
         abbreviation = rows[0]["ref_id"].split(" ", 1)[0]
         lines += [f"**{source} ({abbreviation})**", " · ".join(
-            f"[{row['ref_id'].split(' ', 1)[1]}]({row['url']})" for row in rows
+            f"[{row['ref_id'].split(' ', 1)[1]}]({row['url']}) ({basis_label(row)})" for row in rows
         ), ""]
     return "\n".join(lines).rstrip() + "\n"

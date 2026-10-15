@@ -99,6 +99,9 @@ def _delta_plan(artifact: Path, row: dict):
         raise RuntimeError("recovery_delta_scope_mismatch")
     target = path_for(BINDINGS[kind])
     validate = rollups_store if kind == "rollups" else digest_store
+    if kind == "cyberlurch_digests":
+        from .youtube_source import digest_valid
+        validate = digest_valid
     default = {"version": 1, "reports": {}} if kind == "rollups" else {"schema_version": 1, "digests": []}
     value = read_store(target, default, kind=kind, validate=validate)
     rows = value.get("reports", {}).get(row["report_key"], []) if kind == "rollups" else value["digests"]

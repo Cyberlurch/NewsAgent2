@@ -223,7 +223,13 @@ def list_recent_videos(
     }
     ydl_opts["logger"] = SafeYtDlpLogger(diagnostics)
 
-    url = f"https://www.youtube.com/@{handle}/videos"
+    from .youtube_source import source_url
+    base_url = source_url(channel_url)
+    if not base_url and "://" not in channel_url and re.fullmatch(r"@?[A-Za-z0-9_.-]+", channel_url):
+        base_url = "https://www.youtube.com/@" + channel_url.lstrip("@")
+    if not base_url:
+        raise ValueError("invalid_youtube_source_url")
+    url = base_url + "/videos"
 
     if now_utc is None:
         now_utc = dt.datetime.now(dt.timezone.utc)
@@ -237,7 +243,10 @@ def list_recent_videos(
     full_metadata_enabled = (os.getenv("YTDLP_FULL_METADATA_ENRICHMENT") or "0").strip() == "1"
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
-        entries = info.get("entries") or [] if isinstance(info, dict) else []
+        from .youtube_source import Listing
+        if not isinstance(info, dict) or "entries" not in info:
+            return Listing(status="listing_invalid")
+        entries = list(info.get("entries") or [])
 
         for e in entries:
             if not isinstance(e, dict):
@@ -305,6 +314,7 @@ def list_recent_videos(
                     "id": vid,
                     "title": e.get("title") or "",
                     "channel": e.get("uploader") or e.get("channel") or handle,
+                    "uploader_channel_id": str(e.get("channel_id") or ""),
                     "published_at": published,
                     "url": video_url,
                     "description": description,
@@ -313,7 +323,7 @@ def list_recent_videos(
             if len(out) >= max_items:
                 break
 
-    return out
+    return Listing(out, status="items" if out else ("outside_window" if entries else "empty_valid"), raw_count=len(entries))
 
 TRANSCRIPT_ERROR_KINDS = {
     "api_removed_or_incompatible",

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .youtube_source import basis_label
 from .clinical_editorial import context_for, context_line, finalize_favorite, favorite_label, reference_line
 
 import ast
@@ -1228,6 +1229,9 @@ def _deduplicate_cyberlurch_facts(facts: List[str]) -> List[str]:
         for previous, previous_normalized in kept:
             previous_words = set(previous_normalized.split())
             overlap = len(words & previous_words) / max(1, min(len(words), len(previous_words)))
+            negations = {"not", "no", "never", "without", "nicht", "kein", "keine", "ohne", "inte", "ingen", "aldrig"}
+            if (words & negations) != (previous_words & negations):
+                continue
             if normalized in previous_normalized or previous_normalized in normalized or overlap >= 0.9:
                 duplicate = True
                 break
@@ -1253,7 +1257,10 @@ def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, g
     lines.extend(["", "## Selected items", ""])
     def block(item: Dict[str, Any], *, is_deep: bool = False) -> None:
         name = _md_escape_label(str(item.get("title") or "Untitled")); url = str(item.get("url") or ""); channel = str(item.get("channel") or "Unknown"); date = str(item.get("published_at") or "")[:10]
-        lines.extend([f"### [{name}]({url})" if url else f"### {name}", f"*{channel} · {date}*", ""])
+        lines.extend([f"### [{name}]({url})" if url else f"### {name}", f"*{channel} · {date} · {basis_label(item)}*", ""])
+        identity_status = (item.get("channel_identity") or {}).get("status", "legacy_unverified")
+        identity_label = {"configured": "operator configured", "resolved": "bound to source"}.get(identity_status, "not verified")
+        lines.append(f"*Channel identity: {identity_label}*")
         metadata = item.get("content_status") == "metadata_only" or item.get("text_source") == "metadata_only"
         if metadata:
             lines.append("- Metadata only.")
@@ -1262,12 +1269,13 @@ def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, g
                 facts = (
                     _cyberlurch_fact_list(item.get("transcript_key_points"))
                     + _cyberlurch_fact_list(item.get("important_details"))
-                    + _cyberlurch_fact_list(item.get("transcript_notable_claims"))
+                    + [f"According to {channel}, {claim}" for claim in _cyberlurch_fact_list(item.get("transcript_notable_claims"))]
                 )
                 facts = _filter_cyberlurch_facts(facts)
                 facts = _deduplicate_cyberlurch_facts(facts)
             else:
-                facts = _filter_cyberlurch_facts(_cyberlurch_fact_list(item.get("transcript_key_points")))
+                facts = _filter_cyberlurch_facts(_cyberlurch_fact_list(item.get("transcript_key_points")) +
+                    [f"According to {channel}, {claim}" for claim in _cyberlurch_fact_list(item.get("transcript_notable_claims"))])
             if not facts:
                 facts = _filter_cyberlurch_facts(_cyberlurch_fact_list(item.get("transcript_full_summary")))
             for fact in facts[:5 if is_deep else 3]: lines.append(f"- {fact}")
@@ -1722,6 +1730,8 @@ def to_markdown(
                 heading_body = _prefix_star(heading_body)
             md.append(f"### {heading_body}")
             md.append("")
+            if is_cyberlurch:
+                md.append(f"*{basis_label(it)}*")
             detail_block = _detail_lookup(details_by_id, it)
             best_bottom_line = _best_bottom_line(it, detail_block) if is_cybermed else ""
             report_key = str(it.get("report_key") or it.get("cadence") or "").strip().lower()

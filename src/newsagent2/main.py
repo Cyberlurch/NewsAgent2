@@ -1,4 +1,5 @@
 from __future__ import annotations
+from .youtube_source import (Identity, cached_identity, cache_identity, cache_valid, listing_valid, note_listing, basis, stored_basis, basis_label, TRANSCRIPTS, digest_valid, apply_basis)
 from .clinical_editorial import CONTEXT_FIELDS, attach_context, finalize_favorite, limitation_value
 
 import argparse
@@ -436,11 +437,11 @@ def sanitize_cyberlurch_digest_state(state: Dict[str, Any], known_channels: Opti
 
 
 def _item_from_digest_record(d: Dict[str, Any]) -> Dict[str, Any]:
-    return {"source":"youtube","id":d.get("video_id"),"title":d.get("title"),"url":d.get("url"),"channel":d.get("channel"),"published_at":_parse_iso_utc(str(d.get("published_at") or "")),"text_source":d.get("text_source"),"content_status":d.get("content_status"),"transcript_processing":d.get("transcript_processing"),"transcript_full_summary":d.get("transcript_full_summary"),"transcript_key_points":d.get("transcript_key_points"),"transcript_notable_claims":d.get("transcript_notable_claims"),"transcript_uncertainties":d.get("transcript_uncertainties"),"important_details":d.get("important_details"),"editorial_relevance":d.get("editorial_relevance"),"bottom_line":d.get("bottom_line"),"topic_primary":d.get("topic_primary"),"topics":d.get("topics") or [],"temporality":str(d.get("temporality") or "").strip(),"cyberlurch_deep_dive_score":d.get("cyberlurch_deep_dive_score") or 0,"cyberlurch_deep_dive_reasons":d.get("cyberlurch_deep_dive_reasons") or [],"top_pick":bool(d.get("top_pick")),"text":str(d.get("transcript_full_summary") or d.get("bottom_line") or "")}
+    return {"source_basis": stored_basis(d), "channel_identity": d.get("channel_identity", Identity("legacy_unverified").public()), "source":"youtube","id":d.get("video_id"),"title":d.get("title"),"url":d.get("url"),"channel":d.get("channel"),"published_at":_parse_iso_utc(str(d.get("published_at") or "")),"text_source":d.get("text_source"),"content_status":d.get("content_status"),"transcript_processing":d.get("transcript_processing"),"transcript_full_summary":d.get("transcript_full_summary"),"transcript_key_points":d.get("transcript_key_points"),"transcript_notable_claims":d.get("transcript_notable_claims"),"transcript_uncertainties":d.get("transcript_uncertainties"),"important_details":d.get("important_details"),"editorial_relevance":d.get("editorial_relevance"),"bottom_line":d.get("bottom_line"),"topic_primary":d.get("topic_primary"),"topics":d.get("topics") or [],"temporality":str(d.get("temporality") or "").strip(),"cyberlurch_deep_dive_score":d.get("cyberlurch_deep_dive_score") or 0,"cyberlurch_deep_dive_reasons":d.get("cyberlurch_deep_dive_reasons") or [],"top_pick":bool(d.get("top_pick")),"text":str(d.get("transcript_full_summary") or d.get("bottom_line") or "")}
 
 
 def _load_cyberlurch_digest_state(path: str) -> Dict[str, Any]:
-    data = read_store(path, {"version": 1, "updated_at_utc": "", "digests": []}, kind="cyberlurch_digests", validate=digest_store)
+    data = read_store(path, {"version": 1, "updated_at_utc": "", "digests": []}, kind="cyberlurch_digests", validate=digest_valid)
     if any(not str(row.get("video_id") or "").strip() for row in data["digests"]):
         raise StoreError("cyberlurch_digests", "invalid_existing_store")
     data, _ = sanitize_cyberlurch_digest_state(data)
@@ -452,7 +453,7 @@ def _save_cyberlurch_digest_state(path: str, state: Dict[str, Any], *, read_only
         return
     state, _ = sanitize_cyberlurch_digest_state(state)
     state["updated_at_utc"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-    generated_store(path, state, kind="cyberlurch_digests", validate=digest_store)
+    generated_store(path, state, kind="cyberlurch_digests", validate=digest_valid)
 
 
 def _sanitize_cyberlurch_digest_record(item: Dict[str, Any]) -> Dict[str, Any]:
@@ -699,7 +700,7 @@ def _channel_cache_key(channel: dict[str, Any]) -> str:
 
 
 def _channel_cache_valid(value):
-    return isinstance(value, dict) and isinstance(value.get("channels"), dict)
+    return cache_valid(value)
 
 
 def _load_youtube_channel_id_cache(path: str = "state/youtube_channel_ids.json") -> dict[str, Any]:
@@ -1844,6 +1845,7 @@ def _rollup_items_for_month(
                     "topic_primary": (it.get("topic_primary") or "").strip(),
                     "topics": it.get("topics") or [],
                     "text_source": (it.get("text_source") or "").strip(),
+                    **({"source_basis": stored_basis(it)} if source == "youtube" else {}),
                     "content_status": (it.get("content_status") or "").strip(),
                     "transcript_processing": (it.get("transcript_processing") or "").strip(),
                     "editorial_relevance": (it.get("editorial_relevance") or "").strip(),
@@ -1877,6 +1879,7 @@ def _rollup_items_for_month(
                 "topic_primary": (it.get("topic_primary") or "").strip(),
                 "topics": it.get("topics") or [],
                 "text_source": (it.get("text_source") or "").strip(),
+                **({"source_basis": stored_basis(it)} if it.get("source") == "youtube" else {}),
                 "content_status": (it.get("content_status") or "").strip(),
                 "transcript_processing": (it.get("transcript_processing") or "").strip(),
                 "editorial_relevance": (it.get("editorial_relevance") or "").strip(),
@@ -3228,55 +3231,61 @@ def _main() -> None:
                 api_quota = metadata_budget.start_channel()
                 youtube_diag.channels_attempted_total += 1
                 cache_key = _channel_cache_key(ch)
-                cached_channel_id = str(channel_id_cache.get("channels", {}).get(cache_key, {}).get("channel_id") or "").strip()
-                if cached_channel_id and not str(ch.get("channel_id") or "").strip():
-                    ch = dict(ch)
-                    ch["channel_id"] = cached_channel_id
+                identity = cached_identity(channel_id_cache, ch)
+                youtube_diag.youtube_identity_status_counts[identity.status] = youtube_diag.youtube_identity_status_counts.get(identity.status, 0) + 1
+                if identity.status == "conflict":
+                    youtube_diag.channels_error_total += 1
+                    continue
+                if identity.channel_id:
+                    ch = {**ch, "channel_id": identity.channel_id}
                 vids: List[Dict[str, Any]] = []
-                ytdlp_failed = False
+                rss_attempted = False
                 used_rss_primary = False
-                if str(ch.get("channel_id") or "").strip():
+                if identity.channel_id:
+                    rss_attempted = True
                     youtube_diag.rss_primary_attempted_total += 1
-                    try:
-                        rss_primary = list_recent_videos_rss(
-                            ch, hours=args.hours, max_items=max_items_per_channel, diagnostics=youtube_diag.__dict__
-                        )
-                        if rss_primary:
-                            youtube_diag.rss_primary_success_total += 1
-                            youtube_diag.channels_success_total += 1
-                            vids = rss_primary
-                            used_rss_primary = True
-                        else:
+                    rss_primary = list_recent_videos_rss(ch, hours=args.hours, max_items=max_items_per_channel,
+                        diagnostics=youtube_diag.__dict__, now_utc=now_utc)
+                    note_listing(youtube_diag.__dict__, rss_primary)
+                    if getattr(rss_primary, "status", "") == "identity_conflict":
+                        youtube_diag.channels_error_total += 1
+                        continue
+                    if listing_valid(rss_primary):
+                        youtube_diag.rss_primary_success_total += 1
+                        if not rss_primary:
                             youtube_diag.rss_primary_empty_total += 1
-                    except Exception:
+                        vids = rss_primary
+                        used_rss_primary = True
+                        observed_identity = getattr(rss_primary, "identity", identity)
+                        if observed_identity.channel_id and identity.status not in {"configured", "resolved"}:
+                            identity = observed_identity
+                    else:
                         youtube_diag.rss_primary_error_total += 1
-
                 if not used_rss_primary:
                     try:
-                        vids = list_recent_videos(
-                            curl,
-                            hours=args.hours,
-                            max_items=max_items_per_channel,
-                            diagnostics=youtube_diag.__dict__,
-                            force_full_metadata=force_ytdlp_full_metadata if "force_ytdlp_full_metadata" in locals() else False,
-                        )
-                        youtube_diag.channels_success_total += 1
-                    except Exception as e:
-                        ytdlp_failed = True
-                        youtube_diag.channels_error_total += 1
-                        print(f"[collect] ERROR source=youtube: list_recent_videos failed err_type={type(e).__name__}")
-
-                if _env_bool("YOUTUBE_METADATA_FALLBACK", True) and (ytdlp_failed or not vids):
-                    rss_items = list_recent_videos_rss(
-                        ch,
-                        hours=args.hours,
-                        max_items=max_items_per_channel,
-                        diagnostics=youtube_diag.__dict__,
-                    )
-                    if rss_items and ytdlp_failed:
-                        youtube_diag.channels_success_total += 1
-                    vids = _dedupe_videos_by_id(list(vids) + list(rss_items))
-
+                        vids = list_recent_videos(curl, hours=args.hours, max_items=max_items_per_channel,
+                            diagnostics=youtube_diag.__dict__, now_utc=now_utc,
+                            force_full_metadata=_env_bool("YTDLP_FULL_METADATA_ENRICHMENT", False))
+                        note_listing(youtube_diag.__dict__, vids)
+                    except Exception:
+                        from .youtube_source import Listing
+                        vids = Listing(status="fetch_error")
+                        note_listing(youtube_diag.__dict__, vids)
+                    # No second RSS attempt and no cascade after proven valid
+                    # emptiness. Plain [] from a legacy adapter remains unknown.
+                    if not listing_valid(vids) and not rss_attempted and _env_bool("YOUTUBE_METADATA_FALLBACK", True):
+                        rss_items = list_recent_videos_rss(ch, hours=args.hours, max_items=max_items_per_channel,
+                            diagnostics=youtube_diag.__dict__, now_utc=now_utc)
+                        note_listing(youtube_diag.__dict__, rss_items)
+                        vids = rss_items
+                        observed_identity = getattr(rss_items, "identity", identity)
+                        if observed_identity.channel_id:
+                            identity = observed_identity
+                if listing_valid(vids):
+                    youtube_diag.channels_success_total += 1  # Valid listing, not content/transcript success.
+                    cache_identity(channel_id_cache, identity)
+                elif getattr(vids, "status", "unknown") != "unknown":
+                    youtube_diag.channels_error_total += 1
                 if not vids:
                     continue
 
@@ -3291,6 +3300,11 @@ def _main() -> None:
                 for v in vids:
                     snippet = snippets.get(str(v.get("id") or "").strip()) or {}
                     if snippet:
+                        uploader_id = str(snippet.get("channel_id") or "")
+                        if identity.channel_id and uploader_id and uploader_id != identity.channel_id:
+                            youtube_diag.youtube_uploader_conflicts_total += 1
+                            v["_skip_after_enrichment"] = True
+                            continue
                         if snippet.get("title"):
                             v["title"] = snippet["title"]
                         if snippet.get("description"):
@@ -3308,15 +3322,6 @@ def _main() -> None:
                                     getattr(youtube_diag, "youtube_api_post_enrichment_date_skipped_total", 0)
                                 ) + 1
                                 v["_skip_after_enrichment"] = True
-                        channel_id = str(snippet.get("channel_id") or "").strip()
-                        if channel_id.startswith("UC"):
-                            discovered_channel_ids[cache_key] = channel_id
-                            youtube_diag.youtube_api_channel_ids_discovered_total += 1
-                            channel_id_cache.setdefault("channels", {})[cache_key] = {
-                                "channel_id": channel_id,
-                                "source": "youtube_api",
-                                "updated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
-                            }
 
                 for v in vids:
                     if v.get("_skip_after_enrichment"):
@@ -3329,6 +3334,10 @@ def _main() -> None:
                     if not vid:
                         continue
 
+                    listing_uploader = str(v.get("uploader_channel_id") or "")
+                    if identity.channel_id and listing_uploader and listing_uploader != identity.channel_id:
+                        youtube_diag.youtube_uploader_conflicts_total += 1
+                        continue
                     if vid in youtube_holds:
                         skipped_by_state += 1
                         continue
@@ -3350,6 +3359,7 @@ def _main() -> None:
                             "title": (v.get("title") or "").strip(),
                             "url": (v.get("url") or "").strip(),
                             "published_at": v.get("published_at"), "description": desc,
+                            "channel_identity": identity.public(),
                             "topics": channel_topics.get(cname, ["unknown"]),
                             "candidate_policy": ch.get("candidate_policy", "news"),
                             "_already_processed": already_processed,
@@ -3372,7 +3382,7 @@ def _main() -> None:
                     )
                     text = (provider_result.text or "").strip()
                     text_source = provider_result.source
-                    content_status = "full_text" if text_source in {"managed_transcript", "youtube_transcript_api", "description", "timedtext", "yt_dlp_captions"} and bool(text) else "metadata_only"
+                    content_status = ("description" if text_source == "description" else "full_text") if text else "metadata_only"
                     if not text:
                         youtube_diag.metadata_only_total += 1
                         text_source = "metadata_only"
@@ -3383,7 +3393,7 @@ def _main() -> None:
                         )
 
                     full_text_for_processing = ""
-                    if text_source == "managed_transcript" and text:
+                    if text_source in TRANSCRIPTS and text:
                         full_text_for_processing = text
                     if len(text) > max_text_chars_per_item:
                         text = text[:max_text_chars_per_item].rstrip()
@@ -3397,6 +3407,8 @@ def _main() -> None:
                             "published_at": v.get("published_at"),
                             "description": desc,
                             "text": text,
+                            "_source_live_text": True,
+                            "source_basis": (getattr(provider_result, "source_basis", None) or basis(text_source, text)) if text_source != "metadata_only" else basis("metadata_only"), "channel_identity": identity.public(),
                             "content_status": content_status,
                             "text_source": text_source,
                         }
@@ -3615,12 +3627,14 @@ def _main() -> None:
             text = (result.text or "").strip()
             candidate_session.content_processed(candidate["id"], bool(text))
             source = result.source
-            status = "full_text" if source in {"managed_transcript", "youtube_transcript_api", "description", "timedtext", "yt_dlp_captions"} and text else "metadata_only"
+            status = ("description" if source == "description" else "full_text") if text else "metadata_only"
+            candidate["source_basis"] = getattr(result, "source_basis", None) or basis(source, text)
             if not text:
                 youtube_diag.metadata_only_total += 1
+                candidate["source_basis"] = basis("metadata_only")
                 source = "metadata_only"
                 text = _metadata_only_text(title=candidate.get("title") or "", channel=candidate.get("channel") or "", published_at=candidate.get("published_at"))
-            if source == "managed_transcript" and text:
+            if source in TRANSCRIPTS and text:
                 candidate["_full_text_for_processing"] = text
             candidate["text"] = text[:max_text_chars_per_item].rstrip() if len(text) > max_text_chars_per_item else text
             candidate["text_source"] = source
@@ -4995,6 +5009,8 @@ def _main() -> None:
             # Metadata-only records deliberately bypass OpenAI.
             summarize_start = time.monotonic()
             full_text_call_made = False
+            chunked_items = 0
+            chunks_left = max(0, min(20, _safe_int("CYBERLURCH_TRANSCRIPT_MAX_CHUNKS_PER_RUN", 20)))
             for it in overview_items:
                 if it.get("content_status") == "metadata_only" or it.get("text_source") == "metadata_only":
                     continue
@@ -5004,12 +5020,24 @@ def _main() -> None:
                 direct_max_chars = _safe_int("CYBERLURCH_DIRECT_TRANSCRIPT_MAX_CHARS", 80000)
                 it["_full_text_for_processing"] = full_text
                 try:
+                    from .summarizer import transcript_chunk_count
+                    chunk_count = transcript_chunk_count(full_text) if len(full_text) > direct_max_chars else 0
+                    if chunk_count and (not _env_bool("CYBERLURCH_CHUNK_TRANSCRIPTS", True)
+                            or chunked_items >= max(0, _safe_int("CYBERLURCH_MAX_CHUNKED_TRANSCRIPTS_PER_RUN", 5))
+                            or chunk_count > chunks_left):
+                        it["transcript_generation_status"] = "budget_skipped"
+                        youtube_diag.transcript_chunking_skipped_budget_total += 1
+                        continue
+                    if chunk_count:
+                        chunked_items += 1
+                        chunks_left -= chunk_count
                     full_text_call_made = True
                     result = (summarize_youtube_transcript_direct(it, language=report_language, profile=report_profile)
                               if len(full_text) <= direct_max_chars else
                               summarize_youtube_transcript_chunks(it, language=report_language, profile=report_profile))
                     it.update({k: v for k, v in result.items() if k.startswith("transcript_") or k in {"important_details", "editorial_relevance"}})
                     it["editorial_relevance"] = ""
+                    apply_basis(it, result)
                     youtube_diag.transcript_chars_processed_total += int(result.get("chars_processed_total") or 0)
                 except Exception as exc:
                     print(f"[transcript-direct] error_kind={classify_direct_digest_error(exc)}")
@@ -5043,12 +5071,13 @@ def _main() -> None:
                         min_chars = _safe_int("CYBERLURCH_TRANSCRIPT_CHUNKING_MIN_CHARS", 80000)
                         budget = _safe_int("CYBERLURCH_MAX_CHUNKED_TRANSCRIPTS_PER_RUN", 5)
                         chunked = 0
+                        chunks_left = max(0, min(20, _safe_int("CYBERLURCH_TRANSCRIPT_MAX_CHUNKS_PER_RUN", 20)))
                         for it in sorted(overview_items, key=lambda x: x.get("published_at") or datetime.min.replace(tzinfo=timezone.utc), reverse=True):
                             full_text = str(it.get("_full_text_for_processing") or it.get("text") or "")
                             it["transcript_full_chars_available"] = len(full_text)
                             it["transcript_chars_used_for_summary"] = len(str(it.get("text") or ""))
                             it["transcript_was_truncated"] = bool(it["transcript_chars_used_for_summary"] < it["transcript_full_chars_available"])
-                            if it.get("text_source") == "managed_transcript" and it.get("content_status") == "full_text":
+                            if it.get("text_source") in TRANSCRIPTS and it.get("content_status") == "full_text":
                                 youtube_diag.transcript_full_chars_available_max = max(
                                     int(getattr(youtube_diag, "transcript_full_chars_available_max", 0)),
                                     len(full_text),
@@ -5058,6 +5087,9 @@ def _main() -> None:
                                     try:
                                         it["_full_text_for_processing"] = full_text
                                         res = summarize_youtube_transcript_direct(it, language=report_language, profile=report_profile)
+                                        if res.get("transcript_generation_status") != "validated":
+                                            raise ValueError("unsafe_output")
+                                        apply_basis(it, res)
                                         it.update({k: v for k, v in res.items() if k.startswith("transcript_") or k in {"important_details", "editorial_relevance"}})
                                         it["transcript_processing"] = "direct_full_transcript_fallback" if bool(res.get("fallback_text_used")) else "direct_full_transcript"
                                         it["transcript_direct_success"] = True
@@ -5084,13 +5116,20 @@ def _main() -> None:
                                         it["transcript_processing"] = "excerpt_fallback"
                                 elif len(full_text) >= min_chars:
                                     youtube_diag.transcript_chunking_attempted_total += 1
-                                    if (not chunk_enabled) or chunked >= budget:
+                                    from .summarizer import transcript_chunk_count
+                                    planned_chunks = transcript_chunk_count(full_text)
+                                    if (not chunk_enabled) or chunked >= budget or planned_chunks > chunks_left:
                                         youtube_diag.transcript_chunking_skipped_budget_total += 1
                                         it["transcript_processing"] = "excerpt"
                                         continue
                                     try:
+                                        chunked += 1  # Charge failed attempts too.
+                                        chunks_left -= planned_chunks
                                         it["_full_text_for_processing"] = full_text
                                         res = summarize_youtube_transcript_chunks(it, language=report_language, profile=report_profile)
+                                        if res.get("transcript_generation_status") != "validated":
+                                            raise ValueError("unsafe_output")
+                                        apply_basis(it, res)
                                         it.update({k:v for k,v in res.items() if k.startswith("transcript_")})
                                         it["transcript_processing"] = "chunked_full_transcript"
                                         it["transcript_chunking_success"] = True
@@ -5099,7 +5138,6 @@ def _main() -> None:
                                         youtube_diag.transcript_chunking_success_total += 1
                                         youtube_diag.transcript_chunks_total += int(res.get("chunks_total") or 0)
                                         youtube_diag.transcript_chars_processed_total += int(res.get("chars_processed_total") or 0)
-                                        chunked += 1
                                     except Exception:
                                         it["transcript_chunking_success"] = False
                                         youtube_diag.transcript_chunking_error_total += 1
@@ -6057,7 +6095,7 @@ def _main() -> None:
                     "month_in_brief": semantics["month_in_brief"],
                     "source_refs_used": semantics["source_refs_used"],
                     "source_registry": [
-                        {k: row[k] for k in ("ref_id", "source", "source_date", "title", "url", "source_identifier")}
+                        {k: row[k] for k in ("ref_id", "source", "source_date", "title", "url", "source_identifier", "source_basis")}
                         for row in (monthly_source_registry or []) if row["ref_id"] in set(semantics["source_refs_used"])
                     ],
                 }
@@ -6129,7 +6167,9 @@ def _main() -> None:
         dstate = _load_cyberlurch_digest_state(cyberlurch_digest_state_path)
         dstate, removed_invalid = sanitize_cyberlurch_digest_state(dstate)
         cyberlurch_digest_invalid_records_removed_total += removed_invalid
-        upsert_source = _dedupe_items(items_all_new + report_items + overview_items + detail_items)
+        # Final selection may copy rows; prefer validated extraction results over
+        # the original acquisition-only rows with the same stable video ID.
+        upsert_source = _dedupe_items(report_items + overview_items + detail_items + items_all_new)
         upserted, pruned = _upsert_cyberlurch_digests(dstate, upsert_source, cyberlurch_digest_retention_days)
         _save_cyberlurch_digest_state(cyberlurch_digest_state_path, dstate, read_only_mode=read_only_mode)
         youtube_diag.cyberlurch_digest_upserted_total = upserted
@@ -6414,7 +6454,7 @@ def _main() -> None:
             final_counts.update({
                 "collected_item_count": len(daily_screened_metadata),
                 "final_selected_unique_item_count": len(set(detailed_keys)),
-                "full_text_selected_count": sum(1 for x in report_items if x.get("content_status") != "metadata_only" and x.get("text_source") != "metadata_only"),
+                "full_text_selected_count": sum(1 for x in report_items if stored_basis(x)["kind"] == "transcript"),
                 "metadata_only_selected_count": sum(1 for x in report_items if x.get("content_status") == "metadata_only" or x.get("text_source") == "metadata_only"),
                 "ordinary_items_multiple_semantic_stages": 0,
                 "managed_transcript_attempts": youtube_diag.managed_transcript_attempted_total,

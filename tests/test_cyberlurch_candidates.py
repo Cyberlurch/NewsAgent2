@@ -224,7 +224,7 @@ def configure_cli(monkeypatch, tmp_path, freeze_clock, *, channels=4, count=30, 
     freeze_clock(NOW.isoformat())
     cfg = tmp_path / "channels.json"
     cfg.write_text(json.dumps({"topic_buckets": [{"topic": "topic" + str(c), "channels": [
-        {"name": f"Channel{c}", "url": f"https://youtube.com/@channel{c}", "channel_id": f"UC{c}"}]} for c in range(channels)]}))
+        {"name": f"Channel{c}", "url": f"https://youtube.com/@channel{c}", "channel_id": f"UC{c:022d}"}]} for c in range(channels)]}))
     for key, value in dict(REPORT_KEY="cyberlurch", REPORT_MODE="daily", REPORT_PROFILE="general", EMAIL_MODE=mode,
             SEND_EMAIL="0", GITHUB_EVENT_NAME="workflow_dispatch", YOUTUBE_API_KEY="dummy", YOUTUBE_METADATA_FALLBACK="0",
             YOUTUBE_API_MAX_VIDEOS_PER_RUN="7", YOUTUBE_API_METADATA="1", REPORT_LANGUAGE="en").items():
