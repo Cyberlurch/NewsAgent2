@@ -234,4 +234,17 @@ def test_workflow_mode_proof_is_derived_from_the_same_effective_email_mode():
         assert len(modes)==1 and "env.EMAIL_MODE" in modes[0]["name"]
         assert 'case "$EMAIL_MODE"' in modes[0]["run"]
         assert j["env"]["EMAIL_MODE"].endswith("|| 'real' }}")
-        if key=="cyberlurch": assert "persist_monthly_rollup" in modes[0]["name"]
+        if key=="cyberlurch":
+            assert "manual_monthly_state_write" in modes[0]["name"] and "outputs.maintenance_month" in modes[0]["name"]
+            assert "inputs.rollup_month_override" not in modes[0]["name"]
+
+
+def test_maintenance_shell_uses_environment_bindings_not_raw_action_expressions():
+    import yaml
+    root=Path(__file__).resolve().parents[1]
+    data=yaml.load((root/".github/workflows/newsagent.yml").read_text(),Loader=yaml.BaseLoader)
+    j=next(iter(data["jobs"].values()))
+    step=next(s for s in j["steps"] if s.get("id")=="compute_plan")
+    assert "${{" not in step["run"] and "eval " not in step["run"]
+    assert "inputs.persist_monthly_rollup" in step["env"]["PERSIST_MONTHLY_ROLLUP_REQUEST"]
+    assert '"${ROLLUP_MONTH_OVERRIDE:-}"' in step["run"]
