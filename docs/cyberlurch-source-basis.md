@@ -83,12 +83,22 @@ unvalidated raw model text is never a prose fallback. This is structural and
 heuristic protection, not semantic proof that every generated claim is correct.
 
 Prompts receive the actual text basis and named source. Title is context, not a
-reason to override contradictory supplied text. Predictions, unverified claims,
-commentary and theological interpretation require concise attribution; no
-blanket attribution ban or repetitive warning block. Claims get adjacent named
-attribution in Daily ordinary and Deep Dive views, and negation differences are
-not removed by the fact deduplicator. EN/DE/SV and respectful source treatment
-remain; unsupported source languages continue to use English.
+reason to override contradictory supplied text. The editorial voice reproduces
+each source's content, argument and emphasis without adding a verdict about its
+truthfulness or an ideological tone category. Source opinions, religious teaching
+and political positions remain source content; they are not rewritten into a
+single approved interpretation. The source's own qualifications, forecasts and
+negation remain, and quoted guests/denials retain their meaning. EN/DE/SV and
+respectful source treatment remain; other source languages use English.
+
+A named channel heading frames a Daily item once. The renderer does not prepend
+“According to…” to every claim or repeat “In brief: channel…” after that heading.
+Channel-identity metadata remains in diagnostics/stores and still gates collection;
+its repetitive status line is omitted from the reader body. The shared writing
+rule applies to Direct, Chunk/Combine, Weekly, Monthly and Yearly. Multi-source
+prose identifies differing positions when needed to tell who argues what, without
+a report/speaker formula in every sentence. Citations and provenance contracts
+remain. No additional rewriting/verification model call is introduced.
 
 Cache hits carry new basis metadata; legacy cache text remains unknown rather
 than acquiring invented verification. New basis/identity fields survive Daily
@@ -108,13 +118,26 @@ a complete edition history.
 ## Reader context
 
 Daily uses the already-saved full summary to introduce the actual subject,
-action and context before selected supporting facts. The Executive Snapshot
+action and context before supporting content. The Executive Snapshot
 can include its first complete sentence; the item block retains up to two
 complete sentences and 90 words, with the named channel beside the prose.
 Sentences are extracted rather than regenerated or clipped into fragments.
-Existing source attribution, uncertainty, negation and language are preserved.
-An identical supporting sentence is not repeated as a bullet; a differing
-negative statement is retained. Ordinary items may use important details too.
+New extraction introduces the subject in 1–2 natural sentences, at most 60 words,
+then uses existing key points/important details for concrete consequences: who
+is affected, what could change and why, as actually described by the source.
+“Discusses political and economic implications” does not replace those details;
+missing consequences are not invented. Normal items can show up to five useful
+statements so three headline points cannot crowd out every consequence.
+
+Legacy English “The speaker reports that…” wrappers can be removed locally when
+their complete clause stands on its own inside the identified source block.
+Named guests, denials, forecasts and coordinated reporting acts retain their
+wording. German/Swedish subordinate clauses are not blindly reordered; their
+natural rewrite belongs to the existing generation call. Saved history is not
+changed. Duplicate removal keeps the fuller statement when it literally contains
+the shorter one; a high word overlap alone cannot erase different numbers,
+signs, ranges, negation or positions. Exact repetition of the introduction is
+omitted from its supporting bullets.
 The existing 12-item/2-Deep-Dive limits, acquisition/model budgets, source-basis
 labels and delivery boundaries are unchanged.
 

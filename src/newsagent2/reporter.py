@@ -15,7 +15,7 @@ from zoneinfo import ZoneInfo
 from .summarizer import normalize_pubmed_deep_dive, render_pubmed_deep_dive_from_abstract
 from .cybermed_quality import assert_no_generation_error_text
 from .cyberlurch_monthly import render_monthly
-from .cyberlurch_readability import substantive_prose, saved_reader_intro, reader_text_allowed
+from .cyberlurch_readability import substantive_prose, saved_reader_intro, reader_text_allowed, reader_prose
 
 try:  # Optional import; keep reporter usable without selector
     from .selector_medical import load_cybermed_selection_config
@@ -1190,22 +1190,34 @@ def _filter_cyberlurch_facts(facts: List[str]) -> List[str]:
     return [fact for fact in facts if _is_usable_cyberlurch_fact(fact)]
 
 
+def _cyberlurch_fact_key(fact: str) -> str:
+    text = re.sub(r"^\s*(?:[-*•]+|\d+[.)])\s*", "", fact).casefold()
+    # Numeric signs, decimal points, percentages and ranges carry meaning.
+    return " ".join(re.sub(r"[^\w\s%+./()€$£¥−–-]", " ", text).split()).strip(" .")
+
+
+def _cyberlurch_contains_fact(text: str, fact: str) -> bool:
+    return bool(re.search(r"(?<!\S)" + re.escape(fact) + r"(?=[.!?]?(?:\s|$))", text))
+
+
 def _deduplicate_cyberlurch_facts(facts: List[str]) -> List[str]:
     kept: List[tuple[str, str]] = []
     for fact in facts:
-        normalized = re.sub(r"[^\w\s]", " ", re.sub(r"^\s*(?:[-*•]+|\d+[.)])\s*", "", fact).casefold())
-        normalized = " ".join(normalized.split())
+        normalized = _cyberlurch_fact_key(fact)
         if not normalized:
             continue
-        words = set(normalized.split())
         duplicate = False
-        for previous, previous_normalized in kept:
+        for index, (previous, previous_normalized) in enumerate(kept):
+            words = set(normalized.split())
             previous_words = set(previous_normalized.split())
-            overlap = len(words & previous_words) / max(1, min(len(words), len(previous_words)))
             negations = {"not", "no", "never", "without", "nicht", "kein", "keine", "ohne", "inte", "ingen", "aldrig"}
             if (words & negations) != (previous_words & negations):
                 continue
-            if normalized in previous_normalized or previous_normalized in normalized or overlap >= 0.9:
+            if _cyberlurch_contains_fact(previous_normalized, normalized):
+                duplicate = True
+                break
+            if _cyberlurch_contains_fact(normalized, previous_normalized):
+                kept[index] = (fact, normalized)  # Retain the fuller source statement.
                 duplicate = True
                 break
         if not duplicate:
@@ -1234,9 +1246,6 @@ def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, g
     def block(item: Dict[str, Any], *, is_deep: bool = False) -> None:
         name = _md_escape_label(str(item.get("title") or "Untitled")); url = str(item.get("url") or ""); channel = str(item.get("channel") or "Unknown"); date = str(item.get("published_at") or "")[:10]
         lines.extend([f"### [{name}]({url})" if url else f"### {name}", f"*{channel} · {date} · {basis_label(item)}*", ""])
-        identity_status = (item.get("channel_identity") or {}).get("status", "legacy_unverified")
-        identity_label = {"configured": "operator configured", "resolved": "bound to source"}.get(identity_status, "not verified")
-        lines.append(f"*Channel identity: {identity_label}*")
         metadata = item.get("content_status") == "metadata_only" or item.get("text_source") == "metadata_only"
         if metadata:
             lines.append("- Metadata only.")
@@ -1245,25 +1254,20 @@ def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, g
             if not _is_usable_cyberlurch_fact(intro):
                 intro = ""
             if intro:
-                lines.extend([f"**In brief:** {channel}: {intro}", ""])
-            if is_deep:
-                facts = (
-                    _cyberlurch_fact_list(item.get("transcript_key_points"))
-                    + _cyberlurch_fact_list(item.get("important_details"))
-                    + [f"According to {channel}, {claim}" for claim in _filter_cyberlurch_facts(_cyberlurch_fact_list(item.get("transcript_notable_claims")))]
-                )
-                facts = _filter_cyberlurch_facts(facts)
-                facts = _deduplicate_cyberlurch_facts(facts)
-            else:
-                facts = _filter_cyberlurch_facts(_cyberlurch_fact_list(item.get("transcript_key_points")) +
-                    _cyberlurch_fact_list(item.get("important_details")) +
-                    [f"According to {channel}, {claim}" for claim in _filter_cyberlurch_facts(_cyberlurch_fact_list(item.get("transcript_notable_claims")))])
+                lines.extend([intro, ""])
+            facts = [reader_prose(fact, channel=channel) for field in (
+                "transcript_key_points", "important_details", "transcript_notable_claims")
+                for fact in _cyberlurch_fact_list(item.get(field))]
+            facts = _deduplicate_cyberlurch_facts(_filter_cyberlurch_facts(facts))
             if not facts and not intro:
-                facts = _filter_cyberlurch_facts(_cyberlurch_fact_list(item.get("transcript_full_summary")))
+                facts = _filter_cyberlurch_facts([reader_prose(fact, channel=channel)
+                    for fact in _cyberlurch_fact_list(item.get("transcript_full_summary"))])
             if intro:
-                normalized_intro = " ".join(re.findall(r"\w+", intro.casefold()))
-                facts = [fact for fact in facts if " ".join(re.findall(r"\w+", fact.casefold())) not in normalized_intro]
-            for fact in facts[:5 if is_deep else 3]: lines.append(f"- {fact}")
+                normalized_intro = _cyberlurch_fact_key(intro)
+                facts = [fact for fact in facts if not _cyberlurch_contains_fact(normalized_intro, _cyberlurch_fact_key(fact))]
+            # Three headline points must not crowd all concrete consequences
+            # out of an ordinary item. Details use the same existing extraction.
+            for fact in facts[:5]: lines.append(f"- {fact}")
         lines.append("")
     for item in unique:
         key = str(item.get("id") or item.get("url") or item.get("title") or "")

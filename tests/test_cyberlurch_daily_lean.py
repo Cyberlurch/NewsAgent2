@@ -326,13 +326,13 @@ def test_deep_dive_retains_context_then_specific_nonidentical_details():
     it.update(transcript_full_summary=broad, transcript_key_points=["The council approved 25 sites.", "The council selected Berlin."], important_details=["Work starts on August 5."], transcript_notable_claims=[])
     md=reporter.render_cyberlurch_daily_report([it],title="Cyberlurch",generated_at="now")
     deep=md.split("## Deep Dives",1)[1]
-    assert f"**In brief:** Channel 1: {broad}" in deep
+    assert broad in deep and "*Channel 1 ·" in deep
     assert "- The council approved 25 sites." not in deep
     assert "- The council selected Berlin." in deep and "- Work starts on August 5." in deep
     assert sum(line.startswith("- ") for line in deep.splitlines()) <= 5
     legacy=item(2,deep=True); legacy["transcript_key_points"]=[]; legacy["transcript_full_summary"]="Legacy fallback summary."
     legacy_md=reporter.render_cyberlurch_daily_report([legacy],title="Cyberlurch",generated_at="now")
-    assert "**In brief:** Channel 2: Legacy fallback summary." in legacy_md
+    assert "Legacy fallback summary." in legacy_md and "*Channel 2 ·" in legacy_md
 
 
 def test_daily_renderer_drops_only_clear_boilerplate_and_subjectless_fragments():
