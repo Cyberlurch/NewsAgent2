@@ -177,7 +177,9 @@ def build_annual_evidence(
     diagnostics = {
         "target_year": target_year, "expected_months": expected, "found_months": found,
         "missing_months": [month for month in expected if month not in found],
-        "calendar_coverage_complete": found == expected,
+        "calendar_coverage_complete": found == expected,  # Compatibility: Monthly slot presence only.
+        "calendar_presence_complete": found == expected,
+        "history_coverage_status": "unknown",
         "monthly_rollups_found": len(found),
         "semantic_v2_months": classes["semantic_v2"],
         "enriched_legacy_months": classes["enriched_legacy"],
@@ -208,12 +210,12 @@ This is an annual analysis, not twelve monthly reports concatenated. Prioritize 
     user = "Annual Monthly evidence (JSON):\n" + json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
     if coverage is not None:
         context = {key: coverage.get(key) for key in (
-            "target_year", "calendar_coverage_complete", "semantic_v2_months",
+            "target_year", "calendar_coverage_complete", "calendar_presence_complete", "history_coverage_status", "semantic_v2_months",
             "enriched_legacy_months", "thin_legacy_months", "missing_months",
             "enriched_legacy_source_date_coverage",
         )}
         user += "\nDeterministic coverage context (JSON):\n" + json.dumps(context, ensure_ascii=False, separators=(",", ":"))
-        if not context["calendar_coverage_complete"]:
+        if not context["calendar_coverage_complete"] or context["history_coverage_status"] != "complete":
             user += ("\nPARTIAL-COVERAGE GUARD: thin legacy months contain no factual synthesis evidence. "
                      "Do not say ‘the year began’, ‘throughout the year’, ‘all year’, or ‘over the entire year’ "
                      "unless factual evidence truly spans that interval. Prefer ‘By June’, ‘From late May through "
@@ -362,8 +364,13 @@ def render_yearly(target_year: int, synthesis: dict[str, Any], registry: list[di
         coverage_parts.append(f"{archive} are represented only by archive-level records and are therefore not used as factual foundations.")
     if diagnostics["missing_months"]:
         coverage_parts.append(f"{missing} are not yet available.")
-    coverage_parts.append("This is a partial-year audit." if partial_audit else "Calendar coverage is complete.")
-    diagnostics["partial_coverage_guard_applied"] = bool(partial_audit)
+    if partial_audit:
+        coverage_parts.append("This is a partial-year audit.")
+    if diagnostics.get("history_coverage_status", "unknown") != "complete":
+        coverage_parts.append("Historical edition coverage is not verified as complete; Monthly calendar slots and substantive evidence are assessed separately.")
+    else:
+        coverage_parts.append("This is a partial-year audit." if partial_audit else "Calendar coverage is complete.")
+    diagnostics["partial_coverage_guard_applied"] = bool(partial_audit or diagnostics.get("history_coverage_status") != "complete")
     lines = [f"# The Cyberlurch Year in Review — {target_year}", "", "**Year in Review**", "", "---", "", "## Coverage Note", "",
              " ".join(coverage_parts), ""]
 

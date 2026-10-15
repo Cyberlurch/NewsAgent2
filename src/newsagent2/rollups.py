@@ -103,7 +103,9 @@ def prepare_yearly_rollups(
     missing = [m for m in expected if m not in selected]
     return prepared, {
         "target_year": target_year, "expected_months": expected, "found_months": found,
-        "missing_months": missing, "coverage_complete": found == expected,
+        "missing_months": missing, "calendar_presence_complete": found == expected,
+        "coverage_status": "incomplete" if missing or len(candidates) != len(selected) else "unknown",
+        "coverage_complete": False,
         "monthly_rollups_loaded_total": len(candidates),
         "duplicate_monthly_rollups_suppressed_total": len(candidates) - len(selected),
         "generation_error_text_removed_total": removed_total,
@@ -776,7 +778,7 @@ def render_yearly_markdown(
             f"- Monthly rollups available: {coverage.get('cybermed_yearly_monthly_rollups_loaded_total', len(sorted_rollups))}",
             "- Direct Daily inputs: disabled (Yearly reads Monthly rollups only)",
             f"- Date range covered: {coverage.get('cybermed_yearly_coverage_start','unknown')} to {coverage.get('cybermed_yearly_coverage_end','unknown')}",
-            f"- Coverage incomplete: {'YES' if not coverage.get('cybermed_yearly_coverage_complete', not coverage.get('cybermed_yearly_coverage_incomplete', len(sorted_rollups)<12)) else 'NO'}",
+            f"- Coverage incomplete: {'YES' if not coverage.get('cybermed_yearly_coverage_complete', False) else 'NO'}",
             "",
             "## Executive summary",
         ])

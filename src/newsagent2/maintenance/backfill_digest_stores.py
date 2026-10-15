@@ -17,6 +17,8 @@ class BackfillConfig:
     apply: bool
     output_dir: Path
     enable_openai: bool
+    as_of: str = ""
+    source_commit: str = "unknown"
 
 
 def _parse_date(raw: str) -> date:
@@ -76,12 +78,9 @@ def _plan_cybermed(state: dict[str, Any], wanted_dates: list[str]) -> dict[str, 
 
 def _plan_cyberlurch(cyberlurch_state: dict[str, Any], rollups_state: dict[str, Any], wanted_dates: list[str]) -> dict[str, Any]:
     digests = [d for d in cyberlurch_state.get("digests", []) if isinstance(d, dict)]
+    # Per-video source records are not newsletter edition records.
     covered = set()
-    for d in digests:
-        raw = str(d.get("published_at") or d.get("date") or "")[:10]
-        if len(raw) == 10:
-            covered.add(raw)
-    missing = [d for d in wanted_dates if d not in covered]
+    missing = []
     rollup_reports = sorted((rollups_state.get("reports") or {}).keys()) if isinstance(rollups_state, dict) else []
 
     return {
@@ -92,6 +91,8 @@ def _plan_cyberlurch(cyberlurch_state: dict[str, Any], rollups_state: dict[str, 
         "would_insert_or_update": {"insert": [], "update": []},
         "would_skip": [{"run_date": d, "reason": "missing_source_data"} for d in missing],
         "warnings": [
+            "Edition coverage is unknown; video publication dates are not edition dates.",
+            "Use --as-of for the provenance-aware single-newsletter history audit.",
             "No Cyberlurch summary reconstruction is implemented; no summaries are fabricated.",
             f"rollups_reports_present={','.join(rollup_reports) if rollup_reports else 'none'}",
         ],
@@ -101,17 +102,9 @@ def _plan_cyberlurch(cyberlurch_state: dict[str, Any], rollups_state: dict[str, 
 def build_backfill_plan(config: BackfillConfig, state_dir: Path = Path("state")) -> dict[str, Any]:
     wanted_dates = _date_range(config.from_date, config.to_date)
     warnings: list[str] = []
-    cybermed_state = _load_json(
-        state_dir / "cybermed_daily_digests.json",
-        {"schema_version": 1, "digests": []},
-        warnings,
-    )
-    cyberlurch_state = _load_json(
-        state_dir / "cyberlurch_digests.json",
-        {"version": 1, "digests": []},
-        warnings,
-    )
-    rollups_state = _load_json(state_dir / "rollups.json", {"version": 1, "reports": {}}, warnings)
+    cybermed_state = _load_json(state_dir / "cybermed_daily_digests.json", {"schema_version": 1, "digests": []}, warnings) if config.report in {"cybermed", "both"} else {}
+    cyberlurch_state = _load_json(state_dir / "cyberlurch_digests.json", {"version": 1, "digests": []}, warnings) if config.report in {"cyberlurch", "both"} else {}
+    rollups_state = _load_json(state_dir / "rollups.json", {"version": 1, "reports": {}}, warnings) if config.report in {"cyberlurch", "both"} else {}
 
     plan = {
         "report": config.report,
@@ -142,7 +135,22 @@ def maybe_apply(plan: dict[str, Any], config: BackfillConfig, state_dir: Path = 
     return False
 
 
-def run(config: BackfillConfig, state_dir: Path = Path("state")) -> int:
+def run(config: BackfillConfig, state_dir: Path | None = None) -> int:
+    if config.as_of:
+        if config.apply or config.enable_openai or config.report == "both":
+            raise SystemExit("history_audit_requires_single_report_read_only")
+        from .history_audit import audit, write_report
+        from ..run_context import PATHS
+        paths = {name: state_dir / filename for name, filename in PATHS.items()} if state_dir is not None else None
+        try:
+            payload = audit(config.report, config.from_date.isoformat(), config.to_date.isoformat(), config.as_of,
+                            paths=paths, source_commit=config.source_commit)
+            write_report(payload, config.output_dir, paths=paths)
+        except (ValueError, TypeError, OSError):
+            raise SystemExit("history_audit_invalid_request_or_output") from None
+        print("[history] audit written; category-only exit="+str(payload["exit_code"]))
+        return payload["exit_code"]
+    state_dir = state_dir or Path("state")
     plan = build_backfill_plan(config, state_dir=state_dir)
     applied = maybe_apply(plan, config, state_dir=state_dir)
     plan["apply_executed"] = applied
@@ -161,10 +169,14 @@ def parse_args() -> BackfillConfig:
     parser.add_argument("--to-date", required=True)
     parser.add_argument("--dry-run", action="store_true", default=True, help="Audit only; retained for compatibility.")
     parser.add_argument("--apply", action="store_true", default=False, help="Unsupported; exits without mutating state.")
-    parser.add_argument("--output-dir", default="out/backfill_audit")
+    parser.add_argument("--output-dir", default=None)
     parser.add_argument("--enable-openai-reconstruction", action="store_true", default=False)
+    parser.add_argument("--as-of", help="Timezone-aware timestamp: use the read-only provenance-aware history audit.")
+    parser.add_argument("--source-commit", default="unknown", help="Source checkout SHA for reproducible audit evidence.")
     args = parser.parse_args()
 
+    if args.as_of and not args.output_dir:
+        parser.error("history audit requires an explicit --output-dir outside production state")
     start = _parse_date(args.from_date)
     end = _parse_date(args.to_date)
     if end < start:
@@ -175,8 +187,10 @@ def parse_args() -> BackfillConfig:
         from_date=start,
         to_date=end,
         apply=bool(args.apply),
-        output_dir=Path(args.output_dir),
+        output_dir=Path(args.output_dir or "out/backfill_audit"),
         enable_openai=bool(args.enable_openai_reconstruction),
+        as_of=args.as_of or "",
+        source_commit=args.source_commit,
     )
 
 

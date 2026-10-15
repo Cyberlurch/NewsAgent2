@@ -84,7 +84,8 @@ def test_manual_partial_audit_visible_and_readonly(tmp_path, monkeypatch, mode, 
 def test_complete_year_uses_semantic_renderer_and_one_provider_call(tmp_path, monkeypatch):
     path, original, sent, md = _run(tmp_path, monkeypatch, _months(), mode="real")
     assert path.read_bytes() == original and len(sent) == 1
-    assert "Calendar coverage is complete." in md
+    assert "Historical edition coverage is not verified as complete" in md
+    assert "Calendar coverage is complete." not in md
     assert "## Major Trends" in md and "## Source Index" in md
     diag = json.loads((tmp_path / "reports" / "cyberlurch_yearly_diagnostics.json").read_text())
     assert diag["provider_operations"] == 1

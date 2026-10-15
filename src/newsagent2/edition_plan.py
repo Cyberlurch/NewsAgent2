@@ -229,6 +229,21 @@ def check_ready(entry):
         if not any(row.get('month')==december for row in store.get('reports',{}).get('cybermed',[])):
             raise RuntimeError('edition_yearly_december_monthly_missing')
 
+    if cadence in {'monthly', 'yearly'}:
+        from .history_coverage import load_inputs, monthly_coverage, yearly_coverage, require_complete
+        daily_rows, weekly_rows, months = load_inputs('cybermed')
+        if cadence == 'monthly':
+            selected, _ = prepare_cybermed_monthly_source_digests({'digests': weekly_rows}, entry['period_start'][:7])
+            coverage = monthly_coverage({'month': entry['period_start'][:7], 'calendar_policy': entry['calendar_policy'],
+                'source_weekly_digest_ids': [r['digest_id'] for r in selected]}, weekly_rows, daily_rows)
+        else:
+            assessed = yearly_coverage('cybermed', int(entry['period_start'][:4]), months, weekly_rows=weekly_rows,
+                daily_rows=daily_rows, as_of=datetime.combine(date.fromisoformat(entry['logical_date']), time(5,40), STO))
+            coverage = assessed
+            if not assessed['final_year_ready']:
+                raise RuntimeError('edition_yearly_history_not_final:'+assessed['status'])
+        require_complete(coverage, 'edition_'+cadence+'_history_coverage')
+
 
 def github_created_at():
     import requests
