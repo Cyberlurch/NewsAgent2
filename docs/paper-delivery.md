@@ -165,5 +165,6 @@ Rollback: revert this code commit while retaining journal/ingestion data and
 recovery artifacts for review. Do not delete or rewrite histories. The previous
 code does not understand new metadata-bearing receipt rows; resuming it on such
 data needs a reviewed compatibility deployment, not a blind downgrade or state
-reset. FOAMed/Health and further editorial rules remain subsequent parts of
-task 05; README reconciliation remains task 08.
+reset. [FOAMed/Health](foamed-sources.md) and
+[clinical editorial rules](clinical-editorial-policy.md) have separate safeguards;
+the [README](../README.md) provides the overall operating guide.

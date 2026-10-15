@@ -101,7 +101,9 @@ synthesis call, with its unprocessed/limited basis retained; it does not gain
 permission to infer facts from titles. Stored legacy material is
 not rewritten; old basis remains unknown in source indexes and model inputs.
 Monthly/Yearly references and evidence registries retain their prior identities.
-Historical completeness remains step 07.
+Historical issue coverage and its remaining uncertainty are described in
+[the coverage guide](history-coverage.md); source-text coverage does not establish
+a complete edition history.
 
 ## Operator inspection (not executed live for this PR)
 

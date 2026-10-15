@@ -36,7 +36,9 @@ cursor loss, API-budget increase, or new catch-up/backfill is introduced.
 ESICM/SCCM/ESAIC guideline sentinels remain unactivated pending reviewed dated
 primary-source adapters and provenance. BJA Education would be a separate
 learning role, not automatically original research. No sources are expanded in
-this PR; general historical coverage/recovery remains prompt 07.
+this policy. Historical coverage and reviewed reconstruction are documented
+separately in [history-coverage.md](history-coverage.md) and
+[reviewed-maintenance.md](reviewed-maintenance.md).
 
 ## Reader labels
 

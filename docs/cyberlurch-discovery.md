@@ -131,10 +131,10 @@ code tolerates the additive section but does not apply its eligibility rules;
 rolling back also restores the old broad processed-marker behavior and API
 budget defect. Review that operational tradeoff before using it.
 
-## Remaining work
+## Related safeguards
 
-Step 06b addresses canonical channel-ID verification, honest empty/error/source
-Health, description/full/partial transcript grounding, late transcript facts
-and attribution, plus a targeted default-read-only source probe. No live source
-health or exhaustive/fair coverage is certified here. Historical coverage and
-aggregate recovery remain step 07; README reconciliation is step 08, last.
+[Source identity and text basis](cyberlurch-source-basis.md) covers channel
+bindings, empty/error listing status, transcript grounding, attribution and
+default-read-only source inspection. [Historical coverage](history-coverage.md)
+and [delivery recovery](delivery-recovery.md) cover their separate boundaries.
+These safeguards do not certify live source Health or exhaustive/fair coverage.

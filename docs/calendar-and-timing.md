@@ -82,8 +82,10 @@ or the journal require review, even if a generated store was lost. Monthly uses 
 provenance checks, with coverage checks for v2 weeks and explicit Daily dates
 for the closing legacy week. A nonempty row alone is insufficient. Already
 stored ambiguous shortened legacy weeks require review, not renaming or a new
-send identity. Full retrospective coverage audit and reconstruction remain a
-separate task; this change does not certify all historical interior legacy weeks.
+send identity. The subsequent [coverage audit](history-coverage.md) now checks the
+transitive source chain, including interior weeks; new final Cybermed aggregates
+reject unknown/incomplete coverage. [Reviewed maintenance](reviewed-maintenance.md)
+is separate from calendar catch-up and does not certify or rewrite Legacy history.
 
 On later eligible days after the first-Friday due date, only the immediately
 preceding month's close is reconsidered. During January, the preceding year is

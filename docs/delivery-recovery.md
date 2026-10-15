@@ -56,10 +56,12 @@ separate `none` preview or reconcile the original receipt explicitly.
 
 Paths are centrally injectable via `NEWSAGENT_STATE_DIR` or individual variables
 listed in `run_context.PATHS`, including the three cache paths and
-`DELIVERY_JOURNAL_PATH`. Existing reviewed Cybermed Daily Backfill-Apply and
-Cyberlurch Monthly state-write gates preserve only their specifically approved
-original target. Other Maintenance workflows keep their existing explicit
-Apply contracts. An ordinary none/test run cannot commit production state.
+`DELIVERY_JOURNAL_PATH`. The Cyberlurch Monthly state-write gate preserves only
+its specifically approved rollup target. Cybermed Daily no longer grants an in-process
+Backfill-Apply exception: frozen Daily/Weekly candidates use the separate
+[reviewed maintenance](reviewed-maintenance.md) contract. The legacy
+`CYBERMED_DIGEST_BACKFILL_APPLY=1` shortcut is refused. An ordinary none/test run
+cannot commit production state.
 
 Readers never create, rename, self-heal or overwrite files. Missing-new-store
 returns an in-memory default. Corrupt/empty/duplicate-key/nonfinite JSON fails
@@ -257,8 +259,10 @@ acceptance before state failure, missing recovery, generated-record hash
 conflicts/idempotence, publication failure, per-cadence verification, both
 newsletters in all none/test cadences, corruption preservation and additive
 legacy handling. Existing recipient privacy, medical facts, model-budget,
-provenance and Maintenance tests remain active. The preexisting five
-`test_youtube_rss_fallback.py` failures are retained and reported separately.
+provenance and Maintenance tests remain active. The PR #225/#226 results below are historical. Subsequent offline dependency
+and provider repairs resolved those five RSS regressions; they are not current
+known failures. See [development.md](development.md) for the current validation
+procedure.
 No real SMTP, provider, dispatch, global backfill or production state correction
 was performed during this change.
 

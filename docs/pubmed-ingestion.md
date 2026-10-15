@@ -68,7 +68,9 @@ three empty/already handled days per query are traversed in one run; a day with
 new candidates is retained until it is handled. A one-day overlap rechecks
 recent closed coverage; recent handled IDs are retained for two frontier days.
 This is ingestion overlap memory, **not** a durable paper delivery index.
-Corrections/retractions and long-term delivery dedup remain a subsequent task.
+The separate [paper-delivery projection](paper-delivery.md) now handles durable
+Daily receipt-based deduplication and evidenced source notices/updates; ingestion
+checkpoints do not establish delivery.
 
 ESearch uses `usehistory=y`; subsequent pages refer to its runtime-only
 WebEnv/query key. Only a complete, validated ID list is persisted. An interrupted
