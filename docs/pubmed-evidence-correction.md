@@ -74,9 +74,10 @@ and Cyberlurch are unchanged.
 The existing CLI was dry-run, reviewed and applied to a temporary State copy with
 private preimage backups. All input/output hashes matched; a second Apply was an
 idempotent `already_corrected` no-op. Only that reviewed Daily output is included
-in this branch. No productive workflow, mail, model or collection was run. After
-merge, the same reviewed plan is a no-op; it does not authorize a new edition or
-mail replay. A rollback must restore only this bounded correction after checking
+in this branch. No productive workflow, mail, model or collection was run. With
+the reviewed file images unchanged, the same plan is a no-op; later edits or new
+Daily records require a fresh review rather than overriding the input hashes.
+The plan does not authorize a new edition or mail replay. A rollback must restore only this bounded correction after checking
 its current hashes against newer edits; never reset the complete State tree.
 
 ## Historical preparation of the correction
