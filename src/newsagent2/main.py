@@ -6443,7 +6443,7 @@ def _main() -> None:
                     reconstruction_basis='historical_window_generation', reference_utc=backfill_reference_utc)
                 candidate_path = Path(report_dir)/'cybermed_daily_candidate.json'
                 real_target = current().input_paths['CYBERMED_DAILY_DIGEST_STATE_PATH']
-                reviewed.external_output(candidate_path,target=real_target,sources={})
+                candidate_path = reviewed.external_output(candidate_path,target=real_target,sources={})
                 from .store_io import atomic_text
                 atomic_text(candidate_path,json.dumps({'schema_version':1,'digests':[digest_payload]},ensure_ascii=False,indent=2)+'\n')
                 plan=reviewed.build_plan('daily',[digest_payload],target=real_target,sources={'candidate':candidate_path},

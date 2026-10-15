@@ -330,3 +330,12 @@ def test_state_changed_to_unsupported_schema_remains_unchanged(setup):
     _,source,target,_=setup;put(target,{'schema_version':99,'digests':[]});before=target.read_bytes()
     with pytest.raises(r.ReviewError,match='schema_unsupported'):apply(setup)
     assert target.read_bytes()==before
+
+
+def test_dotdot_cannot_hide_symlink_ancestor_from_output_guard(setup,tmp_path):
+    plan,source,target,_=setup
+    directory=source.parent/'nested';directory.mkdir()
+    alias=tmp_path/'alias';alias.symlink_to(directory,target_is_directory=True)
+    with pytest.raises(r.ReviewError,match='traversal'):
+        r.write_plan(plan,alias/'..'/'unexpected-review.json')
+    assert not (source.parent/'unexpected-review.json').exists()

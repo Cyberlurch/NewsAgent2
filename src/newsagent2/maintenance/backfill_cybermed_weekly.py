@@ -71,7 +71,7 @@ def main():
             plan=read_store(args.reviewed_plan,{},kind='reviewed_plan')
             if (args.from_date and args.from_date != plan.get('from_date')) or (args.to_date and args.to_date != plan.get('to_date')):
                 raise review.ReviewError('review_requested_period_mismatch')
-            review.external_output(args.output,target=target,sources=sources)
+            args.output = review.external_output(args.output,target=target,sources=sources)
             result=review.apply_plan(plan,cadence=args.cadence,target=target,sources=sources,
                 expected_sha256=args.expected_sha256,backup_dir=args.backup_dir)
             from ..store_io import atomic_text

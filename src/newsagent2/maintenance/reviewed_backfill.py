@@ -42,6 +42,8 @@ def now():
 
 def direct_path(path):
     """Reject symlinks, including parent components, before resolving bindings."""
+    if ".." in Path(path).parts:
+        raise ReviewError("review_path_traversal")
     target = Path(os.path.abspath(path))
     if any(p.is_symlink() for p in (target, *target.parents)):
         raise ReviewError('review_path_symlink')
@@ -190,8 +192,8 @@ def build_plan(cadence, candidates, *, target, sources, start, end, created_at=N
 
 
 def write_plan(plan, output):
-    external_output(output, target=plan['target']['path'], sources={k:v['path'] for k,v in plan['sources'].items()})
-    atomic_text(Path(output), json.dumps(plan, ensure_ascii=False, indent=2, allow_nan=False)+'\n')
+    output = external_output(output, target=plan['target']['path'], sources={k:v['path'] for k,v in plan['sources'].items()})
+    atomic_text(output, json.dumps(plan, ensure_ascii=False, indent=2, allow_nan=False)+'\n')
 
 
 def _private_write(path, data):
