@@ -23,8 +23,11 @@ def test_metadata_preselection_caps_and_orders_deterministically():
     )
     assert cap == 14
     assert len(selected) == 14
-    assert [row["id"] for row in selected[:2]] == ["v20", "v21"]
-    assert [row["id"] for row in selected[2:]] == [f"v{i:02d}" for i in range(12)]
+    # Priority wins a balance tier, while another channel gets an early turn.
+    assert [row["id"] for row in selected[:3]] == ["v20", "v00", "v21"]
+    assert {row["id"] for row in selected} == {"v20", "v21"} | {f"v{i:02d}" for i in range(12)}
+    assert selected == main._preselect_cyberlurch_daily_metadata(
+        list(reversed(candidates)), priority_channels={"Priority"}, selected_max=12, deep_dive_max=2)[0]
 
 
 def test_daily_renderer_caps_and_deduplicates():

@@ -163,6 +163,14 @@ class YouTubeDiagnosticsCounters:
     cyberlurch_digest_store_total: int = 0
     cyberlurch_digest_invalid_records_removed_total: int = 0
     cyberlurch_digest_invalid_records_skipped_total: int = 0
+    youtube_api_budget_requested_ids_total: int = 0
+    youtube_api_budget_enriched_ids_total: int = 0
+    youtube_api_budget_requests_total: int = 0
+    youtube_api_budget_skipped_total: int = 0
+    daily_candidate_counts: dict[str, int] = field(default_factory=dict)
+    daily_selection_reason_counts: dict[str, int] = field(default_factory=dict)
+    daily_selected_topics_total: int = 0
+    daily_selected_max_channel_items: int = 0
     daily_metadata_candidates_after_state_total: int = 0
     daily_content_preselection_cap: int = 0
     daily_content_preselected_total: int = 0
@@ -401,6 +409,14 @@ class YouTubeDiagnosticsCounters:
             "cyberlurch_digest_store_total",
             "cyberlurch_digest_invalid_records_removed_total",
             "cyberlurch_digest_invalid_records_skipped_total",
+            "youtube_api_budget_requested_ids_total",
+            "youtube_api_budget_enriched_ids_total",
+            "youtube_api_budget_requests_total",
+            "youtube_api_budget_skipped_total",
+            "daily_candidate_counts",
+            "daily_selection_reason_counts",
+            "daily_selected_topics_total",
+            "daily_selected_max_channel_items",
             "daily_metadata_candidates_after_state_total",
             "daily_content_preselection_cap",
             "daily_content_preselected_total",

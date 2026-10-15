@@ -52,6 +52,10 @@ def processed_store(value: Any) -> bool:
         return False
     if "foamed_source_health" in value and not foamed_health_store(value["foamed_source_health"]):
         return False
+    if "cyberlurch_candidates" in value:
+        from .cyberlurch_candidates import valid
+        if not valid(value["cyberlurch_candidates"]):
+            return False
     for report in value.get("reports", {}).values():
         for name in ("pubmed", "youtube", "foamed"):
             if name in report and (not isinstance(report[name], dict) or not isinstance(report[name].get("processed", {}), dict)):
