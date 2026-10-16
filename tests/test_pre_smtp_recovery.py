@@ -1,11 +1,15 @@
 import hashlib
+import io
 import json
 import os
+import shlex
 import sys
 import threading
+import zipfile
 from pathlib import Path
 
 import pytest
+import yaml
 
 from newsagent2 import main, emailer, store_io, workflow_delivery
 from newsagent2 import pre_smtp_recovery as recovery
@@ -136,6 +140,90 @@ def test_already_restored_deltas_are_supported(saved,key):
     assert hashes(root)==before and not calls
     cli(row['edition_id'],True)
     assert len(calls)==1
+
+
+@pytest.mark.parametrize('key', ['cybermed', 'cyberlurch'])
+def test_state_only_workflow_recovers_sealed_acceptance_with_its_own_environment(saved, key, monkeypatch):
+    """A real generation checkpoint needs its verifier key in a fresh job too."""
+    from types import SimpleNamespace
+    from conftest import private_environment_name
+    from test_newsletter_job_scope import git_mock
+    from newsagent2 import edition_plan
+    prepare, replay_cli, SMTP, calls, generation, root = saved
+    monkeypatch.setenv('GITHUB_RUN_ID', '71')
+    row, target = prepare(key)
+    original = target.read_bytes()
+    replay_cli(row['edition_id'], True)
+    accepted = load_journal(path_for('DELIVERY_JOURNAL_PATH'))['editions'][row['edition_id']]
+    assert accepted['status'] == 'accepted_by_smtp' and accepted['recovery']['generated_deltas']
+    assert accepted['state_persisted'] and len(calls) == 1
+    seal_key = os.environ['DELIVERY_RECIPIENT_HMAC_KEY']
+    archive_bytes = io.BytesIO()
+    with zipfile.ZipFile(archive_bytes, 'w') as archive:
+        for file in (root/'out/recovery').iterdir():
+            if file.is_file(): archive.writestr(file.name, file.read_bytes())
+    target.write_bytes(original)
+    path_for('DELIVERY_JOURNAL_PATH').unlink()
+    path_for('STATE_PATH').unlink()
+
+    workflow = yaml.safe_load(Path('.github/workflows/newsletter-recover-state.yml').read_text())
+    job = workflow['jobs']['recover']
+    # Sender process settings must not mask missing bindings in this job.
+    for name in list(os.environ):
+        if private_environment_name(name): monkeypatch.delenv(name, raising=False)
+    for name, value in job['env'].items():
+        if '${{' not in str(value): monkeypatch.setenv(name, str(value))
+    if 'DELIVERY_RECIPIENT_HMAC_KEY' in job['env']:
+        assert job['env']['DELIVERY_RECIPIENT_HMAC_KEY'] == '${{ secrets.DELIVERY_RECIPIENT_HMAC_KEY }}'
+        monkeypatch.setenv('DELIVERY_RECIPIENT_HMAC_KEY', seal_key)
+    for name, value in {'REPORT_KEY': key, 'REPORT_DIR': str(root/'maintenance-out'),
+        'GITHUB_REPOSITORY': 'offline/repo', 'GITHUB_REF_NAME': 'main',
+        'GITHUB_RUN_ID': '99', 'GITHUB_TOKEN': 'offline-token', 'GITHUB_EVENT_NAME': 'workflow_dispatch',
+        'NEWSAGENT_JOB_STARTED_AT': '2026-10-16T12:01:00Z'}.items():
+        monkeypatch.setenv(name, value)
+    assert os.environ['SEND_EMAIL'] == '0' and os.environ['EMAIL_MODE'] == 'real'
+    assert not any(name.startswith(('SMTP_', 'OPENAI_', 'RECIPIENTS_', 'TEST_RECIPIENTS_')) for name in os.environ)
+    filename = 'cybermed.yml' if key == 'cybermed' else 'newsagent.yml'
+
+    class Session:
+        def __init__(self): self.headers = {}
+        def get(self, url, **kwargs):
+            data = {}
+            if url.endswith('/runs'):
+                data = {'workflow_runs': [{'id': 71, 'event': 'schedule', 'conclusion': 'failure'}]}
+            elif url.endswith('/jobs'):
+                data = {'jobs': [{'steps': [{'name': 'Run Cybermed reports' if key == 'cybermed' else 'Run reports',
+                    'started_at': '2026-10-16T08:30:00Z', 'conclusion': 'success'}]}]}
+            elif url.endswith('/artifacts'):
+                data = {'artifacts': [{'id': 7, 'name': f'{key}-delivery-recovery-71', 'expired': False}]}
+            return SimpleNamespace(json=lambda: data, raise_for_status=lambda: None, content=archive_bytes.getvalue())
+
+    monkeypatch.setattr(workflow_delivery.requests, 'Session', Session)
+    monkeypatch.setattr(edition_plan, 'github_created_at', lambda: '2026-10-16T12:00:00Z')
+    git_calls = git_mock(monkeypatch)
+    monkeypatch.chdir(root)
+    bind = next(step for step in job['steps'] if step.get('name') == 'Bind recovery to this run and newsletter')
+    monkeypatch.setattr(sys, 'argv', shlex.split(bind['run'].replace('$REPORT_KEY', key))[2:])
+    edition_plan.main()
+    for _ in range(2):
+        for step in job['steps']:
+            if step.get('name') not in {'Restore retained receipts and validated records', 'Publish validated recovery'}:
+                continue
+            for line in step['run'].splitlines():
+                if not line.strip().startswith('python -m src.newsagent2.workflow_delivery '): continue
+                # Only the selected newsletter's ordinary publication branch.
+                if 'publish --paths' in line and ((key == 'cybermed') != ('cybermed_daily_digests' in line)):
+                    continue
+                args = shlex.split(line.strip().replace('$REPORT_KEY', key).replace('$workflow', filename))
+                monkeypatch.setattr(sys, 'argv', args[2:])
+                workflow_delivery.main()
+    final = load_journal(path_for('DELIVERY_JOURNAL_PATH'))['editions'][row['edition_id']]
+    assert final['status'] == 'accepted_by_smtp' and final['state_persisted']
+    assert final['message_id'] == accepted['message_id'] and final['accepted'] == accepted['accepted']
+    assert final['content_version'] == accepted['content_version'] and target.read_bytes() != original
+    assert ['git', 'push', 'origin', 'HEAD:main'] in git_calls
+    assert len(calls) == 1 and len(generation) == 1
+    assert json.loads(path_for('STATE_PATH').read_text())['reports'][key]
 
 
 @pytest.mark.parametrize('key',['cybermed','cyberlurch'])

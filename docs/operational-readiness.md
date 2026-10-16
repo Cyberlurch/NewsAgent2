@@ -95,9 +95,16 @@ environment; `--check-actions` uses a scoped GitHub token and reads metadata onl
 
 Merge the fix, then start **Newsletter state recovery (no sending)** on `main`
 with `report_key=cybermed`. This manual maintenance workflow is deliberately
-separate from newsletter generation. It has no SMTP, model, transcript or
-recipient secrets and sets `SEND_EMAIL=0`. It shares the production writer group
+separate from newsletter generation. It has no SMTP/model/transcript credentials
+or recipient addresses and sets `SEND_EMAIL=0`. It shares the production writer group
 and checks out `github.ref_name`.
+
+It receives the existing `DELIVERY_RECIPIENT_HMAC_KEY` solely to verify sealed
+generation checkpoints. This verification key contains no recipient addresses
+and supplies neither SMTP authentication nor model access. Keep the same key as
+the producing run; a missing/changed key must fail validation, never bypass it.
+Fixed failure categories are also emitted as Actions error annotations so a
+metadata-only API client can diagnose a failed recovery without archive access.
 
 It validates/imports retained production recovery packets, restores only bound
 generated deltas/ingestion checkpoints, finalizes known full SMTP acceptances
