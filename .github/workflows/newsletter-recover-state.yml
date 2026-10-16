@@ -30,8 +30,10 @@ jobs:
       REPORT_DIR: out
       NEWSAGENT_PLAN_PATH: out/recovery_plan_metadata.json
       DELIVERY_RECOVERY_ACK_RUN_IDS: ${{ vars.DELIVERY_RECOVERY_ACK_RUN_IDS || '' }}
+      # Verify sealed generation checkpoints; this does not authorize SMTP.
+      DELIVERY_RECIPIENT_HMAC_KEY: ${{ secrets.DELIVERY_RECIPIENT_HMAC_KEY }}
       GITHUB_TOKEN: ${{ github.token }}
-      # Deliberately no SMTP, recipient, transcript or model credentials.
+      # Deliberately no SMTP/model/transcript credentials or recipient addresses.
     steps:
       - uses: actions/checkout@v5
         with:

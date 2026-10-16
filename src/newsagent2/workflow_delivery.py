@@ -13,6 +13,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 import zipfile
 from pathlib import Path
 
@@ -503,5 +504,46 @@ def main():
             retry_saved_rejected(args.edition_id, args.subject, failed=args.action == "retry-saved-failed")
 
 
+def cli():
+    """Expose fixed failure categories through Actions metadata, never payloads.
+
+    Logs/artifact archives may be unavailable to an operator's API client. A
+    category annotation keeps recovery failures diagnosable without echoing an
+    exception, downloaded record, address, hostname or credential.
+    """
+    try:
+        main()
+    except Exception as exc:
+        category = "newsletter_operation_failed"
+        known = {
+            "recovery_recipient_key_missing", "recovery_readiness_binding_invalid",
+            "recovery_output_binding_invalid", "recovery_required_delta_missing_or_changed",
+            "delivery_recovery_github_access_failed", "delivery_recovery_artifact_invalid",
+            "receipt_finalization_scope_mismatch", "known_full_smtp_acceptance_required",
+            "publication_newsletter_scope_mismatch", "publication_mutation_policy_blocked",
+            "git_publication_branch_missing", "git_status_failed", "git_commit_failed",
+            "git_push_failed_or_unknown",
+        }
+        kinds = {"delivery_journal", "delivery_recovery", "generated_delta", "generated_content",
+                 "processed_items", "cybermed_daily", "cybermed_weekly", "cyberlurch_digests",
+                 "rollups", "cybermed_pubmed_ingestion"}
+        store_categories = {
+            "missing_journal", "corrupted_existing_store", "invalid_existing_store", "unreadable_existing_store",
+            "invalid_recovery", "recovery_preimage_conflict", "newer_state_requires_operator_review",
+            "production_scope_missing", "mixed_source_run_modes", "source_mode_conflict",
+            "missing_or_invalid_generated_content", "content_conflict", "maintenance_scope_mismatch",
+            "persistence_failed", "invalid_output", "invalid_record_identity", "recovery_mutation_policy",
+            "marker_finalization_failed",
+        }
+        if isinstance(exc, StoreError) and exc.kind in kinds and exc.category in store_categories:
+            category = f"store_error:{exc.kind}:{exc.category}"
+        elif type(exc) is RuntimeError and str(exc) in known:
+            category = str(exc)
+        elif type(exc) is RuntimeError and re.fullmatch(r"delivery_recovery_missing_for_run:[0-9]+;operator_reconciliation_required", str(exc)):
+            category = str(exc)
+        print(f"::error title=Newsletter operation failed::{category}", file=sys.stderr)
+        raise SystemExit(1) from None
+
+
 if __name__ == "__main__":
-    main()
+    cli()
