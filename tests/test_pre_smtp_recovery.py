@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 import sys
 import threading
 from pathlib import Path
@@ -164,7 +165,7 @@ def test_explicit_no_marker_policy_is_bound_and_replayable(saved):
 @pytest.mark.parametrize('planned',[False,True])
 def test_real_generation_pipeline_is_fully_approved_before_replay_checkpoint(saved,key,instant,monkeypatch,freeze_clock,planned):
     prepare,cli,SMTP,calls,generation,root=saved
-    from datetime import datetime,timezone
+    from datetime import datetime,timezone,timedelta
     import calendar
     import test_cyberlurch_mode_artifacts_and_digest_primary as helpers
     clock=freeze_clock(instant,aliases=[(helpers,'dt')])
@@ -173,8 +174,13 @@ def test_real_generation_pipeline_is_fully_approved_before_replay_checkpoint(sav
         from test_cyberlurch_monthly_safety import _setup
         target=_setup(root,monkeypatch)
         now=clock.now(main.STO)
+        monkeypatch.setenv('ROLLUP_MONTH_OVERRIDE', now.strftime('%Y-%m'))
         monkeypatch.setenv('DELIVERY_PERIOD_START',now.strftime('%Y-%m-01'))
         monkeypatch.setenv('DELIVERY_PERIOD_END',now.replace(day=calendar.monthrange(now.year,now.month)[1]).date().isoformat())
+        # The source timestamp still exercises leap day/year end. Generate its
+        # final Monthly only after the source month has actually closed.
+        instant = (now.replace(day=calendar.monthrange(now.year,now.month)[1])+timedelta(days=1)).isoformat()
+        freeze_clock(instant)
     else:
         from test_pubmed_facts import paper,CORRECTION
         day=clock.now(main.STO).date().isoformat()
@@ -204,7 +210,8 @@ def test_real_generation_pipeline_is_fully_approved_before_replay_checkpoint(sav
     if planned:
         from newsagent2.edition_plan import make_plan, validate_plan
         request='monthly' if key=='cyberlurch' else 'daily'
-        plan=make_plan(key,created_at=instant,job_started_at=instant,trigger='workflow_dispatch',request=request,mode='real')
+        plan=make_plan(key,created_at=instant,job_started_at=instant,trigger='workflow_dispatch',request=request,mode='real',
+                       month_override=os.getenv('ROLLUP_MONTH_OVERRIDE',''))
         plan_path=root/'plan.json'
         store_io.atomic_store(plan_path,plan,kind='test_plan',validate=validate_plan)
         monkeypatch.setenv('NEWSAGENT_PLAN_PATH',str(plan_path))

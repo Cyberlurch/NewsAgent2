@@ -105,7 +105,7 @@ def test_readiness_missing_daily_and_legacy_shift_stop_before_processing(monkeyp
     weekly=next(e for e in plan['entries'] if e['cadence']=='weekly')
     with pytest.raises(RuntimeError,match='daily_coverage'): ep.check_ready(weekly)
     daily=Path(os.environ['CYBERMED_DAILY_DIGEST_STATE_PATH'])
-    daily.write_text(json.dumps({'schema_version':1,'digests':[{'run_date':d} for d in ep.required_daily_dates(weekly['period_start'],weekly['coverage_end'])]}))
+    daily.write_text(json.dumps({'schema_version':1,'digests':[{'digest_id':'cybermed_daily_'+d,'run_date':d} for d in ep.required_daily_dates(weekly['period_start'],weekly['coverage_end'])]}))
     ep.check_ready(weekly)
     store=Path(os.environ['CYBERMED_WEEKLY_DIGEST_STATE_PATH'])
     store.write_text(json.dumps({'schema_version':1,'digests':[{'digest_id':'old','report_key':'cybermed','cadence':'weekly',
@@ -113,7 +113,7 @@ def test_readiness_missing_daily_and_legacy_shift_stop_before_processing(monkeyp
     with pytest.raises(RuntimeError,match='legacy_shifted'): ep.check_ready(weekly)
 
 
-def test_monthly_missing_closing_week_becomes_ready_without_changing_id(monkeypatch,tmp_path):
+def test_monthly_missing_closing_week_is_partial_without_changing_id(monkeypatch,tmp_path):
     from newsagent2.cybermed_digest_store import prepare_cybermed_monthly_source_digests, make_cybermed_weekly_digest
     plan=plan_env(monkeypatch,tmp_path,day='2026-11-06')
     entry=next(e for e in plan['entries'] if e['cadence']=='monthly'); identity=entry['edition_id']
@@ -126,8 +126,9 @@ def test_monthly_missing_closing_week_becomes_ready_without_changing_id(monkeypa
         all_daily.extend(daily)
         rows.append(make_cybermed_weekly_digest(period_start=start,period_end=end,generated_at_utc='fixed',source_digests=daily,pubmed_items=[],foamed_items=[],deep_dives=[],top_picks=[],diagnostic_summary={}))
     store['digests']=rows[:-1];path.write_text(json.dumps(store))
+    Path(os.environ['CYBERMED_DAILY_DIGEST_STATE_PATH']).write_text(json.dumps({'digests':all_daily}))
     before=path.read_bytes()
-    with pytest.raises(RuntimeError,match='closing_week'): ep.check_ready(entry)
+    ep.check_ready(entry)  # Explicit available-evidence policy, no invented closing week.
     assert path.read_bytes()==before
     Path(os.environ['CYBERMED_DAILY_DIGEST_STATE_PATH']).write_text(json.dumps({'digests':all_daily}))
     store['digests']=rows;path.write_text(json.dumps(store));ep.check_ready(entry)
@@ -225,7 +226,7 @@ def test_actual_daily_pipeline_stores_logical_date_and_real_generation_time(monk
 def test_shifted_week_selects_only_observed_coverage_not_later_friday(monkeypatch,tmp_path):
     from newsagent2.cybermed_digest_store import select_cybermed_daily_digests_for_week
     plan_env(monkeypatch,tmp_path,day='2026-12-23')
-    rows={'digests':[{'run_date':d} for d in ['2026-12-21','2026-12-22','2026-12-23','2026-12-25']]}
+    rows={'digests':[{'digest_id':'cybermed_daily_'+d,'run_date':d} for d in ['2026-12-21','2026-12-22','2026-12-23','2026-12-25']]}
     with ep.bind_entry('cybermed','weekly'):
         selected=select_cybermed_daily_digests_for_week(rows,date(2026,12,23))
     assert [r['run_date'] for r in selected]==['2026-12-21','2026-12-22','2026-12-23']

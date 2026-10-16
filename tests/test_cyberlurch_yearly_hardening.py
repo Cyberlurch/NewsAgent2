@@ -66,12 +66,12 @@ def test_prepare_unique_month_latest_and_sanitizes_without_mutation():
 
 
 @pytest.mark.parametrize("mode,event", [("real", "workflow_dispatch"), ("test", "schedule")])
-def test_incomplete_production_blocks_before_email_and_is_readonly(tmp_path, monkeypatch, mode, event):
-    with pytest.raises(RuntimeError, match="incomplete_coverage"):
-        _run(tmp_path, monkeypatch, _months(count=11), mode=mode, event=event)
-    # The read-only loader never rewrites the deliberately compact source file.
-    path = tmp_path / "rollups.json"
-    assert path.read_bytes() == json.dumps({"reports": {"cyberlurch": _months(count=11)}}).encode()
+def test_partial_production_uses_available_evidence_and_is_readonly(tmp_path, monkeypatch, mode, event):
+    path, original, sent, md = _run(tmp_path, monkeypatch, _months(count=11), mode=mode, event=event)
+    assert path.read_bytes() == original and len(sent) == 1
+    assert "Partial review:" in md and "Calendar coverage is complete." not in md
+    diag = json.loads((tmp_path / "reports/cyberlurch_yearly_diagnostics.json").read_text())
+    assert not diag['calendar_coverage_complete'] and diag['provider_operations'] == 1
 
 
 @pytest.mark.parametrize("mode,emails", [("none", 0), ("test", 1)])
@@ -90,3 +90,19 @@ def test_complete_year_uses_semantic_renderer_and_one_provider_call(tmp_path, mo
     diag = json.loads((tmp_path / "reports" / "cyberlurch_yearly_diagnostics.json").read_text())
     assert diag["provider_operations"] == 1
     assert diag["collection_operations"] == diag["daily_digest_inputs"] == 0
+
+
+def test_closed_production_year_cannot_turn_thin_archive_slots_into_a_newsletter(tmp_path, monkeypatch):
+    from newsagent2.cyberlurch_yearly import YearlySynthesisError
+    rows = [{'month': f'2025-{i:02d}'} for i in range(1, 13)]
+    path = tmp_path/'rollups.json'; path.write_text(json.dumps({'reports': {'cyberlurch': rows}}))
+    before = path.read_bytes()
+    monkeypatch.setenv('EMAIL_MODE', 'real'); monkeypatch.setenv('GITHUB_EVENT_NAME', 'workflow_dispatch')
+    monkeypatch.setenv('YEAR_IN_REVIEW_YEAR', '2025')
+    def forbidden(*args, **kwargs): pytest.fail('No factual evidence: neither provider nor SMTP may run')
+    monkeypatch.setattr(main, 'synthesize_cyberlurch_yearly_json', forbidden)
+    monkeypatch.setattr(main, 'send_markdown', forbidden)
+    with pytest.raises(YearlySynthesisError, match='substantive_evidence_missing'):
+        main._run_yearly_report(rollups_state_path=str(path), report_key='cyberlurch', base_report_title='Cyberlurch',
+            base_report_subject='Cyberlurch', report_language='en', report_dir=str(tmp_path/'out'))
+    assert path.read_bytes() == before

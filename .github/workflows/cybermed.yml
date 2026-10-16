@@ -205,6 +205,7 @@ jobs:
             esac
           fi
 
+          run_failed=0
           for mode in $RUN_MODES; do
             export REPORT_MODE="$mode"
             if [ "$mode" = "daily" ] && [ "${CYBERMED_HEAVY_AUDIT_MODE:-0}" != "1" ]; then
@@ -216,14 +217,19 @@ jobs:
               export FOAMED_COLLECTION_BUDGET_SECONDS=420
               echo "[foamed-runtime] daily bounded mode: audit=0 disabled_audit=0 rolling_audit_days=0 article_fetch_max=8 collection_budget_seconds=420"
             fi
-            REPORT_KEY=cybermed \
+            if REPORT_KEY=cybermed \
             REPORT_TITLE="Cybermed Report" \
             REPORT_SUBJECT="Cybermed Report" \
             REPORT_LANGUAGE=en \
             REPORT_PROFILE=medical \
             SEND_EMPTY_REPORT_EMAIL="1" \
-            python -u -m src.newsagent2.main --channels data/cybermed_channels.json --hours 24
+            python -u -m src.newsagent2.main --channels data/cybermed_channels.json --hours 24; then
+              :
+            else
+              run_failed=1
+            fi
           done
+          exit "$run_failed"
 
       - name: Verify each planned cybermed delivery result
         if: always() && steps.plan.outputs.skip != 'true'

@@ -26,6 +26,7 @@ papers or checking the claims of a source.
 | Installation, offline tests and CI isolation | [Development](docs/development.md) |
 | Schedule, logical editions and observed timing | [Calendar and timing](docs/calendar-and-timing.md) |
 | SMTP receipts, failed runs and Git recovery | [Delivery and recovery](docs/delivery-recovery.md) |
+| All eight variants, daily early checks and state-only recovery | [Operational readiness](docs/operational-readiness.md) |
 | Five reviewed pre-journal failures and historical attempt holds | [Legacy transition](docs/legacy-transition.md) |
 | Historical provenance and missing editions | [Coverage audit](docs/history-coverage.md), [dated inventory](docs/history-audit-2026-10-15.md) |
 | Reviewed Daily/Weekly reconstruction | [Maintenance](docs/reviewed-maintenance.md) |
@@ -50,6 +51,9 @@ saved digest can exist without having been accepted by an SMTP server.
 Cybermed aggregates do not fetch live replacement papers when their saved input
 chain is missing. New final aggregates require the supported coverage and
 provenance checks; a nonempty row or twelve Monthly rows alone is insufficient.
+The operator-selected available-evidence policy permits labelled partial
+Weekly/Monthly/Yearly reviews over valid saved sources. Missing editions remain
+missing; corrupt inputs and broken source references still block publication.
 A valid empty edition is present coverage when explicitly referenced, whereas a
 missing edition is not. Legacy records remain readable without acquiring invented
 calendar policies or successful delivery history.
@@ -223,6 +227,8 @@ atomically. Valid additive legacy fields are preserved without invented receipts
 | [newsagent.yml](.github/workflows/newsagent.yml) | Cyberlurch production and manual runs |
 | [cybermed.yml](.github/workflows/cybermed.yml) | Independent Cybermed production and manual runs |
 | [offline-tests.yml](.github/workflows/offline-tests.yml) | Network-blocked tests and integrity evidence |
+| [newsletter-readiness.yml](.github/workflows/newsletter-readiness.yml) | Daily 04:00 Stockholm checks for both newsletters and all four cadences; no sending |
+| [newsletter-recover-state.yml](.github/workflows/newsletter-recover-state.yml) | Explicit manual receipt/State recovery and publication; no generation or sending |
 | [maintenance-backfill.yml](.github/workflows/maintenance-backfill.yml) | General read-only backfill planning |
 | [Daily maintenance](.github/workflows/cybermed-daily-backfill.yml), [Weekly maintenance](.github/workflows/cybermed-weekly-backfill.yml) | Audit/candidate generation and separately reviewed offline publication |
 | [cybermed-model-eval.yml](.github/workflows/cybermed-model-eval.yml) | Explicit manual blinded comparison, no automatic promotion |

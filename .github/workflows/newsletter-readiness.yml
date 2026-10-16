@@ -1,0 +1,67 @@
+name: Newsletter readiness (all cadences, no sending)
+
+on:
+  schedule:
+    - cron: "0 4 * * *"
+      timezone: Europe/Stockholm
+  workflow_dispatch:
+  workflow_run:
+    workflows: [NewsAgent2 Cybermed, NewsAgent2 daily, Newsletter state recovery (no sending)]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: newsagent2-readiness-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        report_key: [cybermed, cyberlurch]
+    env:
+      REPORT_KEY: ${{ matrix.report_key }}
+      EMAIL_MODE: none
+      SEND_EMAIL: "0"
+      GITHUB_TOKEN: ${{ github.token }}
+      DELIVERY_RECOVERY_ACK_RUN_IDS: ${{ vars.DELIVERY_RECOVERY_ACK_RUN_IDS || '' }}
+      DELIVERY_RECIPIENT_HMAC_KEY: ${{ secrets.DELIVERY_RECIPIENT_HMAC_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      SMTP_HOST: ${{ matrix.report_key == 'cybermed' && secrets.SMTP_HOST || matrix.report_key == 'cyberlurch' && secrets.CYBERLURCH_SMTP_HOST || '' }}
+      SMTP_PORT: ${{ matrix.report_key == 'cybermed' && secrets.SMTP_PORT || matrix.report_key == 'cyberlurch' && secrets.CYBERLURCH_SMTP_PORT || '' }}
+      SMTP_USER: ${{ matrix.report_key == 'cybermed' && secrets.SMTP_USER || matrix.report_key == 'cyberlurch' && secrets.CYBERLURCH_SMTP_USER || '' }}
+      SMTP_PASS: ${{ matrix.report_key == 'cybermed' && secrets.SMTP_PASS || matrix.report_key == 'cyberlurch' && secrets.CYBERLURCH_SMTP_PASS || '' }}
+      RECIPIENTS_CONFIG_JSON: ${{ secrets.RECIPIENTS_CONFIG_JSON || '' }}
+      RECIPIENTS_JSON_CYBERMED: ${{ secrets.RECIPIENTS_JSON_CYBERMED || '' }}
+      RECIPIENTS_JSON_CYBERMED_DAILY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_DAILY || '' }}
+      RECIPIENTS_JSON_CYBERMED_WEEKLY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_WEEKLY || '' }}
+      RECIPIENTS_JSON_CYBERMED_MONTHLY: ${{ secrets.RECIPIENTS_JSON_CYBERMED_MONTHLY || '' }}
+      RECIPIENTS_JSON_CYBERLURCH: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH || '' }}
+      RECIPIENTS_JSON_CYBERLURCH_DAILY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_DAILY || '' }}
+      RECIPIENTS_JSON_CYBERLURCH_WEEKLY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_WEEKLY || '' }}
+      RECIPIENTS_JSON_CYBERLURCH_MONTHLY: ${{ secrets.RECIPIENTS_JSON_CYBERLURCH_MONTHLY || '' }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: bash tools/install_dependencies.sh runtime
+      - name: Check Daily, Weekly, Monthly and Yearly before sending day
+        run: python -m src.newsagent2.operational_readiness --report-key "$REPORT_KEY" --check-config --check-actions --output out/readiness.json
+      - name: Preserve category-only readiness evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.report_key }}-readiness-${{ github.run_id }}
+          path: out/readiness.json
+          retention-days: 14
+          if-no-files-found: error

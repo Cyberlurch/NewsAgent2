@@ -107,7 +107,8 @@ def make_plan(key, *, created_at, job_started_at, trigger, request='scheduled', 
 
 def validate_plan(value):
     try:
-        if set(value) != {'schema_version','report_key','trigger','mode','workflow_run_id','logical_date','slot_source','slot_certainty','expected_slot','run_created_at','job_started_at','entries','already_finalized_editions','reason'}: return False
+        required = {'schema_version','report_key','trigger','mode','workflow_run_id','logical_date','slot_source','slot_certainty','expected_slot','run_created_at','job_started_at','entries','already_finalized_editions','reason'}
+        if not required <= set(value) or set(value) - required - {'quarantined_editions'}: return False
         if value['schema_version'] != 1 or value['report_key'] not in {'cybermed','cyberlurch'}: return False
         key, day = value['report_key'], date.fromisoformat(value['logical_date'])
         if value['mode'] not in {'real','none','test'} or value['trigger'] not in {'schedule','manual','workflow_dispatch'}: return False
@@ -129,6 +130,26 @@ def validate_plan(value):
             rebuilt=entry_for(key,cadence,day,value['trigger'],value['mode'],start.isoformat()[:7] if cadence=='monthly' else '',str(start.year) if cadence=='yearly' else '')
             if entry != rebuilt: return False
         if not isinstance(value['already_finalized_editions'],list) or any(not isinstance(v,str) or not v.startswith(key+':') for v in value['already_finalized_editions']): return False
+        if 'quarantined_editions' in value:
+            from .legacy_transition import FRESH_START, active
+            if not isinstance(value['quarantined_editions'], list) or len(value['quarantined_editions']) > 2:
+                return False
+            quarantined_ids = set()
+            for row in value['quarantined_editions']:
+                if (not isinstance(row, dict) or not isinstance(row.get('edition_id'), str)
+                    or not active() or key != 'cybermed' or value['mode'] != 'real' or value['trigger'] != 'schedule'
+                    or set(row) != {'edition_id', 'category', 'automatic_resend'}
+                    or row['category'] != 'legacy_delivery_history_unknown' or row['automatic_resend'] is not False):
+                    return False
+                parts = row['edition_id'].split(':')
+                if (len(parts) != 5 or parts[0] != key or parts[1] not in {'monthly', 'yearly'}
+                    or parts[4] != 'production' or not date.fromisoformat(parts[2]) <= date.fromisoformat(parts[3])
+                    or parts[3] >= FRESH_START or row['edition_id'] in [e['edition_id'] for e in value['entries']]):
+                    return False
+                if (row['edition_id'] in quarantined_ids or row['edition_id'] !=
+                    entry_for(key, parts[1], day, 'schedule', 'real')['edition_id']):
+                    return False
+                quarantined_ids.add(row['edition_id'])
         return value['reason'] in {'','calendar_no_op','already_finalized_no_op'}
     except (KeyError,TypeError,ValueError): return False
 
@@ -183,66 +204,54 @@ def required_daily_dates(start,end,*,policy=POLICY):
 
 
 def check_ready(entry):
-    """Read-only under the existing writer lock, before model generation."""
-    if not entry or entry['report_key']!='cybermed' or entry['cadence']=='daily': return
-    from .cybermed_digest_store import load_cybermed_daily_digest_store, load_cybermed_weekly_digest_store, prepare_cybermed_monthly_source_digests
-    cadence=entry['cadence']
-    if cadence=='weekly':
+    """Read-only readiness: closed periods, available evidence, valid references.
+
+    Missing historical editions support an explicitly partial review. They do
+    not license a retry or turn old generation markers into SMTP receipts.
+    """
+    if not entry or entry['cadence'] == 'daily':
+        return
+    from .aggregate_policy import require_review_period, require_review_sources, require_year_closed
+    require_review_period(entry['report_key'], entry['cadence'], entry['period_end'], entry['logical_date'])
+    if entry['report_key'] != 'cybermed':
+        return
+    from .cybermed_digest_store import prepare_cybermed_monthly_source_digests
+    from .history_coverage import load_inputs, weekly_coverage, monthly_coverage, yearly_coverage
+    cadence = entry['cadence']
+    daily, weekly, months = load_inputs('cybermed')
+    if cadence == 'weekly':
         if entry['coverage_end'] != weekly_dates(date.fromisoformat(entry['period_start']))[2].isoformat():
             raise RuntimeError('edition_weekly_not_closed_preview_only')
         from .delivery import load_journal
         for previous in load_journal(path_for('DELIVERY_JOURNAL_PATH'))['editions'].values():
-            if (previous['report_key']=='cybermed' and previous['cadence']=='weekly'
-                and previous['edition_id'].endswith(':production') and previous['edition_id']!=entry['edition_id']
-                and previous['period_start']<=entry['period_end'] and previous['period_end']>=entry['period_start']):
+            if (previous['report_key'] == 'cybermed' and previous['cadence'] == 'weekly'
+                and previous['edition_id'].endswith(':production') and previous['edition_id'] != entry['edition_id']
+                and previous['period_start'] <= entry['period_end'] and previous['period_end'] >= entry['period_start']):
                 raise RuntimeError('edition_other_week_identity_requires_review')
-        rows=load_cybermed_daily_digest_store(str(path_for('CYBERMED_DAILY_DIGEST_STATE_PATH')))['digests']
-        expected=required_daily_dates(entry['period_start'],entry['coverage_end'])
-        found=[row.get('run_date') for row in rows if row.get('run_date') in expected]
-        if sorted(found)!=expected: raise RuntimeError('edition_weekly_daily_coverage_incomplete')
-        existing=load_cybermed_weekly_digest_store(str(path_for('CYBERMED_WEEKLY_DIGEST_STATE_PATH')))['digests']
-        for row in existing:
-            if row['period_start']==entry['period_start'] and row['period_end']!=entry['period_end']:
+        rows = [r for r in daily if entry['period_start'] <= r.get('run_date', '') <= entry['coverage_end']]
+        if not rows:
+            raise RuntimeError('edition_weekly_daily_coverage_incomplete')
+        if any(not r.get('digest_id') for r in rows):
+            raise RuntimeError('edition_weekly_daily_record_invalid')
+        for row in weekly:
+            if row['period_start'] == entry['period_start'] and row['period_end'] != entry['period_end']:
                 raise RuntimeError('edition_legacy_shifted_week_requires_review')
-    elif cadence=='monthly':
-        store=load_cybermed_weekly_digest_store(str(path_for('CYBERMED_WEEKLY_DIGEST_STATE_PATH')))
-        _,diag=prepare_cybermed_monthly_source_digests(store,entry['period_start'][:7])
-        if not diag['coverage_complete']: raise RuntimeError('edition_monthly_closing_week_incomplete')
-        # New policy weeks need explicit full business-day coverage. Legacy
-        # closing weeks require actual Daily dates; no invented v2 metadata.
-        keys=diag['expected_weekly_periods']; closing=keys[-1] if keys else ''
-        for row in store['digests']:
-            label=row['period_start']+'..'+row['period_end']
-            if label not in keys: continue
-            if row.get('calendar_policy')==POLICY:
-                expected_end=weekly_dates(date.fromisoformat(row['period_start']))[2].isoformat()
-                if row.get('coverage_end')!=expected_end or row.get('coverage_status')!='complete':
-                    raise RuntimeError('edition_monthly_week_coverage_not_final')
-            if row.get('calendar_policy')==POLICY or label==closing:
-                expected=required_daily_dates(row['period_start'],row.get('coverage_end',row['period_end']),policy=row.get('calendar_policy','legacy'))
-                if not set(expected)<=set(row.get('source_run_dates',[])):
-                    raise RuntimeError('edition_monthly_daily_provenance_incomplete')
+        coverage = weekly_coverage({**entry, 'source_daily_digest_ids': [r['digest_id'] for r in rows]}, daily)
+        available = len(rows)
+    elif cadence == 'monthly':
+        selected, diagnostic = prepare_cybermed_monthly_source_digests({'digests': weekly}, entry['period_start'][:7])
+        if diagnostic['unsafe_boundary_items']:
+            raise RuntimeError('edition_monthly_unsafe_boundary_sources')
+        coverage = monthly_coverage({'month': entry['period_start'][:7], 'calendar_policy': entry['calendar_policy'],
+            'source_weekly_digest_ids': [r['digest_id'] for r in selected]}, weekly, daily)
+        available = len(selected)
     else:
-        from .rollups import load_rollups_state_readonly
-        store=load_rollups_state_readonly(str(path_for('ROLLUPS_STATE_PATH')))
-        december=entry['period_start'][:4]+'-12'
-        if not any(row.get('month')==december for row in store.get('reports',{}).get('cybermed',[])):
-            raise RuntimeError('edition_yearly_december_monthly_missing')
-
-    if cadence in {'monthly', 'yearly'}:
-        from .history_coverage import load_inputs, monthly_coverage, yearly_coverage, require_complete
-        daily_rows, weekly_rows, months = load_inputs('cybermed')
-        if cadence == 'monthly':
-            selected, _ = prepare_cybermed_monthly_source_digests({'digests': weekly_rows}, entry['period_start'][:7])
-            coverage = monthly_coverage({'month': entry['period_start'][:7], 'calendar_policy': entry['calendar_policy'],
-                'source_weekly_digest_ids': [r['digest_id'] for r in selected]}, weekly_rows, daily_rows)
-        else:
-            assessed = yearly_coverage('cybermed', int(entry['period_start'][:4]), months, weekly_rows=weekly_rows,
-                daily_rows=daily_rows, as_of=datetime.combine(date.fromisoformat(entry['logical_date']), time(5,40), STO))
-            coverage = assessed
-            if not assessed['final_year_ready']:
-                raise RuntimeError('edition_yearly_history_not_final:'+assessed['status'])
-        require_complete(coverage, 'edition_'+cadence+'_history_coverage')
+        coverage = yearly_coverage('cybermed', int(entry['period_start'][:4]), months,
+            weekly_rows=weekly, daily_rows=daily,
+            as_of=datetime.combine(date.fromisoformat(entry['logical_date']), time(5, 40), STO))
+        require_year_closed(coverage)
+        available = len([r for r in months if r.get('month', '').startswith(entry['period_start'][:4]+'-')])
+    require_review_sources(coverage, available=available, category='edition_'+cadence+'_history_coverage')
 
 
 def github_created_at():
@@ -284,6 +293,17 @@ def main():
                 journal['editions'][e['edition_id']].get('state_persisted')]
             plan['already_finalized_editions']=[e['edition_id'] for e in completed]
             plan['entries']=[e for e in plan['entries'] if e not in completed]
+            # The finite pre-journal archive remains unknown, never successful.
+            # Stop retry-planning that archive every day alongside new service.
+            # Explicit historical manual requests retain their delivery guard.
+            from .legacy_transition import active, FRESH_START, _no_handoff_receipt
+            retired = [e for e in plan['entries'] if active() and args.report_key == 'cybermed'
+                and e['cadence'] in {'monthly', 'yearly'} and e['period_end'] < FRESH_START
+                and _no_handoff_receipt(journal['editions'].get(e['edition_id']))]
+            if retired:
+                plan['quarantined_editions'] = [{'edition_id': e['edition_id'],
+                    'category': 'legacy_delivery_history_unknown', 'automatic_resend': False} for e in retired]
+                plan['entries'] = [e for e in plan['entries'] if e not in retired]
             if not plan['entries']: plan['reason']='already_finalized_no_op' if completed else 'calendar_no_op'
         atomic_store(Path(args.output),plan,kind='edition_plan',validate=validate_plan)
         modes=' '.join(e['cadence'] for e in plan['entries'])

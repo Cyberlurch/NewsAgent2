@@ -326,7 +326,7 @@ def test_cybermed_weekly_digest_only_with_items_real_send_succeeds(monkeypatch, 
 
 def test_cybermed_monthly_digest_only_empty_real_send_is_blocked(monkeypatch, tmp_path):
     calls = []
-    with pytest.raises(RuntimeError, match="cybermed_monthly_history_coverage:unknown"):
+    with pytest.raises(RuntimeError, match="edition_monthly_period_still_open"):
         _run_digest_store_report(
             monkeypatch,
             tmp_path,

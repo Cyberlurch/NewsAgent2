@@ -322,6 +322,7 @@ jobs:
             echo "Manual email mode: ${EMAIL_MODE:-none}"
           fi
 
+          run_failed=0
           for mode in $RUN_MODES; do
             echo "--- Running cadence: $mode (which_report=$RUN_WHICH_REPORT) ---"
             export REPORT_MODE="$mode"
@@ -343,16 +344,21 @@ jobs:
                 CHFILE="${CYBERLURCH_CHANNELS_FILE_OVERRIDE}"
               fi
 
-              REPORT_KEY=cyberlurch \
+              if REPORT_KEY=cyberlurch \
               REPORT_TITLE="The Cyberlurch Report" \
               REPORT_SUBJECT="The Cyberlurch Report" \
               REPORT_LANGUAGE=en \
               REPORT_PROFILE=general \
               SEND_EMPTY_REPORT_EMAIL="1" \
-              python -m src.newsagent2.main --channels "$CHFILE" --hours 24
+              python -m src.newsagent2.main --channels "$CHFILE" --hours 24; then
+                :
+              else
+                run_failed=1
+              fi
             fi
 
           done
+          exit "$run_failed"
 
       - name: Verify each planned cyberlurch delivery result
         if: always() && steps.compute_plan.outputs.run_skip != 'true'

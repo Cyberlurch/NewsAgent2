@@ -163,7 +163,7 @@ def test_transition_week_leaves_hold_when_all_required_dailies_exist(monkeypatch
     entry = next(e for e in p["entries"] if e["cadence"] == "weekly")
     target = Path(os.environ["CYBERMED_DAILY_DIGEST_STATE_PATH"])
     target.write_text(json.dumps({"schema_version": 1, "digests": [
-        {"run_date": d} for d in ep.required_daily_dates(entry["period_start"], entry["period_end"]) ]}))
+        {"digest_id": "cybermed_daily_"+d, "run_date": d} for d in ep.required_daily_dates(entry["period_start"], entry["period_end"]) ]}))
     assert lt.hold_reason("cybermed", "weekly", entry["period_start"], entry["period_end"], entry) is None
 
 
@@ -233,7 +233,7 @@ def test_ready_transition_week_still_fails_on_real_generation_error(monkeypatch,
     p = plan(monkeypatch, tmp_path)
     entry = next(e for e in p["entries"] if e["cadence"] == "weekly")
     Path(os.environ["CYBERMED_DAILY_DIGEST_STATE_PATH"]).write_text(json.dumps({"digests": [
-        {"run_date": d} for d in ep.required_daily_dates(entry["period_start"], entry["period_end"]) ]}))
+        {"digest_id": "cybermed_daily_"+d, "run_date": d} for d in ep.required_daily_dates(entry["period_start"], entry["period_end"]) ]}))
     monkeypatch.setenv("REPORT_MODE", "weekly")
     monkeypatch.setattr(main, "_main", lambda: (_ for _ in ()).throw(RuntimeError("offline generation failure")))
     with pytest.raises(RuntimeError, match="offline generation failure"):

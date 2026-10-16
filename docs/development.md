@@ -40,7 +40,8 @@ export PYTHONPATH=src
 python -m compileall -q src tests tools
 python -c 'from newsagent2 import main, emailer, delivery, pre_smtp_recovery, run_context'
 python tools/verify_configs.py
-/tmp/newsagent-actionlint/actionlint -shellcheck="" -pyflakes=""
+python tools/check_cadence_loops.py
+/tmp/newsagent-actionlint/actionlint -shellcheck="" -pyflakes="" .github/workflows/*.yml
 bash -n tools/install_dependencies.sh tools/install_actionlint.sh
 python -m pytest -q tests/test_youtube_rss_fallback.py tests/test_delivery_boundary.py tests/test_pre_smtp_recovery.py tests/test_offline_isolation.py tests/test_configuration_validation.py tests/test_youtube_content_providers.py tests/test_managed_transcript_provider.py tests/test_backfill_audit.py
 python -m pytest -q --junitxml=.ci-results/pytest.xml

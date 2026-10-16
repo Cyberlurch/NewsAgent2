@@ -36,6 +36,10 @@ def result(reasons=(), *, expected=(), observed=(), children=()):
     for child in children:
         if child["status"] != "complete":
             reasons.append((child["status"], "upstream_"+child["status"]))
+            # Preserve the cause: a missing edition can support a labelled
+            # partial review; an orphan/foreign reference cannot. An opaque
+            # upstream_incomplete must never hide a structural defect.
+            reasons.extend((child["status"], reason) for reason in child["reasons"])
     status = "incomplete" if any(s == "incomplete" for s, _ in reasons) else (
         "unknown" if reasons else "complete")
     return {"schema_version": 1, "status": status,
