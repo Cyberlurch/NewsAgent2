@@ -69,14 +69,15 @@ than trusting a stale `complete` flag. Existing readers and recovery delta
 validators validate the optional metadata. New Weekly/Monthly records also bind
 the edition/content version to the already generated report when available.
 
-For Cybermed, production Monthly readiness and selection reject unknown/incomplete
-source chains before synthesis; Weekly rejects them before publishing its store;
-Yearly requires a closed, fully evidenced year before SMTP. Existing scheduled
-empty-report guards and strict store readers remain. Legacy stores remain readable;
-no history is migrated. Consequently, a new final aggregate over insufficiently
-proven Legacy history can require operator review/recovery instead of sending.
-There is no new bypass switch. Frozen plans supply the policy for **new** editions,
-not an automatic historical migration.
+Since the operator's 16 October 2026 decision, Cybermed supports labelled
+**available-evidence partial reviews**. Missing editions or unknown historical
+calendar/reference policy no longer permanently block Weekly/Monthly/Yearly
+generation when usable saved sources exist. Coverage retains its actual
+unknown/incomplete status; no Legacy history is migrated or declared complete.
+Structural defects, corrupt stores, unsafe boundary provenance and unclassified
+upstream failures remain fatal. Child reasons propagate so an orphan cannot hide
+behind a generic upstream status. Production Monthly/Yearly periods must be
+closed. Existing scheduled empty-content guards remain.
 
 For Cyberlurch, video publication dates cannot establish issue coverage. Monthly
 source registries and namespaced Yearly evidence remain authoritative for factual
@@ -85,7 +86,7 @@ enriched-Legacy and thin-Legacy classification stays separate from calendar
 coverage and `source_basis`. Thin Legacy is not promoted to factual evidence.
 New Monthly records explicitly retain unknown edition history; known reference defects
 block production Monthly before persistence/SMTP. Production Yearly
-still requires all Monthly calendar slots and now rejects known reference defects;
+permits missing Monthly slots under the same partial policy and rejects known reference defects;
 unknown issue history is allowed only with a visible limitation and a partial-
 evidence guard in the existing synthesis prompt, never “calendar coverage is
 complete.” This preserves the existing Monthly-based product without inventing a
@@ -101,7 +102,7 @@ of those horizon rules is explicitly unverified unless evidenced separately.
 ## Recovery boundary and reviewed maintenance
 
 Coverage diagnosis does not establish that a recoverable historical source exists.
-See [the bounded inventory](history-audit-2026-10-15.md) and
+See [all-cadence operation](operational-readiness.md), [the bounded inventory](history-audit-2026-10-15.md) and
 [reviewed maintenance instructions](reviewed-maintenance.md) for source/target
 hashes, immutable reviewed candidates, private backup, insert-only publication,
 idempotence and Git recovery. The existing Daily workflow now separates generation

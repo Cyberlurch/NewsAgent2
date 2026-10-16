@@ -247,7 +247,7 @@ def test_metadata_only_helpers_do_not_call_a_model(monkeypatch):
         assert helper({"text": "Only a title", "content_status": "metadata_only"})["transcript_generation_status"] == "unavailable"
 
 
-def test_actual_monthly_persistence_retains_basis_for_yearly_without_touching_digests(monkeypatch, tmp_path):
+def test_actual_monthly_persistence_retains_basis_for_yearly_without_touching_digests(monkeypatch, tmp_path, freeze_clock):
     from test_cyberlurch_mode_artifacts_and_digest_primary import _channels, _digest_state_mixed_temporality, _common
     from newsagent2.cyberlurch_yearly import build_annual_evidence
     import sys
@@ -264,6 +264,10 @@ def test_actual_monthly_persistence_retains_basis_for_yearly_without_touching_di
     before = store.read_bytes()
     _common(monkeypatch, tmp_path, "monthly")
     monkeypatch.setenv("EMAIL_MODE", "real")
+    from datetime import timedelta
+    now = datetime.now(timezone.utc)
+    monkeypatch.setenv('ROLLUP_MONTH_OVERRIDE', now.strftime('%Y-%m'))
+    freeze_clock(((now.replace(day=28)+timedelta(days=4)).replace(day=6)).isoformat())
     rollups = tmp_path / "rollups.json"
     monkeypatch.setenv("ROLLUPS_STATE_PATH", str(rollups))
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(cfg)])

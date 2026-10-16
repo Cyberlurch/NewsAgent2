@@ -276,7 +276,7 @@ def test_actual_yearly_main_none_test_hash_all_registered_paths(tmp_path,monkeyp
     main.main()
     assert snapshot(source)==before
     text=(tmp_path/'reports'/f'{report}_yearly_review_2026.md').read_text()
-    assert 'Coverage preview:' in text
+    assert 'Teilrückblick' in text and 'nicht enthalten' in text
 
 
 def test_receipts_export_without_audience_or_smtp_details(tmp_path,monkeypatch):
@@ -351,10 +351,14 @@ def test_custom_state_directory_cannot_be_used_for_audit_output(tmp_path):
     assert not (tmp_path/'custom-history-db').exists()
 
 
-def test_actual_cyberlurch_monthly_stops_known_reference_defect_before_publication(tmp_path,monkeypatch):
+def test_actual_cyberlurch_monthly_stops_known_reference_defect_before_publication(tmp_path,monkeypatch,freeze_clock):
     from newsagent2 import main
     from test_cyberlurch_monthly_safety import _setup
     target=_setup(tmp_path,monkeypatch)
+    from datetime import datetime, timedelta, timezone
+    now = datetime.now(timezone.utc)
+    monkeypatch.setenv('ROLLUP_MONTH_OVERRIDE', now.strftime('%Y-%m'))
+    freeze_clock(((now.replace(day=28)+timedelta(days=4)).replace(day=6)).isoformat())
     monkeypatch.setenv('GITHUB_EVENT_NAME','workflow_dispatch');monkeypatch.setenv('SEND_EMAIL','1')
     monkeypatch.setattr(hc,'cyberlurch_monthly_coverage',lambda *a:hc.result([('incomplete','orphan_source_reference')]))
     monkeypatch.setattr(main,'send_markdown',lambda *a,**k:pytest.fail('SMTP reached'))

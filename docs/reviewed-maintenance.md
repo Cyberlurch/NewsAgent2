@@ -1,6 +1,8 @@
 # Reviewed Cybermed reconstruction and publication
 
 This is **insert-only maintenance**, not E-mail replay or delivery finalization.
+A missing historical edition need not be reconstructed just to unblock a labelled
+[available-evidence review](operational-readiness.md); its absence stays explicit.
 A reconstructed edition is not an originally sent edition. The history audit
 remains read-only; the generic `backfill_digest_stores --apply` remains refused.
 Use the existing Weekly maintenance entry point for both Daily and Weekly

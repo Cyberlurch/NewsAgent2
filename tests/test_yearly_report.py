@@ -52,7 +52,7 @@ def test_yearly_scheduled_empty_blocks_email(monkeypatch, tmp_path):
     rollups_path = tmp_path / "rollups.json"
     report_dir = tmp_path / "reports"
 
-    with pytest.raises(RuntimeError, match="cyberlurch_yearly_incomplete_coverage"):
+    with pytest.raises(RuntimeError, match="edition_yearly_period_still_open"):
         main._run_yearly_report(
             rollups_state_path=str(rollups_path), report_key="cyberlurch",
             base_report_title="The Cyberlurch Report", base_report_subject="The Cyberlurch Report",

@@ -461,7 +461,7 @@ def retry_saved_rejected(edition: str, subject: str, *, failed: bool = False) ->
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["verify", "recover", "publish", "finalize-receipt", "confirm-pending-not-accepted", "retry-saved-rejected", "retry-saved-failed", "replay-pre-smtp"])
+    parser.add_argument("action", choices=["verify", "recover", "publish", "finalize-receipt", "finalize-pending", "confirm-pending-not-accepted", "retry-saved-rejected", "retry-saved-failed", "replay-pre-smtp"])
     parser.add_argument("--report-key", choices=["cybermed", "cyberlurch"])
     parser.add_argument("--modes", nargs="+", default=[])
     parser.add_argument("--workflow")
@@ -486,6 +486,12 @@ def main():
         publish_state(args.paths, report_dir=report_dir, backfill_apply=args.backfill_apply)
     elif args.action == "finalize-receipt":
         finalize_receipt(args.edition_id)
+    elif args.action == "finalize-pending":
+        if not args.report_key or email_mode() != 'real' or os.getenv('REPORT_KEY') != args.report_key:
+            raise RuntimeError('receipt_finalization_scope_mismatch')
+        from .run_context import writer_lock
+        with writer_lock():
+            finalize_pending_receipts(args.report_key)
     else:
         if not args.confirm_smtp_reviewed or not args.edition_id:
             parser.error("operator reconciliation/retry requires --confirm-smtp-reviewed and --edition-id")

@@ -11,6 +11,17 @@ from conftest import accepted_sender_stub
 from test_cyberlurch_mode_artifacts_and_digest_primary import _channels, _common, _digest_state
 
 
+@pytest.fixture(autouse=True)
+def closed_source_month(monkeypatch, freeze_clock):
+    # Source helpers create real-clock records. Exercise production after that
+    # month closes; an open-month preview must not consume its final edition ID.
+    from datetime import datetime, timedelta, timezone
+    now = datetime.now(timezone.utc)
+    close = (now.replace(day=28)+timedelta(days=4)).replace(day=6)
+    monkeypatch.setenv('ROLLUP_MONTH_OVERRIDE', now.strftime('%Y-%m'))
+    freeze_clock(close.isoformat())
+
+
 def _setup(tmp_path: Path, monkeypatch, *, email_mode: str = "real") -> Path:
     monkeypatch.setenv("DELIVERY_RECIPIENT_HMAC_KEY", "offline-recovery-key-at-least-thirty-two-bytes")
     monkeypatch.setenv("RECIPIENTS_CONFIG_JSON", '["offline@example.test"]')

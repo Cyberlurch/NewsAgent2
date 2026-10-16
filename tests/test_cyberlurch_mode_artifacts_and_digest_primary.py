@@ -173,7 +173,7 @@ def test_workflow_run_plan_log_formatting(monkeypatch, tmp_path, capsys):
     assert set(message)=={'report_key','modes','reason','slot_source'}
 
 
-def test_monthly_rollup_contains_minimal_semantic_sections(tmp_path, monkeypatch):
+def test_monthly_rollup_contains_minimal_semantic_sections(tmp_path, monkeypatch, freeze_clock):
     ch = tmp_path / "channels.json"; _channels(ch)
     _digest_state_mixed_temporality(tmp_path/"state"/"cyberlurch_digests.json")
     _common(monkeypatch, tmp_path, "monthly")
@@ -181,6 +181,9 @@ def test_monthly_rollup_contains_minimal_semantic_sections(tmp_path, monkeypatch
     monkeypatch.setenv("ROLLUPS_STATE_PATH", str(tmp_path/"state"/"rollups.json"))
     monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: (_ for _ in ()).throw(AssertionError("should not collect")))
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(ch), "--hours", "36"])
+    now = dt.datetime.now(dt.timezone.utc)
+    monkeypatch.setenv('ROLLUP_MONTH_OVERRIDE', now.strftime('%Y-%m'))
+    freeze_clock(((now.replace(day=28)+dt.timedelta(days=4)).replace(day=6)).isoformat())
     main_mod.main()
     rollups = json.loads((tmp_path/"state"/"rollups.json").read_text(encoding="utf-8"))
     latest = rollups["reports"]["cyberlurch"][-1]
@@ -205,7 +208,7 @@ def test_daily_diagnostics_include_digest_counters_when_zero(tmp_path, monkeypat
     assert d.get("cyberlurch_digest_invalid_records_skipped_total") == 0
 
 
-def test_monthly_rollup_preserves_substance_not_temporality_counts(tmp_path, monkeypatch):
+def test_monthly_rollup_preserves_substance_not_temporality_counts(tmp_path, monkeypatch, freeze_clock):
     ch = tmp_path / "channels.json"; _channels(ch)
     _digest_state_mixed_temporality(tmp_path/"state"/"cyberlurch_digests.json")
     _common(monkeypatch, tmp_path, "monthly")
@@ -213,6 +216,9 @@ def test_monthly_rollup_preserves_substance_not_temporality_counts(tmp_path, mon
     monkeypatch.setenv("ROLLUPS_STATE_PATH", str(tmp_path/"state"/"rollups.json"))
     monkeypatch.setattr(main_mod, "list_recent_videos", lambda *a, **k: (_ for _ in ()).throw(AssertionError("should not collect")))
     monkeypatch.setattr(sys, "argv", ["main", "--channels", str(ch), "--hours", "36"])
+    now = dt.datetime.now(dt.timezone.utc)
+    monkeypatch.setenv('ROLLUP_MONTH_OVERRIDE', now.strftime('%Y-%m'))
+    freeze_clock(((now.replace(day=28)+dt.timedelta(days=4)).replace(day=6)).isoformat())
     main_mod.main()
     rollups = json.loads((tmp_path/"state"/"rollups.json").read_text(encoding="utf-8"))
     latest = rollups["reports"]["cyberlurch"][-1]

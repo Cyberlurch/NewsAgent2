@@ -293,11 +293,15 @@ validation/preimages fail, keep the failure and reconcile the packet; do not
 clear the journal or bypass its guards. Artifacts expire: retain the recovery
 packet privately if recovery cannot complete within its retention window.
 
-Weekly Oct 12–16 still needs reviewed, source-backed reconstruction of the
-missing Daily inputs through [reviewed maintenance](reviewed-maintenance.md).
-September Monthly additionally has unknown historical SMTP outcome; input
-reconstruction alone does not authorize sending it. These bounded historical
-holds do not waive readiness checks for future reporting periods.
+The operator subsequently chose [source-backed partial reviews](operational-readiness.md).
+Weekly Oct 12–16 can use its actual available Daily sources without inventing the
+missing 14/15 October editions; its coverage remains explicitly incomplete.
+September Monthly still has unknown historical SMTP outcome; generation or
+reconstruction does not authorize sending it again. Scheduled pre-transition
+catch-ups without structured delivery evidence are now listed separately as
+quarantined plan metadata, not repeatedly scheduled or declared successful.
+The manual **Newsletter state recovery (no sending)** workflow restores retained
+receipts before the next ordinary run without model calls or mail submission.
 
 ### Publication failures
 

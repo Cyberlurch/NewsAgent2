@@ -1,0 +1,75 @@
+name: Newsletter state recovery (no sending)
+
+on:
+  workflow_dispatch:
+    inputs:
+      report_key:
+        description: Newsletter whose retained receipts should be restored
+        type: choice
+        required: true
+        default: cybermed
+        options: [cybermed, cyberlurch]
+
+concurrency:
+  group: newsagent2-state-writers-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      REPORT_KEY: ${{ inputs.report_key }}
+      REPORT_MODE: daily
+      EMAIL_MODE: real
+      SEND_EMAIL: "0"
+      REPORT_DIR: out
+      NEWSAGENT_PLAN_PATH: out/recovery_plan_metadata.json
+      DELIVERY_RECOVERY_ACK_RUN_IDS: ${{ vars.DELIVERY_RECOVERY_ACK_RUN_IDS || '' }}
+      GITHUB_TOKEN: ${{ github.token }}
+      # Deliberately no SMTP, recipient, transcript or model credentials.
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: bash tools/install_dependencies.sh runtime
+      - name: Bind recovery to this run and newsletter
+        run: python -m src.newsagent2.edition_plan --report-key "$REPORT_KEY"
+      - name: Restore retained receipts and validated records
+        run: |
+          set -euo pipefail
+          case "$REPORT_KEY" in
+            cybermed) workflow=cybermed.yml ;;
+            cyberlurch) workflow=newsagent.yml ;;
+            *) exit 1 ;;
+          esac
+          python -m src.newsagent2.workflow_delivery recover --report-key "$REPORT_KEY" --workflow "$workflow"
+          python -m src.newsagent2.workflow_delivery finalize-pending --report-key "$REPORT_KEY"
+      - name: Publish validated recovery
+        run: |
+          set -euo pipefail
+          git config user.name "newsagent-bot"
+          git config user.email "newsagent-bot@users.noreply.github.com"
+          if [ "$REPORT_KEY" = cybermed ]; then
+            python -m src.newsagent2.workflow_delivery publish --paths state/processed_items.json state/rollups.json state/delivery_journal.json state/cybermed_daily_digests.json state/cybermed_weekly_digests.json state/cybermed_pubmed_ingestion.json
+          else
+            python -m src.newsagent2.workflow_delivery publish --paths state/processed_items.json state/rollups.json state/delivery_journal.json state/cyberlurch_digests.json
+          fi
+      - name: Preserve recovery receipts on publication failure
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ inputs.report_key }}-state-recovery-${{ github.run_id }}
+          path: |
+            out/recovery/
+            out/recovery_plan_metadata.json
+          retention-days: 30
+          if-no-files-found: ignore

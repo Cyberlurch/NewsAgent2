@@ -44,6 +44,8 @@ jobs:
           # Existing production shell lint is outside this dependency-only edit.
           "$RUNNER_TEMP/actionlint/actionlint" -shellcheck="" -pyflakes=""
           bash -n tools/install_dependencies.sh tools/install_actionlint.sh
+      - name: Verify actual multi-cadence workflow control flow with a sender stub
+        run: python tools/check_cadence_loops.py
       - name: Run isolated offline suite
         run: python -m pytest -q --junitxml=.ci-results/pytest.xml
       - name: Verify exact test result files

@@ -43,13 +43,13 @@ without generated content, recovery data or any SMTP handoff can also be held
 while its original failure row remains unchanged. Verified maintenance Apply still uses
 its independent offline contract.
 
-The **12–16 October Weekly only** is also held while its required Daily inputs are
-missing. This prevents the known 14/15 October gap from stopping new Daily service.
-After reviewed source-bound recovery supplies the required Daily inputs, normal
-Weekly readiness and generation resume automatically under the same edition ID.
-No empty historical edition is fabricated. Newer weeks, October Monthly and Yearly
-retain their complete readiness/provenance requirements; this fix does not certify
-them or downgrade their future failures.
+After the operator's 16 October decision, [source-backed partial reviews](operational-readiness.md)
+may use actual available Daily inputs for **12–16 October Weekly**, keeping the
+same edition ID and incomplete coverage. Only absence of all usable sources still
+holds that finite transition week. The 14/15 October editions are never fabricated.
+New Weekly/Monthly/Yearly reviews use the same available-evidence policy while
+retaining structural source checks, period closure and SMTP reconciliation guards.
+Existing valid historical snapshots are not rewritten.
 
 A hold creates only an explicit **attempt result**, not a delivery-journal row:
 `kind=reviewed_legacy_hold`, `status=intentionally_skipped`, exact edition and run
@@ -69,17 +69,18 @@ are unchanged.
 
 ## Operation and limits
 
-On 16 October the expected outcome is Cyberlurch Daily/Weekly and Cybermed Daily
-attempts, plus visible Cybermed Weekly/September-Monthly holds until their evidence
-is resolved. These holds are **not SMTP successes**. Live source/model/SMTP access
-still requires the operator's configured credentials; the offline PR checks do not
-certify it. No productive dispatch, real send, provider/model test or reconstruction
-was performed to validate this change.
+The daily all-cadence readiness workflow checks future dependency chains,
+configuration and pending recovery before their sending date. Scheduled
+pre-transition catch-ups without structured receipts are explicitly quarantined
+in plan metadata rather than repeatedly queued alongside new service. Their SMTP
+history remains unknown. Modern receipts cannot be retired by that finite rule.
+Live source/model/SMTP access still requires the operator's configured credentials;
+offline checks do not certify it or establish inbox delivery.
 
 To release historical periods, use separately reviewed recovery with original
 receipts or source-bound maintenance candidates. Do not remove holds to force an
-unknown historical resend. October Monthly can remain blocked by the unresolved
-Daily/provenance gap; repair that chain before its November due date.
+unknown historical resend. Missing calendar editions alone no longer block an
+October partial review, but invalid source references still require repair.
 
 Rollback is a normal code revert preserving all State and receipts. It restores
 the earlier global legacy-artifact block. Retain the reviewed log hashes and

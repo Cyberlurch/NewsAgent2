@@ -102,7 +102,8 @@ def test_workflow_first_friday_orders_monthly_before_yearly():
     assert planned_modes('cybermed',date(2027,1,4))==['daily','monthly','yearly']
 
 
-def test_real_incomplete_fails_before_send(monkeypatch, tmp_path):
+def test_closed_partial_year_uses_available_months_without_mutation(monkeypatch, tmp_path, freeze_clock):
+    freeze_clock("2027-01-15T12:00:00+00:00")
     path = tmp_path / "rollups.json"
     path.write_text(json.dumps({"reports": {"cybermed": _months(count=11)}}))
     monkeypatch.setenv("REPORT_PROFILE", "medical")
@@ -111,13 +112,16 @@ def test_real_incomplete_fails_before_send(monkeypatch, tmp_path):
     monkeypatch.setenv("EMAIL_MODE", "real")
     sent = []
     monkeypatch.setattr(main, "send_markdown", lambda *args: sent.append(args))
-    with pytest.raises(RuntimeError, match="incomplete_coverage"):
-        main._run_yearly_report(
-            rollups_state_path=str(path), report_key="cybermed",
-            base_report_title="Cybermed", base_report_subject="Cybermed",
-            report_language="en", report_dir=str(tmp_path / "reports"),
-        )
-    assert not sent
+    before = path.read_bytes()
+    main._run_yearly_report(
+        rollups_state_path=str(path), report_key="cybermed",
+        base_report_title="Cybermed", base_report_subject="Cybermed",
+        report_language="en", report_dir=str(tmp_path / "reports"),
+    )
+    assert len(sent) == 1 and path.read_bytes() == before
+    report = (tmp_path / "reports/cybermed_yearly_review_2026.md").read_text()
+    assert "Partial review:" in report and "Coverage incomplete: YES" in report
+
 
 
 def test_real_complete_coverage_sends_and_reports_exact_months(monkeypatch, tmp_path, freeze_clock):
