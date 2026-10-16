@@ -106,6 +106,13 @@ and a stable Message-ID does not require servers to deduplicate. Before DATA,
 the journal is durably `outcome_unknown`. Known acceptance/refusals are saved
 before QUIT and before marker writes. An interrupted handoff remains visible.
 
+Both production jobs bind their own literal `REPORT_KEY` at **job scope**.
+An inline `REPORT_KEY=cybermed` on the report command does not reach the later
+publication step or the earlier recovery step: Actions starts separate shells.
+Keep the job binding as well as the store-specific newsletter checks. The
+offline workflow regressions exercise the actual recovery/publication commands
+with this job environment, without inheriting a sender fixture's identity.
+
 Both workflows verify **every planned cadence and period**. A later failure
 cannot be hidden by Daily success. Missing/unexecuted planned results are
 reported individually as failures. State commits require overall success and
@@ -255,6 +262,44 @@ receipts retain the existing marker-repair command; unverified legacy generation
 does not become a replay authorization.
 
 ## Git failure and rollback
+
+### Cybermed run 38874103951 (2026-10-16)
+
+Actions records successful report generation, per-cadence verification and
+recovery-artifact upload, followed by failed state publication. Its workflow
+provided `REPORT_KEY` only to the report process. The publication command
+includes `cybermed_pubmed_ingestion.json`, whose unchanged newsletter guard
+raises `publication_newsletter_scope_mismatch` without a Cybermed identity.
+The same missing job binding would reject ingestion recovery next time as
+`recovery_mutation_policy`. Job-scoped identity fixes both paths.
+
+The run's annotations separately identify **no generation or SMTP** for Weekly
+2026-10-12–16 (`legacy_source_coverage_held`) and September Monthly
+(`legacy_delivery_history_held`). Neither is an SMTP rejection. This fix does
+not invent missing Daily inputs or legacy delivery receipts to release them.
+The operator confirmed receipt of Daily; do not rerun the old workflow revision
+or manually resend that edition. The live log/archive download is unavailable
+to the development API client; artifact metadata confirms the non-expired
+`cybermed-delivery-recovery-38874103951` packet, not its contents.
+
+After merging the job-binding fix, the next ordinary production job uses the
+existing **Recover prior cybermed receipts before any sender** step. It imports
+validated generated records and the original acceptance, restores ingestion
+only against its expected preimage, and repairs marker Intents before sending
+new editions. Its next successful publication retains that recovery. It does
+not need a historical dispatch, manual ACK, deletion/reset of state, another
+model call for the accepted edition or another Daily submission. If artifact
+validation/preimages fail, keep the failure and reconcile the packet; do not
+clear the journal or bypass its guards. Artifacts expire: retain the recovery
+packet privately if recovery cannot complete within its retention window.
+
+Weekly Oct 12–16 still needs reviewed, source-backed reconstruction of the
+missing Daily inputs through [reviewed maintenance](reviewed-maintenance.md).
+September Monthly additionally has unknown historical SMTP outcome; input
+reconstruction alone does not authorize sending it. These bounded historical
+holds do not waive readiness checks for future reporting periods.
+
+### Publication failures
 
 The publisher validates selected files, performs one ordinary commit/push and
 reports failures. A lost push acknowledgement is checked with a read-only remote
