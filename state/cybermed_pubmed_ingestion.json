@@ -1,0 +1,799 @@
+{
+  "schema_version": 1,
+  "queries": {
+    "c58b3d07b69c732ce3c830903535e5efd9d9984ab86ae6a3ace215ecfa0f4ae7": {
+      "name": "PubMed: Acta Anaesthesiologica Scandinavica",
+      "term": "\"Acta Anaesthesiol Scand\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-15",
+      "recent_done": {
+        "2026-10-13": [],
+        "2026-10-14": [
+          "42875052",
+          "42875368"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-14": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42875052",
+              "42875368"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "5cd6b66a381ac5f16d19a785f0239ebd54ae41dbdb6e343ccebaaeb3125e4111": {
+      "name": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+      "term": "\"Am J Respir Crit Care Med\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42865014",
+          "42865016",
+          "42865024",
+          "42865044"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42865014",
+              "42865016",
+              "42865024",
+              "42865044"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "8267d22d6a47aad28e6d3492319f0045588f3eebda437522e7c4825aec483b51": {
+      "name": "PubMed: Anaesthesia",
+      "term": "\"Anaesthesia\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42867208"
+        ]
+      },
+      "active": null,
+      "review": {
+        "42865103:08340b0d630362170c06190b11f127ba35457a660aab916501254a47efe1bd12": {
+          "status": "review_required",
+          "day": "2026-10-13",
+          "source_version": "08340b0d630362170c06190b11f127ba35457a660aab916501254a47efe1bd12",
+          "record": {
+            "id": "42865103",
+            "title": "Incidence and reasons for cancellation on the day of elective surgery: a systematic review and meta-analysis.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42865103/",
+            "published_at": "2026-10-12T12:00:00+00:00",
+            "journal": "Anaesthesia",
+            "journal_iso_abbrev": "Anaesthesia",
+            "journal_medline_ta": "Anaesthesia",
+            "doi": "10.1111/anae.70407",
+            "pmcid": "",
+            "pii": "",
+            "publication_types": [
+              "Journal Article",
+              "Review"
+            ],
+            "comments_corrections": [],
+            "mesh_headings": [],
+            "keywords": [
+              "cancellation on the day of surgery",
+              "elective surgery",
+              "incidence",
+              "meta‐analysis",
+              "systematic review"
+            ],
+            "abstract_sections": [
+              {
+                "label": "INTRODUCTION",
+                "text": "Cancellation on the day of elective surgery is a persistent challenge that compromises operating theatre efficiency, wastes resources and delays patient care. Existing evidence is difficult to interpret because definitions of cancellation vary across studies and reported reasons are classified inconsistently. We aimed to estimate the incidence of cancellation on the day of surgery and synthesise the reported reasons for cancellation."
+              },
+              {
+                "label": "METHODS",
+                "text": "Databases were searched for observational studies reporting elective surgery cancellations. Studies explicitly defining cancellation on the day of surgery were included in a random-effects meta-analysis of proportions. Subgroup analyses examined variation by national income level and surgical speciality, with geographical region explored in supplementary analyses. Included studies were assessed for risk of bias using Joanna Briggs Institute critical appraisal tools. Reported reasons were synthesised narratively across four domains: patient; medical/anaesthesia; administrative/system; and surgery/staff."
+              },
+              {
+                "label": "RESULTS",
+                "text": "Fifty-eight studies met the eligibility criteria, of which 37 (with a strict definition of on-the-day cancellation of surgery) were included. Pooled incidence of cancellation on the day of surgery was 14% (95%CI 13-16%), with substantial heterogeneity (I2 = 99.91%). Rates varied by national income level and surgical speciality, with higher estimates reported in low- and lower-middle-income settings and in some specialities, including ophthalmology and neurosurgery. Reasons reported most commonly included: patient declining surgery; non-fasted; unstable medical condition; changes in clinical status; improper scheduling or overbooking; instrument unavailability; and staff shortages. Sensitivity analyses supported the robustness of the findings and no clear publication bias was detected. The certainty of evidence for the pooled incidence estimate was low."
+              },
+              {
+                "label": "DISCUSSION",
+                "text": "Cancellation on the day of surgery remains a substantial and globally relevant peri-operative problem. Its burden and drivers are highly context-dependent and often reflect weaknesses in pre-operative preparation, organisational co-ordination and system capacity. Reducing avoidable cancellations may therefore require context-specific strategies targeting pathway reliability, timely pre-anaesthetic assessment and peri-operative resource alignment."
+              }
+            ],
+            "evidence_tags": [
+              "systematic_review",
+              "meta_analysis",
+              "observational",
+              "intensive_care",
+              "anesthesia"
+            ],
+            "text": "Journal: Anaesthesia\nPMID: 42865103\nDOI: 10.1111/anae.70407\nPublished: 2026-10-12\n\nIncidence and reasons for cancellation on the day of elective surgery: a systematic review and meta-analysis.\n\nINTRODUCTION: Cancellation on the day of elective surgery is a persistent challenge that compromises operating theatre efficiency, wastes resources and delays patient care. Existing evidence is difficult to interpret because definitions of cancellation vary across studies and reported reasons are classified inconsistently. We aimed to estimate the incidence of cancellation on the day of surgery and synthesise the reported reasons for cancellation.\nMETHODS: Databases were searched for observational studies reporting elective surgery cancellations. Studies explicitly defining cancellation on the day of surgery were included in a random-effects meta-analysis of proportions. Subgroup analyses examined variation by national income level and surgical speciality, with geographical region explored in supplementary analyses. Included studies were assessed for risk of bias using Joanna Briggs Institute critical appraisal tools. Reported reasons were synthesised narratively across four domains: patient; medical/anaesthesia; administrative/system; and surgery/staff.\nRESULTS: Fifty-eight studies met the eligibility criteria, of which 37 (with a strict definition of on-the-day cancellation of surgery) were included. Pooled incidence of cancellation on the day of surgery was 14% (95%CI 13-16%), with substantial heterogeneity (I2 = 99.91%). Rates varied by national income level and surgical speciality, with higher estimates reported in low- and lower-middle-income settings and in some specialities, including ophthalmology and neurosurgery. Reasons reported most commonly included: patient declining surgery; non-fasted; unstable medical condition; changes in clinical status; improper scheduling or overbooking; instrument unavailability; and staff shortages. Sensitivity analyses supported the robustness of the findings and no clear publication bias was detected. The certainty of evidence for the pooled incidence estimate was low.\nDISCUSSION: Cancellation on the day of surgery remains a substantial and globally relevant peri-operative problem. Its burden and drivers are highly context-dependent and often reflect weaknesses in pre-operative preparation, organisational co-ordination and system capacity. Reducing avoidable cancellations may therefore require context-specific strategies targeting pathway reliability, timely pre-anaesthetic assessment and peri-operative resource alignment.",
+            "abstract": "INTRODUCTION: Cancellation on the day of elective surgery is a persistent challenge that compromises operating theatre efficiency, wastes resources and delays patient care. Existing evidence is difficult to interpret because definitions of cancellation vary across studies and reported reasons are classified inconsistently. We aimed to estimate the incidence of cancellation on the day of surgery and synthesise the reported reasons for cancellation.\nMETHODS: Databases were searched for observational studies reporting elective surgery cancellations. Studies explicitly defining cancellation on the day of surgery were included in a random-effects meta-analysis of proportions. Subgroup analyses examined variation by national income level and surgical speciality, with geographical region explored in supplementary analyses. Included studies were assessed for risk of bias using Joanna Briggs Institute critical appraisal tools. Reported reasons were synthesised narratively across four domains: patient; medical/anaesthesia; administrative/system; and surgery/staff.\nRESULTS: Fifty-eight studies met the eligibility criteria, of which 37 (with a strict definition of on-the-day cancellation of surgery) were included. Pooled incidence of cancellation on the day of surgery was 14% (95%CI 13-16%), with substantial heterogeneity (I2 = 99.91%). Rates varied by national income level and surgical speciality, with higher estimates reported in low- and lower-middle-income settings and in some specialities, including ophthalmology and neurosurgery. Reasons reported most commonly included: patient declining surgery; non-fasted; unstable medical condition; changes in clinical status; improper scheduling or overbooking; instrument unavailability; and staff shortages. Sensitivity analyses supported the robustness of the findings and no clear publication bias was detected. The certainty of evidence for the pooled incidence estimate was low.\nDISCUSSION: Cancellation on the day of surgery remains a substantial and globally relevant peri-operative problem. Its burden and drivers are highly context-dependent and often reflect weaknesses in pre-operative preparation, organisational co-ordination and system capacity. Reducing avoidable cancellations may therefore require context-specific strategies targeting pathway reliability, timely pre-anaesthetic assessment and peri-operative resource alignment.",
+            "query_provenance": [
+              "8267d22d6a47aad28e6d3492319f0045588f3eebda437522e7c4825aec483b51"
+            ],
+            "ingestion_window": "2026-10-13",
+            "newly_ingested": true,
+            "older_publication": true
+          },
+          "category": "legacy_delivery_unknown",
+          "edition_ids": []
+        },
+        "42864688:a071c44e2f6be7a693524fe7d82110776dd4581733c22f92a15c0f5ed18a6d70": {
+          "status": "review_required",
+          "day": "2026-10-13",
+          "source_version": "a071c44e2f6be7a693524fe7d82110776dd4581733c22f92a15c0f5ed18a6d70",
+          "record": {
+            "id": "42864688",
+            "title": "Association of pre-operative opioid use disorder and postoperative outcomes: a systematic review and meta-analysis.",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42864688/",
+            "published_at": "2026-10-12T12:00:00+00:00",
+            "journal": "Anaesthesia",
+            "journal_iso_abbrev": "Anaesthesia",
+            "journal_medline_ta": "Anaesthesia",
+            "doi": "10.1111/anae.70416",
+            "pmcid": "",
+            "pii": "",
+            "publication_types": [
+              "Journal Article",
+              "Review"
+            ],
+            "comments_corrections": [],
+            "mesh_headings": [],
+            "keywords": [
+              "adverse events",
+              "opioid use disorder",
+              "peri‐operative outcomes",
+              "postoperative complications",
+              "postoperative pain"
+            ],
+            "abstract_sections": [
+              {
+                "label": "INTRODUCTION",
+                "text": "Opioid use disorder may increase the risk of adverse postoperative outcomes, but the magnitude and consistency of this association remain unclear. We performed a systematic review and meta-analysis to evaluate the impact of opioid use disorder on postoperative outcomes across surgical populations."
+              },
+              {
+                "label": "METHODS",
+                "text": "We searched electronic databases for studies comparing adults (aged ≥ 18 y) with and without opioid use disorder undergoing surgery. Primary outcomes were the incidence of any postoperative pain and composite adverse respiratory outcomes. Secondary outcomes included re-admission rates 30 and 90 days after surgery; in-hospital mortality; duration of hospital stay; and total healthcare costs."
+              },
+              {
+                "label": "RESULTS",
+                "text": "From the 40 included studies, three reported postoperative pain, and 19 reported respiratory outcomes. People with opioid use disorder had higher odds of postoperative pain (OR 2.87, 95%CI 1.63-5.06) and composite adverse respiratory events (OR 2.10, 95%CI 1.64-2.68), both with moderate certainty. Subgroup analyses showed increased risk of pulmonary embolism, pneumonia and other respiratory and pulmonary complications (low to moderate certainty). Low certainty evidence indicated higher 30-day and 90-day re-admission rates, prolonged duration of hospitalisation and higher total healthcare costs associated with opioid use disorder, while in-hospital mortality did not differ significantly (very low certainty)."
+              },
+              {
+                "label": "DISCUSSION",
+                "text": "Our results suggest that opioid use disorder is associated with higher incidence of postoperative pain, increased postoperative complications and greater total healthcare costs, which supports the need for routine pre-operative screening for opioid use disorder and the application of patient-centred, multidisciplinary peri-operative care and pain management."
+              }
+            ],
+            "evidence_tags": [
+              "systematic_review",
+              "meta_analysis"
+            ],
+            "text": "Journal: Anaesthesia\nPMID: 42864688\nDOI: 10.1111/anae.70416\nPublished: 2026-10-12\n\nAssociation of pre-operative opioid use disorder and postoperative outcomes: a systematic review and meta-analysis.\n\nINTRODUCTION: Opioid use disorder may increase the risk of adverse postoperative outcomes, but the magnitude and consistency of this association remain unclear. We performed a systematic review and meta-analysis to evaluate the impact of opioid use disorder on postoperative outcomes across surgical populations.\nMETHODS: We searched electronic databases for studies comparing adults (aged ≥ 18 y) with and without opioid use disorder undergoing surgery. Primary outcomes were the incidence of any postoperative pain and composite adverse respiratory outcomes. Secondary outcomes included re-admission rates 30 and 90 days after surgery; in-hospital mortality; duration of hospital stay; and total healthcare costs.\nRESULTS: From the 40 included studies, three reported postoperative pain, and 19 reported respiratory outcomes. People with opioid use disorder had higher odds of postoperative pain (OR 2.87, 95%CI 1.63-5.06) and composite adverse respiratory events (OR 2.10, 95%CI 1.64-2.68), both with moderate certainty. Subgroup analyses showed increased risk of pulmonary embolism, pneumonia and other respiratory and pulmonary complications (low to moderate certainty). Low certainty evidence indicated higher 30-day and 90-day re-admission rates, prolonged duration of hospitalisation and higher total healthcare costs associated with opioid use disorder, while in-hospital mortality did not differ significantly (very low certainty).\nDISCUSSION: Our results suggest that opioid use disorder is associated with higher incidence of postoperative pain, increased postoperative complications and greater total healthcare costs, which supports the need for routine pre-operative screening for opioid use disorder and the application of patient-centred, multidisciplinary peri-operative care and pain management.",
+            "abstract": "INTRODUCTION: Opioid use disorder may increase the risk of adverse postoperative outcomes, but the magnitude and consistency of this association remain unclear. We performed a systematic review and meta-analysis to evaluate the impact of opioid use disorder on postoperative outcomes across surgical populations.\nMETHODS: We searched electronic databases for studies comparing adults (aged ≥ 18 y) with and without opioid use disorder undergoing surgery. Primary outcomes were the incidence of any postoperative pain and composite adverse respiratory outcomes. Secondary outcomes included re-admission rates 30 and 90 days after surgery; in-hospital mortality; duration of hospital stay; and total healthcare costs.\nRESULTS: From the 40 included studies, three reported postoperative pain, and 19 reported respiratory outcomes. People with opioid use disorder had higher odds of postoperative pain (OR 2.87, 95%CI 1.63-5.06) and composite adverse respiratory events (OR 2.10, 95%CI 1.64-2.68), both with moderate certainty. Subgroup analyses showed increased risk of pulmonary embolism, pneumonia and other respiratory and pulmonary complications (low to moderate certainty). Low certainty evidence indicated higher 30-day and 90-day re-admission rates, prolonged duration of hospitalisation and higher total healthcare costs associated with opioid use disorder, while in-hospital mortality did not differ significantly (very low certainty).\nDISCUSSION: Our results suggest that opioid use disorder is associated with higher incidence of postoperative pain, increased postoperative complications and greater total healthcare costs, which supports the need for routine pre-operative screening for opioid use disorder and the application of patient-centred, multidisciplinary peri-operative care and pain management.",
+            "query_provenance": [
+              "8267d22d6a47aad28e6d3492319f0045588f3eebda437522e7c4825aec483b51"
+            ],
+            "ingestion_window": "2026-10-13",
+            "newly_ingested": true,
+            "older_publication": true
+          },
+          "category": "legacy_delivery_unknown",
+          "edition_ids": []
+        }
+      },
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [
+              "42867208"
+            ],
+            "screened_out": [],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "413f046488dea9bb4b0a5de2f336b64f466abfec5b36dc0550f13a67d7ec3733": {
+      "name": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+      "term": "\"Anaesth Crit Care Pain Med\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42869183",
+          "42869184",
+          "42869185",
+          "42869186",
+          "42869187",
+          "42869188"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [
+              "42869183",
+              "42869184",
+              "42869186"
+            ],
+            "screened_out": [
+              "42869185",
+              "42869187",
+              "42869188"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "9aedd6c8e3e0aef256c52816edb68a0b41c68c9c02af7d0dbd7201980d33b611": {
+      "name": "PubMed: Anesthesia & Analgesia",
+      "term": "\"Anesth Analg\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42868023",
+          "42868051",
+          "42868054",
+          "42868077",
+          "42868078",
+          "42868502",
+          "42868511",
+          "42868517"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [
+              "42868023",
+              "42868051",
+              "42868054",
+              "42868502",
+              "42868517"
+            ],
+            "screened_out": [
+              "42868077",
+              "42868078",
+              "42868511"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "1572ed857278bc7b008481e2c26d8d0e70d7d8d4e823eff7d56e490746ca216d": {
+      "name": "PubMed: Anesthesiology",
+      "term": "\"Anesthesiology\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42868073",
+          "42868074",
+          "42868075"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [
+              "42868075"
+            ],
+            "screened_out": [
+              "42868073",
+              "42868074"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "5ac7677c22ed3e9788fdd67c4554d51f53ef74fdae918336b468cb035b539c19": {
+      "name": "PubMed: Annals of Emergency Medicine",
+      "term": "\"Ann Emerg Med\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-16",
+      "recent_done": {
+        "2026-10-14": [],
+        "2026-10-15": [
+          "42878715"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-15": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42878715"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "b32fd1d34ca7cfd71ed9e3bd64b897aba2af3db5dffd8d856c26eb12dd8703d2": {
+      "name": "PubMed: Annals of Intensive Care",
+      "term": "\"Ann Intensive Care\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42866125",
+          "42866167",
+          "42866585",
+          "42866594"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [
+              "42866125",
+              "42866585"
+            ],
+            "screened_out": [
+              "42866167",
+              "42866594"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "579599d54d6132e25df0fee43d1e1acd570548e2a423f1b5b9f809cb87feda69": {
+      "name": "PubMed: British Journal of Anaesthesia",
+      "term": "\"Br J Anaesth\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42869712",
+          "42869713"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42869712",
+              "42869713"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "bb8891554d29601c1d5d13a7fb6c31d5f8582a1e13c2c13396102b9f4f40c7de": {
+      "name": "PubMed: CHEST",
+      "term": "\"Chest\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-15",
+      "recent_done": {
+        "2026-10-13": [],
+        "2026-10-14": [
+          "42874912"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-14": [
+          {
+            "generated": [
+              "42874912"
+            ],
+            "screened_out": [],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "7baaee44d7e78de18d4161348bd60cef5580e311698a76f48c5c9b838aae1086": {
+      "name": "PubMed: Critical Care",
+      "term": "\"Crit Care\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42864668",
+          "42864669",
+          "42864673"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [
+              "42864673"
+            ],
+            "screened_out": [
+              "42864668",
+              "42864669"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "9c42f40de0e20d493de125013af1e8d39d864c87dcb6e10480b4d43e356f9ac4": {
+      "name": "PubMed: Critical Care Medicine",
+      "term": "\"Crit Care Med\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42868027"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42868027"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "fc07d5a8224a34bd22703741d1adb1ead71929a070188ba88735ae8355ca27ae": {
+      "name": "PubMed: European Journal of Anaesthesiology",
+      "term": "\"Eur J Anaesthesiol\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-16",
+      "recent_done": {
+        "2026-10-14": [],
+        "2026-10-15": []
+      },
+      "active": null,
+      "processing_receipts": {}
+    },
+    "163e536493125c976ecd7f31ef072a52cd24456f058093cd06812ff225d9acbc": {
+      "name": "PubMed: Intensive Care Medicine",
+      "term": "\"Intensive Care Med\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-16",
+      "recent_done": {
+        "2026-10-14": [],
+        "2026-10-15": [
+          "42878771",
+          "42878772"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-15": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42878771",
+              "42878772"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "ea55ebdceb3419563a8390cdeca05cdd703b0b1f639995dd723b1181e7e86114": {
+      "name": "PubMed: JAMA (intensiv/akut Filter)",
+      "term": "\"JAMA\"[jour] AND (ICU[tiab] OR \"intensive care\"[tiab] OR \"critical care\"[tiab] OR sepsis[tiab] OR shock[tiab] OR ventilat*[tiab] OR perioperat*[tiab] OR anesthe*[tiab] OR anaesthe*[tiab] OR emergency[tiab] OR resuscitat*[tiab] OR \"cardiac arrest\"[tiab])",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-15",
+      "recent_done": {
+        "2026-10-13": [],
+        "2026-10-14": [
+          "42872606",
+          "42872909",
+          "42872910",
+          "42872914",
+          "42872917",
+          "42872937",
+          "42872942",
+          "42872958"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-14": [
+          {
+            "generated": [
+              "42872606",
+              "42872914",
+              "42872917",
+              "42872958"
+            ],
+            "screened_out": [
+              "42872909",
+              "42872910",
+              "42872937",
+              "42872942"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "ac87042f1c58b5e731715f5291e9ba151e65c8c665713129fe8351f4e8a2fdb4": {
+      "name": "PubMed: Journal of Intensive Care",
+      "term": "\"J Intensive Care\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-15",
+      "recent_done": {
+        "2026-10-13": [],
+        "2026-10-14": [
+          "42870277",
+          "42870279",
+          "42870302"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-14": [
+          {
+            "generated": [
+              "42870277"
+            ],
+            "screened_out": [
+              "42870279",
+              "42870302"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "4fb200dc27c1b9d0cff34254ef058eb1d8d061aa0894b7848c066a29835fb7d4": {
+      "name": "PubMed: KI in Anästhesie/ICU (breit)",
+      "term": "(\"artificial intelligence\"[tiab] OR \"machine learning\"[tiab] OR \"deep learning\"[tiab]) AND (\"Br J Anaesth\"[jour] OR \"Anesth Analg\"[jour] OR \"Intensive Care Med\"[jour] OR \"Crit Care\"[jour] OR \"Resuscitation\"[jour])",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-16",
+      "recent_done": {
+        "2026-10-14": [],
+        "2026-10-15": []
+      },
+      "active": null,
+      "processing_receipts": {}
+    },
+    "bbf625aeb080e199e03e726e5edf976467f94c9d7d77cdf4105116a36767f9f4": {
+      "name": "PubMed: Nature (medizin/biomed breit)",
+      "term": "\"Nature\"[jour] AND (clinical[tiab] OR trial[tiab] OR cohort[tiab] OR ICU[tiab] OR anesthesia[tiab])",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-15",
+      "recent_done": {
+        "2026-10-13": [],
+        "2026-10-14": [
+          "42875491",
+          "42875492",
+          "42875503"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-14": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42875491",
+              "42875492",
+              "42875503"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "f7ff5392a6a9689f5fab79d06f6c881cb2ae892544c58ebafb9a2d644a90d7a8": {
+      "name": "PubMed: New England Journal of Medicine (medizin breit)",
+      "term": "\"N Engl J Med\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42867383",
+          "42867384",
+          "42867394",
+          "42867396",
+          "42867399"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42867383",
+              "42867384",
+              "42867394",
+              "42867396",
+              "42867399"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "8bbfed9a9eacfa41930de5b27fc673788d383675854e1284b71584aa6dfc161e": {
+      "name": "PubMed: Pain",
+      "term": "\"Pain\"[jour] AND (postoperat*[tiab] OR perioperat*[tiab] OR regional[tiab] OR neuraxial[tiab] OR block[tiab] OR anesthesia[tiab] OR anaesthesia[tiab] OR ICU[tiab] OR \"intensive care\"[tiab] OR critical[tiab] OR emergency[tiab])",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-16",
+      "recent_done": {
+        "2026-10-14": [],
+        "2026-10-15": []
+      },
+      "active": null,
+      "processing_receipts": {}
+    },
+    "386954c482b01983685f2d493c93b4f829d2046fb8b0f85a8372bca4f9977ec5": {
+      "name": "PubMed: Regional Anesthesia & Pain Medicine",
+      "term": "\"Reg Anesth Pain Med\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-14",
+      "recent_done": {
+        "2026-10-13": [
+          "42869547"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-13": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42869547"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "574d3d3ef568450921a8df76065f44bc81c0788388557f7413b69a50474c9a6c": {
+      "name": "PubMed: Resuscitation",
+      "term": "\"Resuscitation\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-16",
+      "recent_done": {
+        "2026-10-14": [],
+        "2026-10-15": [
+          "42880622"
+        ]
+      },
+      "active": null,
+      "processing_receipts": {
+        "2026-10-15": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42880622"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-10-16:2026-10-16:production",
+            "content_version": "34c9723212207614c3b1cbd116077b9805a1bf9d18794760a7e16dcc8682c0ec"
+          }
+        ]
+      }
+    },
+    "ecfd4995460bc49c432dce3ea29296494e4c87c0e72d79f9e8eb1c205ae64201": {
+      "name": "PubMed: Science (medizin/biomed breit)",
+      "term": "\"Science\"[jour] AND (clinical[tiab] OR trial[tiab] OR cohort[tiab] OR ICU[tiab] OR anesthesia[tiab])",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-15",
+      "recent_done": {
+        "2026-10-13": [],
+        "2026-10-14": []
+      },
+      "active": null,
+      "processing_receipts": {}
+    },
+    "c290705f749456017b791b57d028eef73bc446939504452f651fe52e27a9b1d0": {
+      "name": "PubMed: The BMJ (intensiv/akut Filter)",
+      "term": "\"BMJ\"[jour] AND (ICU[tiab] OR \"intensive care\"[tiab] OR \"critical care\"[tiab] OR sepsis[tiab] OR shock[tiab] OR ventilat*[tiab] OR perioperat*[tiab] OR anesthe*[tiab] OR anaesthe*[tiab] OR emergency[tiab] OR resuscitat*[tiab] OR \"cardiac arrest\"[tiab])",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-13",
+      "recent_done": {},
+      "active": null
+    },
+    "99e53fa79e822b1de7672b3c184e5bed8ae01388880ac308a4e5f45be7b65d2a": {
+      "name": "PubMed: The Lancet (intensiv/akut Filter)",
+      "term": "\"Lancet\"[jour] AND (ICU[tiab] OR \"intensive care\"[tiab] OR \"critical care\"[tiab] OR sepsis[tiab] OR shock[tiab] OR ventilat*[tiab] OR perioperat*[tiab] OR anesthe*[tiab] OR anaesthe*[tiab] OR emergency[tiab] OR resuscitat*[tiab] OR \"cardiac arrest\"[tiab])",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-13",
+      "recent_done": {},
+      "active": null
+    },
+    "b31026bce0c952c6f95c665c9e5b69a1ad0815b1b93fa4cd8f24bb765bf81cb1": {
+      "name": "PubMed: The Lancet Respiratory Medicine",
+      "term": "\"Lancet Respir Med\"[jour]",
+      "initial_start": "2026-10-13",
+      "next_date": "2026-10-13",
+      "recent_done": {},
+      "active": null
+    }
+  },
+  "rotation": 1,
+  "recovered": [
+    "6aa1780b814a66715c4cd8c33b08a025a4ddfeda551f5bbf9d79d0b7956bb79e"
+  ]
+}
