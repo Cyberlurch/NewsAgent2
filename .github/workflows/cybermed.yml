@@ -106,6 +106,8 @@ jobs:
       NEWSAGENT_REQUESTED_DATE: ${{ github.event_name == 'workflow_dispatch' && inputs.logical_date || '' }}
       NEWSAGENT_TRIGGER_SCHEDULE: ${{ github.event.schedule || '' }}
       REPORT_DIR: out
+      # Recovery and publication run in separate shells from report generation.
+      REPORT_KEY: cybermed
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && inputs.lookback_hours || '' }}
       EMAIL_MODE: ${{ github.event_name == 'workflow_dispatch' && (inputs.email_mode || 'none') || 'real' }}

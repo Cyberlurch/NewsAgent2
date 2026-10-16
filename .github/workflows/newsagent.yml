@@ -133,6 +133,8 @@ jobs:
       NEWSAGENT_REQUESTED_DATE: ${{ github.event_name == 'workflow_dispatch' && inputs.logical_date || '' }}
       NEWSAGENT_TRIGGER_SCHEDULE: ${{ github.event.schedule || '' }}
       REPORT_DIR: out
+      # Keep this newsletter's identity in recovery and publication steps too.
+      REPORT_KEY: cyberlurch
       REPORT_MODE: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.report_mode || 'daily') || 'daily' }}
       LOOKBACK_HOURS_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.lookback_hours || '' }}
       ROLLUP_MONTH_OVERRIDE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.rollup_month_override || '' }}
