@@ -7,10 +7,11 @@ preflight, not proof that external providers or an SMTP server are available.
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timedelta
+from datetime import datetime, time, timedelta
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -22,6 +23,14 @@ from .run_context import path_for
 from .store_io import StoreError, read_store
 
 STO = ZoneInfo('Europe/Stockholm')
+# GitHub's scheduled event creation has been 4-6 hours late in production.
+# Generation/configuration/unknown-delivery failures still fail immediately;
+# only absence of a not-yet-observed scheduled result has this bounded window.
+SCHEDULE_GRACE = timedelta(hours=6)
+
+
+def delivery_deadline(key, day):
+    return datetime.combine(day, time(5, 40 if key == 'cybermed' else 30), STO) + SCHEDULE_GRACE
 
 
 def _category(exc):
@@ -81,8 +90,9 @@ def _configuration(key, cadence):
 
 def _last_due_daily(key, as_of):
     local = as_of.astimezone(STO)
-    # Allow normal runner delay; the 04:00 check assesses yesterday's service.
-    day = local.date() if (local.hour, local.minute) >= (7, 40 if key == 'cybermed' else 30) else local.date()-timedelta(days=1)
+    # A delayed early check must not diagnose today's not-yet-started producer
+    # as a failed delivery. The noon check catches missing scheduled service.
+    day = local.date() if local >= delivery_deadline(key, local.date()) else local.date()-timedelta(days=1)
     for _ in range(14):
         if 'daily' in planned_modes(key, day):
             return day.isoformat()
@@ -98,8 +108,7 @@ def last_due_entry(key, cadence, as_of):
         day = local.date()-timedelta(days=offset)
         if cadence not in planned_modes(key, day):
             continue
-        slot = datetime(day.year, day.month, day.day, 7, 40 if key == 'cybermed' else 30, tzinfo=STO)
-        if local < slot:
+        if local < delivery_deadline(key, day):
             continue
         entry = entry_for(key, cadence, day, 'schedule', 'real')
         if entry['period_end'] >= FRESH_START:
@@ -194,6 +203,8 @@ def assess(report_key, *, as_of, check_config=False, check_actions=False):
         check = {'cadence': cadence, 'edition_id': entry['edition_id'], 'scheduled_date': entry['logical_date'],
                  'period_start': entry['period_start'], 'period_end': entry['period_end'],
                  'status': 'ready', 'categories': [], 'available_sources': 0, 'known_missing_dates': []}
+        deadline = delivery_deadline(report_key, datetime.fromisoformat(entry['logical_date']).date())
+        check['delivery_deadline'] = deadline.isoformat()
         try:
             if report_key == 'cybermed' and cadence == 'weekly':
                 selected = [r for r in daily if entry['period_start'] <= r.get('run_date', '') <= entry['coverage_end']]
@@ -261,6 +272,9 @@ def assess(report_key, *, as_of, check_config=False, check_actions=False):
                 elif row['status'] == 'failed' and row['generation_validated']:
                     check['status'] = 'recovery_required'
                     check['categories'].append('operational_saved_generation_requires_review')
+                elif row['status'] == 'failed':
+                    check['status'] = 'blocked'
+                    check['categories'].append('operational_generation_failed')
             due = last_due_entry(report_key, cadence, as_of)
             if cadence != 'daily' and due:
                 prior = journal['editions'].get(due['edition_id'])
@@ -283,6 +297,14 @@ def assess(report_key, *, as_of, check_config=False, check_actions=False):
                 if accepted and max(accepted) < due:
                     check['status'] = 'recovery_required'
                     check['categories'].append('operational_daily_publication_stale')
+                if not accepted:
+                    from .legacy_transition import FRESH_START
+                    if due >= FRESH_START:
+                        check['status'] = 'recovery_required'
+                        check['categories'].append('operational_daily_outcome_unestablished')
+            if (not row and not check['categories'] and entry['logical_date'] == as_of.astimezone(STO).date().isoformat()
+                    and as_of.astimezone(STO) < deadline and check['status'] in {'ready', 'partial_ready', 'awaiting_inputs'}):
+                check['status'] = 'awaiting_scheduled_run'
             if check_config:
                 check['categories'].extend(_configuration(report_key, cadence))
             if (check['categories'] and check['status'] != 'recovery_required') or result['errors']:
@@ -349,6 +371,13 @@ def main():
             stream.write('\n'.join(lines)+'\n')
     print(json.dumps({'report_key': args.report_key, 'ok': report['ok'],
                       'cadences': {r['cadence']: r['status'] for r in report['checks']}}, sort_keys=True))
+    if not report['ok']:
+        categories = [r['cadence']+':'+category for r in report['checks'] for category in r['categories']]
+        categories += report['errors']
+        if report['pending_recovery_runs']: categories.append('operational_prior_run_recovery_required')
+        if report['unresolved_delivery']: categories.append('operational_delivery_reconciliation_required')
+        for category in dict.fromkeys(categories):
+            print(f'::error title=Newsletter readiness::{args.report_key}:{category}', file=sys.stderr)
     return 0 if report['ok'] else 1
 
 

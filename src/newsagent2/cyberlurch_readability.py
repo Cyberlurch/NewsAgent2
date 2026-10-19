@@ -9,6 +9,9 @@ from .youtube_source import stored_basis
 
 SOURCE_VOICE_RULE = (
     "Write fluent, concise editorial prose that conveys the source's actual content and distinctive perspective. "
+    "Give the content itself, not a description of the video, transcript, contribution or discussion. "
+    "This applies to the summary and EVERY factual list entry, not just notable_claims. "
+    "An explicit subject means the actual person, institution, event or proposal, not a reporting device such as 'the speaker'. "
     "The channel is identified by its heading or source reference; do not start each sentence with 'the speaker reports', "
     "'the speaker asserts', 'the speaker identifies', 'der Sprecher', 'der Beitrag', or another reporting formula. "
     "Lead with the concrete subject and action. Preserve the source's emphasis, argument, political or religious viewpoint, "
@@ -20,11 +23,23 @@ SOURCE_VOICE_RULE = (
     "In the body, name the consequences, mechanisms and affected people or institutions actually described by the source. "
     "'Discusses political and economic implications' is not a substitute for those details. "
     "If the source supplies no concrete consequence, omit the generic phrase instead of inventing one. "
-    "Keep the snapshot brief; explain supported details below it."
+    "Keep the snapshot brief; explain supported details below it. "
+    "Style examples (use only facts actually present in this source): "
+    "'The transcript discusses concerns that the proposal may raise fuel costs' becomes 'The proposal may raise fuel costs'. "
+    "'The speaker says that the council has not approved the plan' becomes 'The council has not approved the plan'. "
+    "'Der Beitrag berichtet über die Absage des Umzugs wegen zu hoher Sicherheitskosten' becomes "
+    "'Der Umzug wurde wegen zu hoher Sicherheitskosten abgesagt'. "
+    "Never copy example names or claims into the extraction."
 )
 _SENTENCE_BREAK = re.compile(r"(?<!\bDr\.)(?<!\bMr\.)(?<!\bMs\.)(?<!\bProf\.)(?<!\b[A-Z]\.)(?<=[.!?])\s+(?=[A-ZÄÖÜÅÆØ])")
-_REPORT_FRAME = re.compile(r"^The (?:speaker|presenter|narrator|video|report) "
-    r"(?:says|reports|states|asserts|claims|argues|explains|notes|emphasizes|teaches) that\s+", re.I)
+_REPORT_FRAME = re.compile(r"^The (?:speaker|presenter|narrator|video|report|transcript|channel) "
+    r"(?P<verb>says|reports|states|asserts|claims|argues|explains|notes|emphasizes|teaches|specifies|suggests|adds) that\s+", re.I)
+_META_INTRO = re.compile(
+    r"^(?:the (?:speaker|presenter|narrator|video|report|transcript|channel) "
+    r"(?:says|reports|discusses|describes|asserts|identifies|covers)|"
+    r"(?:der (?:beitrag|bericht|sprecher)|das (?:video|transkript)) "
+    r"(?:berichtet|bespricht|diskutiert|beschreibt|behandelt|thematisiert)|"
+    r"(?:videon|transkriptet|inslaget) (?:handlar om|diskuterar|beskriver))\b", re.I)
 
 
 def reader_prose(value, *, channel: str = "") -> str:
@@ -44,8 +59,11 @@ def reader_prose(value, *, channel: str = "") -> str:
         if match:
             rest = sentence[match.end():]
             coordinated = re.search(r"\b(?:and|but|or)\s+(?:also\s+)?(?:reports|says|states|asserts|argues|"
-                r"explains|notes|identifies|warns|predicts|links|urges|describes|teaches)\b", rest, re.I)
-            if len(rest.split()) >= 3 and not coordinated:
+                r"explains|notes|identifies|warns|predicts|links|urges|describes|teaches|claims|emphasizes|specifies|suggests|adds)\b", rest, re.I)
+            coordinated = coordinated or re.search(r'\b(?:and|but|or)\s+that\b', rest, re.I)
+            tentative = (match.group('verb').lower() == 'suggests'
+                and not re.search(r'\b(?:may|might|could|would|should|seems|appears)\b', rest, re.I))
+            if len(rest.split()) >= 3 and not coordinated and not tentative:
                 sentence = rest
         if sentence:
             parts.append(sentence[0].upper() + sentence[1:])
@@ -82,9 +100,19 @@ def saved_reader_intro(item: dict, *, max_sentences: int = 2, max_words: int = 9
     if not reader_text_allowed(item):
         return ""
     title = str(item.get("title") or "").strip().casefold().rstrip(".!?")
-    for key in ("transcript_full_summary", "bottom_line", "summary"):
-        text = reader_prose(item.get(key), channel=str(item.get("channel") or ""))
+    candidates = [item.get(key) for key in ("transcript_full_summary", "bottom_line", "summary")]
+    # An old generic metadescription must not crowd out already saved, concrete
+    # source facts. Do not reorder German subordinate clauses or invent a new
+    # assertion from a nominal phrase such as 'discusses the economic impact'.
+    if any(_META_INTRO.match(reader_prose(value, channel=str(item.get("channel") or ""))) for value in candidates):
+        for key in ("transcript_key_points", "important_details"):
+            values = item.get(key)
+            if isinstance(values, list): candidates.extend(values)
+    for value in candidates:
+        text = reader_prose(value, channel=str(item.get("channel") or ""))
         if not text or text.casefold().rstrip(".!?") == title:
+            continue
+        if _META_INTRO.match(text):
             continue
         kept = []
         # Decimal numbers stay intact. Keep the supplied words, negation and
