@@ -2315,6 +2315,831 @@
         "approved_after_generation_checks": true,
         "seal": "82fc62ecb1a8847a01551bc2f2543228438e1cba54a878ac1c426a6eab14cc42"
       }
+    },
+    "cybermed:daily:2026-10-19:2026-10-19:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-19",
+      "period_end": "2026-10-19",
+      "edition_id": "cybermed:daily:2026-10-19:2026-10-19:production",
+      "content_version": "ea697e6d5f23fbd89b41009b04a9ba1b177e0759525c94f62aaa87262f8fa17a",
+      "message_id": "<d288d0f760dd7b2d57ff1022c04432f524f2a870ad2621d1341913a7c01e4959@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-19T09:20:35+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42879707",
+            "title": "Sweet Dreams: Incretin therapy for prevention of obstructive sleep apnea in patients with type 2 diabetes mellitus and obesity.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879707/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879699",
+            "title": "Are FVC and DLCO Thresholds Equally Calibrated to Pulmonary Fibrosis Progression?",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879699/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42878338",
+            "title": "Analytical and technical advances collide to produce novel insights into the tumor immune microenvironment.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878338/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42876021",
+            "title": "Classification of difficult direct laryngoscopy using the VIDIAC score: a prospective external validation study.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42876021/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42880407",
+            "title": "The Carbon Footprint of Clinical Artificial Intelligence in Anaesthesiology: An Order-of-Magnitude Comparison with Current Clinical Practice.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42880407/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874082",
+            "title": "Impact of HIV on Perioperative Organ Injury and Surgical Outcomes in 41 Million Surgical Patients: A Retrospective Cohort Study.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874082/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874081",
+            "title": "Effect of Sevoflurane, Propofol, and Remifentanil on Hemodynamic Response to Pneumoperitoneum and Laparoscopic Surgery: A Randomized Controlled Trial.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874081/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42873975",
+            "title": "Characterization of the Bispectral Index in Healthy Volunteers Receiving Inhalation Anesthetics in Combination With Opioids in a Randomized Trial.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42873975/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42873973",
+            "title": "Halothane Withdrawal From Clinical Practice: Strategic Implications Informed by a Scoping Review.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42873973/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874058",
+            "title": "Postanesthesia Care Unit Nausea, Postdischarge Nausea, and Quality of Recovery after Ambulatory Surgery.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874058/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874056",
+            "title": "Intravenous Fluids as a Route of Microplastic and Plasticizer Exposure in U.S. Patients: A Preliminary Assessment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874056/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874055",
+            "title": "Sevoflurane-linked Mitochondrial Disease: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874055/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874054",
+            "title": "Comparing Professionalism in Anesthesiology: Reply.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874054/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874053",
+            "title": "Sevoflurane-linked Mitochondrial Disease: Reply.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874053/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874051",
+            "title": "Comparing Professionalism in Anesthesiology: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874051/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874050",
+            "title": "Esophageal Duplication Cysts: Managing the Incidental and Asymptomatic Lesion.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874050/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874049",
+            "title": "Permanent Residents of a Non-place.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874049/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42875274",
+            "title": "Operating room noise levels in anaesthesia a systematic review and meta-analysis.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42875274/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42875273",
+            "title": "The effect of near-infrared spectroscopy guided intraoperative care on neurocognitive and functional outcomes after cardiac surgery: a systematic review and meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42875273/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42870300",
+            "title": "Documenting graft outcome to substantiate the organ-donation rationale after out-of-hospital cardiac arrest due to aneurysmal subarachnoid haemorrhage.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42870300/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42872943",
+            "title": "Tools Measuring Health Literacy in Critically Ill Patients and Their Caregivers: A Scoping Review.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42872943/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42872941",
+            "title": "Pediatric Cardiopulmonary Resuscitation Ventilation Rates and Outcomes.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42872941/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42872924",
+            "title": "New Insights Into U.S. Pediatric Critical Care Epidemiology.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42872924/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42872921",
+            "title": "Association of Oliguria With Acute Kidney Injury, Chronic Kidney Disease, and Mortality: Determining the Optimal Threshold in Critically Ill Patients.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42872921/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42872916",
+            "title": "Long-Lasting Mental Disorders in Caregivers of ICU Sepsis Survivors and Their Association With Patients' Post-Intensive Care Syndrome: A Prospective Multicenter Cohort Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42872916/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879271",
+            "title": "Clinician Use of an Artificial Intelligence-Enabled Clinical Information Platform.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879271/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879139",
+            "title": "See One.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879139/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42881421",
+            "title": "Hemoglobin trends and transfusion practices after cardiac arrest: a cohort study.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42881421/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874121",
+            "title": "Setmelanotide for the Treatment of Acquired Hypothalamic Obesity. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874121/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874120",
+            "title": "Setmelanotide for the Treatment of Acquired Hypothalamic Obesity.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874120/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874119",
+            "title": "Setmelanotide for the Treatment of Acquired Hypothalamic Obesity.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874119/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874118",
+            "title": "Obinutuzumab in Active Systemic Lupus Erythematosus. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874118/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874117",
+            "title": "Obinutuzumab in Active Systemic Lupus Erythematosus.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874117/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874116",
+            "title": "Extended DAPT for Multivessel Coronary Artery Disease. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874116/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874115",
+            "title": "Extended DAPT for Multivessel Coronary Artery Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874115/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874114",
+            "title": "Extended DAPT for Multivessel Coronary Artery Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874114/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874113",
+            "title": "Extended DAPT for Multivessel Coronary Artery Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874113/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874112",
+            "title": "Extended DAPT for Multivessel Coronary Artery Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874112/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874111",
+            "title": "Integration-Associated Paraspinal Neoplasm after AAV Gene Therapy.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874111/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874110",
+            "title": "Once-Weekly Mosnodenvir as Dengue Prophylaxis in a Human Infection Model.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874110/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874109",
+            "title": "Chemotherapy-free Treatment of Ph-Positive ALL.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874109/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874108",
+            "title": "Adapting to Genomic Medicine.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874108/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874107",
+            "title": "Case 29-2026: A 39-Year-Old Man with Abdominal Pain, Foot Drop, and a Spinal Mass.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874107/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874106",
+            "title": "Alkaptonuria.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874106/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874105",
+            "title": "Adult Attention Deficit-Hyperactivity Disorder.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874105/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874104",
+            "title": "Long-Acting HIV Therapy in African Adults with Adherence Challenges.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874104/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874103",
+            "title": "Phase 2 Trial of Icotrokinra for Patients with Ulcerative Colitis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874103/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42874102",
+            "title": "Ponatinib-Blinatumomab or Imatinib-Chemotherapy for Adult Ph-Positive ALL.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874102/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42873071",
+            "title": "Continuous or Intermittent Renal-Replacement Therapy - What Is the Question?",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42873071/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42873070",
+            "title": "Intermittent or Continuous Renal-Replacement Therapy in Acute Kidney Injury.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42873070/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emcrit/when-you-rsi-shocked-patients-they-tend-to-die/",
+            "title": "EMCrit 436 – When you RSI Shocked Patients, they Tend to Die (the Hemodynamically Neutral Intubation Part 2)",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emcrit/when-you-rsi-shocked-patients-they-tend-to-die/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.pulmccm.org/p/the-real-world-boards-question-49",
+            "title": "The Real-World Boards: Question #49",
+            "channel": "PulmCCM",
+            "url": "https://www.pulmccm.org/p/the-real-world-boards-question-49"
+          },
+          {
+            "source": "foamed",
+            "id": "https://accrac.com/episode-345-the-history-of-curare-with-matt-ohara/",
+            "title": "Episode 345: The History of Curare with Matt O’Hara",
+            "channel": "ACCRAC",
+            "url": "https://accrac.com/episode-345-the-history-of-curare-with-matt-ohara/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/clinical-decisions-under-pressure-in-emergency-care/",
+            "title": "Ep 300 – Decisions Under Pressure: Knowing When to Act in Emergency Care",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/clinical-decisions-under-pressure-in-emergency-care/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/ttl-tip-22-graded-assertiveness/",
+            "title": "TTL Tip 22: Graded Assertiveness",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/ttl-tip-22-graded-assertiveness/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.apsf.org/news-updates/new-from-the-apsf-technology-education-initiative-cardiac-implantable-electronic-devices-cied/",
+            "title": "New from the APSF Technology Education Initiative: Cardiac Implantable Electronic Devices (CIED)",
+            "channel": "APSF Newsletter",
+            "url": "https://www.apsf.org/news-updates/new-from-the-apsf-technology-education-initiative-cardiac-implantable-electronic-devices-cied/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://theresusroom.libsyn.com/myocardial-infarction-roadside-to-resus",
+            "title": "Myocardial Infarction; Roadside to Resus",
+            "channel": "The Resus Room",
+            "url": "https://theresusroom.libsyn.com/myocardial-infarction-roadside-to-resus"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/rocuronium-overtakes-succinylcholine-for-rsi/",
+            "title": "Rocuronium overtakes succinylcholine for RSI?",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/rocuronium-overtakes-succinylcholine-for-rsi/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/em3am-rectal-injuries/",
+            "title": "EM@3AM: Rectal Injuries",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/em3am-rectal-injuries/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovF-cTpdcT6tpQpx5_w21kha",
+            "title": "Episode 228: Tickborne Illnesses",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovF-cTpdcT6tpQpx5_w21kha"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42881421",
+            "title": "Hemoglobin trends and transfusion practices after cardiac arrest: a cohort study.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42881421/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42881421",
+              "doi": "10.1186/s40560-026-00952-w",
+              "kind": "original",
+              "source_version": "6e972c19f088678ea0489f375740fce22d9097dccad87395a5dae4dd6afc7e98",
+              "fields": {
+                "title": "c4cc1219f63bc09f6713db2ebba8c3355c4bffaed022d3f22b0f86f8ecf7c24a",
+                "abstract": "c201f1843a9fa93005d433764915b595f6867839bc0cc8b3bcbc1dc97c77ca55",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "595a4a8115b14933ca77285dcdcb5776da3f14a548e52cce3c5edde27c6d9711",
+                "results_known": false,
+                "numbers": "cc682031d1fdf4705aa7ea026715223ee5d0cd75245e3c0f3162ef554ff1c761",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "8d8d037d7cdd1d81a34080c3e15abe7edc4e2818db63264af114a24d76771640",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42872941",
+            "title": "Pediatric Cardiopulmonary Resuscitation Ventilation Rates and Outcomes.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42872941/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42872941",
+              "doi": "10.1097/ccm.0000000000007381",
+              "kind": "original",
+              "source_version": "b3e78b29b3db291dd561bda3b5aaacff784b796ebbcf550e6a47175a931a9958",
+              "fields": {
+                "title": "61615b1ad64faf50c2bebc4be66b5146947170753ddd425f22a5e0eb34ef6eb8",
+                "abstract": "3ec042001ac5d76ee24a3dece77112f5396359fe0cf3b87d98101a10e0510bdc",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "aa74553ba8416667e079ff82ff74213aa595472bc3e8fa0dc023ec4edfedd10c",
+                "results_known": false,
+                "numbers": "2d7154806dc1452d99d7d17f4ac73bc74f8ac36c0b5b56187124ecf7669d6c81",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42873975",
+            "title": "Characterization of the Bispectral Index in Healthy Volunteers Receiving Inhalation Anesthetics in Combination With Opioids in a Randomized Trial.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42873975/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42873975",
+              "doi": "10.1213/ane.0000000000008332",
+              "kind": "original",
+              "source_version": "e505641378b27ca244f8240313ac783740f75390134736933208fac05ac6b3a1",
+              "fields": {
+                "title": "b55497f0da3f50b013955bb4d1ec64faa86c7a8a063bd4804f6e24da1ed57b17",
+                "abstract": "8de2ab5428f2db6c72e4bf200399da5bb02797bf97174457ea10e8c15f821485",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "68ca2ddb20c3125b34f167614c1444ec54758f7a089ba5a8b5204acca4a3763a",
+                "results_known": false,
+                "numbers": "b6eeb49945ad5ce56536fe870bcb2f3d7b09558b75c99b9c6b5a7dcc17d7a27d",
+                "endpoint": "6e66be31d7db2c8ab872aacb43c77283a739bbab04a3755bab5513b67cad1e76",
+                "methods": "a4e363116fd2915f322d6a81b3ab9705da3f98976fb2f58aaa329272b781aaab",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42874082",
+            "title": "Impact of HIV on Perioperative Organ Injury and Surgical Outcomes in 41 Million Surgical Patients: A Retrospective Cohort Study.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42874082/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42874082",
+              "doi": "10.1213/ane.0000000000008377",
+              "kind": "original",
+              "source_version": "4136e79f2d078a777a37a802debfa953d98012b349057dbaabd936cbb398abd3",
+              "fields": {
+                "title": "c321f2d06d2101ddc47ef4d1181c79e70a06c2393c1961a9a0b5a51e209ade7b",
+                "abstract": "4567ce23649a7a7518e902cfaa9affc65b4f7c89a86e6c5fab6f4bd842f955c3",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "5818c9ad967e293d89f4d35977a48bd770d9394939e94f3e0fb8aba9938ec33a",
+                "results_known": true,
+                "numbers": "2eb63789616cefa16f300ad41d69f785f42a577a1c387cc629aadb3916cd04f0",
+                "endpoint": "e5092e0d0ba4dbe75cf90a9cfdd228fbe065b4ac8592c08e41d00267fa339aaf",
+                "methods": "0d3bdf9b66eb47038595d4a8bc0249cdb979a766efd5dddba5202ba497d2c1fa",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42872921",
+            "title": "Association of Oliguria With Acute Kidney Injury, Chronic Kidney Disease, and Mortality: Determining the Optimal Threshold in Critically Ill Patients.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42872921/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42872921",
+              "doi": "10.1097/ccm.0000000000007370",
+              "kind": "original",
+              "source_version": "ca512a6843793fa0ea821bc328d31185293b9719b2e36995bcce33a508cb671d",
+              "fields": {
+                "title": "6a5905944be55cc102f9ac234aedf30ac6aa6a7f51b27964370ebef12d085964",
+                "abstract": "93e7b2ca08d13dd9afef8bdd9bd79ef0b7d1cc1c39f36a4ef387e5757a881038",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9038ad30e21d7cbdc9a121f8aebc2426b9afd25e35d64e1a124f822d0f220b4a",
+                "results_known": false,
+                "numbers": "f35c466193efb11b86581df9f5bd1582dbc874ca62a8e0847f02f9c16e920233",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42872916",
+            "title": "Long-Lasting Mental Disorders in Caregivers of ICU Sepsis Survivors and Their Association With Patients' Post-Intensive Care Syndrome: A Prospective Multicenter Cohort Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42872916/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42872916",
+              "doi": "10.1097/ccm.0000000000007378",
+              "kind": "original",
+              "source_version": "a0b2baaba2e6fc000227c15f681468b2f8e162de7cf1f9f38b1b091b101d6237",
+              "fields": {
+                "title": "73b62b7aed4c30ca8c6c218a9b2dd30864df05f69642ec0fb3e46a27c479ee47",
+                "abstract": "bc1f1f26ee5e16a099d44c908c66db8164c2a0b44353aa420a6fe39fbe395d2b",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "7fb30091278df9504c831f7691f863e381ce45a309fdc25c97f659f73c1ebe49",
+                "results_known": false,
+                "numbers": "6e4a4c60580c7c2eaed507f26949cdc49922a1d631384f7a5e2223faf8c1092e",
+                "endpoint": "492065e56f636d1ef6e5ae72c6f1d06e41147bfad30319d7239581d7b5207237",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42875274",
+            "title": "Operating room noise levels in anaesthesia a systematic review and meta-analysis.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42875274/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42875274",
+              "doi": "10.1016/j.bja.2026.08.053",
+              "kind": "original",
+              "source_version": "53966445fd19d308c77f8e4b9edf3d59b5918ea821a92e719a4aff4173c97dea",
+              "fields": {
+                "title": "188a7b7f45e639871ca7d3ab7fa0ff7e414ba10f911abda00063414647f14f9b",
+                "abstract": "cb0c7d0db9883fe6cd936855f10e827a38db1f279861219b5d0edeaa10cc275d",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "df50617f87bf4f51267b3c48ac2e3cf921139e9efabbd00037464c7e1a576e4d",
+                "results_known": false,
+                "numbers": "a8f68115a343ed8d5cba8a7855e29c23a9db846cfaf6cb99bc9bd2ea655da3d7",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "8415ebb8271ee54b041016d5e296cb77642243995499d0077e54d31fd53c249b",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42875273",
+            "title": "The effect of near-infrared spectroscopy guided intraoperative care on neurocognitive and functional outcomes after cardiac surgery: a systematic review and meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42875273/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42875273",
+              "doi": "10.1016/j.bja.2026.09.012",
+              "kind": "original",
+              "source_version": "57cd2d601d0ed29cf11b4c315df3901b5dc036a1d627dd9276b006c7cba0c854",
+              "fields": {
+                "title": "7d0181a433b53f6127724b3bc8ddd4cfde9d40ccbbfe00a6031376e8150f5bd5",
+                "abstract": "b5da03979bb441f397f460f9e1c7b3583a7e1bacbfa103b790b4fc5b5e337a64",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "92ddf1f22f56168109a561c29b1441bb17e9c05d8ce13c1b7e33403f6388603c",
+                "results_known": false,
+                "numbers": "13bdaab7f826e4443c019dc6d03f2a67eb924a0cc8ed8bd39077277e279d8646",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "2eaadc1c64ed9e2a2e373a97e88b83f5fcf9633330b2fb3e90b48de643566efe",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42873975",
+            "title": "Characterization of the Bispectral Index in Healthy Volunteers Receiving Inhalation Anesthetics in Combination With Opioids in a Randomized Trial.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42873975/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42873975",
+              "doi": "10.1213/ane.0000000000008332",
+              "kind": "original",
+              "source_version": "e505641378b27ca244f8240313ac783740f75390134736933208fac05ac6b3a1",
+              "fields": {
+                "title": "b55497f0da3f50b013955bb4d1ec64faa86c7a8a063bd4804f6e24da1ed57b17",
+                "abstract": "8de2ab5428f2db6c72e4bf200399da5bb02797bf97174457ea10e8c15f821485",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "68ca2ddb20c3125b34f167614c1444ec54758f7a089ba5a8b5204acca4a3763a",
+                "results_known": false,
+                "numbers": "b6eeb49945ad5ce56536fe870bcb2f3d7b09558b75c99b9c6b5a7dcc17d7a27d",
+                "endpoint": "6e66be31d7db2c8ab872aacb43c77283a739bbab04a3755bab5513b67cad1e76",
+                "methods": "a4e363116fd2915f322d6a81b3ab9705da3f98976fb2f58aaa329272b781aaab",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42872941",
+            "title": "Pediatric Cardiopulmonary Resuscitation Ventilation Rates and Outcomes.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42872941/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42872941",
+              "doi": "10.1097/ccm.0000000000007381",
+              "kind": "original",
+              "source_version": "b3e78b29b3db291dd561bda3b5aaacff784b796ebbcf550e6a47175a931a9958",
+              "fields": {
+                "title": "61615b1ad64faf50c2bebc4be66b5146947170753ddd425f22a5e0eb34ef6eb8",
+                "abstract": "3ec042001ac5d76ee24a3dece77112f5396359fe0cf3b87d98101a10e0510bdc",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "aa74553ba8416667e079ff82ff74213aa595472bc3e8fa0dc023ec4edfedd10c",
+                "results_known": false,
+                "numbers": "2d7154806dc1452d99d7d17f4ac73bc74f8ac36c0b5b56187124ecf7669d6c81",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://www.pulmccm.org/p/the-real-world-boards-question-49",
+            "title": "The Real-World Boards: Question #49",
+            "channel": "PulmCCM",
+            "url": "https://www.pulmccm.org/p/the-real-world-boards-question-49"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emcrit/when-you-rsi-shocked-patients-they-tend-to-die/",
+            "title": "EMCrit 436 – When you RSI Shocked Patients, they Tend to Die (the Hemodynamically Neutral Intubation Part 2)",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emcrit/when-you-rsi-shocked-patients-they-tend-to-die/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://theresusroom.libsyn.com/myocardial-infarction-roadside-to-resus",
+            "title": "Myocardial Infarction; Roadside to Resus",
+            "channel": "The Resus Room",
+            "url": "https://theresusroom.libsyn.com/myocardial-infarction-roadside-to-resus"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.apsf.org/news-updates/new-from-the-apsf-technology-education-initiative-cardiac-implantable-electronic-devices-cied/",
+            "title": "New from the APSF Technology Education Initiative: Cardiac Implantable Electronic Devices (CIED)",
+            "channel": "APSF Newsletter",
+            "url": "https://www.apsf.org/news-updates/new-from-the-apsf-technology-education-initiative-cardiac-implantable-electronic-devices-cied/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://accrac.com/episode-345-the-history-of-curare-with-matt-ohara/",
+            "title": "Episode 345: The History of Curare with Matt O’Hara",
+            "channel": "ACCRAC",
+            "url": "https://accrac.com/episode-345-the-history-of-curare-with-matt-ohara/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/clinical-decisions-under-pressure-in-emergency-care/",
+            "title": "Ep 300 – Decisions Under Pressure: Knowing When to Act in Emergency Care",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/clinical-decisions-under-pressure-in-emergency-care/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/rocuronium-overtakes-succinylcholine-for-rsi/",
+            "title": "Rocuronium overtakes succinylcholine for RSI?",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/rocuronium-overtakes-succinylcholine-for-rsi/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/ttl-tip-22-graded-assertiveness/",
+            "title": "TTL Tip 22: Graded Assertiveness",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/ttl-tip-22-graded-assertiveness/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-19T09:20:31+00:00"
+      },
+      "workflow_run_id": "39229029287",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-19:2026-10-19:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "eab7d8d09e1aa2b5869d9488afa658a55b11711bde36dd89c31a5555cc682cde",
+        "finalization_policy": "markers",
+        "content_version": "ea697e6d5f23fbd89b41009b04a9ba1b177e0759525c94f62aaa87262f8fa17a",
+        "message_id": "<d288d0f760dd7b2d57ff1022c04432f524f2a870ad2621d1341913a7c01e4959@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "696bfe386a255297_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "711512a8151c2870a9fb1283b2f14dd24c43c133232b2a948a2ce0db98112938"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "af9d0976da2890f80f92704c42d9ef48929be739a39236ac939b740ee3be82ac"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -2944,8 +3769,27 @@
         "42863592",
         "42864190",
         "42864191",
+        "42864673",
         "42864688",
-        "42865103"
+        "42865103",
+        "42866125",
+        "42866585",
+        "42867208",
+        "42868023",
+        "42868051",
+        "42868054",
+        "42868075",
+        "42868502",
+        "42868517",
+        "42869183",
+        "42869184",
+        "42869186",
+        "42870277",
+        "42872606",
+        "42872914",
+        "42872917",
+        "42872958",
+        "42874912"
       ]
     }
   }
