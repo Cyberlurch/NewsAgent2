@@ -21,7 +21,7 @@ def row(**extra):
             "Freight firms expect higher delivery costs if the proposal takes effect."], **extra}
 
 
-@pytest.mark.parametrize("verb", ["says", "reports", "states", "asserts", "claims", "argues", "explains", "notes", "emphasizes", "teaches"])
+@pytest.mark.parametrize("verb", ["says", "reports", "states", "asserts", "claims", "argues", "explains", "notes", "emphasizes", "teaches", "specifies", "suggests", "adds"])
 def test_reporting_wrapper_can_go_while_source_negation_modal_numbers_remain(verb):
     assert reader_prose(f"The speaker {verb} that the harbor could close for six weeks, not six months.") == "The harbor could close for six weeks, not six months."
 
@@ -32,6 +32,11 @@ def test_reporting_wrapper_can_go_while_source_negation_modal_numbers_remain(ver
     "The speaker does not claim that the plan will work.",
     "The speaker predicts that the plan will fail.",
     "The speaker reports that the port is closed and argues that the mayor should resign.",
+    "The speaker suggests that a delay occurred.",
+    "The speaker specifies that the port is closed and adds that the mayor should resign.",
+    "The speaker says that the port is closed but claims that another entrance is open.",
+    "The speaker states that the port could close and emphasizes that approval is still missing.",
+    "The speaker specifies that the city has 16 beds and that the region serves 1.5 million people.",
     "Der Beitrag berichtet, dass das Abkommen die Kosten senken könnte.",
     "Talaren säger att hamnen kan stängas nästa vecka.",
 ])
@@ -110,8 +115,33 @@ def test_one_existing_direct_call_supplies_natural_language_and_concrete_effects
     assert result["transcript_full_summary"]==text and len(calls)==1
     prompt=calls[0]["messages"][1]["content"]
     assert SOURCE_VOICE_RULE in prompt and "who is affected, what could change and why" in prompt
+    assert SOURCE_VOICE_RULE in calls[0]['messages'][0]['content']
     assert "do not wrap each claim" in prompt and "1–2 natural sentences" in prompt
     assert calls[0]["model"]==summarizer.OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST
+
+
+@pytest.mark.parametrize('summary,facts', [
+    ('Der Beitrag berichtet über landesweite Proteste und eine abgesagte Veranstaltung.',
+     ['Die Proteste eskalierten zu Ausschreitungen.', 'Der Umzug wurde wegen zu hoher Sicherheitskosten abgesagt.']),
+    ('The transcript discusses concerns about fuel supplies and political consequences.',
+     ['Fuel deliveries could cost 20% more because trucks would travel farther.', 'The council has not approved the plan.']),
+    ('Inslaget handlar om högre bränslekostnader och politiska följder.',
+     ['Bränsleleveranser kan bli dyrare eftersom lastbilarna måste köra längre.']),
+])
+def test_saved_metadescription_yields_to_concrete_source_sentences_without_calls_or_mutation(summary, facts):
+    item=row(transcript_full_summary=summary, transcript_key_points=facts, important_details=[])
+    before=copy.deepcopy(item)
+    md=reporter.render_cyberlurch_daily_report([item],title='Cyberlurch',generated_at='now')
+    snapshot,body=md.split('## Selected items',1)
+    assert facts[0] in snapshot and all(fact in body for fact in facts)
+    assert summary not in md and item==before
+
+
+def test_unrewritable_meta_intro_is_not_invented_into_a_claim():
+    from newsagent2.cyberlurch_readability import saved_reader_intro
+    item=row(transcript_full_summary='The transcript discusses economic implications.', transcript_key_points=[], important_details=[])
+    assert saved_reader_intro(item)==''
+    assert reader_prose('The transcript specifies that fuel deliveries could cost 20% more.')=='Fuel deliveries could cost 20% more.'
 
 
 def test_chunk_and_combine_use_same_source_voice_without_new_repair_calls(monkeypatch):

@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: "0 4 * * *"
       timezone: Europe/Stockholm
+    - cron: "0 12 * * *"
+      timezone: Europe/Stockholm
   workflow_dispatch:
   workflow_run:
     workflows: [NewsAgent2 Cybermed, NewsAgent2 daily, Newsletter state recovery (no sending)]

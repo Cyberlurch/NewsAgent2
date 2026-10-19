@@ -406,7 +406,7 @@ def test_daily_older_publication_survives_and_preview_has_no_production_mutation
     report=next((tmp_path/'out').glob('cybermed_daily_*.md')).read_text()
     assert 'Intensive care trial 1' in report
     assert 'older publication' in report or 'ältere Publikation' in report
-    assert 'Quellenabdeckung' in report
+    assert 'Quellenabdeckung' not in report and 'PubMed capture is bounded' not in report
     saved=next((tmp_path/'out').rglob('cybermed_pubmed_ingestion.json'))
     data=json.loads(saved.read_text())
     active=data['queries'][ingestion.fingerprint('ICU')]['active']
@@ -525,14 +525,24 @@ def test_unknown_or_naive_reference_is_rejected():
         ingestion.IngestionSession(datetime(2026,10,14,5,40))
 
 
-def test_english_coverage_note_contains_no_technical_error(monkeypatch):
+@pytest.mark.parametrize('language', ['en', 'de', 'sv'])
+@pytest.mark.parametrize('cadence', ['daily', 'weekly', 'monthly', 'yearly'])
+def test_capture_progress_stays_internal_in_every_cadence_and_language(monkeypatch, language, cadence):
+    from newsagent2 import main
     with production(monkeypatch):
         run=ingestion.IngestionSession(REFERENCE)
         run.metadata={'ICU':{'status':'incomplete','category':'request_budget'}}
-        monkeypatch.setenv('REPORT_LANGUAGE','en')
-        note=run.reader_note()
-        assert 'complete source coverage is not established' in note
-        assert 'request_budget' not in note and 'PubMedError' not in note
+        monkeypatch.setenv('REPORT_LANGUAGE',language)
+        monkeypatch.setenv('REPORT_MODE',cadence)
+        before=copy.deepcopy((run.data, run.metadata))
+        ctx=ingestion.current()
+        ctx.pubmed_ingestion=run
+        ctx.pubmed_generated_ids={'fixture-paper'}
+        body='## Cybermed\n\nExisting reader layout and clinical content.\n'
+        main._queue_report('Cybermed',body)
+        assert run.reader_note()=='' and ctx.request[1]==body
+        assert (run.data,run.metadata)==before
+        assert 'fixture-paper' in run.consumed
 
 
 def test_review_hold_stays_internal_without_masking_real_capture_incompleteness(monkeypatch):
@@ -543,6 +553,5 @@ def test_review_hold_stays_internal_without_masking_real_capture_incompleteness(
         monkeypatch.setenv('REPORT_LANGUAGE','en')
         assert run.reader_note()==''
         run.metadata={'ICU':{'status':'incomplete','category':'request_budget'}}
-        note=run.reader_note()
-        assert 'open search windows/candidates remain' in note
-        assert 'withheld' not in note and run.data==before
+        assert run.reader_note()=='' and run.data==before
+        assert run.metadata['ICU']['status']=='incomplete'

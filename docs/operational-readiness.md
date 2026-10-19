@@ -35,7 +35,7 @@ commit, blind SMTP retry, force push or automatic JSON rebase is added.
 
 ## Daily early check
 
-**Newsletter readiness (all cadences, no sending)** runs at **04:00 Stockholm**
+**Newsletter readiness (all cadences, no sending)** runs at **04:00 and 12:00 Stockholm**
 every day, after completed newsletter/state-recovery workflows on `main`, and on
 manual request. Its two independent jobs assess all four
 cadences, including the next Monthly and Yearly before their due dates. It reads
@@ -50,12 +50,26 @@ server availability. Runtime secrets, addresses and recipient HMAC lists are not
 written to its evidence. `none/test` newsletter runs retain their separate scratch
 stores and test-only audience.
 
+GitHub created the 19 October morning events more than five hours after their
+native slots. An early check therefore allows up to six hours from the existing
+05:30/05:40 slot before diagnosing an absent scheduled result: **11:30 for
+Cyberlurch, 11:40 for Cybermed**, in Stockholm time including DST. Before that
+deadline, yesterday's last business-day result must still be valid and today's
+missing result is `awaiting_scheduled_run`, never successful delivery. The noon
+check catches service that still has no finalized result. Known generation,
+configuration, corruption, partial/unknown SMTP and unpersisted-acceptance errors
+remain failures immediately, including before the deadline. Producer schedules,
+recipient resolution, delivery guards and model budgets are unchanged.
+Failure categories are also emitted as Actions annotations without private
+configuration or recipient data, making them visible through metadata-only APIs.
+
 | Status | Meaning |
 |---|---|
 | `ready` | Static prerequisites checked; not proof of an external service or inbox delivery. |
 | `partial_ready` | Available evidence supports a labelled partial review. |
 | `awaiting_close` | Future Monthly/Yearly close; source status is reported separately. |
 | `awaiting_inputs` | Future sources are not due yet; they are not diagnosed as missed sends. |
+| `awaiting_scheduled_run` | Today's result has not arrived within the bounded scheduler grace window; no delivery is inferred. |
 | `already_accepted` | A known full SMTP receipt is already persisted; no second submission. |
 | `recovery_required` | Saved generation/acceptance needs recovery, or the persisted Daily clock is stale. A Legacy clock is not SMTP proof. |
 | `blocked` | Configuration, source or delivery reconciliation needs repair. |

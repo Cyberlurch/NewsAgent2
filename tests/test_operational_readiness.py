@@ -101,6 +101,8 @@ def test_stale_publication_is_not_hidden_by_an_available_partial_week():
 
 def test_configuration_checks_every_audience_without_disclosing_private_values(monkeypatch):
     sources()
+    path_for('STATE_PATH').write_text(json.dumps({'reports': {},
+        'last_successful_daily_run_utc_by_report': {'cybermed':'2026-10-16T10:00:00Z'}}))
     for name, value in {'REPORT_KEY': 'cybermed', 'SMTP_HOST': 'private-host.invalid',
         'SMTP_USER': 'private-user', 'SMTP_PASS': 'private-password', 'SMTP_PORT': '587',
         'DELIVERY_RECIPIENT_HMAC_KEY': 'offline-key-at-least-32-characters-long',
@@ -239,6 +241,8 @@ def test_actual_readonly_cli_reports_stale_state_without_mutation(monkeypatch, t
     result = subprocess.run([sys.executable, '-m', 'newsagent2.operational_readiness', '--report-key', 'cybermed',
         '--as-of', '2026-10-16T12:00:00Z', '--output', str(output)], text=True, capture_output=True)
     assert result.returncode == 1, result.stderr
+    assert '::error title=Newsletter readiness::cybermed:daily:operational_daily_publication_stale' in result.stderr
+    assert json.loads(result.stdout)['ok'] is False
     assert json.loads(output.read_text())['checks'][0]['status'] == 'recovery_required'
     assert snapshot() == before and not list(directory.glob('*.lock'))
 

@@ -430,14 +430,6 @@ class IngestionSession:
                       "progress_is_delivery": False, "paper_decisions": self.paper_decisions}, kind=KIND)
 
     def reader_note(self):
-        # Review holds remain in the ledger/diagnostics. They are operational
-        # detail, not a generic disclaimer in every reader edition. A genuinely
-        # incomplete capture still gets the existing bounded-coverage note.
-        incomplete = sum(m["status"] != "complete" for m in self.metadata.values())
-        if not incomplete:
-            return ""
-        if os.getenv("REPORT_LANGUAGE", "de").lower().startswith("en"):
-            return ("PubMed capture is bounded: open search windows/candidates remain for continuation. "
-                    "Older publications may be newly captured; complete source coverage is not established.")
-        return ("PubMed-Erfassung begrenzt: offene Suchfenster/Kandidaten werden fortgesetzt. "
-                "Ältere Publikationen können neu erfasst worden sein; vollständige Quellenabdeckung ist nicht bestätigt.")
+        # Operational capture/continuation status stays in the saved ledger
+        # and diagnostics. No generic capture disclaimer in any reader edition.
+        return ""

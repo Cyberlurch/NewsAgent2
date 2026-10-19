@@ -1222,7 +1222,7 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
     req = dict(
         model=OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST,
         messages=[
-            {"role": "system", "content": "Careful neutral summarizer. Return strict JSON only. Every factual list entry must be a complete self-contained sentence with its own explicit subject or named noun phrase. Exclude routine promotion and source publication or upload metadata. Generated factual values may use only English, German, or Swedish. If the source language is anything else, write all generated factual values in English; never leave generated values in Hebrew, Arabic, Cyrillic, Chinese, or another unsupported source language. Keep the original title unchanged."},
+            {"role": "system", "content": ATTRIBUTION_RULE + " Return strict JSON only. Every factual list entry must be a complete self-contained sentence with its own explicit subject or named noun phrase describing the actual content. Exclude routine promotion and source publication or upload metadata. Generated factual values may use only English, German, or Swedish. If the source language is anything else, write all generated factual values in English; never leave generated values in Hebrew, Arabic, Cyrillic, Chinese, or another unsupported source language. Keep the original title unchanged."},
             {"role": "user", "content": user_prompt},
         ],
         temperature=0.2,
