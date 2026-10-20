@@ -3380,6 +3380,692 @@
         "approved_after_generation_checks": true,
         "seal": "e72bc8aa0611b62b9527519e7c2a349aa427c71863aa68125db49575503280a1"
       }
+    },
+    "cybermed:daily:2026-10-20:2026-10-20:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-20",
+      "period_end": "2026-10-20",
+      "edition_id": "cybermed:daily:2026-10-20:2026-10-20:production",
+      "content_version": "4c2cbf209d5c5203c1f1d48fd35c901fb522b4aa9553d077669bcf23cb8f559a",
+      "message_id": "<0082d188b4b023eec449a62f51217360569ba0a75ce143dd99579d404dd78c57@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-20T08:54:43+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42887689",
+            "title": "Assessing the ecotoxicological impact of drugs used in anesthesia and intensive care: do we have enough data and tools?",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42887689/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42887688",
+            "title": "VentiProtect ARDS, vibe coding lung protection: a five-minute clinician-built ventilator tool as proof-of-concept for physician prompt engineering.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42887688/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42887687",
+            "title": "Confounding by indication beyond exposure misclassification in cesarean anesthesia and postpartum depression.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42887687/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879800",
+            "title": "Trending Agreement: Bland-Altman Is All You Need.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879800/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879797",
+            "title": "Exploratory Optimization of Focused Ultrasound Parameters for Selective Peripheral Nerve Fiber Inhibition.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879797/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42878462",
+            "title": "Intraoperative Hemodynamic and Resuscitation Practice Variation for Left Ventricular Assist Device Implantation: A Multicenter Observational Analysis.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878462/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879755",
+            "title": "Association of Nerve Block with Myocardial Injury: Reply.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879755/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879756",
+            "title": "Association of Nerve Block with Myocardial Injury: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879756/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879752",
+            "title": "Association of Nerve Block with Myocardial Injury: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879752/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879751",
+            "title": "Association of Nerve Block with Myocardial Injury: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879751/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879750",
+            "title": "Association of Nerve Block with Myocardial Injury: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879750/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42879746",
+            "title": "Association of Nerve Block with Myocardial Injury: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42879746/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42890502",
+            "title": "Clinical relevance of ventriculo-arterial coupling and how to assess it at the bedside.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42890502/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42890494",
+            "title": "Renal microcirculation in acute kidney injury: bridging haemodynamics, inflammation and repair.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42890494/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42891135",
+            "title": "Vasopressin for hypotensive paediatric intensive care patients: an ESPNIC endorsed international survey: the P-PRESS survey.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42891135/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42891121",
+            "title": "National variation in acute kidney injury diagnosis and monitoring across adult intensive care units in china: a nationwide cross-sectional survey.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42891121/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42881072",
+            "title": "Haemodynamic effects of induction agents are context-dependent. Comment on Br J Anaesth Advance Access published on Apr 7, 2026, doi: 10.1016/j.bja.2026.02.023.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42881072/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42881070",
+            "title": "Remimazolam-induced dysfunction of thalamic reticular nucleus impairs auditory gating during postanaesthetic recovery in mice: auditory gating and auditory orientation during emergence. Response to Br J Anaesth 2026; 137: 1274-6.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42881070/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42881071",
+            "title": "Clinical accuracy and reliability of point-of-care ultrasound for perioperative diaphragmatic assessment: a scoping review.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42881071/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42892349",
+            "title": "Effect of clarithromycin on the circulating inflammatory proteome in community-acquired pneumonia: a secondary analysis of the ACCESS trial.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892349/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42892348",
+            "title": "Lung Cancer Screening Rates Remain Low Among Adults Aged 50-54 Years Despite Updated USPSTF Recommendations.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892348/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42881463",
+            "title": "Unsupervised clustering to classify patients with candidemia in intensive care: algorithmic tautology or the generation of highly anticipated new data?",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42881463/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42881398",
+            "title": "Rethinking diaphragmatic ultrasound for AECOPD weaning prediction: considerations on parameter selection, thresholds, and outcome definitions.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42881398/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42878628",
+            "title": "Weaning Strategies for High-Flow Nasal Cannula in Critically Ill Adults: A Randomized Clinical Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878628/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42878614",
+            "title": "Open Visiting Policy and Delirium in Adult Patients in ICUs: A Systematic Review and Meta-Analysis of Randomized Clinical Trials.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878614/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42878613",
+            "title": "Developing Models for Complicated Outcomes in Acutely Intoxicated ICU Patients With and Without Toxicity Information.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878613/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42878611",
+            "title": "Association of Tele-Critical Care Capability With Interhospital Transfers and Potentially Low-Value Transfers Among Critically Ill Medicare Beneficiaries.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878611/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42878609",
+            "title": "Ventilatory Management in Neurocritical Versus Non-Neurocritical Care Patients: A Pooled Analysis From the PRIME Database.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878609/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42895539",
+            "title": "Promoting equity, diversity and inclusion in intensive Care: a position paper of the European Society of Intensive Care Medicine.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42895539/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42895538",
+            "title": "Perceived inappropriateness of care among ICU clinicians is associated with burnout and intention to leave the job.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42895538/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42895537",
+            "title": "What's new in point-of-care lung ultrasound: reading the new recommendations.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42895537/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42878622",
+            "title": "Continuous Glucose Monitoring in Non-Insulin-Treated Type 2 Diabetes.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878622/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/a-study-in-priors-part-3/",
+            "title": "A Study in Priors Part 3",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/a-study-in-priors-part-3/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://rebelem.com/crao/",
+            "title": "Clinical Conundrum — What is the Role of Thrombolysis in Central Retinal Artery Occlusion?",
+            "channel": "REBEL EM",
+            "url": "https://rebelem.com/crao/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/how-to-pick-pressors-for-cardiogenic-shock/",
+            "title": "How to Pick Pressors for Cardiogenic Shock - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/how-to-pick-pressors-for-cardiogenic-shock/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/shift-pearls-non-convulsive-status-epilepticus/",
+            "title": "Shift Pearls: Non-Convulsive Status Epilepticus",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/shift-pearls-non-convulsive-status-epilepticus/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://first10em.com/arise-fluids-fluids-pressors-neither-both/",
+            "title": "ARISE FLUIDS – Fluids, pressors, neither, both?",
+            "channel": "First10EM",
+            "url": "https://first10em.com/arise-fluids-fluids-pressors-neither-both/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/big-pitfalls-for-tiny-patients/",
+            "title": "Big pitfalls for tiny patients",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/big-pitfalls-for-tiny-patients/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42892349",
+            "title": "Effect of clarithromycin on the circulating inflammatory proteome in community-acquired pneumonia: a secondary analysis of the ACCESS trial.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892349/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42892349",
+              "doi": "10.1016/j.chest.2026.10.012",
+              "kind": "original",
+              "source_version": "63976c2a59b0a75eeba31c5bf40a9d57d1c9cbe3ee3976c8929396e497b1d545",
+              "fields": {
+                "title": "44cac12797dcc395466f2116adcc8b60bf84e5192b77a19b540a172768d3b388",
+                "abstract": "0bb4ed2a9184c334692f4b05699cd61fdeaa6a65a640c2bed9c8157c891dbf6a",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "dc09fdfad163c87af1ef1201a1d923ad347da0f851202777e7dd738401149791",
+                "results_known": true,
+                "numbers": "bcdbd0d20bd82444152d1bf308a3284824eb1dbc3675963472d452140917e10a",
+                "endpoint": "c0f066876394e57918b4d5181adc483adf16b50b6f7ed9f7d6875a1e50a54bdf",
+                "methods": "b6c12739d78061bfb7a6e1d805ee5902cd86ad70c97eee5afe8c72fdf34d9f54",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42878614",
+            "title": "Open Visiting Policy and Delirium in Adult Patients in ICUs: A Systematic Review and Meta-Analysis of Randomized Clinical Trials.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878614/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42878614",
+              "doi": "10.1097/ccm.0000000000007393",
+              "kind": "original",
+              "source_version": "f5a1e6ee12c1326249b2c37ef2370c90c969d02688cfd05a3f7b1ff39c14926d",
+              "fields": {
+                "title": "5ed01fa39105491c9c3b369358371331adef4c4d63f173c6a81d42a0d5b2ad53",
+                "abstract": "7039163e76546985373d0e73f2042d25e1fe2cd5058d5dd0564ef7539691abb0",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42878628",
+            "title": "Weaning Strategies for High-Flow Nasal Cannula in Critically Ill Adults: A Randomized Clinical Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878628/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42878628",
+              "doi": "10.1097/ccm.0000000000007379",
+              "kind": "original",
+              "source_version": "2eee08fd691a4b68e5fdf3990e0fd0f7cfa5430ac44a0056bdb270f444c49b42",
+              "fields": {
+                "title": "b014abab9c726a57a0f51995ed283b36d9b2f1658c14ba78faead30e5b2ce599",
+                "abstract": "411cc96cb1bd81ebbd73eaa74d9eaf06800bbf98928f4afaa88e9a4822b11084",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e81558bf4fe03878e2d07cd2a0e8e0d550332783a2829517b870d4e335e9e5b5",
+                "results_known": false,
+                "numbers": "c47fbd1f47d545726e78adf866f46c4bc1a3fe756e42f171a67b6310bc2ffad7",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42878609",
+            "title": "Ventilatory Management in Neurocritical Versus Non-Neurocritical Care Patients: A Pooled Analysis From the PRIME Database.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878609/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42878609",
+              "doi": "10.1097/ccm.0000000000007385",
+              "kind": "original",
+              "source_version": "45b099ad29b7220c5e8bbddb446106effa6e69a997749ba4a2489f53eb91be3e",
+              "fields": {
+                "title": "f06bd25b6c2a1bd1ce5f41be90f5513dad010e7b98819b61edc80e6192b9dfb7",
+                "abstract": "681d1b8a6afabdfa1e75667948ed426194b09d59f4b653a7a41b9bd32de7f582",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42878611",
+            "title": "Association of Tele-Critical Care Capability With Interhospital Transfers and Potentially Low-Value Transfers Among Critically Ill Medicare Beneficiaries.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878611/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42878611",
+              "doi": "10.1097/ccm.0000000000007389",
+              "kind": "original",
+              "source_version": "c0206052a30085854e1cb74b49bbd0786ecbfa19be40f8fc6ef5dedb9d270236",
+              "fields": {
+                "title": "510e1ca1fbac6e04c511eaa0008b4dc08ce33b8ade1257ab6e226b0c278b69a8",
+                "abstract": "530d696ee760cdff728e86c2fe8f8360f1a0bdf3c89d390abbc88de76b6bfc71",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "1b1dcc6c4f46cc0cdca7f9587cc98e3cc40c73840c9ab4deb771dd6c7ecdd514",
+                "results_known": false,
+                "numbers": "3ec4b7539ae163b87a7f7f7a53bf77c339636e8619a0e11e7e1951a39bf0d31b",
+                "endpoint": "65964b033b60998d49707687762cf6bc9bf36d7d3c38d6f0948b94be3318885c",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42878613",
+            "title": "Developing Models for Complicated Outcomes in Acutely Intoxicated ICU Patients With and Without Toxicity Information.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878613/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42878613",
+              "doi": "10.1097/ccm.0000000000007376",
+              "kind": "original",
+              "source_version": "4d15b46901da53a8337973532c589f3909a6115b08627c84578dc03b0d6497d8",
+              "fields": {
+                "title": "69ab678672f02329df7c992fc60133db94314d3d426cafc10e63d67439eccc34",
+                "abstract": "bb3637abbd362a9a08df24caf8ac870ccac2dbcbb840deed58e213b2f960ae4b",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "5718c90531924175f513c6634327860c0b00ec8c5695a7d6bcd6d61e4fc9306b",
+                "results_known": false,
+                "numbers": "229967e1afee5e23ea706d7f3342daed9eb31dd1b0d411837e26a54ea1b3786e",
+                "endpoint": "e3decc9cdcf0ab4ab4809ea42c1bd5ac5906292aad971a43653742fcf2e1ea05",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42878462",
+            "title": "Intraoperative Hemodynamic and Resuscitation Practice Variation for Left Ventricular Assist Device Implantation: A Multicenter Observational Analysis.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878462/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42878462",
+              "doi": "10.1213/ane.0000000000008367",
+              "kind": "original",
+              "source_version": "301c062a02429a4a51c8faf15136d247ea85a6131bad5d34a2b8b0fe5c0ea835",
+              "fields": {
+                "title": "4a7ac55453d7f49ab3b4d3322b68fc6e84cd42830a9a70f356fa68ec5f3f7be8",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42881071",
+            "title": "Clinical accuracy and reliability of point-of-care ultrasound for perioperative diaphragmatic assessment: a scoping review.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42881071/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42881071",
+              "doi": "10.1016/j.bja.2026.08.054",
+              "kind": "original",
+              "source_version": "715bbb649a16de52942bd301fb189a41d7f226fa0c9d93f4f413f1b89c07eb31",
+              "fields": {
+                "title": "7bb6938c7abfd877ca6d663d0a11f3e9b1f04fbe9fbcf8f8c77958079083d1f7",
+                "abstract": "492666837e5fdfba84878f4c4f10e6f4fa122232b69b8d37268663c12f6121cd",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3c7785bb32cbbe1b7d46919d0754728e59e17690086845dccf77d58b1bda6bc5",
+                "results_known": false,
+                "numbers": "07748697bd1c727902993fc4567e653a7f95c4136abbfda083fa6d4af1149e60",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "0b079b562d31bac4bae9644c26c53dc9ca55e3d996c056480a0485d1b8e29449",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42878614",
+            "title": "Open Visiting Policy and Delirium in Adult Patients in ICUs: A Systematic Review and Meta-Analysis of Randomized Clinical Trials.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878614/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42878614",
+              "doi": "10.1097/ccm.0000000000007393",
+              "kind": "original",
+              "source_version": "f5a1e6ee12c1326249b2c37ef2370c90c969d02688cfd05a3f7b1ff39c14926d",
+              "fields": {
+                "title": "5ed01fa39105491c9c3b369358371331adef4c4d63f173c6a81d42a0d5b2ad53",
+                "abstract": "7039163e76546985373d0e73f2042d25e1fe2cd5058d5dd0564ef7539691abb0",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42878613",
+            "title": "Developing Models for Complicated Outcomes in Acutely Intoxicated ICU Patients With and Without Toxicity Information.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42878613/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42878613",
+              "doi": "10.1097/ccm.0000000000007376",
+              "kind": "original",
+              "source_version": "4d15b46901da53a8337973532c589f3909a6115b08627c84578dc03b0d6497d8",
+              "fields": {
+                "title": "69ab678672f02329df7c992fc60133db94314d3d426cafc10e63d67439eccc34",
+                "abstract": "bb3637abbd362a9a08df24caf8ac870ccac2dbcbb840deed58e213b2f960ae4b",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "5718c90531924175f513c6634327860c0b00ec8c5695a7d6bcd6d61e4fc9306b",
+                "results_known": false,
+                "numbers": "229967e1afee5e23ea706d7f3342daed9eb31dd1b0d411837e26a54ea1b3786e",
+                "endpoint": "e3decc9cdcf0ab4ab4809ea42c1bd5ac5906292aad971a43653742fcf2e1ea05",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42892349",
+            "title": "Effect of clarithromycin on the circulating inflammatory proteome in community-acquired pneumonia: a secondary analysis of the ACCESS trial.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892349/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42892349",
+              "doi": "10.1016/j.chest.2026.10.012",
+              "kind": "original",
+              "source_version": "63976c2a59b0a75eeba31c5bf40a9d57d1c9cbe3ee3976c8929396e497b1d545",
+              "fields": {
+                "title": "44cac12797dcc395466f2116adcc8b60bf84e5192b77a19b540a172768d3b388",
+                "abstract": "0bb4ed2a9184c334692f4b05699cd61fdeaa6a65a640c2bed9c8157c891dbf6a",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "dc09fdfad163c87af1ef1201a1d923ad347da0f851202777e7dd738401149791",
+                "results_known": true,
+                "numbers": "bcdbd0d20bd82444152d1bf308a3284824eb1dbc3675963472d452140917e10a",
+                "endpoint": "c0f066876394e57918b4d5181adc483adf16b50b6f7ed9f7d6875a1e50a54bdf",
+                "methods": "b6c12739d78061bfb7a6e1d805ee5902cd86ad70c97eee5afe8c72fdf34d9f54",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://first10em.com/arise-fluids-fluids-pressors-neither-both/",
+            "title": "ARISE FLUIDS – Fluids, pressors, neither, both?",
+            "channel": "First10EM",
+            "url": "https://first10em.com/arise-fluids-fluids-pressors-neither-both/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/big-pitfalls-for-tiny-patients/",
+            "title": "Big pitfalls for tiny patients",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/big-pitfalls-for-tiny-patients/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/a-study-in-priors-part-3/",
+            "title": "A Study in Priors Part 3",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/a-study-in-priors-part-3/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/how-to-pick-pressors-for-cardiogenic-shock/",
+            "title": "How to Pick Pressors for Cardiogenic Shock - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/how-to-pick-pressors-for-cardiogenic-shock/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/shift-pearls-non-convulsive-status-epilepticus/",
+            "title": "Shift Pearls: Non-Convulsive Status Epilepticus",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/shift-pearls-non-convulsive-status-epilepticus/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://rebelem.com/crao/",
+            "title": "Clinical Conundrum — What is the Role of Thrombolysis in Central Retinal Artery Occlusion?",
+            "channel": "REBEL EM",
+            "url": "https://rebelem.com/crao/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-20T08:54:39+00:00"
+      },
+      "workflow_run_id": "39396562282",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-20:2026-10-20:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "a656ef2f7973b226ebffcaee5b5c08d56163194a339ee04a1d7fdcef44ee39b2",
+        "finalization_policy": "markers",
+        "content_version": "4c2cbf209d5c5203c1f1d48fd35c901fb522b4aa9553d077669bcf23cb8f559a",
+        "message_id": "<0082d188b4b023eec449a62f51217360569ba0a75ce143dd99579d404dd78c57@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "79ddb022a8e1ad9c_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "46613629a14bdfa53d3383ab25404dcc07efc0d178c76edf13ac1c2a88e791d3"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "1c2dfd01bb9a855a9e18f9cb1dc42313c5265e8c8e140c44dfac4ba39e83d623"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -4027,9 +4713,17 @@
         "42870277",
         "42872606",
         "42872914",
+        "42872916",
         "42872917",
+        "42872921",
+        "42872941",
         "42872958",
-        "42874912"
+        "42873975",
+        "42874082",
+        "42874912",
+        "42875273",
+        "42875274",
+        "42881421"
       ]
     }
   }
