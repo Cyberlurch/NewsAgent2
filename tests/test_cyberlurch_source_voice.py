@@ -37,7 +37,7 @@ def test_reporting_wrapper_can_go_while_source_negation_modal_numbers_remain(ver
     "The speaker says that the port is closed but claims that another entrance is open.",
     "The speaker states that the port could close and emphasizes that approval is still missing.",
     "The speaker specifies that the city has 16 beds and that the region serves 1.5 million people.",
-    "Der Beitrag berichtet, dass das Abkommen die Kosten senken könnte.",
+    "Der Beitrag bestreitet, dass das Abkommen die Kosten senken könnte.",
     "Talaren säger att hamnen kan stängas nästa vecka.",
 ])
 def test_meaning_bearing_attribution_or_unreorderable_legacy_clause_is_not_blindly_deleted(text):

@@ -198,7 +198,7 @@ _SYS_DETAIL_YOUTUBE_CYBERLURCH_EN = (
     "- Summarize what the speaker/channel says using only provided text; do not invent facts.\n"
     "- Keep tone intelligent and readable; avoid repetitive disclaimers.\n"
     "- Christian/theological/apologetic items must be respectful and accurate, with argument structure, claims, and counterarguments.\n"
-    "- Mainstream news: dry, factual, concise; avoid deference language.\n"
+    "- Apply the same direct source voice to every channel, with no channel-based credibility labels or different rhetorical distance.\n"
     "- Preserve each channel's own argument and tone; do not add irony, ideological labels or judgments.\n\n"
     "Key takeaways:\n"
     "- 3–6 bullets (precise and content-grounded)\n\n"
@@ -1145,7 +1145,7 @@ def summarize_youtube_transcript_chunks(item: Dict[str, Any], *, language="de", 
     chunks = _chunk_text_ordered(text, chunk_chars=chunk_chars, overlap_chars=overlap)
     client = _get_client()
     per, transmitted = [], 0
-    context = f"Source: {item.get('channel', 'Unknown')}. Text basis: {basis_label(item).split(' · ')[0]}; video completeness unknown. Output language: {language}. "
+    context = f"Source: the current item's channel, identified separately in the report. Text basis: {basis_label(item).split(' · ')[0]}; video completeness unknown. Output language: {language}. "
     for idx, ch in enumerate(chunks, 1):
         prompt = (context + ATTRIBUTION_RULE +
             " Return JSON with summary (one short sentence), key_points, notable_claims, uncertainties (arrays of short complete sentences). "
@@ -1191,7 +1191,7 @@ def summarize_youtube_transcript_direct(item: Dict[str, Any], *, language: str =
         else "- In this same extraction call, detect the dominant language from the original title and supplied transcript/description. If it is English, German, or Swedish, use that language for every generated factual value; for any other language, use English. Ignore isolated foreign words, quotations, names, and channel boilerplate when detecting the dominant language."
     )
     user_prompt = (
-        f"Extract from the supplied text only. Source: {item.get('channel', 'Unknown')}. Text basis: {basis_label(item).split(' · ')[0]}; video completeness unknown. Return ONLY valid JSON with keys:\n"
+        f"Extract from the supplied text only. Source: the current item's channel, identified separately in the report. Text basis: {basis_label(item).split(' · ')[0]}; video completeness unknown. Return ONLY valid JSON with keys:\n"
         "{\n"
         '  "transcript_full_summary": "...",\n'
         '  "transcript_key_points": ["..."],\n'

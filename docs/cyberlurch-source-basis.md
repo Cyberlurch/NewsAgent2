@@ -82,7 +82,10 @@ reader summary. Valid JSON inside a surrounding envelope may be recovered;
 unvalidated raw model text is never a prose fallback. This is structural and
 heuristic protection, not semantic proof that every generated claim is correct.
 
-Prompts receive the actual text basis and named source. Title is context, not a
+Prompts receive the actual text basis. Direct/Chunk extraction is per item;
+the configured channel handle is kept in identity, provenance and presentation
+rather than supplied as a cue for different narrative treatment. Multi-source
+period synthesis retains its named source registry and references. Title is context, not a
 reason to override contradictory supplied text. The editorial voice reproduces
 each source's content, argument and emphasis without adding a verdict about its
 truthfulness or an ideological tone category. Source opinions, religious teaching
@@ -129,12 +132,23 @@ is affected, what could change and why, as actually described by the source.
 missing consequences are not invented. Normal items can show up to five useful
 statements so three headline points cannot crowd out every consequence.
 
-Legacy English “The speaker reports that…” wrappers can be removed locally when
-their complete clause stands on its own inside the identified source block.
-Named guests, denials, forecasts and coordinated reporting acts retain their
-wording. German/Swedish subordinate clauses are not blindly reordered; their
-natural rewrite belongs to the existing generation call. Saved history is not
-changed. Duplicate removal keeps the fuller statement when it literally contains
+The same source-scoped reader treatment applies to Daily and Weekly item blocks,
+independent of channel names, topics or perceived credibility. A named reporting
+voice that introduces the synopsis and repeats in its facts is identified once
+in the source line; its direct statements need no repeated “Name argues/claims”.
+Third parties merely quoted in a news item do not become the block's narrator.
+Generic transcript/sermon metadescriptions yield to concrete saved statements.
+Two source sentences can form a fluent introduction; already included facts
+count toward the existing five-point limit rather than reappearing as bullets.
+
+Recognized English frames and bounded German `dass` clauses can be rewritten
+locally. German recognition uses known finite verbs and explicit clause shapes;
+ambiguous genitive/dative or prepositional ownership, unknown grammar, denials,
+quotes and compound reporting acts stay unchanged. Numbers, negation, modality,
+and existing qualifications are retained. The generation rule independently
+requires the same direct voice for every source, without new hedges based on
+channel identity. No new model operation or stored-history rewrite is introduced.
+Duplicate removal keeps the fuller statement when it literally contains
 the shorter one; a high word overlap alone cannot erase different numbers,
 signs, ranges, negation or positions. Exact repetition of the introduction is
 omitted from its supporting bullets.

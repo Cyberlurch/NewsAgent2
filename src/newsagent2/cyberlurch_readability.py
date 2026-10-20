@@ -5,12 +5,17 @@ import re
 
 from .cybermed_quality import contains_generation_error_text
 from .youtube_source import stored_basis
+from .cyberlurch_sentences import block_speakers, german_statement, named_frame, english_relation
 
 
 SOURCE_VOICE_RULE = (
     "Write fluent, concise editorial prose that conveys the source's actual content and distinctive perspective. "
     "Give the content itself, not a description of the video, transcript, contribution or discussion. "
     "This applies to the summary and EVERY factual list entry, not just notable_claims. "
+    "Use the same narrative distance for every channel: a familiar name or political/religious position never justifies extra 'claims', 'allegedly', 'behauptet' or Konjunktiv. "
+    "Write a faithful condensed version of this source's own narration. Name a host or guest once when needed to identify whose perspective it is; "
+    "do not prefix every point with that person's name plus 'argues', 'contends', 'warns' or 'states'. "
+    "A transcript, sermon or video cannot speak, argue or exhort: convey its content directly. "
     "An explicit subject means the actual person, institution, event or proposal, not a reporting device such as 'the speaker'. "
     "The channel is identified by its heading or source reference; do not start each sentence with 'the speaker reports', "
     "'the speaker asserts', 'the speaker identifies', 'der Sprecher', 'der Beitrag', or another reporting formula. "
@@ -36,38 +41,56 @@ _REPORT_FRAME = re.compile(r"^The (?:speaker|presenter|narrator|video|report|tra
     r"(?P<verb>says|reports|states|asserts|claims|argues|explains|notes|emphasizes|teaches|specifies|suggests|adds) that\s+", re.I)
 _META_INTRO = re.compile(
     r"^(?:the (?:speaker|presenter|narrator|video|report|transcript|channel) "
-    r"(?:says|reports|discusses|describes|asserts|identifies|covers)|"
+    r"(?:says|reports|discusses|describes|asserts|identifies|covers|exhorts|argues)|"
+    r"the (?:sermon|conversation|interview) (?:argues|discusses|describes|exhorts)|"
     r"(?:der (?:beitrag|bericht|sprecher)|das (?:video|transkript)) "
-    r"(?:berichtet|bespricht|diskutiert|beschreibt|behandelt|thematisiert)|"
+    r"(?:berichtet|bespricht|diskutiert|beschreibt|behandelt|thematisiert|behauptet|schildert)|"
     r"(?:videon|transkriptet|inslaget) (?:handlar om|diskuterar|beskriver))\b", re.I)
 
 
-def reader_prose(value, *, channel: str = "") -> str:
-    """Remove narrow English reporting wrappers inside an identified source block.
+def reader_prose(value, *, channel: str = "", speakers=()) -> str:
+    """Remove redundant narrator frames within an identified source block.
 
-    No verb reordering, translations or guesses about a sentence's meaning:
-    German/Swedish subordinate clauses, named guests, denials, forecasts and
-    coordinated reporting acts keep their wording. New generation handles the
-    full editorial rewrite in the existing extraction call.
+    Named third parties remain unless this block establishes them as its voice.
+    Unknown German syntax, denials and compound reporting acts stay unchanged.
     """
     text = substantive_prose(value)
     parts = []
     for sentence in _SENTENCE_BREAK.split(text):
+        sentence = german_statement(sentence)
+        sentence = english_relation(sentence, speakers)
         if channel:
             sentence = re.sub(r"^According to " + re.escape(channel) + r",\s*", "", sentence, flags=re.I)
-        match = _REPORT_FRAME.match(sentence)
+        named = named_frame(sentence, speakers)
+        match = _REPORT_FRAME.match(sentence) or named
         if match:
-            rest = sentence[match.end():]
-            coordinated = re.search(r"\b(?:and|but|or)\s+(?:also\s+)?(?:reports|says|states|asserts|argues|"
+            rest = named['rest'] if named else sentence[match.end():]
+            coordinated = re.search(r"\b(?:and|but|or)\s+(?:(?:he|she|they)\s+)?(?:also\s+)?(?:reports|says|states|asserts|argues|"
                 r"explains|notes|identifies|warns|predicts|links|urges|describes|teaches|claims|emphasizes|specifies|suggests|adds)\b", rest, re.I)
             coordinated = coordinated or re.search(r'\b(?:and|but|or)\s+that\b', rest, re.I)
-            tentative = (match.group('verb').lower() == 'suggests'
-                and not re.search(r'\b(?:may|might|could|would|should|seems|appears)\b', rest, re.I))
-            if len(rest.split()) >= 3 and not coordinated and not tentative:
+            tentative = (match.group('verb').lower() in {'suggests','warns','predicts'}
+                and not re.search(r'\b(?:may|might|could|would|should|will|seems|appears)\b', rest, re.I))
+            nominal = (named and not named['link'] and (re.match(r'^(?:of|about|against|to)\b',rest,re.I)
+                or not re.search(r'\b(?:is|are|was|were|has|have|had|may|might|could|would|will|should|must|can|serves|functions|means|inflict|inflicts)\b',rest,re.I)))
+            if len(rest.split()) >= 3 and not coordinated and not tentative and not nominal:
                 sentence = rest
         if sentence:
             parts.append(sentence[0].upper() + sentence[1:])
     return substantive_prose(" ".join(parts))
+
+
+def reader_block(value, item):
+    """The same source-scoped prose treatment for a Weekly item's Markdown."""
+    speakers, channel = block_speakers(item), str(item.get('channel') or '')
+    lines, fenced = [], False
+    for line in str(value or '').splitlines():
+        if line.lstrip().startswith(('```','~~~')): fenced = not fenced
+        if (fenced or not line.strip() or line.lstrip().startswith(('#','>','```','~~~'))
+                or re.match(r'^(?: {4}|\t)(?!\s*[-*+])',line)):
+            lines.append(line); continue
+        match = re.match(r'^(\s*(?:[-*+]\s+|\d+[.)]\s+)?(?:\*\*[^*\n]{1,60}:\*\*\s*)?)(.*)$',line)
+        lines.append(match[1]+reader_prose(match[2],channel=channel,speakers=speakers))
+    return '\n'.join(lines)
 
 
 _PLACEHOLDER = re.compile(
@@ -100,19 +123,25 @@ def saved_reader_intro(item: dict, *, max_sentences: int = 2, max_words: int = 9
     if not reader_text_allowed(item):
         return ""
     title = str(item.get("title") or "").strip().casefold().rstrip(".!?")
+    speakers = block_speakers(item)
+    channel = str(item.get('channel') or '')
+    def prose(value): return reader_prose(value,channel=channel,speakers=speakers)
+    def meta(text): return bool(_META_INTRO.match(text) or named_frame(text,speakers))
     candidates = [item.get(key) for key in ("transcript_full_summary", "bottom_line", "summary")]
     # An old generic metadescription must not crowd out already saved, concrete
     # source facts. Do not reorder German subordinate clauses or invent a new
     # assertion from a nominal phrase such as 'discusses the economic impact'.
-    if any(_META_INTRO.match(reader_prose(value, channel=str(item.get("channel") or ""))) for value in candidates):
+    if any(meta(substantive_prose(value)) or meta(prose(value)) for value in candidates):
+        facts = []
         for key in ("transcript_key_points", "important_details"):
             values = item.get(key)
-            if isinstance(values, list): candidates.extend(values)
+            if isinstance(values, list): facts.extend(prose(v) for v in values if not meta(prose(v)))
+        candidates.append(' '.join(facts))
     for value in candidates:
-        text = reader_prose(value, channel=str(item.get("channel") or ""))
+        text = prose(value)
         if not text or text.casefold().rstrip(".!?") == title:
             continue
-        if _META_INTRO.match(text):
+        if meta(text):
             continue
         kept = []
         # Decimal numbers stay intact. Keep the supplied words, negation and

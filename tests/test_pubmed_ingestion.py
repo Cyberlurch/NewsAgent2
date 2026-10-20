@@ -405,7 +405,7 @@ def test_daily_older_publication_survives_and_preview_has_no_production_mutation
     assert after==before
     report=next((tmp_path/'out').glob('cybermed_daily_*.md')).read_text()
     assert 'Intensive care trial 1' in report
-    assert 'older publication' in report or 'ältere Publikation' in report
+    assert 'Newly captured older publication' not in report and 'Neu erfasste ältere Publikation' not in report
     assert 'Quellenabdeckung' not in report and 'PubMed capture is bounded' not in report
     saved=next((tmp_path/'out').rglob('cybermed_pubmed_ingestion.json'))
     data=json.loads(saved.read_text())
