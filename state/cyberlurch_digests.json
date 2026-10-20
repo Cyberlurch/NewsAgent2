@@ -97903,33 +97903,75 @@
       "video_id": "nSXKV4l3g5I"
     },
     {
-      "bottom_line": "Unable to summarize reliably from the available excerpt.",
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Darius_official"
+      },
+      "id": "FUdqSrOlaLA",
+      "source": "youtube",
+      "title": "Brisante Geldspur: 40 Mio. kurz vor dem Migrantensturm",
       "channel": "Darius_official",
+      "url": "https://www.youtube.com/watch?v=FUdqSrOlaLA",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 15988,
+        "processed_unique_chars": 15988,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
       "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.09,
       "cyberlurch_deep_dive_reasons": [
         "text_length:12000",
         "recency"
       ],
-      "cyberlurch_deep_dive_score": 4.178,
-      "editorial_relevance": null,
-      "important_details": null,
-      "processed_at_utc": "2026-08-03T06:49:37+00:00",
-      "published_at": "2026-08-03T05:44:17+00:00",
-      "temporality": "current_affairs",
-      "text_source": "managed_transcript",
-      "title": "Brisante Geldspur: 40 Mio. kurz vor dem Migrantensturm",
-      "top_pick": null,
-      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
-      "topics": [
-        "Gesellschaft, Medienkritik & Debatte"
+      "transcript_full_summary": "Der Beitrag behauptet, dass ein orchestrierter Angriff auf Europa stattfindet, ausgelöst durch koordinierte Migrantenüberfahrten und begleitet von rechtlichen, finanziellen und medialen Maßnahmen, unter anderem mit angeblichen 40 Millionen US-Dollar Unterstützung für Marokkos Ansprüche.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Der Beitrag behauptet, dass das Geschehen orchestriert und kein zufälliges migratorisches Ereignis ist.",
+        "Der Beitrag behauptet, dass ein Gerichtsgeschehen ein Gesetz der sofortigen Rückführung kippte und so schnelle Rückführungen nach Marokko verhinderte.",
+        "Der Beitrag behauptet, dass Republikaner angeblich 40 Millionen US-Dollar bereitstellten, um Marokkos Anspruch auf spanische Gebiete zu unterstützen."
       ],
-      "transcript_full_summary": null,
-      "transcript_key_points": null,
-      "transcript_notable_claims": null,
-      "transcript_processing": "excerpt_fallback",
-      "transcript_uncertainties": null,
-      "url": "https://www.youtube.com/watch?v=FUdqSrOlaLA",
-      "video_id": "FUdqSrOlaLA"
+      "transcript_notable_claims": [
+        "Spanische Politiker hätten Amerika und Israel die Schuld an dem Geschehen zugeschrieben, laut zitiertem Reporter Konstantin Flemmich.",
+        "Eine israelische Zeitung habe darüber geschrieben, dass Israel Marokko helfen soll, Ceuta und Melilla zu erhalten.",
+        "Thomas Massi habe die Veröffentlichung großer Dokumentenbestände unterstützt und Verbindungen zwischen US-Republikanern, Israel und finanzieller Unterstützung für Marokko dargestellt."
+      ],
+      "transcript_uncertainties": [
+        "Der Beitrag sagt, es sei nicht sicher, ob Migranten als Sündenbock für die Verantwortlichkeit dargestellt werden.",
+        "Der Beitrag gibt an, dass einige Informationen aus Medienberichten und zitierten Personen stammen und daher nicht vollständig verifiziert sind.",
+        "Der Beitrag nennt die Frage, ob Gefangene gezielt freigelassen wurden, zurzeit mit Unsicherheit und verweist auf widersprüchliche Angaben."
+      ],
+      "important_details": [
+        "Der Beitrag nennt Facebook-Werbung und andere koordinierte Informationskampagnen als Mechanismus, um Menschen zur Reise nach Spanien zu bewegen.",
+        "Der Beitrag zitiert Interviews, wonach Migranten behaupten, sie seien geschlagen oder unter Druck gesetzt worden, um weiter nach Spanien zu reisen.",
+        "Der Beitrag behauptet, dass Teile der freigegebenen Dokumente geschwärzt sind und dass Thomas Massi die Freigabe großer Dokumentenmengen gefördert hat."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "FUdqSrOlaLA",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
     },
     {
       "bottom_line": null,
@@ -121115,49 +121157,77 @@
       "video_id": "St8z0bKFVOI"
     },
     {
-      "bottom_line": null,
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@jamiewalden756"
+      },
+      "id": "7sZ04KCPM_E",
+      "source": "youtube",
+      "title": "WE ARE EXPOSED: OUR VULNERABILITY IN THE DAYS AHEAD",
       "channel": "jamiewalden756",
+      "url": "https://www.youtube.com/watch?v=7sZ04KCPM_E",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 52550,
+        "processed_unique_chars": 52550,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
       "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.09,
       "cyberlurch_deep_dive_reasons": [
         "text_length:12000",
         "recency"
       ],
-      "cyberlurch_deep_dive_score": 4.182,
+      "transcript_full_summary": "The transcript exhorts Christians to receive and embody God's personal love, arguing that most professing believers misunderstand the gospel and that knowing God's intimate love is the singular remedy and source of strength for the church in the coming trials.",
       "editorial_relevance": "",
-      "important_details": [
-        "The speaker cites John 13, John 3:16, 1 John 4, James 2, Matthew 22:34-40, Psalm 33, Exodus 6-9, Isaiah 40 and 61, 2 Chronicles 20, Daniel 11:32, Psalm 91, Proverbs 18:14 and 13:12, and Ephesians 3:14-19 as scriptural foundations for his argument.",
-        "The speaker recounts a personal fast in the Dominican Republic when God rebuked him about Psalm 33 and revealed that he had not trusted in God’s unfailing love.",
-        "The speaker describes a private spiritual encounter after reading John 13 in which Jesus insisted on washing his feet and clothed him with white garments, marking a transformational reception of divine love."
-      ],
-      "processed_at_utc": "2026-09-17T08:52:32+00:00",
-      "published_at": "2026-09-17T08:00:34+00:00",
-      "temporality": "current_affairs",
-      "text_source": "managed_transcript",
-      "title": "WE ARE EXPOSED: OUR VULNERABILITY IN THE DAYS AHEAD",
-      "top_pick": null,
-      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
-      "topics": [
-        "Prophetie, Endzeit & Weltdeutung"
-      ],
-      "transcript_full_summary": "The speaker warns that most Christians do not personally know or have received God's love, and he argues that receiving that love is the essential foundation for spiritual resilience and victory in the days ahead.",
       "transcript_key_points": [
-        "The speaker asserts that most churchgoers know that God loves the world but do not understand God's intimate love for them personally.",
-        "The speaker claims that lacking personal reception of God's love produces legalism, judgmentalism, despair, and vulnerability in the church.",
-        "The speaker teaches that knowing and abiding in God’s love is the decisive counteroffensive and source of fearlessness, endurance, and exploits in end-times trials."
+        "Most professing Christians do not personally know or have received God's love.",
+        "The gospel must be understood as God loving each individual, not only 'the world'.",
+        "Knowing and abiding in God's love will produce fearless confidence and endurance in end-times trials."
       ],
       "transcript_notable_claims": [
-        "The speaker claims that the reduction of the gospel by religious leaders has left most people exposed and spiritually unprepared for coming trials.",
-        "The speaker claims that mercy triumphs over judgment and that mercy is the mechanism by which God seeks to save humanity.",
-        "The speaker claims that 1 John 4 demonstrates that love is the sole authentic evidence of a regenerate heart and that lack of love identifies the children of the devil."
+        "Pulpits, religious systems, and ruling elites have reduced and distorted the word of Jesus Christ so that people venerate but do not understand John 3:16.",
+        "Legalists, Gnostics, faultfinders, and online 'discernment' ministries lack the fruit of the Spirit because they have never received God's love.",
+        "A singular vulnerability of the church is that lacking the love of God makes believers liabilities rather than assets in a multi-dimensional spiritual battle.",
+        "Mercy triumphs over judgment, and the extent one extends mercy corresponds to the mercy one receives.",
+        "Knowing and believing God's love will enable believers to perform exploits, resist the Antichrist, and endure persecution as described in Daniel 11, Psalm 91, and 2 Chronicles 20.",
+        "Personal anecdotes describe spiritual encounters where the speaker discovered he had not hoped in God's unfailing love and therefore forfeited much."
       ],
-      "transcript_processing": null,
       "transcript_uncertainties": [
-        "The speaker expresses uncertainty about how many people are prepared to walk through what the Lord may require amid impending global crises.",
-        "The speaker acknowledges personal past failures and woundedness that prevented him from fully receiving God’s love for nearly a decade.",
-        "The speaker implies uncertainty about whether listeners have truly received and continue to abide in God’s love."
+        "The speaker states that many people 'do not know' God's love but does not quantify how many or identify specific congregations affected.",
+        "The timing and specific nature of the imminent trials or world events referenced are not detailed or dated."
       ],
-      "url": "https://www.youtube.com/watch?v=7sZ04KCPM_E",
-      "video_id": "7sZ04KCPM_E"
+      "important_details": [
+        "The speaker ties spiritual failure and hostility within the church to three vulnerabilities: pharisaical legalism, Gnostic performance/knowledge, and broken-spirited discouragement.",
+        "Scriptural passages invoked as mechanisms for change include John 3:16, Matthew 22:34-40, James 2:8-13, 1 John 4, Exodus 6-9, Isaiah 40 and 61, Psalm 33 and 91, 2 Chronicles 20, Daniel 11, and Ephesians 3:14-19.",
+        "The speaker recounts personal experiences during fasting and devotion where God exposed the speaker's lack of reception of God's love, prompting sorrow, confession, and transformation."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "7sZ04KCPM_E",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
     },
     {
       "bottom_line": null,
@@ -133523,8 +133593,788 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@preppernewsflash"
+      },
+      "id": "VlCE2E2K7Us",
+      "source": "youtube",
+      "title": "⚡ALERT: The \"WAR IS OVER\".... Or NOT! w/ @garlandn ​",
+      "channel": "preppernewsflash",
+      "url": "https://www.youtube.com/watch?v=VlCE2E2K7Us",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 73437,
+        "processed_unique_chars": 73437,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 6.09,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "Garland Nixon argues that the reported Iran deal and Strait of Hormuz developments are largely rhetorical maneuvers within a wider U.S. strategy to contain China via control of global oil flows, and he predicts continued brinkmanship, potential renewed hostilities, and shifting global alignments away from U.S. hegemony.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Garland Nixon argues the U.S. narrative about Iran serves a larger strategy to cut Chinese access to oil by controlling Venezuela and Iranian oil.",
+        "Garland Nixon contends a full naval blockade of the Strait of Hormuz is operationally implausible and functions mainly as psychological leverage.",
+        "Garland Nixon warns that repeated cycles of escalation and ceasefire could lead to renewed attacks within six to twelve months while the U.S. faces ammunition and economic constraints."
+      ],
+      "transcript_notable_claims": [
+        "The three-page memorandum of understanding mirrors previous three-page documents used to authorize major actions like the 2008 bank bailouts.",
+        "Tony Blinken allegedly approved Israeli targeting in Gaza, undermining public U.S. denials that Israel acted without U.S. consent.",
+        "U.S. policy toward Iran is primarily about denying China energy, not about Iran's nuclear program, which U.S. intelligence has repeatedly said lacks evidence of weaponization.",
+        "The so-called blockade of Iranian oil is mostly rhetorical because the U.S. lacks the naval capacity to interdict the vast majority of ships in the region.",
+        "Russia and China reportedly provided ISR and other covert support to Iran and will later rebuild damaged infrastructure, creating a division of labor between military and reconstruction roles.",
+        "Repeated market-promoting proclamations by Donald Trump are rhetorical spectacles that have lost market influence compared with earlier in the crisis."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether the Strait of Hormuz reopening includes tolling arrangements or whether the U.S. blockade remains enforced.",
+        "It is uncertain what back-channel negotiations, face-saving measures, or third-party communications (e.g., via Pakistan) actually took place between the U.S. and Iran.",
+        "It is uncertain whether the U.S. will initiate hostilities again immediately or wait several months while regrouping and rearming."
+      ],
+      "important_details": [
+        "Garland Nixon states that Iran sold about 90% of its oil to China, making Iranian oil a central target in any U.S. plan to pressure China.",
+        "Garland Nixon reports that the U.S. has reportedly lost 17 aircraft in the last 10 days, which he cites as evidence of U.S. operational strain.",
+        "Garland Nixon claims cheap drone and missile strikes inflict repair costs far exceeding attacker expense, making repeated attacks economically damaging even if not permanently destructive."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "VlCE2E2K7Us",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "6-pccyimZXI",
+      "source": "youtube",
+      "title": "ILTV News Flash – October, 19, 2026",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=6-pccyimZXI",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "6-pccyimZXI",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "8XNcqFafHeM",
+      "source": "youtube",
+      "title": "Investoren-Suche / Missstände im Schlachthof / Pflegekräfte lernen Dialekt | \"15 Minuten\"",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=8XNcqFafHeM",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 17600,
+        "processed_unique_chars": 17600,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Bundesregierung wirbt beim Investitionsgipfel in Berlin um ausländische Investoren, während Recherchen Missstände in einer Großschlachterei in Kellinghusen zeigen und Pflegekräfte in Sinsheim einen Badischkurs besuchen, um Dialektbarrieren zu verringern.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Bundesregierung veranstaltet einen Investitionsgipfel in Berlin mit rund 200 Unternehmenschefs, um ausländische Investitionen und Technologieförderung zu gewinnen.",
+        "Videoaufnahmen aus der Großschlachterei in Kellinghusen zeigen mutmaßliche Verstöße gegen Tierschutzrecht und umstrittene CO2-Betäubung von Schweinen.",
+        "Pflegekräfte im Seniorenzentrum Sinsheim absolvieren einen Badisch-Sprachkurs, um Missverständnisse mit Bewohnerinnen und Bewohnern zu vermeiden."
+      ],
+      "transcript_notable_claims": [
+        "Nvidia und Siemens haben eine Kooperation vereinbart, um an einer autonomen Fabrik in Erlangen zu arbeiten.",
+        "Das Institut der Deutschen Wirtschaft prognostiziert für das Jahr ein Wachstum von ca. 1 Prozent, allerdings nur mit Hilfe staatlicher Investitionen.",
+        "Auf den Aufnahmen aus der Ties-Schlachthofanlage sind Schweinefüße abgeschnitten worden, noch bevor die Tiere tot waren, und Mitarbeiter schlagen Schweine mit Treibstäben."
+      ],
+      "transcript_uncertainties": [
+        "Die Echtheit der Schlachthofaufnahmen wurde vom NDR geprüft und bestätigt, aber strafrechtliche Konsequenzen stehen noch unter Ermittlungsprüfung durch die Staatsanwaltschaft.",
+        "Die EU-Kommission hat eine Abschaffung der CO2-Betäubung nicht beschlossen, weil Alternativen als zu teuer bewertet wurden, wodurch die Möglichkeit weiterer Änderungen offen bleibt."
+      ],
+      "important_details": [
+        "Das Schlachtunternehmen Ties hat angekündigt, die Vorwürfe zu prüfen und bei Bestätigung der Vorwürfe entsprechende Sanktionen vorzunehmen.",
+        "Die Staatsanwaltschaft prüft eine Anzeige von Animal Rights Watch wegen Verstoßes gegen das Tierschutzgesetz und das Landwirtschaftsministerium Schleswig-Holstein geht den Hinweisen nach.",
+        "Der Badischkurs im Seniorenzentrum Sinsheim soll Missverständnisse bei Pflegehandlungen reduzieren und wird von einer Stiftung finanziert."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "8XNcqFafHeM",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "AJh1ItYOhi8",
+      "source": "youtube",
+      "title": "THE STONES CRY OUT-- Biblical Archaeology is God's Window Into The Past",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=AJh1ItYOhi8",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 41892,
+        "processed_unique_chars": 41892,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.09,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon argues that biblical archaeology, guided by a maximalist view that the Bible is flawlessly inspired history, visually verifies and enriches biblical geography and events, especially in Jerusalem and first-century sites, and thus aids interpretation of Scripture.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The maximalist position holds that the Bible is an absolutely reliable eyewitness account of history.",
+        "Biblical archaeology combines the Bible's geography and history to locate and visualize where biblical events occurred.",
+        "Excavations in Jerusalem and Decapolis cities reveal first-century roads, forums, bathhouses, and large civic architecture matching New Testament settings."
+      ],
+      "transcript_notable_claims": [
+        "An unbelieving Jewish archaeologist excavating the City of David found a palatial structure exactly where 1 Samuel said King David built a palace.",
+        "Jerusalem has been built, destroyed, and rebuilt over 30 times leading to many archaeological layers beneath the modern surface.",
+        "The largest Egyptian obelisk in Rome was made by the pharaoh who lost his firstborn son, which the speaker ties to the Bible's dating of the tenth plague around 1446 BC.",
+        "The Madaba Map mosaic preserved Byzantine-era city layouts, and its depiction of a cardo prompted excavations that revealed Jerusalem's first-century main streets.",
+        "First-century houses under Jerusalem include wealthy homes with indoor pools and imported goods, contradicting simplistic images of Jesus' contemporaries as poor peasants."
+      ],
+      "transcript_uncertainties": [
+        "The archaeologist who found David's palace is described as an unbelieving Jew and a woman, but the transcript does not name her or provide independent verification.",
+        "The speaker states a specific secular date (1446 BC) for the Egyptian obelisk's builder based on Wikipedia/Britannica but does not present archaeological consensus.",
+        "The claim that the Flood erased all pre-flood civilizations and buried them under a mile of debris is presented as a maximalist belief rather than demonstrated evidence."
+      ],
+      "important_details": [
+        "The Via Maris and the King's Highway are identified as major ancient trade routes that shaped biblical travel, preaching, and the spread of the gospel.",
+        "The cardo (Straight Street) in Roman cities served as the main north-south artery and marketplace, and Paul and other biblical figures would have used such streets and bathhouses.",
+        "Beth Shean and Decapolis cities show monumental Greco-Roman architecture including forums, colonnades, theaters, amphitheaters, bathhouses, storm drains, and temples that housed thousands."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "AJh1ItYOhi8",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@breakingpoints"
+      },
+      "id": "edp71QQyKjg",
+      "source": "youtube",
+      "title": "Trump ENDORSES Flailing BIBI As Israel Plots IRAN WAR Restart",
+      "channel": "breakingpoints",
+      "url": "https://www.youtube.com/watch?v=edp71QQyKjg",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 10311,
+        "processed_unique_chars": 10311,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 3.668,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:10311",
+        "recency"
+      ],
+      "transcript_full_summary": "Donald Trump issued a full endorsement of Benjamin 'BB' Netanyahu for Israeli prime minister and linked continued U.S. support for actions against Iran to Netanyahu's reelection, while the transcript warns that Netanyahu or others might restart regional attacks to influence the election.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Donald Trump sent an extraordinary public endorsement declaring complete and total support for BB Netanyahu's reelection.",
+        "Trump implied that the United States would withdraw support for an Iran war effort unless Netanyahu remains Israel's leader.",
+        "Israel's defense minister Israel Katz said Israel is ready to strike Iran's energy infrastructure to set Iran 'back 40 years.'"
+      ],
+      "transcript_notable_claims": [
+        "Trump wrote that Netanyahu has been a great warrior, prime minister, and partner for peace and combating the Islamic Republic.",
+        "Trump wrote that Iran has been 'systematically destroyed both militarily and financially' and that 'we will soon finish the job' unless Iran changes rapidly.",
+        "Barak Ravid reported that some of Trump's closest advisers believe the Middle East agenda would fare better if Netanyahu lost, but Trump ultimately endorsed Netanyahu.",
+        "Nergal Tanden (sic in transcript: Nerra Tanden) claimed that the political alliance between Trump and Netanyahu drives Democratic Party concerns about Israel, and called Netanyahu 'an utterly depraved and disgusting genocidal maniac.'",
+        "Gadi Eisenkot was described in the transcript as leading in polls and as author of the 'Dahiya Doctrine' favoring massive attacks on civilian infrastructure, indicating no viable two-state proponents in current Israeli politics."
+      ],
+      "transcript_uncertainties": [
+        "The transcript expresses uncertainty whether Trump truly would withdraw U.S. action against Iran if Netanyahu loses, stating 'I doubt it's actually true.'",
+        "The transcript notes that prediction markets and polls may not accurately reflect the election outcome and that coalition-building could still allow Netanyahu to stay in power.",
+        "The transcript leaves open which actor Netanyahu might strike if attempting to influence the election, saying it could be Iran, Yemen, or Lebanon."
+      ],
+      "important_details": [
+        "Netanyahu publicly thanked Trump in English and called Trump the greatest friend of Israel in the White House.",
+        "The transcript asserts that Israeli society and security doctrine have shifted toward prioritizing a Jewish ethnostate and permanent regional hostility, which the speakers say will make the U.S.-Israel partnership unsustainable over the long term.",
+        "The transcript associates Gadi Eisenkot with a security doctrine named after a leveled Beirut suburb and claims that he is not committed to a two-state solution."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "edp71QQyKjg",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "h4uwC8FQ5PI",
+      "source": "youtube",
+      "title": "Ganz Europa im Ausnahmezustand! Erste Länder setzen Militär ein!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=h4uwC8FQ5PI",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 7798,
+        "processed_unique_chars": 7798,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.04,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:7798",
+        "recency"
+      ],
+      "transcript_full_summary": "Der Beitrag schildert gewaltsame Ausschreitungen in Frankreich, Italien und Albanien, berichtet von Plünderungen, Brandstiftungen, Festnahmen und dem Einsatz des Militärs in Tirana und macht Präsident Macron für die Unruhen mit Bezug auf Donald Trump verantwortlich.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "In Mailand wurden Geschäfte geplündert, Autos angezündet und die Polizei nahm 160 Protestierende fest.",
+        "In Albanien brannten das oberste Gericht, das Bildungsministerium und weitere Gebäude, und die Regierung setzte schwerbewaffnetes Militär in Tirana ein.",
+        "Emmanuel Macron gab nach Angaben des Beitrags Donald Trump die Schuld an den Unruhen und verknüpfte die Proteste mit hohen Benzinpreisen."
+      ],
+      "transcript_notable_claims": [
+        "Die Ausschreitungen haben sich vom Flächenbrand in Frankreich auf ganz Europa ausgedehnt und betreffen nun Italien und Albanien.",
+        "Die Mehrheit der in Mailand Festgenommenen soll laut Quelle Minderjährige sein (80%).",
+        "Die albanische Regierung habe Antiterrorkräfte und erstmals seit Jahren schwerbewaffnetes Militär in Zentralbereichen von Tirana eingesetzt."
+      ],
+      "transcript_uncertainties": [
+        "Die genaue Zahl der in Albanien verletzten Personen oder Todesopfer wird im Beitrag nicht genannt.",
+        "Der Beitrag behauptet, Mainstream-Medien zeigten angeblich keine entsprechenden Videos, ohne dafür konkrete Belege zu liefern.",
+        "Die Behauptung, mehrere US-Hubschrauber seien nach Berat geflogen, wird ohne nähere Quellenangabe genannt."
+      ],
+      "important_details": [
+        "Die Proteste in Mailand konzentrieren sich laut Bericht auf zentrale Plätze in Großstädten wie Mailand, Rom und Bologna.",
+        "In Tirana setzten Demonstranten Brandsätze, Molotow-Cocktails und Barrikaden ein, wodurch Gerichtsgebäude, Banken und ein Postamt beschädigt wurden.",
+        "Die Antiterrorkräfte in Tirana sollen nach Angaben des Beitrags mit 5,56 mm Baeretta Ajax 1660 A3 Sturmgewehren ausgerüstet gewesen sein."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "h4uwC8FQ5PI",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "uJkG4wKRVHA",
+      "source": "youtube",
+      "title": "⚡ALERT! CODE 100 ACTIVATED IN IRAN!",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=uJkG4wKRVHA",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-19T23:13:12+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-22T23:13:12+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 34804,
+        "processed_unique_chars": 34804,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 6.001,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "Professor Sed Muhammad Morandi, an Iranian academic, warns that Iran expects a substantial chance of a U.S. assault before or after the U.S. midterms, argues Iran has shifted to a wartime economy, and says escalation could collapse regional regimes and trigger a global economic and migration catastrophe.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Iran has shifted to a wartime economy and is mass-producing missiles, drones and expanding underground bases.",
+        "Iran expects the chances of a major U.S. assault before the midterms to be substantial and is using pre-midterm actions to pressure the United States.",
+        "Iran and Russia have close political, military and economic cooperation, including a developing north–south trade corridor through Iran to Russia."
+      ],
+      "transcript_notable_claims": [
+        "If Trump attacks Iranian infrastructure, Iran will immediately strike the infrastructure of countries that assisted the United States, potentially causing those regimes to collapse.",
+        "A full-scale war between the United States and Iran would create more migration than all previous wars combined and could trigger a global economic collapse.",
+        "Pakistan's government is close to the United States while Pakistani public opinion remains strongly pro-Iran and pro-resistance, complicating Islamabad's role.",
+        "The United States has been unusually restrained recently to avoid escalation before the U.S. midterms, while Iran is escalating to influence U.S. domestic politics.",
+        "Iran and Russia avoid forming a NATO-style mutual defense pact because both prefer sovereignty and flexible cooperation rather than binding alliances."
+      ],
+      "transcript_uncertainties": [
+        "It is unclear whether a major U.S. assault will occur before or after the midterms.",
+        "The veracity of reports about Pakistan's Field Marshal visiting Tehran and Pakistan facilitating U.S. naval operations remains uncertain according to the source.",
+        "The Iranian state has not changed its official anti-nuclear-weapons position, though officials say that posture could change if Iran faces an existential threat."
+      ],
+      "important_details": [
+        "Iran increased attacks on ships after Netanyahu visited the United Arab Emirates, which Iran interprets as linked to Emirati-Israeli rapprochement.",
+        "Some Iranian schools in southern Iran are operating online because the military is on full alert and there is fear of U.S. strikes against civilian targets.",
+        "The U.S. Strategic Petroleum Reserve fell from about 415 million barrels to close to 280 million since February, increasing global economic fragility according to the source."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "uJkG4wKRVHA",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "AtkVD7Hum9E",
+      "source": "youtube",
+      "title": "Headwinds for Red-Green-Red: SPD Bundestag Members Warn Against Berlin Left Party | ZDF MOMA",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=AtkVD7Hum9E",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "current_affairs",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "AtkVD7Hum9E",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "CMPpOfj_a50",
+      "source": "youtube",
+      "title": "With Missiles Falling and Brutal Winter Looming, Ukraine's Christians Share 'Hope Through Jesus'",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=CMPpOfj_a50",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3863,
+        "processed_unique_chars": 3863,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.056,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3863",
+        "recency"
+      ],
+      "transcript_full_summary": "Kyiv residents continue everyday life despite frequent Russian drone and missile attacks, while Christian churches stage street worship to offer hope and people worry that winter power shortages could become catastrophic.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Kyiv experienced more than 6,000 missile and rocket attacks this year according to the transcript.",
+        "Russia launched more than 2,100 missiles and 63,000 attack drones in the stated periods this year according to President Zelenskiy's UN remarks.",
+        "Christian pastors in Kyiv conduct regular street outreach and report their church membership grew threefold during the war."
+      ],
+      "transcript_notable_claims": [
+        "Ukrainian officials counted more than 2,200 Russian attack drones launched at their country in one week.",
+        "Ukraine has lost roughly 70% of its pre-war power generation.",
+        "President Zelenskiy told the United Nations that Moscow is only getting started and asked if any country could survive such attacks."
+      ],
+      "transcript_uncertainties": [
+        "Some residents are considering leaving Kyiv but the transcript does not quantify how many have left.",
+        "It is uncertain whether the new batch of Patriot missiles and permission to build more will be sufficient to keep heat on through February."
+      ],
+      "important_details": [
+        "Last winter Russian strikes cut heat to thousands of apartment buildings in Kyiv while temperatures dropped to 20 below zero.",
+        "One former soldier moved his wife and two small children out of their Kyiv apartment so the kids would stop waking up to explosions."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "CMPpOfj_a50",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BlackScoutSurvival"
+      },
+      "id": "CVVPfpkli_Y",
+      "source": "youtube",
+      "title": "IT JUST TOOK A DARK TURN",
+      "channel": "BlackScoutSurvival",
+      "url": "https://www.youtube.com/watch?v=CVVPfpkli_Y",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 14619,
+        "processed_unique_chars": 14619,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.09,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "BlackScoutSurvival alleges that unusually timed massive oil futures and stock trades occurred minutes before Donald Trump's March 23, 2026 de-escalation announcement, that CFTC analysts flagged the trades as suspicious, and that senior CFTC advisers instructed withdrawal of the referral to enforcement.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "A concentrated $580 million in oil futures trades occurred shortly before Trump announced postponing strikes on Iranian energy infrastructure on March 23, 2026.",
+        "Bloomberg reported billions of dollars of contracts positioned for oil prices to fall and stocks to rise around the same announcements.",
+        "CFTC analysts prepared an insider-trading referral that a senior adviser ordered retracted before enforcement pursued it."
+      ],
+      "transcript_notable_claims": [
+        "Someone made hundreds of millions of dollars in oil futures and enormous stock positions immediately before Trump's March 23, 2026 announcement that de-escalated threats to Iranian infrastructure.",
+        "Mel Gonardi and a senior adviser to CFTC chairman Michael Calin instructed a supervisor to retract the suspicious-trades referral.",
+        "Senators including Elizabeth Warren and Sheldon Whitehouse raised concerns about similarly timed trading before March 23 and an April 7 ceasefire announcement and requested a public accounting in May."
+      ],
+      "transcript_uncertainties": [
+        "The source states that it is unknown whether the flagged trades were executed by one person, several people, or many investors.",
+        "The source states uncertainty whether the trades were legitimate professional bets or the result of access to nonpublic information.",
+        "The source states that analysts were unsure how to comply with the instruction to retract the referral."
+      ],
+      "important_details": [
+        "The timing between the trades and Trump's Truth Social post was reported as about 15 minutes.",
+        "Federal investigators initially identified the trades and sent findings to the agency's enforcement division for an insider-trading investigation before the referral was pulled."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "CVVPfpkli_Y",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DLMChristianLifestyle"
+      },
+      "id": "Hl-S8DJ2tlo",
+      "source": "youtube",
+      "title": "You Think You Know the Gospel… Until You See THIS",
+      "channel": "DLMChristianLifestyle",
+      "url": "https://www.youtube.com/watch?v=Hl-S8DJ2tlo",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 44201,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.09,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "Hl-S8DJ2tlo",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@3of7Project"
+      },
+      "id": "LJAA4auL8XQ",
+      "source": "youtube",
+      "title": "Contractors Ambushed In Congo",
+      "channel": "3of7Project",
+      "url": "https://www.youtube.com/watch?v=LJAA4auL8XQ",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-20T03:30:00+00:00",
+      "screened_at": "2026-10-20T03:30:00+00:00",
+      "expires_at": "2026-10-23T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5586,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 2.487,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5586",
+        "recency"
+      ],
+      "video_id": "LJAA4auL8XQ",
+      "processed_at_utc": "2026-10-20T08:46:55+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-10-19T09:11:28+00:00",
+  "updated_at_utc": "2026-10-20T08:46:55+00:00",
   "version": 1
 }

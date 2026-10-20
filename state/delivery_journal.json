@@ -3140,6 +3140,246 @@
         "approved_after_generation_checks": true,
         "seal": "af9d0976da2890f80f92704c42d9ef48929be739a39236ac939b740ee3be82ac"
       }
+    },
+    "cyberlurch:daily:2026-10-20:2026-10-20:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-10-20",
+      "period_end": "2026-10-20",
+      "edition_id": "cyberlurch:daily:2026-10-20:2026-10-20:production",
+      "content_version": "ca1f8ec177aa39746f14541d72a61e5153d24f4784d1f08d6748beb56711dd06",
+      "message_id": "<b763118756bfdfb206cc66cecd8eefd2af88175e1c2719a29290bf03f314e78b@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-20T08:46:59+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "VlCE2E2K7Us",
+            "title": "⚡ALERT: The \"WAR IS OVER\".... Or NOT! w/ @garlandn ​",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=VlCE2E2K7Us"
+          },
+          {
+            "source": "youtube",
+            "id": "6-pccyimZXI",
+            "title": "ILTV News Flash – October, 19, 2026",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=6-pccyimZXI"
+          },
+          {
+            "source": "youtube",
+            "id": "7sZ04KCPM_E",
+            "title": "WE ARE EXPOSED: OUR VULNERABILITY IN THE DAYS AHEAD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=7sZ04KCPM_E"
+          },
+          {
+            "source": "youtube",
+            "id": "8XNcqFafHeM",
+            "title": "Investoren-Suche / Missstände im Schlachthof / Pflegekräfte lernen Dialekt | \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=8XNcqFafHeM"
+          },
+          {
+            "source": "youtube",
+            "id": "AJh1ItYOhi8",
+            "title": "THE STONES CRY OUT-- Biblical Archaeology is God's Window Into The Past",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=AJh1ItYOhi8"
+          },
+          {
+            "source": "youtube",
+            "id": "FUdqSrOlaLA",
+            "title": "Brisante Geldspur: 40 Mio. kurz vor dem Migrantensturm",
+            "channel": "Darius_official",
+            "url": "https://www.youtube.com/watch?v=FUdqSrOlaLA"
+          },
+          {
+            "source": "youtube",
+            "id": "edp71QQyKjg",
+            "title": "Trump ENDORSES Flailing BIBI As Israel Plots IRAN WAR Restart",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=edp71QQyKjg"
+          },
+          {
+            "source": "youtube",
+            "id": "h4uwC8FQ5PI",
+            "title": "Ganz Europa im Ausnahmezustand! Erste Länder setzen Militär ein!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=h4uwC8FQ5PI"
+          },
+          {
+            "source": "youtube",
+            "id": "uJkG4wKRVHA",
+            "title": "⚡ALERT! CODE 100 ACTIVATED IN IRAN!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uJkG4wKRVHA"
+          },
+          {
+            "source": "youtube",
+            "id": "AtkVD7Hum9E",
+            "title": "Headwinds for Red-Green-Red: SPD Bundestag Members Warn Against Berlin Left Party | ZDF MOMA",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=AtkVD7Hum9E"
+          },
+          {
+            "source": "youtube",
+            "id": "CMPpOfj_a50",
+            "title": "With Missiles Falling and Brutal Winter Looming, Ukraine's Christians Share 'Hope Through Jesus'",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=CMPpOfj_a50"
+          },
+          {
+            "source": "youtube",
+            "id": "CVVPfpkli_Y",
+            "title": "IT JUST TOOK A DARK TURN",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=CVVPfpkli_Y"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "VlCE2E2K7Us",
+            "title": "⚡ALERT: The \"WAR IS OVER\".... Or NOT! w/ @garlandn ​",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=VlCE2E2K7Us"
+          },
+          {
+            "source": "youtube",
+            "id": "6-pccyimZXI",
+            "title": "ILTV News Flash – October, 19, 2026",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=6-pccyimZXI"
+          },
+          {
+            "source": "youtube",
+            "id": "7sZ04KCPM_E",
+            "title": "WE ARE EXPOSED: OUR VULNERABILITY IN THE DAYS AHEAD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=7sZ04KCPM_E"
+          },
+          {
+            "source": "youtube",
+            "id": "8XNcqFafHeM",
+            "title": "Investoren-Suche / Missstände im Schlachthof / Pflegekräfte lernen Dialekt | \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=8XNcqFafHeM"
+          },
+          {
+            "source": "youtube",
+            "id": "AJh1ItYOhi8",
+            "title": "THE STONES CRY OUT-- Biblical Archaeology is God's Window Into The Past",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=AJh1ItYOhi8"
+          },
+          {
+            "source": "youtube",
+            "id": "FUdqSrOlaLA",
+            "title": "Brisante Geldspur: 40 Mio. kurz vor dem Migrantensturm",
+            "channel": "Darius_official",
+            "url": "https://www.youtube.com/watch?v=FUdqSrOlaLA"
+          },
+          {
+            "source": "youtube",
+            "id": "edp71QQyKjg",
+            "title": "Trump ENDORSES Flailing BIBI As Israel Plots IRAN WAR Restart",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=edp71QQyKjg"
+          },
+          {
+            "source": "youtube",
+            "id": "h4uwC8FQ5PI",
+            "title": "Ganz Europa im Ausnahmezustand! Erste Länder setzen Militär ein!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=h4uwC8FQ5PI"
+          },
+          {
+            "source": "youtube",
+            "id": "uJkG4wKRVHA",
+            "title": "⚡ALERT! CODE 100 ACTIVATED IN IRAN!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uJkG4wKRVHA"
+          },
+          {
+            "source": "youtube",
+            "id": "AtkVD7Hum9E",
+            "title": "Headwinds for Red-Green-Red: SPD Bundestag Members Warn Against Berlin Left Party | ZDF MOMA",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=AtkVD7Hum9E"
+          },
+          {
+            "source": "youtube",
+            "id": "CMPpOfj_a50",
+            "title": "With Missiles Falling and Brutal Winter Looming, Ukraine's Christians Share 'Hope Through Jesus'",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=CMPpOfj_a50"
+          },
+          {
+            "source": "youtube",
+            "id": "CVVPfpkli_Y",
+            "title": "IT JUST TOOK A DARK TURN",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=CVVPfpkli_Y"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "VlCE2E2K7Us",
+            "title": "⚡ALERT: The \"WAR IS OVER\".... Or NOT! w/ @garlandn ​",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=VlCE2E2K7Us"
+          },
+          {
+            "source": "youtube",
+            "id": "uJkG4wKRVHA",
+            "title": "⚡ALERT! CODE 100 ACTIVATED IN IRAN!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uJkG4wKRVHA"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-20T08:46:55+00:00"
+      },
+      "workflow_run_id": "39395505681",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-10-20:2026-10-20:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "51270662c6d20119ffd68adb93fc61abc2f539a6c6834026a62e26bdf457247c",
+        "finalization_policy": "markers",
+        "content_version": "ca1f8ec177aa39746f14541d72a61e5153d24f4784d1f08d6748beb56711dd06",
+        "message_id": "<b763118756bfdfb206cc66cecd8eefd2af88175e1c2719a29290bf03f314e78b@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "0ca315b9bc7f989a_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "f34ec04874982b44476b3dd823a65e9a7bd535c8c3408a43e4c44011ba478339"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "e72bc8aa0611b62b9527519e7c2a349aa427c71863aa68125db49575503280a1"
+      }
     }
   },
   "paper_legacy_unknown": {
