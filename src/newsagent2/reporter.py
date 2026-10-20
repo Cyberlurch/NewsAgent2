@@ -15,7 +15,8 @@ from zoneinfo import ZoneInfo
 from .summarizer import normalize_pubmed_deep_dive, render_pubmed_deep_dive_from_abstract
 from .cybermed_quality import assert_no_generation_error_text
 from .cyberlurch_monthly import render_monthly
-from .cyberlurch_readability import substantive_prose, saved_reader_intro, reader_text_allowed, reader_prose
+from .cyberlurch_readability import substantive_prose, saved_reader_intro, reader_text_allowed, reader_prose, reader_block
+from .cyberlurch_sentences import block_speakers
 
 try:  # Optional import; keep reporter usable without selector
     from .selector_medical import load_cybermed_selection_config
@@ -429,7 +430,8 @@ def _strip_generic_summary_openers(text: str) -> str:
 
 def _cyberlurch_topic_bullet(item: Dict[str, Any], detail_block: str) -> str:
     content = (
-        _to_clean_text(item.get("transcript_full_summary"))
+        saved_reader_intro(item)
+        or _to_clean_text(item.get("transcript_full_summary"))
         or _to_clean_text(item.get("important_details"))
         or _to_clean_text(item.get("editorial_relevance"))
         or _to_clean_text(item.get("summary") or item.get("bottom_line"))
@@ -443,13 +445,15 @@ def _cyberlurch_topic_bullet(item: Dict[str, Any], detail_block: str) -> str:
         or _to_clean_text(item.get("bottom_line"))
         or "high relevance for current channel discourse"
     )
-    content = _rewrite_report_prose_openers(_strip_generic_summary_openers(content)).strip("-• ")
-    relevance = _rewrite_report_prose_openers(_strip_generic_summary_openers(relevance)).strip("-• ")
+    speakers, channel = block_speakers(item), str(item.get('channel') or '')
+    content = reader_prose(_rewrite_report_prose_openers(_strip_generic_summary_openers(content)),channel=channel,speakers=speakers).strip("-• ")
+    relevance = reader_prose(_rewrite_report_prose_openers(_strip_generic_summary_openers(relevance)),channel=channel,speakers=speakers).strip("-• ")
     content = _trim_sentence_aware(content, 280)
     relevance = _trim_sentence_aware(relevance, 160)
     content = _ensure_sentence_end(content)
     relevance = _ensure_sentence_end(relevance)
     channel_text = _md_escape_label(str(item.get("channel") or "").strip() or "Unknown channel")
+    channel_text += ''.join(' · '+_md_escape_label(speaker) for speaker in speakers if speaker.casefold()!=channel.casefold())
     return f"- **{channel_text}:** {content} _Why it matters:_ {relevance}"
 
 
@@ -1245,7 +1249,9 @@ def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, g
     lines.extend(["", "## Selected items", ""])
     def block(item: Dict[str, Any], *, is_deep: bool = False) -> None:
         name = _md_escape_label(str(item.get("title") or "Untitled")); url = str(item.get("url") or ""); channel = str(item.get("channel") or "Unknown"); date = str(item.get("published_at") or "")[:10]
-        lines.extend([f"### [{name}]({url})" if url else f"### {name}", f"*{channel} · {date} · {basis_label(item)}*", ""])
+        speakers = block_speakers(item)
+        voice = ''.join(' · '+speaker for speaker in speakers if speaker.casefold()!=channel.casefold())
+        lines.extend([f"### [{name}]({url})" if url else f"### {name}", f"*{channel}{voice} · {date} · {basis_label(item)}*", ""])
         metadata = item.get("content_status") == "metadata_only" or item.get("text_source") == "metadata_only"
         if metadata:
             lines.append("- Metadata only.")
@@ -1255,19 +1261,21 @@ def render_cyberlurch_daily_report(items: List[Dict[str, Any]], *, title: str, g
                 intro = ""
             if intro:
                 lines.extend([intro, ""])
-            facts = [reader_prose(fact, channel=channel) for field in (
+            facts = [reader_prose(fact, channel=channel, speakers=speakers) for field in (
                 "transcript_key_points", "important_details", "transcript_notable_claims")
                 for fact in _cyberlurch_fact_list(item.get(field))]
             facts = _deduplicate_cyberlurch_facts(_filter_cyberlurch_facts(facts))
             if not facts and not intro:
-                facts = _filter_cyberlurch_facts([reader_prose(fact, channel=channel)
+                facts = _filter_cyberlurch_facts([reader_prose(fact, channel=channel, speakers=speakers)
                     for fact in _cyberlurch_fact_list(item.get("transcript_full_summary"))])
+            intro_fact_count = 0
             if intro:
                 normalized_intro = _cyberlurch_fact_key(intro)
+                intro_fact_count = sum(_cyberlurch_contains_fact(normalized_intro, _cyberlurch_fact_key(fact)) for fact in facts)
                 facts = [fact for fact in facts if not _cyberlurch_contains_fact(normalized_intro, _cyberlurch_fact_key(fact))]
             # Three headline points must not crowd all concrete consequences
             # out of an ordinary item. Details use the same existing extraction.
-            for fact in facts[:5]: lines.append(f"- {fact}")
+            for fact in facts[:max(0, 5-intro_fact_count)]: lines.append(f"- {fact}")
         lines.append("")
     for item in unique:
         key = str(item.get("id") or item.get("url") or item.get("title") or "")
@@ -1546,12 +1554,6 @@ def to_markdown(
                         if normalized_mode == "daily" and it.get("paper_update") == "reported_results_update":
                             md.append("")
                             md.append("*Source update: changed reported primary-result figures; no independent medical revalidation is claimed.*")
-                        if normalized_mode == "daily" and it.get("newly_ingested") and it.get("older_publication"):
-                            md.append("")
-                            publication = it.get("published_at")
-                            publication_date = publication.date().isoformat() if isinstance(publication, datetime) else str(publication or "")[:10]
-                            md.append(f"*Newly captured older publication (published {publication_date}).*" if lang == "en" else
-                                      f"*Neu erfasste ältere Publikation (publiziert {publication_date}).*")
                         if it.get("top_pick") is True:
                             compact = _join_compact_segments([favorite_label(it), compact])
                         if compact:
@@ -1716,6 +1718,9 @@ def to_markdown(
                 heading_body = _cybermed_pubmed_deep_dive_heading_body(it, title_lbl, url)
             else:
                 ch = _md_escape_label(str(it.get("channel") or it.get("source") or "Source").strip() or "Source")
+                if is_cyberlurch:
+                    ch += ''.join(' · '+_md_escape_label(speaker) for speaker in block_speakers(it)
+                        if speaker.casefold()!=str(it.get('channel') or '').casefold())
                 heading_body = f"{ch}: [{title_lbl}]({url})" if url else f"{ch}: {title_lbl}"
             if it.get("top_pick"):
                 heading_body = _prefix_star(heading_body)
@@ -1755,6 +1760,7 @@ def to_markdown(
                 detail_block = re.sub(r"(?im)^\s*(Title|Channel|Published|Watch on YouTube)\s*:\s*.*$", "", detail_block)
                 detail_block = re.sub(r"(?im)^\s*\[?\s*Watch on YouTube\s*\]?\s*(?:\([^)]*\)|:\s*.+)?\s*$", "", detail_block)
                 detail_block = _normalize_deep_dive_headings(detail_block, item_title=str(it.get("title") or "").strip())
+                detail_block = reader_block(detail_block,it)
             detail_block = _bold_bottom_line_label(detail_block)
             detail_block = _normalize_detail_block_headings(detail_block)
             if is_cybermed and str(it.get("source") or "").lower() == "pubmed":
