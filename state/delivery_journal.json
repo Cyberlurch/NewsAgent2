@@ -4066,6 +4066,246 @@
         "approved_after_generation_checks": true,
         "seal": "1c2dfd01bb9a855a9e18f9cb1dc42313c5265e8c8e140c44dfac4ba39e83d623"
       }
+    },
+    "cyberlurch:daily:2026-10-21:2026-10-21:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-10-21",
+      "period_end": "2026-10-21",
+      "edition_id": "cyberlurch:daily:2026-10-21:2026-10-21:production",
+      "content_version": "6a3c7b25fdcfea72cf6b2d4eef86348ada8d993eb111d900fadddcc4368068e8",
+      "message_id": "<8dcda81fb1922b53604311da7a122c2211b084b8bcd6eddc2c81c37017e34de5@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-21T08:47:31+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "NojEUlNM-BY",
+            "title": "⚡ALERT! Trumps MOAB/ NUCLEAR Priming, Israel Preps BUNKERS, UKMTOs Shocking Admission!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=NojEUlNM-BY"
+          },
+          {
+            "source": "youtube",
+            "id": "44ODTqSJOCM",
+            "title": "Christian Apologist Reveals What Happened Inside Scientology's LA Church",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=44ODTqSJOCM"
+          },
+          {
+            "source": "youtube",
+            "id": "5hBMBZmVLCw",
+            "title": "EU stärkt Rechte von Reisenden / Sprachtests in Kitas | \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=5hBMBZmVLCw"
+          },
+          {
+            "source": "youtube",
+            "id": "ADk2_o52pIU",
+            "title": "Widar Andersson sågar C:s regeringsplan: ”Helt omöjligt”",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=ADk2_o52pIU"
+          },
+          {
+            "source": "youtube",
+            "id": "CmuqgyGUXCM",
+            "title": "OUT OF THE ASHES OF UR--Like Abram, Step Out in Unreserved Faith! (BM-6)",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=CmuqgyGUXCM"
+          },
+          {
+            "source": "youtube",
+            "id": "HewVrCAEElE",
+            "title": "Diesel Deal with Putin: Now Trump Wants to Oust Zelenskyy",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=HewVrCAEElE"
+          },
+          {
+            "source": "youtube",
+            "id": "VWS2T5rLaPM",
+            "title": "Every Christian Needs To MEMORIZE This Argument!",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=VWS2T5rLaPM"
+          },
+          {
+            "source": "youtube",
+            "id": "d7pcL5-z0L0",
+            "title": "Roman Reher answers YOUR QUESTIONS LIVE at the Blocktrainer Event 2026!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=d7pcL5-z0L0"
+          },
+          {
+            "source": "youtube",
+            "id": "yzl1IcGtgUc",
+            "title": "⚡ALERT: Russia is BURNING, Iran Blockade EXPANDS, Putin Prepares to INVADE Baltics?!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=yzl1IcGtgUc"
+          },
+          {
+            "source": "youtube",
+            "id": "9HH1fRHD68s",
+            "title": "ILTV On The Hour - October 20, 2026 | Hegseth's SECRET Israel Visit: Is a New War With Iran Coming?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=9HH1fRHD68s"
+          },
+          {
+            "source": "youtube",
+            "id": "BT-3G8Fnegc",
+            "title": "Heckling for Clicks: Is the Tone in the Bundestag Becoming More Brutal? | ZDF Berlin Direkt",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=BT-3G8Fnegc"
+          },
+          {
+            "source": "youtube",
+            "id": "FEGREkD6Akc",
+            "title": "Modern Feminism Is Making Women Crazy—and Robbing Them of Happiness",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=FEGREkD6Akc"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "NojEUlNM-BY",
+            "title": "⚡ALERT! Trumps MOAB/ NUCLEAR Priming, Israel Preps BUNKERS, UKMTOs Shocking Admission!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=NojEUlNM-BY"
+          },
+          {
+            "source": "youtube",
+            "id": "44ODTqSJOCM",
+            "title": "Christian Apologist Reveals What Happened Inside Scientology's LA Church",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=44ODTqSJOCM"
+          },
+          {
+            "source": "youtube",
+            "id": "5hBMBZmVLCw",
+            "title": "EU stärkt Rechte von Reisenden / Sprachtests in Kitas | \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=5hBMBZmVLCw"
+          },
+          {
+            "source": "youtube",
+            "id": "ADk2_o52pIU",
+            "title": "Widar Andersson sågar C:s regeringsplan: ”Helt omöjligt”",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=ADk2_o52pIU"
+          },
+          {
+            "source": "youtube",
+            "id": "CmuqgyGUXCM",
+            "title": "OUT OF THE ASHES OF UR--Like Abram, Step Out in Unreserved Faith! (BM-6)",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=CmuqgyGUXCM"
+          },
+          {
+            "source": "youtube",
+            "id": "HewVrCAEElE",
+            "title": "Diesel Deal with Putin: Now Trump Wants to Oust Zelenskyy",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=HewVrCAEElE"
+          },
+          {
+            "source": "youtube",
+            "id": "VWS2T5rLaPM",
+            "title": "Every Christian Needs To MEMORIZE This Argument!",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=VWS2T5rLaPM"
+          },
+          {
+            "source": "youtube",
+            "id": "d7pcL5-z0L0",
+            "title": "Roman Reher answers YOUR QUESTIONS LIVE at the Blocktrainer Event 2026!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=d7pcL5-z0L0"
+          },
+          {
+            "source": "youtube",
+            "id": "yzl1IcGtgUc",
+            "title": "⚡ALERT: Russia is BURNING, Iran Blockade EXPANDS, Putin Prepares to INVADE Baltics?!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=yzl1IcGtgUc"
+          },
+          {
+            "source": "youtube",
+            "id": "9HH1fRHD68s",
+            "title": "ILTV On The Hour - October 20, 2026 | Hegseth's SECRET Israel Visit: Is a New War With Iran Coming?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=9HH1fRHD68s"
+          },
+          {
+            "source": "youtube",
+            "id": "BT-3G8Fnegc",
+            "title": "Heckling for Clicks: Is the Tone in the Bundestag Becoming More Brutal? | ZDF Berlin Direkt",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=BT-3G8Fnegc"
+          },
+          {
+            "source": "youtube",
+            "id": "FEGREkD6Akc",
+            "title": "Modern Feminism Is Making Women Crazy—and Robbing Them of Happiness",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=FEGREkD6Akc"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "NojEUlNM-BY",
+            "title": "⚡ALERT! Trumps MOAB/ NUCLEAR Priming, Israel Preps BUNKERS, UKMTOs Shocking Admission!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=NojEUlNM-BY"
+          },
+          {
+            "source": "youtube",
+            "id": "yzl1IcGtgUc",
+            "title": "⚡ALERT: Russia is BURNING, Iran Blockade EXPANDS, Putin Prepares to INVADE Baltics?!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=yzl1IcGtgUc"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-21T08:47:27+00:00"
+      },
+      "workflow_run_id": "39571536141",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-10-21:2026-10-21:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "d2ba8f41efb05413e1f0ebf582460c9ddda4f73b492b757de9b32cdcef0ae4c3",
+        "finalization_policy": "markers",
+        "content_version": "6a3c7b25fdcfea72cf6b2d4eef86348ada8d993eb111d900fadddcc4368068e8",
+        "message_id": "<8dcda81fb1922b53604311da7a122c2211b084b8bcd6eddc2c81c37017e34de5@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "24626ff677295665_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "81b89b4ae2985d3f538c9760f104aa4cef204f536d261225e6a39801f6b1901c"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "7b0c49bd803102e4d8cb0e170eb43b4fa3d12f481e4346459f11ba5bd56b8377"
+      }
     }
   },
   "paper_legacy_unknown": {
