@@ -4306,6 +4306,786 @@
         "approved_after_generation_checks": true,
         "seal": "7b0c49bd803102e4d8cb0e170eb43b4fa3d12f481e4346459f11ba5bd56b8377"
       }
+    },
+    "cybermed:daily:2026-10-21:2026-10-21:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-21",
+      "period_end": "2026-10-21",
+      "edition_id": "cybermed:daily:2026-10-21:2026-10-21:production",
+      "content_version": "465de650ebbf86ce4fa9d5250898b2d00215710b2c903b4bb23e3ac38f40e92e",
+      "message_id": "<8e0842281a4bb48954c1cbb05843df6066917231ac92c40a85e811202ac426d4@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-21T08:55:13+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42892410",
+            "title": "ECMO Weaning Blood Processing: A Scoping Review.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892410/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42887017",
+            "title": "Effects of Ketamine and Esketamine on Postoperative Delirium After General Anesthesia: A Meta-Analysis and Meta-Regression Analysis.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42887017/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42887016",
+            "title": "The Cardio-obstetric Epidemiology of Heart Valve Surgery During Pregnancy and Delivery Hospitalizations: A US National Analysis.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42887016/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42887012",
+            "title": "Health Equity and Belonging: A Career Framework for Healthcare Diversity, Equity, and Inclusion in Anesthesiology.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42887012/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885858",
+            "title": "Transversus Abdominis Plane Blocks in Surgery: Reply.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885858/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885857",
+            "title": "Dynamic Arterial Elastance: Physiologic Basis, Current Clinical Evidence, and Future Directions.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885857/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885850",
+            "title": "Transversus Abdominis Plane Blocks in Surgery: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885850/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885847",
+            "title": "Transversus Abdominis Plane Blocks in Surgery: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885847/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901638",
+            "title": "In reply.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901638/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901637",
+            "title": "An Emergency Department Nudge-Based Strategy to Screen and Treat Patients With Alcohol Misuse.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901637/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901636",
+            "title": "Beyond Prescribing Rates: Medication Matching in Emergency Department Alcohol Treatment Nudges.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901636/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901635",
+            "title": "In reply.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901635/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901634",
+            "title": "The LEGEND Trial: Demonstrating Efficiency or Assuming Safety?",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901634/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901633",
+            "title": "In reply.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901633/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901632",
+            "title": "In Spontaneous Intracerebral Hemorrhage, a Fast Fall Is Not a Safe Landing.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901632/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901631",
+            "title": "Patient Preferences or Pathology: Which Takes Precedence?: November 2026 Annals of Emergency Medicine Journal Club.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901631/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901630",
+            "title": "The Tattoo.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901630/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901629",
+            "title": "Man With Painful Visual Loss and Ipsilateral Headache.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901629/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901628",
+            "title": "Young Man With Urinary Retention.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901628/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901627",
+            "title": "Woman With Traumatic Visual Decrease.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901627/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901626",
+            "title": "Man With Failed Orogastric Tube Placement.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901626/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901625",
+            "title": "Adolescent Woman With Intermittent Gross Hematuria.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901625/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901624",
+            "title": "Routine Antibiotics Are Necessary After Aspiration.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901624/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901623",
+            "title": "An Argument for Selective Antibiotic Use After Aspiration.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901623/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42892907",
+            "title": "Longitudinal measurements of inflammatory mediators in patients at risk of sepsis in the Emergency Department.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892907/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42893026",
+            "title": "Direct tracheostomy in Guillain-Barré syndrome: indication and timing both matter. Authors' reply.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42893026/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42893020",
+            "title": "Agreement between chest radiograph and computed tomography for the diagnosis of acute respiratory distress syndrome: A retrospective observational study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42893020/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888145",
+            "title": "Socioeconomic position and preoperative characteristics in Perioperative Quality Improvement Programme participants: a UK national observational study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888145/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888144",
+            "title": "The association between pain intensity during epidural labour analgesia and intrapartum hyperthermia: a multicentre prospective observational study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888144/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888143",
+            "title": "Electrolyte redistribution during acute respiratory acid-base changes: an in vivo study using apnoea testing.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888143/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888142",
+            "title": "Discrepancies between knowledge, attitudes, and practices on sustainability in anaesthesia: a national survey of anaesthetists in Israel.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888142/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888141",
+            "title": "Bispectral index-suppression ratio discordance during general anaesthesia.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888141/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888146",
+            "title": "Recurrent sevoflurane anaphylaxis confirmed by drug provocation and intradermal skin testing.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888146/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42896706",
+            "title": "Fertility, pregnancy, and women's health in bronchiectasis: a multicenter study and ELF-EMBARC patient survey.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42896706/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42896705",
+            "title": "Striving for Equity in Cystic Fibrosis Research: Perspectives from Black and Hispanic/ Latino(a) Individuals with CF.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42896705/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885993",
+            "title": "A Quality Improvement Initiative to Achieve Provincial Implementation of a Web-Based Family Satisfaction in ICU (FS-ICU) Survey to Inform Patient-Centered Care.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885993/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885980",
+            "title": "ICU Physical Environments Used for Family Conferences: A Multimodal Qualitative Evaluation with ICU Team Members.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885980/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42900675",
+            "title": "Antibiotic prophylaxis with vancomycin and gentamicin and the occurrence of acute kidney injury after cardiac surgery with cardiopulmonary bypass: A retrospective single-centre cohort study.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42900675/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42897881",
+            "title": "Postoperative delirium and 1-year functional decline, institutionalization and mortality.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897881/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42897873",
+            "title": "Development and temporal validation of a simple CT-based body surface landmark approach for optimising central venous catheter tip position in the superior vena cava.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897873/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42896534",
+            "title": "Individualized Cardiac Index-Guided Hemodynamic Therapy in High-Risk Patients Undergoing Elective Major Abdominal Surgery: The PELICAN Randomized Clinical Trial.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42896534/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42880941",
+            "title": "Synthetic imaging with generative AI for ultrasound-guided regional anesthesia.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42880941/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emergencymedicinecases.com/episodic-vertigo/",
+            "title": "Ep 224 Vertigo Part 1: Approach to Episodic Vertigo",
+            "channel": "EM Cases",
+            "url": "https://emergencymedicinecases.com/episodic-vertigo/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emergencymedicinecases.com/ed-triage-doctor/",
+            "title": "WTBS 31 ED Triage Physician – Does a Doc Belong at Triage?",
+            "channel": "EM Cases",
+            "url": "https://emergencymedicinecases.com/ed-triage-doctor/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42897881",
+            "title": "Postoperative delirium and 1-year functional decline, institutionalization and mortality.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897881/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42897881",
+              "doi": "10.1097/eja.0000000000002499",
+              "kind": "original",
+              "source_version": "c0fbf987b9295dec6b71a5b3f8610770885b98f2894244f7259a7255314e4ddf",
+              "fields": {
+                "title": "8ab45adf21b588c5ae06080e270b0328ea3fbb62c9db689ca6e53c4ecc26adf1",
+                "abstract": "61a4554af830c705f15625501469df26c2c6ccfaffbbcfc868043ab8c3c90141",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "a9a6ec6489bdb14a59e458ac98df46581af5a94a4102891f63d911d3508a712f",
+                "results_known": false,
+                "numbers": "f5bbeceaabb1ce04ccf5905440206a451a3ae2380bb3fa40624fe1d73c5c2bff",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42897873",
+            "title": "Development and temporal validation of a simple CT-based body surface landmark approach for optimising central venous catheter tip position in the superior vena cava.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897873/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42897873",
+              "doi": "10.1097/eja.0000000000002490",
+              "kind": "original",
+              "source_version": "1b02a83809dd53d55ca4f48370b74102f6abf138f65df257ed0476587a860489",
+              "fields": {
+                "title": "5f9c3c1024d4a8c3cd842aecfb52b571e02c067dd6ebdc8c48026aaabd717f45",
+                "abstract": "7402b1eaf02c8ce748352552f102ea5bbfbd7a299bd86255f02811d31b742b75",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "60e553a502ab2f28d6a10f3518255f059e1def74731dbef7bf01bfffb0bf6395",
+                "results_known": false,
+                "numbers": "737a9338de845485d85a1accc9329a4f14bc38e5b299f3999d992e19c4ef867e",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42900675",
+            "title": "Antibiotic prophylaxis with vancomycin and gentamicin and the occurrence of acute kidney injury after cardiac surgery with cardiopulmonary bypass: A retrospective single-centre cohort study.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42900675/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42900675",
+              "doi": "10.1097/eja.0000000000002519",
+              "kind": "original",
+              "source_version": "a775526da64d3f6842ce974fcbcc45ac16b52b5ebce329585509bd8bae2f286b",
+              "fields": {
+                "title": "e642bee2cf7582313fe2f5ebb995c6949f52caa99c207e99edfe4301d0011f4b",
+                "abstract": "633fd6ebdc76239ee2fdd717783c56ee34f19f5a2ff17ef4c3ce1e38c1311f76",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "677d4fa1c661ebd383882cd98ef969f6b0897d80617ec512f584567f26f49778",
+                "results_known": false,
+                "numbers": "6178282c2976c27808137b7b4b27839ca4fb43b3bd4337bad5bde2f6d99662ec",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42896706",
+            "title": "Fertility, pregnancy, and women's health in bronchiectasis: a multicenter study and ELF-EMBARC patient survey.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42896706/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42896706",
+              "doi": "10.1016/j.chest.2026.10.010",
+              "kind": "original",
+              "source_version": "800a6d6913a6f29a2963f7f5d65827e0b1c1b6b8c84c6f3d6a1582e361fdb80b",
+              "fields": {
+                "title": "992bcca287092e1e8dec8d759a8441b7a1aa8ff4ac254d190a8acdb8face143a",
+                "abstract": "12d7ee649827895b3ba4256a041938891a0a55fcaeba6639e88937d38aa40da5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e119ed325e88a902eae762d4a6a1acb964b7eb2741a5bf362df23c4bae3d0257",
+                "results_known": false,
+                "numbers": "094958d9d38b198f9dd693a6ce85ad30f0c7149bf97d811cc5863cd75e3ab061",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "d8e9613cdf686c8dbf48a6e76d82a0c1cc2e395c103ecb856f479607619d99d9",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42896534",
+            "title": "Individualized Cardiac Index-Guided Hemodynamic Therapy in High-Risk Patients Undergoing Elective Major Abdominal Surgery: The PELICAN Randomized Clinical Trial.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42896534/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42896534",
+              "doi": "10.1001/jama.2026.18574",
+              "kind": "original",
+              "source_version": "f852d53f1de600fffb0ca40e500f11d9e915870bd2442341feae699413153356",
+              "fields": {
+                "title": "94dd8bed9d1ee111d7ac5bf04431c43eeb6385f9c21aa112be656568439bb602",
+                "abstract": "71c4a8fb7d7ab3714721f0897793879722ddefa26d2e85f7060ece771f754b6c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "92afb4d6011774fb2daca1b1c7dd75115c7b22bef1fba77771f290232099d04b",
+                "results_known": false,
+                "numbers": "2aaa0d08e3a122ebeb3a8ad58d25d4f9633aef77be71e5c52780a74cef886d53",
+                "endpoint": "7c94b3cc7f925a4ecc9b7f6640dcbe09f790e3baac875a24a745de6d253615fd",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42892410",
+            "title": "ECMO Weaning Blood Processing: A Scoping Review.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892410/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42892410",
+              "doi": "10.1016/j.accpm.2026.101935",
+              "kind": "original",
+              "source_version": "9c43ac0469f186d29c04eb26efb3312519d0fc0a913c384b54737a925b48b239",
+              "fields": {
+                "title": "8f631c6d156ad369e2f1a1d4ca1d28ff5b849076bffe6e9499ff81de06ac3a0a",
+                "abstract": "101c1d8985210f2b54582f002a60fd81e4c86dc4a51c6825da3e6ee0a11d6b7f",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e83696942e4a45b17eef47ceb95b1fc0e66ae0f42268a79a646a48ef57b085f8",
+                "results_known": false,
+                "numbers": "1edf51f3b5b1aa302b6165edba27b79e76c4e1386ad011502e3d81a546a03ee7",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "2af5409ce03f1aed7ac8772614c860ee1725b21c9b2715251f8e10d1721469d8",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42887017",
+            "title": "Effects of Ketamine and Esketamine on Postoperative Delirium After General Anesthesia: A Meta-Analysis and Meta-Regression Analysis.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42887017/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42887017",
+              "doi": "10.1213/ane.0000000000008380",
+              "kind": "original",
+              "source_version": "278a7b35b4e1a24a307d583b7d15d8d5c3639fffa154e1aee0953f30d53edf64",
+              "fields": {
+                "title": "a71e1cdb41cb678a259e04e0e9429c6d4f7b8947b08649b866dd1dbf54e98444",
+                "abstract": "1a77e8bf1ba62a7759e6abf8bc1a4a44d060e1674b885adada9b40914d2ac348",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0aa54eb77b36ddb0b1a15b295c5ee1ae311b62de967ac1848b20ed776103e425",
+                "results_known": true,
+                "numbers": "de4cc2d7b2815665b5b48573de156fdf7e6dced38988cb253d26133cecfa84af",
+                "endpoint": "666010a3aad6f3458edeed7331709cf836efa2ec4b8eda31da20b44ffae7177c",
+                "methods": "5510750bc9222eafdb3f6df6478401e16c06bc9928145ca52a160a5312778d57",
+                "direction": "mixed_or_unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42888144",
+            "title": "The association between pain intensity during epidural labour analgesia and intrapartum hyperthermia: a multicentre prospective observational study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888144/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42888144",
+              "doi": "10.1016/j.bja.2026.08.059",
+              "kind": "original",
+              "source_version": "c1d9a6f04ec7115c6a4911dbfb0c25a34cd84f36d177c5f37511153458485b91",
+              "fields": {
+                "title": "170ae027ce207952a4e346fec5d525067dcd51bc6d858a6a1a7d5982552e55ae",
+                "abstract": "260efd61ffbf970af17b751202df9ceb6af9e0622fb4be4adacbd6ecf2b15366",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "88ddc7fa5fadc2e4318102c3ad7dcc1f737b8f84decdbd71cc0546a9b83f2a2b",
+                "results_known": true,
+                "numbers": "5c3ac7afc1a6a3101c52514688a04267edd570ed5e27d9b1d24dff50b4f005bc",
+                "endpoint": "632544c4e41a0c4f164d4f7b3224d4e97334e52e3e300e3f8a0349871000f5a9",
+                "methods": "b02dadb8139fdef3ae39d0699bc7396860438478135deb1c7a12b359a2aff535",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42888145",
+            "title": "Socioeconomic position and preoperative characteristics in Perioperative Quality Improvement Programme participants: a UK national observational study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888145/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42888145",
+              "doi": "10.1016/j.bja.2026.09.002",
+              "kind": "original",
+              "source_version": "5a3968b80952bb5f542c468b48e7b87bd6700d11a5df93a3eaeba2d8a48fa800",
+              "fields": {
+                "title": "f9851f1359cc1ed52661d034a0fbd4d3646cabe9ca1feec70568217c91e67d02",
+                "abstract": "2e23ab7e8f2966be4df5496b79a108ddaabf26904ee763ec0f874a1e7d597744",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "50c8c6159feb1db80b22046745379cbd77ea5d5aa630be44edf24d38232eaf17",
+                "results_known": false,
+                "numbers": "b4d578f096b2ad4103d40cce798174e56f088129c91ccdab1f53a52945af618c",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "1d767c22810e272c7a8b61f1fdcbe10934e6d8893e19ea5a502d56ab737dbb7a",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42892907",
+            "title": "Longitudinal measurements of inflammatory mediators in patients at risk of sepsis in the Emergency Department.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892907/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42892907",
+              "doi": "10.1016/j.aicoj.2026.100178",
+              "kind": "original",
+              "source_version": "c212f74ad4a6b0bff193dc05a20c1275d1bdf834a42ffd473416505b95a5b4bd",
+              "fields": {
+                "title": "63c6b2e83912c3ccdd16ff7d666fe291abe8edcd1817fb87bda968ef2e776767",
+                "abstract": "d84ddcc328d425e955774b9475357f340eab324f2c525f8d00907ce70893b190",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42893020",
+            "title": "Agreement between chest radiograph and computed tomography for the diagnosis of acute respiratory distress syndrome: A retrospective observational study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42893020/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42893020",
+              "doi": "10.1016/j.aicoj.2026.100172",
+              "kind": "original",
+              "source_version": "bf9e74c869e98b419585e97b95928b75a508b3af7081d48af3636f5873b2166d",
+              "fields": {
+                "title": "ff5076115e594f2e6afcf5d1000886d346d9aa207737959690b8145183079a02",
+                "abstract": "f7c1ce44d10c21ecf33bfead585c461b9733d7023b1075e9c0feac2b53b4630e",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "2e5a1d600af9c4a2a8cf1e97f9d59fc0293a566c5ba5511b6fe1d8b27e0f66b5",
+                "results_known": true,
+                "numbers": "8de64ee055ef50e1f666048ebe15dde0e4b3970ee4a15eb4bd3d8900f980618c",
+                "endpoint": "bbd855ee6ff44788d167da12b79bed4062c0fe6f938f75a457d4d47e42441128",
+                "methods": "c5cfa91d4ba01fa05b6c198a40df1569dc6251773096adc3b452593612f90d7a",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42887017",
+            "title": "Effects of Ketamine and Esketamine on Postoperative Delirium After General Anesthesia: A Meta-Analysis and Meta-Regression Analysis.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42887017/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42887017",
+              "doi": "10.1213/ane.0000000000008380",
+              "kind": "original",
+              "source_version": "278a7b35b4e1a24a307d583b7d15d8d5c3639fffa154e1aee0953f30d53edf64",
+              "fields": {
+                "title": "a71e1cdb41cb678a259e04e0e9429c6d4f7b8947b08649b866dd1dbf54e98444",
+                "abstract": "1a77e8bf1ba62a7759e6abf8bc1a4a44d060e1674b885adada9b40914d2ac348",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0aa54eb77b36ddb0b1a15b295c5ee1ae311b62de967ac1848b20ed776103e425",
+                "results_known": true,
+                "numbers": "de4cc2d7b2815665b5b48573de156fdf7e6dced38988cb253d26133cecfa84af",
+                "endpoint": "666010a3aad6f3458edeed7331709cf836efa2ec4b8eda31da20b44ffae7177c",
+                "methods": "5510750bc9222eafdb3f6df6478401e16c06bc9928145ca52a160a5312778d57",
+                "direction": "mixed_or_unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42896534",
+            "title": "Individualized Cardiac Index-Guided Hemodynamic Therapy in High-Risk Patients Undergoing Elective Major Abdominal Surgery: The PELICAN Randomized Clinical Trial.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42896534/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42896534",
+              "doi": "10.1001/jama.2026.18574",
+              "kind": "original",
+              "source_version": "f852d53f1de600fffb0ca40e500f11d9e915870bd2442341feae699413153356",
+              "fields": {
+                "title": "94dd8bed9d1ee111d7ac5bf04431c43eeb6385f9c21aa112be656568439bb602",
+                "abstract": "71c4a8fb7d7ab3714721f0897793879722ddefa26d2e85f7060ece771f754b6c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "92afb4d6011774fb2daca1b1c7dd75115c7b22bef1fba77771f290232099d04b",
+                "results_known": false,
+                "numbers": "2aaa0d08e3a122ebeb3a8ad58d25d4f9633aef77be71e5c52780a74cef886d53",
+                "endpoint": "7c94b3cc7f925a4ecc9b7f6640dcbe09f790e3baac875a24a745de6d253615fd",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42892410",
+            "title": "ECMO Weaning Blood Processing: A Scoping Review.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892410/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42892410",
+              "doi": "10.1016/j.accpm.2026.101935",
+              "kind": "original",
+              "source_version": "9c43ac0469f186d29c04eb26efb3312519d0fc0a913c384b54737a925b48b239",
+              "fields": {
+                "title": "8f631c6d156ad369e2f1a1d4ca1d28ff5b849076bffe6e9499ff81de06ac3a0a",
+                "abstract": "101c1d8985210f2b54582f002a60fd81e4c86dc4a51c6825da3e6ee0a11d6b7f",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e83696942e4a45b17eef47ceb95b1fc0e66ae0f42268a79a646a48ef57b085f8",
+                "results_known": false,
+                "numbers": "1edf51f3b5b1aa302b6165edba27b79e76c4e1386ad011502e3d81a546a03ee7",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "2af5409ce03f1aed7ac8772614c860ee1725b21c9b2715251f8e10d1721469d8",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://emergencymedicinecases.com/ed-triage-doctor/",
+            "title": "WTBS 31 ED Triage Physician – Does a Doc Belong at Triage?",
+            "channel": "EM Cases",
+            "url": "https://emergencymedicinecases.com/ed-triage-doctor/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-21T08:55:09+00:00"
+      },
+      "workflow_run_id": "39572638246",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-21:2026-10-21:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "8d3a089a77895b0c745a36cbfec1e2a87b2781d0b4435740cefe598a3521d885",
+        "finalization_policy": "markers",
+        "content_version": "465de650ebbf86ce4fa9d5250898b2d00215710b2c903b4bb23e3ac38f40e92e",
+        "message_id": "<8e0842281a4bb48954c1cbb05843df6066917231ac92c40a85e811202ac426d4@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "abadd7122a3154e1_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "10c242ec9c547d3049a94f9ab551a074128da9824adad1012299e541de50d781"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "71a4a50205787924a373123cb88fc9015399ff143dabacbc4267da64f2cc1080"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -4963,7 +5743,15 @@
         "42874912",
         "42875273",
         "42875274",
-        "42881421"
+        "42878462",
+        "42878609",
+        "42878611",
+        "42878613",
+        "42878614",
+        "42878628",
+        "42881071",
+        "42881421",
+        "42892349"
       ]
     }
   }
