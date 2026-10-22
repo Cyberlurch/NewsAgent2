@@ -5326,6 +5326,326 @@
         "approved_after_generation_checks": true,
         "seal": "e7a5d1724d860cfbcbad757d59cb9a7826e2649f49bfd6adf6ebdc6c1191c85e"
       }
+    },
+    "cybermed:daily:2026-10-22:2026-10-22:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-22",
+      "period_end": "2026-10-22",
+      "edition_id": "cybermed:daily:2026-10-22:2026-10-22:production",
+      "content_version": "2209a4fca6e045c5a1bef8defd9cf6e0220d0a345aacbd69cd0e9bb76c5dfe3c",
+      "message_id": "<2630a5eac6a80a73c920b10d00458583a70251b3809dcc733e1c3cd983fe9621@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-22T08:56:57+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42894761",
+            "title": "The effect of time-varying left ventricular ejection fraction on clinical outcome in critically ill COVID-19 patients.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42894761/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42894798",
+            "title": "Guidelines for the management of atrial fibrillation in adult patients admitted to an intensive care unit.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42894798/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42892574",
+            "title": "Functional impairment in patients undergoing major orthopaedic surgery under general anaesthesia with or without regional anaesthesia: heterogeneity within the general anaesthesia category of Japanese administrative claims data. Comment on Br J Anaesth 2026; 137: 849-57.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892574/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901374",
+            "title": "Dyspnea during resting breathing and carbon dioxide rebreathing in adult patients with congenital central hypoventilation syndrome.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901374/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42897660",
+            "title": "When pupillometry indices disagree: does QPi add prognostic information beyond NPi?",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897660/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42897566",
+            "title": "Decision volume and temporal workload structure as dissociable correlates of fatigue and mood in intensive care physicians: a real-time observational study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897566/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42895222",
+            "title": "What I See before Anyone Speaks.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42895222/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42895221",
+            "title": "Community Engagement Requirements in Medicaid - Law as a Determinant of Health.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42895221/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42895219",
+            "title": "Why Shared-Savings ACOs Have Failed to Deliver for Primary Care.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42895219/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42895218",
+            "title": "Spinal Tuberculosis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42895218/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888008",
+            "title": "Epinephrine and ropivacaine pharmacokinetics in TAP blocks: was the study adequately powered to detect the effect it hypothesized?",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888008/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888007",
+            "title": "Beyond intramuscular nerve blockade: a complementary perspective on the anatomic basis of the PENG block.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888007/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888006",
+            "title": "Anatomic basis of the PENG block: A response to Marrone et al.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888006/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42892481",
+            "title": "Where Are the Female Manikins? Representation of Female Anatomy Across Two European Resuscitation Congresses.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892481/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42892480",
+            "title": "Beyond Selection Bias: Post-Event Video Deletion and Trust in Healthcare.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892480/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42892479",
+            "title": "Making blood work: Toward precision care after cardiac arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42892479/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emcrit/precare/",
+            "title": "EMCrit Wee – Pre-PreCare – Prehospital ECPR with Nat & Bri from Sydney HEMS",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emcrit/precare/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.pulmccm.org/p/continuous-renal-replacement-therapy",
+            "title": "Continuous renal replacement therapy saves lives over hemodialysis*",
+            "channel": "PulmCCM",
+            "url": "https://www.pulmccm.org/p/continuous-renal-replacement-therapy"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/fifth-consensus-guidelines-reshape-prevention-and-treatment-of-postoperative-nausea-and-vomiting/",
+            "title": "Fifth consensus guidelines reshape prevention and treatment of postoperative nausea and vomiting",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/fifth-consensus-guidelines-reshape-prevention-and-treatment-of-postoperative-nausea-and-vomiting/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/prague-26-catheter-directed-lytics-for-pe/",
+            "title": "PRAGUE-26 – Catheter-Directed Lytics for PE - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/prague-26-catheter-directed-lytics-for-pe/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/ecg-pointers-dont-just-do-something-stand-there/",
+            "title": "ECG Pointers: Don’t Just Do Something, Stand There!",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/ecg-pointers-dont-just-do-something-stand-there/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42901374",
+            "title": "Dyspnea during resting breathing and carbon dioxide rebreathing in adult patients with congenital central hypoventilation syndrome.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901374/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42901374",
+              "doi": "10.1016/j.chest.2026.10.015",
+              "kind": "original",
+              "source_version": "14b5458bddf58d5409257b7b303abbf78994ea1e5a48be446a175eb8971a45b2",
+              "fields": {
+                "title": "df903656aece9096fa63545e1ea5a7df9986b5234703ee21a4e68d0b70215a26",
+                "abstract": "29055143fc90d19988966a7b441aeb57771885c7ff33d8e80a3843a3ee1bd7f1",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3f8c8017b96083ec7763f5b242acf7f6988ef8d40707d264269adacf695ef390",
+                "results_known": false,
+                "numbers": "57a594214a7c82f5a49c10ed3f7ac53ef0c3ecacb3e9044cc983818c0a2c9c97",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "438c7e196094d4f23849b8c0464465d598930721baa1cc336ee08d079ad3eade",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42897566",
+            "title": "Decision volume and temporal workload structure as dissociable correlates of fatigue and mood in intensive care physicians: a real-time observational study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897566/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42897566",
+              "doi": "10.1186/s13054-026-06249-6",
+              "kind": "original",
+              "source_version": "4391cbf3bb47938a57a6591999140fa21f2f56e0f975aeffb089a88287ad6a5e",
+              "fields": {
+                "title": "3a9a57ddec92009f526c9ee0eab465ee28b69f87aac52fbaab676a6d7981d576",
+                "abstract": "d6a7418da3572231aca10643b06383bd327dea5c3434501623678949c7b0cbfd",
+                "types": "e61d3ab301dfa1ef529605250b29ee676f06a081b326e5f5c612b8c95cf07a54",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "6dc285259d90832a8d582338b11268b0a267289cda350925b78c0d0a812f72ec",
+                "results_known": false,
+                "numbers": "6d5e3ebd303e5912ada0df4bfffd243b279cd675fc6bfa3fed4170eb63fd82cd",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "43195eadc4d834e5f8a2744885cee868bb3fb6e0e928336ee11a5ba1ad694203",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42894761",
+            "title": "The effect of time-varying left ventricular ejection fraction on clinical outcome in critically ill COVID-19 patients.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42894761/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42894761",
+              "doi": "10.1016/j.aicoj.2026.100171",
+              "kind": "original",
+              "source_version": "3627a2ec3c028d285a3ed9c55ed26519b9d3cfe981b606b3e590d763a60c51da",
+              "fields": {
+                "title": "001ae3e1ffb5020f689e00a1cf34a576801dadf83953992815e49d0f1422c194",
+                "abstract": "78a3dcef3568e30013689f0d6a050c042ae17eb1ee27b6e0e896baab1928c611",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "16d5d2db9ae25bc1145b9945cad84f67aea88a2b3353c53562907458f5bd2e6d",
+                "results_known": false,
+                "numbers": "61d1fc42108ef977574f9dcba54bbad81b7a3eb0293a542919e415eaa73f8cf8",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "c6d4c0e4ff2a306bd23328fa4555f1b7afed7a3fbf3be051a59a21afa9a285a9",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/fifth-consensus-guidelines-reshape-prevention-and-treatment-of-postoperative-nausea-and-vomiting/",
+            "title": "Fifth consensus guidelines reshape prevention and treatment of postoperative nausea and vomiting",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/fifth-consensus-guidelines-reshape-prevention-and-treatment-of-postoperative-nausea-and-vomiting/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emcrit/precare/",
+            "title": "EMCrit Wee – Pre-PreCare – Prehospital ECPR with Nat & Bri from Sydney HEMS",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emcrit/precare/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.pulmccm.org/p/continuous-renal-replacement-therapy",
+            "title": "Continuous renal replacement therapy saves lives over hemodialysis*",
+            "channel": "PulmCCM",
+            "url": "https://www.pulmccm.org/p/continuous-renal-replacement-therapy"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/ecg-pointers-dont-just-do-something-stand-there/",
+            "title": "ECG Pointers: Don’t Just Do Something, Stand There!",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/ecg-pointers-dont-just-do-something-stand-there/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-22T08:56:54+00:00"
+      },
+      "workflow_run_id": "39751388839",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-22:2026-10-22:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "99e5f2ae3dc413e381bcdadc0262178b5c67fc843fdbe44c53034a77ef9cd46a",
+        "finalization_policy": "markers",
+        "content_version": "2209a4fca6e045c5a1bef8defd9cf6e0220d0a345aacbd69cd0e9bb76c5dfe3c",
+        "message_id": "<2630a5eac6a80a73c920b10d00458583a70251b3809dcc733e1c3cd983fe9621@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "c22a682a06816df2_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "928a6e1dd98539f88b50735494064ddfa33b76efe50265b3dee01c324067e8e4"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "dd64aaa9fc097dc1619ce6d271a0f998ee17e959998ba3dc6c2332de6a7522bb"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -5991,7 +6311,18 @@
         "42878628",
         "42881071",
         "42881421",
-        "42892349"
+        "42887017",
+        "42888144",
+        "42888145",
+        "42892349",
+        "42892410",
+        "42892907",
+        "42893020",
+        "42896534",
+        "42896706",
+        "42897873",
+        "42897881",
+        "42900675"
       ]
     }
   }
