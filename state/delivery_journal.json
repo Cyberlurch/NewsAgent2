@@ -5086,6 +5086,246 @@
         "approved_after_generation_checks": true,
         "seal": "71a4a50205787924a373123cb88fc9015399ff143dabacbc4267da64f2cc1080"
       }
+    },
+    "cyberlurch:daily:2026-10-22:2026-10-22:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-10-22",
+      "period_end": "2026-10-22",
+      "edition_id": "cyberlurch:daily:2026-10-22:2026-10-22:production",
+      "content_version": "01c7c98c5f488aefa1c86cae7760baea1f7f0b79dbfa025115de82ab0e8f88ca",
+      "message_id": "<b129338c0ae2e9260d13c935944f2dd839b3daa3ed5c0eb93ffef110ffc5a22e@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-22T08:49:55+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "yiR90jZYeRo",
+            "title": "Survive Whats Coming With This Device",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=yiR90jZYeRo"
+          },
+          {
+            "source": "youtube",
+            "id": "-D7aZ7gI_2g",
+            "title": "Vivek DOUBLES DOWN On Most DISGUSTING Ad Of ALL TIME",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=-D7aZ7gI_2g"
+          },
+          {
+            "source": "youtube",
+            "id": "0ll2HJ2bF5Q",
+            "title": "Vänstern stöttar våldet i Frankrike – och kommer undan med det",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=0ll2HJ2bF5Q"
+          },
+          {
+            "source": "youtube",
+            "id": "5HBJTXQAA0I",
+            "title": "Midterms: Abrechnung mit Trump? | Der Trump Effekt #78 | auslandsjournal - der Podcast",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=5HBJTXQAA0I"
+          },
+          {
+            "source": "youtube",
+            "id": "6SplAn7UBTA",
+            "title": "10 Reasons Christians Should Be Involved In Politics",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=6SplAn7UBTA"
+          },
+          {
+            "source": "youtube",
+            "id": "ELZ5TbwsSwQ",
+            "title": "Are Carmakers Finished? Now Real Estate Prices Are Falling Too",
+            "channel": "MarcFriedrich7",
+            "url": "https://www.youtube.com/watch?v=ELZ5TbwsSwQ"
+          },
+          {
+            "source": "youtube",
+            "id": "FIXATcPiq1I",
+            "title": "March of the Nations in Jerusalem! Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=FIXATcPiq1I"
+          },
+          {
+            "source": "youtube",
+            "id": "qD3xYUIPS5U",
+            "title": "He Examined The \"Hidden\" Parts Of Islam, Then Found JESUS",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=qD3xYUIPS5U"
+          },
+          {
+            "source": "youtube",
+            "id": "6XgI_6GaFd4",
+            "title": "Will A.I. Destroy Social Media @sineadbovell",
+            "channel": "KapChatfield",
+            "url": "https://www.youtube.com/watch?v=6XgI_6GaFd4"
+          },
+          {
+            "source": "youtube",
+            "id": "EEKz-PCrko4",
+            "title": "20261006 loser",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=EEKz-PCrko4"
+          },
+          {
+            "source": "youtube",
+            "id": "G5d4DMsEPkM",
+            "title": "Save A Child's Heart with Rabbi David Litwack",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=G5d4DMsEPkM"
+          },
+          {
+            "source": "youtube",
+            "id": "HQcBuJSfCy0",
+            "title": "Immer mehr Rechenzentren: Deutschlands riskante KI-Strategie I 11KM - der tagesschau-Podcast",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=HQcBuJSfCy0"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "yiR90jZYeRo",
+            "title": "Survive Whats Coming With This Device",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=yiR90jZYeRo"
+          },
+          {
+            "source": "youtube",
+            "id": "-D7aZ7gI_2g",
+            "title": "Vivek DOUBLES DOWN On Most DISGUSTING Ad Of ALL TIME",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=-D7aZ7gI_2g"
+          },
+          {
+            "source": "youtube",
+            "id": "0ll2HJ2bF5Q",
+            "title": "Vänstern stöttar våldet i Frankrike – och kommer undan med det",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=0ll2HJ2bF5Q"
+          },
+          {
+            "source": "youtube",
+            "id": "5HBJTXQAA0I",
+            "title": "Midterms: Abrechnung mit Trump? | Der Trump Effekt #78 | auslandsjournal - der Podcast",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=5HBJTXQAA0I"
+          },
+          {
+            "source": "youtube",
+            "id": "6SplAn7UBTA",
+            "title": "10 Reasons Christians Should Be Involved In Politics",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=6SplAn7UBTA"
+          },
+          {
+            "source": "youtube",
+            "id": "ELZ5TbwsSwQ",
+            "title": "Are Carmakers Finished? Now Real Estate Prices Are Falling Too",
+            "channel": "MarcFriedrich7",
+            "url": "https://www.youtube.com/watch?v=ELZ5TbwsSwQ"
+          },
+          {
+            "source": "youtube",
+            "id": "FIXATcPiq1I",
+            "title": "March of the Nations in Jerusalem! Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=FIXATcPiq1I"
+          },
+          {
+            "source": "youtube",
+            "id": "qD3xYUIPS5U",
+            "title": "He Examined The \"Hidden\" Parts Of Islam, Then Found JESUS",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=qD3xYUIPS5U"
+          },
+          {
+            "source": "youtube",
+            "id": "6XgI_6GaFd4",
+            "title": "Will A.I. Destroy Social Media @sineadbovell",
+            "channel": "KapChatfield",
+            "url": "https://www.youtube.com/watch?v=6XgI_6GaFd4"
+          },
+          {
+            "source": "youtube",
+            "id": "EEKz-PCrko4",
+            "title": "20261006 loser",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=EEKz-PCrko4"
+          },
+          {
+            "source": "youtube",
+            "id": "G5d4DMsEPkM",
+            "title": "Save A Child's Heart with Rabbi David Litwack",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=G5d4DMsEPkM"
+          },
+          {
+            "source": "youtube",
+            "id": "HQcBuJSfCy0",
+            "title": "Immer mehr Rechenzentren: Deutschlands riskante KI-Strategie I 11KM - der tagesschau-Podcast",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=HQcBuJSfCy0"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "yiR90jZYeRo",
+            "title": "Survive Whats Coming With This Device",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=yiR90jZYeRo"
+          },
+          {
+            "source": "youtube",
+            "id": "-D7aZ7gI_2g",
+            "title": "Vivek DOUBLES DOWN On Most DISGUSTING Ad Of ALL TIME",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=-D7aZ7gI_2g"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-22T08:49:51+00:00"
+      },
+      "workflow_run_id": "39750271135",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-10-22:2026-10-22:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "7ba1677b82d804dfdf9001b730f914243e674b92a631a0573eefc85026c7b9d6",
+        "finalization_policy": "markers",
+        "content_version": "01c7c98c5f488aefa1c86cae7760baea1f7f0b79dbfa025115de82ab0e8f88ca",
+        "message_id": "<b129338c0ae2e9260d13c935944f2dd839b3daa3ed5c0eb93ffef110ffc5a22e@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "f32b0a496c5e345d_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "6f1e47820a98b2b4f48446a67115902f5e80392b5c1ca8409f2e8892967b4fb9"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "e7a5d1724d860cfbcbad757d59cb9a7826e2649f49bfd6adf6ebdc6c1191c85e"
+      }
     }
   },
   "paper_legacy_unknown": {

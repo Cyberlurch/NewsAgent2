@@ -135344,8 +135344,953 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "yiR90jZYeRo",
+      "source": "youtube",
+      "title": "Survive Whats Coming With This Device",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=yiR90jZYeRo",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 23519,
+        "processed_unique_chars": 23519,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 6.089,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The video tests the Quench Sea 3.0, a hand-powered portable reverse-osmosis desalination device, demonstrating that it can reduce high TDS saline water to about 255–300 ppm (roughly 97–98% salt rejection) but requires significant manual effort and has slow flow rates.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Quench Sea 3.0 is a hand-powered portable reverse-osmosis desalination device sold for about $578 USD.",
+        "The device yielded water readings around 255–300 ppm TDS, representing roughly a 97–98% reduction from the test sample.",
+        "The unit produces about 5–8 liters per hour under sustained manual cranking but requires heavy physical effort and slow, rhythmic pumping."
+      ],
+      "transcript_notable_claims": [
+        "Most water filters on the market are designed for freshwater and cannot treat seawater, while 97% of Earth’s water is salt water and nearly 40% of people live within 100 km of the ocean.",
+        "The Quench Sea 3.0 is the first hand-powered portable reverse-osmosis desalinator on the market and costs far less than powered reverse-osmosis systems.",
+        "Each Quench filter cartridge is stated to last between 1,000 and 2,000 liters but the company does not provide a definitive lifetime figure."
+      ],
+      "transcript_uncertainties": [
+        "The reviewer reports uncertainty about the exact filter lifetime, citing a quoted range between 1,000 and 2,000 liters without a definitive number.",
+        "The test salt solution may not have matched real seawater salinity because the salt settled and the AI-provided recipe may have caused a lower starting TDS."
+      ],
+      "important_details": [
+        "The device includes two reverse-osmosis membranes in a rugged case plus hoses, extra O-rings, and optional water tester accessories.",
+        "The system requires building pressure to about 60 pumps to begin production and has separate hoses for fresh water output and brine ejection, so intake placement below the unit improves performance.",
+        "The produced water is essentially demineralized, which the video notes can leach minerals if consumed long-term without food, though short-term hydration is prioritized."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "yiR90jZYeRo",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@breakingpoints"
+      },
+      "id": "-D7aZ7gI_2g",
+      "source": "youtube",
+      "title": "Vivek DOUBLES DOWN On Most DISGUSTING Ad Of ALL TIME",
+      "channel": "breakingpoints",
+      "url": "https://www.youtube.com/watch?v=-D7aZ7gI_2g",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 24003,
+        "processed_unique_chars": 24003,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.089,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "An online ad in the Ohio governor race features Amy Acton’s mother accusing Acton of lying about childhood sexual abuse, the Ramaswami campaign acknowledged the ad and is spending $4 million behind it, and commentators and Acton’s family condemn the ad as despicable and potentially backfiring.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The ad features Donna Arthur, identified as Amy Acton’s birth mother, saying Amy is a lifelong liar and urging voters not to elect her governor.",
+        "Amy Acton’s brother Philip Sterns called the ad a disgusting attack and said the family’s birth mother stayed married to the man who allegedly abused Amy.",
+        "The Vive Ramaswami campaign acknowledged uncertainty about the mother–daughter dispute but is spending $4 million to amplify the ad."
+      ],
+      "transcript_notable_claims": [
+        "Donna Arthur claims Amy Acton lied about growing up in a tent and that Amy has a serious problem with truth.",
+        "Philip Sterns claims their birth mother stayed married to Amy’s alleged rapist until he died and that police removed Amy and him from their mother’s custody at age 12.",
+        "Vive Ramaswami claims Amy Acton has spread defamatory lies about him and his family and that many who know her recommend voters choose him.",
+        "Commentators claim Ramaswami acquired wealth through a pump-and-dump Alzheimer’s drug scheme allegedly involving dishonest trial publicity and stock sales.",
+        "A caller named George in Cleveland says the ad would make him view Ramaswami like Trump and motivates him to vote for Democrats he previously would not have supported."
+      ],
+      "transcript_uncertainties": [
+        "The Ramaswami campaign says it does not know what actually happened between Amy Acton and her mother.",
+        "It is uncertain from the source whether Donna Arthur was paid to appear in the ad, although hosts assume payment likely occurred."
+      ],
+      "important_details": [
+        "Philip Sterns released a response ad for Amy Acton’s campaign describing Amy’s childhood removal from their mother’s custody due to abuse and defending Amy’s actions as protective of her brother.",
+        "Axios reported that the Ramaswami campaign is putting $4 million behind the ad, intensifying its distribution despite initial claims of uncertainty."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "-D7aZ7gI_2g",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "0ll2HJ2bF5Q",
+      "source": "youtube",
+      "title": "Vänstern stöttar våldet i Frankrike – och kommer undan med det",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=0ll2HJ2bF5Q",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 27534,
+        "processed_unique_chars": 27534,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.089,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "Texten beskriver omfattande upplopp i Frankrike som deltagarna menar har stark migrationstilknytning, att vänstern och medierna förnekar eller förskönar denna koppling, och att kraftfulla åtgärder krävs för att lösa problemen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Upploppen i Frankrike omfattar att man bränner stadshus, tänder på bilar, plundrar butiker och viftar med Palestinaflaggor.",
+        "Vänsterkretsar och vissa medier tolkar händelserna som en ny 1968-rörelse eller som uttryck för fattigdom snarare än migrationsrelaterade problem.",
+        "Talarnas slutsats är att massmigration till Frankrike har orsakat en svår samhällsproblematik som kräver hårdhänta åtgärder."
+      ],
+      "transcript_notable_claims": [
+        "Media och vänstereliten blundar för etniska skillnader när de gynnar ett positivt målande narrativ om mångkultur.",
+        "Vissa vänsteraktivister och offentliga röster hyllar kravallerna som hoppfulla eller revolutionära samtidigt som de förnekar vänsterkoordination.",
+        "Det finns enligt texten en etnisk avsky i delar av migrantgrupperna mot det etnisk-franska samhället, vilket syns i vilka butiker vandaliseras eller fredas.",
+        "Mainstream media väljer bildval som framhäver fredliga eller franska aspekter trots omfattande våld och skadegörelse.",
+        "Högern har svårare än vänstern att få genomslag i mainstream-narrativet trots att problemen växer och kräver politiska svar."
+      ],
+      "transcript_uncertainties": [
+        "Det är osäkert huruvida vissa specifika påståenden om orkestrering av vänstergrupper är belagda eller inte enligt talarna.",
+        "Talaren uppger att vissa klipp eller bilder kan vara felaktiga eller AI-genererade och säger att vissa uppgifter 'kan vara eller inte vara' korrekta."
+      ],
+      "important_details": [
+        "Talaren nämner att Frankrike historiskt har stora offentliga utgifter och omfattande integrationssatsningar som enligt honom ändå inte löst problemen.",
+        "Talaren pekar på att upploppen spridit sig till andra europeiska länder som Italien, Spanien och Belgien enligt diskussionen.",
+        "Talaren föreslår remigration som en möjlig åtgärd och hänvisar till behovet av 'hårda nypor' liknande andra länders auktoritära metoder."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "0ll2HJ2bF5Q",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "5HBJTXQAA0I",
+      "source": "youtube",
+      "title": "Midterms: Abrechnung mit Trump? | Der Trump Effekt #78 | auslandsjournal - der Podcast",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=5HBJTXQAA0I",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 61853,
+        "processed_unique_chars": 61853,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Der Podcast bespricht die Bedeutung der US-Midterms für die Machtbalance um Präsident Donald Trump, mögliche Folgen für Israel, die Ukraine und Europa sowie Sorgen um Wahlvertrauen, politische Polarisierung und außenpolitische Konsequenzen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Midterms entscheiden, ob die Demokraten Mehrheiten im Repräsentantenhaus und im Senat erlangen und somit den Präsidenten stärker kontrollieren können.",
+        "Donald Trump hat wiederholt Zweifel an Wahlergebnissen geäußert und versucht, Zugang zu Wählerlisten und Wahlmaschinen zu erhalten.",
+        "Die US-Außenpolitik unter Trump beeinflusst die Sicherheit Israels, die Lage in der Ukraine und die transatlantischen Beziehungen."
+      ],
+      "transcript_notable_claims": [
+        "Die Demokraten haben laut Umfragen etwa 85% Chance, das Repräsentantenhaus zu gewinnen, und etwa 60% Chance, den Senat zu erobern.",
+        "Donald Trump hat seit Jahresbeginn rund 150 Mal Zweifel an Wahlergebnissen geäußert und seine Lüge von der gestohlenen Wahl 2020 wiederholt.",
+        "Israels Sicherheit lässt sich auf Dauer ohne die Vereinigten Staaten nicht wirklich garantieren.",
+        "Trump könnte nach der Wahl behaupten, Ergebnisse seien manipuliert, und damit Rechtsstreitigkeiten oder eine Verfassungskrise auslösen.",
+        "Trumps Strafzölle und außenpolitische Entscheidungen haben zur Inflation und steigenden Energiepreisen beigetragen.",
+        "Trump pflegt eine Nähe zu Wladimir Putin, was in Europa als Verrat an transatlantischen Bündnissen wahrgenommen wird.",
+        "Waffenlieferungen und Geheimdienstinformationen an die Ukraine laufen unzuverlässig, worunter ukrainische Verteidigung leidet.",
+        "In einigen US-Bundesstaaten und Wahlbezirken haben Wahlleiter Anfragen aus Washington zum Zugang zu Wählerlisten abgelehnt und dies als verfassungswidrig bezeichnet.",
+        "Die Wahlbeteiligung in frühen Abstimmungen zeigte lange Schlangen und hohe Mobilisierung vor allem unter Demokraten."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, ob die Umfragen die tatsächlichen Wahlergebnisse exakt widerspiegeln, besonders in knappen Bundesstaaten.",
+        "Es bleibt offen, ob Donald Trump die Wahlergebnisse akzeptieren oder danach großangelegte Anfechtungen und Behauptungen über Betrug vorbringen wird.",
+        "Es ist nicht sicher, ob die Demokraten nach einem Mehrheitsgewinn im Kongress ausreichende Mehrheiten erhalten würden, um Vetos des Präsidenten zu überstimmen oder Amtsenthebungsverfahren erfolgreich durchzuführen."
+      ],
+      "important_details": [
+        "Alle 435 Sitze im Repräsentantenhaus werden neu gewählt, der Senat wird zu einem Drittel neu gewählt.",
+        "Frühwahl begann in einigen Gegenden wie San Antonio, Texas, und dort wurden lange Schlangen und hohe Beteiligung vor allem von Demokraten beobachtet.",
+        "Das Heimatschutzministerium und das Justizministerium haben versucht, Zugang zu Wählerlisten und Wahlunterlagen zu erhalten; in Fulton County, Georgia, beschlagnahmte das FBI Ende Januar Wahlunterlagen von 2020."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "5HBJTXQAA0I",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CrossExamined"
+      },
+      "id": "6SplAn7UBTA",
+      "source": "youtube",
+      "title": "10 Reasons Christians Should Be Involved In Politics",
+      "channel": "CrossExamined",
+      "url": "https://www.youtube.com/watch?v=6SplAn7UBTA",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 47091,
+        "processed_unique_chars": 47091,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.089,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Frank Turek argues that Christians must engage in politics because government shapes religious freedom, public morality, and civilization, and because biblical teaching and history require believers to influence laws that protect the innocent and advance Christian moral standards.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Government affects the ability to preach and live the gospel by permitting or restricting religious freedom.",
+        "Christians are commanded to be salt and light and to love their neighbors, which includes influencing laws that protect innocent people from evil.",
+        "If godly people do not engage in politics, godless actors will shape laws and institutions with damaging consequences."
+      ],
+      "transcript_notable_claims": [
+        "Socialism fails to produce freedom or prosperity, as shown by migration patterns away from socialist countries.",
+        "Genesis 9 and Romans 13 teach that God instituted government to punish wrongdoers and protect the innocent, including capital punishment as the 'sword.'",
+        "The Bible and church history show direct political engagement by Jesus, the prophets, and the apostles, making the Bible inherently political.",
+        "Laws influence the plausibility of the gospel because legal regimes that endorse LGBTQ or DEI norms can make Christianity appear bigoted.",
+        "Conservative politics provide an on-ramp to Christianity because secular conservatives are likelier to come to church than secular liberals.",
+        "Open borders under recent U.S. policy produced 300,000 missing children and increased drugs, trafficking, and security risks, according to the transcript.",
+        "The modern Democratic Party increasingly supports socialism, abortion funding, transgender policies for children, and judges who 'make law' rather than apply it."
+      ],
+      "transcript_uncertainties": [
+        "Persecution sometimes makes the church flourish, but the transcript says this outcome is variable and not a reason to avoid political engagement.",
+        "The transcript reports that South Korea has shifted left and arrested a pastor after Charlie Kirk's visit, but it does not provide full verification of context or outcomes."
+      ],
+      "important_details": [
+        "Voteyourfaith.net is presented as a nonpartisan resource that checks voter registration and shows where local candidates stand to help Christians vote biblically.",
+        "The War on Reality, coauthored by Frank Turek and Phoenix Hayes, contains chapter 15 with the top ten reasons Christians should engage in politics and compares party platforms."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "6SplAn7UBTA",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@MarcFriedrich7"
+      },
+      "id": "ELZ5TbwsSwQ",
+      "source": "youtube",
+      "title": "Are Carmakers Finished? Now Real Estate Prices Are Falling Too",
+      "channel": "MarcFriedrich7",
+      "url": "https://www.youtube.com/watch?v=ELZ5TbwsSwQ",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 39630,
+        "processed_unique_chars": 39630,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.089,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Die deutsche Automobilindustrie steckt laut dem Beitrag in einer tiefen Krise mit starken Verkaufsrückgängen bei Audi, VW, Mercedes und Porsche, drohenden Arbeitsplatzkürzungen bei Zulieferern und regionalen Immobilienpreisrückgängen in Standortstädten wie Stuttgart und Wolfsburg.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Audi lieferte im dritten Quartal 2024 rund 314.905 Fahrzeuge aus, etwa 20 % weniger als im Vorjahr und beschleunigend rückläufig.",
+        "Der Volkswagen-Konzern lieferte im dritten Quartal rund 1,89 Millionen Fahrzeuge aus, ein Minus von 14,3 %, in China sogar minus 38,5 %.",
+        "Bosch kündigte den Abbau von 3.500 Stellen in Feuerbach und 1.750 in Schwieberdingen an, Mahle und weitere Zulieferer bauten ebenfalls hunderte Stellen ab."
+      ],
+      "transcript_notable_claims": [
+        "Die Automobilbranche ist der größte Arbeitgeber in Deutschland und an ihr hängen Millionen Arbeitsplätze in der Zuliefererindustrie.",
+        "Vergleichbare Angebotspreise für Eigentumswohnungen sind zwischen Juni 2022 und November 2025 in Stuttgart laut Immowelt-Auswertung um 16 % gefallen.",
+        "Mercedes plant, rund 1.400 Beschäftigte von 40-Stunden-Verträgen auf 35 Stunden umzustellen, und ein deutsches Montage- oder Antriebswerk könnte bei zu hohen Kosten geschlossen werden.",
+        "Die Porsche-Aktie hat seit ihrem Hoch 2023 etwa 60 % an Wert verloren.",
+        "Der Standort Deutschland verliere an Wettbewerbsfähigkeit wegen hoher Energiepreise, hoher Steuern, hoher Sozialabgaben, Bürokratie und politischer Eingriffe in Technologieentscheidungen.",
+        "Einige Automobilunternehmen orientieren sich laut Beitrag zunehmend in Richtung Verteidigung und Rüstungsprojekte wie Drohnen oder Panzer."
+      ],
+      "transcript_uncertainties": [
+        "Die genaue Höhe der tatsächlich erzielten Verkaufspreise für Immobilien könnte niedriger sein als die genannten Angebotspreise.",
+        "Ob politische Maßnahmen noch rechtzeitig eine Trendwende für die Autoindustrie bewirken können, bleibt offen.",
+        "Es bleibt unklar, ob Umorientierungen der Unternehmen in Rüstungsproduktion die verlorenen Arbeitsplätze in der Autoindustrie ersetzen werden."
+      ],
+      "important_details": [
+        "Die weltweiten Auslieferungen vollelektrischer Mercedes-Pkw stiegen im dritten Quartal um 61 Prozent, laut Beitrag ein kleiner Lichtblick.",
+        "Stuttgarts Gewerbesteuereinnahmen lagen 2024 bei 1,3 Milliarden Euro und werden für 2025 auf 750 Millionen Euro prognostiziert, was einen Sparhaushalt 2026 erfordere.",
+        "Der Beitrag nennt konkrete Firmenschließungen oder Produktionsverlagerungen als Mechanismus für Arbeitsplatzverluste und verweist auf Verlagerungen in Länder mit niedrigeren Kosten wie Ungarn oder Türkei."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "ELZ5TbwsSwQ",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelwithAline"
+      },
+      "id": "FIXATcPiq1I",
+      "source": "youtube",
+      "title": "March of the Nations in Jerusalem! Israel with Aline",
+      "channel": "IsraelwithAline",
+      "url": "https://www.youtube.com/watch?v=FIXATcPiq1I",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11126,
+        "processed_unique_chars": 11126,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.871,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11126",
+        "recency"
+      ],
+      "transcript_full_summary": "The March of the Nations in Jerusalem gathered pilgrims from 70 nations during Sukkot to worship, present flags to Israelis, and enact prophetic scenes linked to biblical passages such as Zechariah 14, Micah 4 and Isaiah 2.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The International Christian Embassy in Jerusalem organized a march during Sukkot with 70 registered nations participating.",
+        "Participants presented national flags to Israeli families and gathered in Gan Sachar and the Rose Garden near the Knesset.",
+        "The march organisers and participants connected the event to biblical prophecies about nations coming to Jerusalem, citing Zechariah 14, Micah 4 and Isaiah 2."
+      ],
+      "transcript_notable_claims": [
+        "The number 70 is biblically significant and represents all the nations of the world, linked to the Table of Nations in Genesis 10 and the 70 sacrifices in the Temple during Tabernacles.",
+        "Zechariah 14 predicts a future battle in Jerusalem, the splitting of the Mount of Olives, the coming of the Lord with living waters flowing from Jerusalem, and nations coming yearly to worship during Tabernacles.",
+        "Geological evidence allegedly shows the Mount of Olives is made of chalk and sits beside an east–west fault, making the Mount of Olives physically capable of splitting as described in prophecy.",
+        "Despite reduced tourism and recent conflicts, thousands from 70 nations traveled to Jerusalem for the Tabernacles march, and the event signals intensifying changes and prophetic fulfillment."
+      ],
+      "transcript_uncertainties": [
+        "The claim that the Mount of Olives is made of chalk and that a geological fault makes its splitting possible is presented without scientific verification in the transcript.",
+        "The assertion that much more prophetic fulfillment is yet to come is presented as a future forecast rather than a settled event."
+      ],
+      "important_details": [
+        "The march took place during Sukkot, the Feast of Tabernacles, which the transcript says is a perpetual ordinance observed with hundreds of thousands of booths across Israel.",
+        "The final gathering occurred in the Rose Garden in front of the Knesset, and the transcript links the timing to upcoming national elections on October 27th following the October 7th, 2023 massacre."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "FIXATcPiq1I",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Daily_Dose_Of_Wisdom"
+      },
+      "id": "qD3xYUIPS5U",
+      "source": "youtube",
+      "title": "He Examined The \"Hidden\" Parts Of Islam, Then Found JESUS",
+      "channel": "Daily_Dose_Of_Wisdom",
+      "url": "https://www.youtube.com/watch?v=qD3xYUIPS5U",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 44959,
+        "processed_unique_chars": 44959,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.089,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "A man raised in a devout Turkish Sunni Muslim family describes reading the Quran, finding factual and historical problems, leaving Islam, becoming an atheist then agnostic, and ultimately converting to Christianity after studying the New Testament and experiencing answered prayers and personal transformation.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The narrator was born in Germany to a very religious Turkish Sunni Muslim family and later moved to Turkey.",
+        "The narrator read the Quran thoroughly and identified passages he considers factual errors and legendary borrowings, such as the Zulqarnain narrative and Quran 9:30 about Ezra.",
+        "The narrator's study of the New Testament, especially Romans and Paul's claim that more than 500 saw the risen Jesus, contributed to his conversion to Christianity."
+      ],
+      "transcript_notable_claims": [
+        "Most Muslims have never actually read the Quran beyond short chapters recited in prayer.",
+        "The Zulqarnain story in Qur'an 18 corresponds to a legendary, Syriac Christian version of Alexander the Great and implies a primitive cosmology.",
+        "Quran 9:30 falsely attributes to Jews a belief that Ezra is the son of Allah, which the narrator says no Jews have held.",
+        "Early Islam spread primarily through military conquest between the 600s and 750s, according to the narrator's account.",
+        "Early Christianity spread primarily by witness and martyrdom, not by military force, exemplified by figures like Ignatius of Antioch.",
+        "The narrator experienced existential emptiness as an atheist and found Christianity provided spiritual and practical solutions to addiction, desire, and meaning."
+      ],
+      "transcript_uncertainties": [
+        "The narrator expresses uncertainty about how Quranic references such as the Jews saying Ezra is the son of Allah originated and says nobody knows what it refers to.",
+        "The narrator reports that some historians, like Bart Ehrman, interpret post‑resurrection appearances as possible mass hallucinations, a naturalistic explanation the narrator finds unconvincing."
+      ],
+      "important_details": [
+        "The narrator traveled to Israel with David Wood, began reexamining atheism there, and read Romans 9–11 and Paul's accounts, which emotionally affected him.",
+        "The narrator describes psychological research analogies (rat dopamine experiments) to argue that pursuing pleasure is addictive and unsatisfying, supporting his embrace of Christian ethics."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "qD3xYUIPS5U",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@KapChatfield"
+      },
+      "id": "6XgI_6GaFd4",
+      "source": "youtube",
+      "title": "Will A.I. Destroy Social Media @sineadbovell",
+      "channel": "KapChatfield",
+      "url": "https://www.youtube.com/watch?v=6XgI_6GaFd4",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3120,
+        "processed_unique_chars": 3120,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 1.869,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3120",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript argues that AI will break social media's current value proposition by undermining human audience signaling, shifting usage toward voice-first agents, and enabling fundamentally different activities that will reshape who benefits from the new economy.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "AI will undermine the signaling psychology of social media because users cannot verify whether content is consumed by humans or bots.",
+        "Voice-first AI agents will reduce the habit of opening and scrolling apps, decreasing passive human consumption of social platforms.",
+        "AI as a general-purpose technology will cause people to do different activities, favoring innovators and creators over routine workers."
+      ],
+      "transcript_notable_claims": [
+        "AI cracks the current value proposition of social media platforms by making audience verification uncertain.",
+        "If view counts are inflated by bots, users may still post when required human actions result despite dilutions, but incentives will change.",
+        "People who only perform routine job tasks will be more vulnerable, while directors, entrepreneurs and innovators will find greater opportunities using AI tools."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether AI agents consuming content will fully eliminate meaningful human consumption of social media.",
+        "It is uncertain how much inflated metrics will deter people from posting if desired human actions still occur."
+      ],
+      "important_details": [
+        "The shift toward voice-first interactions is expected to replace habits of opening apps, swiping and watching with commands to AI agents like 'Alexa' or 'Uber'.",
+        "AI will not just automate tasks faster but will enable different activities, creating a new economy with threads to the social media era.",
+        "Individuals without creative or entrepreneurial habits must begin exercising innovation muscles to use AI tools effectively without large teams or funding."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "6XgI_6GaFd4",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@krissyrieger"
+      },
+      "id": "EEKz-PCrko4",
+      "source": "youtube",
+      "title": "20261006 loser",
+      "channel": "krissyrieger",
+      "url": "https://www.youtube.com/watch?v=EEKz-PCrko4",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 15504,
+        "processed_unique_chars": 15504,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.089,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "A woman recounts a humiliating moment when her former chemistry teacher saw her working as an untrained cashier after high school, describes feeling like a failure, and explains how she later became a civil servant, began investing with her husband, and eventually achieved wealth and freedom by following what she calls the Rieger strategy.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The narrator worked as an untrained cashier after high school and felt deeply embarrassed when her former chemistry teacher recognized her.",
+        "The narrator became a permanent civil servant to gain security for family life but remained unfulfilled.",
+        "The narrator and her husband started investing, achieved significant wealth, and now live in a large villa with a pool."
+      ],
+      "transcript_notable_claims": [
+        "The narrator had a gifted chemistry teacher who helped her reach an A and enter an advanced chemistry course despite her modern language track.",
+        "The narrator believed that earning a lot of money would allow her to support and possibly bring her family from Ukraine to Germany.",
+        "The narrator says she experienced extreme financial hardship in Ukraine and homelessness until relatives took them in.",
+        "The narrator claims to know how to regain wealth at will by executing the Rieger strategy."
+      ],
+      "transcript_uncertainties": [
+        "The narrator does not specify what the Rieger strategy actually involves.",
+        "The narrator does not detail the exact investments, timeline, or figures that led to becoming 'absolutely rich and free.'",
+        "The narrator does not state the dates or locations of key life events such as when she became a civil servant or when the investments succeeded."
+      ],
+      "important_details": [
+        "The narrator attributes her initial educational track choice to already knowing Russian and some Ukrainian, which led her to the modern language track with less chemistry and math.",
+        "The narrator describes civil service status as providing security for family life and the ability to take time off without losing status.",
+        "The narrator says she and her husband both began to dream of a better life, invested early, and now advise and pass on knowledge to clients."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "EEKz-PCrko4",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BeardedBibleBros"
+      },
+      "id": "G5d4DMsEPkM",
+      "source": "youtube",
+      "title": "Save A Child's Heart with Rabbi David Litwack",
+      "channel": "BeardedBibleBros",
+      "url": "https://www.youtube.com/watch?v=G5d4DMsEPkM",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "G5d4DMsEPkM",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "HQcBuJSfCy0",
+      "source": "youtube",
+      "title": "Immer mehr Rechenzentren: Deutschlands riskante KI-Strategie I 11KM - der tagesschau-Podcast",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=HQcBuJSfCy0",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 30723,
+        "processed_unique_chars": 30723,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Folge berichtet über Deutschlands nationale Rechenzentrumsstrategie, erhebt erstmals überprüfte Daten zu knapp 100 geplanten oder im Bau befindlichen Rechenzentren und kritisiert mangelnde kommunale Vorbereitung, hohe Wasserbedarfe und eine starke Beteiligung außereuropäischer Konzerne.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Deutschland will bis 2030 Rechenzentrums‑Kapazitäten verdoppeln und KI/High‑Performance‑Computing‑Kapazitäten vervierfachen.",
+        "Rund 100 Rechenzentrumsprojekte sind aktuell geplant oder im Bau, fast die Hälfte davon befindet sich bereits im Bau.",
+        "Mehr als ein Drittel der neuen Projekte wird von Unternehmen außerhalb der EU, vor allem US‑Konzernen, angestoßen."
+      ],
+      "transcript_notable_claims": [
+        "Rechenzentren sind die Fabriken des 21. Jahrhunderts, weil sie Daten im großen Stil verarbeiten und KI betreiben.",
+        "Viele betroffene Kommunen sind fachlich überfordert und besitzen derzeit keine Anleitung, wie sie mit Investorenangeboten und Risiken umgehen sollen.",
+        "Neue KI‑zentrierte Rechenzentren erreichen Größenordnungen von mehreren hundert Megawatt bis zu über 1 Gigawatt, vergleichbar mit einem Block eines Kernkraftwerks.",
+        "Etwa ein Viertel der neuen Projekte ist in Regionen geplant, die bereits unter Wasserknappheit leiden oder davon betroffen sein könnten.",
+        "Das Umweltbundesamt favorisiert in wassergefährdeten Regionen ein Verbot solcher Projekte und verlangt klimafreundliche, wasserfreie oder geschlossene Kühlsysteme."
+      ],
+      "transcript_uncertainties": [
+        "Die Analyse ist konservativ, weil für viele Landkreise keine belastbaren Daten zur entnommenen Wassermenge vorliegen.",
+        "Der fertig ausgearbeitete Leitfaden für Kommunen wird vom Digitalministerium genannt, existiert aber noch nicht flächendeckend und muss von Bundesländern geprüft werden."
+      ],
+      "important_details": [
+        "In kleinen Gemeinden wie Langenhorn (ca. 3.000–4.000 Einwohner) können Investoren Großprojekte bis zu zwei Milliarden Euro vorschlagen, was die lokale Ressourcenplanung stark belastet.",
+        "Kühlung mit Verdunstungswasser (häufig in den USA) vernichtet Wasser, während in Deutschland bisher überwiegend luftbasierte Kältemaschinen oder geschlossene Kreisläufe genutzt werden.",
+        "Bundesministerium und Umweltbundesamt arbeiten an Handreichungen für Kommunen, konkrete Umsetzung und bundesweiter Plan fehlen jedoch laut Recherche."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "HQcBuJSfCy0",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "JIMFhXHmApk",
+      "source": "youtube",
+      "title": "Helt bisarrt! V-Alis bakgrund var mer kaosartad än någon anat - blev ändå medborgare och politiker",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=JIMFhXHmApk",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 6881,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.81,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:6881",
+        "recency"
+      ],
+      "video_id": "JIMFhXHmApk",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "O_x4a9U_D3g",
+      "source": "youtube",
+      "title": "ILTV On The Hour - October 21, 2026 | Israel Planned a MASSIVE Iran Attack — Why Did Trump Say NO?",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=O_x4a9U_D3g",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T03:30:00+00:00",
+      "screened_at": "2026-10-22T03:30:00+00:00",
+      "expires_at": "2026-10-25T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 27878,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "cyberlurch_deep_dive_score": 4.089,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "O_x4a9U_D3g",
+      "processed_at_utc": "2026-10-22T08:49:51+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-10-21T08:47:27+00:00",
+  "updated_at_utc": "2026-10-22T08:49:51+00:00",
   "version": 1
 }
