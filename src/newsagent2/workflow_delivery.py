@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import io
+from itertools import combinations
 import json
 import os
 import re
@@ -22,6 +23,7 @@ import requests
 from .delivery import Coordinator, DeliveryResult, journal_valid, load_journal, verify_reports
 from .run_context import email_mode, path_for, PATHS, send_enabled
 from .store_io import StoreError, atomic_store, read_store, digest_store, rollups_store
+from .github_readonly import GitHubReader, GitHubReadError
 
 
 def import_recovery(directory: Path, *, journal_path: Path | None = None, recovery_dir: Path | None = None,
@@ -133,6 +135,44 @@ def _nonproduction_jobs(run, jobs, report_key):
     return all(_job_recovery_scope(job, report_key) in {"none", "test"} for job in jobs)
 
 
+def _run_plan_proofs(jobs, report_key):
+    prefix = f"NewsAgent2 plan v1 / {report_key} / "
+    proofs = set()
+    for job in jobs:
+        markers = [s for s in job['steps'] if s.get('name', '').startswith(prefix)]
+        senders = [s for s in job['steps'] if s.get('name') in {'Run reports', 'Run Cybermed reports'}
+                   and s.get('started_at') and s.get('conclusion') != 'skipped']
+        if len(markers) != 1 or not senders:
+            return None
+        marker = markers[0]
+        proof = marker['name'][len(prefix):]
+        if (not re.fullmatch('[a-f0-9]{64}', proof) or marker.get('conclusion') != 'success'
+            or not marker.get('started_at') or type(marker.get('number')) is not int or marker['number'] < 1
+            or any(type(s.get('number')) is not int or s['number'] <= marker['number'] for s in senders)):
+            return None
+        proofs.add(proof)
+    return proofs or None
+
+
+def _completed_plan_receipts(run, jobs, report_key, journal):
+    from .edition_plan import plan_proof
+    proofs = _run_plan_proofs(jobs, report_key)
+    own = [r for r in journal['editions'].values() if r['report_key'] == report_key
+           and r['workflow_run_id'] == str(run['id']) and r['edition_id'].endswith(':production')]
+    if not proofs or not own or len(own)>4:
+        return False
+    ids = {r['edition_id'] for r in own}
+    # A rerun can prune an already-finalized cadence. With at most four
+    # editions, checking its subset proof is bounded to 15 combinations.
+    candidates = {plan_proof(part):set(part) for size in range(1,len(ids)+1)
+                  for part in combinations(sorted(ids),size)}
+    matched = [candidates.get(proof) for proof in proofs]
+    return bool(all(matched) and set().union(*matched) == ids
+        and all((r['status'] == 'accepted_by_smtp' and r['state_persisted']) or
+                (r['status'] == 'failed' and not r['generation_validated']
+                 and r['smtp_phase'] == 'not_handed_off') for r in own))
+
+
 def _maintenance_month(run, jobs, report_key):
     if run.get("event") != "workflow_dispatch" or report_key != "cyberlurch" or not jobs:
         return None
@@ -161,22 +201,15 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
         return
     repository = os.environ["GITHUB_REPOSITORY"]
     token = os.environ["GITHUB_TOKEN"]
-    api = "https://api.github.com"
     branch = os.environ["GITHUB_REF_NAME"]
     acknowledged = set(os.getenv("DELIVERY_RECOVERY_ACK_RUN_IDS", "").split(","))
     session = requests.Session()
     session.headers.update({"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json"})
 
-    def get(path, **kwargs):
-        try:
-            response = session.get(api + path, timeout=30, **kwargs)
-            response.raise_for_status()
-            return response.json()
-        except Exception:
-            raise RuntimeError("delivery_recovery_github_access_failed") from None
-
-    runs = get(f"/repos/{repository}/actions/workflows/{workflow}/runs", params={"branch": branch, "status": "completed", "per_page": 100})
-    candidates = sorted([r for r in runs["workflow_runs"] if str(r["id"]) != os.getenv("GITHUB_RUN_ID")
+    reader = GitHubReader(session, repository, budget_seconds=300)
+    runs = reader.collection(f"/actions/workflows/{workflow}/runs", 'workflow_runs', 'workflow_runs',
+                             params={"branch": branch, "status": "completed"}, window=100)
+    candidates = sorted([r for r in runs if str(r["id"]) != os.getenv("GITHUB_RUN_ID")
                          and r["conclusion"] in {"failure", "cancelled", "timed_out", "action_required"}], key=lambda r: r["id"])
     from .legacy_transition import reviewed_failure, POLICY_SHA256
     legacy_findings = []
@@ -192,33 +225,44 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
                  "smtp_success_invented": False}, kind="legacy_transition_evidence")
             print(f"[recovery] reviewed legacy run {run['id']}: {finding['finding']}; no historical resend")
             continue
-        jobs = get(f"/repos/{repository}/actions/runs/{run['id']}/jobs", params={"per_page": 100})
-        capable_jobs = [job for job in jobs["jobs"] if any(
+        jobs = reader.collection(f"/actions/runs/{run['id']}/jobs", 'jobs', 'run_jobs',
+                                 params={'filter':'all'}, max_pages=5)
+        capable_jobs = [job for job in jobs if any(
             step.get("name") in {"Run reports", "Run Cybermed reports"} and step.get("started_at")
             and step.get("conclusion") != "skipped" for step in job.get("steps", []))]
         if not capable_jobs:
             continue  # Positive evidence: no report/sender step started.
         if _nonproduction_jobs(run, capable_jobs, report_key):
             continue  # Failed previews/test mails cannot block production or import State.
+        if _completed_plan_receipts(run, capable_jobs, report_key, load_journal(path_for('DELIVERY_JOURNAL_PATH'))):
+            continue
         maintenance_month = _maintenance_month(run, capable_jobs, report_key)
-        artifacts = get(f"/repos/{repository}/actions/runs/{run['id']}/artifacts", params={"per_page": 100})
-        matches = [a for a in artifacts["artifacts"] if a["name"] == f"{report_key}-delivery-recovery-{run['id']}" and not a["expired"]]
+        artifacts = reader.collection(f"/actions/runs/{run['id']}/artifacts", 'artifacts', 'run_artifacts', max_pages=5)
+        matches = [a for a in artifacts if a["name"] == f"{report_key}-delivery-recovery-{run['id']}" and not a["expired"]]
         if not matches:
             raise RuntimeError(f"delivery_recovery_missing_for_run:{run['id']};operator_reconciliation_required")
         try:
-            response = session.get(api + f"/repos/{repository}/actions/artifacts/{matches[0]['id']}/zip", timeout=60)
-            response.raise_for_status()
+            content = reader.archive(f"/actions/artifacts/{matches[0]['id']}/zip")
+            expected_digest = matches[0].get('digest')
+            if expected_digest is not None and (not isinstance(expected_digest,str)
+                or not re.fullmatch(r'sha256:[a-f0-9]{64}',expected_digest)
+                or expected_digest != 'sha256:'+hashlib.sha256(content).hexdigest()):
+                raise StoreError('delivery_recovery','artifact_digest_mismatch')
             directory = report_dir / "recovered" / str(run["id"])
             directory.mkdir(parents=True, exist_ok=True)
-            with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+            with zipfile.ZipFile(io.BytesIO(content)) as archive:
                 if sum(info.file_size for info in archive.infolist()) > 100 * 1024 * 1024:
                     raise ValueError("oversized_recovery")
+                names = set()
                 for info in archive.infolist():
                     if info.is_dir():
                         continue
                     name = Path(info.filename).name
                     if name not in {"journal.json", "git_persistence.json", "cybermed_pubmed_ingestion.json", "cyberlurch_candidates.json"} and not re.fullmatch(r"[0-9a-f]{64}\.md|(?:[a-f0-9]{16}_)?(?:cybermed|cyberlurch)_[a-z]+_[a-z_]+_generated_delta\.json", name):
                         continue
+                    if name in names:
+                        raise StoreError('delivery_recovery','duplicate_archive_entry')
+                    names.add(name)
                     (directory / name).write_bytes(archive.read(info))
             if not (directory / "journal.json").is_file():
                 raise ValueError("missing_journal")
@@ -249,6 +293,9 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
                 restore(directory)
         except (ValueError, OSError, requests.RequestException, zipfile.BadZipFile):
             raise RuntimeError("delivery_recovery_artifact_invalid") from None
+    for diagnostic in reader.diagnostics:
+        if diagnostic['attempts'] > 1:
+            print(json.dumps({'github_read':diagnostic}, sort_keys=True))
 
 
 def restore_generated_records(directory: Path, report_key: str, *, maintenance_month: str | None = None) -> None:
@@ -534,8 +581,12 @@ def cli():
             "missing_or_invalid_generated_content", "content_conflict", "maintenance_scope_mismatch",
             "persistence_failed", "invalid_output", "invalid_record_identity", "recovery_mutation_policy",
             "marker_finalization_failed",
+            "artifact_digest_mismatch", "duplicate_archive_entry",
         }
-        if isinstance(exc, StoreError) and exc.kind in kinds and exc.category in store_categories:
+        if isinstance(exc, GitHubReadError):
+            print(json.dumps({'github_read':exc.diagnostic},sort_keys=True),file=sys.stderr)
+            category = exc.diagnostic['category']
+        elif isinstance(exc, StoreError) and exc.kind in kinds and exc.category in store_categories:
             category = f"store_error:{exc.kind}:{exc.category}"
         elif type(exc) is RuntimeError and str(exc) in known:
             category = str(exc)

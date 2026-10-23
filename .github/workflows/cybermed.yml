@@ -154,6 +154,10 @@ jobs:
           set -euo pipefail
           python -m src.newsagent2.edition_plan --report-key cybermed
 
+      - name: "NewsAgent2 plan v1 / cybermed / ${{ steps.plan.outputs.plan_proof }}"
+        if: steps.plan.outputs.skip != 'true'
+        run: echo "Frozen full-plan evidence recorded."
+
       - name: Prepare output directory
         if: steps.plan.outputs.skip != 'true'
         run: |

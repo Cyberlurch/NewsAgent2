@@ -7,6 +7,7 @@ from types import SimpleNamespace
 import sys
 
 import pytest
+from _github_fakes import response as github_response, collection as github_collection
 import yaml
 
 from newsagent2 import aggregate_policy as policy, delivery, edition_plan as ep, operational_readiness as op
@@ -160,6 +161,7 @@ def test_finalize_pending_cli_rejects_nonproduction_or_foreign_scope(monkeypatch
 @pytest.mark.parametrize('kind', ['publication_failure', 'preview_failure', 'sender_skipped', 'api_denied'])
 def test_actions_metadata_finds_pending_recovery_before_the_next_send(kind, monkeypatch):
     import requests
+    monkeypatch.setattr('newsagent2.github_readonly.time.sleep',lambda seconds:None)
     from test_recovery_scope import job
     for name, value in {'GITHUB_REPOSITORY': 'offline/repo', 'GITHUB_REF_NAME': 'main', 'GITHUB_TOKEN': 'offline-token'}.items():
         monkeypatch.setenv(name, value)
@@ -175,7 +177,7 @@ def test_actions_metadata_finds_pending_recovery_before_the_next_send(kind, monk
                 data = {'jobs': [job(mode='test' if kind == 'preview_failure' else 'real')]}
                 if kind == 'sender_skipped':
                     data['jobs'][0]['steps'][1]['conclusion'] = 'skipped'
-            return SimpleNamespace(json=lambda: data, raise_for_status=lambda: None)
+            return github_response(github_collection(data))
     monkeypatch.setattr(requests, 'Session', Session)
     sources(); before = snapshot()
     result = op.assess('cybermed', as_of=datetime(2026, 10, 16, 12, tzinfo=timezone.utc), check_actions=True)

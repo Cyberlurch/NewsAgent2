@@ -133,6 +133,24 @@ Accepted marker Intents are repaired before new generation, without models or
 SMTP. An already accepted current edition bypasses collection/generation and
 checks the original audience before acknowledging that receipt.
 
+GitHub reads now use [bounded GET retries](operational-readiness.md#external-checks-and-trustworthy-evidence),
+without retrying the recovery mutation, models, SMTP or Git push. Counted Jobs
+and artifact lists are paginated; missing/truncated responses fail closed.
+Archive redirects remain HTTPS to trusted storage, without forwarding the
+session Authorization header. Compressed and expanded archives are each capped
+at 100 MiB; duplicate accepted filenames are rejected. An available GitHub
+SHA-256 archive digest is checked in addition to the existing journal/content,
+preimage and HMAC validation. No signed URL or raw response/exception is logged.
+
+The successful `NewsAgent2 plan v1 / <newsletter> / <sha256>` job step binds
+metadata-only verification to all actual planned edition IDs. Only complete
+matching receipts can bypass a redundant artifact import. A subset, an unknown
+plan or partial/unpublished acceptance cannot. Existing artifacts without this
+new step keep the conservative recovery path, not an expanded Legacy exemption.
+If an old failed run lacks planning evidence, inspect its saved plan and packet
+without SMTP; a receipt for another cadence alone cannot release it. Do not add
+an ACK merely to silence an API outage or incomplete plan evidence.
+
 If a SMTP-capable failed/cancelled run has no usable artifact (including an
 expired artifact or a killed runner before upload), production stops. The
 [reviewed legacy transition](legacy-transition.md) explicitly bounds five inspected

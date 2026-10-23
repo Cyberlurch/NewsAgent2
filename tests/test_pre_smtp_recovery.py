@@ -9,6 +9,7 @@ import zipfile
 from pathlib import Path
 
 import pytest
+from _github_fakes import response as github_response, collection as github_collection
 import yaml
 
 from newsagent2 import main, emailer, store_io, workflow_delivery
@@ -196,7 +197,7 @@ def test_state_only_workflow_recovers_sealed_acceptance_with_its_own_environment
                     'started_at': '2026-10-16T08:30:00Z', 'conclusion': 'success'}]}]}
             elif url.endswith('/artifacts'):
                 data = {'artifacts': [{'id': 7, 'name': f'{key}-delivery-recovery-71', 'expired': False}]}
-            return SimpleNamespace(json=lambda: data, raise_for_status=lambda: None, content=archive_bytes.getvalue())
+            return github_response(github_collection(data), content=archive_bytes.getvalue() if url.endswith('/zip') else None)
 
     monkeypatch.setattr(workflow_delivery.requests, 'Session', Session)
     monkeypatch.setattr(edition_plan, 'github_created_at', lambda: '2026-10-16T12:00:00Z')

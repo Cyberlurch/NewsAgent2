@@ -5,6 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from _github_fakes import response as github_response, collection as github_collection
 
 from newsagent2 import emailer, main, state_manager, rollups, workflow_delivery
 from newsagent2.delivery import Coordinator, DeliveryError, load_journal, verify_reports
@@ -441,7 +442,7 @@ def test_failed_smtp_run_without_artifact_blocks_recovery_before_new_sender(monk
             elif url.endswith('/jobs'):
                 payload = {"jobs": [{"steps": [{"name": "Run Cybermed reports", "started_at": "2026-10-12", "conclusion": "cancelled"}]}]}
             else: payload = {"artifacts": []}
-            return SimpleNamespace(raise_for_status=lambda: None, json=lambda: payload)
+            return github_response(github_collection(payload))
     monkeypatch.setattr(workflow_delivery.requests, "Session", Session)
     with pytest.raises(RuntimeError, match="delivery_recovery_missing_for_run:1"):
         workflow_delivery.recover_failed_runs("cybermed", "cybermed.yml", report_dir=tmp_path)

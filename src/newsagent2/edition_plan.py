@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import calendar
+import hashlib
 from contextlib import contextmanager
 from datetime import date, datetime, time, timedelta, timezone
 import json
@@ -41,10 +42,10 @@ def weekly_dates(day):
 
 def planned_modes(key, day):
     if key == 'cyberlurch':
-        modes = ['monthly'] if day.day == 1 else []
-        if day.month == 1 and day.day == 1: modes.append('yearly')
-        if day.weekday() < 5: modes.append('daily')
+        modes = ['daily'] if day.weekday() < 5 else []
         if day.weekday() == 4: modes.append('weekly')
+        if day.day == 1: modes.append('monthly')
+        if day.month == 1 and day.day == 1: modes.append('yearly')
         return modes
     if is_swedish_no_send_day(day): return []
     modes = ['daily']
@@ -254,15 +255,32 @@ def check_ready(entry):
     require_review_sources(coverage, available=available, category='edition_'+cadence+'_history_coverage')
 
 
+def plan_proof(edition_ids):
+    """Bind metadata-only run evidence to the entire actual frozen plan."""
+    return hashlib.sha256(json.dumps(sorted(edition_ids), separators=(',', ':')).encode()).hexdigest()
+
+
 def github_created_at():
     import requests
+    from .github_readonly import GitHubReader, GitHubReadError
     try:
         repository=os.environ['GITHUB_REPOSITORY'];run_id=os.environ['GITHUB_RUN_ID']
         if repository.count('/')!=1 or not run_id.isdigit(): raise ValueError()
-        response=requests.get('https://api.github.com/repos/'+repository+'/actions/runs/'+run_id,
-            headers={'Authorization':'Bearer '+os.environ['GITHUB_TOKEN'],'Accept':'application/vnd.github+json'},timeout=20)
-        response.raise_for_status()
-        return instant(response.json()['created_at']).isoformat()
+        def valid_metadata(value):
+            try:
+                return isinstance(value,dict) and isinstance(value.get('created_at'),str) and bool(instant(value['created_at']))
+            except (ValueError,TypeError):
+                return False
+        reader=GitHubReader(requests, repository, headers={
+            'Authorization':'Bearer '+os.environ['GITHUB_TOKEN'], 'Accept':'application/vnd.github+json'})
+        value=reader.json('/actions/runs/'+run_id, 'run_created_at', validate=valid_metadata)
+        created=instant(value['created_at']).isoformat()
+        if reader.diagnostics[-1]['attempts'] > 1:
+            print(json.dumps({'github_read':reader.diagnostics[-1]},sort_keys=True))
+        return created
+    except GitHubReadError as exc:
+        print(json.dumps({'github_read':exc.diagnostic},sort_keys=True))
+        raise RuntimeError('edition_run_metadata_unavailable') from None
     except Exception:
         raise RuntimeError('edition_run_metadata_unavailable') from None
 
@@ -283,12 +301,12 @@ def main():
             request='scheduled' if trigger=='schedule' else os.getenv('REPORT_MODE','daily'),mode=os.getenv('EMAIL_MODE','none'),
             logical_date=args.logical_date,month_override=os.getenv('ROLLUP_MONTH_OVERRIDE',''),year_override=os.getenv('YEAR_IN_REVIEW_YEAR',''),
             run_id=os.getenv('GITHUB_RUN_ID','local'),schedule=os.getenv('NEWSAGENT_TRIGGER_SCHEDULE',''))
-        # Already finalized recurring closes need no model/SMTP retry. Journal
+        # Already finalized scheduled editions need no model/SMTP retry. Journal
         # read is strict, and sending still rechecks under the writer lock.
         if trigger=='schedule' and plan['mode']=='real':
             from .delivery import load_journal
             journal=load_journal(path_for('DELIVERY_JOURNAL_PATH'))
-            completed=[e for e in plan['entries'] if e['cadence'] in {'monthly','yearly'} and
+            completed=[e for e in plan['entries'] if
                 journal['editions'].get(e['edition_id'],{}).get('status')=='accepted_by_smtp' and
                 journal['editions'][e['edition_id']].get('state_persisted')]
             plan['already_finalized_editions']=[e['edition_id'] for e in completed]
@@ -307,7 +325,8 @@ def main():
             if not plan['entries']: plan['reason']='already_finalized_no_op' if completed else 'calendar_no_op'
         atomic_store(Path(args.output),plan,kind='edition_plan',validate=validate_plan)
         modes=' '.join(e['cadence'] for e in plan['entries'])
-        outputs={'modes':modes,'run_modes':modes,'skip':str(not bool(modes)).lower(),'run_skip':str(not bool(modes)).lower(),'run_which_report':args.report_key}
+        outputs={'modes':modes,'run_modes':modes,'skip':str(not bool(modes)).lower(),'run_skip':str(not bool(modes)).lower(),
+                 'run_which_report':args.report_key, 'plan_proof':plan_proof(e['edition_id'] for e in plan['entries'])}
         if os.getenv('GITHUB_OUTPUT'):
             with open(os.environ['GITHUB_OUTPUT'],'a') as file:
                 for k,v in outputs.items(): file.write(f'{k}={v}\n')
