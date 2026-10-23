@@ -6638,6 +6638,633 @@
         "approved_after_generation_checks": true,
         "seal": "dc88717ff99d381b40de61eee63ad1414642ca4b062d41dc52354d1d51337fa8"
       }
+    },
+    "cybermed:daily:2026-10-23:2026-10-23:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-23",
+      "period_end": "2026-10-23",
+      "edition_id": "cybermed:daily:2026-10-23:2026-10-23:production",
+      "content_version": "5805db2cb026d79e2c0786f8822dd7609526a5fed1580b68fdb79626629895cc",
+      "message_id": "<e40df24b72d8da0e318a89271dc218d77f006f19bb8575b383fc529870b4972c@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-23T08:52:19+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42896234",
+            "title": "Operating Room Air Filtration-Sterilization and Surgical Infections: The ORACLE Randomized Trial in 110,538 Surgeries.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42896234/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42898067",
+            "title": "Phenotypic characterization of patients with ANCA-associated vasculitis and diffuse alveolar hemorrhage: a data-driven analysis of a multicentre, retrospective, nationwide cohort.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42898067/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42898064",
+            "title": "Dynamics of ventriculo-arterial coupling and peripheral tissue perfusion during early resuscitation of septic shock.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42898064/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42898057",
+            "title": "Direct tracheostomy in Guillain-Barré syndrome: indication and timing both matter.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42898057/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42898049",
+            "title": "Clarifying causal questions in tracheostomy strategies for Guillain-Barré syndrome.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42898049/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42898077",
+            "title": "Permissive versus conventional weaning from venovenous ECMO in patients with ARDS: a retrospective cohort study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42898077/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42898047",
+            "title": "The hidden severity of new psychoactive substances: clinical evidence from emergency and intensive care admissions in Taiwan.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42898047/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42897037",
+            "title": "Brain-derived tau in plasma and cerebrospinal fluid after surgery: a prospective cohort substudy.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897037/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42902295",
+            "title": "Toward targeted assessment of inspiratory muscle weakness before extubation: a pooled individual patient data analysis from multiple observational cohorts in critically ill ventilated patients.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42902295/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42902313",
+            "title": "Geographic differences in outcomes after emergency surgery in nonagenarians and centenarians admitted to intensive care in Australia: a population-based study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42902313/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42895439",
+            "title": "Infections Acquired in the ICU Among Cancer and Other Immunosuppressed Patients: A Nationwide Cohort Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42895439/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42905728",
+            "title": "Nonfatal Drug Overdoses and Naloxone Use.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42905728/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42907504",
+            "title": "WEE1 opposes APC/CCDH1 activity to promote S phase entry.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42907504/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906913",
+            "title": "De novo design of enantioselective artificial metalloenzyme photocatalysts.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906913/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42907518",
+            "title": "Multimodal precision diagnostics in clinical xenotransplantation.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42907518/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901371",
+            "title": "Fatigue, Anxiety and Depression 12 Months After Out-of-Hospital Cardiac Arrest: A Population Based Cohort Study.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901371/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901370",
+            "title": "Regional implementation of a prehospital advanced life support program with video-assisted physician direction and outcomes after out-of-hospital cardiac arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901370/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901369",
+            "title": "Association Between Capnographic Changes During Pulse Checks of Varying Durations and Clinical Outcomes During Cardiopulmonary Resuscitation: A Multicenter Study From Türkiye (CaPTuRe).",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901369/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901368",
+            "title": "Identifying the Operational Bottleneck to Shock Delivery After Automated External Defibrillator Activation.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901368/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901367",
+            "title": "Association between burst-suppression with identical bursts and multimodal measures of cerebral oxygenation after cardiac arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901367/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901366",
+            "title": "Real-time feedback during bag-valve-mask ventilation for out-of-hospital cardiac arrest: a before-and-after study (VEntilation during Cardiac Arrest Resuscitation Study, VECARS-2).",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901366/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42875972",
+            "title": "Female Representation and Quality Indicators in Anesthesiology and Critical Care Podcasts.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42875972/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/european-study-reveals-excessive-preoperative-fasting-in-95-of-surgical-patients/",
+            "title": "European study reveals excessive preoperative fasting in 95% of surgical patients",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/european-study-reveals-excessive-preoperative-fasting-in-95-of-surgical-patients/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/media/meet-our-october-knowledge-champion/",
+            "title": "Meet Our October Knowledge Champion",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/media/meet-our-october-knowledge-champion/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovH2KdQaRi_E2NKEpFgimKzx",
+            "title": "Point-of-Care Ultrasound for Suspected Pulmonary Embolism",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovH2KdQaRi_E2NKEpFgimKzx"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42901366",
+            "title": "Real-time feedback during bag-valve-mask ventilation for out-of-hospital cardiac arrest: a before-and-after study (VEntilation during Cardiac Arrest Resuscitation Study, VECARS-2).",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901366/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42901366",
+              "doi": "10.1016/j.resuscitation.2026.111364",
+              "kind": "original",
+              "source_version": "b676714b3f4c493384de289b220afc53eb0c62e6dc5ff02eb49aa1210bf162fc",
+              "fields": {
+                "title": "29b887c101a8cad1f8e7e613845869fc60c66c2694f4940452e43de6aa118fc0",
+                "abstract": "fd519c8998ca8c0530a1ca7d0f2ed92e8636b66d010d798718a895203ddc2ba2",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42901371",
+            "title": "Fatigue, Anxiety and Depression 12 Months After Out-of-Hospital Cardiac Arrest: A Population Based Cohort Study.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901371/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42901371",
+              "doi": "10.1016/j.resuscitation.2026.111359",
+              "kind": "original",
+              "source_version": "0aa8d1fc59f934ba63ae57717d88f66cd29b1d94c59b3c391043898ebf23e465",
+              "fields": {
+                "title": "a77fa2addb0ad9741b34e6ac33b4b63815ea44e2e3d52b2975a5d37f81980a88",
+                "abstract": "da9b68e24179dbcd3296639cbe5add5441dca07b3e86ceea8551d644a3c3a215",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9732c8591cf3d4e14654c1e1b2dd256091cbca4255f037f9c0bceb5ad7a621ed",
+                "results_known": true,
+                "numbers": "eead45d76a4daa2534c64ed50dbd88ea2fdda705be213906711330f2c1dc7d2e",
+                "endpoint": "1d85f737adcb55edbdae4b2dca93607e03012473295a32daf4c96e4d631ebc90",
+                "methods": "3f2a4e4f896107e85e84c963368311c043eac209f56cd51027daf42e044d8b7f",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42901370",
+            "title": "Regional implementation of a prehospital advanced life support program with video-assisted physician direction and outcomes after out-of-hospital cardiac arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901370/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42901370",
+              "doi": "10.1016/j.resuscitation.2026.111362",
+              "kind": "original",
+              "source_version": "8a53e33559326dece73edfb0d1095f914c831941938b2363f846ab1554d2c66b",
+              "fields": {
+                "title": "398ffea35ddbf2f06fa4f14bc8e6f1eb1acd1ac14abdaac11154d771edf41f9d",
+                "abstract": "a4ce39426956f6b2d1eecb62ff3577b6b38bf969bf479868a815753a455a7e93",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "b5dc408a07204cce73cf0a2ac441c04a2f5fd51bbdb9976a095c7df56f7bc80a",
+                "results_known": false,
+                "numbers": "412864344e3790f9845ee4ff3dba9a456896e33a246ed69afb515f4fbf078779",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "cdb1b5c819ce411d2c00c8e77ebf0e51040f185cc63c182c8734af048dbeb6fe",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42896234",
+            "title": "Operating Room Air Filtration-Sterilization and Surgical Infections: The ORACLE Randomized Trial in 110,538 Surgeries.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42896234/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42896234",
+              "doi": "10.1097/aln.0000000000006424",
+              "kind": "original",
+              "source_version": "d42fef7798afe537c7a35292556e005813a9e8d60dc5b56a2b2c03bf420cd789",
+              "fields": {
+                "title": "3164eda2c19e25703ab147c9b960ef647768cfd8a1622f961cc774ba0f6f6c2e",
+                "abstract": "4f0153fb763eeeb2e2f70177ef959b73632dc2749069bf746eae4e6f5ceecf7e",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "7ba4735b3c616e5c0d64cb26e6be7705313097edca0ba75db9d6a0cc161eb786",
+                "results_known": false,
+                "numbers": "2cf2ec236fd4f39304c7fd63ee54d0aaf411f9fdadb39ae006f8c9f7919f0943",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "93f590dc86d831daed9748e6619cda2f9298e440a39ff30e0711c9414bae397a",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42897037",
+            "title": "Brain-derived tau in plasma and cerebrospinal fluid after surgery: a prospective cohort substudy.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897037/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42897037",
+              "doi": "10.1016/j.bja.2026.08.055",
+              "kind": "original",
+              "source_version": "868822ab434be6e24038aeb29514db38a777544396a3e0421e22c5d2614bcd0c",
+              "fields": {
+                "title": "988c78a2bfaa80d930eb73c524d0780547815cc95f44378b600f5742778d3551",
+                "abstract": "e857240bf18ce21df5503297b0492407bd1339adc228d6ede5be9237998f8655",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "d8ffb959141c2bf33c512a0bd2fab86c8b435008cfa12db7110ea2b39ecaba9c",
+                "results_known": false,
+                "numbers": "5d89772ac2839dac800a2304038489791e79055926f187e6a7fa562040e45a94",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "8f244e9b9f42c6cd87be6bbc98d4caf1b0ab11ffef2a2a67b0cfdb9d13d97650",
+                "direction": "harm"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42895439",
+            "title": "Infections Acquired in the ICU Among Cancer and Other Immunosuppressed Patients: A Nationwide Cohort Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42895439/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42895439",
+              "doi": "10.1097/ccm.0000000000007388",
+              "kind": "original",
+              "source_version": "bee35c3a0e211e810ebd6bf8c62c5d8ecfa034fe27b98ef910c0c55fb0a61147",
+              "fields": {
+                "title": "65c57cd5a4168e1a45d1ea379f5fbc9121d61787b3b4adb5522a60752aeaa73a",
+                "abstract": "e1c3dc40b49a1e7e471feeb4930f5a060330d93fcc41a1ccae8d694998f564fa",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9f6b8855c7e6cd4f9939532527d05ba9c5939e6cb4631b1399773db80a0454e0",
+                "results_known": false,
+                "numbers": "86a4688658e625f13c7d09243438620ed3e28b6784a1abeb397db54b3004e8c0",
+                "endpoint": "4c8aa6ab055e39ce704cc5fb87b00a44535b70d84bfbcf98dc196be368274717",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42898077",
+            "title": "Permissive versus conventional weaning from venovenous ECMO in patients with ARDS: a retrospective cohort study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42898077/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42898077",
+              "doi": "10.1016/j.aicoj.2026.100174",
+              "kind": "original",
+              "source_version": "3112ee08d7aeeff7736b9d22bb755beb592892e63025f67b84592122bbcf237d",
+              "fields": {
+                "title": "8210069c1696dd56ee3af898210e66b4a88ad47d24217af495b9a59a0654a6a5",
+                "abstract": "e71b367be94df25c4ff7392ba0696fefda3152bed5e11fd79c73545ffe254c5d",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "085c9d4c0c93fdf47047bafc6344fdf0f44351311361672f677d0e371f1e541f",
+                "results_known": true,
+                "numbers": "f935a8b4ce2e00372d42c5cfe31c3ce0eda3e2d921e297afeee440e8f3505a05",
+                "endpoint": "a67f3e5bd640d588bb2f50f5538f90e7b3c2140d2904a6745a3ae887dacddc9b",
+                "methods": "7ded2545956e97c0ee3ad3d35380c919b997188e60bf06411a9a83b56b190cca",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42898047",
+            "title": "The hidden severity of new psychoactive substances: clinical evidence from emergency and intensive care admissions in Taiwan.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42898047/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42898047",
+              "doi": "10.1016/j.aicoj.2026.100163",
+              "kind": "original",
+              "source_version": "a3be3f80737617bb392e8e312535ea479be12d6327378452f6202624a8e94a70",
+              "fields": {
+                "title": "73213f8ababe9dbd12892c56724803733c570c878380c46fc82e1648d2f32e28",
+                "abstract": "ee866067848bfa0c1dde55bfa297bf2f98a2de844b438dfc4eb7da12005cb82c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "230b3331362ab59c7b28b1f2f354a7a1533eb3e32e44a952030a78bbf21b9644",
+                "results_known": false,
+                "numbers": "b9075a117a00ce974604e443dffef351046d480a59203e7f9d3119e5f030a800",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42902295",
+            "title": "Toward targeted assessment of inspiratory muscle weakness before extubation: a pooled individual patient data analysis from multiple observational cohorts in critically ill ventilated patients.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42902295/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42902295",
+              "doi": "10.1186/s13054-026-06305-1",
+              "kind": "original",
+              "source_version": "d664349355992e44f85931019ef71dfbbcd36c902e4190706daca8032819740f",
+              "fields": {
+                "title": "db944c72b88812714906bb95ea47d5bce5cfd2684cb1c17429d99dd4aef11c04",
+                "abstract": "5aa573402e3fb553247b94d192a9d1c4c4fecaeae5d7cce5f07b760eab8b1174",
+                "types": "e61d3ab301dfa1ef529605250b29ee676f06a081b326e5f5c612b8c95cf07a54",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "4d0a7ff5de65ada31fbe5ab3f0f65c26e4cee854d652b49ff7b6617dfb05eb19",
+                "results_known": true,
+                "numbers": "ed1051f775bef3b750b6e3a222752d35c7e16568c2deeef939ee7b1a1baee370",
+                "endpoint": "00c48c09cb597045c7754cb15c777f1dca3be246f143ebedc8fb6f4628e9f115",
+                "methods": "59718fb33e65d02ed9a28e16a81a66b66166d16d779463de5dc22c7d995b2df6",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42902313",
+            "title": "Geographic differences in outcomes after emergency surgery in nonagenarians and centenarians admitted to intensive care in Australia: a population-based study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42902313/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42902313",
+              "doi": "10.1186/s13054-026-06215-2",
+              "kind": "original",
+              "source_version": "43dc5affa388282487d8f99c374ddfa862dc33e1adf3b7a46c33049246c488ee",
+              "fields": {
+                "title": "7f7a7da6606d04b40f04ccebcb10779a55b15dbe755c0b4f564886de707e6420",
+                "abstract": "b3fb07639afa7f9cce57d971b721f40738bf638db87eca6df398080979e3af64",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "74dedb7d25faae8b196453add4fb95519ea512dda19da7a382507f95044de693",
+                "results_known": false,
+                "numbers": "42de3bd2ef7e10a5c1cf4c9f425de3d076be57ea07d38a6970e142e124f50bb7",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "eeeb7239a8dcbced60256fbc6af2c40f9897809d1c74a5f32df911be9a401654",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/european-study-reveals-excessive-preoperative-fasting-in-95-of-surgical-patients/",
+            "title": "European study reveals excessive preoperative fasting in 95% of surgical patients",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/european-study-reveals-excessive-preoperative-fasting-in-95-of-surgical-patients/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovH2KdQaRi_E2NKEpFgimKzx",
+            "title": "Point-of-Care Ultrasound for Suspected Pulmonary Embolism",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovH2KdQaRi_E2NKEpFgimKzx"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/media/meet-our-october-knowledge-champion/",
+            "title": "Meet Our October Knowledge Champion",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/media/meet-our-october-knowledge-champion/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-23T08:52:14+00:00"
+      },
+      "workflow_run_id": "39927473854",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-23:2026-10-23:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "450db592dcb4787bec7f4ff795521646f2f78bd58e0920d7e8dc1b355df81e5b",
+        "finalization_policy": "markers",
+        "content_version": "5805db2cb026d79e2c0786f8822dd7609526a5fed1580b68fdb79626629895cc",
+        "message_id": "<e40df24b72d8da0e318a89271dc218d77f006f19bb8575b383fc529870b4972c@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "bf39c9e5234e483b_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "09ea476037a9cb658f85c97e40d11b55736240f4e5d0c1bb2eab843d390e3824"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "e6c9f7aad7c5497c6fd39c884e9ddc24dc514936826ff370172f218f3dc6bd0d"
+      }
+    },
+    "cybermed:weekly:2026-10-19:2026-10-23:production": {
+      "report_key": "cybermed",
+      "cadence": "weekly",
+      "period_start": "2026-10-19",
+      "period_end": "2026-10-23",
+      "edition_id": "cybermed:weekly:2026-10-19:2026-10-23:production",
+      "content_version": "228e94d5a55bde0205d51c81316bf55efdc8c4fe3e64357d3bcaed5b20bbd2cd",
+      "message_id": "<94357fdb9106787b7967eb42a37a13f8c0acfa3eba47c8b5d61e4241b5743dc1@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+        "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+        "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+        "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+        "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+        "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+        "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+        "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+        "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+        "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+        "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+        "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+        "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+        "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+        "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+        "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+        "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+        "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-23T08:52:27+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {},
+      "workflow_run_id": "39927473854",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:weekly:2026-10-19:2026-10-23:production",
+        "subject": "Cybermed Report — Weekly",
+        "subject_hash": "59caac393c86891f5aad81b365380b5ae9cfac256d74c54ddd101b92beb9258e",
+        "audience": [
+          "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+          "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+          "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+          "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+          "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+          "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+          "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+          "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+          "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+          "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+          "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+          "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+          "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+          "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+          "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+          "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+          "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+          "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "finalization_policy": "no_markers",
+        "content_version": "228e94d5a55bde0205d51c81316bf55efdc8c4fe3e64357d3bcaed5b20bbd2cd",
+        "message_id": "<94357fdb9106787b7967eb42a37a13f8c0acfa3eba47c8b5d61e4241b5743dc1@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "157ef70312d3b392_cybermed_weekly_cybermed_weekly_generated_delta.json",
+            "sha256": "b5b30170a1b26c8e12ca9e5e12f1335d0903ae1410992a55cd860a599295c56b"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "b43ff5c41ef25be0927289d420147c30e06867e72d189461860e1721d378869d"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -7310,11 +7937,14 @@
         "42892410",
         "42892907",
         "42893020",
+        "42894761",
         "42896534",
         "42896706",
+        "42897566",
         "42897873",
         "42897881",
-        "42900675"
+        "42900675",
+        "42901374"
       ]
     }
   }
