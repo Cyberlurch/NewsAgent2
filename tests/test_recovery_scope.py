@@ -9,6 +9,7 @@ from types import SimpleNamespace
 import zipfile
 
 import pytest
+from _github_fakes import response as github_response, collection as github_collection
 
 from newsagent2 import delivery, workflow_delivery as wd
 from newsagent2.run_context import PATHS, path_for
@@ -136,7 +137,7 @@ def api(monkeypatch, run, jobs, archive=None, key="cybermed"):
             elif url.endswith("/artifacts"):
                 data={"artifacts":[] if archive is None else [{"id":7,"name":f"{key}-delivery-recovery-71","expired":False}]}
             elif url.endswith("/zip"): content=archive
-            return SimpleNamespace(raise_for_status=lambda:None,json=lambda:data,content=content)
+            return github_response(github_collection(data), content=content if url.endswith('/zip') else None)
     monkeypatch.setattr(wd.requests,"Session",Session)
     for name,value in {"EMAIL_MODE":"real","GITHUB_TOKEN":"offline-token","GITHUB_REPOSITORY":"owner/repo",
         "GITHUB_REF_NAME":"main","GITHUB_RUN_ID":"99"}.items(): monkeypatch.setenv(name,value)

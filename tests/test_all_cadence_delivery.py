@@ -10,12 +10,13 @@ import sys
 
 import pytest
 
-from newsagent2 import main, emailer, edition_plan as ep, delivery
+from newsagent2 import main, emailer, edition_plan as ep, delivery, workflow_delivery as wd
 from newsagent2.cybermed_digest_store import make_cybermed_weekly_digest
 from newsagent2.run_context import PATHS, path_for
 from newsagent2.store_io import atomic_store
 from test_delivery_boundary import smtp  # Existing strict SMTP mock fixture.
 from test_cyberlurch_mode_artifacts_and_digest_primary import _common
+from test_newsletter_job_scope import git_mock
 
 
 def seed(monkeypatch, key, cadence):
@@ -104,6 +105,26 @@ def test_all_eight_real_application_paths_and_nonproduction_isolation(key, caden
         assert len(calls) == 1  # No collection, generation or SMTP replay.
         again = delivery.load_journal(path_for('DELIVERY_JOURNAL_PATH'))['editions'][result['edition_id']]
         assert again['message_id'] == first_id
+        # Acceptance + successful local finalization are still not Git
+        # publication. Exercise every cadence's packet in a fresh marker/journal
+        # namespace after a failed push; only the SMTP mock has been called.
+        monkeypatch.setenv('GITHUB_REF_NAME','main')
+        git_calls=git_mock(monkeypatch,fail_push=True)
+        directory=Path(os.environ['REPORT_DIR'])
+        with pytest.raises(RuntimeError,match='git_push_failed_or_unknown'):
+            wd.publish_state([str(path_for('DELIVERY_JOURNAL_PATH'))],report_dir=directory)
+        assert len([c for c in git_calls if c[1]=='push'])==1
+        assert json.loads((directory/'recovery/git_persistence.json').read_text())['category']=='git_push_failed_or_unknown'
+        fresh=tmp_path/'fresh-marker-checkout';fresh.mkdir()
+        monkeypatch.setenv('STATE_PATH',str(fresh/'processed_items.json'))
+        monkeypatch.setenv('DELIVERY_JOURNAL_PATH',str(fresh/'delivery_journal.json'))
+        assert wd.import_recovery(directory/'recovery',report_key=key)
+        pending=delivery.load_journal(path_for('DELIVERY_JOURNAL_PATH'))['editions'][result['edition_id']]
+        assert pending['status']=='accepted_by_smtp' and not pending['state_persisted']
+        wd.finalize_pending_receipts(key);wd.finalize_pending_receipts(key)
+        main.main()
+        recovered=delivery.load_journal(path_for('DELIVERY_JOURNAL_PATH'))['editions'][result['edition_id']]
+        assert recovered['state_persisted'] and recovered['message_id']==first_id and len(calls)==1
     else:
         assert before == {name: path_for(name).read_bytes() if path_for(name).exists() else None for name in PATHS}
         assert len(calls) == (1 if mode == 'test' else 0)

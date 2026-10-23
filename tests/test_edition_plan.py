@@ -6,6 +6,7 @@ import subprocess
 import sys
 
 import pytest
+from _github_fakes import response as github_response
 
 from newsagent2 import edition_plan as ep, delivery, main, workflow_delivery
 from newsagent2.store_io import atomic_store
@@ -37,7 +38,7 @@ def test_new_cybermed_policy_handles_multiple_holidays_and_bounded_closes(day,we
 
 @pytest.mark.parametrize('day,modes',[
  ('2026-06-19',['daily','weekly']),('2026-06-20',[]),('2026-11-01',['monthly']),
- ('2027-01-01',['monthly','yearly','daily','weekly'])])
+ ('2027-01-01',['daily','weekly','monthly','yearly'])])
 def test_cyberlurch_actual_workflow_policy_is_independent(day,modes):
     assert ep.planned_modes('cyberlurch',date.fromisoformat(day))==modes
 
@@ -196,10 +197,9 @@ def test_run_metadata_request_uses_only_actual_created_at_and_redacts_failure(mo
     import requests
     seen=[]
     monkeypatch.setenv('GITHUB_REPOSITORY','Cyberlurch/NewsAgent2');monkeypatch.setenv('GITHUB_RUN_ID','42');monkeypatch.setenv('GITHUB_TOKEN','offline-test-token')
-    class Response:
-        def raise_for_status(self): pass
-        def json(self): return {'created_at':'2026-10-30T04:40:00Z','run_started_at':'2026-10-31T06:00:00Z'}
-    def get(*args,**kwargs): seen.append(args[0]);return Response()
+    def get(*args,**kwargs):
+        seen.append(args[0])
+        return github_response({'created_at':'2026-10-30T04:40:00Z','run_started_at':'2026-10-31T06:00:00Z'})
     monkeypatch.setattr(requests,'get',get)
     assert ep.github_created_at()=='2026-10-30T04:40:00+00:00' and seen==['https://api.github.com/repos/Cyberlurch/NewsAgent2/actions/runs/42']
     monkeypatch.setattr(requests,'get',lambda *a,**kw: (_ for _ in ()).throw(ValueError('token-host-private')))

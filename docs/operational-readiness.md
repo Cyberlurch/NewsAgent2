@@ -82,7 +82,85 @@ e-mail was unsent and never authorizes a blind retry. A complete
 Daily cannot hide a Weekly failure. Read-only Actions metadata is bounded to the
 same last 100 completed workflow runs as normal recovery. Positively identified
 preview/test jobs and the five exactly reviewed Legacy runs are distinguished.
-An inaccessible API is an error, not proof that no recovery is needed.
+An inaccessible API is an incomplete external check, not evidence of failed
+SMTP or proof that no recovery is needed.
+
+## External checks and trustworthy evidence
+
+The 23 October early Cybermed check reported
+`operational_actions_access_failed` at 07:18:52 UTC, while Daily/Weekly were
+`awaiting_scheduled_run` and Monthly/Yearly `awaiting_close`. The old code made
+one request and discarded HTTP details. Its exact HTTP cause is unknown: a
+simulated 503 reproduces the code defect but does not establish that production
+received 503. Later producers 39926546423 (Cyberlurch) and 39927473854 (Cybermed),
+all four saved Daily/Weekly receipts, and readiness 39927771535 were successful.
+Those editions must not be regenerated or resent.
+
+The shared GET-only reader covers readiness, run creation metadata and recovery
+metadata/archive downloads. It permits at most four attempts, each logical GET
+within a 30-second retry/body deadline and connection/read inactivity timeouts
+of at most 3/5 seconds. Requests share an overall 120-second readiness budget
+(300 seconds for recovery reads). Waits use exponential backoff with jitter;
+valid `Retry-After` dates/seconds and primary rate-reset headers can increase the
+wait only when it fits the remaining budget. Timeout, connection failure,
+408/429 and selected 5xx are retryable. A plain 401/403/404 is permanent;
+403 requires explicit rate-limit header evidence. Invalid JSON or response
+shape fails safely, without inventing an empty list. SMTP, model generation,
+Git publication and mutation/import functions are never wrapped by these retries.
+
+| Overall result | Meaning / operator action |
+|---|---|
+| `prerequisites_pass` | Checked static prerequisites and the stated Actions window passed; not a sending authorization, provider guarantee or inbox proof. |
+| `externally_unverified` | No known local block, but external verification could not finish. Retry this read-only check later; permanent access/path errors require operator investigation. Exit 1. |
+| `blocked` | A known source/configuration/delivery/publication problem exists, even when the API is also unavailable. Repair the stated problem; do not blindly send. Exit 1. |
+
+The JSON artifact, summary, safe log and final annotation include matching
+results. Diagnostics expose only fixed operation/category names, HTTP status,
+attempt count/limit, elapsed time and exhausted budget. Recovered reads produce
+no final error annotation. Full acceptance without persisted State calls for
+**State recovery without SMTP**; partial/unknown outcomes call for **SMTP
+reconciliation without automatic retry**. API failure cannot hide either.
+
+The existing scope is the **latest 100 completed runs per workflow/branch**,
+not the entire archive. Counted responses record `total_available`, `checked`,
+`window_limit` and `complete_history`; a larger archive is explicitly
+`bounded_window_checked`. The full journal is still checked for unresolved
+modern delivery. There is no new historical exception or ACK. Jobs include all
+attempts and paginate completely up to 500; artifact lists also paginate up to
+500. Missing fields, shifting/duplicate pages or a required list beyond the cap
+make the check incomplete, not empty/successful. Older history outside the
+existing workflow window remains an operator limitation.
+
+New producers expose a SHA-256 proof of the **actual frozen plan after filtering**
+in a successful numbered step before the sender. A failed run is already settled
+only when its own production receipts match that whole plan, and every result
+is either fully accepted/persisted or proves failure before generation/handoff.
+One Daily receipt is insufficient for Daily+Weekly+Monthly. All job attempts are
+included; a rerun's pruned subset must also match known receipts. Old or contradictory
+planning evidence stays explicitly missing/unresolved; inspect the retained
+frozen plan and recovery packets, rather than ACKing or deleting the hold.
+
+The read-only 23 October metadata check identifies one concrete old gap:
+Cybermed run **38874103951** has a finalized Daily receipt, but no metadata proof
+of its complete original plan. Weekly 38894702613 is a later, separately
+authorized result; it does not supply that missing plan evidence. The stricter
+check therefore reports this old run for review instead of declaring it fully
+settled. Preserve/download its `cybermed-run-metadata-38874103951`,
+`cybermed-reports-38874103951` and delivery-recovery packet in the Actions UI
+before retention expiry. Compare the frozen plan's entire edition list with
+the per-cadence results, actual journal and existing quarantine policy. Keep
+unproven entries unresolved; no old newsletter is to be regenerated or sent.
+This PR performs no historical reconciliation/apply and creates no exception
+for that run. Its new plan evidence prevents the same ambiguity in future runs.
+
+Readiness checks serialize without cancelling a running check when either
+newsletter completes. GitHub can still coalesce pending triggers; this is not
+an event-delivery guarantee. Each matrix job checks out `github.ref_name` and
+records its actual checked commit in JSON, summary and log. A workflow-run
+trigger's original producer SHA is not mislabelled as this later State view.
+The immutable checkout and SHA explain a result even when a later producer
+publishes new State. Readiness does not hold the production writer lock or
+mutate that checkout.
 
 Pre-transition automatic catch-ups with no structured delivery evidence are
 listed in plan `quarantined_editions`, with unknown history and
@@ -159,6 +237,8 @@ clinical facts. A separate CI harness executes the actual workflow Bash loops
 with a non-sending Python stub, testing success and each cadence failure for both
 newsletters. The full suite retains its unconditional network/SMTP isolation.
 
-Rollback is an ordinary code revert while retaining State, generated records and
-real receipts. It restores stricter calendar-coverage blocks. Neither code revert
+Rollback is an ordinary code/workflow revert retaining State, generated records
+and real receipts. Reverting this reliability fix restores one-shot GitHub reads
+and the former Cyberlurch order; it does not revoke the partial-review policy.
+Neither code revert
 nor stable Message-ID undoes server acceptance; SMTP and Git are not a transaction.

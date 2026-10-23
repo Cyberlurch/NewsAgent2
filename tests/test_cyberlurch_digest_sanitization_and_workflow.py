@@ -47,4 +47,4 @@ def test_schedule_crons_and_gate_target_0530_stockholm_and_order():
     assert 'edition_plan --report-key cyberlurch' in yml
     from newsagent2.edition_plan import planned_modes
     from datetime import date
-    assert planned_modes('cyberlurch',date(2027,1,1)) == ['monthly','yearly','daily','weekly']
+    assert planned_modes('cyberlurch',date(2027,1,1)) == ['daily','weekly','monthly','yearly']

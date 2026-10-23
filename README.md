@@ -79,8 +79,8 @@ seasonal clock changes: **05:30 Cyberlurch**, **05:40 Cybermed**.
 | Cyberlurch | Daily Monday–Friday; Weekly Friday with its rolling seven-day period |
 | Cyberlurch | Monthly on the first calendar day; Yearly January 1, including weekends and independently of Cybermed holidays |
 
-On shared dates Cybermed runs Daily → Weekly → Monthly → Yearly; Cyberlurch runs
-Monthly → Yearly → Daily → Weekly. Each planned cadence and period is verified
+On shared dates both newsletters run Daily → Weekly → Monthly → Yearly, selecting
+only their own eligible cadences. Each planned cadence and period is verified
 separately: a Daily success cannot hide a failed Monthly report.
 
 A frozen [edition plan](src/newsagent2/edition_plan.py) binds the logical date,
@@ -92,10 +92,18 @@ not guaranteed execution or inbox times. No external scheduler is installed.
 
 Bounded catch-up considers the immediately preceding Monthly close and, during
 January, the preceding Yearly close, retaining the same identities. Accepted,
-finalized closes are filtered out. Missing inputs and unresolved delivery stop
+finalized editions are filtered out of scheduled execution. Missing inputs and unresolved delivery stop
 normal processing; catch-up is not an arbitrary historical backfill. Manual
 `logical_date` selects an explicit edition date, not additional replay permission.
 See [calendar details and holiday examples](docs/calendar-and-timing.md).
+
+Readiness separates a pending scheduled run, a known delivery/State failure and
+an unavailable external Actions check. Read-only GitHub requests have bounded
+retries and redacted numeric diagnostics; an exhausted check remains unverified.
+The existing last-100-run window is explicit, rather than a claim of complete
+archival history. A single Daily receipt cannot clear a failed multi-cadence run:
+the receipts must match evidence of its entire frozen plan. See
+[readiness and operator actions](docs/operational-readiness.md).
 
 ## Content, models and limits
 
