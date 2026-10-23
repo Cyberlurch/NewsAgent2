@@ -5646,6 +5646,998 @@
         "approved_after_generation_checks": true,
         "seal": "dd64aaa9fc097dc1619ce6d271a0f998ee17e959998ba3dc6c2332de6a7522bb"
       }
+    },
+    "cyberlurch:daily:2026-10-23:2026-10-23:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-10-23",
+      "period_end": "2026-10-23",
+      "edition_id": "cyberlurch:daily:2026-10-23:2026-10-23:production",
+      "content_version": "46c28af19ec7eb6ea3ad5d54a6e5e7fa6815a6e1acc24c362a08fc63dd84d929",
+      "message_id": "<c05a8c4fc1a173e42de7b9a72639d970b38f6b2dabb702f3595e5f7fbb5a03cd@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-23T08:45:20+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "9RbXUuqhVak",
+            "title": "⚡IRAN \"Theres Nothing to Negotiate\" a BIGGER WAR is Brewing w/ Dr. Paul Craig Roberts",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=9RbXUuqhVak"
+          },
+          {
+            "source": "youtube",
+            "id": "493ibPDGZKg",
+            "title": "Saudi Arabia's Dangerous Shift: Prof. Marandi Reveals the Reality",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=493ibPDGZKg"
+          },
+          {
+            "source": "youtube",
+            "id": "5o-PY2LFi30",
+            "title": "Haben serbische Studierende die Macht, Präsident Vučić abzuwählen?",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=5o-PY2LFi30"
+          },
+          {
+            "source": "youtube",
+            "id": "9Bz2K3s6elM",
+            "title": "DEEPENING YOUR DEVOTIONAL IDENTITY--Christ Comes For His Bride The Church",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=9Bz2K3s6elM"
+          },
+          {
+            "source": "youtube",
+            "id": "BPt-TcM5a-4",
+            "title": "Är Liberalerna Sverigedemokraternas bästa vänner?",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=BPt-TcM5a-4"
+          },
+          {
+            "source": "youtube",
+            "id": "BTAuIDdLeR0",
+            "title": "ILTV Weekly Review - October, 23, 2026",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=BTAuIDdLeR0"
+          },
+          {
+            "source": "youtube",
+            "id": "FS9gSh3FcB0",
+            "title": "Why the Deepest Place on Earth Is Linked To Satan, Giants, and The End Times",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=FS9gSh3FcB0"
+          },
+          {
+            "source": "youtube",
+            "id": "laj7Uv-QvdM",
+            "title": "Your BITCOIN DATA is going ABROAD! 😳 BUNDESTAG PASSES CARF!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=laj7Uv-QvdM"
+          },
+          {
+            "source": "youtube",
+            "id": "ySPf39hyWOs",
+            "title": "⚡ALERT! ALL EMBASSIES EVACUATED. \"Iran Lifts NUCLEAR BAN\" - Netanyahu, RUSSIAS MASTER PLAN.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=ySPf39hyWOs"
+          },
+          {
+            "source": "youtube",
+            "id": "G3LodipAynI",
+            "title": "JD Vance Pauses Rally in Nebraska to Pray for Fallen Attendee",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=G3LodipAynI"
+          },
+          {
+            "source": "youtube",
+            "id": "KbGZM0cEjb4",
+            "title": "\"It Resurfaced!\" - Rowan Atkinson EXPLODES on UK Free Speech",
+            "channel": "offthekirb",
+            "url": "https://www.youtube.com/watch?v=KbGZM0cEjb4"
+          },
+          {
+            "source": "youtube",
+            "id": "LcjxvGQl6cQ",
+            "title": "Kids Aren’t Kids Anymore",
+            "channel": "VanessaWingardh",
+            "url": "https://www.youtube.com/watch?v=LcjxvGQl6cQ"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "9RbXUuqhVak",
+            "title": "⚡IRAN \"Theres Nothing to Negotiate\" a BIGGER WAR is Brewing w/ Dr. Paul Craig Roberts",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=9RbXUuqhVak"
+          },
+          {
+            "source": "youtube",
+            "id": "493ibPDGZKg",
+            "title": "Saudi Arabia's Dangerous Shift: Prof. Marandi Reveals the Reality",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=493ibPDGZKg"
+          },
+          {
+            "source": "youtube",
+            "id": "5o-PY2LFi30",
+            "title": "Haben serbische Studierende die Macht, Präsident Vučić abzuwählen?",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=5o-PY2LFi30"
+          },
+          {
+            "source": "youtube",
+            "id": "9Bz2K3s6elM",
+            "title": "DEEPENING YOUR DEVOTIONAL IDENTITY--Christ Comes For His Bride The Church",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=9Bz2K3s6elM"
+          },
+          {
+            "source": "youtube",
+            "id": "BPt-TcM5a-4",
+            "title": "Är Liberalerna Sverigedemokraternas bästa vänner?",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=BPt-TcM5a-4"
+          },
+          {
+            "source": "youtube",
+            "id": "BTAuIDdLeR0",
+            "title": "ILTV Weekly Review - October, 23, 2026",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=BTAuIDdLeR0"
+          },
+          {
+            "source": "youtube",
+            "id": "FS9gSh3FcB0",
+            "title": "Why the Deepest Place on Earth Is Linked To Satan, Giants, and The End Times",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=FS9gSh3FcB0"
+          },
+          {
+            "source": "youtube",
+            "id": "laj7Uv-QvdM",
+            "title": "Your BITCOIN DATA is going ABROAD! 😳 BUNDESTAG PASSES CARF!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=laj7Uv-QvdM"
+          },
+          {
+            "source": "youtube",
+            "id": "ySPf39hyWOs",
+            "title": "⚡ALERT! ALL EMBASSIES EVACUATED. \"Iran Lifts NUCLEAR BAN\" - Netanyahu, RUSSIAS MASTER PLAN.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=ySPf39hyWOs"
+          },
+          {
+            "source": "youtube",
+            "id": "G3LodipAynI",
+            "title": "JD Vance Pauses Rally in Nebraska to Pray for Fallen Attendee",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=G3LodipAynI"
+          },
+          {
+            "source": "youtube",
+            "id": "KbGZM0cEjb4",
+            "title": "\"It Resurfaced!\" - Rowan Atkinson EXPLODES on UK Free Speech",
+            "channel": "offthekirb",
+            "url": "https://www.youtube.com/watch?v=KbGZM0cEjb4"
+          },
+          {
+            "source": "youtube",
+            "id": "LcjxvGQl6cQ",
+            "title": "Kids Aren’t Kids Anymore",
+            "channel": "VanessaWingardh",
+            "url": "https://www.youtube.com/watch?v=LcjxvGQl6cQ"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "9RbXUuqhVak",
+            "title": "⚡IRAN \"Theres Nothing to Negotiate\" a BIGGER WAR is Brewing w/ Dr. Paul Craig Roberts",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=9RbXUuqhVak"
+          },
+          {
+            "source": "youtube",
+            "id": "ySPf39hyWOs",
+            "title": "⚡ALERT! ALL EMBASSIES EVACUATED. \"Iran Lifts NUCLEAR BAN\" - Netanyahu, RUSSIAS MASTER PLAN.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=ySPf39hyWOs"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-23T08:45:16+00:00"
+      },
+      "workflow_run_id": "39926546423",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-10-23:2026-10-23:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "6d2eed2319e951c32ef186d9e851bc01010c08fa9da5c2a47de314e627bfdfef",
+        "finalization_policy": "markers",
+        "content_version": "46c28af19ec7eb6ea3ad5d54a6e5e7fa6815a6e1acc24c362a08fc63dd84d929",
+        "message_id": "<c05a8c4fc1a173e42de7b9a72639d970b38f6b2dabb702f3595e5f7fbb5a03cd@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "02e66f33189782c4_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "104c552682f18007c567fb11ca5309bddce2e7002ba6b1828878ce095e084bcf"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "9b5542079eb8564efcf2aefbd4a02b4e59f17bf418f13109268ea6e3459c4490"
+      }
+    },
+    "cyberlurch:weekly:2026-10-16:2026-10-23:production": {
+      "report_key": "cyberlurch",
+      "cadence": "weekly",
+      "period_start": "2026-10-16",
+      "period_end": "2026-10-23",
+      "edition_id": "cyberlurch:weekly:2026-10-16:2026-10-23:production",
+      "content_version": "c28376b1c84b35d4abff66f40a3eda8fa134fb744bc5866eb0f85109b622d4df",
+      "message_id": "<0e33b14a9cf075cf5f189831698f74edf73c3b204c91dc95cf8023e5c2263c48@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-23T08:46:30+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "Li-rc6swhQs",
+            "title": "Trump Let's the AI Labs Police THEMSELVES?!",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=Li-rc6swhQs"
+          },
+          {
+            "source": "youtube",
+            "id": "FS9gSh3FcB0",
+            "title": "Why the Deepest Place on Earth Is Linked To Satan, Giants, and The End Times",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=FS9gSh3FcB0"
+          },
+          {
+            "source": "youtube",
+            "id": "9RbXUuqhVak",
+            "title": "⚡IRAN \"Theres Nothing to Negotiate\" a BIGGER WAR is Brewing w/ Dr. Paul Craig Roberts",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=9RbXUuqhVak"
+          },
+          {
+            "source": "youtube",
+            "id": "493ibPDGZKg",
+            "title": "Saudi Arabia's Dangerous Shift: Prof. Marandi Reveals the Reality",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=493ibPDGZKg"
+          },
+          {
+            "source": "youtube",
+            "id": "5o-PY2LFi30",
+            "title": "Haben serbische Studierende die Macht, Präsident Vučić abzuwählen?",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=5o-PY2LFi30"
+          },
+          {
+            "source": "youtube",
+            "id": "9Bz2K3s6elM",
+            "title": "DEEPENING YOUR DEVOTIONAL IDENTITY--Christ Comes For His Bride The Church",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=9Bz2K3s6elM"
+          },
+          {
+            "source": "youtube",
+            "id": "BPt-TcM5a-4",
+            "title": "Är Liberalerna Sverigedemokraternas bästa vänner?",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=BPt-TcM5a-4"
+          },
+          {
+            "source": "youtube",
+            "id": "BTAuIDdLeR0",
+            "title": "ILTV Weekly Review - October, 23, 2026",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=BTAuIDdLeR0"
+          },
+          {
+            "source": "youtube",
+            "id": "laj7Uv-QvdM",
+            "title": "Your BITCOIN DATA is going ABROAD! 😳 BUNDESTAG PASSES CARF!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=laj7Uv-QvdM"
+          },
+          {
+            "source": "youtube",
+            "id": "G3LodipAynI",
+            "title": "JD Vance Pauses Rally in Nebraska to Pray for Fallen Attendee",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=G3LodipAynI"
+          },
+          {
+            "source": "youtube",
+            "id": "KbGZM0cEjb4",
+            "title": "\"It Resurfaced!\" - Rowan Atkinson EXPLODES on UK Free Speech",
+            "channel": "offthekirb",
+            "url": "https://www.youtube.com/watch?v=KbGZM0cEjb4"
+          },
+          {
+            "source": "youtube",
+            "id": "LcjxvGQl6cQ",
+            "title": "Kids Aren’t Kids Anymore",
+            "channel": "VanessaWingardh",
+            "url": "https://www.youtube.com/watch?v=LcjxvGQl6cQ"
+          },
+          {
+            "source": "youtube",
+            "id": "MN6bd_tiq4c",
+            "title": "Riyadh under fire – Iran to mediate?",
+            "channel": "klartextwinkler",
+            "url": "https://www.youtube.com/watch?v=MN6bd_tiq4c"
+          },
+          {
+            "source": "youtube",
+            "id": "ySPf39hyWOs",
+            "title": "⚡ALERT! ALL EMBASSIES EVACUATED. \"Iran Lifts NUCLEAR BAN\" - Netanyahu, RUSSIAS MASTER PLAN.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=ySPf39hyWOs"
+          },
+          {
+            "source": "youtube",
+            "id": "yiR90jZYeRo",
+            "title": "Survive Whats Coming With This Device",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=yiR90jZYeRo"
+          },
+          {
+            "source": "youtube",
+            "id": "-D7aZ7gI_2g",
+            "title": "Vivek DOUBLES DOWN On Most DISGUSTING Ad Of ALL TIME",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=-D7aZ7gI_2g"
+          },
+          {
+            "source": "youtube",
+            "id": "0ll2HJ2bF5Q",
+            "title": "Vänstern stöttar våldet i Frankrike – och kommer undan med det",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=0ll2HJ2bF5Q"
+          },
+          {
+            "source": "youtube",
+            "id": "5HBJTXQAA0I",
+            "title": "Midterms: Abrechnung mit Trump? | Der Trump Effekt #78 | auslandsjournal - der Podcast",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=5HBJTXQAA0I"
+          },
+          {
+            "source": "youtube",
+            "id": "6SplAn7UBTA",
+            "title": "10 Reasons Christians Should Be Involved In Politics",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=6SplAn7UBTA"
+          },
+          {
+            "source": "youtube",
+            "id": "ELZ5TbwsSwQ",
+            "title": "Are Carmakers Finished? Now Real Estate Prices Are Falling Too",
+            "channel": "MarcFriedrich7",
+            "url": "https://www.youtube.com/watch?v=ELZ5TbwsSwQ"
+          },
+          {
+            "source": "youtube",
+            "id": "FIXATcPiq1I",
+            "title": "March of the Nations in Jerusalem! Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=FIXATcPiq1I"
+          },
+          {
+            "source": "youtube",
+            "id": "qD3xYUIPS5U",
+            "title": "He Examined The \"Hidden\" Parts Of Islam, Then Found JESUS",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=qD3xYUIPS5U"
+          },
+          {
+            "source": "youtube",
+            "id": "6XgI_6GaFd4",
+            "title": "Will A.I. Destroy Social Media @sineadbovell",
+            "channel": "KapChatfield",
+            "url": "https://www.youtube.com/watch?v=6XgI_6GaFd4"
+          },
+          {
+            "source": "youtube",
+            "id": "EEKz-PCrko4",
+            "title": "20261006 loser",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=EEKz-PCrko4"
+          },
+          {
+            "source": "youtube",
+            "id": "G5d4DMsEPkM",
+            "title": "Save A Child's Heart with Rabbi David Litwack",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=G5d4DMsEPkM"
+          },
+          {
+            "source": "youtube",
+            "id": "HQcBuJSfCy0",
+            "title": "Immer mehr Rechenzentren: Deutschlands riskante KI-Strategie I 11KM - der tagesschau-Podcast",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=HQcBuJSfCy0"
+          },
+          {
+            "source": "youtube",
+            "id": "JIMFhXHmApk",
+            "title": "Helt bisarrt! V-Alis bakgrund var mer kaosartad än någon anat - blev ändå medborgare och politiker",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=JIMFhXHmApk"
+          },
+          {
+            "source": "youtube",
+            "id": "O_x4a9U_D3g",
+            "title": "ILTV On The Hour - October 21, 2026 | Israel Planned a MASSIVE Iran Attack — Why Did Trump Say NO?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=O_x4a9U_D3g"
+          },
+          {
+            "source": "youtube",
+            "id": "NojEUlNM-BY",
+            "title": "⚡ALERT! Trumps MOAB/ NUCLEAR Priming, Israel Preps BUNKERS, UKMTOs Shocking Admission!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=NojEUlNM-BY"
+          },
+          {
+            "source": "youtube",
+            "id": "44ODTqSJOCM",
+            "title": "Christian Apologist Reveals What Happened Inside Scientology's LA Church",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=44ODTqSJOCM"
+          },
+          {
+            "source": "youtube",
+            "id": "5hBMBZmVLCw",
+            "title": "EU stärkt Rechte von Reisenden / Sprachtests in Kitas | \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=5hBMBZmVLCw"
+          },
+          {
+            "source": "youtube",
+            "id": "ADk2_o52pIU",
+            "title": "Widar Andersson sågar C:s regeringsplan: ”Helt omöjligt”",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=ADk2_o52pIU"
+          },
+          {
+            "source": "youtube",
+            "id": "CmuqgyGUXCM",
+            "title": "OUT OF THE ASHES OF UR--Like Abram, Step Out in Unreserved Faith! (BM-6)",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=CmuqgyGUXCM"
+          },
+          {
+            "source": "youtube",
+            "id": "HewVrCAEElE",
+            "title": "Diesel Deal with Putin: Now Trump Wants to Oust Zelenskyy",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=HewVrCAEElE"
+          },
+          {
+            "source": "youtube",
+            "id": "VWS2T5rLaPM",
+            "title": "Every Christian Needs To MEMORIZE This Argument!",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=VWS2T5rLaPM"
+          },
+          {
+            "source": "youtube",
+            "id": "d7pcL5-z0L0",
+            "title": "Roman Reher answers YOUR QUESTIONS LIVE at the Blocktrainer Event 2026!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=d7pcL5-z0L0"
+          },
+          {
+            "source": "youtube",
+            "id": "9HH1fRHD68s",
+            "title": "ILTV On The Hour - October 20, 2026 | Hegseth's SECRET Israel Visit: Is a New War With Iran Coming?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=9HH1fRHD68s"
+          },
+          {
+            "source": "youtube",
+            "id": "BT-3G8Fnegc",
+            "title": "Heckling for Clicks: Is the Tone in the Bundestag Becoming More Brutal? | ZDF Berlin Direkt",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=BT-3G8Fnegc"
+          },
+          {
+            "source": "youtube",
+            "id": "FEGREkD6Akc",
+            "title": "Modern Feminism Is Making Women Crazy—and Robbing Them of Happiness",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=FEGREkD6Akc"
+          },
+          {
+            "source": "youtube",
+            "id": "JIg9ujOqB9s",
+            "title": "A Crisis of Leadership: How Europe Failed Its Own People",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=JIg9ujOqB9s"
+          },
+          {
+            "source": "youtube",
+            "id": "N55KHw4EtK8",
+            "title": "Katerina Janouch utspel: “Svenskhet avgörs i DNA & SD har svikit oss”",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=N55KHw4EtK8"
+          },
+          {
+            "source": "youtube",
+            "id": "FUdqSrOlaLA",
+            "title": "Brisante Geldspur: 40 Mio. kurz vor dem Migrantensturm",
+            "channel": "Darius_official",
+            "url": "https://www.youtube.com/watch?v=FUdqSrOlaLA"
+          },
+          {
+            "source": "youtube",
+            "id": "7sZ04KCPM_E",
+            "title": "WE ARE EXPOSED: OUR VULNERABILITY IN THE DAYS AHEAD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=7sZ04KCPM_E"
+          },
+          {
+            "source": "youtube",
+            "id": "VlCE2E2K7Us",
+            "title": "⚡ALERT: The \"WAR IS OVER\".... Or NOT! w/ @garlandn ​",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=VlCE2E2K7Us"
+          },
+          {
+            "source": "youtube",
+            "id": "6-pccyimZXI",
+            "title": "ILTV News Flash – October, 19, 2026",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=6-pccyimZXI"
+          },
+          {
+            "source": "youtube",
+            "id": "8XNcqFafHeM",
+            "title": "Investoren-Suche / Missstände im Schlachthof / Pflegekräfte lernen Dialekt | \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=8XNcqFafHeM"
+          },
+          {
+            "source": "youtube",
+            "id": "AJh1ItYOhi8",
+            "title": "THE STONES CRY OUT-- Biblical Archaeology is God's Window Into The Past",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=AJh1ItYOhi8"
+          },
+          {
+            "source": "youtube",
+            "id": "edp71QQyKjg",
+            "title": "Trump ENDORSES Flailing BIBI As Israel Plots IRAN WAR Restart",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=edp71QQyKjg"
+          },
+          {
+            "source": "youtube",
+            "id": "h4uwC8FQ5PI",
+            "title": "Ganz Europa im Ausnahmezustand! Erste Länder setzen Militär ein!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=h4uwC8FQ5PI"
+          },
+          {
+            "source": "youtube",
+            "id": "AtkVD7Hum9E",
+            "title": "Headwinds for Red-Green-Red: SPD Bundestag Members Warn Against Berlin Left Party | ZDF MOMA",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=AtkVD7Hum9E"
+          },
+          {
+            "source": "youtube",
+            "id": "CMPpOfj_a50",
+            "title": "With Missiles Falling and Brutal Winter Looming, Ukraine's Christians Share 'Hope Through Jesus'",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=CMPpOfj_a50"
+          },
+          {
+            "source": "youtube",
+            "id": "CVVPfpkli_Y",
+            "title": "IT JUST TOOK A DARK TURN",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=CVVPfpkli_Y"
+          },
+          {
+            "source": "youtube",
+            "id": "Hl-S8DJ2tlo",
+            "title": "You Think You Know the Gospel… Until You See THIS",
+            "channel": "DLMChristianLifestyle",
+            "url": "https://www.youtube.com/watch?v=Hl-S8DJ2tlo"
+          },
+          {
+            "source": "youtube",
+            "id": "LJAA4auL8XQ",
+            "title": "Contractors Ambushed In Congo",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=LJAA4auL8XQ"
+          },
+          {
+            "source": "youtube",
+            "id": "yzl1IcGtgUc",
+            "title": "⚡ALERT: Russia is BURNING, Iran Blockade EXPANDS, Putin Prepares to INVADE Baltics?!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=yzl1IcGtgUc"
+          },
+          {
+            "source": "youtube",
+            "id": "uJkG4wKRVHA",
+            "title": "⚡ALERT! CODE 100 ACTIVATED IN IRAN!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uJkG4wKRVHA"
+          },
+          {
+            "source": "youtube",
+            "id": "-Tbds6r5ZlU",
+            "title": "The Dangerous Rhetoric Behind Trump’s Midterm Strategy",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=-Tbds6r5ZlU"
+          },
+          {
+            "source": "youtube",
+            "id": "-gnNs-r0llo",
+            "title": "This Rabbi Thinks \"Jesus Is The Antichrist\"",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=-gnNs-r0llo"
+          },
+          {
+            "source": "youtube",
+            "id": "7aURTq-uckE",
+            "title": "Proteste in Frankreich / Vorfall am Flughafen Leipzig / Aus für Martinsumzüge? I \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=7aURTq-uckE"
+          },
+          {
+            "source": "youtube",
+            "id": "9040EpE35fg",
+            "title": "Actress Evangeline Lilly Flees Hollywood: 'God Has a Plan'",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=9040EpE35fg"
+          },
+          {
+            "source": "youtube",
+            "id": "Bc2f9qdG4zQ",
+            "title": "THE CURRICULUM OF AFFLICTION",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=Bc2f9qdG4zQ"
+          },
+          {
+            "source": "youtube",
+            "id": "BgZAb_W6HPs",
+            "title": "Lagarde kan ta redan nu ta över WEF - Oväntade orsaken bakom plötsliga planerna - Hans Erixon",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=BgZAb_W6HPs"
+          },
+          {
+            "source": "youtube",
+            "id": "LutSdjctWRw",
+            "title": "Revolution wurde ausgerufen + Erste Panzer im Einsatz + Historische Wahrzeichen in Paris brennen!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=LutSdjctWRw"
+          },
+          {
+            "source": "youtube",
+            "id": "6l6dO7LtbeU",
+            "title": "Terror gegen Christen in Nigeria, meisten Medien schweigen #jesus #bibel #deutschland #endzeit",
+            "channel": "endzeit-kanal",
+            "url": "https://www.youtube.com/watch?v=6l6dO7LtbeU"
+          },
+          {
+            "source": "youtube",
+            "id": "8AaTSMiap3U",
+            "title": "Alcohol Ban at All Train Stations: More Safety or Just Displacement?",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=8AaTSMiap3U"
+          },
+          {
+            "source": "youtube",
+            "id": "CHfWfd95LoQ",
+            "title": "AfD City Councilor: \"Suddenly everyone is much friendlier\"",
+            "channel": "COMPACTTV",
+            "url": "https://www.youtube.com/watch?v=CHfWfd95LoQ"
+          },
+          {
+            "source": "youtube",
+            "id": "Cl6DpFk57mQ",
+            "title": "HOW JESUS CHRIST MEETS YOUR TRUE NEEDS!",
+            "channel": "AusGlaubenLeben",
+            "url": "https://www.youtube.com/watch?v=Cl6DpFk57mQ"
+          },
+          {
+            "source": "youtube",
+            "id": "DkZi6hQ2ltg",
+            "title": "ILTV News Flash – October, 18, 2026",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=DkZi6hQ2ltg"
+          },
+          {
+            "source": "youtube",
+            "id": "LQLa9vTE_nU",
+            "title": "⚡ALERT! WORLDWIDE WAR Preparations Underway, Russia, Europe, Canada, Hormuz Are on FIRE!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=LQLa9vTE_nU"
+          },
+          {
+            "source": "youtube",
+            "id": "N4x3Q-smENc",
+            "title": "⚡ALERT: WW3 BLOCKADE! \"NO SHIPS ALLOWED\" CENTCOMs 'STARVE IRAN' Plan, FAKE Negotiations",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=N4x3Q-smENc"
+          },
+          {
+            "source": "youtube",
+            "id": "12usz5ibnkk",
+            "title": "The Matrix Was Warning You About the GREAT DECEPTION",
+            "channel": "DLMChristianPerspective",
+            "url": "https://www.youtube.com/watch?v=12usz5ibnkk"
+          },
+          {
+            "source": "youtube",
+            "id": "1gsWOIEA9YA",
+            "title": "Why Did the Romans Hate the Jews?",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=1gsWOIEA9YA"
+          },
+          {
+            "source": "youtube",
+            "id": "2IXVOZGzF3o",
+            "title": "THE LION HAS ROARED! OVERCOMING FEAR IN THE DAYS AHEAD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=2IXVOZGzF3o"
+          },
+          {
+            "source": "youtube",
+            "id": "5GM0LSGUbI8",
+            "title": "Expressen passerar en gräns – använder familjen som klickbete",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=5GM0LSGUbI8"
+          },
+          {
+            "source": "youtube",
+            "id": "6XhemKhen6A",
+            "title": "Trump-Putin Deal: Merz rejects cheap diesel!💥",
+            "channel": "COMPACTTV",
+            "url": "https://www.youtube.com/watch?v=6XhemKhen6A"
+          },
+          {
+            "source": "youtube",
+            "id": "7uQlhW0D328",
+            "title": "heute 19:00 Uhr vom 15.10.2026 Reform der Notfallversorgung, EU-Haushalt, Alkoholverbot an Bahnhöfen",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=7uQlhW0D328"
+          },
+          {
+            "source": "youtube",
+            "id": "AZR7g1pL_Jk",
+            "title": "Ex SPD-Chef Gabriel schiesst gegen eigene Partei! + CDU bietet SPD Koalitions-Ende an!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=AZR7g1pL_Jk"
+          },
+          {
+            "source": "youtube",
+            "id": "1cQv3EFFeFY",
+            "title": "This focus changes everything!",
+            "channel": "AusGlaubenLeben",
+            "url": "https://www.youtube.com/watch?v=1cQv3EFFeFY"
+          },
+          {
+            "source": "youtube",
+            "id": "1k1S0VGGMvI",
+            "title": "\"Winter Predictions\" - They Did Not Know This Was in the Bible",
+            "channel": "offthekirb",
+            "url": "https://www.youtube.com/watch?v=1k1S0VGGMvI"
+          },
+          {
+            "source": "youtube",
+            "id": "2t8puvBsx5M",
+            "title": "Flock Cameras Can Make Your Car Searchable Across the Country",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=2t8puvBsx5M"
+          },
+          {
+            "source": "youtube",
+            "id": "2uYBZQAVsEU",
+            "title": "Baylor University: Wolves in Shepherd's Clothing?",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=2uYBZQAVsEU"
+          },
+          {
+            "source": "youtube",
+            "id": "5gyyAzfmWk4",
+            "title": "Global Meet-Up #4 (Austin, Texas):  American Prophecy",
+            "channel": "PredictiveHistory",
+            "url": "https://www.youtube.com/watch?v=5gyyAzfmWk4"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "Li-rc6swhQs",
+            "title": "Trump Let's the AI Labs Police THEMSELVES?!",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=Li-rc6swhQs"
+          },
+          {
+            "source": "youtube",
+            "id": "FS9gSh3FcB0",
+            "title": "Why the Deepest Place on Earth Is Linked To Satan, Giants, and The End Times",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=FS9gSh3FcB0"
+          },
+          {
+            "source": "youtube",
+            "id": "9RbXUuqhVak",
+            "title": "⚡IRAN \"Theres Nothing to Negotiate\" a BIGGER WAR is Brewing w/ Dr. Paul Craig Roberts",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=9RbXUuqhVak"
+          },
+          {
+            "source": "youtube",
+            "id": "493ibPDGZKg",
+            "title": "Saudi Arabia's Dangerous Shift: Prof. Marandi Reveals the Reality",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=493ibPDGZKg"
+          },
+          {
+            "source": "youtube",
+            "id": "5o-PY2LFi30",
+            "title": "Haben serbische Studierende die Macht, Präsident Vučić abzuwählen?",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=5o-PY2LFi30"
+          },
+          {
+            "source": "youtube",
+            "id": "9Bz2K3s6elM",
+            "title": "DEEPENING YOUR DEVOTIONAL IDENTITY--Christ Comes For His Bride The Church",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=9Bz2K3s6elM"
+          },
+          {
+            "source": "youtube",
+            "id": "BPt-TcM5a-4",
+            "title": "Är Liberalerna Sverigedemokraternas bästa vänner?",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=BPt-TcM5a-4"
+          },
+          {
+            "source": "youtube",
+            "id": "BTAuIDdLeR0",
+            "title": "ILTV Weekly Review - October, 23, 2026",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=BTAuIDdLeR0"
+          },
+          {
+            "source": "youtube",
+            "id": "laj7Uv-QvdM",
+            "title": "Your BITCOIN DATA is going ABROAD! 😳 BUNDESTAG PASSES CARF!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=laj7Uv-QvdM"
+          },
+          {
+            "source": "youtube",
+            "id": "G3LodipAynI",
+            "title": "JD Vance Pauses Rally in Nebraska to Pray for Fallen Attendee",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=G3LodipAynI"
+          },
+          {
+            "source": "youtube",
+            "id": "ySPf39hyWOs",
+            "title": "⚡ALERT! ALL EMBASSIES EVACUATED. \"Iran Lifts NUCLEAR BAN\" - Netanyahu, RUSSIAS MASTER PLAN.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=ySPf39hyWOs"
+          },
+          {
+            "source": "youtube",
+            "id": "yiR90jZYeRo",
+            "title": "Survive Whats Coming With This Device",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=yiR90jZYeRo"
+          },
+          {
+            "source": "youtube",
+            "id": "NojEUlNM-BY",
+            "title": "⚡ALERT! Trumps MOAB/ NUCLEAR Priming, Israel Preps BUNKERS, UKMTOs Shocking Admission!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=NojEUlNM-BY"
+          },
+          {
+            "source": "youtube",
+            "id": "VlCE2E2K7Us",
+            "title": "⚡ALERT: The \"WAR IS OVER\".... Or NOT! w/ @garlandn ​",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=VlCE2E2K7Us"
+          },
+          {
+            "source": "youtube",
+            "id": "yzl1IcGtgUc",
+            "title": "⚡ALERT: Russia is BURNING, Iran Blockade EXPANDS, Putin Prepares to INVADE Baltics?!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=yzl1IcGtgUc"
+          },
+          {
+            "source": "youtube",
+            "id": "uJkG4wKRVHA",
+            "title": "⚡ALERT! CODE 100 ACTIVATED IN IRAN!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uJkG4wKRVHA"
+          },
+          {
+            "source": "youtube",
+            "id": "LQLa9vTE_nU",
+            "title": "⚡ALERT! WORLDWIDE WAR Preparations Underway, Russia, Europe, Canada, Hormuz Are on FIRE!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=LQLa9vTE_nU"
+          },
+          {
+            "source": "youtube",
+            "id": "N4x3Q-smENc",
+            "title": "⚡ALERT: WW3 BLOCKADE! \"NO SHIPS ALLOWED\" CENTCOMs 'STARVE IRAN' Plan, FAKE Negotiations",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=N4x3Q-smENc"
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "weekly",
+        "now_utc_iso": "2026-10-23T08:46:27+00:00"
+      },
+      "workflow_run_id": "39926546423",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:weekly:2026-10-16:2026-10-23:production",
+        "subject": "The Cyberlurch Report — Weekly",
+        "subject_hash": "aec11e60bea54202472fa0203770b1dde7bd37f34201458529bbd8444787f038",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "deb01862f09db72b8cafc50a3ec2b5b765d959035a50be749520fbf30ad4ecc5",
+        "finalization_policy": "markers",
+        "content_version": "c28376b1c84b35d4abff66f40a3eda8fa134fb744bc5866eb0f85109b622d4df",
+        "message_id": "<0e33b14a9cf075cf5f189831698f74edf73c3b204c91dc95cf8023e5c2263c48@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [],
+        "approved_after_generation_checks": true,
+        "seal": "dc88717ff99d381b40de61eee63ad1414642ca4b062d41dc52354d1d51337fa8"
+      }
     }
   },
   "paper_legacy_unknown": {

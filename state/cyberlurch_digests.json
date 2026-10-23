@@ -127673,33 +127673,57 @@
       "video_id": "gda1BWYhc9Y"
     },
     {
-      "bottom_line": null,
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DoomDebates"
+      },
+      "id": "Li-rc6swhQs",
+      "source": "youtube",
+      "title": "Trump Let's the AI Labs Police THEMSELVES?!",
       "channel": "DoomDebates",
+      "url": "https://www.youtube.com/watch?v=Li-rc6swhQs",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 82817,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
       "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.091,
       "cyberlurch_deep_dive_reasons": [
         "text_length:11999",
         "recency"
       ],
-      "cyberlurch_deep_dive_score": 4.093,
-      "editorial_relevance": null,
-      "important_details": null,
-      "processed_at_utc": "2026-10-02T10:00:32+00:00",
-      "published_at": "2026-10-02T04:51:05+00:00",
-      "temporality": "current_affairs",
-      "text_source": "managed_transcript",
-      "title": "Trump and the AI Safety Vibe Shift, With Robert Wright | Nonzero × Doom Debates",
-      "top_pick": null,
-      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
-      "topics": [
-        "Gesellschaft, Medienkritik & Debatte"
-      ],
+      "video_id": "Li-rc6swhQs",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
       "transcript_full_summary": null,
       "transcript_key_points": null,
       "transcript_notable_claims": null,
-      "transcript_processing": null,
       "transcript_uncertainties": null,
-      "url": "https://www.youtube.com/watch?v=Li-rc6swhQs",
-      "video_id": "Li-rc6swhQs"
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     },
     {
       "bottom_line": null,
@@ -133550,40 +133574,36 @@
       },
       "id": "FS9gSh3FcB0",
       "source": "youtube",
-      "title": "Hollow Earth: Admiral Byrd's Diary and the Prison Legends of Nephilim Giants, UFOs and Fallen Angels",
+      "title": "Why the Deepest Place on Earth Is Linked To Satan, Giants, and The End Times",
       "channel": "EndTimesProductions",
       "url": "https://www.youtube.com/watch?v=FS9gSh3FcB0",
       "topics": [
         "Prophetie, Endzeit & Weltdeutung"
       ],
       "policy": "news",
-      "published_at": "2026-10-19T03:30:00+00:00",
-      "screened_at": "2026-10-19T03:30:00+00:00",
-      "expires_at": "2026-10-22T03:30:00+00:00",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
       "attempts": 0,
       "last_attempt_day": "",
       "stage": "screened",
-      "selection_reason": "channel_balance",
+      "selection_reason": "topic_coverage",
       "source_basis": {
         "version": 1,
-        "kind": "transcript",
-        "provider": "managed_transcript",
-        "available_chars": 126947,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
         "processed_unique_chars": 0,
         "coverage": "none",
         "video_completeness": "unknown"
       },
-      "text_source": "managed_transcript",
-      "content_status": "full_text",
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
       "temporality": "mixed",
-      "cyberlurch_deep_dive_score": 4.082,
-      "cyberlurch_deep_dive_reasons": [
-        "text_length:12000",
-        "recency"
-      ],
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
       "video_id": "FS9gSh3FcB0",
-      "processed_at_utc": "2026-10-19T09:11:28+00:00",
-      "topic_primary": null,
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
       "transcript_processing": null,
       "transcript_full_summary": null,
       "transcript_key_points": null,
@@ -133592,6 +133612,8 @@
       "important_details": null,
       "editorial_relevance": null,
       "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
       "top_pick": null
     },
     {
@@ -136289,8 +136311,821 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@preppernewsflash"
+      },
+      "id": "9RbXUuqhVak",
+      "source": "youtube",
+      "title": "⚡IRAN \"Theres Nothing to Negotiate\" a BIGGER WAR is Brewing w/ Dr. Paul Craig Roberts",
+      "channel": "preppernewsflash",
+      "url": "https://www.youtube.com/watch?v=9RbXUuqhVak",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 49879,
+        "processed_unique_chars": 49879,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 6.091,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "Dr. Paul Craig Roberts argues that Iran surrendered a strategic advantage by agreeing to a ceasefire under pressure from Pakistan, Russia and China, that the Zionist agenda of Greater Israel aims at exterminating Iran, and that these dynamics risk escalating into a wider, possibly nuclear, war.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Iran agreed to a ceasefire despite having the upper hand and disabled U.S. radar and bases.",
+        "The Zionist agenda of Greater Israel is portrayed as seeking control from the Nile to Pakistan and requiring the elimination of Iran.",
+        "Russia and China pressured Iran to halt its offensive, and that pressure enabled the U.S. and Israel to recover offensive capabilities."
+      ],
+      "transcript_notable_claims": [
+        "The United States attacked Iran at Israel's request according to an official State Department legal document.",
+        "Iran could have forced American and Israeli surrender but instead relinquished leverage by agreeing to talks.",
+        "Netanyahu represents a Zionist minority whose agenda depends on keeping America engaged in war to sustain Greater Israel.",
+        "If Iran negotiates with a Zionist Israeli government it would be negotiating its own extermination because the agenda requires Iran's elimination.",
+        "Putin has intentionally allowed the Ukraine war to drag on in hopes of negotiating a mutual security agreement with the West.",
+        "European and American leaders risk expanding conflicts that could progress toward nuclear exchanges if mobilization becomes uncontrollable."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain what specific inducements or pressures from Pakistan, Russia and China convinced Iran to accept the ceasefire.",
+        "It is unknown whether Russia and China privately intend to benefit from continued Iranian pressure or why they urged Iran to stop.",
+        "It is unclear what precise plan Netanyahu and Trump have beyond keeping America involved in the conflict."
+      ],
+      "important_details": [
+        "The ceasefire allowed Israel to concentrate attacks on Lebanon and contributed to thousands of Lebanese civilian deaths in Tyre according to the source.",
+        "Iran threatened to shut down Persian Gulf oil shipments and Saudi salt-water purification systems if its power infrastructure were attacked.",
+        "Polls reportedly show Netanyahu's support at about 24%, and several former Israeli prime ministers formed an anti-Netanyahu coalition ahead of September elections."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "9RbXUuqhVak",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@judgingfreedom"
+      },
+      "id": "493ibPDGZKg",
+      "source": "youtube",
+      "title": "Saudi Arabia's Dangerous Shift: Prof. Marandi Reveals the Reality",
+      "channel": "judgingfreedom",
+      "url": "https://www.youtube.com/watch?v=493ibPDGZKg",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2667,
+        "processed_unique_chars": 2667,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.758,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:2667",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript asserts that Mohammed bin Salman’s actions have created a catastrophic domestic and regional situation, provoking tribal contacts across borders and risking internal collapse of his government amid ongoing conflict in Yemen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Mohammed bin Salman has created a catastrophic situation inside Saudi Arabia and regionally.",
+        "Tribes inside Saudi Arabia are communicating with tribes in Syria, Iraq, Yemen and across the Persian Gulf.",
+        "The Yemen war began after President Obama allegedly gave Mohammed bin Salman a green light in 2015."
+      ],
+      "transcript_notable_claims": [
+        "It is believed that Donald Trump pushed Mohammed bin Salman to restart the war.",
+        "The extended Saudi royal family, marginalized Wahhabis, and ordinary Saudis are unhappy with Mohammed bin Salman.",
+        "The Wall Street Journal reports that Mohammed bin Salman has been moving between palaces and hiding in bunkers, which indicates internal Saudi instability.",
+        "Scott Ritter predicts an imminent collapse of Mohammed bin Salman’s government, though not necessarily the Saudi state.",
+        "Public opinion in Turkey, Pakistan and Egypt is reported as largely against intervention in the current conflict.",
+        "Pakistan faces particular risk because supporters of Imran Khan opposed Saudi involvement in the earlier assault on Yemen."
+      ],
+      "transcript_uncertainties": [
+        "From my understanding, tribes are speaking across borders, which indicates uncertainty about the full extent of cross-border tribal coordination.",
+        "I don't know about the new mood in Turkey, indicating uncertainty about Turkey's current stance."
+      ],
+      "important_details": [
+        "The transcript links the start of the Yemen genocide to a 2015 green light allegedly given by President Obama to Mohammed bin Salman when he was defense minister.",
+        "The transcript names Ansarullah as the opposing force but asserts that Ansarullah likely lacks the capability to target Mohammed bin Salman while he moves between palaces."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "493ibPDGZKg",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "5o-PY2LFi30",
+      "source": "youtube",
+      "title": "Haben serbische Studierende die Macht, Präsident Vučić abzuwählen?",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=5o-PY2LFi30",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2624,
+        "processed_unique_chars": 2624,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Studentenbewegung in Serbien formiert sich nach dem Einsturz eines Bahnhofs in Novi Sad vor zwei Jahren und tritt mit eigener Liste gegen Präsident Vučić und die Fortschrittspartei an, während Aktivisten Repressionen und Einschüchterung durch Polizei und regierungsnahe Medien berichten.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Ein Bahnhofs-Vorbau in Novi Sad stürzte vor zwei Jahren ein und tötete 16 Menschen.",
+        "Die Studierenden kritisieren Korruption und Machtmissbrauch im System Vučić und kandidieren nun mit eigener Liste.",
+        "Studenten wie Peter berichten von vorübergehenden Festnahmen, nächtlichen Polizeieinsätzen vor ihrer Wohnung und Verbreitung eines Polizistenvideos in regierungsnahen Medien."
+      ],
+      "transcript_notable_claims": [
+        "Die Studierenden machen die Regierung von Vučić für Korruption und Machtmissbrauch verantwortlich, was zum Bahnhofsunglück geführt habe.",
+        "Die Polizei habe Peter vor einem Jahr vorübergehend festgenommen und ein Polizist habe das Geschehen gefilmt; das Video sei später bei einem regierungsnahen Sender gelaufen.",
+        "Bürger werden mit Busen zu pro-regierung Veranstaltungen gebracht, wo Redner neue Arbeitsplätze und Autobahnen als Erfolge Vučićs feiern."
+      ],
+      "transcript_uncertainties": [
+        "Peter sagt, er wisse nicht, ob die Polizei jemanden festnehme, zusammenschlage, an einen unbekannten Ort bringe oder etwas unterschiebe.",
+        "Borgoljub Sivkoovitsch vermutet, dass seine vorzeitige Pensionierung mit dem Engagement seines Sohnes in der Studentenbewegung zusammenhängt."
+      ],
+      "important_details": [
+        "Die Studentenkampagne umfasst eine Fahrertour durch ländliche Regionen und fokussiert auf Rechtsstaatlichkeit und bessere Bildung.",
+        "Peter berichtet, dass Polizisten nachts vor seiner Wohnung gewartet hätten, angeführt vom Chef der Kriminalpolizei.",
+        "Borgoljub Sivkoovitsch führt vor Gericht einen Rechtsstreit gegen seine vorzeitige Pensionierung."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "5o-PY2LFi30",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "9Bz2K3s6elM",
+      "source": "youtube",
+      "title": "DEEPENING YOUR DEVOTIONAL IDENTITY--Christ Comes For His Bride The Church",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=9Bz2K3s6elM",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4902,
+        "processed_unique_chars": 4902,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 2.316,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:4902",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript explains first-century Jewish betrothal customs and applies them as a metaphor for Christ's relationship with the Church, describing preparation, waiting, and the wedding consummation as analogies for salvation, sanctification, and the promised return of Jesus.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Ancient Jewish betrothal required fathers to negotiate a bride price and a sealed agreement before formal engagement.",
+        "The groom returned to his father's house to build an addition and prepare a place for his bride while the bride prepared wedding clothes at her parents' home.",
+        "Jesus used the cultural image of a bridegroom preparing a place to promise his return and the believer's future with him, as in John 14."
+      ],
+      "transcript_notable_claims": [
+        "Christ's people form a new family comparable to an extended insula where generations lived and worked together.",
+        "Believers are described as 'bought with a price' and are known in the community after spiritual cleansing, paralleling the bride's mikvah.",
+        "There are two sets of clothes: Christ's righteousness that gets a person to heaven and fine linen of the saints' righteous works that they will wear there.",
+        "The church will not go through the tribulation but will be taken home to a city without death, parting, sorrow, or sickness where the Lamb is the light."
+      ],
+      "transcript_uncertainties": [
+        "The exact duration that the bride might wait for the bridegroom could be six months, nine months, or even longer according to the cultural description.",
+        "No one knew the precise time when the bridegroom would come for his bride, mirroring uncertainty about Christ's return."
+      ],
+      "important_details": [
+        "The groom gathered friends and family to announce the wedding and bring the bride to the new home, followed by a joyous seven-day reception.",
+        "The best man signaled the wedding consummation from the wedding chamber door to the gathered party."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "9Bz2K3s6elM",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "BPt-TcM5a-4",
+      "source": "youtube",
+      "title": "Är Liberalerna Sverigedemokraternas bästa vänner?",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=BPt-TcM5a-4",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 14673,
+        "processed_unique_chars": 14673,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.091,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Intervjun och diskussionen handlar om Simona Mohamssons uttalande att Liberalerna står närmare Sverigedemokraterna än Socialdemokraterna och om partiets högerförskjutning, interna splittring och taktiska möjligheter vid regeringsbildningen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Simona Mohamsson säger att Liberalerna står närmare Sverigedemokraterna än Socialdemokraterna.",
+        "Liberalerna har genom partiledningens linje fått stora medlems- och väljartapp i vissa kommuner.",
+        "Region Stockholms mittenstyre innehåller Liberalerna i samarbete med Socialdemokraterna, Centerpartiet och Miljöpartiet."
+      ],
+      "transcript_notable_claims": [
+        "Liberalerna har offrat mycket för att komma närmare Sverigedemokraterna och tappat medlemmar och företrädare.",
+        "Simona Mohamsson uppträder tydligt förhållandevis lojal mot Sverigedemokraterna och vill inte samarbeta med Magdalena Andersson.",
+        "Kristdemokraterna framstår som en svag länk i 'tidersamarbetet' medan Liberalerna framstår som mer trogna Sverigedemokraterna än Kristdemokraterna."
+      ],
+      "transcript_uncertainties": [
+        "Det är osäkert om Liberalerna långsiktigt kan behålla beslutet att samarbeta närmare Sverigedemokraterna.",
+        "Det är oklart hur mycket kommunernas mittenpolitik kommer att påverka riksnivåns partilinje."
+      ],
+      "important_details": [
+        "Många kommunföreningar har öppet vänt sig emot den SD-vänliga linjen och bildat utbrytarpartier eller lämnat Liberalerna.",
+        "Liberalerna har en hög andel flyktiga väljare som bestämde sig sent i valet, vilket påverkar partiets taktik."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "BPt-TcM5a-4",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "BTAuIDdLeR0",
+      "source": "youtube",
+      "title": "ILTV Weekly Review - October, 23, 2026",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=BTAuIDdLeR0",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "BTAuIDdLeR0",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Blocktrainer"
+      },
+      "id": "laj7Uv-QvdM",
+      "source": "youtube",
+      "title": "Your BITCOIN DATA is going ABROAD! 😳 BUNDESTAG PASSES CARF!",
+      "channel": "Blocktrainer",
+      "url": "https://www.youtube.com/watch?v=laj7Uv-QvdM",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8379,
+        "processed_unique_chars": 8379,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.186,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8379",
+        "recency"
+      ],
+      "transcript_full_summary": "Der Text kritisiert die geplante Regelung zum internationalen Austausch von Krypto-Nutzerdaten durch den Bundestag und erklärt persönliche Verwahrungsstrategien für Bitcoin samt Produktwerbung für Hardware-Wallets.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Der Bundestag hat eine Regelung beschlossen, die Krypto-Steuer- und Transaktionsdaten ab September 2027 an insgesamt 46 Jurisdiktionen weitergeben soll.",
+        "Die Regelung erweitert die Datenerfassung vergleichbar mit DAC 8 und verlangt von Brokern und Börsen, Käufer-, Verkäufer- und Transaktionsdaten zu melden.",
+        "Der Text empfiehlt, signifikante Bitcoin-Bestände nicht zu Hause aufzubewahren und stattdessen Hardware-Wallets und Bankschließfächer zu nutzen."
+      ],
+      "transcript_notable_claims": [
+        "Zentrale Speicherung von Wohnorten und Transaktionsdaten im Kryptobereich ist gefährlich, weil Behörden und Unternehmen regelmäßig gehackt werden.",
+        "Wenn Nutzer Bitcoin auf die eigene Wallet transferieren, werden Name, Anschrift, Steuernummer, Geburtsdatum, Geburtsort und jede Transaktion zehn Jahre lang dokumentiert.",
+        "Die AfD war die einzige Fraktion, die gegen den Entwurf stimmte, und argumentierte, dass die Regelung Freiheit einschränke und Staatsgrenzen nicht kontrolliere."
+      ],
+      "transcript_uncertainties": [
+        "Der Sprecher gibt eine frühere Aussage von Jörn König wieder, die ursprünglich 55 weitere Staaten nannte, korrigiert diese Zahl aber auf 46 Jurisdiktionen.",
+        "Es bleibt offen, welche konkreten Drittstaaten Zugriff auf die Daten erhalten und wie deren Datenschutzstandards ausgestaltet sind."
+      ],
+      "important_details": [
+        "In Frankreich wurden laut dem Text bis 2026 insgesamt 70 dokumentierte Fälle von Dateneinbrüchen in Steuerdaten registriert.",
+        "Die Besorgnis umfasst auch die Meldung der Übertragung auf die eigene Wallet sowie die Übermittlung der Wohnadresse und übertragenen Beträge an Drittländer.",
+        "Das Unternehmen Tresor hat 2014 die erste Hardware-Wallet auf den Markt gebracht und bietet Open-Source-Software, Display-basierte Hardware-Wallets und ein eigenes Secure Element an."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "laj7Uv-QvdM",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "ySPf39hyWOs",
+      "source": "youtube",
+      "title": "⚡ALERT! ALL EMBASSIES EVACUATED. \"Iran Lifts NUCLEAR BAN\" - Netanyahu, RUSSIAS MASTER PLAN.",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=ySPf39hyWOs",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-22T04:26:33+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-25T04:26:33+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 36778,
+        "processed_unique_chars": 36778,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 5.61,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The video argues that a near-term war with Iran appears imminent due to diplomatic evacuations, Israeli threats against the IRGC and coordinated U.S.-Israeli posturing, while situating that risk within a broader geopolitical strategy linking Iran, Ukraine and Russia.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The United States has ordered non-essential personnel to evacuate embassies across the Middle East and is covertly drawing down forces in Gulf states.",
+        "Benjamin Netanyahu declared Israel will use all assets to prevent the IRGC from obtaining a nuclear weapon after alleging Iran lifted restrictions on nuclear development.",
+        "The narrator asserts Russia may be trying to bait the United States into a quagmire in Iran to gain strategic breathing room in Ukraine."
+      ],
+      "transcript_notable_claims": [
+        "Unnamed White House officials told media that the U.S. is significantly drawing down diplomatic missions across the region.",
+        "Netanyahu said the Ayatollah has lifted restrictions on creating a nuclear weapon and Israel may act unilaterally to stop the IRGC.",
+        "U.S. and Israeli planners have developed an intensive three-day campaign targeting Iranian nuclear facilities, missile and drone factories, and energy infrastructure after the November 3rd midterms.",
+        "Iran has threatened unrestrained retaliation including targeting energy infrastructure, power plants, desalination plants, refineries and undersea cables.",
+        "Tasnim news agency alleges Ukrainian units deployed thousands of micro drones across countries surrounding Iran, including Iraqi Kurdistan near the Iranian border.",
+        "Iraq began gradual border closures including indefinite shutdown of Al-Shib and Pakistan closed Taftan and Gabbed Rimdan crossings and suspended commercial trade.",
+        "Washington accused Russian military satellite Cosmos 2612 of maneuvering dangerously close to a commercial satellite, describing the behavior as consistent with space weapons operation.",
+        "European lawmakers are proposing a defense union alongside NATO that could provide security guarantees modeled on Article 5 for Ukraine."
+      ],
+      "transcript_uncertainties": [
+        "The narrator expresses uncertainty about whether current overt Israeli and U.S. public posturing indicates a genuine imminent attack or a bluff.",
+        "The narrator is uncertain whether Russian concessions toward a Ukraine ceasefire are tactical bait or genuine de-escalation.",
+        "The narrator does not know whether reported troop increases and requests would be sufficient for a sustained ground invasion in Iran."
+      ],
+      "important_details": [
+        "Missile defense systems and Israeli mobile ballistic launchers are reportedly moving and Iran is preparing mobile bomb shelters outside facilities in Israel.",
+        "Reports claim Russia has amassed weapons in Kaliningrad beyond bunker capacity, with containers stacked outside bunkers visible in satellite footage.",
+        "NATO is reinforcing Black Sea deployments with maritime patrol aircraft, radar systems and drones after deadly attacks on commercial ships near Romania and Bulgaria."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "ySPf39hyWOs",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "G3LodipAynI",
+      "source": "youtube",
+      "title": "JD Vance Pauses Rally in Nebraska to Pray for Fallen Attendee",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=G3LodipAynI",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2010,
+        "processed_unique_chars": 2010,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "transcript_full_summary": "JD Vance pauses a Nebraska rally for a medical incident, leads a Christian Lord's Prayer over the crowd, announces the attendee is fine, asks the crowd to allow calm removal by ambulance, and urges election of Pete Ricketts.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "JD Vance paused the rally when a medical issue occurred with an attendee.",
+        "JD Vance led the crowd in the Lord's Prayer while medical personnel attended the attendee.",
+        "JD Vance reported that the attendee was doing fine and asked the crowd to remain so she could be removed by ambulance.",
+        "JD Vance urged the audience to elect Pete Ricketts before closing the event."
+      ],
+      "transcript_notable_claims": [
+        "The attendee told JD Vance that the rally was her first rally.",
+        "JD Vance characterized praise be to God and declared that the attendee was doing fine.",
+        "JD Vance requested that those of the praying type join him in prayer, reciting the Lord's Prayer aloud."
+      ],
+      "transcript_uncertainties": [
+        "The transcript does not specify the attendee's medical condition.",
+        "The transcript does not confirm whether the attendee was ultimately transported by ambulance."
+      ],
+      "important_details": [
+        "JD Vance asked his team to get the doctor and told the crowd to stay calm while doctors and law enforcement worked.",
+        "JD Vance asked someone afterwards to give direction to the crowd to permit the attendee to be taken out in peace and comfort."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "G3LodipAynI",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@offthekirb"
+      },
+      "id": "KbGZM0cEjb4",
+      "source": "youtube",
+      "title": "\"It Resurfaced!\" - Rowan Atkinson EXPLODES on UK Free Speech",
+      "channel": "offthekirb",
+      "url": "https://www.youtube.com/watch?v=KbGZM0cEjb4",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 21868,
+        "processed_unique_chars": 21868,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.091,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "Rowan Atkinson defends virtually unrestricted free speech and criticizes criminalizing insults; a Christian pastor endorses total free speech while warning of social and spiritual harms from internet culture and potential legal limits on Christian expression.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Rowan Atkinson places free expression as the second most precious right and opposes criminalizing merely insulting language.",
+        "Atkinson argues that arrests for insulting speech create a chilling effect and that more speech, not repression, counters hateful speech.",
+        "A pastor affirms total free speech for all and warns that internet-driven short-form content and social media damage attention, morality, and gospel reach."
+      ],
+      "transcript_notable_claims": [
+        "Atkinson cites cases of arrests for calling a police horse gay, calling Scientology a cult, and displaying Bible passages as examples of overreach.",
+        "Atkinson claims that many prosecutions were dropped only after media publicity made police withdraw to avoid ridicule.",
+        "The pastor asserts that thousands, including 30,000 people, have been arrested in the UK for social media posts.",
+        "The pastor claims certain groups seek laws in the UK that would criminalize criticism of their belief that Jesus was not God, potentially making Christians liable for arrest.",
+        "The pastor claims that short-form social media content has shortened attention spans and hindered people from engaging with deep spiritual teaching."
+      ],
+      "transcript_uncertainties": [
+        "Atkinson admits he is unlikely personally to be arrested because of his privileged public profile.",
+        "Atkinson acknowledges that whether arresting a protester for threatening or abusive speech is proportionate depends on the circumstances.",
+        "The pastor signals uncertainty about how far proposed or future UK laws might restrict Christian speech by asking listeners to \"read between the lines.\""
+      ],
+      "important_details": [
+        "Atkinson supports the Reform Section 5 campaign against Section 5 of the Public Order Act.",
+        "The pastor cites Matthew 12:36 and Proverbs 17:27-28 to argue Christians must both speak boldly and exercise restraint with their words.",
+        "The pastor declined to place adverts on his channel because he wants to present the gospel for free without distractions."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "KbGZM0cEjb4",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@VanessaWingårdh"
+      },
+      "id": "LcjxvGQl6cQ",
+      "source": "youtube",
+      "title": "Kids Aren’t Kids Anymore",
+      "channel": "VanessaWingardh",
+      "url": "https://www.youtube.com/watch?v=LcjxvGQl6cQ",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 16005,
+        "processed_unique_chars": 16005,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "The transcript argues that children are becoming premature consumers and mini-influencers, driven by social media, marketing and permissive parenting, with kids as young as four using adult skincare, cologne and tech like Meta glasses.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "More toys were sold to adult-only households than to households with children in the first half of 2026.",
+        "Children as young as four are using retinoids and chemical toners intended for adults.",
+        "Surveys from 2021 to 2024 found over 60% of middle and high schoolers want to be social media influencers."
+      ],
+      "transcript_notable_claims": [
+        "Parents are buying iPhones and Meta glasses for children as young as six to eleven so kids can consume and create online content.",
+        "Brands and conglomerates repackage identical products under different labels to sell more items to children and parents.",
+        "The skincare brand Evereden pivoted to child-targeted products and now gets 85% of revenue from child shoppers.",
+        "California proposed a bill to ban sale of anti-aging skincare to kids but the skincare industry lobbied and the bill was killed.",
+        "Meta reached a settlement with 47 states to pay up to $17.1 billion over claims of designing addictive apps, collecting data on kids under 13, and harming children's health."
+      ],
+      "transcript_uncertainties": [
+        "The claim that Evereden receives 85% of its revenue from child shoppers is reported without independent verification in the transcript.",
+        "The exact mechanics by which parents decide to purchase influencer-style products for children are described anecdotally and without precise statistics."
+      ],
+      "important_details": [
+        "Parents' purchases fund Gen Alpha's consumer habits, and Mintel projects Gen Alpha's spending power will hit $5.5 trillion by 2029.",
+        "Retailers like Sephora and Amazon are promoting products and back-to-school deals that include high-end items such as Oakley Meta glasses toward children.",
+        "A cited investigation found kids as young as four using retinoids and chemical toners, which the transcript says should not be applied to children's skin."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "LcjxvGQl6cQ",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@klartextwinkler"
+      },
+      "id": "MN6bd_tiq4c",
+      "source": "youtube",
+      "title": "Riyadh under fire – Iran to mediate?",
+      "channel": "klartextwinkler",
+      "url": "https://www.youtube.com/watch?v=MN6bd_tiq4c",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-23T03:30:00+00:00",
+      "screened_at": "2026-10-23T03:30:00+00:00",
+      "expires_at": "2026-10-26T03:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 6242,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.651,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:6242",
+        "recency"
+      ],
+      "video_id": "MN6bd_tiq4c",
+      "processed_at_utc": "2026-10-23T08:45:16+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-10-22T08:49:51+00:00",
+  "updated_at_utc": "2026-10-23T08:45:16+00:00",
   "version": 1
 }
