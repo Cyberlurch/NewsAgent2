@@ -5,6 +5,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from _github_fakes import response as github_response, collection as github_collection
 
 from newsagent2 import delivery, edition_plan as ep, legacy_transition as lt, main, workflow_delivery as wd
 from newsagent2.store_io import atomic_store
@@ -74,7 +75,7 @@ def recovery_api(monkeypatch, runs):
             if url.endswith("/runs"): data = {"workflow_runs": runs}
             elif url.endswith("/jobs"): data = {"jobs": [{"steps": [{"name": "Run Cybermed reports", "started_at": "now", "conclusion": "failure"}]}]}
             else: data = {"artifacts": []}
-            return SimpleNamespace(raise_for_status=lambda: None, json=lambda: data)
+            return github_response(github_collection(data))
     monkeypatch.setattr(wd.requests, "Session", Session)
     return requests
 

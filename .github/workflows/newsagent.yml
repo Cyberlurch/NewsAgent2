@@ -197,6 +197,10 @@ jobs:
           echo "manual_monthly_state_write=$manual_monthly_state_write" >> "$GITHUB_OUTPUT"
           python -m src.newsagent2.edition_plan --report-key cyberlurch
 
+      - name: "NewsAgent2 plan v1 / cyberlurch / ${{ steps.compute_plan.outputs.plan_proof }}"
+        if: steps.compute_plan.outputs.run_skip != 'true'
+        run: echo "Frozen full-plan evidence recorded."
+
       - name: "NewsAgent2 recovery v1 / cyberlurch / ${{ steps.compute_plan.outputs.manual_monthly_state_write == 'true' && format('maintenance:{0}', steps.compute_plan.outputs.maintenance_month) || env.EMAIL_MODE }}"
         run: |
           case "$EMAIL_MODE" in

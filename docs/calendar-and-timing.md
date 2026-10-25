@@ -55,13 +55,13 @@ automatic collection or resend. See [delivery-recovery.md](delivery-recovery.md)
 | --- | --- | --- |
 | Cybermed | Daily | Swedish eligible business days, including the existing holiday/eve exclusions |
 | Cybermed | Weekly | Friday, or the last eligible business day before an excluded Friday |
-| Cybermed | Monthly | First Friday of the following month; next eligible day if excluded; complete required saved closing week/provenance |
+| Cybermed | Monthly | First Friday of the following month; next eligible day if excluded; valid saved Weekly sources and boundary/provenance checks |
 | Cybermed | Yearly | January close, after the corresponding December Monthly |
 | Cyberlurch | Daily / Weekly | Monday–Friday / Friday, independent of Cybermed holidays |
 | Cyberlurch | Monthly / Yearly | Month's first day / January 1, including weekends; Monthly before Yearly |
 
-Cybermed's shared dates run Daily → Weekly → Monthly → Yearly. Cyberlurch retains
-its existing order: Monthly → Yearly → Daily → Weekly when applicable. The old
+Both newsletters use Daily → Weekly → Monthly → Yearly on shared dates, with
+Monthly before Yearly and only eligible cadences included. The old
 first-business-day Cybermed Monthly helper policy is deliberately replaced by
 the actual first-Friday base policy. Scheduler compatibility helpers delegate
 to the same canonical plan rules.
@@ -83,16 +83,22 @@ provenance checks, with coverage checks for v2 weeks and explicit Daily dates
 for the closing legacy week. A nonempty row alone is insufficient. Already
 stored ambiguous shortened legacy weeks require review, not renaming or a new
 send identity. The subsequent [coverage audit](history-coverage.md) now checks the
-transitive source chain, including interior weeks; new final Cybermed aggregates
-reject unknown/incomplete coverage. [Reviewed maintenance](reviewed-maintenance.md)
+transitive source chain, including interior weeks. Since the operator's 16 October
+decision, valid available evidence can support explicitly labelled partial
+Weekly/Monthly/Yearly reviews. Missing historical editions and unestablished
+Legacy calendar references are not fabricated. A gap alone is not a permanent
+block; corrupt inputs, duplicate/foreign/orphan references, unsafe boundaries,
+unclassified upstream failures and contradictory medical facts still block.
+An empty archive cannot support a review. [Reviewed maintenance](reviewed-maintenance.md)
 is separate from calendar catch-up and does not certify or rewrite Legacy history.
 
 On later eligible days after the first-Friday due date, only the immediately
 preceding month's close is reconsidered. During January, the preceding year is
 also reconsidered. This bounded policy uses identical Monthly/Yearly edition
 IDs; it does not traverse arbitrary historical gaps. Fully accepted and
-finalized closes are removed from the plan, with their IDs recorded as
-`already_finalized_editions`. Missing closing inputs fail before generation;
+finalized editions of every cadence are removed from scheduled execution, with
+their IDs recorded as `already_finalized_editions`. If no valid closing sources
+are available, generation fails;
 after restoring validated inputs, the next eligible run may try that same close.
 An unaccepted ready generated output instead retains the explicit replay guard.
 When a new month begins, older unresolved closes need operator review.
@@ -126,6 +132,12 @@ credentials, provider hostnames or source fulltexts belong in timing metadata.
 Artifact access follows repository settings; do not assume a public repository
 makes artifacts secret or durable beyond their configured retention.
 
+The 23 October run-creation observations were 08:42:23 UTC (Cyberlurch) and
+08:50:09 UTC (Cybermed), respectively 5h12m23s and 5h10m09s after their native
+Stockholm slots. Creation-to-job and later application/SMTP/publication timings
+must be evaluated separately. The six-hour readiness grace is an alarm policy,
+not a punctuality fix, and is not extended here.
+
 ## Offline preview and future independent trigger
 
 An example plan preview in an isolated checkout, with no live metadata request:
@@ -157,6 +169,20 @@ for duplicate triggers. A fixed historical replay still requires original
 receipt/readiness/audience checks. No external timer, credentials, extra
 secrets or timing service are installed by this PR. A native Actions watchdog
 does not establish independent punctuality.
+
+A minimal remaining infrastructure option is one operator-owned timer on an
+already trusted machine, at 05:45 Europe/Stockholm, using a narrowly scoped
+GitHub App/token with Actions dispatch access. It would load this repository's
+canonical calendar, freeze the intended local date, inspect active/finalized
+editions, and dispatch the existing workflows for missing eligible cadences.
+Dispatch cadences **sequentially**, waiting for completion: Actions may replace
+pending jobs even when `cancel-in-progress` is false. Use `logical_date`, the
+preceding month's explicit override and the preceding year's explicit override,
+so native and independent triggers retain the same edition IDs and audiences.
+Partial/unknown SMTP or unavailable verification requires review, never automatic
+replay. This reduces dependency on the native cron event, but still depends on
+GitHub's dispatch API and runner availability. Operator approval, a timer host
+and credential management remain decisions; none are installed here.
 
 Rollback is a normal code/workflow revert. Preserve all produced valid stores
 and receipts: never reset state or rename period keys. V2 Weekly identity is

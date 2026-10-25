@@ -11,6 +11,7 @@ from datetime import datetime, time, timedelta
 import hashlib
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -21,6 +22,7 @@ from .edition_plan import CADENCES, POLICY, entry_for, planned_modes
 from .history_coverage import weekly_coverage, monthly_coverage, yearly_coverage, load_inputs
 from .run_context import path_for
 from .store_io import StoreError, read_store
+from .github_readonly import GitHubReader, GitHubReadError
 
 STO = ZoneInfo('Europe/Stockholm')
 # GitHub's scheduled event creation has been 4-6 hours late in production.
@@ -116,28 +118,28 @@ def last_due_entry(key, cadence, as_of):
     return None
 
 
-def _pending_runs(report_key, journal):
+def _pending_runs(report_key, journal, *, pending=None, evidence=None):
     """Read Actions metadata only; never download/import an artifact here."""
     import requests
     from .legacy_transition import REVIEWED
-    from .workflow_delivery import _nonproduction_jobs
+    from .workflow_delivery import _nonproduction_jobs, _completed_plan_receipts, _run_plan_proofs
     repository, branch, token = (os.getenv(k, '') for k in ('GITHUB_REPOSITORY', 'GITHUB_REF_NAME', 'GITHUB_TOKEN'))
     if not repository or not branch or not token:
         raise RuntimeError('operational_actions_configuration_missing')
     workflow = 'cybermed.yml' if report_key == 'cybermed' else 'newsagent.yml'
     session = requests.Session()
     session.headers.update({'Authorization': 'Bearer '+token, 'Accept': 'application/vnd.github+json'})
-    def get(path, **params):
-        try:
-            response = session.get('https://api.github.com/repos/'+repository+path, params=params, timeout=30)
-            response.raise_for_status()
-            return response.json()
-        except (requests.RequestException, ValueError):
-            raise RuntimeError('operational_actions_access_failed') from None
-    pending = []
+    reader = GitHubReader(session, repository)
+    pending = [] if pending is None else pending
+    evidence = {} if evidence is None else evidence
+    evidence.update(status='incomplete', workflow=workflow, branch=branch,
+                    scope='latest_100_completed_runs', diagnostics=reader.diagnostics, collections=reader.collections,
+                    runs_checked=0, jobs_checked=0)
     acknowledged = set(os.getenv('DELIVERY_RECOVERY_ACK_RUN_IDS', '').split(','))
-    runs = get('/actions/workflows/'+workflow+'/runs', branch=branch, status='completed', per_page=100)
-    for run in runs['workflow_runs']:
+    runs = reader.collection('/actions/workflows/'+workflow+'/runs', 'workflow_runs', 'workflow_runs',
+                             params={'branch':branch, 'status':'completed'}, window=100)
+    for run in runs:
+        evidence['runs_checked'] += 1
         if run['conclusion'] not in {'failure', 'cancelled', 'timed_out', 'action_required'}:
             continue
         if str(run['id']) in acknowledged:
@@ -146,16 +148,18 @@ def _pending_runs(report_key, journal):
         if (repository == 'Cyberlurch/NewsAgent2' and branch == 'main' and reviewed
             and (report_key, workflow, run.get('head_sha')) == reviewed[:3]):
             continue
-        own = [r for r in journal['editions'].values() if r['report_key'] == report_key
-               and r['workflow_run_id'] == str(run['id']) and r['edition_id'].endswith(':production')]
-        if own and all((r['status'] == 'accepted_by_smtp' and r['state_persisted']) or
-                       (r['status'] == 'failed' and not r['generation_validated'] and r['smtp_phase'] == 'not_handed_off') for r in own):
-            continue
-        jobs = get('/actions/runs/'+str(run['id'])+'/jobs', per_page=100)['jobs']
+        jobs = reader.collection('/actions/runs/'+str(run['id'])+'/jobs', 'jobs', 'run_jobs',
+                                 params={'filter':'all'}, max_pages=5)
+        evidence['jobs_checked'] += len(jobs)
         capable = [j for j in jobs if any(s.get('name') in {'Run reports', 'Run Cybermed reports'}
             and s.get('started_at') and s.get('conclusion') != 'skipped' for s in j.get('steps', []))]
         if capable and not _nonproduction_jobs(run, capable, report_key):
-            pending.append({'run_id': str(run['id']), 'category': 'operational_prior_run_recovery_required'})
+            if _completed_plan_receipts(run, capable, report_key, journal):
+                continue
+            pending.append({'run_id': str(run['id']), 'category': 'operational_prior_run_recovery_required',
+                            'planning_evidence': 'present' if _run_plan_proofs(capable, report_key) else 'missing',
+                            'required_action':'inspect_frozen_plan_and_recovery_receipts_no_resend'})
+    evidence['status'] = 'bounded_window_checked' if any(not c['complete_history'] for c in reader.collections) else 'complete'
     return pending
 
 
@@ -163,7 +167,10 @@ def assess(report_key, *, as_of, check_config=False, check_actions=False):
     if report_key not in {'cybermed', 'cyberlurch'} or as_of.tzinfo is None:
         raise ValueError('operational_request_invalid')
     result = {'schema_version': 1, 'report_key': report_key, 'as_of': as_of.isoformat(),
-              'checks': [], 'inputs': {}, 'historical_delivery': [], 'errors': [], 'pending_recovery_runs': []}
+              'checks': [], 'inputs': {}, 'historical_delivery': [], 'errors': [], 'pending_recovery_runs': [],
+              'actions_check': {'status':'not_requested'}, 'state_view': {
+                  'commit':os.getenv('NEWSAGENT_CHECKED_COMMIT') if re.fullmatch('[0-9a-f]{40}', os.getenv('NEWSAGENT_CHECKED_COMMIT','')) else None,
+                  'ref':os.getenv('GITHUB_REF_NAME') if re.fullmatch('[A-Za-z0-9_./-]+',os.getenv('GITHUB_REF_NAME','')) else None}}
     names = ['STATE_PATH', 'ROLLUPS_STATE_PATH', 'DELIVERY_JOURNAL_PATH']
     names += (['CYBERMED_DAILY_DIGEST_STATE_PATH', 'CYBERMED_WEEKLY_DIGEST_STATE_PATH', 'CYBERMED_PUBMED_INGESTION_PATH']
               if report_key == 'cybermed' else ['CYBERLURCH_DIGEST_STATE_PATH', 'YOUTUBE_CHANNEL_ID_CACHE_PATH',
@@ -317,15 +324,25 @@ def assess(report_key, *, as_of, check_config=False, check_actions=False):
     result['historical_delivery'] = [{'run_id': run, 'finding': row[4], 'automatic_resend': False}
         for run, row in REVIEWED.items() if row[0] == report_key]
     from .legacy_transition import FRESH_START
-    result['unresolved_delivery'] = [{'edition_id': r['edition_id'], 'status': r['status']}
+    result['unresolved_delivery'] = [{'edition_id': r['edition_id'], 'status': r['status'],
+        'required_action':'state_recovery_no_resend' if r['status']=='accepted_by_smtp' else 'reconcile_smtp_no_automatic_retry'}
         for r in journal['editions'].values() if r['report_key'] == report_key
         and r['edition_id'].endswith(':production') and r['period_end'] >= FRESH_START
         and (r['status'] in {'outcome_unknown', 'partially_accepted'} or
              (r['status'] == 'accepted_by_smtp' and not r['state_persisted']))]
     if check_actions:
         try:
-            result['pending_recovery_runs'] = _pending_runs(report_key, journal)
+            _pending_runs(report_key, journal, pending=result['pending_recovery_runs'], evidence=result['actions_check'])
+        except GitHubReadError as exc:
+            result['actions_check']['failure'] = exc.diagnostic
+            result['actions_check']['required_action'] = (
+                'operator_github_access_or_path_review' if exc.diagnostic['category']=='github_http_permanent' else
+                'operator_history_limit_or_response_contract_review' if exc.diagnostic['category'] in {
+                    'github_history_limit_exceeded','github_response_schema_invalid'} else 'retry_read_only_check_later')
+            result['errors'].append('operational_actions_check_incomplete')
         except (RuntimeError, KeyError, TypeError) as exc:
+            result['actions_check']['status'] = 'incomplete'
+            result['actions_check']['required_action'] = 'inspect_actions_configuration_or_response_contract'
             result['errors'].append(_category(exc))
     for name, preimage in result['inputs'].items():
         path = path_for(name)
@@ -334,6 +351,10 @@ def assess(report_key, *, as_of, check_config=False, check_actions=False):
             result['errors'].append('operational_input_changed_during_check')
     result['ok'] = (not result['errors'] and not result['unresolved_delivery'] and not result['pending_recovery_runs']
         and not any(r['status'] in {'blocked', 'recovery_required'} for r in result['checks']))
+    known = (bool(result['unresolved_delivery'] or result['pending_recovery_runs'])
+        or any(r['status'] in {'blocked','recovery_required'} for r in result['checks'])
+        or any(not e.startswith('operational_actions_') for e in result['errors']))
+    result['status'] = 'blocked' if known else 'externally_unverified' if not result['ok'] else 'prerequisites_pass'
     return result
 
 
@@ -353,14 +374,26 @@ def main():
     atomic_text(output, json.dumps(report, sort_keys=True, indent=2)+'\n')
     lines = [f"## {args.report_key}: all-cadence preflight", '', '| Cadence | Next date | Status |', '|---|---|---|']
     lines += [f"| {r['cadence']} | {r['scheduled_date']} | {r['status']} |" for r in report['checks']]
-    lines += ['', '**Overall: '+('pass' if report['ok'] else 'action required')+'**']
+    lines += ['', '**Overall: '+report['status']+'**',
+              '- State view: '+str(report['state_view']['commit'] or 'local/unrecorded')+'; ref '+str(report['state_view']['ref']),
+              '- Actions history: '+report['actions_check']['status']]
+    for scope in report['actions_check'].get('collections',[]):
+        if scope['operation']=='workflow_runs':
+            lines.append('- Workflow scope: '+str(scope['checked'])+' of '+str(scope['total_available'])+
+                ' completed runs checked; complete archive: '+str(scope['complete_history']).lower())
+    diagnostic = report['actions_check'].get('failure')
+    if diagnostic:
+        lines.append('- External check unavailable: '+json.dumps(diagnostic,sort_keys=True)+
+                     '; retry the read-only check later; permanent HTTP 401/403/404 requires operator access/path review.')
+    if report['actions_check'].get('required_action'):
+        lines.append('- Required action: '+report['actions_check']['required_action'])
     for row in report['checks']:
         if row['categories']:
             lines.append('- '+row['cadence']+': '+', '.join(row['categories']))
         if row['known_missing_dates']:
             lines.append('- '+row['cadence']+' partial source dates missing: '+', '.join(row['known_missing_dates']))
     for row in report['pending_recovery_runs']:
-        lines.append('- Recovery required for run '+row['run_id'])
+        lines.append('- Recovery review required for run '+row['run_id']+'; plan evidence '+row['planning_evidence']+'; no resend.')
     for row in report['unresolved_delivery']:
         lines.append('- Reconcile '+row['edition_id']+': '+row['status'])
     lines += ['- '+category for category in report['errors']]
@@ -369,7 +402,8 @@ def main():
     if os.getenv('GITHUB_STEP_SUMMARY'):
         with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as stream:
             stream.write('\n'.join(lines)+'\n')
-    print(json.dumps({'report_key': args.report_key, 'ok': report['ok'],
+    print(json.dumps({'report_key': args.report_key, 'ok': report['ok'], 'status':report['status'],
+                      'state_view':report['state_view'], 'actions_check':report['actions_check'],
                       'cadences': {r['cadence']: r['status'] for r in report['checks']}}, sort_keys=True))
     if not report['ok']:
         categories = [r['cadence']+':'+category for r in report['checks'] for category in r['categories']]
@@ -377,7 +411,8 @@ def main():
         if report['pending_recovery_runs']: categories.append('operational_prior_run_recovery_required')
         if report['unresolved_delivery']: categories.append('operational_delivery_reconciliation_required')
         for category in dict.fromkeys(categories):
-            print(f'::error title=Newsletter readiness::{args.report_key}:{category}', file=sys.stderr)
+            detail = ':'+json.dumps(diagnostic,sort_keys=True) if category=='operational_actions_check_incomplete' and diagnostic else ''
+            print(f'::error title=Newsletter readiness::{args.report_key}:{category}{detail}', file=sys.stderr)
     return 0 if report['ok'] else 1
 
 

@@ -16,6 +16,7 @@ from types import SimpleNamespace
 import zipfile
 
 import pytest
+from _github_fakes import response as github_response, collection as github_collection
 import yaml
 
 from newsagent2 import delivery, pubmed_ingestion as ingestion, workflow_delivery as wd
@@ -125,7 +126,7 @@ def test_actual_recovery_step_restores_acceptance_without_another_sender(key, mo
                     "started_at": "2026-10-16T08:30:00Z", "conclusion": "success"}]}]}
             elif url.endswith("/artifacts"):
                 data = {"artifacts": [{"id": 7, "name": f"{key}-delivery-recovery-71", "expired": False}]}
-            return SimpleNamespace(json=lambda: data, raise_for_status=lambda: None, content=buffer.getvalue())
+            return github_response(github_collection(data), content=buffer.getvalue() if url.endswith('/zip') else None)
     monkeypatch.setattr(wd.requests, "Session", Session)
     monkeypatch.setattr(sys, "argv", command(job, "recover"))
     # Separate invocations must both succeed. The second import is a no-op.

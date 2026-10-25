@@ -34,3 +34,15 @@ def test_successful_cli_keeps_ordinary_exit_and_has_no_error_annotation(monkeypa
     assert wd.cli() is None and calls == ['main']
     output = capsys.readouterr()
     assert output.err == '' and output.out == ''
+
+
+def test_github_failure_keeps_status_attempts_and_safe_annotation(monkeypatch,capsys):
+    import json
+    def fail():raise wd.GitHubReadError('github_http_permanent','run_jobs',403,1)
+    monkeypatch.setattr(wd,'main',fail)
+    with pytest.raises(SystemExit) as result:wd.cli()
+    assert result.value.code==1
+    lines=capsys.readouterr().err.splitlines()
+    diagnostic=json.loads(lines[0])['github_read']
+    assert diagnostic['operation']=='run_jobs' and diagnostic['http_status']==403 and diagnostic['attempts']==1
+    assert lines[1]=='::error title=Newsletter operation failed::github_http_permanent'
