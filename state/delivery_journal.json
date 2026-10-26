@@ -7505,6 +7505,668 @@
         "approved_after_generation_checks": true,
         "seal": "e70ccac1c9fe86a480902ede87faaefb189bb4e73b22c4c04f3f07244affb983"
       }
+    },
+    "cybermed:daily:2026-10-26:2026-10-26:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-26",
+      "period_end": "2026-10-26",
+      "edition_id": "cybermed:daily:2026-10-26:2026-10-26:production",
+      "content_version": "9631b37273c13e606defd8d7311496d616ba88ba711dae39cb240cc2d7136033",
+      "message_id": "<26d219c705642abe37ec9eb183ec66d0355067e78a1b44eaaa0704cc3c84c0e7@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-26T10:33:30+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42903821",
+            "title": "Innate immune response in COVID-19 pneumonia during the pandemic: a prospective cohort study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42903821/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42903440",
+            "title": "Early sitting within 72 hours in the intensive care unit and post-intensive care outcomes: a multicenter cohort study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42903440/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901858",
+            "title": "Effect of electrical impedance tomography-guided positive end-expiratory pressure optimisation on postoperative pulmonary complications in laparoscopic colorectal surgery: a randomised controlled trial.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901858/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901857",
+            "title": "Scaling the physician anaesthesiology workforce in sub-Saharan Africa: experience from a teaching hospital in Ghana.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901857/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901859",
+            "title": "Relative efficacy of exercise prehabilitation interventions and their components: a systematic review and network meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901859/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42918611",
+            "title": "Non-Diagnostic Does Not Mean Non-Malignant: Outcomes and Predictors of Malignancy Following Nondiagnostic Robotic-Assisted Bronchoscopy.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42918611/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42918610",
+            "title": "Adherence to Non-Invasive Ventilation in a Provincial Cohort of Children.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42918610/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42913881",
+            "title": "Diagnostic Contribution of Endobronchial Optical Coherence Tomography in the Multidisciplinary Diagnosis of Interstitial Lung Disease.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42913881/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42913880",
+            "title": "Determinants of lung cancer screening follow-up care in community care settings: A qualitative multi-case study in the ACCELL trial.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42913880/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42908042",
+            "title": "Hydroxyethyl starch for prehospital fluid resuscitation: results of two helicopter emergency medical service operators in Germany.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42908042/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42907854",
+            "title": "Prone positioning redirects exhaled aerosol and changes bedside staff exposure during respiratory support.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42907854/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42900697",
+            "title": "Assessment of Tidal Volume in Patients Undergoing Noninvasive Ventilation: Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42900697/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42911398",
+            "title": "What's new in trauma critical care?",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42911398/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42911397",
+            "title": "Principles of drug dosing for obese patients in the intensive care unit.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42911397/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42920184",
+            "title": "Laxative use after cardiac arrest: exposure timing, treatment selection, and outcome interpretation.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42920184/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906108",
+            "title": "Mavacamten and Obstructive Hypertrophic Cardiomyopathy in Teens. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906108/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906107",
+            "title": "Mavacamten and Obstructive Hypertrophic Cardiomyopathy in Teens.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906107/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906106",
+            "title": "Mavacamten and Obstructive Hypertrophic Cardiomyopathy in Teens.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906106/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906105",
+            "title": "Pulsed Field Ablation for Persistent Atrial Fibrillation. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906105/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906104",
+            "title": "Pulsed Field Ablation for Persistent Atrial Fibrillation.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906104/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906103",
+            "title": "Pulsed Field Ablation for Persistent Atrial Fibrillation.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906103/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906102",
+            "title": "IVUS-Guided PCI in Left Main Coronary Disease. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906102/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906101",
+            "title": "IVUS-Guided PCI in Left Main Coronary Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906101/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906100",
+            "title": "IVUS-Guided PCI in Left Main Coronary Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906100/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906099",
+            "title": "IVUS-Guided PCI in Left Main Coronary Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906099/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906098",
+            "title": "IVUS-Guided PCI in Left Main Coronary Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906098/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906097",
+            "title": "Daraxonrasib in Previously Treated Metastatic Pancreatic Cancer. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906097/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906096",
+            "title": "Daraxonrasib in Previously Treated Metastatic Pancreatic Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906096/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906095",
+            "title": "In Vivo Aquaporin-1 Circular RNA Therapy for Radiation-Induced Xerostomia.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906095/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906094",
+            "title": "Conducting Research with Involuntarily Hospitalized Patients - Ethical, Legal, and Regulatory Considerations.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906094/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906093",
+            "title": "Infective Endocarditis - When Is Enough Enough?",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906093/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906092",
+            "title": "Ianalumab in Sjögren's Disease - A First Step.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906092/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906091",
+            "title": "Role for Factor XIa Inhibitors after an Acute Coronary Syndrome Event.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906091/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906090",
+            "title": "Case 30-2026: A 52-Year-Old Man with Vision Loss in the Left Eye.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906090/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906089",
+            "title": "Tuberculous Empyema Resulting in Pseudochylothorax.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906089/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906088",
+            "title": "Helicobacter pylori Infection - Advances, Challenges, and the Road Ahead.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906088/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906087",
+            "title": "Ianalumab for the Treatment of Patients with Sjögren's Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906087/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906086",
+            "title": "Examining the Use of Race in Clinical Algorithms.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906086/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42904878",
+            "title": "Retatrutide Once Weekly for Treatment of Obstructive Sleep Apnea.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904878/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906771",
+            "title": "Pitfalls in assessing graft outcomes from donors initially treated with ECPR for out-of-hospital cardiac arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906771/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://litfl.com/author/davidyu/",
+            "title": "David Yu",
+            "channel": "LITFL",
+            "url": "https://litfl.com/author/davidyu/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-september-2026/",
+            "title": "Critical Care Evidence Updates – September 2026",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-september-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-september-2026/",
+            "title": "Emergency Evidence Updates – September 2026",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-september-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.pulmccm.org/p/the-real-world-boards-question-50",
+            "title": "The Real-World Boards: Question #50",
+            "channel": "PulmCCM",
+            "url": "https://www.pulmccm.org/p/the-real-world-boards-question-50"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/e-scooter-injuries-children-and-safeguarding-st-emlyns/",
+            "title": "E-scooter injuries, children and safeguarding. St Emlyn’s",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/e-scooter-injuries-children-and-safeguarding-st-emlyns/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/category/critical-care/",
+            "title": "Advances in Critical Care Medicine Insights - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/category/critical-care/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHyJ52zOYoTIEFW8UNEQjUn",
+            "title": "Classic EM: Balanced Fluid or Saline for Pediatric Septic Shock?",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHyJ52zOYoTIEFW8UNEQjUn"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42900697",
+            "title": "Assessment of Tidal Volume in Patients Undergoing Noninvasive Ventilation: Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42900697/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42900697",
+              "doi": "10.1097/ccm.0000000000007387",
+              "kind": "original",
+              "source_version": "715adb598910f159354e1480e55320adadf5c63068587e0ccfb5d403bcf77c6a",
+              "fields": {
+                "title": "75d0c5dcf4cb546dfd6e55338d98a30b9261b4728ee9424209ab8885c6367eb1",
+                "abstract": "b8300abb36a72930eef7947f0a926906ca20d48508cacd5a5099e4ccdafa09c7",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "c64833baba299a1760f2a0a426878b43d4052d59a08e4eddbfcbbe02c1e52da4",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42901858",
+            "title": "Effect of electrical impedance tomography-guided positive end-expiratory pressure optimisation on postoperative pulmonary complications in laparoscopic colorectal surgery: a randomised controlled trial.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901858/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42901858",
+              "doi": "10.1016/j.bja.2026.09.016",
+              "kind": "original",
+              "source_version": "43a4e646ebc5eaabdde5f9259b3da59afc83714192f0400d002e7fc0d67e0814",
+              "fields": {
+                "title": "6f4b825f34f1a0e29e2ae9705a17816c43a1b25217bfcf2c41b051882a59ac25",
+                "abstract": "910887508efa6f493c58eba29f044b674e88193aedd5d08d9833c1c9eb15225a",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "6310c86d2f0ab5ac954ddda9ac63ab3ba975c6b29618126018b9b7939aa9964e",
+                "results_known": true,
+                "numbers": "037124942177519ad37ed4b08fcadf10e2f0b6f30d209b72ae7ac63588d3f706",
+                "endpoint": "6f79d9fae054fb8b6cfa173debaf3f9a451bfdda60ec2508ad21eb108abe5703",
+                "methods": "815f5eec9af19f563c84ee3e7cdc5c939e88b2a7dc77c74a7daeaed0352b6b97",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42903821",
+            "title": "Innate immune response in COVID-19 pneumonia during the pandemic: a prospective cohort study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42903821/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42903821",
+              "doi": "10.1016/j.aicoj.2026.100182",
+              "kind": "original",
+              "source_version": "5058c816bde3e4f1046f1a225eaf82be1052a1a5316763810f625befb21f06a9",
+              "fields": {
+                "title": "f7f436edfeeb6671199301aa57211745c5eb156e86d318ee55b13f81962ac0b9",
+                "abstract": "c729a495d1597c0544b8a26cb4e5ef8a160b0e9dd18b6d3182a0c94112460a63",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "d75ca0c85d3937700d778b2e050e96c27d0e48bdb46cf53b027ac1a59b663648",
+                "results_known": false,
+                "numbers": "60df39fd5ebeec06986529c20b3c48c018813b48d05ec775864b8f50cb8b4a66",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "35b11667dce5563d59e73c4fcfa3d1404411b077e9cdb579bee9efd201d17eaa",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42903440",
+            "title": "Early sitting within 72 hours in the intensive care unit and post-intensive care outcomes: a multicenter cohort study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42903440/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42903440",
+              "doi": "10.1016/j.aicoj.2026.100181",
+              "kind": "original",
+              "source_version": "dfbd014eba38a5beee19e72533ec0b20febd475bb12714b2b61ac80824baa5bf",
+              "fields": {
+                "title": "6b68f7765929a02eb1cbaa2b8c504a85b42c20b49a22deeec49fd266999376a0",
+                "abstract": "2e7520598071eb0851d5555f21a110e1119be7048747e01ff85680e880f860c8",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "841812fc52fdb5f6626be95f082d85e87b628ab7c3bcdd46203ee69b7ef2295f",
+                "results_known": true,
+                "numbers": "ebebc34e43f1454adb3d7535a3d5b00191a584439ca4e311a49f9b0625e8e653",
+                "endpoint": "7d8aa6b38ddaa6f0007659cd826bd8eea32a4af24757a6f8cb8d10a6f9139911",
+                "methods": "f888513120ebf40646bdf923fa55c4e443c9ba03dbcc633f18800d1542cca613",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42901859",
+            "title": "Relative efficacy of exercise prehabilitation interventions and their components: a systematic review and network meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901859/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42901859",
+              "doi": "10.1016/j.bja.2026.08.052",
+              "kind": "original",
+              "source_version": "3244fa8004e8cc13a644132a9cb0f062080e89cac9247329693d53383c7f585d",
+              "fields": {
+                "title": "efdb4664d8fb28bcd609ee072eb9a6a9dbf521ceba47721e0c1babeafa9ffd31",
+                "abstract": "6ed56cbf30f8f34388d27ae5aab5f444bf0b952f3df1d45c80411b342e8d4377",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "4e82f30a71ead4a69220cf6a4b8f6b35a48d3f1f6bc7bc3588f18ca80c335351",
+                "results_known": false,
+                "numbers": "6cd07809738f29aa987fa619628ab0c6ea941437dc89a1e7c3115e80180da931",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "55cdf200e570e56beac8fee49a30a9e80dcab9fe86260bf27e45e9ae7c71b3a5",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42900697",
+            "title": "Assessment of Tidal Volume in Patients Undergoing Noninvasive Ventilation: Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42900697/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42900697",
+              "doi": "10.1097/ccm.0000000000007387",
+              "kind": "original",
+              "source_version": "715adb598910f159354e1480e55320adadf5c63068587e0ccfb5d403bcf77c6a",
+              "fields": {
+                "title": "75d0c5dcf4cb546dfd6e55338d98a30b9261b4728ee9424209ab8885c6367eb1",
+                "abstract": "b8300abb36a72930eef7947f0a926906ca20d48508cacd5a5099e4ccdafa09c7",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "c64833baba299a1760f2a0a426878b43d4052d59a08e4eddbfcbbe02c1e52da4",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42901858",
+            "title": "Effect of electrical impedance tomography-guided positive end-expiratory pressure optimisation on postoperative pulmonary complications in laparoscopic colorectal surgery: a randomised controlled trial.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901858/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42901858",
+              "doi": "10.1016/j.bja.2026.09.016",
+              "kind": "original",
+              "source_version": "43a4e646ebc5eaabdde5f9259b3da59afc83714192f0400d002e7fc0d67e0814",
+              "fields": {
+                "title": "6f4b825f34f1a0e29e2ae9705a17816c43a1b25217bfcf2c41b051882a59ac25",
+                "abstract": "910887508efa6f493c58eba29f044b674e88193aedd5d08d9833c1c9eb15225a",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "6310c86d2f0ab5ac954ddda9ac63ab3ba975c6b29618126018b9b7939aa9964e",
+                "results_known": true,
+                "numbers": "037124942177519ad37ed4b08fcadf10e2f0b6f30d209b72ae7ac63588d3f706",
+                "endpoint": "6f79d9fae054fb8b6cfa173debaf3f9a451bfdda60ec2508ad21eb108abe5703",
+                "methods": "815f5eec9af19f563c84ee3e7cdc5c939e88b2a7dc77c74a7daeaed0352b6b97",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42903440",
+            "title": "Early sitting within 72 hours in the intensive care unit and post-intensive care outcomes: a multicenter cohort study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42903440/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42903440",
+              "doi": "10.1016/j.aicoj.2026.100181",
+              "kind": "original",
+              "source_version": "dfbd014eba38a5beee19e72533ec0b20febd475bb12714b2b61ac80824baa5bf",
+              "fields": {
+                "title": "6b68f7765929a02eb1cbaa2b8c504a85b42c20b49a22deeec49fd266999376a0",
+                "abstract": "2e7520598071eb0851d5555f21a110e1119be7048747e01ff85680e880f860c8",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "841812fc52fdb5f6626be95f082d85e87b628ab7c3bcdd46203ee69b7ef2295f",
+                "results_known": true,
+                "numbers": "ebebc34e43f1454adb3d7535a3d5b00191a584439ca4e311a49f9b0625e8e653",
+                "endpoint": "7d8aa6b38ddaa6f0007659cd826bd8eea32a4af24757a6f8cb8d10a6f9139911",
+                "methods": "f888513120ebf40646bdf923fa55c4e443c9ba03dbcc633f18800d1542cca613",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-september-2026/",
+            "title": "Critical Care Evidence Updates – September 2026",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-september-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-september-2026/",
+            "title": "Emergency Evidence Updates – September 2026",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-september-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/category/critical-care/",
+            "title": "Advances in Critical Care Medicine Insights - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/category/critical-care/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://litfl.com/author/davidyu/",
+            "title": "David Yu",
+            "channel": "LITFL",
+            "url": "https://litfl.com/author/davidyu/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHyJ52zOYoTIEFW8UNEQjUn",
+            "title": "Classic EM: Balanced Fluid or Saline for Pediatric Septic Shock?",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHyJ52zOYoTIEFW8UNEQjUn"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/e-scooter-injuries-children-and-safeguarding-st-emlyns/",
+            "title": "E-scooter injuries, children and safeguarding. St Emlyn’s",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/e-scooter-injuries-children-and-safeguarding-st-emlyns/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-26T10:33:24+00:00"
+      },
+      "workflow_run_id": "40308023857",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-26:2026-10-26:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "48493c61f8d6d30de11af9e2cdd9db6026c90b9525e4f9ce8a1cab0cf607c69b",
+        "finalization_policy": "markers",
+        "content_version": "9631b37273c13e606defd8d7311496d616ba88ba711dae39cb240cc2d7136033",
+        "message_id": "<26d219c705642abe37ec9eb183ec66d0355067e78a1b44eaaa0704cc3c84c0e7@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "b9fd743514ccb515_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "b1e4c1d79097b2c01edf837bfeb3e9a060ab792163e04da36b022dcfb06eac13"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "606da0d351c046448500f5f200b16882f579382efe24d4315ba7b6bc7a6a945e"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -8178,13 +8840,23 @@
         "42892907",
         "42893020",
         "42894761",
+        "42895439",
+        "42896234",
         "42896534",
         "42896706",
+        "42897037",
         "42897566",
         "42897873",
         "42897881",
+        "42898047",
+        "42898077",
         "42900675",
-        "42901374"
+        "42901366",
+        "42901370",
+        "42901371",
+        "42901374",
+        "42902295",
+        "42902313"
       ]
     }
   }
