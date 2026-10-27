@@ -8407,6 +8407,587 @@
         "approved_after_generation_checks": true,
         "seal": "6e7cba18e5b5c5b043fc1965e8b2eab4becc9c75fe2070a9245141b153d22d96"
       }
+    },
+    "cybermed:daily:2026-10-27:2026-10-27:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-27",
+      "period_end": "2026-10-27",
+      "edition_id": "cybermed:daily:2026-10-27:2026-10-27:production",
+      "content_version": "2fc764818ac5b462c738debcfe60d562f25a50f05295cbae4d7692fa599fb97f",
+      "message_id": "<4fa7200dba3fb02e92c3ec5ecb7ee51f7b3737e47bad5fb45b799a0398167241@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-27T10:04:54+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42920181",
+            "title": "Answer to: \"Left ventricular longitudinal function and hyperkinetic profile: a new echo world to explore?\".",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42920181/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919337",
+            "title": "Response to: \"MAPSE in critical illness: from prognostic association to clinical utility\".",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919337/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919298",
+            "title": "Much of the excess mortality in immunocompromised patients with viral severe acute respiratory infection occurs after ICU discharge.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919298/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919415",
+            "title": "Clinical prediction models in cardiac surgery-associated acute kidney injury: a systematic review and meta-analysis.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919415/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919407",
+            "title": "Mucormycosis in critically ill patients: a 9-year multicenter cohort study of clinical features, management, and 90-day outcomes.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919407/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42904954",
+            "title": "Scientific Output in Septic Shock According to Country Income and Gender: A Meta-Epidemiological Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904954/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42904944",
+            "title": "Cluster Versus Individual Randomization in Prehospital, Emergency and Critical Care Trials: A Meta-Epidemiological Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904944/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42904937",
+            "title": "Furosemide Stress Test in Adults and Children With Acute Kidney Injury: A Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904937/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42904917",
+            "title": "Ketamine as an Opioid-Sparing Adjunct During Mechanical Ventilation: Feasible and Ready for a Larger Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904917/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42904906",
+            "title": "Delay From Hypotension Onset to Appropriate Antifungal Therapy Initiation Is the Critical Determinant of Outcome in Candida Septic Shock.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904906/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42904903",
+            "title": "Rethinking Oliguria in the ICU: From Threshold to Trajectory.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904903/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42904879",
+            "title": "Music Therapy During Weaning From Invasive Mechanical Ventilation in the ICU: A Randomized Controlled Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904879/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42927884",
+            "title": "ctDNA clearance and outcomes for resectable lung cancer from NeoCOAST-2.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42927884/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42912700",
+            "title": "Ravulizumab in IgA Nephropathy - Interim Analysis of a Phase 3 Trial.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42912700/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42912669",
+            "title": "Interim Analysis of a Phase 3 Trial of Povetacicept in IgA Nephropathy.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42912669/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42911185",
+            "title": "Sibeprenlimab in IgA Nephropathy - Final Phase 3 Trial Analysis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42911185/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42911181",
+            "title": "Atacicept in IgA Nephropathy - Phase 3 Trial Final Efficacy Analysis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42911181/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42918318",
+            "title": "Comparison of delivery room wrist versus earlobe pulse oximetry in newborns: A randomized controlled trial.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42918318/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42887512",
+            "title": "South Africa shifts away from salbutamol-only asthma relief.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42887512/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888045",
+            "title": "Leadership Education for Doctors-A Scoping Review.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888045/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885115",
+            "title": "Investigating Fibrinolysis Resistance in Sepsis Using High-Multiplex Plasma Proteomics: A Statistical Analysis Plan.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885115/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/neuromuscular-blockade-ards/",
+            "title": "FGEBM 004-In Which We Investigate the Utility of Neuromuscular Blockade in ARDS",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/neuromuscular-blockade-ards/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/intravenous-iron-therapy-is-safer-than-many-clinicians-think/",
+            "title": "Intravenous iron therapy is safer than many clinicians think",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/intravenous-iron-therapy-is-safer-than-many-clinicians-think/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/emdocs-podcast-episode-151-orbital-cellulitis/",
+            "title": "emDOCs Podcast – Episode 151: Orbital Cellulitis",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/emdocs-podcast-episode-151-orbital-cellulitis/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHNK5fCrQQnxmnhpmeYcemU",
+            "title": "Episode 229: Iron Poisoning",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHNK5fCrQQnxmnhpmeYcemU"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/neurodiversity-not-just-our-patients/",
+            "title": "Neurodiversity: Not just our patients",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/neurodiversity-not-just-our-patients/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42888045",
+            "title": "Leadership Education for Doctors-A Scoping Review.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888045/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42888045",
+              "doi": "10.1111/aas.70360",
+              "kind": "original",
+              "source_version": "f5a80285798c151d3fba9ab6d217bb2ef3672d914ffa3e31494671e25e82eb04",
+              "fields": {
+                "title": "2160484e0ffcdc5fc3f069cb779ef4778a7554e9d7224f65ea05b0c3c1cdedb3",
+                "abstract": "9c54ced095c37aaedf4c0510c8e0871e9cb5d9dccedd8cad6e45ed340425d7ce",
+                "types": "fc6655f130f7c4437ab8eb45c4a9d30f25444ab43830c1c4de81ae79e8312bc0",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "15c6f5316ac93179ec4a67bdfd5ab877de8401e40e9baf8cfa62d2a46dbfeb30",
+                "results_known": false,
+                "numbers": "29f8202ffe7c575975d0cc2cdcd27a4bb2eb47920afd13b433b79fba427889bb",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "cb4eb111585c538859a965343e02867bdf3ee72b45820f05d214a1bedba7257b",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42918318",
+            "title": "Comparison of delivery room wrist versus earlobe pulse oximetry in newborns: A randomized controlled trial.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42918318/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42918318",
+              "doi": "10.1016/j.resuscitation.2026.111365",
+              "kind": "original",
+              "source_version": "b1be584cbfa3b09d5bb4919fb444959fa75e11dca8aa6c33ea196071d1d01c87",
+              "fields": {
+                "title": "fe8b8b0791ee1187d59808ed3c23cf9996cfa7857565b8765caa2f894e82ce8d",
+                "abstract": "a4d35f1e0a1cd48a8e27c9ffbf8fe310c27c23e7c2de5163455473d21e032383",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "8963d1484f253520bd3fc4e9402219abb9136ffedaf6e6c4c14efa92e01f74ca",
+                "results_known": true,
+                "numbers": "61d446d2482089896beec716710b34bbc7e4a5b3dafdc102a1285ad08aac5224",
+                "endpoint": "3325896e6a354b5ab438f45425e1b004257de8454f98c25754aa397228db8298",
+                "methods": "4c1e2fa2c10f829367c4c9d4da2b525d477ee6be7e839c984eada680069aac26",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42904937",
+            "title": "Furosemide Stress Test in Adults and Children With Acute Kidney Injury: A Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904937/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42904937",
+              "doi": "10.1097/ccm.0000000000007392",
+              "kind": "original",
+              "source_version": "61a43888845eaacf96eb863eaa031fd2d2c72e19d9c378e1f6b9a2bec7a605c0",
+              "fields": {
+                "title": "ed7f459aa36534acd687b3a4b7861a75bf692b762472856f596a6a7c80f4a5db",
+                "abstract": "113a0041a24a73a6f49ebd5042f59bfc1381b52065fafd45ae00d7e38505846a",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42904879",
+            "title": "Music Therapy During Weaning From Invasive Mechanical Ventilation in the ICU: A Randomized Controlled Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904879/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42904879",
+              "doi": "10.1097/ccm.0000000000007372",
+              "kind": "original",
+              "source_version": "7489b75e48b4bc8ea1a674c430198398929609f55a9c72629cc2266c299d60bc",
+              "fields": {
+                "title": "45e4b4f3260448bcf52f662a94f89251919cabb17c3c93b80fbef7ef95d1b84e",
+                "abstract": "9706e3f619e1db248175d4ed557842c0acb08f1114341b479f700303ec368bb5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "98f42369c033eb3b68927aadb516827a0742355170bffad9c7efc26521d9c146",
+                "results_known": false,
+                "numbers": "574bbe912b01da9e213bc9acceaa470c25708f0fbbc0e170437ec740c1a6b85e",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42904944",
+            "title": "Cluster Versus Individual Randomization in Prehospital, Emergency and Critical Care Trials: A Meta-Epidemiological Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904944/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42904944",
+              "doi": "10.1097/ccm.0000000000007386",
+              "kind": "original",
+              "source_version": "75b0471892bd73a947c9da48ebb204d117d5c31ba60efc80cd923c5152c6153a",
+              "fields": {
+                "title": "ff380fb94bdf279f1a2f7fae63b0cce88dec9d5e04ad311e098de20bb4c34fa0",
+                "abstract": "6f20f40810b1957e71b8212d3587ae11d3e8ccd6076e955e302c3a4e830ccee1",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42904906",
+            "title": "Delay From Hypotension Onset to Appropriate Antifungal Therapy Initiation Is the Critical Determinant of Outcome in Candida Septic Shock.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904906/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42904906",
+              "doi": "10.1097/ccm.0000000000007395",
+              "kind": "original",
+              "source_version": "430c184b12456d6e6f9c85473f50fc155a28bf3a9308d44ed14eaf311a143f11",
+              "fields": {
+                "title": "2b79a27109eebed782a137f95ccdd0566b88d39b6e78a59a57c1b9eadb8df31c",
+                "abstract": "60d1badc3b31ca2bf14c0de545ddaeb7bba0baef2e5c8f36eff18ff05718b071",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "90f3ee712cc417b9c7cca93cecc188cfa05fa01f153e33d2852ff87255f23480",
+                "results_known": false,
+                "numbers": "f86546edec30069490cf842d7e770b5ab07c9af154151aad8939da482dae3f2b",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42919415",
+            "title": "Clinical prediction models in cardiac surgery-associated acute kidney injury: a systematic review and meta-analysis.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919415/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42919415",
+              "doi": "10.1186/s13054-026-06380-4",
+              "kind": "original",
+              "source_version": "e1256fe2d243ad5327aae85a332352fd81cc9b2b4ebd6ee232a923cde1036e65",
+              "fields": {
+                "title": "9030e101535fbe8462b36c538b8b2c8e40bd97a5d9da78e8f2619ca55b89f1c8",
+                "abstract": "6997b9582e30fa736adc5be8f42397b7f9b26a058af93c061acef5655422a1b8",
+                "types": "c009d3987e728c4454cd1469c57b6795bac8b08f9694e6fb0c8f04a0c2678fd2",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "482b05b58c826c54505211ab899eda684473cff4fdd1ad0f0c3a41d4d8235ed7",
+                "results_known": false,
+                "numbers": "cae7a88168ca0211a6357122e08ba4f0dcac36d0ea7148b1c28cb7c90eaec12b",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "5355e0fa084855bfa391fe94832a9d4c812e28c12c2032a1ba2c440ba7f625ea",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42904879",
+            "title": "Music Therapy During Weaning From Invasive Mechanical Ventilation in the ICU: A Randomized Controlled Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904879/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42904879",
+              "doi": "10.1097/ccm.0000000000007372",
+              "kind": "original",
+              "source_version": "7489b75e48b4bc8ea1a674c430198398929609f55a9c72629cc2266c299d60bc",
+              "fields": {
+                "title": "45e4b4f3260448bcf52f662a94f89251919cabb17c3c93b80fbef7ef95d1b84e",
+                "abstract": "9706e3f619e1db248175d4ed557842c0acb08f1114341b479f700303ec368bb5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "98f42369c033eb3b68927aadb516827a0742355170bffad9c7efc26521d9c146",
+                "results_known": false,
+                "numbers": "574bbe912b01da9e213bc9acceaa470c25708f0fbbc0e170437ec740c1a6b85e",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42919415",
+            "title": "Clinical prediction models in cardiac surgery-associated acute kidney injury: a systematic review and meta-analysis.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919415/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42919415",
+              "doi": "10.1186/s13054-026-06380-4",
+              "kind": "original",
+              "source_version": "e1256fe2d243ad5327aae85a332352fd81cc9b2b4ebd6ee232a923cde1036e65",
+              "fields": {
+                "title": "9030e101535fbe8462b36c538b8b2c8e40bd97a5d9da78e8f2619ca55b89f1c8",
+                "abstract": "6997b9582e30fa736adc5be8f42397b7f9b26a058af93c061acef5655422a1b8",
+                "types": "c009d3987e728c4454cd1469c57b6795bac8b08f9694e6fb0c8f04a0c2678fd2",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "482b05b58c826c54505211ab899eda684473cff4fdd1ad0f0c3a41d4d8235ed7",
+                "results_known": false,
+                "numbers": "cae7a88168ca0211a6357122e08ba4f0dcac36d0ea7148b1c28cb7c90eaec12b",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "5355e0fa084855bfa391fe94832a9d4c812e28c12c2032a1ba2c440ba7f625ea",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42904944",
+            "title": "Cluster Versus Individual Randomization in Prehospital, Emergency and Critical Care Trials: A Meta-Epidemiological Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904944/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42904944",
+              "doi": "10.1097/ccm.0000000000007386",
+              "kind": "original",
+              "source_version": "75b0471892bd73a947c9da48ebb204d117d5c31ba60efc80cd923c5152c6153a",
+              "fields": {
+                "title": "ff380fb94bdf279f1a2f7fae63b0cce88dec9d5e04ad311e098de20bb4c34fa0",
+                "abstract": "6f20f40810b1957e71b8212d3587ae11d3e8ccd6076e955e302c3a4e830ccee1",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42918318",
+            "title": "Comparison of delivery room wrist versus earlobe pulse oximetry in newborns: A randomized controlled trial.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42918318/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42918318",
+              "doi": "10.1016/j.resuscitation.2026.111365",
+              "kind": "original",
+              "source_version": "b1be584cbfa3b09d5bb4919fb444959fa75e11dca8aa6c33ea196071d1d01c87",
+              "fields": {
+                "title": "fe8b8b0791ee1187d59808ed3c23cf9996cfa7857565b8765caa2f894e82ce8d",
+                "abstract": "a4d35f1e0a1cd48a8e27c9ffbf8fe310c27c23e7c2de5163455473d21e032383",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "8963d1484f253520bd3fc4e9402219abb9136ffedaf6e6c4c14efa92e01f74ca",
+                "results_known": true,
+                "numbers": "61d446d2482089896beec716710b34bbc7e4a5b3dafdc102a1285ad08aac5224",
+                "endpoint": "3325896e6a354b5ab438f45425e1b004257de8454f98c25754aa397228db8298",
+                "methods": "4c1e2fa2c10f829367c4c9d4da2b525d477ee6be7e839c984eada680069aac26",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/intravenous-iron-therapy-is-safer-than-many-clinicians-think/",
+            "title": "Intravenous iron therapy is safer than many clinicians think",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/intravenous-iron-therapy-is-safer-than-many-clinicians-think/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/neuromuscular-blockade-ards/",
+            "title": "FGEBM 004-In Which We Investigate the Utility of Neuromuscular Blockade in ARDS",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/neuromuscular-blockade-ards/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/neurodiversity-not-just-our-patients/",
+            "title": "Neurodiversity: Not just our patients",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/neurodiversity-not-just-our-patients/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-27T10:04:51+00:00"
+      },
+      "workflow_run_id": "40485423319",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-27:2026-10-27:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "7dbaaca95ff97732a977eb5fc411eeb7e7a8a2a67323b8a5c5ea0f4db7c75c3a",
+        "finalization_policy": "markers",
+        "content_version": "2fc764818ac5b462c738debcfe60d562f25a50f05295cbae4d7692fa599fb97f",
+        "message_id": "<4fa7200dba3fb02e92c3ec5ecb7ee51f7b3737e47bad5fb45b799a0398167241@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "415fa7a6dd5a3546_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "62f27950918bac4aca4fdafe7ae5629a066a07b30b216ff39a29ebe9bfa085b7"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "6a0190e10d40d3094b1a6664b07c384e82e3bfe969de7020fa6830b97e7666ce"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -9091,12 +9672,17 @@
         "42898047",
         "42898077",
         "42900675",
+        "42900697",
         "42901366",
         "42901370",
         "42901371",
         "42901374",
+        "42901858",
+        "42901859",
         "42902295",
-        "42902313"
+        "42902313",
+        "42903440",
+        "42903821"
       ]
     }
   }
