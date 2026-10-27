@@ -138066,8 +138066,940 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "uykV4PpFu6Y",
+      "source": "youtube",
+      "title": "⚡ALERT!  WTF... NOW JAPAN? Global STOCKPILING for WW3, Iran Declares NUCLEAR WAR PREPARATIONS!",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=uykV4PpFu6Y",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:06:23+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:06:23+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 38567,
+        "processed_unique_chars": 38567,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 6.078,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript argues that multiple governments, including Japan, the UK, the US Pentagon, and Iran, are publicly urging citizens to stockpile supplies and prepare for major disasters or war, and that this global push toward preparedness signals an approaching large-scale crisis or escalation.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Japanese disaster management minister Goshi Hoseno requested citizens to stockpile three days of food, water, and toilet supplies ahead of the new disaster prevention agency launch on November 2, 2026.",
+        "The US Pentagon is preparing for a 90-day resilience plan to harden roughly 500 military-associated facilities in the continental United States to operate independently of the civilian power grid.",
+        "Iran circulated guidance and a video advising its population on nuclear survival procedures and the Ayatollah called for accelerated scientific and military advances including nuclear technology."
+      ],
+      "transcript_notable_claims": [
+        "Many Western and Eastern nations have issued similar preparedness guidance within the past year, creating a crescendo of official stockpiling advice.",
+        "The Pentagon’s Fortress America plan to disconnect military facilities from the civilian grid could be telegraphing intent and trigger a self-fulfilling international escalation of doomsday preparations.",
+        "A coordinated or escalatory cycle of preparedness declarations will force other nations to double and triple their doomsday efforts, creating a self-perpetuating doom loop.",
+        "Major transformers in the US grid are vulnerable and removing a small number could bring down large parts of the power grid for months due to lack of replacement units and alleged malware or kill switches.",
+        "Iran’s underground facilities might survive tactical nuclear strikes but their entrances would be vulnerable, and Iran’s public guidance teaches decontamination and sheltering procedures.",
+        "Emergency powers during an SHTF event would prioritize military facilities for scarce power and recovery resources, effectively formalizing military priority over civilians."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain how far along the US military already is in achieving grid-independent 90-day resilience despite public announcements.",
+        "It is uncertain whether Iran or other regional actors possess the cyber or kinetic capability to bring down the US power grid.",
+        "It is uncertain whether public statements about accelerated nuclear programs by Iran refer only to civilian technology or to military/nuclear weapons development."
+      ],
+      "important_details": [
+        "The Japanese guidance frames stockpiling as a response to delayed public aid after major events like earthquakes and coincides with the launch of a new disaster prevention agency on November 2, 2026.",
+        "The Fortress America concept involves creating redundancies and backup power so military bases can function independently for roughly 90 days, which would require long-term infrastructure work and stockpiles.",
+        "Iranian guidance on nuclear survival includes advice to avoid looking at a blast, lie face down away from the blast direction, decontaminate by removing contaminated clothing, and wash exposed skin if possible."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "uykV4PpFu6Y",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "2qots60JnFA",
+      "source": "youtube",
+      "title": "Anti-Socialization Law: Expert Doubts Dobrindt’s Plan | ZDFheute live",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=2qots60JnFA",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8298,
+        "processed_unique_chars": 8298,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Das Gespräch erläutert Innenminister Dobrindts Eckpunkte für ein Investitionsschutzgesetz, das Vergesellschaftungen großer Wohnungsbestände in Berlin erschweren will, und prüft verfassungsrechtliche Probleme und mögliche Folgen für Berlin.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Das Eckpunktepapier verlangt den Nachweis zwingender Notwendigkeit für Vergesellschaftungen, eine unmittelbare Geldentschädigung und Entschädigung in Höhe des Verkehrswerts.",
+        "Die Linke/Initiative „Deutsche Wohnen und Co. enteignen“ will Eigentum von Unternehmen mit mehr als 10.000 Wohnungen in staatliches Eigentum überführen.",
+        "Ein Bundesgesetz, das Vergesellschaftungen praktisch unmöglich macht, würde das Land Berlin zwingen, vor das Bundesverfassungsgericht zu ziehen, womit mehrjährige Sperren eintreten könnten."
+      ],
+      "transcript_notable_claims": [
+        "Die Entschädigung soll ausschließlich zum Verkehrswert gezahlt und zuvor durch ein Wertgutachten ermittelt werden.",
+        "Die geplante rot-grün-rote Landesregierung plant Entschädigungszahlungen von bis zu 16 Milliarden Euro für die Vergesellschaftung großer Wohnungsunternehmen.",
+        "Elif Erdalp bezeichnet das Gesetz als Versuch, Artikel 15 Grundgesetz auszuhebeln, und hält es für verfassungswidrig.",
+        "Der Unterschied zwischen Enteignung und Vergesellschaftung besteht darin, dass Enteignungen Individualbezug haben, während Vergesellschaftungen strukturellen Charakter und eine Änderung der Wirtschaftsordnung anstreben."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, ob die von der Linken vorgeschlagene Umwandlung in eine Anstalt des öffentlichen Rechts genau so umgesetzt werden würde.",
+        "Die Entscheidung des Bundesverfassungsgerichts über die Verfassungsmäßigkeit eines solchen Bundesgesetzes wäre nach Aussage des Experten schwer prognostizierbar.",
+        "Es bleibt offen, ob politische Gründe dazu führen würden, dass Entschädigungen in tatsächlicher Höhe des Verkehrswerts gezahlt werden."
+      ],
+      "important_details": [
+        "Die Volksabstimmung 2021 zur Initiative „Deutsche Wohnen und Co. enteignen“ wurde mit 57,6% Zustimmung entschieden.",
+        "Das Land Berlin plant Vergesellschaftungen bei Unternehmen mit Eigentum an mehr als 10.000 Wohnungen.",
+        "Würde der Bund ein solches Gesetz erlassen, könnte das Bundesverfassungsgericht entscheiden müssen, ob das Gesetz ein unzulässiges Sperrgesetz ist."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "2qots60JnFA",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CrossExamined"
+      },
+      "id": "3l3sMY9OzsA",
+      "source": "youtube",
+      "title": "Does Loving Your Neighbor Require You to Vote? | Frank Turek @MorningWire",
+      "channel": "CrossExamined",
+      "url": "https://www.youtube.com/watch?v=3l3sMY9OzsA",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "3l3sMY9OzsA",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ErnstWolffOffiziell"
+      },
+      "id": "7H3uHXNN-sc",
+      "source": "youtube",
+      "title": "The Great Loss of Control: Euro Crisis, Robot War & Violence I Ernst Wolff",
+      "channel": "ErnstWolffOffiziell",
+      "url": "https://www.youtube.com/watch?v=7H3uHXNN-sc",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 22866,
+        "processed_unique_chars": 22866,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.086,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The conversation criticizes humanoid robots, AI development and geopolitical-economic decisions, linking rising social unrest, budget cuts and militarization to an impending global financial crisis and a transition toward a data-driven society.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Humanoid robots fighting humans symbolize the destruction of boundaries between humans and machines.",
+        "France has massive budget cuts totaling €54 billion next year while €26 billion was spent on weapons for Ukraine, fueling riots and arrests.",
+        "A major financial crisis larger than 2007–2008 is predicted and may be used to introduce CBDCs and universal basic income."
+      ],
+      "transcript_notable_claims": [
+        "Humanoid robots are becoming more like humans and their development is a very dangerous political problem controlled by a few psychopaths.",
+        "The French unrest reflects cuts to education and pensions and the transfer of funds to war financing rather than domestic welfare.",
+        "The world is transitioning from a monetary society to a data-driven society and crises are being induced to force public acceptance of a new system.",
+        "China closed and merged 670 rural banks and Russia introduced a digital ruble accessible via normal bank accounts as part of a wider global agenda.",
+        "Germany and Great Britain rank near the top worldwide for building data centers, creating increased water demand that could lead to rationing."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether the predicted major financial crisis will occur exactly as described or when it will trigger the introduction of CBDCs.",
+        "It is unclear to what extent extremist groups or external instigation are responsible for escalating peaceful protests into violent riots in France.",
+        "It is not certain whether humanoid robots and AI will be banned worldwide or whether their development can be redirected to benefit humanity."
+      ],
+      "important_details": [
+        "The transcript reports over 5,000 arrests, hundreds of injured police officers, school buildings set on fire, and a 15-year-old losing a hand to a police grenade during French protests.",
+        "France's government-debt ratio is stated as 119% while Italy is around 130% and Germany about 64%, with rising government bond yields forcing higher borrowing costs for France.",
+        "Germany and Great Britain are said to be building about 500 data centers each while the USA is building about 5,000, increasing cooling water demand."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "7H3uHXNN-sc",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "9XiPGZ63-0c",
+      "source": "youtube",
+      "title": "Magdalena Andersson den stora förloraren – igen",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=9XiPGZ63-0c",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "9XiPGZ63-0c",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ThePoplarReport"
+      },
+      "id": "JJKoH0X3d3I",
+      "source": "youtube",
+      "title": "🚨🚨Fake FRUIT, Chemical Laced ORGANIC Produce",
+      "channel": "ThePoplarReport",
+      "url": "https://www.youtube.com/watch?v=JJKoH0X3d3I",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 21399,
+        "processed_unique_chars": 21399,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.086,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript warns that FDA failures and corporate practices are flooding grocery shelves with synthetic, lab‑engineered and deceptively labeled foods, and recommends strengthening gut health with kimchi or a kimchi supplement to counteract alleged health harms.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "FDA has repeatedly delayed recalls, overlooked harmful additives, and prioritized corporate interests over public health according to the transcript.",
+        "Synthetic lab‑engineered foods, 3D‑printed meats, lab‑grown eggs, and products falsely labeled organic are said to be appearing on grocery shelves nationwide.",
+        "Daily consumption of kimchi or a kimchi‑derived capsule is presented as a way to strengthen the gut microbiome and boost immune and brain health."
+      ],
+      "transcript_notable_claims": [
+        "A mother discovered a solid rubber blueberry in her toddler's organic snack, illustrating a trend of fake foods disguised as real.",
+        "An Israeli company's 3D‑printed salmon contains zero fish and is printed layer by layer using food‑grade nozzles to mimic muscle and fat.",
+        "Lab‑grown eggs were quietly FDA approved and are already available at Target and Walmart after companies self‑certified ingredients.",
+        "Scientists are allegedly baking cookies out of plastic waste by feeding plastic bottles to gene‑engineered yeast and 3D‑printing cookie shapes.",
+        "Fruits and vegetables are said to be sprayed with waxes containing heavy metals and chemicals, producing rubbery‑feeling produce.",
+        "Organic crops are claimed to still be sprayed with pesticides and livestock are claimed to be injected with mRNA vaccines yet retain organic labels.",
+        "Testing in Florida allegedly found glyphosate in many major bread brands, including an organic brand sold at Whole Foods.",
+        "Cancer incidence reportedly rose from 14.1 million to 20 million annually and cancer deaths have more than doubled since 1980 according to the transcript.",
+        "Kimchi is claimed to contain over 900 strains of beneficial bacteria and specific lactic acid bacteria in kimchi are claimed to suppress carcinogen‑activating enzymes."
+      ],
+      "transcript_uncertainties": [
+        "The transcript acknowledges that nobody knows how devastating lab‑engineered foods will be on health over time.",
+        "The transcript states that some claims rely on studies and reports referenced without full methodological detail in the discussion."
+      ],
+      "important_details": [
+        "The transcript links gut health to immunity and brain health by describing the gut microbiome as the body's first line of defense and the gut–brain axis as mediating neuroinflammation.",
+        "The kimchi probiotic strains 'WC byara' and 'alantarum' are named in a quoted study passage as having anti‑inflammatory, immune‑modulating, and cholesterol‑reducing activity that may contribute to cancer‑preventive potential.",
+        "The transcript promotes a commercial kimchi supplement called Kimchi 1, described as cold‑processed, low‑sodium, 100% made in the USA, non‑GMO, and offered with promotional discounts and phone ordering."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "JJKoH0X3d3I",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Daily_Dose_Of_Wisdom"
+      },
+      "id": "ammjRX14dVs",
+      "source": "youtube",
+      "title": "Ex-Muslim Shares 8 Facts (viewer discretion)",
+      "channel": "Daily_Dose_Of_Wisdom",
+      "url": "https://www.youtube.com/watch?v=ammjRX14dVs",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 10586,
+        "processed_unique_chars": 10586,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.733,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:10586",
+        "recency"
+      ],
+      "transcript_full_summary": "The speaker describes widespread domestic violence and legal or religious endorsement of wife-beating in Islamic texts and cultures, argues that women often internalize justification for abuse, and contends that reform requires tackling Islamic doctrines rather than only addressing rights or services.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "UN-linked surveys in Afghanistan found over 90% of married women experienced domestic violence.",
+        "The same surveys reported about 94–96% of women said husbands have the right to beat wives for reasons like going out without permission or talking back.",
+        "Quran 4:34 is cited as allowing husbands to advise, separate in beds, and finally beat wives if they fear 'arrogance' or disobedience."
+      ],
+      "transcript_notable_claims": [
+        "The Quran and authenticated hadiths prescribe wives' complete submission and grant men authority to beat disobedient wives.",
+        "Muhammad ruled that a silent or shy virgin girl's silence counts as consent to marriage.",
+        "Muhammad's wives were forbidden from remarrying after his death, making his marriages a lifelong imprisonment for those wives according to the Quranic interpretation cited.",
+        "The hijab and full veiling are described as foundational measures to hide women in public and reserve them for their husbands.",
+        "Anecdotal testimony describes a man demonstrating carrying a stick to 'lightly' beat his wife as Quranic teaching, while the transcript asserts the Quran does not specify 'lightly.'",
+        "Statistics are claimed to show, even in 2026, that Muslim-majority countries have the highest rates of domestic violence and household unhappiness on average."
+      ],
+      "transcript_uncertainties": [
+        "The exact survey percentages are uncertain in the transcript, given as 'I think' and ranges (e.g., 94 or 96%).",
+        "The transcript uses metaphorical language 'imprison her for the rest of her life' when describing the lifelong restriction on Muhammad's wives remarrying.",
+        "The extent to which historical Islamic practice uniformly endorsed severe physical brutality is qualified by saying extreme cases were frowned upon but generally kept within the home."
+      ],
+      "important_details": [
+        "Aisha is named as having been married at six and widowed around age fifteen, and her example is used to illustrate child marriage and lifelong prohibition on remarriage of Muhammad's wives.",
+        "Quranic phraseology cited from chapter 4 verse 34 links the sequence 'advise, separate in beds, and then beat' as the prescribed escalation for perceived female 'arrogance' or disobedience.",
+        "Hadiths are cited that command sexual obedience, including cursing by angels if a wife refuses her husband's sexual call and an obligation to interrupt activities to comply."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "ammjRX14dVs",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "nTf8NZ2_uR4",
+      "source": "youtube",
+      "title": "Evangelist Shares Faith With AOC in Halls of Congress",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=nTf8NZ2_uR4",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 22135,
+        "processed_unique_chars": 22135,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.086,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Frank Shelton recounts meeting Representative Alexandria Ocasio-Cortez in the U.S. Capitol and describes how he and his late friend Dr. Ben Graham shared the gospel with her, presented her a personalized Bible, and continued efforts to minister to lawmakers across the political spectrum.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Frank Shelton and Dr. Ben Graham encountered Congresswoman Alexandria Ocasio-Cortez in the Capitol and spoke about their mutual friend Nathan Kistler.",
+        "Nathan Kistler died in a plane crash weeks earlier, and Congresswoman Ocasio-Cortez reacted visibly when told his name.",
+        "Frank Shelton later delivered a Bible engraved with Ocasio-Cortez's name to her office and attempted follow-up contact twice by phone."
+      ],
+      "transcript_notable_claims": [
+        "Dr. Ben Graham served as faith director at the Department of the Interior after appointment by President Donald Trump.",
+        "Dr. Ben Graham had stage 4 cancer and subsequently died.",
+        "Nathan Kistler had prayed with members of Congress and with Congresswoman Ocasio-Cortez before his death.",
+        "Frank Shelton has ministered to leaders across the political spectrum, including Vice President Joe Biden, President Jimmy Carter, Bill Clinton, and international figures such as Daniel Ortega.",
+        "Frank Shelton has led a Bible study for lawmakers for five years and has witnessed professions of faith and other ministry 'miracles' on Capitol Hill."
+      ],
+      "transcript_uncertainties": [
+        "Frank Shelton expresses that some members who initially say 'no' to faith may be 'not now' rather than permanently closed.",
+        "Frank Shelton indicates ongoing hope rather than confirmed friendship with Congresswoman Ocasio-Cortez after leaving the Bible and a letter with her office."
+      ],
+      "important_details": [
+        "Nathan Kistler died in a charter jet crash en route to an Alaskan Bill Gaither event where nine people were aboard.",
+        "Dr. Ben Graham was related to Billy Graham and had been involved in Hollywood, ministry, and a White House/cabinet faith role before his illness.",
+        "Frank Shelton's family has a multigenerational history with the U.S. Capitol, including five generations of DC police and a relative assigned to the White House in Abraham Lincoln's era."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "nTf8NZ2_uR4",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "8fopiBsGZvs",
+      "source": "youtube",
+      "title": "Einfacher bauen, günstiger wohnen? / Israel wählt / Leise Supermärkte – wem das hilft | \"15 Minuten\"",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=8fopiBsGZvs",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 17522,
+        "processed_unique_chars": 17522,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Der Podcast berichtet über den geplanten Gebäudetyp E zur Reduzierung von Baukosten, die Parlamentswahl in Israel nach den Hamas-Angriffen vor drei Jahren und die Einführung stiller Stunden in Supermärkten zum Schutz reizempfindlicher Menschen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Bundesregierung plant einen Gesetzentwurf für den neuen Gebäudetyp E, der Baustandards senken und dadurch Bauen um schätzungsweise 10 bis 15% günstiger machen kann.",
+        "In Israel findet heute eine Knesset-Wahl statt, die ersten seit dem Hamas-Angriff vor drei Jahren, und die Wahl wird als international bedeutend beschrieben.",
+        "In Witten startet ein Supermarkt eine stille Stunde mit gedimmtem Licht, ohne Durchsagen, ohne Musik und reduzierten Kassentönen für Menschen mit Reizempfindlichkeit."
+      ],
+      "transcript_notable_claims": [
+        "Bauministerin Verena Hubertz bezeichnet bestimmte Ausstattungen wie zusätzliche Steckdosen, besonders hohe Zimmerdecken und besonders dicke Fenster als 'Schnickschnack', der beim Gebäudetyp E wegfallen kann.",
+        "Fachleute schätzen, dass das Konzept des Gebäudetyps E mehrere 100.000 Euro Einsparungen pro Haus ermöglichen kann.",
+        "Der Gebäudetyp E soll freiwillig bleiben, aber Bauunternehmen müssen genauer dokumentieren, warum sie vom Standard abweichen.",
+        "Die aktuelle israelische Regierung unter Benjamin Netanyahu sieht sich nicht in der Verantwortung für das Versagen vor dem Hamas-Angriff und macht Sicherheitsbehörden verantwortlich.",
+        "Gabi Eisenkot fordert eine Untersuchungskommission zu den Ereignissen des 7. Oktober 2023 und möchte, dass ultraorthodoxe Juden Wehrdienst leisten.",
+        "Die stille-Stunde-Idee stammt ursprünglich aus Neuseeland und wird mittlerweile in über 300 Geschäften, Museen und anderen Einrichtungen in Deutschland angeboten."
+      ],
+      "transcript_uncertainties": [
+        "Der Gesetzentwurf zum Gebäudetyp E ist bisher noch nicht beschlossen und könnte sich in Details noch ändern.",
+        "Es ist ungewiss, ob der Gebäudetyp E langfristig tatsächlich zu spürbar günstigeren Mieten und schnellerem Bauen führen wird.",
+        "Die Wahlergebnisse in Israel werden erst nach 22 Uhr mit ersten Prognosen erwartet und das endgültige Ergebnis ist noch offen."
+      ],
+      "important_details": [
+        "Laut einer Studie fehlen in Deutschland bundesweit 1,4 Millionen Wohnungen, und jeder dritte mietende Haushalt gilt als finanziell überlastet.",
+        "Der Hamas-Angriff vor drei Jahren tötete mehr als 1.000 Menschen in Israel und löste den anschließenden Krieg im Gazastreifen aus, bei dem tausende Menschen, überwiegend Zivilisten, getötet wurden.",
+        "Frankreich plant bis 2030 Kredite in Höhe von 4 Milliarden Euro für Renovierungen an Gymnasien sowie 1 Milliarde Euro zusätzlich für Universitäten."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "8fopiBsGZvs",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DrJamesTour"
+      },
+      "id": "8sY12fmS7xs",
+      "source": "youtube",
+      "title": "John Lennox: Apologetics Should Be Persuasive Evangelism",
+      "channel": "DrJamesTour",
+      "url": "https://www.youtube.com/watch?v=8sY12fmS7xs",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 7522,
+        "processed_unique_chars": 7522,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 2.967,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:7522",
+        "recency"
+      ],
+      "transcript_full_summary": "John Lennox rejects the term \"apologetics,\" prefers \"defense\" or \"persuasive evangelism,\" and urges Christians to live so others ask for reasons for their hope while equipping believers and churches to answer questions about faith and science.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "John Lennox dislikes the word \"apologetics\" and prefers the English term \"defense\" because apologia is Greek and confuses people.",
+        "1 Peter 3 instructs Christians to give a defense to anyone who asks for a reason for their hope, which Lennox interprets as conversational persuasive evangelism rather than preaching.",
+        "Lennox urges seminaries and churches to train and empower students, ministers and congregations to answer questions about faith and science and to involve qualified members in public discussions."
+      ],
+      "transcript_notable_claims": [
+        "Paul's number one apologetic in Acts is his testimony of meeting Jesus on the Damascus Road.",
+        "Lennox recounts converting a mathematician on a train by asking him what personal hope he had and then explaining belief in the resurrection.",
+        "Many Christians, including an internationally famous mathematician, experience fear or silencing about witnessing in academic or social contexts."
+      ],
+      "transcript_uncertainties": [
+        "Lennox reports that 1 Peter 3 is often taken to mean preaching but contends it means conversation without asserting universal agreement on that interpretation.",
+        "Lennox suggests that fear of witnessing can be taught and overcome, without claiming a guaranteed method that works for everyone."
+      ],
+      "important_details": [
+        "Lennox recommends practical training in real situations so students learn to answer questions conversationally and revitalize their lives.",
+        "Lennox advises churches to seek out congregants with scientific qualifications and include them on platforms for discussions about science and faith."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "8sY12fmS7xs",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@RedactedNews"
+      },
+      "id": "LHcQQhxJtHU",
+      "source": "youtube",
+      "title": "The Air Inside Your Home Is Poisoning You, And It's Driving The Lung Cancer Spike",
+      "channel": "RedactedNews",
+      "url": "https://www.youtube.com/watch?v=LHcQQhxJtHU",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 58210,
+        "processed_unique_chars": 58210,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.086,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The interview presents Air Water Healing CEO Mike Dylan describing widespread indoor and outdoor air pollution from ultrafine particles, mold, VOCs and alleged sprayed metals, and promoting his company's PCO/negative-ion technology and carbon-bound supplements as solutions to reduce exposure and detoxify the body.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Mike Dylan connects widespread sickness to airborne pollution inside homes, including mold, VOCs, off‑gassing from furniture and construction materials.",
+        "Average Americans spend about 90% of their time indoors, which concentrates indoor pollutants when houses are tightly sealed without adequate ventilation.",
+        "Air Water Healing uses photocatalytic oxidation (PCO) and negative ions to neutralize particles and pathogens proactively rather than relying on suction HEPA filters."
+      ],
+      "transcript_notable_claims": [
+        "Aluminum and other particulates are being deliberately sprayed into the skies and are harming health and the environment.",
+        "Graphene oxide that was included in vaccines is also being dispersed in the air.",
+        "Ultrafine particles can pass from the lungs into the bloodstream and contribute to cardiovascular disease and shortened life expectancy.",
+        "Photocatalytic oxidation can render dioxins chemically inert and eliminate particles down to 0.001 microns.",
+        "Air Water Healing devices act like a proactive 'cat' that seeks and neutralizes airborne contaminants rather than waiting for contaminants to reach a filter.",
+        "Anecdotal reports claim dramatic reductions in household dust and odors within days of using the device and that customers rarely return the product.",
+        "Carbon-bound nutritional products can deliver minerals and nutrients into the bloodstream in less than 18 seconds and help remove glyphosate and heavy metals."
+      ],
+      "transcript_uncertainties": [
+        "The presence and atmospheric dispersal of specific sprayed materials such as aluminum, barium, strontium and graphene oxide are stated as claims without presented verification.",
+        "The exact long-term health impact on individuals from the alleged sprayed particulates and vax‑derived materials is asserted but not quantified in the interview.",
+        "Efficacy percentages (e.g., 80–90% dust reduction) are reported from company experience rather than cited controlled studies."
+      ],
+      "important_details": [
+        "Tightly sealed, energy‑efficient homes with inadequate ventilation can trap off‑gassing chemicals and biological contaminants, increasing indoor exposure.",
+        "Conventional HVAC systems and HEPA filters are described as suction‑based and unable to neutralize ultrafine particles or kill mold, whereas PCO plus negative ions claim to proactively neutralize and settle contaminants onto surfaces for removal.",
+        "Air Water Healing recommends vacuuming and mopping after initial operation to remove settled particulate and advises replacing the PCO cell roughly every three years with 21,000–25,000 hours of use."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "LHcQQhxJtHU",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@krissyrieger"
+      },
+      "id": "MmW5-T3pzN4",
+      "source": "youtube",
+      "title": "Famous Surgeon Discovered THIS About Our Brain! | Psycho-Cybernetics",
+      "channel": "krissyrieger",
+      "url": "https://www.youtube.com/watch?v=MmW5-T3pzN4",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 13435,
+        "processed_unique_chars": 13435,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.086,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Maxwell Maltz, a 1950s plastic surgeon, discovered that cosmetic changes often failed to change patients' inner self-image, so he developed psycho-cybernetics: a three-step mental method of visualization, reprogramming habits, and ignoring mistakes to change the subconscious self-image.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Maxwell Maltz observed that some patients remained convinced they looked the same after successful cosmetic surgery, a phenomenon he called a phantom image.",
+        "Maltz concluded that a deeply anchored subconscious self-image controls feelings, behavior, and achievement regardless of external change.",
+        "Maltz's psycho-cybernetics method uses daily vivid visualization, dehypnotization of negative beliefs, and rapid mental deletion of mistakes to reprogram the mind."
+      ],
+      "transcript_notable_claims": [
+        "A purely external transformation does not automatically change personality or outlook on life.",
+        "The brain cannot distinguish between a real and an intensely imagined experience, so vivid mental rehearsal changes internal programming.",
+        "Maltz reported that about 21 days of mental exercises are typically required to break down old neural pathways and anchor a new self-image."
+      ],
+      "transcript_uncertainties": [
+        "Maltz described some patients who genuinely blossomed after surgery while others did not, without specifying exact proportions beyond calling the positive cases a minority.",
+        "The 21-day average for mental-reprogramming effects is presented as Maltz's finding without citation or methodological detail."
+      ],
+      "important_details": [
+        "Maltz instructed patients to spend 30 minutes daily imagining themselves on an inner movie screen acting exactly as they wished, including sensory detail and feeling.",
+        "Maltz had patients list and intensely recall past successes before sleep to provide positive data for the brain's autopilot.",
+        "Maltz advised treating mistakes only as course corrections and mentally deleting them once learned from, keeping only the image of the successful final state."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "MmW5-T3pzN4",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@russianmediamonitor"
+      },
+      "id": "N0ncPVjFAwg",
+      "source": "youtube",
+      "title": "Vladimir Solovyov goes ballistic when his guest aligns Russia with Nazi Germany",
+      "channel": "russianmediamonitor",
+      "url": "https://www.youtube.com/watch?v=N0ncPVjFAwg",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5848,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.548,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5848",
+        "recency"
+      ],
+      "video_id": "N0ncPVjFAwg",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "O_LSxbfBxzg",
+      "source": "youtube",
+      "title": "Q&A-06 PREDESTINATION--Is it the Truth?",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=O_LSxbfBxzg",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-27T04:30:00+00:00",
+      "screened_at": "2026-10-27T04:30:00+00:00",
+      "expires_at": "2026-10-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 48580,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.086,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "O_LSxbfBxzg",
+      "processed_at_utc": "2026-10-27T09:58:06+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-10-26T10:23:13+00:00",
+  "updated_at_utc": "2026-10-27T09:58:06+00:00",
   "version": 1
 }

@@ -8167,6 +8167,246 @@
         "approved_after_generation_checks": true,
         "seal": "606da0d351c046448500f5f200b16882f579382efe24d4315ba7b6bc7a6a945e"
       }
+    },
+    "cyberlurch:daily:2026-10-27:2026-10-27:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-10-27",
+      "period_end": "2026-10-27",
+      "edition_id": "cyberlurch:daily:2026-10-27:2026-10-27:production",
+      "content_version": "341132a84f41453854befc66c9fb3fdd5e4c30e57cf78eae84a435b50fa7ac63",
+      "message_id": "<b87240c875504b9cc9039a41d76aa4442809be97f1ec35cfde1a18e22e700fd1@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-27T09:58:09+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "uykV4PpFu6Y",
+            "title": "⚡ALERT!  WTF... NOW JAPAN? Global STOCKPILING for WW3, Iran Declares NUCLEAR WAR PREPARATIONS!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uykV4PpFu6Y"
+          },
+          {
+            "source": "youtube",
+            "id": "2qots60JnFA",
+            "title": "Anti-Socialization Law: Expert Doubts Dobrindt’s Plan | ZDFheute live",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=2qots60JnFA"
+          },
+          {
+            "source": "youtube",
+            "id": "3l3sMY9OzsA",
+            "title": "Does Loving Your Neighbor Require You to Vote? | Frank Turek @MorningWire",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=3l3sMY9OzsA"
+          },
+          {
+            "source": "youtube",
+            "id": "7H3uHXNN-sc",
+            "title": "The Great Loss of Control: Euro Crisis, Robot War & Violence I Ernst Wolff",
+            "channel": "ErnstWolffOffiziell",
+            "url": "https://www.youtube.com/watch?v=7H3uHXNN-sc"
+          },
+          {
+            "source": "youtube",
+            "id": "9XiPGZ63-0c",
+            "title": "Magdalena Andersson den stora förloraren – igen",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=9XiPGZ63-0c"
+          },
+          {
+            "source": "youtube",
+            "id": "JJKoH0X3d3I",
+            "title": "🚨🚨Fake FRUIT, Chemical Laced ORGANIC Produce",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=JJKoH0X3d3I"
+          },
+          {
+            "source": "youtube",
+            "id": "ammjRX14dVs",
+            "title": "Ex-Muslim Shares 8 Facts (viewer discretion)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=ammjRX14dVs"
+          },
+          {
+            "source": "youtube",
+            "id": "nTf8NZ2_uR4",
+            "title": "Evangelist Shares Faith With AOC in Halls of Congress",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=nTf8NZ2_uR4"
+          },
+          {
+            "source": "youtube",
+            "id": "8fopiBsGZvs",
+            "title": "Einfacher bauen, günstiger wohnen? / Israel wählt / Leise Supermärkte – wem das hilft | \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=8fopiBsGZvs"
+          },
+          {
+            "source": "youtube",
+            "id": "8sY12fmS7xs",
+            "title": "John Lennox: Apologetics Should Be Persuasive Evangelism",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=8sY12fmS7xs"
+          },
+          {
+            "source": "youtube",
+            "id": "LHcQQhxJtHU",
+            "title": "The Air Inside Your Home Is Poisoning You, And It's Driving The Lung Cancer Spike",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=LHcQQhxJtHU"
+          },
+          {
+            "source": "youtube",
+            "id": "MmW5-T3pzN4",
+            "title": "Famous Surgeon Discovered THIS About Our Brain! | Psycho-Cybernetics",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=MmW5-T3pzN4"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "uykV4PpFu6Y",
+            "title": "⚡ALERT!  WTF... NOW JAPAN? Global STOCKPILING for WW3, Iran Declares NUCLEAR WAR PREPARATIONS!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uykV4PpFu6Y"
+          },
+          {
+            "source": "youtube",
+            "id": "2qots60JnFA",
+            "title": "Anti-Socialization Law: Expert Doubts Dobrindt’s Plan | ZDFheute live",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=2qots60JnFA"
+          },
+          {
+            "source": "youtube",
+            "id": "3l3sMY9OzsA",
+            "title": "Does Loving Your Neighbor Require You to Vote? | Frank Turek @MorningWire",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=3l3sMY9OzsA"
+          },
+          {
+            "source": "youtube",
+            "id": "7H3uHXNN-sc",
+            "title": "The Great Loss of Control: Euro Crisis, Robot War & Violence I Ernst Wolff",
+            "channel": "ErnstWolffOffiziell",
+            "url": "https://www.youtube.com/watch?v=7H3uHXNN-sc"
+          },
+          {
+            "source": "youtube",
+            "id": "9XiPGZ63-0c",
+            "title": "Magdalena Andersson den stora förloraren – igen",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=9XiPGZ63-0c"
+          },
+          {
+            "source": "youtube",
+            "id": "JJKoH0X3d3I",
+            "title": "🚨🚨Fake FRUIT, Chemical Laced ORGANIC Produce",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=JJKoH0X3d3I"
+          },
+          {
+            "source": "youtube",
+            "id": "ammjRX14dVs",
+            "title": "Ex-Muslim Shares 8 Facts (viewer discretion)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=ammjRX14dVs"
+          },
+          {
+            "source": "youtube",
+            "id": "nTf8NZ2_uR4",
+            "title": "Evangelist Shares Faith With AOC in Halls of Congress",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=nTf8NZ2_uR4"
+          },
+          {
+            "source": "youtube",
+            "id": "8fopiBsGZvs",
+            "title": "Einfacher bauen, günstiger wohnen? / Israel wählt / Leise Supermärkte – wem das hilft | \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=8fopiBsGZvs"
+          },
+          {
+            "source": "youtube",
+            "id": "8sY12fmS7xs",
+            "title": "John Lennox: Apologetics Should Be Persuasive Evangelism",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=8sY12fmS7xs"
+          },
+          {
+            "source": "youtube",
+            "id": "LHcQQhxJtHU",
+            "title": "The Air Inside Your Home Is Poisoning You, And It's Driving The Lung Cancer Spike",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=LHcQQhxJtHU"
+          },
+          {
+            "source": "youtube",
+            "id": "MmW5-T3pzN4",
+            "title": "Famous Surgeon Discovered THIS About Our Brain! | Psycho-Cybernetics",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=MmW5-T3pzN4"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "uykV4PpFu6Y",
+            "title": "⚡ALERT!  WTF... NOW JAPAN? Global STOCKPILING for WW3, Iran Declares NUCLEAR WAR PREPARATIONS!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uykV4PpFu6Y"
+          },
+          {
+            "source": "youtube",
+            "id": "7H3uHXNN-sc",
+            "title": "The Great Loss of Control: Euro Crisis, Robot War & Violence I Ernst Wolff",
+            "channel": "ErnstWolffOffiziell",
+            "url": "https://www.youtube.com/watch?v=7H3uHXNN-sc"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-27T09:58:06+00:00"
+      },
+      "workflow_run_id": "40484417287",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-10-27:2026-10-27:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "436e5e051202715497a6ecef733b842f7fa817dbff1c55b20a77f9e0991c268d",
+        "finalization_policy": "markers",
+        "content_version": "341132a84f41453854befc66c9fb3fdd5e4c30e57cf78eae84a435b50fa7ac63",
+        "message_id": "<b87240c875504b9cc9039a41d76aa4442809be97f1ec35cfde1a18e22e700fd1@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "bbbc0ddcda487d0e_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "bf84a70404da9d69c72eaf8ad83c2946758b619adad742c7d689cb3a7aa27102"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "6e7cba18e5b5c5b043fc1965e8b2eab4becc9c75fe2070a9245141b153d22d96"
+      }
     }
   },
   "paper_legacy_unknown": {
