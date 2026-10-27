@@ -211,7 +211,7 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
                              params={"branch": branch, "status": "completed"}, window=100)
     candidates = sorted([r for r in runs if str(r["id"]) != os.getenv("GITHUB_RUN_ID")
                          and r["conclusion"] in {"failure", "cancelled", "timed_out", "action_required"}], key=lambda r: r["id"])
-    from .legacy_transition import reviewed_failure, POLICY_SHA256
+    from .legacy_transition import reviewed_failure, reviewed_oct16_publication_failure, POLICY_SHA256
     legacy_findings = []
     for run in candidates:
         if str(run["id"]) in acknowledged:
@@ -234,6 +234,9 @@ def recover_failed_runs(report_key: str, workflow: str, *, report_dir: Path) -> 
             continue  # Positive evidence: no report/sender step started.
         if _nonproduction_jobs(run, capable_jobs, report_key):
             continue  # Failed previews/test mails cannot block production or import State.
+        if reviewed_oct16_publication_failure(run, jobs, report_key, workflow,
+                load_journal(path_for('DELIVERY_JOURNAL_PATH')), repository=repository, branch=branch):
+            continue
         if _completed_plan_receipts(run, capable_jobs, report_key, load_journal(path_for('DELIVERY_JOURNAL_PATH'))):
             continue
         maintenance_month = _maintenance_month(run, capable_jobs, report_key)

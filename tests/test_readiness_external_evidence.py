@@ -264,3 +264,36 @@ def test_readiness_workflow_does_not_cancel_running_check_and_records_checkout()
         assert f'NewsAgent2 plan v1 / {key} / ' in producer and 'outputs.plan_proof' in producer
         assert 'group: newsagent2-state-writers-${{ github.ref }}' in producer
         assert 'cancel-in-progress: false' in producer and 'ref: ${{ github.ref_name }}' in producer
+
+
+def test_reviewed_oct16_failure_requires_exact_job_and_receipts(clock, monkeypatch):
+    from newsagent2.legacy_transition import reviewed_oct16_publication_failure as settled
+    monkeypatch.setenv('GITHUB_REPOSITORY', 'Cyberlurch/NewsAgent2')
+    run = dict(id=38874103951, head_sha='b24a0f9f296eaee89b5cbc4a555477fb740ddad5',
+               event='schedule', conclusion='failure')
+    names = [('Compute frozen cybermed run plan','success'),
+             ('Run Cybermed reports','success'),
+             ('Verify each planned cybermed delivery result','success'),
+             ('Commit and publish validated cybermed state','failure')]
+    jobs = [dict(steps=[dict(name=name,conclusion=status,started_at='2026-10-16T08:30:00Z')
+                        for name,status in names])]
+    daily = receipt(run='38874103951',start='2026-10-16',body='Daily accepted.')
+    weekly = receipt(run='38894702613',start='2026-10-12',end='2026-10-16',
+                     cadence='weekly',body='Weekly accepted.')
+    for row in [daily,weekly]:
+        row.update(status='accepted_by_smtp',state_persisted=True,smtp_phase='completed',
+                   accepted=['a'*64])
+    journal = dict(editions={r['edition_id']:r for r in (daily,weekly)})
+    def check(r=run,j=jobs,state=journal,repository='Cyberlurch/NewsAgent2'):
+        return settled(r,j,'cybermed','cybermed.yml',state,repository=repository,branch='main')
+    assert check()
+    assert not check(repository='offline/repo')
+    assert not check(r={**run,'head_sha':'0'*40})
+    assert not check(j=[dict(steps=[*jobs[0]['steps'][:-1]])])
+    assert not check(state=dict(editions={daily['edition_id']:daily}))
+    assert not check(state=dict(editions={**journal['editions'],
+        'another':{**daily,'edition_id':'another'}}))
+    assert not check(state=dict(editions={**journal['editions'],
+        daily['edition_id']:{**daily,'state_persisted':False}}))
+    assert not check(state=dict(editions={**journal['editions'],
+        weekly['edition_id']:{**weekly,'status':'outcome_unknown'}}))
