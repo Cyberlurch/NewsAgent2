@@ -140,18 +140,26 @@ included; a rerun's pruned subset must also match known receipts. Old or contrad
 planning evidence stays explicitly missing/unresolved; inspect the retained
 frozen plan and recovery packets, rather than ACKing or deleting the hold.
 
-The read-only 23 October metadata check identifies one concrete old gap:
-Cybermed run **38874103951** has a finalized Daily receipt, but no metadata proof
-of its complete original plan. Weekly 38894702613 is a later, separately
-authorized result; it does not supply that missing plan evidence. The stricter
-check therefore reports this old run for review instead of declaring it fully
-settled. Preserve/download its `cybermed-run-metadata-38874103951`,
-`cybermed-reports-38874103951` and delivery-recovery packet in the Actions UI
-before retention expiry. Compare the frozen plan's entire edition list with
-the per-cadence results, actual journal and existing quarantine policy. Keep
-unproven entries unresolved; no old newsletter is to be regenerated or sent.
-This PR performs no historical reconciliation/apply and creates no exception
-for that run. Its new plan evidence prevents the same ambiguity in future runs.
+The 27 October audit resolved the one documented 16 October
+Cybermed publication alarm without resending mail. Production run
+[38874103951](https://github.com/Cyberlurch/NewsAgent2/actions/runs/38874103951)
+ran a Daily+Weekly+September Monthly plan. Its job log shows the Daily sender
+and per-cadence verification succeeded, while existing legacy guards explicitly
+held Weekly and Monthly before SMTP. Only the Git State publication step failed
+(`publication_newsletter_scope_mismatch`). The Daily SMTP receipt is now
+accepted and persisted in the journal; a separately authorized Weekly was
+accepted and persisted in run 38894702613. This does **not** establish a
+September Monthly send: its historical hold remains intact.
+
+Both readiness and pre-send recovery can close *only this exact historical
+publication failure* when its original repository, branch, run ID, commit,
+scheduled event, job-step conclusions, legacy hold policies and persisted
+Daily/Weekly receipts match. Any mismatch, changed journal entry, other failed
+run, partial/unknown SMTP result or missing evidence still blocks. The exception
+is narrow; it does not turn old uncertainty into a delivery success or enable
+resending. Retain the original run's metadata, reports and recovery artifacts
+before their scheduled expiration, for independent audit. Newer runs have
+full-plan proof markers and continue through the ordinary checks.
 
 Readiness checks serialize without cancelling a running check when either
 newsletter completes. GitHub can still coalesce pending triggers; this is not
