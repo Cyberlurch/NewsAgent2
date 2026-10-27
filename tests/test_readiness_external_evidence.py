@@ -268,6 +268,7 @@ def test_readiness_workflow_does_not_cancel_running_check_and_records_checkout()
 
 def test_reviewed_oct16_failure_requires_exact_job_and_receipts(clock, monkeypatch):
     from newsagent2.legacy_transition import reviewed_oct16_publication_failure as settled
+    monkeypatch.setenv('GITHUB_REPOSITORY', 'Cyberlurch/NewsAgent2')
     run = dict(id=38874103951, head_sha='b24a0f9f296eaee89b5cbc4a555477fb740ddad5',
                event='schedule', conclusion='failure')
     names = [('Compute frozen cybermed run plan','success'),
