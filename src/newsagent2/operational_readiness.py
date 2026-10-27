@@ -121,7 +121,7 @@ def last_due_entry(key, cadence, as_of):
 def _pending_runs(report_key, journal, *, pending=None, evidence=None):
     """Read Actions metadata only; never download/import an artifact here."""
     import requests
-    from .legacy_transition import REVIEWED
+    from .legacy_transition import REVIEWED, reviewed_oct16_publication_failure
     from .workflow_delivery import _nonproduction_jobs, _completed_plan_receipts, _run_plan_proofs
     repository, branch, token = (os.getenv(k, '') for k in ('GITHUB_REPOSITORY', 'GITHUB_REF_NAME', 'GITHUB_TOKEN'))
     if not repository or not branch or not token:
@@ -154,6 +154,9 @@ def _pending_runs(report_key, journal, *, pending=None, evidence=None):
         capable = [j for j in jobs if any(s.get('name') in {'Run reports', 'Run Cybermed reports'}
             and s.get('started_at') and s.get('conclusion') != 'skipped' for s in j.get('steps', []))]
         if capable and not _nonproduction_jobs(run, capable, report_key):
+            if reviewed_oct16_publication_failure(run, jobs, report_key, workflow, journal,
+                    repository=repository, branch=branch):
+                continue
             if _completed_plan_receipts(run, capable, report_key, journal):
                 continue
             pending.append({'run_id': str(run['id']), 'category': 'operational_prior_run_recovery_required',
