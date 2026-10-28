@@ -9228,6 +9228,429 @@
         "approved_after_generation_checks": true,
         "seal": "eb5aa486fcdefc3b2d604e9f683fa781b841dfbf3fece5f8beb0208a7f2f879b"
       }
+    },
+    "cybermed:daily:2026-10-28:2026-10-28:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-28",
+      "period_end": "2026-10-28",
+      "edition_id": "cybermed:daily:2026-10-28:2026-10-28:production",
+      "content_version": "3a8562969974263f15e03088a7dcd349e3879c87a69d0a830a6636fb4f5c737f",
+      "message_id": "<e7cbfc1c645f3a9439a04102b5dcef5f6005f957242821d0643da6115047aa55@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-28T10:51:33+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42918662",
+            "title": "Cognitive prehabilitation in surgical patients: separating adherence from efficacy. Comment on Br J Anaesth 2026; 137: 695-707.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42918662/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42933687",
+            "title": "Clinical Phenotypes and Prognostic Heterogeneity of Mild-to-Moderate Chronic Obstructive Pulmonary Disease: A Prospective Community-Based Cohort Study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42933687/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919460",
+            "title": "Association of Acute Respiratory Distress Syndrome Radiographic Findings Identified by Machine Learning and Outcomes of Patients Receiving Invasive Mechanical Ventilation.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919460/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919451",
+            "title": "Brachial-to-Radial Pressure Gradient in Critically Ill Patients Treated With Vasoactive Agents: A Prospective Observational Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919451/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919448",
+            "title": "Comparative Analysis of Tracheal Intubation-Associated Cardiac Arrest in 2015-2023: A Report From the National Emergency Airway Registry for Children Multicenter Registry.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919448/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42931902",
+            "title": "European Society of Intensive Care Medicine consensus statement on human-centred partnership in the intensive care unit.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42931902/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42931901",
+            "title": "Physiology-guided ventilation as an equity intervention: from kilograms to compliance.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42931901/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42931900",
+            "title": "Phenotyping ARDS: A pragmatic path forward with the POLARIS international cohort.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42931900/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42931899",
+            "title": "Beyond avoiding failure: the proactive and beneficial role of appropriate antimicrobial therapy in the ICU.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42931899/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42931898",
+            "title": "Restoring patients' voice in intensive care: augmentative and alternative communication for human-centred care.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42931898/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919630",
+            "title": "When anatomical evidence challenges an intended plane.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919630/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919629",
+            "title": "Comparison of oral and intravenous methadone for postoperative analgesia after cardiac surgery: a pilot randomized clinical trial.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919629/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919628",
+            "title": "Erector spinae plane blocks after mammoplasty: how \"clinically insignificant\" is a 39% reduction in opioid consumption?",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919628/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919627",
+            "title": "Interpreting the time course of lidocaine effectiveness in Ehlers-Danlos syndrome.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919627/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42912162",
+            "title": "Vaccine trial is a ray of hope in Congo's Ebola epidemic.",
+            "channel": "PubMed: Science (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42912162/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42912144",
+            "title": "Sequential diagnosis with language models.",
+            "channel": "PubMed: Science (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42912144/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42907135",
+            "title": "As conflict and the climate emergency converge, we must put women, children, and adolescents at the heart of integrated action.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42907135/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42888476",
+            "title": "The Impact of Anaesthesia Method on the Use of Anaesthesia Department Resources in Total Knee Arthroplasty.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888476/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885556",
+            "title": "Reply to Wang et al.: Complementing the picture: adding antithrombin III monitoring in extracorporeal carbon dioxide removal.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885556/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885552",
+            "title": "Complementing the picture: adding antithrombin III monitoring in extracorporeal carbon dioxide removal.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885552/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42885405",
+            "title": "Reply to Hirano: Are FVC and DLCO Thresholds Equally Calibrated to Pulmonary Fibrosis Progression?",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42885405/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/best-induction-agents-ketamine-etomidate-ketofol/",
+            "title": "Best Induction Agents: Ketamine, Etomidate, Ketofol? - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/best-induction-agents-ketamine-etomidate-ketofol/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42888476",
+            "title": "The Impact of Anaesthesia Method on the Use of Anaesthesia Department Resources in Total Knee Arthroplasty.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888476/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42888476",
+              "doi": "10.1111/aas.70359",
+              "kind": "original",
+              "source_version": "22eb1593856217e6d2f0476d4a29ca04cd5aad80746b90316eb02752f21fa603",
+              "fields": {
+                "title": "873b0625c7cc9adf2e8a621fc400e1033297351b30228f99ce08ba937f06dcb2",
+                "abstract": "a4de5bf3f8b737ab4b49526c939e6b540e1b2b01b02652e022398cfae51da36a",
+                "types": "03e6e7dda889c6a4ffe4b30aa87ac4621a739ab724a02732d6f76de964213130",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3844892d1c0fbb01822269dba9f61332a314f03b11c1e87ef78afebed11ff859",
+                "results_known": false,
+                "numbers": "cfb355d434ac04023096195f1c0c335720e378ae5e4fca72eb35336e1a636b8e",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "cf0f781537604813e678ebb10df8ff4a020eb3aa8f38df92fa2e782ecfb50b96",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42931902",
+            "title": "European Society of Intensive Care Medicine consensus statement on human-centred partnership in the intensive care unit.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42931902/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42931902",
+              "doi": "10.1007/s00134-026-08626-9",
+              "kind": "original",
+              "source_version": "48cecb75c9654454f322061e41576e9b4240a7ccd64de2712116190dbc2bea1e",
+              "fields": {
+                "title": "6fbd878dc631630be72c3aa1a1f140f5ebd24c66f05d3162d3acb77b15e6530c",
+                "abstract": "36f8e9775a083da40fbb66a212d7827d0b2d0fb8eb208404ce35b2342d4c8863",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42919460",
+            "title": "Association of Acute Respiratory Distress Syndrome Radiographic Findings Identified by Machine Learning and Outcomes of Patients Receiving Invasive Mechanical Ventilation.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919460/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42919460",
+              "doi": "10.1097/ccm.0000000000007384",
+              "kind": "original",
+              "source_version": "c46bc630456c9dde9e0986724703705ee3d31bbcae733de15fda60bedafa3fab",
+              "fields": {
+                "title": "6a24edaddf5a5168a4d611b1d57749fe8d13b5c7a5186135d514c5dc217efff9",
+                "abstract": "03cca41d05172e73bea508cba9468fa700629802542a8bdba8734a9da5cc9ff0",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12133c6e21d09ea215ed8a0d7674788bf22170f31beb444ddf4d1e3a987e2290",
+                "results_known": false,
+                "numbers": "1a9f08bf04e2a2ce30c73e68ac9d0de9f25ec7472ff3ab65bdfaf92cbe36e588",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42919451",
+            "title": "Brachial-to-Radial Pressure Gradient in Critically Ill Patients Treated With Vasoactive Agents: A Prospective Observational Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919451/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42919451",
+              "doi": "10.1097/ccm.0000000000007391",
+              "kind": "original",
+              "source_version": "69996ade9c06cd85f9d76c1e3e70a7594819a7fb84de06a8f30d46dec20d3dee",
+              "fields": {
+                "title": "94ac59ecf67760ced73072dafde5bd6fded046ebfff4a00eccc4bfb74307db2d",
+                "abstract": "d3180e037f97004604980fe4c179d5e70df9e9f1a91ca601c44f55070273dafe",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "8cb3696d4c71e0cfb3c68efd2491c186eceee79671662c9a2362306bb402cfa4",
+                "results_known": false,
+                "numbers": "cbefb6111b0cb4f05c8331ad49bafe46f81e41228f490a186cf50cf6b55542b2",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42919448",
+            "title": "Comparative Analysis of Tracheal Intubation-Associated Cardiac Arrest in 2015-2023: A Report From the National Emergency Airway Registry for Children Multicenter Registry.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919448/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42919448",
+              "doi": "10.1097/ccm.0000000000007390",
+              "kind": "original",
+              "source_version": "eb7982efa383efe0a95c06d2e8ddb86a102b4f4c0009c8c398ff77fb98012978",
+              "fields": {
+                "title": "6093551d5e11c7ab1686693e485998cfe9322502646780e9dbcdfc3513eb4631",
+                "abstract": "a73f3f62670d5c207fea33ff48b5924c28cbdf578f93c79ad6bbdcd8b353d1f6",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "403751ff59e6d721f6da65be87dbcc0c19b9e80ef21a133fd1011d76429ec4c5",
+                "results_known": false,
+                "numbers": "d0ce04684974f4fcf39a2075e9f957ff4d92ca013aa87a08166c5de40d328d96",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42919629",
+            "title": "Comparison of oral and intravenous methadone for postoperative analgesia after cardiac surgery: a pilot randomized clinical trial.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919629/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42919629",
+              "doi": "10.1136/rapm-2026-108588",
+              "kind": "original",
+              "source_version": "785e30fca676f3f7c287428fd556b937bd115b5f122041d220d148f6d6f64528",
+              "fields": {
+                "title": "2b87210d8c4c306c2728c530acd7fdb1b11136696b35e736eef90eb5e9e16598",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42888476",
+            "title": "The Impact of Anaesthesia Method on the Use of Anaesthesia Department Resources in Total Knee Arthroplasty.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42888476/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42888476",
+              "doi": "10.1111/aas.70359",
+              "kind": "original",
+              "source_version": "22eb1593856217e6d2f0476d4a29ca04cd5aad80746b90316eb02752f21fa603",
+              "fields": {
+                "title": "873b0625c7cc9adf2e8a621fc400e1033297351b30228f99ce08ba937f06dcb2",
+                "abstract": "a4de5bf3f8b737ab4b49526c939e6b540e1b2b01b02652e022398cfae51da36a",
+                "types": "03e6e7dda889c6a4ffe4b30aa87ac4621a739ab724a02732d6f76de964213130",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3844892d1c0fbb01822269dba9f61332a314f03b11c1e87ef78afebed11ff859",
+                "results_known": false,
+                "numbers": "cfb355d434ac04023096195f1c0c335720e378ae5e4fca72eb35336e1a636b8e",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "cf0f781537604813e678ebb10df8ff4a020eb3aa8f38df92fa2e782ecfb50b96",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/best-induction-agents-ketamine-etomidate-ketofol/",
+            "title": "Best Induction Agents: Ketamine, Etomidate, Ketofol? - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/best-induction-agents-ketamine-etomidate-ketofol/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-28T10:51:29+00:00"
+      },
+      "workflow_run_id": "40675159487",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-28:2026-10-28:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "71727bb617de35526eff304e6e547beaa4d3f9b2e0626f9446e257b7c978316d",
+        "finalization_policy": "markers",
+        "content_version": "3a8562969974263f15e03088a7dcd349e3879c87a69d0a830a6636fb4f5c737f",
+        "message_id": "<e7cbfc1c645f3a9439a04102b5dcef5f6005f957242821d0643da6115047aa55@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "e7f84fa52ac417c5_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "3e42c1946a86aead666df429f3baa69d565b9aad40f616801973c6f609e793cb"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "0d230600434243d474ae7812084b6689c10a4fd31908729499a577123a757c90"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -9894,6 +10317,7 @@
         "42881071",
         "42881421",
         "42887017",
+        "42888045",
         "42888144",
         "42888145",
         "42892349",
@@ -9922,7 +10346,13 @@
         "42902295",
         "42902313",
         "42903440",
-        "42903821"
+        "42903821",
+        "42904879",
+        "42904906",
+        "42904937",
+        "42904944",
+        "42918318",
+        "42919415"
       ]
     }
   }
