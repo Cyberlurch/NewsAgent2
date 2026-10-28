@@ -25,10 +25,12 @@ from .store_io import StoreError, read_store
 from .github_readonly import GitHubReader, GitHubReadError
 
 STO = ZoneInfo('Europe/Stockholm')
-# GitHub's scheduled event creation has been 4-6 hours late in production.
-# Generation/configuration/unknown-delivery failures still fail immediately;
-# only absence of a not-yet-observed scheduled result has this bounded window.
-SCHEDULE_GRACE = timedelta(hours=6)
+# GitHub's scheduled event creation has exceeded six hours in production
+# (Cybermed 2026-10-28 started at 11:49 Stockholm after a 05:40 slot).
+# An eight-hour grace applies ONLY to absence of today's scheduled run.
+# Known generation/configuration/SMTP/State failures still fail immediately;
+# a missing previous due business day is not hidden.
+SCHEDULE_GRACE = timedelta(hours=8)
 
 
 def delivery_deadline(key, day):
