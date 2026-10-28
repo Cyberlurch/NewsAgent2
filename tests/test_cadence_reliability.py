@@ -84,4 +84,4 @@ def test_observed_delay_before_job_is_distinct_from_generation_smtp_and_publicat
     assert row['latencies']['inferred_start_lateness_seconds']==seconds
     assert row['latencies']['run_to_job_seconds']==60 and row['latencies']['job_to_application_seconds']==60
     assert row['late_start_warning'] and row['smtp_accepted_at'] is None and row['git_publication_observed_at'] is None
-    assert op.SCHEDULE_GRACE==timedelta(hours=6)
+    assert op.SCHEDULE_GRACE==timedelta(hours=8)
