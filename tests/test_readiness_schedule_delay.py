@@ -144,6 +144,6 @@ def test_completion_trigger_scopes_readiness_to_the_finished_newsletter():
     # check. The fallback explicitly retains both for schedule/dispatch/recovery.
     assert 'fromJSON(' in selection
     assert "github.event_name == 'workflow_run'" in selection
-    assert "'NewsAgent2 daily'" in selection and "'[\\"cyberlurch\\"]'" in selection
-    assert "'NewsAgent2 Cybermed'" in selection and "'[\\"cybermed\\"]'" in selection
-    assert "'[\\"cybermed\\",\\"cyberlurch\\"]'" in selection
+    assert "'NewsAgent2 daily'" in selection and '["cyberlurch"]' in selection
+    assert "'NewsAgent2 Cybermed'" in selection and '["cybermed"]' in selection
+    assert '["cybermed","cyberlurch"]' in selection
