@@ -138998,8 +138998,926 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "tbJ_E3DyCrY",
+      "source": "youtube",
+      "title": "⚡ALERT! Russia EVACUATING Scientists, France Prepares for MARTIAL LAW + NUCLEAR WAR Simulation.",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=tbJ_E3DyCrY",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 44561,
+        "processed_unique_chars": 44561,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 6.07,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript warns that global tensions are escalating toward possible large-scale conflict, citing alleged Russian evacuations from Iran's Bushehr plant, Franco-British nuclear strike simulations, widespread protests and militarized policing in Europe, and multiple cyber, energy and naval vulnerabilities that could cascade into systemic collapse.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Russian cargo military planes reportedly flew to the Bushehr nuclear facility in Iran, which the narrator interprets as an exfiltration of Russian nuclear scientists.",
+        "France prepared to deploy 70,000 riot police ahead of major demonstrations, which the narrator characterizes as covert militarization of the police to justify a crackdown.",
+        "The United Kingdom and France simulated joint nuclear strikes using Rafale fighters and cruise missiles while neither country is disclosing nuclear stockpile numbers."
+      ],
+      "transcript_notable_claims": [
+        "The evacuation of Russian scientists from Bushehr signals that Bushehr may be on a target list and Iran could retaliate by targeting Israel's Deona nuclear facility.",
+        "Britain launched a 'be ready' campaign advising households to maintain three days of emergency food, water, cash and communications in case of an AI-induced grid-down event.",
+        "Iranian contingency plans reportedly include severing submarine communication cables in the Gulf to disrupt banking systems, cloud infrastructure, military communications and internet connectivity.",
+        "US refueling tankers and other military aircraft in the Middle East have reportedly disabled public transponder signals, which the narrator presents as a sign of imminent strikes.",
+        "The IRGC claimed that seven oil transfer vessels were struck in one day, which the narrator presents as significant and underreported.",
+        "OpenAI CEO Sam Altman warned that AI models can find hardware-level exploits and unpatchable vulnerabilities beyond conventional cybersecurity assumptions."
+      ],
+      "transcript_uncertainties": [
+        "It is not confirmed that the Russian flights to Bushehr were an exfiltration of scientists rather than deliveries of defensive equipment or other cargo.",
+        "Professor Morandi reportedly does not believe the Russian exfiltration is happening, but his view has not been reconciled with the narrator's interpretation.",
+        "It is uncertain whether North Korea's internet outage was caused by a nation-state cyberattack, high-quality AI agents, or intentional throttling by North Korea itself.",
+        "The narrator acknowledges uncertainty about whether Iran possesses nuclear weapons despite Israeli claims and long-standing assertions by Benjamin Netanyahu."
+      ],
+      "important_details": [
+        "The narrator claims that France possesses about 200 Rafale jets and around 60 cruise missiles reportedly capable of yields near 300 kilotons, and that France has stopped disclosing exact nuclear stockpile numbers.",
+        "The narrator reports that a diesel cargo vessel delivered 40,000 tons of diesel to the United States, an amount the narrator equates to roughly 2.5 hours of U.S. consumption.",
+        "The IRGC reportedly maintains 31 provincial commands that can operate independently with pre-set target lists if central command is incapacitated, described as a decentralized 'deadhand mosaic' defense system."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "tbJ_E3DyCrY",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@judgingfreedom"
+      },
+      "id": "1AlQ1IrakHo",
+      "source": "youtube",
+      "title": "Netanyahu’s Plan to Finish the Work in Iran: What It Means for the US",
+      "channel": "judgingfreedom",
+      "url": "https://www.youtube.com/watch?v=1AlQ1IrakHo",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2356,
+        "processed_unique_chars": 2356,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "transcript_full_summary": "The transcript argues that Netanyahu lacks the electoral mandate and military support to launch a preemptive attack on Iran, and that his election-period rhetoric and imagery about a nuclear strike risk being perceived as desperate and counterproductive.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Netanyahu cannot credibly attack Iran without a clear electoral mandate from the people of Israel.",
+        "The Israeli military and professional defense establishment will withhold support for war if Netanyahu has just lost or failed to win an election.",
+        "Former Israeli intelligence and defense leaders say there is no evidence to justify a preemptive war against Iran."
+      ],
+      "transcript_notable_claims": [
+        "Netanyahu presented an AI-generated picture of a simulated nuclear explosion over Tel Aviv during the election period.",
+        "Netanyahu has been using alarmist rhetoric with Haredi and other groups that may rebound to his political disadvantage.",
+        "The military will regard a last-minute push for war as an act of desperation rather than a credible strategic plan."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether any segment of the Israeli public or political coalition will take Netanyahu's warnings about Iran seriously.",
+        "It is unclear how President Trump or external actors would respond to Netanyahu's calls for immediate military action."
+      ],
+      "important_details": [
+        "Zamir, the chief of defense staff, and a former intelligence chief reportedly said there is no evidence supporting a preemptive war against Iran.",
+        "Negotiations to form a coalition or minority government in Israel could last a month or more, during which military opposition to an attack would be decisive.",
+        "The claim that attacking the West Bank differs from taking Israel to an existential war highlights a perceived threshold requiring broad public and military backing."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "1AlQ1IrakHo",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "4AxVlpZK880",
+      "source": "youtube",
+      "title": "Faith, Freedom and the Hispanic Vote: Pastor Sam Rodriguez Speaks Out",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=4AxVlpZK880",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5912,
+        "processed_unique_chars": 5912,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.548,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5912",
+        "recency"
+      ],
+      "transcript_full_summary": "Pastor Samuel Rodriguez argues that the 2020s midterm elections require a 'firewall' to prevent societal collapse into chaos, socialism, cancel culture and anti‑Semitism, and he urges repentance, revival, reformation and a renaissance rooted in Judeo‑Christian values.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Pastor Samuel Rodriguez calls the midterms a 'firewall' election to prevent chaos, anarchy, socialism, cancel culture and growing anti‑Semitism.",
+        "Rodriguez prescribes repentance, revival, reformation and a renaissance as the scriptural remedy and urges churches and pastors to preach civic engagement from the pulpit.",
+        "Rodriguez says Latinos can be America's greatest firewall defending the Judeo‑Christian value system while supporting both secure borders and legal pathways for long‑time residents."
+      ],
+      "transcript_notable_claims": [
+        "The current unrest in Europe, especially France, will become America’s reality unless a firewall is built.",
+        "Anti‑Semitism continues to grow and there is a complete repudiation of the Judeo‑Christian value system.",
+        "Pastor Rodriguez credits President Trump with enabling Christian pastors to preach the gospel more freely than any president in 250 years.",
+        "Latino support for certain political candidates dropped from close to 50% to about 27–30% partly because of perceived ICE tactics.",
+        "The war in Iran poses the biggest threat with economic ramifications primarily affecting gas and food prices."
+      ],
+      "transcript_uncertainties": [
+        "Rodriguez expresses uncertainty by saying 'that reality will become our reality' unless a firewall is built, indicating a conditional outcome.",
+        "Rodriguez says Latino political alignment 'can turn' despite current lower support levels, indicating potential change."
+      ],
+      "important_details": [
+        "Rodriguez identifies generation Z angst and instability as contributing to cultural decline and political risk.",
+        "Rodriguez supports deporting 'muchala ombres' while also advocating a legal process that allows long‑term noncitizen workers to work without relying on government subsidies.",
+        "Rodriguez links a hoped‑for national revival to practical cultural reformation that would produce innovation, creativity and increased conversions to Christianity."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "4AxVlpZK880",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "6ek9H8eKf2s",
+      "source": "youtube",
+      "title": "PROPHETIC SURROUND SOUND--Understanding the OT & NT Symphony of End Times Prophecies",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=6ek9H8eKf2s",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "6ek9H8eKf2s",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "8KZgxY3JXW0",
+      "source": "youtube",
+      "title": "Vem representerar han egentligen – Sverige eller Somalieklanen?",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=8KZgxY3JXW0",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 6714,
+        "processed_unique_chars": 6714,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.748,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:6714",
+        "recency"
+      ],
+      "transcript_full_summary": "Programmet granskar riksdagsledamoten Mohammed Ali utifrån uppgifter om skuldhistorik, tveksam medborgarskapsprocess, påstått fusk vid inträde i riksdagen och kopplingar till en somalisk klan i Kenya, samtidigt som klanen beskriver honom som förföljd på grund av islam.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Mohammed Ali fick avslag på medborgarskap 2024 på grund av höga skulder om 164 000 men beviljades medborgarskap samma år som han valdes in i riksdagen.",
+        "Programmet påstår att Mohammed Ali kan ha fuskat till sig riksdagsplats genom ekonomiska transaktioner till sina somaliska kontakter.",
+        "Klanen i Kenya framställer Mohammed Ali som förföljd på grund av islam och visar att han har en framträdande roll inom klanstrukturen."
+      ],
+      "transcript_notable_claims": [
+        "Mohammed Alis största lojalitet ligger hos sin egen befolkning och sin klan snarare än hos svenskarna.",
+        "Mohammed Ali kostar svenska skattebetalare omkring 80 000–100 000 kronor i månaden genom sin riksdagsplats.",
+        "Klanstrukturen i Kenya kan ha skickat Mohammed Ali till Sverige för att infiltrera riksdagen.",
+        "När liknande misstankar gäller en rysk koppling skulle Säpo och andra myndigheter klassat det som ett säkerhetshot."
+      ],
+      "transcript_uncertainties": [
+        "Det är osäkert om Mohammed Ali verkligen tog sig in i riksdagen genom fusk eller omständigheter kring valet är otvetydiga.",
+        "Det är oklart hur mycket inflytande Mohammed Ali har i Sverige från sin klan i Kenya.",
+        "Det är osäkert om Mohammed Alis asyl- eller flyktingstatus vid ankomsten till Sverige var berättigad med tanke på situationen i Kenya."
+      ],
+      "important_details": [
+        "Programmet visar film från en bönelokal i Nairobi där klanmedlemmar ber för Mohammed Alis väl och beskriver honom som förföljd.",
+        "Debatten inkluderar krav från politiker som Tobias Andersson att återkalla Mohammed Alis medborgarskap och skicka hem honom.",
+        "Programmet kopplar stora delar av den somaliska gruppen i Sverige till bidragsberoende, bristande svenskakunskaper och hög brottsbelastning enligt deltagarnas påståenden."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "8KZgxY3JXW0",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "M58kABBhl_I",
+      "source": "youtube",
+      "title": "The Billion-Dollar Vape Market: Who Profits From the Hype? | ZDF frontal",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=M58kABBhl_I",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 9373,
+        "processed_unique_chars": 9373,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Der Beitrag schildert die Verbreitung und Attraktivität von Vapes unter Jugendlichen, die wirtschaftlichen Interessen der Vape- und Tabakbranche sowie politische Debatten zu Geschmackseinschränkungen und Steuererhöhungen in Deutschland und den Niederlanden.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Der 25-jährige Abudi Gabari aus Leipzig nutzt Vapes sehr häufig und begann im Jugendalter zunächst mit Zigaretten.",
+        "Die Intertabak-Messe zeigt, dass Pod-Systeme und immer neue Aromen den Markt dominieren.",
+        "Die Bundesregierung plant Steuererhöhungen für Tabak- und Nikotinprodukte, wobei E-Zigaretten deutlich geringer besteuert werden als Zigaretten."
+      ],
+      "transcript_notable_claims": [
+        "Der Anteil der 12- bis 17-Jährigen, die Mehrweg-E-Zigaretten nutzen, stieg innerhalb von zwei Jahren von 3,9 auf 7,3 Prozent.",
+        "In den Niederlanden sind alle Aromen außer Tabakgeschmack verboten, weil andere Aromen Jugendliche zum Einstieg verleiten sollen.",
+        "Nikotin in Vapes kann bei Jugendlichen Konzentrationsprobleme verursachen und das Risiko für Depressionen und Ängste erhöhen.",
+        "Der Bundesverband der Tabakwirtschaft und neuartiger Erzeugnisse (BVTE) warnt, stärkere Steuererhöhungen könnten Schwarzmarkt und Auslands-Einkäufe, etwa in Polen, befeuern.",
+        "Der BVTE kooperiert öffentlich mit der Deutschen Zoll- und Finanzgewerkschaft BDZ, etwa mit gemeinsamen Pressekonferenzen und parlamentarischen Frühstücken."
+      ],
+      "transcript_uncertainties": [
+        "Die Branche weist den Vorwurf zurück, gezielt junge Leute anzusprechen, und verweist auf das Jugendschutzgesetz.",
+        "Professorin Sabina Ulbricht sagt, Studien nähmen an, dass Steuererhöhungen nicht zwangsläufig zu stärkerem Schwarzmarkt führen.",
+        "Der BVTE fordert bei E-Zigaretten eine Steuererhöhung von 2 Cent pro ml statt höherer Abgaben."
+      ],
+      "important_details": [
+        "Die Bundesregierung erwartet, dass eine 10-prozentige Steuererhöhung auf Nikotinprodukte weniger Jugendliche zum Einstieg bewegen wird.",
+        "Bei Zigaretten steigt die Tabaksteuer bis 2030 so, dass auf eine Packung etwa 50 Prozent mehr Tabaksteuer entfällt als heute.",
+        "Für E-Zigaretten wird die Steuer pro 1 ml Liquid um rund 37,5 Prozent erhöht, was deutlich geringer ausfällt als bei herkömmlichen Zigaretten."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "M58kABBhl_I",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@AndreiJikh"
+      },
+      "id": "TNQ2PuDLiOg",
+      "source": "youtube",
+      "title": "My Thoughts On XRP",
+      "channel": "AndreiJikh",
+      "url": "https://www.youtube.com/watch?v=TNQ2PuDLiOg",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "TNQ2PuDLiOg",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@SlingandStoneVideos"
+      },
+      "id": "m04GCXRoqkE",
+      "source": "youtube",
+      "title": "Jews Have Built The Third Temple Altar",
+      "channel": "SlingandStoneVideos",
+      "url": "https://www.youtube.com/watch?v=m04GCXRoqkE",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 15805,
+        "processed_unique_chars": 15805,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.07,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "The video claims that a fully prepared altar, priestly garments, trumpets and priests exist ready to resume sacrifices for a Third Temple, links these developments to biblical prophecy and warns that Rabbi Tovia Singer promotes a return of Jewish converts to Judaism instead of Christianity.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "An altar with stones cut by lasers is claimed to be ready for placement on the Temple Mount for sacrifices.",
+        "Priestly garments, silver trumpets and trained priests are claimed to be prepared to resume temple offerings.",
+        "Rabbi Tovia Singer reportedly says only the decision to carry the altar up the Temple Mount is missing to resume sacrifices."
+      ],
+      "transcript_notable_claims": [
+        "The Ezra 3 prophecy and Daniel 9:26–27 are presented as predicting the resumption of sacrifices and a future abomination of desolation tied to an Antichrist figure.",
+        "The September 15th event on the Temple Mount with approximately 600 Jews blowing trumpets is presented as a historic restoration of ancient temple practices.",
+        "Recent diplomatic moves, such as Colombia opening an embassy in Jerusalem and Abraham Accords meetings, are presented as laying groundwork for a future peace treaty that will enable an Antichrist figure."
+      ],
+      "transcript_uncertainties": [
+        "The decision to carry the altar up the Temple Mount is described as the only missing action; it is not stated who would make that decision or when it would occur.",
+        "The identification of the Antichrist and the timeline for the predicted end-times events are presented as interpretive and not fixed."
+      ],
+      "important_details": [
+        "The video claims Ezra 3 records that exiles began offering burnt offerings on an altar years before the second temple foundation was laid, implying sacrifices could resume without rebuilding the full temple.",
+        "The presenter contends that Rabbi Tovia Singer actively seeks to return Jewish converts from Christianity to Judaism and labels that mission spiritually dangerous.",
+        "The transcript cites Joel 3:2 and Matthew 24 to connect international actions concerning Jerusalem to prophetic expectations and increased global focus on Israel."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "m04GCXRoqkE",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CrossExamined"
+      },
+      "id": "DaJviM8BVy4",
+      "source": "youtube",
+      "title": "Why Does Lindsay Clancy Have So Many Supporters?",
+      "channel": "CrossExamined",
+      "url": "https://www.youtube.com/watch?v=DaJviM8BVy4",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3495,
+        "processed_unique_chars": 3495,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 1.944,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3495",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript argues that toxic or suicidal empathy leads people to side with perpetrators over victims, using the Lindsay Clancy case and immigration-release policies as examples where excessive empathy subverts justice.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Toxic empathy causes people to prioritize empathy over justice and can lead them to side with perpetrators instead of victims.",
+        "The speaker links policies releasing undocumented immigrants from jail to a critical-theory view that immigrants are treated as oppressed, which forces ICE to arrest people in the community.",
+        "The speaker claims nine women jurors in the Lindsay Clancy trial may have acquitted her due to empathy and shared experiences like prior abortions, creating a psychological reluctance to judge."
+      ],
+      "transcript_notable_claims": [
+        "When people rise empathy over justice, they wind up siding with the perpetrator of a crime rather than the victims of a crime.",
+        "Letting known criminals who are illegal aliens out of prison forces ICE to arrest people in the community instead of handling deportations in jails.",
+        "If the law had been enforced, 100% of crimes by undocumented immigrants that resulted in murder or rape could have been avoided.",
+        "Lindsay Clancy planned the murders and sent her husband away so she could carry out the murders, therefore she knew her actions were wrong and is responsible.",
+        "In Massachusetts the prosecution had to prove Lindsay Clancy was not insane rather than the defense proving insanity, according to the speaker's understanding."
+      ],
+      "transcript_uncertainties": [
+        "The speaker says 'as I understand it, maybe I'm wrong about this' regarding Massachusetts law that allegedly requires the prosecution to prove the defendant was not insane.",
+        "The speaker admits not having watched the entire trial and says 'I just read a little bit about it' when describing Lindsay Clancy's planning and actions."
+      ],
+      "important_details": [
+        "The speaker invokes Allie Beth Stuckey's concept of 'toxic empathy' and Gad Saad's phrase 'suicidal empathy' to frame the argument about misplaced compassion.",
+        "The speaker asserts that Lindsay Clancy sent her husband away and attempted suicide after the killings as evidence she knew the acts were wrong.",
+        "The speaker identifies Tim Walz and Jacob Frey as officials who allowed known criminals who are undocumented to leave prison last winter and names Mayor Adams (referred to as 'Mayor Mundani') as doing the same in New York."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "DaJviM8BVy4",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@RedactedNews"
+      },
+      "id": "HBZBGp_7Q7U",
+      "source": "youtube",
+      "title": "Lt. Col. Daniel Davis Warns a Wider Iran War Is Coming Right After the Midterms | Redacted",
+      "channel": "RedactedNews",
+      "url": "https://www.youtube.com/watch?v=HBZBGp_7Q7U",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 22139,
+        "processed_unique_chars": 22139,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.07,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript discusses U.S. and Israeli political dynamics around a possible wider war with Iran after the U.S. midterm elections and debates over leadership responsibility for failures in the current Iran conflict.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "President Trump publicly endorsed Benjamin Netanyahu ahead of the Israeli election and signalled support for continuing military action.",
+        "Colonel Daniel Davis argues that military deployments and rhetoric make a larger return to combat operations against Iran likely after the U.S. midterms.",
+        "The transcript reports persistent rumors that Secretary of Defense Pete Hegseth may be dismissed after the midterms if the Iran campaign is deemed a failure."
+      ],
+      "transcript_notable_claims": [
+        "Benjamin Netanyahu knew about the October 7th attack well in advance and Israelis are demanding answers for allowing their own people to be killed.",
+        "A renewed U.S.-Israel military campaign against Iran would allow Iran to expand its target list to include American businesses, undersea internet cables, energy infrastructure, desalination plants and potentially Israeli nuclear-related sites.",
+        "Pete Hegseth was the biggest cheerleader for the Iran campaign inside the administration while many senior intelligence and military leaders and the vice president advised against it.",
+        "If a post-midterms offensive fails, President Trump would likely blame and remove Hegseth in the manner previous administrations removed defense secretaries after midterm defeats."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether the reported plan to launch major combat operations will actually occur after the midterms.",
+        "Reports that Netanyahu agreed to delay an attack until after the U.S. election have an unclear level of accuracy according to the transcript."
+      ],
+      "important_details": [
+        "The transcript asserts that Iran has so far restrained its responses but has publicly warned it will expand targets if further strikes occur.",
+        "The transcript claims that hitting Iranian energy infrastructure would likely provoke strikes on Israeli and Gulf infrastructures and could severely damage the global economy."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "HBZBGp_7Q7U",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@russianmediamonitor"
+      },
+      "id": "P5URJ6RdtrA",
+      "source": "youtube",
+      "title": "State TV experts assert the US was defeated by Russia and will be defeated by Iran",
+      "channel": "russianmediamonitor",
+      "url": "https://www.youtube.com/watch?v=P5URJ6RdtrA",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3420,
+        "processed_unique_chars": 3420,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.925,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3420",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript asserts that US influence over Ukraine and Europe is waning while a possible Trump meeting with Putin and Xi underscores a world of regional powers; the speakers claim the United States allegedly 'lost' to Russia and faces potential defeat by Iran, affecting transatlantic ties and strategic alignments.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "US distancing from Ukraine is increasing and the formula 'no words about Ukraine without Ukraine' is losing meaning for meetings of world leaders.",
+        "Donald Trump is reportedly willing to meet in a three-way summit with Vladimir Putin and Xi Jinping because he views China as stable and Russia as having a long-standing understanding with him.",
+        "The transcript claims that part of the American establishment believes the United States 'lost' to the Russian Federation and that a US defeat in a war with Iran would strengthen US attachment to Euro-Atlanticism."
+      ],
+      "transcript_notable_claims": [
+        "Europe is becoming a global province and is the 'fallen link' between great powers according to the transcript.",
+        "The Obama-Biden grouping allegedly intended to remove Russia from the great-power equation with China through the Ukraine war and expected sanctions to work.",
+        "Republican senators are described as wanting to punish Trump for a 'diesel deal' and for being lenient toward Russia, with internal US factions seeking to 'turn the table' after a perceived loss."
+      ],
+      "transcript_uncertainties": [
+        "The transcript expresses uncertainty about which Americans or which US political actors are being referenced when assessing US behavior and policy.",
+        "The transcript leaves unresolved whether the alleged US 'defeat' to Russia is widely acknowledged across US political elites."
+      ],
+      "important_details": [
+        "The speakers state that Europe cannot be easily situated between China, the United States and Russia because its economic and political links are unclear.",
+        "The transcript presents Trump as having never insulted the Russian president and as having a trusting atmosphere in relations with Russia, contrasted with other US presidents."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "P5URJ6RdtrA",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@MarcFriedrich7"
+      },
+      "id": "Y6-3gt3vfBs",
+      "source": "youtube",
+      "title": "France Is Burning: What the Media Isn't Showing You",
+      "channel": "MarcFriedrich7",
+      "url": "https://www.youtube.com/watch?v=Y6-3gt3vfBs",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 28117,
+        "processed_unique_chars": 28117,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.07,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Das Video behauptet, Frankreich befinde sich in Anarchie mit Brandstiftung, Plünderungen und orchestrierten Protesten, die angeblich von linken Gruppen, NGOs und Migranten beeinflusst werden; der Erzähler warnt vor einem europäischen Schulden- und Systemkollaps und ordnet die Ereignisse ins Konzept des Fourth Turning ein.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Frankreich zeige angeblich Barrikaden, brennende Gebäude und weitreichende Plünderungen in vielen Städten.",
+        "Hinter den Protesten stünden nach Angaben des Videos zahlreiche linke bis linksextreme Gruppen, NGOs und nur wenige Schülerorganisationen.",
+        "Frankreich habe laut Video einen Staatsschuldenstand von 3,6 Billionen Euro (116% der Wirtschaftsleistung) und steuere auf eine Anleihemarktkrise zu."
+      ],
+      "transcript_notable_claims": [
+        "Das Rathaus von Limche sei von 'Barbaren' angezündet worden und das Rathaus in Marseille sei gestürmt worden wie das Kapitol am 6. Januar.",
+        "Eine Fox-News-Recherche habe ergeben, dass 50 Organisationen mit den Protesten verbunden seien, wovon nur 15 Schüler- oder Jugendgruppen seien.",
+        "Die Protestwelle sei teilweise geplant und orchestriert, mit bereitgestellten Paletten voller Glasflaschen und vorhergehenden Hackerangriffen auf Carrefour-Supermärkte.",
+        "Die Unruhen in Frankreich seien der Auftakt zum 'letzten großen Finale' des Fourth Turning und könnten zu einem dritten Weltkrieg oder bürgerkriegsähnlichen Zuständen führen.",
+        "Die EU habe in einem Tweet ein Bild gepostet, das angeblich Ereignisse vorhersagte, und europäische Institutionen würden die Entwicklung möglicherweise nutzen.",
+        "Frankreichs 10-jährige Anleiherenditen seien nahe 5% gestiegen und lägen deutlich über Deutschland, was die Kreditkosten erhöht und die Schuldenlage verschärfe.",
+        "Die Ereignisse würden als Staatsversagen bezeichnet, weil Eigentumsrechte nicht mehr geschützt und Polizisten angegriffen würden."
+      ],
+      "transcript_uncertainties": [
+        "Der Erzähler gibt offen zu, nicht alle Details genau zu wissen und fordert die Zuschauer auf, Theorien zu teilen.",
+        "Es wird mehrfach angemerkt, dass nicht eindeutig feststehe, ob die Proteste vollständig von NGOs und linken Gruppen gesteuert seien.",
+        "Der Verfasser nennt Prophezeiungen (Alois Irlmeer's Vorhersagen) als mögliche Erklärung, räumt aber Unsicherheit über deren Wahrheit ein."
+      ],
+      "important_details": [
+        "Der Erzähler nennt konkrete betroffene Orte wie Limche, Marseille, Paris, Brüssel, Mailand und Turin als Ausbreitungsorte der Unruhen.",
+        "Der Erzähler fordert Vorbereitungen zur Vermögenssicherung außerhalb der EU, nennt Lichtenstein, Panama und eine Strategie mit Aktien, Gold und Bitcoin.",
+        "Der Erzähler nennt den Stand der französischen Verschuldung als Ende Juni 2026 und eine 'magische Grenze' von 120% Schuldenquote als kritischen Punkt."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "Y6-3gt3vfBs",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BeardedBibleBros"
+      },
+      "id": "Z9tUv4zAXTs",
+      "source": "youtube",
+      "title": "Sid Roth explains The Glory Story",
+      "channel": "BeardedBibleBros",
+      "url": "https://www.youtube.com/watch?v=Z9tUv4zAXTs",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "video_id": "Z9tUv4zAXTs",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@3of7Project"
+      },
+      "id": "afzjG4aah2g",
+      "source": "youtube",
+      "title": "How I Realized Everything Is A Scam",
+      "channel": "3of7Project",
+      "url": "https://www.youtube.com/watch?v=afzjG4aah2g",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-28T04:30:00+00:00",
+      "screened_at": "2026-10-28T04:30:00+00:00",
+      "expires_at": "2026-10-31T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5441,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 2.43,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5441",
+        "recency"
+      ],
+      "video_id": "afzjG4aah2g",
+      "processed_at_utc": "2026-10-28T10:45:59+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-10-27T09:58:06+00:00",
+  "updated_at_utc": "2026-10-28T10:45:59+00:00",
   "version": 1
 }

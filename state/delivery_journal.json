@@ -8988,6 +8988,246 @@
         "approved_after_generation_checks": true,
         "seal": "6a0190e10d40d3094b1a6664b07c384e82e3bfe969de7020fa6830b97e7666ce"
       }
+    },
+    "cyberlurch:daily:2026-10-28:2026-10-28:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-10-28",
+      "period_end": "2026-10-28",
+      "edition_id": "cyberlurch:daily:2026-10-28:2026-10-28:production",
+      "content_version": "de00b47bb3e73ff4662fbc41a54e04b05aaa4a78930734537d9d8dce62e14ddc",
+      "message_id": "<94e62af0cc4a0f285da707e62b71caf7c962c5aa268a7aaeb0009ec382770682@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-28T10:46:03+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "tbJ_E3DyCrY",
+            "title": "⚡ALERT! Russia EVACUATING Scientists, France Prepares for MARTIAL LAW + NUCLEAR WAR Simulation.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=tbJ_E3DyCrY"
+          },
+          {
+            "source": "youtube",
+            "id": "1AlQ1IrakHo",
+            "title": "Netanyahu’s Plan to Finish the Work in Iran: What It Means for the US",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=1AlQ1IrakHo"
+          },
+          {
+            "source": "youtube",
+            "id": "4AxVlpZK880",
+            "title": "Faith, Freedom and the Hispanic Vote: Pastor Sam Rodriguez Speaks Out",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=4AxVlpZK880"
+          },
+          {
+            "source": "youtube",
+            "id": "6ek9H8eKf2s",
+            "title": "PROPHETIC SURROUND SOUND--Understanding the OT & NT Symphony of End Times Prophecies",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=6ek9H8eKf2s"
+          },
+          {
+            "source": "youtube",
+            "id": "8KZgxY3JXW0",
+            "title": "Vem representerar han egentligen – Sverige eller Somalieklanen?",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=8KZgxY3JXW0"
+          },
+          {
+            "source": "youtube",
+            "id": "M58kABBhl_I",
+            "title": "The Billion-Dollar Vape Market: Who Profits From the Hype? | ZDF frontal",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=M58kABBhl_I"
+          },
+          {
+            "source": "youtube",
+            "id": "TNQ2PuDLiOg",
+            "title": "My Thoughts On XRP",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=TNQ2PuDLiOg"
+          },
+          {
+            "source": "youtube",
+            "id": "m04GCXRoqkE",
+            "title": "Jews Have Built The Third Temple Altar",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=m04GCXRoqkE"
+          },
+          {
+            "source": "youtube",
+            "id": "DaJviM8BVy4",
+            "title": "Why Does Lindsay Clancy Have So Many Supporters?",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=DaJviM8BVy4"
+          },
+          {
+            "source": "youtube",
+            "id": "HBZBGp_7Q7U",
+            "title": "Lt. Col. Daniel Davis Warns a Wider Iran War Is Coming Right After the Midterms | Redacted",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=HBZBGp_7Q7U"
+          },
+          {
+            "source": "youtube",
+            "id": "P5URJ6RdtrA",
+            "title": "State TV experts assert the US was defeated by Russia and will be defeated by Iran",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=P5URJ6RdtrA"
+          },
+          {
+            "source": "youtube",
+            "id": "Y6-3gt3vfBs",
+            "title": "France Is Burning: What the Media Isn't Showing You",
+            "channel": "MarcFriedrich7",
+            "url": "https://www.youtube.com/watch?v=Y6-3gt3vfBs"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "tbJ_E3DyCrY",
+            "title": "⚡ALERT! Russia EVACUATING Scientists, France Prepares for MARTIAL LAW + NUCLEAR WAR Simulation.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=tbJ_E3DyCrY"
+          },
+          {
+            "source": "youtube",
+            "id": "1AlQ1IrakHo",
+            "title": "Netanyahu’s Plan to Finish the Work in Iran: What It Means for the US",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=1AlQ1IrakHo"
+          },
+          {
+            "source": "youtube",
+            "id": "4AxVlpZK880",
+            "title": "Faith, Freedom and the Hispanic Vote: Pastor Sam Rodriguez Speaks Out",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=4AxVlpZK880"
+          },
+          {
+            "source": "youtube",
+            "id": "6ek9H8eKf2s",
+            "title": "PROPHETIC SURROUND SOUND--Understanding the OT & NT Symphony of End Times Prophecies",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=6ek9H8eKf2s"
+          },
+          {
+            "source": "youtube",
+            "id": "8KZgxY3JXW0",
+            "title": "Vem representerar han egentligen – Sverige eller Somalieklanen?",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=8KZgxY3JXW0"
+          },
+          {
+            "source": "youtube",
+            "id": "M58kABBhl_I",
+            "title": "The Billion-Dollar Vape Market: Who Profits From the Hype? | ZDF frontal",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=M58kABBhl_I"
+          },
+          {
+            "source": "youtube",
+            "id": "TNQ2PuDLiOg",
+            "title": "My Thoughts On XRP",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=TNQ2PuDLiOg"
+          },
+          {
+            "source": "youtube",
+            "id": "m04GCXRoqkE",
+            "title": "Jews Have Built The Third Temple Altar",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=m04GCXRoqkE"
+          },
+          {
+            "source": "youtube",
+            "id": "DaJviM8BVy4",
+            "title": "Why Does Lindsay Clancy Have So Many Supporters?",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=DaJviM8BVy4"
+          },
+          {
+            "source": "youtube",
+            "id": "HBZBGp_7Q7U",
+            "title": "Lt. Col. Daniel Davis Warns a Wider Iran War Is Coming Right After the Midterms | Redacted",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=HBZBGp_7Q7U"
+          },
+          {
+            "source": "youtube",
+            "id": "P5URJ6RdtrA",
+            "title": "State TV experts assert the US was defeated by Russia and will be defeated by Iran",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=P5URJ6RdtrA"
+          },
+          {
+            "source": "youtube",
+            "id": "Y6-3gt3vfBs",
+            "title": "France Is Burning: What the Media Isn't Showing You",
+            "channel": "MarcFriedrich7",
+            "url": "https://www.youtube.com/watch?v=Y6-3gt3vfBs"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "tbJ_E3DyCrY",
+            "title": "⚡ALERT! Russia EVACUATING Scientists, France Prepares for MARTIAL LAW + NUCLEAR WAR Simulation.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=tbJ_E3DyCrY"
+          },
+          {
+            "source": "youtube",
+            "id": "m04GCXRoqkE",
+            "title": "Jews Have Built The Third Temple Altar",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=m04GCXRoqkE"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-28T10:45:59+00:00"
+      },
+      "workflow_run_id": "40674165727",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-10-28:2026-10-28:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "c94657f788f3a35e454cf920638795769ea7e16faca59a05f87fc57fa6f3fc9c",
+        "finalization_policy": "markers",
+        "content_version": "de00b47bb3e73ff4662fbc41a54e04b05aaa4a78930734537d9d8dce62e14ddc",
+        "message_id": "<94e62af0cc4a0f285da707e62b71caf7c962c5aa268a7aaeb0009ec382770682@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "2a9b21794842310b_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "44d8ede6e2f73df0ef8a13fb64cd836740ac8003f2238c9169ac7e531ac80a13"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "eb5aa486fcdefc3b2d604e9f683fa781b841dfbf3fece5f8beb0208a7f2f879b"
+      }
     }
   },
   "paper_legacy_unknown": {
