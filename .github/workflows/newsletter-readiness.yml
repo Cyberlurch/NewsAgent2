@@ -27,7 +27,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        report_key: [cybermed, cyberlurch]
+        # A producer completion checks only that producer. The sibling's
+        # independent scheduled run may not have started yet. Scheduled,
+        # manual and state-recovery checks still inspect both newsletters.
+        report_key: >-
+          ${{ fromJSON(
+            github.event_name == 'workflow_run' && github.event.workflow_run.name == 'NewsAgent2 daily' && '["cyberlurch"]' ||
+            github.event_name == 'workflow_run' && github.event.workflow_run.name == 'NewsAgent2 Cybermed' && '["cybermed"]' ||
+            '["cybermed","cyberlurch"]') }}
     env:
       REPORT_KEY: ${{ matrix.report_key }}
       EMAIL_MODE: none

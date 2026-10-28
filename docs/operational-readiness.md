@@ -36,9 +36,12 @@ commit, blind SMTP retry, force push or automatic JSON rebase is added.
 ## Daily early check
 
 **Newsletter readiness (all cadences, no sending)** runs at **04:00 and 12:00 Stockholm**
-every day, after completed newsletter/state-recovery workflows on `main`, and on
-manual request. Its two independent jobs assess all four
-cadences, including the next Monthly and Yearly before their due dates. It reads
+every day and on manual request. Scheduled/manual checks and the state-recovery
+completion check inspect **both** newsletters. On a normal producer completion,
+only that producer's newsletter is assessed: Cyberlurch and Cybermed have
+independent GitHub schedules, so one finishing does not prove the other is late.
+Each selected job assesses all four cadences, including the next Monthly and Yearly
+before their due dates. It reads
 the current checked-out stores, source references and Actions metadata, checks
 required configuration/recipient resolution for every cadence, and writes a
 category-only artifact plus an Actions summary. It never creates State or locks,
@@ -50,13 +53,15 @@ server availability. Runtime secrets, addresses and recipient HMAC lists are not
 written to its evidence. `none/test` newsletter runs retain their separate scratch
 stores and test-only audience.
 
-GitHub created the 19 October morning events more than five hours after their
-native slots. An early check therefore allows up to six hours from the existing
-05:30/05:40 slot before diagnosing an absent scheduled result: **11:30 for
-Cyberlurch, 11:40 for Cybermed**, in Stockholm time including DST. Before that
-deadline, yesterday's last business-day result must still be valid and today's
-missing result is `awaiting_scheduled_run`, never successful delivery. The noon
-check catches service that still has no finalized result. Known generation,
+GitHub created the 19 October events more than five hours late and the 28
+October Cybermed run only at **11:49 Stockholm**, over six hours after its 05:40
+slot. The read-only check now allows a bounded **eight-hour** GitHub creation
+grace before diagnosing today's *absent* scheduled run: **13:30 Cyberlurch and
+13:40 Cybermed** (Stockholm time, including DST). Before this deadline,
+the previous business-day result must still be valid and a missing current
+result is `awaiting_scheduled_run`, never proof of delivery. The 12:00 scheduled
+check, which GitHub itself may delay, and subsequent checks detect missing
+service after its deadline. Known generation,
 configuration, corruption, partial/unknown SMTP and unpersisted-acceptance errors
 remain failures immediately, including before the deadline. Producer schedules,
 recipient resolution, delivery guards and model budgets are unchanged.
@@ -161,9 +166,14 @@ resending. Retain the original run's metadata, reports and recovery artifacts
 before their scheduled expiration, for independent audit. Newer runs have
 full-plan proof markers and continue through the ordinary checks.
 
-Readiness checks serialize without cancelling a running check when either
-newsletter completes. GitHub can still coalesce pending triggers; this is not
-an event-delivery guarantee. Each matrix job checks out `github.ref_name` and
+Readiness checks serialize without cancelling in-progress checks. Following a
+completed production workflow, the matrix selects only the finished newsletter;
+scheduled, manual and state-recovery triggers select both. The 28 October
+false alarm was Cybermed `operational_daily_publication_stale` at 11:46,
+three minutes before Cybermed's own scheduled run started. A subsequent
+readiness check passed after Cybermed completed. No backfill or SMTP replay is
+indicated by that incident. GitHub can still coalesce pending triggers; this
+is not an event-delivery guarantee. Each selected matrix job checks out `github.ref_name` and
 records its actual checked commit in JSON, summary and log. A workflow-run
 trigger's original producer SHA is not mislabelled as this later State view.
 The immutable checkout and SHA explain a result even when a later producer

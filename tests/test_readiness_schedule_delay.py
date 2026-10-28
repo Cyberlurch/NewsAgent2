@@ -1,6 +1,8 @@
 """Delayed scheduler events are distinct from failed or missing service."""
 from datetime import date, datetime, timedelta
+from pathlib import Path
 import pytest
+import yaml
 
 from newsagent2 import delivery, edition_plan as ep, operational_readiness as op
 from newsagent2.run_context import path_for
@@ -31,14 +33,14 @@ def test_actual_monday_alarm_times_do_not_mark_delayed_senders_as_failed(key,sta
     row=report['checks'][0]
     assert report['ok'] and row['status']=='awaiting_scheduled_run'
     assert row['last_daily_due']=='2026-10-16' and row['last_persisted_daily_date']=='2026-10-16'
-    assert row['delivery_deadline']==f'2026-10-19T11:{"40" if key=="cybermed" else "30"}:00+02:00'
+    assert row['delivery_deadline']==f'2026-10-19T13:{"40" if key=="cybermed" else "30"}:00+02:00'
     assert 'delivery_status' not in row and snapshot()==before
 
 
 @pytest.mark.parametrize('key',['cybermed','cyberlurch'])
-def test_noon_check_still_fails_for_a_missing_daily(key):
+def test_after_extended_deadline_still_fails_for_a_missing_daily(key):
     seed(key); before=snapshot()
-    report=op.assess(key,as_of=datetime.fromisoformat('2026-10-19T10:00:00+00:00'))
+    report=op.assess(key,as_of=datetime.fromisoformat('2026-10-19T12:00:00+00:00'))
     assert not report['ok'] and report['checks'][0]['last_daily_due']=='2026-10-19'
     assert report['checks'][0]['categories']==['operational_daily_publication_stale']
     assert snapshot()==before
@@ -104,3 +106,44 @@ def test_deadline_tracks_stockholm_winter_time_and_holiday_business_days(key):
     assert op._last_due_daily(key,deadline)=='2026-10-26'
     holiday=datetime.fromisoformat('2026-12-25T14:00:00+01:00')
     if key=='cybermed': assert op._last_due_daily(key,holiday)=='2026-12-23'
+
+
+def test_oct28_cybermed_delayed_start_does_not_mark_previous_day_stale():
+    # Actual 2026-10-28 alarm at 11:46 Stockholm: Cybermed had not started,
+    # then completed successfully at ~11:52. A truly absent report must still
+    # be detected once the bounded deadline has elapsed.
+    sources()
+    daily = accepted('cybermed', '2026-10-27')
+    weekly = receipt('cybermed', start='2026-10-19', end='2026-10-23',
+                     cadence='weekly', body='Prior validated weekly report.')
+    weekly.update(status='accepted_by_smtp', state_persisted=True,
+                  smtp_phase='completed', accepted=['a'*64])
+    atomic_store(path_for('DELIVERY_JOURNAL_PATH'),
+                 {'version':1, 'editions':{r['edition_id']:r for r in [daily,weekly]}},
+                 kind='delivery_journal', validate=delivery.journal_valid)
+    before = snapshot()
+    early = op.assess('cybermed', as_of=datetime.fromisoformat('2026-10-28T10:46:45+00:00'))
+    row = early['checks'][0]
+    assert row['delivery_deadline']=='2026-10-28T13:40:00+01:00'
+    assert row['last_daily_due']=='2026-10-27'
+    assert row['status']=='awaiting_scheduled_run'
+    assert 'operational_daily_publication_stale' not in row['categories']
+    assert early['ok']
+    late = op.assess('cybermed', as_of=datetime.fromisoformat('2026-10-28T12:41:00+00:00'))
+    assert late['checks'][0]['last_daily_due']=='2026-10-28'
+    assert late['checks'][0]['status']=='recovery_required'
+    assert 'operational_daily_publication_stale' in late['checks'][0]['categories']
+    assert not late['ok'] and snapshot()==before
+
+
+def test_completion_trigger_scopes_readiness_to_the_finished_newsletter():
+    workflow = yaml.safe_load(Path('.github/workflows/newsletter-readiness.yml').read_text())
+    matrix = workflow['jobs']['check']['strategy']['matrix']
+    selection = matrix['report_key']
+    # Workflows are independent: neither completion runs a missing-sibling
+    # check. The fallback explicitly retains both for schedule/dispatch/recovery.
+    assert 'fromJSON(' in selection
+    assert "github.event_name == 'workflow_run'" in selection
+    assert "'NewsAgent2 daily'" in selection and '["cyberlurch"]' in selection
+    assert "'NewsAgent2 Cybermed'" in selection and '["cybermed"]' in selection
+    assert '["cybermed","cyberlurch"]' in selection
