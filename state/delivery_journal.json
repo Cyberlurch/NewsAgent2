@@ -9891,6 +9891,411 @@
         "approved_after_generation_checks": true,
         "seal": "63a9111138c9a850d57d7b27c760281fbb106dcc57912e0025f5a2d7407990fc"
       }
+    },
+    "cybermed:daily:2026-10-29:2026-10-29:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-29",
+      "period_end": "2026-10-29",
+      "edition_id": "cybermed:daily:2026-10-29:2026-10-29:production",
+      "content_version": "9f0390e330c89958b25c82df4f50ed2db0ea9f8a9a18928a84b8de6dffd68bf6",
+      "message_id": "<79911f97833d1f36535c07e96202d4257d1169387f68f708840ab51b37a34bd4@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-29T11:07:36+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42951064",
+            "title": "Subspecialty ILD Clinic Care is Associated with More Guideline-Concordant Evaluation and Improved Outcomes Compared to Other Ambulatory Settings: A Retrospective Cohort Study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951064/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951063",
+            "title": "Azithromycin Exposure and Incident Nontuberculous Mycobacterial Isolation in Bronchiectasis and COPD: A Nationwide Nested Case-Control Study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951063/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42928302",
+            "title": "Consensus recommendations for patient selection and clinical implementation of polymyxin B hemoadsorption in endotoxic septic shock.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42928302/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42925135",
+            "title": "Role of Mitochondrial Impairment in Sepsis-Induced Platelet Activation.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42925135/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42944922",
+            "title": "Optimizing post-extubation respiratory support in high-risk patients.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42944922/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42944921",
+            "title": "ARDS at 60: beyond lung protection to lung repair.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42944921/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42944920",
+            "title": "Heat stroke presenting with choreiform dyskinesias: an unusual MRI pattern.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42944920/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951963",
+            "title": "Pharmacological inhibition of METTL1 as a therapy against solid and blood cancers.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951963/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951958",
+            "title": "Clostridium perfringens Delta toxin targets CD9 to drive NEC and brain injury.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951958/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929700",
+            "title": "Abortion Care in Puerto Rico - A Fragile Legal Landscape.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929700/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929699",
+            "title": "The Future of Health Agency Enforcement Fines.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929699/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929680",
+            "title": "Thelaziasis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929680/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929678",
+            "title": "My Father's Code.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929678/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929694",
+            "title": "Sacituzumab Tirumotecan plus Pembrolizumab in PD-L1-Negative Advanced NSCLC.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929694/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929693",
+            "title": "Osimertinib-Savolitinib in Advanced NSCLC after Progression during EGFR-TKI Therapy.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929693/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929675",
+            "title": "Divarasib as Compared with Sotorasib or Adagrasib in KRAS G12C-Mutated NSCLC.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929675/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929707",
+            "title": "Targeting HER2 - A Triumph of Science.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929707/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929702",
+            "title": "Tarlatamab-Durvalumab Maintenance for Extensive-Stage Small-Cell Lung Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929702/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929692",
+            "title": "Durvalumab, Tremelimumab, and Enfortumab Vedotin in Muscle-Invasive Bladder Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929692/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929681",
+            "title": "Anbenitamab plus HB1801 for HER2-Positive Advanced Breast Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929681/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929679",
+            "title": "Expanding the Evidence and Indications for Thrombectomy in Ischemic Stroke.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929679/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929671",
+            "title": "Trial of Endovascular Therapy for Mild Stroke with Large-Vessel Occlusion.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929671/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929656",
+            "title": "Mechanical Thrombectomy 24 to 72 Hours after Large-Vessel Ischemic Stroke.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929656/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42946299",
+            "title": "Reduced montage EEG in neuro-prognostication after pediatric cardiac arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946299/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42946298",
+            "title": "Closest to the patient, furthest from survival? Reframing the family witness for out-of-hospital cardiac arrest in our aging world.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946298/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42894097",
+            "title": "Sedation strategy and the search for a better patient experience in ICU.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42894097/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42893970",
+            "title": "Infiltration between the popliteal artery and the capsule of the knee (IPACK) vs. selective tibial nerve block for analgesia after total knee arthroplasty: a triple-blinded randomised controlled trial.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42893970/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42893967",
+            "title": "Canadian evidence-based guidelines on spinal procedures for chronic pain.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42893967/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.pulmccm.org/p/updated-guideline-continuous-infusions",
+            "title": "Updated Guideline: Continuous infusions of beta-lactam antibiotics endorsed by SCCM, IDSA",
+            "channel": "PulmCCM",
+            "url": "https://www.pulmccm.org/p/updated-guideline-continuous-infusions"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/are-we-ready-for-war-part-1-the-clinical-challenges-of-modern-conflict/",
+            "title": "Are we ready for war? Part 1: The clinical challenges of modern conflict",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/are-we-ready-for-war-part-1-the-clinical-challenges-of-modern-conflict/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/local-anesthetic-toxicity-remains-a-preventable-threat-as-patterns-of-morbidity-and-mortality-shift/",
+            "title": "Local anesthetic toxicity remains a preventable threat as patterns of morbidity and mortality shift",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/local-anesthetic-toxicity-remains-a-preventable-threat-as-patterns-of-morbidity-and-mortality-shift/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emottawablog.com/2026/10/sodium-bicarbonate-for-in-hospital-cardiac-arrest-a-randomized-clinical-trial/",
+            "title": "Sodium Bicarbonate for In-Hospital Cardiac Arrest: A Randomized Clinical Trial",
+            "channel": "EMOttawa Blog",
+            "url": "https://emottawablog.com/2026/10/sodium-bicarbonate-for-in-hospital-cardiac-arrest-a-randomized-clinical-trial/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42951064",
+            "title": "Subspecialty ILD Clinic Care is Associated with More Guideline-Concordant Evaluation and Improved Outcomes Compared to Other Ambulatory Settings: A Retrospective Cohort Study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951064/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42951064",
+              "doi": "10.1016/j.chest.2026.09.110",
+              "kind": "original",
+              "source_version": "0b184d36b6f1092421847ef5b073d2de87eed55d9664bbeef50e0e89af2cb44a",
+              "fields": {
+                "title": "5f3feeb97807b58a4e8af506130b761bc1fdc1eb393481cecb8ca598c7b94347",
+                "abstract": "f90bfccc916125ac4460a8a783d3b4a05862c705507e0b13dfc98ee0c5d5d408",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "292e01165a56b60cd0d9ef7d3b5ffe3cf179fd1088053316502de8774486d717",
+                "results_known": false,
+                "numbers": "c73d95e1a0add1882d08ceada1c4b192173ea4b5f136ae73f728de38950f73c5",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "bfb3d03c5ffe7fe56bc625ec99c6eda1c5eac6bfc5d771a4d1758b2aa1677a58",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42929692",
+            "title": "Durvalumab, Tremelimumab, and Enfortumab Vedotin in Muscle-Invasive Bladder Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929692/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42929692",
+              "doi": "10.1056/nejmoa2608323",
+              "kind": "original",
+              "source_version": "d64ba0095d0ebb6121af62c75f4cdf127d6d53516ad7514a9bbc997b34de011a",
+              "fields": {
+                "title": "a9c4750b60c9c250a64ccfa97f5581c36ae57b60ae7665d6f0de7f68e918b79f",
+                "abstract": "b2c10f55f685352b63c05c868eaa9cc80fa25c36c73a9e15f32ae17243a8c972",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "d058c10c8a3181c5664f61afdb1656137fa98ae123f3dc415debbff0540346a0",
+                "results_known": false,
+                "numbers": "9e38b03cad712905896e78ddb3c1206d919798624f9f1709bd3db981b58f826f",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "082379e93d3fac0303f07391187639920c7ef8676a6f239b1a3834453f28535c",
+                "direction": "harm"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42893967",
+            "title": "Canadian evidence-based guidelines on spinal procedures for chronic pain.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42893967/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42893967",
+              "doi": "10.1111/anae.70440",
+              "kind": "original",
+              "source_version": "88d460790f05c9d51b0addc73cedfe039849888e079c6b1fc5ed309b964a4e20",
+              "fields": {
+                "title": "32dc03396de762c633b31dd7fd51c9ff24e39d1e9f6a97a766ab480b20fdf9a4",
+                "abstract": "d58abba2a3914380719fe70f92fff2664d6d190f0d71b3aadd6dfaca702ba605",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "bcad0810e80eb302b68a7cc8b6684644bc62bd91305bfdeaf303d1ea2951ec14",
+                "results_known": false,
+                "numbers": "614c38a4fe853d409710a29b6c7559f5d0d794d8aa95ca462fba2cdd56b7ca73",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "f591f69fcde9d4e578d6c27705e479e24fcb703908dc7ba58fc892a8e8710cd1",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42928302",
+            "title": "Consensus recommendations for patient selection and clinical implementation of polymyxin B hemoadsorption in endotoxic septic shock.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42928302/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42928302",
+              "doi": "10.1186/s13054-026-06182-8",
+              "kind": "original",
+              "source_version": "0c15131bae4856abf1513461aaef17239516f7fb9564c2961101901de9c63be8",
+              "fields": {
+                "title": "af5c906c2896e1b5ae5e532bf4134271c5130fb8894a0d47769fb38c6126d822",
+                "abstract": "593f006b06be6bae50259ccac97d5af741ec409be85162835212791f561047d4",
+                "types": "efc7d33963140d91b39f01a4cfd637556a04236e1b4d92ad1a4bf89ef703fa9f",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e2f21a7383aae6564682d99c388bfd2a17e5607ae183640b4cf7876ed31485b5",
+                "results_known": false,
+                "numbers": "73d940ce2df103c8446af859a5f2b6a1019c4a24188ecc025be40743b6c082cb",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "d08311235dfc44c5ebd88c492a7c4b07d7c91ac1506a13e751644e159a9e88e9",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://www.pulmccm.org/p/updated-guideline-continuous-infusions",
+            "title": "Updated Guideline: Continuous infusions of beta-lactam antibiotics endorsed by SCCM, IDSA",
+            "channel": "PulmCCM",
+            "url": "https://www.pulmccm.org/p/updated-guideline-continuous-infusions"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-29T11:07:33+00:00"
+      },
+      "workflow_run_id": "40862697019",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-29:2026-10-29:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "d91c914992f23a1cc458ddf43549abf0159d9d65d1f92ec1d0ed357358d69738",
+        "finalization_policy": "markers",
+        "content_version": "9f0390e330c89958b25c82df4f50ed2db0ea9f8a9a18928a84b8de6dffd68bf6",
+        "message_id": "<79911f97833d1f36535c07e96202d4257d1169387f68f708840ab51b37a34bd4@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "914768893c7651b3_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "8d6f7cd637e7d375c2a8719908a55c8fdceb1d56b78e93f19d2c9ade0bb471f8"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "a8c41a0a09b0bba9c14f2348feb938254a06bc87fb4583c851e6812db2cf2efa"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -10560,6 +10965,7 @@
         "42888045",
         "42888144",
         "42888145",
+        "42888476",
         "42892349",
         "42892410",
         "42892907",
@@ -10592,7 +10998,12 @@
         "42904937",
         "42904944",
         "42918318",
-        "42919415"
+        "42919415",
+        "42919448",
+        "42919451",
+        "42919460",
+        "42919629",
+        "42931902"
       ]
     }
   }
