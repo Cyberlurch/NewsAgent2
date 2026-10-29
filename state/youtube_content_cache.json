@@ -26665,9 +26665,18 @@
     "text": ""
   },
   "xrX75VBgUTY::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 11531,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
     "status": "success",
     "source": "managed_transcript",
-    "fetched_at_utc": "2026-09-10T08:19:19.360284+00:00",
+    "fetched_at_utc": "2026-10-29T11:00:57.713331+00:00",
     "text_hash": "1148d767ad2974d2c5690fd42aa66054905238437006cb558cd036390beea81d",
     "text": ""
   },
@@ -30630,6 +30639,214 @@
     "source": "managed_transcript",
     "fetched_at_utc": "2026-10-28T10:44:31.938700+00:00",
     "text_hash": "19ab2accab1f0d98ec3083f060ac70cd3e220317b198e8aee9f229405fcef62f",
+    "text": ""
+  },
+  "C5lasau_lW4::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 19587,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:00:21.241319+00:00",
+    "text_hash": "8347c4fc9842d177e86c0ddf8a2b0f8cf7264a9c691dcbea286b35b65ff65bc2",
+    "text": ""
+  },
+  "-MyZ7KDDlc0::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 11562,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:00:26.469697+00:00",
+    "text_hash": "35d93ce0946a7205648d4af70200ae26f9ab682646a4545c83a7e12ba486cd1b",
+    "text": ""
+  },
+  "-gadI27_Nbw::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 21293,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:00:32.118699+00:00",
+    "text_hash": "578912631c9c712fce24574d021500d9f8c09e93078ae83b0df486c11ebc2c2b",
+    "text": ""
+  },
+  "2Y97u8Rex24::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 11972,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:00:33.849798+00:00",
+    "text_hash": "06267914cc7df0b18f5b03e9b0cee1e00270147381a5addf514e47e32768c842",
+    "text": ""
+  },
+  "7P9S2P81a6o::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 13617,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:00:36.657865+00:00",
+    "text_hash": "cded09c3e184237162f7986638b81137a0170774243b4d417724b3d909a34158",
+    "text": ""
+  },
+  "9w7Ktbkvh5c::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 26973,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:00:43.125371+00:00",
+    "text_hash": "40c660debc0d9eef730c15959e5b47e013a234a33c7cad80b7aa5aeab69e963f",
+    "text": ""
+  },
+  "DN_jX7qVOOc::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 24518,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:00:54.439586+00:00",
+    "text_hash": "9196f4d8e90418993cf7bc5b64beb520b61495fbec91cd7abae93dc6feccdeb8",
+    "text": ""
+  },
+  "HD5agyxtGj0::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 15687,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:00:56.373859+00:00",
+    "text_hash": "05df39a4e4ff6db7d87578d573db59d3cebbb80d2e33d37c1d8d29da04c61cb3",
+    "text": ""
+  },
+  "BNOBieYZmMM::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 36098,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:00:59.353747+00:00",
+    "text_hash": "c7a5f4ec3613a5cade2f4a7cdcfeb0c276086b882af62c923e2dfc26494817ea",
+    "text": ""
+  },
+  "FRt9FeoKHc4::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 4334,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:01:00.673917+00:00",
+    "text_hash": "450acad9558ec4143e43d46f71234aa66437f7cac98c873f3101b1c7360564b9",
+    "text": ""
+  },
+  "KOfOOt_7ROM::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 11179,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:01:06.504969+00:00",
+    "text_hash": "4a275486c1c6cc6c29fc3fa1ed43033e3d634c3b00dcb79350543c94f5fd44ba",
+    "text": ""
+  },
+  "KZKzltj87Q0::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 7970,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:01:08.768664+00:00",
+    "text_hash": "7cf43458b0ca37f0a8cb767488d16186b59417e8b53c56a6b37d426022365b30",
+    "text": ""
+  },
+  "Lw1ys4Tt_FY::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 18150,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-10-29T11:01:14.958167+00:00",
+    "text_hash": "a5731bbf100afcea15e96ff51001b3141417da4223446687536e41f4a3fd7554",
     "text": ""
   }
 }

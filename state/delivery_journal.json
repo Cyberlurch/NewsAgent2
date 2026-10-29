@@ -9651,6 +9651,246 @@
         "approved_after_generation_checks": true,
         "seal": "0d230600434243d474ae7812084b6689c10a4fd31908729499a577123a757c90"
       }
+    },
+    "cyberlurch:daily:2026-10-29:2026-10-29:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-10-29",
+      "period_end": "2026-10-29",
+      "edition_id": "cyberlurch:daily:2026-10-29:2026-10-29:production",
+      "content_version": "ca49e86e3265c7a53c543d3fb420163dedf619ac2a53a81efa6bc0e6ba5fc8d2",
+      "message_id": "<01e1dab116e4ef0115c00abe6eaaaf6b4b2795020c378eda0c27724fca953bfe@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-29T11:02:45+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "C5lasau_lW4",
+            "title": "I'm Running Out of Time to Do this",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=C5lasau_lW4"
+          },
+          {
+            "source": "youtube",
+            "id": "-MyZ7KDDlc0",
+            "title": "THE BEST LIFE POSSIBLE--Endless New Beginnings",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=-MyZ7KDDlc0"
+          },
+          {
+            "source": "youtube",
+            "id": "-gadI27_Nbw",
+            "title": "NEW FORECAST from J.P. MORGAN! 💥 BITCOIN with BETTER RETURNS than GOLD & STOCKS! 📈",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=-gadI27_Nbw"
+          },
+          {
+            "source": "youtube",
+            "id": "2Y97u8Rex24",
+            "title": "Vad händer bakom kulisserna när Jomshof & Karlsson bråkar öppet? - Roger Richthoff",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=2Y97u8Rex24"
+          },
+          {
+            "source": "youtube",
+            "id": "7P9S2P81a6o",
+            "title": "The Biology of Puberty Is DEVASTATING For Islam",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=7P9S2P81a6o"
+          },
+          {
+            "source": "youtube",
+            "id": "9w7Ktbkvh5c",
+            "title": "AfD-Leak: Was die gehackten E-Mails bereits verraten  I 11KM - der tagesschau-Podcast",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=9w7Ktbkvh5c"
+          },
+          {
+            "source": "youtube",
+            "id": "DN_jX7qVOOc",
+            "title": "ILTV On The Hour - October 28, 2026 | Netanyahu Claims Victory — But Election Has No Clear Majority",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=DN_jX7qVOOc"
+          },
+          {
+            "source": "youtube",
+            "id": "HD5agyxtGj0",
+            "title": "Trump EXTRACTS Bolsonaro From Brazil In Shady Covert Op",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=HD5agyxtGj0"
+          },
+          {
+            "source": "youtube",
+            "id": "xrX75VBgUTY",
+            "title": "⚡China and Russias Grids Are EMP/ Nuclear Proof, USA Declares Emergency!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=xrX75VBgUTY"
+          },
+          {
+            "source": "youtube",
+            "id": "BNOBieYZmMM",
+            "title": "Bleiben oder gehen? Der Dunkle Parabelritter in Sachsen-Anhalt | Teil 2",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=BNOBieYZmMM"
+          },
+          {
+            "source": "youtube",
+            "id": "FRt9FeoKHc4",
+            "title": "Why SEAL Training Was So Awesome",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=FRt9FeoKHc4"
+          },
+          {
+            "source": "youtube",
+            "id": "KOfOOt_7ROM",
+            "title": "Sverigedemokraterna, lyssna inte på Expressen – de hatar er",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=KOfOOt_7ROM"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "C5lasau_lW4",
+            "title": "I'm Running Out of Time to Do this",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=C5lasau_lW4"
+          },
+          {
+            "source": "youtube",
+            "id": "-MyZ7KDDlc0",
+            "title": "THE BEST LIFE POSSIBLE--Endless New Beginnings",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=-MyZ7KDDlc0"
+          },
+          {
+            "source": "youtube",
+            "id": "-gadI27_Nbw",
+            "title": "NEW FORECAST from J.P. MORGAN! 💥 BITCOIN with BETTER RETURNS than GOLD & STOCKS! 📈",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=-gadI27_Nbw"
+          },
+          {
+            "source": "youtube",
+            "id": "2Y97u8Rex24",
+            "title": "Vad händer bakom kulisserna när Jomshof & Karlsson bråkar öppet? - Roger Richthoff",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=2Y97u8Rex24"
+          },
+          {
+            "source": "youtube",
+            "id": "7P9S2P81a6o",
+            "title": "The Biology of Puberty Is DEVASTATING For Islam",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=7P9S2P81a6o"
+          },
+          {
+            "source": "youtube",
+            "id": "9w7Ktbkvh5c",
+            "title": "AfD-Leak: Was die gehackten E-Mails bereits verraten  I 11KM - der tagesschau-Podcast",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=9w7Ktbkvh5c"
+          },
+          {
+            "source": "youtube",
+            "id": "DN_jX7qVOOc",
+            "title": "ILTV On The Hour - October 28, 2026 | Netanyahu Claims Victory — But Election Has No Clear Majority",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=DN_jX7qVOOc"
+          },
+          {
+            "source": "youtube",
+            "id": "HD5agyxtGj0",
+            "title": "Trump EXTRACTS Bolsonaro From Brazil In Shady Covert Op",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=HD5agyxtGj0"
+          },
+          {
+            "source": "youtube",
+            "id": "xrX75VBgUTY",
+            "title": "⚡China and Russias Grids Are EMP/ Nuclear Proof, USA Declares Emergency!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=xrX75VBgUTY"
+          },
+          {
+            "source": "youtube",
+            "id": "BNOBieYZmMM",
+            "title": "Bleiben oder gehen? Der Dunkle Parabelritter in Sachsen-Anhalt | Teil 2",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=BNOBieYZmMM"
+          },
+          {
+            "source": "youtube",
+            "id": "FRt9FeoKHc4",
+            "title": "Why SEAL Training Was So Awesome",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=FRt9FeoKHc4"
+          },
+          {
+            "source": "youtube",
+            "id": "KOfOOt_7ROM",
+            "title": "Sverigedemokraterna, lyssna inte på Expressen – de hatar er",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=KOfOOt_7ROM"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "C5lasau_lW4",
+            "title": "I'm Running Out of Time to Do this",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=C5lasau_lW4"
+          },
+          {
+            "source": "youtube",
+            "id": "xrX75VBgUTY",
+            "title": "⚡China and Russias Grids Are EMP/ Nuclear Proof, USA Declares Emergency!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=xrX75VBgUTY"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-29T11:02:42+00:00"
+      },
+      "workflow_run_id": "40861794776",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-10-29:2026-10-29:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "ac037f1057c13c8bd9197dbfd225cbb3da68644079f3dfc2a6c4a51fd79d616b",
+        "finalization_policy": "markers",
+        "content_version": "ca49e86e3265c7a53c543d3fb420163dedf619ac2a53a81efa6bc0e6ba5fc8d2",
+        "message_id": "<01e1dab116e4ef0115c00abe6eaaaf6b4b2795020c378eda0c27724fca953bfe@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "d5801a5029dee8cb_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "bbe2a0500b4b6899cbf1a2b812d314bbb7de5fab86929332e8f399e3b11d14de"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "63a9111138c9a850d57d7b27c760281fbb106dcc57912e0025f5a2d7407990fc"
+      }
     }
   },
   "paper_legacy_unknown": {

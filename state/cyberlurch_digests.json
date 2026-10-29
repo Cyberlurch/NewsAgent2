@@ -118269,51 +118269,75 @@
       "video_id": "QN2HCcGtRJk"
     },
     {
-      "bottom_line": null,
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@preppernewsflash"
+      },
+      "id": "xrX75VBgUTY",
+      "source": "youtube",
+      "title": "⚡China and Russias Grids Are EMP/ Nuclear Proof, USA Declares Emergency!",
       "channel": "preppernewsflash",
+      "url": "https://www.youtube.com/watch?v=xrX75VBgUTY",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11531,
+        "processed_unique_chars": 11531,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
       "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 5.947,
       "cyberlurch_deep_dive_reasons": [
         "text_length:11531",
         "priority_daily_channel",
         "recency"
       ],
-      "cyberlurch_deep_dive_score": 5.81,
+      "transcript_full_summary": "The transcript warns that Russia and China have spent about a decade hardening their electrical grids with neutral ground blockers and other measures, while the United States debates implementing similar protections and faces a high vulnerability to EMP and solar-flare E3 events.",
       "editorial_relevance": "",
-      "important_details": [
-        "The speaker explains that an E1 pulse from an EMP is a fast nanosecond-level pulse that can fry small electronics and microchips.",
-        "The speaker explains that an E3 pulse from a nuclear detonation or a solar flare produces ground induced current that can damage long transmission lines and generation facilities.",
-        "The speaker identifies a company named Imprimus as a maker of neutral ground blocking devices that attach to the neutral ground.",
-        "The speaker estimates that protecting the top 6,000 extra-high-voltage transformers plus 3,000 additional units would cost about $4 billion.",
-        "The speaker cites Admiral Rogers as previously warning that Russia and China have access to parts of the U.S. grid and the ability to disrupt it."
-      ],
-      "processed_at_utc": "2026-09-10T08:21:12+00:00",
-      "published_at": "2026-09-09T19:14:41+00:00",
-      "temporality": "current_affairs",
-      "text_source": "managed_transcript",
-      "title": "⚡China and Russias Grids Are EMP/ Nuclear Proof, USA Declares Emergency!",
-      "top_pick": null,
-      "topic_primary": "Preparedness, Sicherheit & Survival",
-      "topics": [
-        "Preparedness, Sicherheit & Survival"
-      ],
-      "transcript_full_summary": "Two experts discuss that Russia and China have been hardening their power grids for about ten years with neutral ground blockers and that the United States has made limited moves to protect its grid against EMP and solar-induced E3 threats.",
       "transcript_key_points": [
-        "The speaker states that Russia and China have been hardening their electrical grids for approximately ten years.",
-        "The speaker states that a device called a neutral ground blocker can redirect ground induced current and protect high-voltage transformers from E3 effects.",
-        "The speaker states that protecting about 6,000 extra-high-voltage transformers would cost approximately $4 billion according to the transcript."
+        "Russia and China have been hardening their electrical grids for about 10 years.",
+        "A device called a neutral ground blocker can redirect ground-induced current and protect high-voltage transformers from E3 effects.",
+        "An estimated $4 billion could protect roughly 6,000 EHV transformers and remove the E3 threat to power stations and distribution networks."
       ],
       "transcript_notable_claims": [
-        "The speaker claims that China copied and implemented an American patent for neutral ground blocking and is installing it across its grid.",
-        "The speaker claims that many grid components and batteries sold to or coming from China may contain backdoors according to the transcript.",
-        "The speaker claims that past U.S. administrations largely deferred grid hardening actions and that the Trump administration took more action than recent predecessors."
+        "China copied and implemented an American patent for neutral ground blocking and is installing the technology across its grid in a Manhattan Project–like effort.",
+        "Most high-voltage transformers in the United States probably have back doors built into them and many grid components sourced from China may contain back doors.",
+        "If an enemy nation destroyed large parts of the U.S. grid, the U.S. would respond militarily and then rush protections, but political turnover every four years makes sustained hardening difficult."
       ],
-      "transcript_processing": null,
       "transcript_uncertainties": [
-        "The speaker acknowledges that the exact extent of Russia's and China's grid hardening is unknown.",
-        "The speaker acknowledges uncertainty about how many transformers have embedded backdoors in their equipment."
+        "The exact degree to which Russia and China have hardened their grids is unknown.",
+        "It is uncertain how many U.S. transformers actually contain back doors and how widespread uninspected Chinese components are in the grid."
       ],
-      "url": "https://www.youtube.com/watch?v=xrX75VBgUTY",
-      "video_id": "xrX75VBgUTY"
+      "important_details": [
+        "The E3 component from a nuclear EMP and a solar flare similarly induces ground-induced current that travels on long high-voltage transmission lines and can fry generation and distribution equipment.",
+        "Commercial household surge-protector devices are presented as protective against E3 at the consumer level, while neutral ground blockers are presented as the industrial solution for substations and transformers.",
+        "Admiral Rogers and U.S. Cyber Command have publicly expressed concern that Russia and China are already present in U.S. grid systems and could 'flip the switch' at will."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "xrX75VBgUTY",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
     },
     {
       "bottom_line": null,
@@ -139916,8 +139940,898 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "C5lasau_lW4",
+      "source": "youtube",
+      "title": "I'm Running Out of Time to Do this",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=C5lasau_lW4",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 19587,
+        "processed_unique_chars": 19587,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 6.064,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The video documents opening and cutting a vehicle-accessible trail through a dense aspen/poplar stand to improve access for hauling firewood, wildlife habitat, and future property use, while describing equipment, techniques, and local land considerations.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The creator cleared about 150–200 meters of trail in roughly 2.5 hours using a tractor with an 84-inch Land Pride brush cutter.",
+        "The clearing aims to improve vehicle access for hauling firewood, create horizontal cover for deer via hinge cuts, and reduce competition so larger trees can grow.",
+        "The property is primarily whispering aspen and poplar near Saskatchewan and can support orchards and firearm use compared with areas around Calgary."
+      ],
+      "transcript_notable_claims": [
+        "A 900 L diesel tank will fill the tractor about 40 to 45 times and is portable with a forklift.",
+        "The brush cutter can cut through sticks a couple inches thick and renders trail work that once took a year doable in a weekend.",
+        "Hinge cuts about 3 ft high create horizontal cover that facilitates wildlife feeding and shelter while keeping the tree alive.",
+        "Willow is especially useful for shelter construction because its flexible branches can act as a frame for tarps and sweat lodges.",
+        "Most people in an apocalypse are more likely to die from disease than marauders, making antibiotics crucial but prescription-restricted."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether some trees encountered are willow or cottonwood based on visual inspection alone.",
+        "The narrator is not an expert at clearing trails and indicates limited confidence in technique and safety practices."
+      ],
+      "important_details": [
+        "Equipment used includes three chainsaws (two electric), a small handsaw, a tripod, a chain, bar and chain oil, a mini sledgehammer, and a front loader bucket.",
+        "The narrator plans to use some cuts for firewood and possibly small carpentry or lumber, and will haul much of today's pull-out as firewood.",
+        "The narrator recommends doing trail work in fall because temperatures are moderate and most biting insects are gone."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "C5lasau_lW4",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "-MyZ7KDDlc0",
+      "source": "youtube",
+      "title": "THE BEST LIFE POSSIBLE--Endless New Beginnings",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=-MyZ7KDDlc0",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11562,
+        "processed_unique_chars": 11562,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 3.955,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11562",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon explains that Jesus offers the best life through seven sign miracles in John: belief in Jesus brings a miraculous, gracious, faith-received life characterized by endless new beginnings, inexhaustible satisfaction, complete peace, spiritual light, and eternal power.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "John's seven sign miracles are written that you may believe that Jesus is the Christ and that believing you may have life.",
+        "The water turned to wine illustrates the miraculous new life and endless new beginnings Jesus offers.",
+        "Belief in Jesus provides salvation by faith and grace, not by works or religious rituals."
+      ],
+      "transcript_notable_claims": [
+        "The paralytic's healing shows that the new life Jesus offers is only by grace and not by human merit.",
+        "The feeding of the 5,000 demonstrates that Jesus gives inexhaustible satisfaction so lives never run empty.",
+        "Jesus stilling the storm demonstrates that the life he offers brings complete peace amid turmoil.",
+        "Healing the blind man illustrates that Jesus opens eyes and turns souls from darkness to light.",
+        "Raising Lazarus exemplifies that the life Jesus offers brings endless life and renewal of the soul."
+      ],
+      "transcript_uncertainties": [
+        "The preacher expresses uncertainty about Martha Stewart's happiness despite her wealth and suggests she needs the gospel of endless new beginnings.",
+        "The preacher recounts personal anecdotes and impressions without empirical verification of outcomes or others' inner states."
+      ],
+      "important_details": [
+        "The sermon maps each of the seven sign miracles in John to a particular benefit: miracles, grace, faith, satisfaction, peace, light, and endless life.",
+        "The preacher emphasizes that anyone can receive this life by crying out to Jesus wherever they are without intermediaries or ritual actions.",
+        "The desired practical outcome is that believers reaffirm Jesus as all they need and that nonbelievers find this truth."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "-MyZ7KDDlc0",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Blocktrainer"
+      },
+      "id": "-gadI27_Nbw",
+      "source": "youtube",
+      "title": "NEW FORECAST from J.P. MORGAN! 💥 BITCOIN with BETTER RETURNS than GOLD & STOCKS! 📈",
+      "channel": "Blocktrainer",
+      "url": "https://www.youtube.com/watch?v=-gadI27_Nbw",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 21293,
+        "processed_unique_chars": 21293,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.064,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Der Beitrag fasst JP Morgans 31. Kapitalmarktbericht zusammen, in dem Bitcoin erstmals berücksichtigt wird und das Haus im Basisszenario eine annualisierte Rendite von 10 % sowie hohe Volatilität prognostiziert; der Kanal kommentiert Gewichtungsannahmen, Alternativszenarien und mögliche Folgen für Volatilität und Kapitalzuflüsse.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "JP Morgan integriert Bitcoin erstmals in seinen 31. Kapitalmarktbericht und erwartet im Basisszenario eine annualisierte Rendite von 10 %.",
+        "JP Morgan weist für Bitcoin eine annualisierte Volatilität von rund 55 % aus, wodurch auch ein Bärenszenario mit −11,2 % und ein Bullszenario mit 16,6 % möglich sind.",
+        "JP Morgan gewichtet die Treiber der Bitcoin-Bewertung zu 65 % mit Geldmengenwachstum, 30 % mit der Rolle als Wertspeicher und 5 % mit Blockchain-Wachstum."
+      ],
+      "transcript_notable_claims": [
+        "JP Morgan betrachtet Bitcoin als spekulativen Vermögenswert und als Absicherung gegen eine Lockerung der Geldpolitik.",
+        "JP Morgan sieht Bitcoin heute als knappen Wertspeicher, der unabhängig von Zentralbanken ist.",
+        "BlackRock verzeichnete laut dem Beitrag am 19. Oktober einen Zufluss von 665 Millionen US-Dollar in den IBIT Spot-ETF.",
+        "BlackRock hat einen weiteren Buffer-Bitcoin-ETF mit Ticker PBIT eingereicht, der Kursverluste puffert und dafür Teilgewinne abgibt."
+      ],
+      "transcript_uncertainties": [
+        "JP Morgan nennt drei Szenarien für Bitcoin; das Basisszenario ist 10 %, das Bärenszenario −11,2 % und das Bullenszenario 16,6 %, wobei kein Szenario als sicher ausgewiesen wird.",
+        "Der Bericht nimmt als Möglichkeit an, dass Nationalstaaten oder andere Institutionen Bitcoin kaufen könnten, stellt dies aber nicht als verpflichtendes Ereignis dar.",
+        "Die zukünftige Volatilität von Bitcoin wird als unsicher beschrieben, da historische Bullen- und Bärenzyklen künftig anders ausfallen könnten."
+      ],
+      "important_details": [
+        "Der Beitrag nennt als Berechnungsgrundlage für JP Morgans Basisszenario eine Gewichtung von 65 % Geldmengenwachstum, 30 % Wertspeicherrolle und 5 % Blockchain-Wachstum.",
+        "Der Beitrag verweist auf eine berechnete 10-Jahres-annualisierte Rendite von Bitcoin von 62,7 % für den Zeitraum ab 2016, die als nicht unbedingt repräsentativ für die Zukunft bewertet wird.",
+        "Der Beitrag zeigt ChatGPT-Szenarien: pessimistisches Szenario −5 %, realistisches 12–15 % (Bitcoin in 10 Jahren bei 255.000–332.000 US-Dollar) und optimistisches 25 % (Bitcoin in 10 Jahren bei 764.000 US-Dollar)."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "-gadI27_Nbw",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "2Y97u8Rex24",
+      "source": "youtube",
+      "title": "Vad händer bakom kulisserna när Jomshof & Karlsson bråkar öppet? - Roger Richthoff",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=2Y97u8Rex24",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11972,
+        "processed_unique_chars": 11972,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.057,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11972",
+        "recency"
+      ],
+      "transcript_full_summary": "Roger Richthoff beskriver interna konflikter inom Sverigedemokraterna, menar att partiledningen kring Jimmie Åkesson, Dennis Winge och andra tränger ut oliktänkande och uppmanar medlemmar att stödja Richard Jomshof och förändra partilinjen vid kongresserna.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Roger Richthoff säger att en maktbubbla i Sverigedemokraterna har spruckit och att fler medlemmar uppfattar att partiets politik inte beslutats på kongress.",
+        "Roger Richthoff påstår att partiledningen försöker tysta kritiker och erbjöd honom enligt hans uppgift ett tjänstemannakontrakt för att få honom att tiga.",
+        "Roger Richthoff uppmanar medlemmar att stödja Richard Jomshof och föreslå alternativa listor på nästa kongress för att återställa den gamla SD-linjen."
+      ],
+      "transcript_notable_claims": [
+        "Roger Richthoff menar att Richard Jomshof och Mattias Karlsson öppet bråkar om etnicitetens betydelse för svenskhet.",
+        "Roger Richthoff hävdar att Jimmie Åkesson, Dennis Winge och Mattias Karlsson tillsammans utgör en innerkrets som förändrar partiets inriktning utan medlemsbeslut.",
+        "Roger Richthoff påstår att partiledningen beslöt partiets stöd för vaccinering utan öppen debatt och att han kallade vaccinet 'renta giftsprutet för barn'.",
+        "Roger Richthoff hävdar att beslut som NATO-anslutning, omfattande stöd till Ukraina och eventuella handelsbojkott inte debatterades inom partiet.",
+        "Roger Richthoff säger att han fick ett erbjudande om cirka 45–50 000 kronor i månaden och en tjänstemannaposition för att hålla tyst, enligt hans uppgift."
+      ],
+      "transcript_uncertainties": [
+        "Roger Richthoff uttrycker osäkerhet om hur djupt splittringarna inom partiet går och att fler kan haka på Jomshofs linje utan garanti för framgång.",
+        "Roger Richthoff anger villkorade formuleringar om framtida spridning av minoritetsspråk och långsiktiga konsekvenser av partiledningens politik."
+      ],
+      "important_details": [
+        "Roger Richthoff anger att många kommunala och landstingsföreträdare inom Sverigedemokraterna sitter välavlönade och därför kan motstå att kritisera partiledningens riktning.",
+        "Roger Richthoff föreslår en tvåriksperiodsregel för förtroendevalda som ett sätt att motverka maktkoncentration inom partiet."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "2Y97u8Rex24",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Daily_Dose_Of_Wisdom"
+      },
+      "id": "7P9S2P81a6o",
+      "source": "youtube",
+      "title": "The Biology of Puberty Is DEVASTATING For Islam",
+      "channel": "Daily_Dose_Of_Wisdom",
+      "url": "https://www.youtube.com/watch?v=7P9S2P81a6o",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 13617,
+        "processed_unique_chars": 13617,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.064,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "The video criticizes Muhammad's life and Islamic teachings by focusing on Muhammad's marriage to Aisha at ages six and nine and argues that Islamic texts and traditions normalize child marriage and ignore consent and modern biological evidence about maturity.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Muhammad married Aisha when she was six years old and consummated the marriage when she was nine according to mass-authenticated Hadith.",
+        "The Quran and Islamic tradition present Muhammad as the perfect moral example whose actions believers must not dispute.",
+        "Quran 65:4 is interpreted in classical exegesis as permitting marriage and divorce of pre-pubescent girls."
+      ],
+      "transcript_notable_claims": [
+        "Muhammad used political and military power to raid, conquer Mecca, humiliate and mass-convert its people and establish absolute authority.",
+        "Islam reserves permission for more than four wives explicitly for Muhammad while ordinary Muslims are limited to four wives.",
+        "Islam reprograms moral judgment so that everything Muhammad did is considered good and cannot be considered evil by believers.",
+        "Scientific evidence shows that girls in Muhammad's time began puberty slightly later than girls today, contradicting claims that girls matured faster then."
+      ],
+      "transcript_uncertainties": [
+        "The claim that child marriage was uncommon outside Arabia and that evidence for its normality in Muhammad's environment is weak is presented with uncertainty.",
+        "The extent to which classical scholars uniformly interpreted Quran 65:4 as referring to pre-pubescent girls is presented as the prevalent but not uncontested understanding."
+      ],
+      "important_details": [
+        "Aisha is identified as the daughter of Abu Bakr, who later became the first caliph after Muhammad's death.",
+        "Modern legal age-of-consent standards such as 18 are presented as based on scientific and biological observations about completion of puberty and brain development."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "7P9S2P81a6o",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "9w7Ktbkvh5c",
+      "source": "youtube",
+      "title": "AfD-Leak: Was die gehackten E-Mails bereits verraten  I 11KM - der tagesschau-Podcast",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=9w7Ktbkvh5c",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 26973,
+        "processed_unique_chars": 26973,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die NDR/WDR-Recherche beleuchtet die Veröffentlichung von rund 400.000 geleakten AfD-E-Mails und Anhängen und zieht daraus Einblicke in Parteispenden, interne Streitfälle, Schiedsgerichtsverfahren, rechtsextreme Tendenzen und Sicherheitsprobleme innerhalb der Partei.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Datenmenge umfasst rund 281 GB, fast eine halbe Million Mails und etwa 50.000 Anhänge aus etwa zehn E-Mail-Postfächern der AfD.",
+        "Die E-Mails betreffen unter anderem Alexander Gauland, Landes- und Bundesschiedsgerichte sowie Landes- und Bundesgeschäftsstellen.",
+        "Die Recherche findet Hinweise, die Alice Weidel früher in den Spendenvorgang eingebunden haben könnten, darunter eine E-Mail von 2017 mit der Bitte, ein Konto auf Spendeneingänge zu überprüfen."
+      ],
+      "transcript_notable_claims": [
+        "Die geleakten Daten geben Einblicke in interne Machtkämpfe, Streitigkeiten und Schiedsgerichtsverfahren innerhalb der AfD.",
+        "Die AfD bestätigt den Hackerangriff, bestreitet aber die Authentizität einzelner im Internet kursierender Mails und verweist auf die Illegalität der Daten.",
+        "Die E-Mail-Inhalte zeigen zahlreiche private Daten von Mitgliedern, unter anderem eine Mitgliederliste aus Nordrhein-Westfalen mit mehr als 12.500 Namen, Adressen und zum Teil Telefonnummern.",
+        "Die Mailkorrespondenz enthält Hinweise auf rechtsextreme Äußerungen, antisemitische Verschwörungserzählungen und zahlreiche Zuschriften von Anhängern mit menschenverachtenden Inhalten.",
+        "Recherchen legen nahe, dass neue Indizien eine Wiederaufrollung von Verfahren wie der Spendenaffäre möglich machen könnten, wobei Verjährung eine Rolle spielen kann.",
+        "Die Hacker geben im Interview an, die Motivation sei, Korruption und mutmaßliche finanzielle Fehltritte der AfD offenzulegen.",
+        "Die AfD-Schiedsgerichte zeigen in mehreren Fällen keine klare rote Linie bei Ausschlussverfahren, wie am Fall Matthias Helferich erkennbar, der verbleiben durfte und nur eine sechsmonatige Amtssperre erhielt."
+      ],
+      "transcript_uncertainties": [
+        "Die AfD äußert Unsicherheit darüber, ob jede im Internet kursierende Mail tatsächlich echt und unverfälscht ist.",
+        "Es ist unklar, ob neue Indizien aus dem Leak zu einer Wiederaufnahme strafrechtlicher Verfahren führen können, da Verjährung möglich ist.",
+        "Die genaue Identität und die vollständigen Motive der mutmaßlichen Hacker sind bislang nur teilweise bekannt."
+      ],
+      "important_details": [
+        "Journalistische Arbeit mit den geleakten Daten erfolgt auf sicherer Infrastruktur und unter Beachtung des Presserechts, gestützt auf ein Urteil des Bundesverfassungsgerichts von 2022, das die Arbeit mit geleakten Daten zulässt.",
+        "Die geleakten Anhänge enthalten Rechnungen, Kontoauszüge und Aufträge, die Einblicke in Wahlkampfkosten, beauftragte Firmen und Zahlungswege erlauben.",
+        "In den Postfächern befinden sich auch Protokolle und Sitzungsunterlagen von Schiedsgerichten, die den Ablauf interner Ausschlussverfahren und Debatten dokumentieren."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "9w7Ktbkvh5c",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "DN_jX7qVOOc",
+      "source": "youtube",
+      "title": "ILTV On The Hour - October 28, 2026 | Netanyahu Claims Victory — But Election Has No Clear Majority",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=DN_jX7qVOOc",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 24518,
+        "processed_unique_chars": 24518,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.064,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Israel's vote count shows Likud as the largest party with neither right-wing nor pro-change blocs holding a clear 61-seat majority, leaving coalition negotiations, special ballots and presidential consultations decisive for forming the next government.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Likud is projected to win 27 seats with Netanyahu's right-wing and religious bloc at 54 seats according to over 77% of ballots counted.",
+        "The opposition pro-change block is projected to have 49 seats while Arab parties are projected to have 17 seats.",
+        "Turnout reached about 77.7% with nearly 5.69 million Israelis voting, the highest participation since 1999."
+      ],
+      "transcript_notable_claims": [
+        "Prime Minister Benjamin Netanyahu claimed a political victory and called for a strong right-wing national government while warning against a coalition dependent on what he called anti-Zionist Arab parties.",
+        "Gadi Eisenkot declared that voters chose change and described the results as a rejection of Netanyahu's continued leadership.",
+        "The Central Elections Committee warned that results remain preliminary because hundreds of thousands of special ballots, including soldiers' ballots, still must be verified and counted."
+      ],
+      "transcript_uncertainties": [
+        "The final seat distribution could change when special ballots and soldiers' double-envelope votes are counted.",
+        "It is uncertain whether a unity government between Netanyahu and Gadi Eisenkot is politically possible given their disagreements and prior refusals to sit together.",
+        "It is unclear whether the change bloc will partner with Arab parties because some coalition partners reportedly refuse such a partnership."
+      ],
+      "important_details": [
+        "Three smaller parties—AMA Israel (led by Ofer Winter), the Reservists list (led by Yoaz Hendel and Yonatan Zika), and Mi Multi Lightner's Haredi Public Party—were shown in exit polls as failing to cross the 3.25% electoral threshold.",
+        "Votes for parties that fail to cross the threshold will not translate into Knesset seats and will be excluded from seat distribution.",
+        "President Isaac Herzog will consult elected parties before deciding who gets the first opportunity to form a coalition."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "DN_jX7qVOOc",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@breakingpoints"
+      },
+      "id": "HD5agyxtGj0",
+      "source": "youtube",
+      "title": "Trump EXTRACTS Bolsonaro From Brazil In Shady Covert Op",
+      "channel": "breakingpoints",
+      "url": "https://www.youtube.com/watch?v=HD5agyxtGj0",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 15687,
+        "processed_unique_chars": 15687,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.064,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "The segment reports that Flávio Bolsonaro left Brazil after his election defeat and that a U.S. protective operation aided his travel to the United States amid investigations and contested actions by Brazil's Supreme Court; the discussion links U.S. political figures and regional perceptions of U.S. influence to the fallout.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Flávio Bolsonaro reportedly left Brazil, crossed into Argentina, flew to Ecuador, and arrived in Miami after his electoral defeat.",
+        "A U.S. protective operation and asylum/visas from the Trump administration are reported to have aided Flávio Bolsonaro and his family.",
+        "Brazil's Supreme Court justices can initiate investigations, seize passports, and order enforcement actions without a full-court vote, according to the discussion."
+      ],
+      "transcript_notable_claims": [
+        "Simon Levy tweeted that Flávio Bolsonaro is no longer in Brazil and a U.S. protective operation is underway to ensure his safety.",
+        "Marco Rubio and other U.S. officials indicated they helped extract or protect Flávio Bolsonaro and his family.",
+        "A single justice extended voting by two hours on election day, an unprecedented decision that commentators called questionable but unlikely to have changed the outcome.",
+        "Flávio Bolsonaro faces investigations including a money laundering inquiry and alleged ties to Rio militias, and he was ordered to surrender his passport.",
+        "The Supreme Court previously prevented Lula from running in 2018 and later actions contributed to Lula's imprisonment and subsequent political comeback."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether U.S. officials formally endorsed Flávio Bolsonaro before his departure.",
+        "It is unclear how much the Supreme Court's two-hour voting extension affected the final election result, though the segment asserts the effect was almost certainly negligible.",
+        "Reports about the exact route and methods of Flávio Bolsonaro's departure (decoy flight, border crossing, asylum process) remain partially unverified in the transcript."
+      ],
+      "important_details": [
+        "Lula won the election by about four million votes while only around 30,000 people reportedly voted after polls were reopened.",
+        "Justice Alexandre de Moraes (named as Morice in the transcript) ordered passport seizures and received $50 million from a corrupt evangelical banker according to the discussion.",
+        "Public opinion polls in the region reportedly show declining approval and negative views of Donald Trump since 2025, with almost 60% negative view in Brazil cited in the segment."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "HD5agyxtGj0",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "BNOBieYZmMM",
+      "source": "youtube",
+      "title": "Bleiben oder gehen? Der Dunkle Parabelritter in Sachsen-Anhalt | Teil 2",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=BNOBieYZmMM",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 36098,
+        "processed_unique_chars": 36098,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Reportage schildert persönliche Begegnungen in Sachsen-Anhalt nach dem historischen AfD-Wahlergebnis und fragt, welche Perspektiven junge Leute, Familienbetriebe und Kulturprojekte in der Region noch sehen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die AfD erzielte in Sachsen-Anhalt rund 44 % der Stimmen bei hoher Wahlbeteiligung.",
+        "Max Schneller, ein 16‑/17‑jähriger Aktivist, erhielt nach antifaschistischer Rede massive Bedrohungen und familiären Rückzug.",
+        "Strukturschwache Regionen führen zu hoher Arbeitslosigkeit, Perspektivlosigkeit und Abwanderung junger Menschen."
+      ],
+      "transcript_notable_claims": [
+        "Max behauptet, nach seiner Rede Morddrohungen erhalten zu haben und die Polizei riet ihm, einige Tage nicht zu Hause zu schlafen.",
+        "Der Abbruch des Intel‑Bauprojekts mit abgesagter Chipfabrik wird als Verlust von 3.000 versprochenen Arbeitsplätzen und Milliardeninvestitionen dargestellt.",
+        "Sachsen-Anhalt habe mit 8,2 % eine der höchsten Arbeitslosenquoten und eine Jugendarbeitslosigkeit von fast 10 %, was die Anfälligkeit für AfD‑Wähler stärke.",
+        "Hannah wünscht sich, dass die CDU die Brandmauer fallen lässt und notfalls mit der AfD kooperiert, weil sie ein funktionierendes Regieren befürwortet.",
+        "Das Festival Rocken am Brocken droht Fördermittel‑ und Identitätsverlust bei einem Machtwechsel in der Landesregierung."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, ob und wie eine künftige Landesregierung die Finanzierung inklusiver Projekte wie Rocken am Brocken tatsächlich verändern wird.",
+        "Die Aussage, dass die Brandmauer fallen müsse und welche konkreten Folgen daraus entstünden, bleibt prognostisch und offen.",
+        "Es bleibt ungewiss, ob politische Maßnahmen oder wirtschaftliche Entwicklungen die ausgemachten Perspektiven‑probleme tatsächlich lösen können."
+      ],
+      "important_details": [
+        "Max begann politisch sichtbar mit einer Rede auf einer Querdenker‑Demonstration, die viral ging und ihn zur öffentlichen Person machte.",
+        "Viele junge Menschen berichten fehlende lokale Perspektiven, etwa wegfallende Busverbindungen, geringe Ausbildungsplätze und das Gefühl, für Arbeit ins westliche Deutschland ziehen zu müssen.",
+        "Der Abbruch des Intel‑Projekts wurde im Juli 2025 endgültig bekanntgegeben und hinterließ eine bereits angelegte Zufahrt ohne realisierte Fabrik."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "BNOBieYZmMM",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@3of7Project"
+      },
+      "id": "FRt9FeoKHc4",
+      "source": "youtube",
+      "title": "Why SEAL Training Was So Awesome",
+      "channel": "3of7Project",
+      "url": "https://www.youtube.com/watch?v=FRt9FeoKHc4",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4334,
+        "processed_unique_chars": 4334,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 2.148,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:4334",
+        "recency"
+      ],
+      "transcript_full_summary": "A former Navy SEAL recounts why BUD/S training was one of the best times of his life, emphasizing daily clear standards and tests, and urges listeners to seek challenging training and set high personal standards.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "BUD/S training provided a daily test with extremely clear standards.",
+        "The narrator believes recent BUD/S classes have become easier and notes women recently passed first phase.",
+        "The narrator encourages setting high standards and attending rigorous training like courses from 307 Project."
+      ],
+      "transcript_notable_claims": [
+        "BUD/S was simple, hard, and exceeded the narrator's expectations.",
+        "Life improves when individuals test themselves and maintain clear standards.",
+        "The narrator thinks he attended the last truly hard BUD/S class and that something changed afterward."
+      ],
+      "transcript_uncertainties": [
+        "The narrator is uncertain about current BUD/S difficulty and whether recent women 'made it through' first phase without assistance.",
+        "The narrator does not know exactly what changed in BUD/S standards after his class."
+      ],
+      "important_details": [
+        "The narrator lists specific BUD/S tests such as a 4-mile timed run, obstacle course, 2-mile ocean swim, demolitions test, shooting test, 18-mile ruck run, pool competency, and treading water with twin 80s.",
+        "The narrator offers 307 Project training courses with 2027 course dates and invites applications on 307project.com."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "FRt9FeoKHc4",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "KOfOOt_7ROM",
+      "source": "youtube",
+      "title": "Sverigedemokraterna, lyssna inte på Expressen – de hatar er",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=KOfOOt_7ROM",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11179,
+        "processed_unique_chars": 11179,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.859,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11179",
+        "recency"
+      ],
+      "transcript_full_summary": "Samtalet handlar om att Sverigedemokraterna enligt källan inte bör lyssna på Expressens ledarsida eller liberala borgerliga råd utan stå fast vid sina kärnvärderingar och sin invandrings- och trygghetspolitik.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Sverigedemokraterna har enligt källan fått rätt i frågor som invandring, rättspolitik, energi och försvar.",
+        "Expressens ledarsida har enligt källan sällan haft rätt i dessa viktiga frågor och saknar därför skäl att ge råd till Sverigedemokraterna.",
+        "Sverigedemokraterna bör enligt källan inte tona ner sin nationalistiska profil för att tilltala center- eller borgerliga miljöer."
+      ],
+      "transcript_notable_claims": [
+        "Expressens ledarsida hyllade 2014 Feministiskt initiativ och har i andra skeden framställt Sverigedemokraterna negativt.",
+        "Den politiska eliten och etablissemanget har enligt källan under årtionden demoniserat all form av nationalism och invandringskritik.",
+        "En stram invandringspolitik syftar enligt källan till att Sverige i huvudsak ska bestå av ursprungssvenskar.",
+        "Borgliga partier har enligt källan i praktiken anammat delar av Sverigedemokraternas politik, vilket belönat dem opinionsmässigt.",
+        "Centern förväntas enligt källan inte byta block eftersom det skulle svika deras väljare, även om borgerliga debattörer drömmer om det."
+      ],
+      "transcript_uncertainties": [
+        "Det är osäkert om Sverigedemokraterna internt kommer övergå från en etnicitetsbetonad definition till en rent kulturell svenskhetsdiskussion.",
+        "Det är oklart om ett moderat avståndstagande från Sverigedemokraterna skulle leda till att många moderata väljare återvänder till Sverigedemokraterna."
+      ],
+      "important_details": [
+        "Källan påpekar att frågan om 'etniska svenskar' kontra 'kulturella svenskar' väcker stark demoniseringsretorik från motståndare.",
+        "Källan framhåller att nyliberala idéer om öppenhet, låga straff, försvarets avveckling och snabb grön omställning enligt källan har lett till politiska misslyckanden under 2000-talet."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "KOfOOt_7ROM",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@endzeit-kanal"
+      },
+      "id": "KZKzltj87Q0",
+      "source": "youtube",
+      "title": "Jakob Tscharntke Escaping the Wrath of God, The Rapture #jesus #bible #germany #endtimes #sermon",
+      "channel": "endzeit-kanal",
+      "url": "https://www.youtube.com/watch?v=KZKzltj87Q0",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 7970,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 3.057,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:7970",
+        "recency"
+      ],
+      "video_id": "KZKzltj87Q0",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ThePoplarReport"
+      },
+      "id": "Lw1ys4Tt_FY",
+      "source": "youtube",
+      "title": "🚨🚨ALERT: Shortages Appearing Across The US- Watchmen Updates",
+      "channel": "ThePoplarReport",
+      "url": "https://www.youtube.com/watch?v=Lw1ys4Tt_FY",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-10-29T04:30:00+00:00",
+      "screened_at": "2026-10-29T04:30:00+00:00",
+      "expires_at": "2026-11-01T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 18150,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.064,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "video_id": "Lw1ys4Tt_FY",
+      "processed_at_utc": "2026-10-29T11:02:42+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-10-28T10:45:59+00:00",
+  "updated_at_utc": "2026-10-29T11:02:42+00:00",
   "version": 1
 }
