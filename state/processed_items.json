@@ -4,8 +4,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -27,8 +27,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -68,8 +68,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -85,8 +85,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -104,7 +104,7 @@
       "health_epoch": "2026-08-paper-of-the-day-v1",
       "last_health": "no_dated_entries",
       "last_ok_utc": "2026-10-13T11:01:57+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": null,
       "homepage_status_code": 200,
       "homepage_content_type": "text/html; charset=utf-8",
@@ -117,16 +117,16 @@
       "article_fetch_failed": 0
     },
     "Deranged Physiology": {
-      "consecutive_failures": 2,
+      "consecutive_failures": 0,
       "disabled_until_utc": "",
-      "last_health": "parse_failed",
-      "last_ok_utc": "2026-10-27T10:04:10+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
-      "feed_status_code": 202,
-      "homepage_status_code": 202,
-      "feed_content_type": "text/html",
-      "feed_parse_result": "html_instead_of_feed",
-      "newest_entry_datetime": null,
+      "last_health": "ok_rss",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
+      "feed_status_code": 200,
+      "homepage_status_code": null,
+      "feed_content_type": "application/rss+xml; charset=utf-8",
+      "feed_parse_result": "entries",
+      "newest_entry_datetime": "2026-07-25T22:37:04+00:00",
       "freshness": "unknown",
       "median_final_text_length": 0,
       "article_fetch_attempted": 0,
@@ -138,8 +138,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -155,8 +155,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -172,32 +172,32 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-10-26T13:59:04+00:00",
+      "newest_entry_datetime": "2026-10-29T20:09:25+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 0,
-      "article_fetch_attempted": 0,
-      "article_fetch_success": 0,
+      "median_final_text_length": 9089,
+      "article_fetch_attempted": 1,
+      "article_fetch_success": 1,
       "article_fetch_failed": 0
     },
     "EMOttawa Blog": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-10-28T11:00:01+00:00",
+      "newest_entry_datetime": "2026-10-29T11:00:51+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 1061,
+      "median_final_text_length": 38015,
       "article_fetch_attempted": 1,
       "article_fetch_success": 1,
       "article_fetch_failed": 0
@@ -206,8 +206,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -230,16 +230,16 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-article-a-day-v1",
-      "last_health": "no_dated_entries",
-      "last_ok_utc": "2026-10-28T10:51:03+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_health": "ok_html",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": null,
       "homepage_status_code": 200,
       "homepage_content_type": "text/html; charset=UTF-8",
       "feed_parse_result": "not_attempted",
-      "newest_entry_datetime": null,
+      "newest_entry_datetime": "2026-10-30T00:00:00+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 0,
+      "median_final_text_length": 5431,
       "article_fetch_attempted": 0,
       "article_fetch_success": 0,
       "article_fetch_failed": 0
@@ -266,15 +266,15 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-10-28T08:06:52+00:00",
+      "newest_entry_datetime": "2026-10-29T11:36:32+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 13342,
+      "median_final_text_length": 13741,
       "article_fetch_attempted": 1,
       "article_fetch_success": 1,
       "article_fetch_failed": 0
@@ -290,25 +290,25 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/xml; charset=utf-8",
       "feed_parse_result": "entries",
       "newest_entry_datetime": "2026-10-28T11:03:52+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 1336,
-      "article_fetch_attempted": 1,
-      "article_fetch_success": 1,
+      "median_final_text_length": 0,
+      "article_fetch_attempted": 0,
+      "article_fetch_success": 0,
       "article_fetch_failed": 0
     },
     "REBEL EM": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -337,17 +337,17 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
       "newest_entry_datetime": "2026-10-28T19:16:56+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 25115,
-      "article_fetch_attempted": 1,
-      "article_fetch_success": 1,
+      "median_final_text_length": 0,
+      "article_fetch_attempted": 0,
+      "article_fetch_success": 0,
       "article_fetch_failed": 0
     },
     "Taming the SRU": {
@@ -355,8 +355,8 @@
       "disabled_until_utc": "",
       "health_epoch": "2026-08-squarespace-rss-v1",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -372,8 +372,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "text/xml;charset=UTF-8",
@@ -389,8 +389,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -406,8 +406,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=utf-8",
@@ -423,8 +423,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -437,11 +437,11 @@
       "article_fetch_failed": 0
     },
     "WFSA Anaesthesia Tutorial of the Week": {
-      "consecutive_failures": 9,
+      "consecutive_failures": 10,
       "disabled_until_utc": "",
       "last_health": "parse_failed",
       "last_ok_utc": "2026-10-13T11:01:57+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -458,13 +458,13 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-10-29T11:07:15+00:00",
-      "last_seen_utc": "2026-10-29T11:07:15+00:00",
+      "last_ok_utc": "2026-10-30T11:02:56+00:00",
+      "last_seen_utc": "2026-10-30T11:02:56+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-10-26T21:33:01+00:00",
+      "newest_entry_datetime": "2026-10-30T06:26:33+00:00",
       "freshness": "unknown",
       "median_final_text_length": 0,
       "article_fetch_attempted": 0,
@@ -474,7 +474,7 @@
   },
   "last_successful_daily_run_utc": "2026-10-30T10:59:42+00:00",
   "last_successful_daily_run_utc_by_report": {
-    "cybermed": "2026-10-29T11:07:33+00:00"
+    "cybermed": "2026-10-30T11:03:48+00:00"
   },
   "reports": {
     "cyberlurch": {
@@ -2693,6 +2693,18 @@
             "title": "Updated Guideline: Continuous infusions of beta-lactam antibiotics endorsed by SCCM, IDSA",
             "channel": "PulmCCM",
             "url": "https://www.pulmccm.org/p/updated-guideline-continuous-infusions"
+          },
+          "https://nysora.com/education-news/opioid-free-anesthesia-in-cardiac-surgery/": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Opioid-free anesthesia in cardiac surgery",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/opioid-free-anesthesia-in-cardiac-surgery/"
+          },
+          "https://emottawablog.com/2026/10/the-aorta-made-me-do-it-cognitive-bias-and-acute-aortic-syndrome/": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "The Aorta Made Me Do It: Cognitive Bias and Acute Aortic Syndrome",
+            "channel": "EMOttawa Blog",
+            "url": "https://emottawablog.com/2026/10/the-aorta-made-me-do-it-cognitive-bias-and-acute-aortic-syndrome/"
           }
         }
       },
@@ -5420,12 +5432,340 @@
             "url": "https://pubmed.ncbi.nlm.nih.gov/42893967/",
             "screened_at_utc": "2026-10-29T11:07:33+00:00",
             "sent_overview_at_utc": "2026-10-29T11:07:33+00:00"
+          },
+          "42934785": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Selective coronary hypoxemia during VA-ECMO: limitations of peripheral oxygenation monitoring.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934785/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42934782": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Interpreting weaning success and ventilation duration in PRiVENT.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934782/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42934773": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Preserved anabolic skeletal muscle capacity in response to exercise and protein intake after critical illness.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934773/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42934779": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Heterogeneous cardiovascular responses to acute mean arterial pressure augmentation in septic shock: the role of ventriculo-arterial coupling and venous return.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934779/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42955323": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Immunological signatures of sepsis in abdominal solid organ transplant recipients: A multilayer and multicentric prospective cohort study.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955323/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_deep_dive_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42955322": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Diagnosis: the forgotten ICU procedure.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955322/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42955321": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Family suffering after critical illness: understanding buffers and stressors.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955321/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42955320": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Ventilator-associated pneumonia after traumatic brain injury: a timing-sensitive ecological framework of neuroimmune-pulmonary vulnerability.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955320/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42955319": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "What do the findings of compartmentalised sub-phenotypes in lungs of patients with pneumonia mean for critical care?",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955319/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42956925": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Artificial Intelligence-Assisted, Electrocardiogram-Derived, Sequential Rule-Based Decision Tree for Exclusion of Acute Coronary Syndrome as the Etiology of Out-of-Hospital Cardiac Arrest: A Single-Center Retrospective Cohort Study.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956925/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42956923": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Early Identification of Recurrent Out-of-hospital Cardiac Arrest Using Clinical ECG Features.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956923/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950220": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Syncope. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950220/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950219": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Syncope.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950219/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950218": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Neuroepithelial Tumor with AAV Integration. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950218/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950217": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Neuroepithelial Tumor with AAV Integration.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950217/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950216": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Neuroepithelial Tumor with AAV Integration.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950216/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950215": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Neuroepithelial Tumor with AAV Integration.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950215/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950214": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Ensartinib in ALK-Positive Non-Small-Cell Lung Cancer. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950214/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950213": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Ensartinib in ALK-Positive Non-Small-Cell Lung Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950213/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950212": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Sirolimus-Coated Balloon Angioplasty for Infrainguinal Artery Disease. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950212/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950211": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Sirolimus-Coated Balloon Angioplasty for Infrainguinal Artery Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950211/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950210": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Sirolimus-Coated Balloon Angioplasty for Infrainguinal Artery Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950210/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950209": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Gene Therapy for Phenylketonuria in Adults.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950209/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950208": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "SLC6A19 Inhibitor Repinatrabit and Phenylalanine Levels in Phenylketonuria.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950208/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950207": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Cardiac Monitors for Unexplained Syncope - More Benefit than Expected?",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950207/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950206": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Case 31-2026: A 42-Year-Old Pregnant Woman with Vaginal Hemorrhage.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950206/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950205": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "An Element Out of Place.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950205/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950204": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Splenosis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950204/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950203": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Gram-Negative Bacterial Resistance.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950203/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950222": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "In Vitro Fertilization or Intrauterine Insemination in Unexplained Infertility.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950222/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42933844": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Post-market device experience reports of dorsal root ganglion stimulation: a 10-year retrospective analysis of the FDA MAUDE database.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42933844/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950977": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Lessons learned from a paediatric OHCA ECPR program embedded in a regional program.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950977/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950976": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Beyond the stopwatch: the physiological cost of pulse checks during CPR.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950976/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42950975": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Traumatic Emergency Thoracotomy for Resuscitation in Shock (TETRiS): a national service evaluation of resuscitative thoracotomy practice outside the operating theatre.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950975/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42906567": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "When a vulnerable lung meets a changing climate.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906567/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42906566": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Interstitial lung diseases in a changing climate: emerging risks and opportunities to improve care.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906566/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42900504": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Endogenous Lipoid Pneumonia in Adult-Onset Still's Disease Necessitating Lung Transplantation.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42900504/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42899389": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Geo-economic variations in structure and organization of intensive care units: the ISOREA survey.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42899389/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42899386": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Cross-Ancestry Analysis of the 1q31 Th2-Associated Interval in Steroid-Dependent Asthma.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42899386/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42901145": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Delivery and adherence of biomarker-guided antibiotic treatment protocols in the ADAPT-Sepsis clinical trial: an in-trial descriptive process evaluation of daily procalcitonin- and C-reactive protein-guided protocols.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901145/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42897851": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Neurolysis of the pericapsular nerve group: a 'plan B' in palliative care after hip fracture?",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897851/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42906748": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Withholding Pre-emptive Antibiotics After Pancreaticoduodenectomy in Patients with Biliary Colonization: A Multicenter Propensity Score-Matched Cohort Study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906748/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_deep_dive_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42906747": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "I-gelTM Plus implements higher oropharyngeal leak pressure in the lateral decubitus position than original i-gelTM: a prospective randomized controlled trial.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906747/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_deep_dive_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42906746": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Hemoadsorption to prevent acute kidney injury in elective cardiac surgery: a systematic review of randomized controlled trials with meta-analysis and trial sequential analysis.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906746/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00"
+          },
+          "42933845": {
+            "processed_at_utc": "2026-10-30T11:03:48+00:00",
+            "title": "Correction: Local anesthetic systemic toxicity in children: a review of recent case reports and current literature.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42933845/",
+            "screened_at_utc": "2026-10-30T11:03:48+00:00",
+            "sent_overview_at_utc": "2026-10-30T11:03:48+00:00"
           }
         }
       }
     }
   },
-  "updated_at_utc": "2026-10-30T11:01:16+00:00",
+  "updated_at_utc": "2026-10-30T11:03:53+00:00",
   "version": 1,
   "cyberlurch_candidates": {
     "version": 1,

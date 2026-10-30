@@ -11190,6 +11190,880 @@
         "approved_after_generation_checks": true,
         "seal": "42ffc06fd2aa4ae067dd2f8a1ba8c321b6fc6dfaa637aef4b48643fcb1793420"
       }
+    },
+    "cybermed:daily:2026-10-30:2026-10-30:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-10-30",
+      "period_end": "2026-10-30",
+      "edition_id": "cybermed:daily:2026-10-30:2026-10-30:production",
+      "content_version": "c33c3e106377d361bd6d46b76735f46e17dc3f56a8a70e489de603797fda2d5c",
+      "message_id": "<8c870b943e6ac0808b464f02d1dde29d5e15552c46e14800d3701b5eb2115d77@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-30T11:03:53+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42934785",
+            "title": "Selective coronary hypoxemia during VA-ECMO: limitations of peripheral oxygenation monitoring.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934785/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42934782",
+            "title": "Interpreting weaning success and ventilation duration in PRiVENT.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934782/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42934773",
+            "title": "Preserved anabolic skeletal muscle capacity in response to exercise and protein intake after critical illness.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934773/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42934779",
+            "title": "Heterogeneous cardiovascular responses to acute mean arterial pressure augmentation in septic shock: the role of ventriculo-arterial coupling and venous return.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934779/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42955323",
+            "title": "Immunological signatures of sepsis in abdominal solid organ transplant recipients: A multilayer and multicentric prospective cohort study.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955323/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42955322",
+            "title": "Diagnosis: the forgotten ICU procedure.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955322/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42955321",
+            "title": "Family suffering after critical illness: understanding buffers and stressors.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955321/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42955320",
+            "title": "Ventilator-associated pneumonia after traumatic brain injury: a timing-sensitive ecological framework of neuroimmune-pulmonary vulnerability.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955320/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42955319",
+            "title": "What do the findings of compartmentalised sub-phenotypes in lungs of patients with pneumonia mean for critical care?",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955319/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42956925",
+            "title": "Artificial Intelligence-Assisted, Electrocardiogram-Derived, Sequential Rule-Based Decision Tree for Exclusion of Acute Coronary Syndrome as the Etiology of Out-of-Hospital Cardiac Arrest: A Single-Center Retrospective Cohort Study.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956925/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42956923",
+            "title": "Early Identification of Recurrent Out-of-hospital Cardiac Arrest Using Clinical ECG Features.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956923/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950220",
+            "title": "Syncope. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950220/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950219",
+            "title": "Syncope.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950219/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950218",
+            "title": "Neuroepithelial Tumor with AAV Integration. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950218/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950217",
+            "title": "Neuroepithelial Tumor with AAV Integration.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950217/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950216",
+            "title": "Neuroepithelial Tumor with AAV Integration.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950216/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950215",
+            "title": "Neuroepithelial Tumor with AAV Integration.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950215/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950214",
+            "title": "Ensartinib in ALK-Positive Non-Small-Cell Lung Cancer. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950214/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950213",
+            "title": "Ensartinib in ALK-Positive Non-Small-Cell Lung Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950213/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950212",
+            "title": "Sirolimus-Coated Balloon Angioplasty for Infrainguinal Artery Disease. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950212/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950211",
+            "title": "Sirolimus-Coated Balloon Angioplasty for Infrainguinal Artery Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950211/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950210",
+            "title": "Sirolimus-Coated Balloon Angioplasty for Infrainguinal Artery Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950210/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950209",
+            "title": "Gene Therapy for Phenylketonuria in Adults.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950209/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950208",
+            "title": "SLC6A19 Inhibitor Repinatrabit and Phenylalanine Levels in Phenylketonuria.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950208/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950207",
+            "title": "Cardiac Monitors for Unexplained Syncope - More Benefit than Expected?",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950207/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950206",
+            "title": "Case 31-2026: A 42-Year-Old Pregnant Woman with Vaginal Hemorrhage.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950206/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950205",
+            "title": "An Element Out of Place.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950205/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950204",
+            "title": "Splenosis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950204/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950203",
+            "title": "Gram-Negative Bacterial Resistance.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950203/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950222",
+            "title": "In Vitro Fertilization or Intrauterine Insemination in Unexplained Infertility.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950222/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42933844",
+            "title": "Post-market device experience reports of dorsal root ganglion stimulation: a 10-year retrospective analysis of the FDA MAUDE database.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42933844/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950977",
+            "title": "Lessons learned from a paediatric OHCA ECPR program embedded in a regional program.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950977/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950976",
+            "title": "Beyond the stopwatch: the physiological cost of pulse checks during CPR.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950976/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42950975",
+            "title": "Traumatic Emergency Thoracotomy for Resuscitation in Shock (TETRiS): a national service evaluation of resuscitative thoracotomy practice outside the operating theatre.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950975/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906567",
+            "title": "When a vulnerable lung meets a changing climate.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906567/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906566",
+            "title": "Interstitial lung diseases in a changing climate: emerging risks and opportunities to improve care.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906566/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42900504",
+            "title": "Endogenous Lipoid Pneumonia in Adult-Onset Still's Disease Necessitating Lung Transplantation.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42900504/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42899389",
+            "title": "Geo-economic variations in structure and organization of intensive care units: the ISOREA survey.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42899389/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42899386",
+            "title": "Cross-Ancestry Analysis of the 1q31 Th2-Associated Interval in Steroid-Dependent Asthma.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42899386/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901145",
+            "title": "Delivery and adherence of biomarker-guided antibiotic treatment protocols in the ADAPT-Sepsis clinical trial: an in-trial descriptive process evaluation of daily procalcitonin- and C-reactive protein-guided protocols.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901145/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42897851",
+            "title": "Neurolysis of the pericapsular nerve group: a 'plan B' in palliative care after hip fracture?",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42897851/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906748",
+            "title": "Withholding Pre-emptive Antibiotics After Pancreaticoduodenectomy in Patients with Biliary Colonization: A Multicenter Propensity Score-Matched Cohort Study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906748/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906747",
+            "title": "I-gelTM Plus implements higher oropharyngeal leak pressure in the lateral decubitus position than original i-gelTM: a prospective randomized controlled trial.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906747/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906746",
+            "title": "Hemoadsorption to prevent acute kidney injury in elective cardiac surgery: a systematic review of randomized controlled trials with meta-analysis and trial sequential analysis.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906746/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emcrit/lithium-od/",
+            "title": "EMCrit 437 – Massive Lithium Overdose",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emcrit/lithium-od/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/opioid-free-anesthesia-in-cardiac-surgery/",
+            "title": "Opioid-free anesthesia in cardiac surgery",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/opioid-free-anesthesia-in-cardiac-surgery/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emottawablog.com/2026/10/the-aorta-made-me-do-it-cognitive-bias-and-acute-aortic-syndrome/",
+            "title": "The Aorta Made Me Do It: Cognitive Bias and Acute Aortic Syndrome",
+            "channel": "EMOttawa Blog",
+            "url": "https://emottawablog.com/2026/10/the-aorta-made-me-do-it-cognitive-bias-and-acute-aortic-syndrome/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42933845",
+            "title": "Correction: Local anesthetic systemic toxicity in children: a review of recent case reports and current literature.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42933845/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42955323",
+            "title": "Immunological signatures of sepsis in abdominal solid organ transplant recipients: A multilayer and multicentric prospective cohort study.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955323/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42955323",
+              "doi": "10.1007/s00134-026-08612-1",
+              "kind": "original",
+              "source_version": "1f9dd1be52a8228f1547e7f384568f58535429f70b02ecb1a7437a07f92dca0d",
+              "fields": {
+                "title": "61d633904913546cb2f44f857759366d5a79224b81db8377134b5038fab784a3",
+                "abstract": "3a1afa2692a2d8a73e944cca6ad3765a9db4ffb708075ba75232007eebb8377c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0424773aeae6a7f72cd1fda7f0a8fc939ff3016e35c609a7018c4597816da611",
+                "results_known": false,
+                "numbers": "36c70c6b4480da4358018896ac22b07cf1609c6cb5b6523ce46bedf6a7a4f0f8",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "77cffb5ecb950a1b0c3b9a2900b82a75e22f175cece93cd341c9273fc98d5fb8",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42956925",
+            "title": "Artificial Intelligence-Assisted, Electrocardiogram-Derived, Sequential Rule-Based Decision Tree for Exclusion of Acute Coronary Syndrome as the Etiology of Out-of-Hospital Cardiac Arrest: A Single-Center Retrospective Cohort Study.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956925/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42956925",
+              "doi": "10.1016/j.resuscitation.2026.111373",
+              "kind": "original",
+              "source_version": "ac674963bd7abf6474db0afe715c00c1b9d861d3969d1ce5e751a6d1c1aa0b02",
+              "fields": {
+                "title": "ed1492ecc8fcef1f1921ed2f16c46adcdc2039244c20959fc4bae7e3bd9c8161",
+                "abstract": "4f8800e96d691f91e01e5a49e0cf5bd74d9dc6895a9e128254990036c2ae2234",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "de32862df880535fce7b920fa005d024e0ab8e782893bc804dce1d9c7e408e41",
+                "results_known": false,
+                "numbers": "be6ef1c79a156c052ea9ffe5173adc371a737d6903a918bf023f16dd7708f7cc",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "45d30330c6b14d4f8257e2fd736c5426cbd994dd84662299b17a46e344b238b1",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42956923",
+            "title": "Early Identification of Recurrent Out-of-hospital Cardiac Arrest Using Clinical ECG Features.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956923/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42956923",
+              "doi": "10.1016/j.resuscitation.2026.111370",
+              "kind": "original",
+              "source_version": "e9a56e6a2acfaff61bdba790883e0df4a9b5ceaf387900cc30f96bcc026f60ff",
+              "fields": {
+                "title": "eb2357c83a9dd9db8b6336cd474e372aa3578ce7bad327be04519cf9037c4e37",
+                "abstract": "5b55b5a781f647fd2e0f329018610a32be5683510f0b9464a4302a359ce2f884",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "5a79dc6a12c9f48a173007800a5cc1680604073461333ad581403c1e24fe6831",
+                "results_known": false,
+                "numbers": "9792cfd42cf7446de9cc80cc98947894a1dc6d034c8356a5129f8fbe3c2b4fb2",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "9bf17beeb048adcf93eb672c7f3f71b97bdac0cf718deb1a9c4db7a140b51f9e",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42950975",
+            "title": "Traumatic Emergency Thoracotomy for Resuscitation in Shock (TETRiS): a national service evaluation of resuscitative thoracotomy practice outside the operating theatre.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42950975/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42950975",
+              "doi": "10.1016/j.resuscitation.2026.111371",
+              "kind": "original",
+              "source_version": "f1906847cdfcaa3e51396d053edf79a6023c155de211eed049fcf41b3271fb6a",
+              "fields": {
+                "title": "7cb0c75ecfaf67ecae526d11af1d359dbab287514dfba401c86dd499bc604c69",
+                "abstract": "6612f0687833a5f56d521cfdf33a16f951056f4f00b9d6e8f6586b01333c33db",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "79401ac68844522750ea1277cdcd8c2afba94da99c2fd1c62aece603f5368c34",
+                "results_known": false,
+                "numbers": "4c341438924ed902ee8ce4cada52b6b45732845d2cc3760bb4d9062489fa097b",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "5e045670c1f16ce8c1752ee04bb7cb6f665f932a34f6ab075ba49b37c1808930",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42906746",
+            "title": "Hemoadsorption to prevent acute kidney injury in elective cardiac surgery: a systematic review of randomized controlled trials with meta-analysis and trial sequential analysis.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906746/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42906746",
+              "doi": "10.1016/j.accpm.2026.101931",
+              "kind": "original",
+              "source_version": "acd1949eb11dfa758c8e1bed90e5f97d4dd1030147323cb2054b633823b69747",
+              "fields": {
+                "title": "be07c9a03b2bb88053fb96f26cb53f9342e9e578e32ba32c1eb921188d5e5cbf",
+                "abstract": "11af18ab27922b5ee408fa5e6393c3520c0623ea628c4fedb5e3ca8c8c3b0c1b",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "fcfc9e3b8f78ac4a765c36bcf65b4074d7635f63e2406b88cc3ac59eed436b41",
+                "results_known": true,
+                "numbers": "bf2b59d93bdf57c145133b520a54c7924bc52845ba3dcf7e656bc5c1b965a167",
+                "endpoint": "13ade9489c44c064e6a0bc7e5356f4dfa8ccf5948f4d0e00b084d98e6a300667",
+                "methods": "86fd79ba8b880efe650c89dde1d0f472825281aad4136dec68f9f3f45b42f94d",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42906748",
+            "title": "Withholding Pre-emptive Antibiotics After Pancreaticoduodenectomy in Patients with Biliary Colonization: A Multicenter Propensity Score-Matched Cohort Study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906748/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42906748",
+              "doi": "10.1016/j.accpm.2026.101954",
+              "kind": "original",
+              "source_version": "bce5ca380e460bf7fd823a9759ce7f9de679f5303ccd4f6a3f527ecc9db6a0bb",
+              "fields": {
+                "title": "221457301ac95082cf28f7edaebbe443c20a0901dc4099eb2b3173467ca16fac",
+                "abstract": "aa2d056676078f9d27b78e8c3270a7ecf7fc947533679d6c22aa5e49c042ef57",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "40247d3a609837777a9a37508d51ff805281881eba8b41490b05076b4c5402e5",
+                "results_known": true,
+                "numbers": "942979fee9e36efedd51525b46938816958c8be8620c186b55cf305f511c0827",
+                "endpoint": "2c7e71c94dbb14d3ba4d5bfb769650ce5be9b493a90f0614182a633082daecf9",
+                "methods": "feb009f67de09f3f87e0931961182ba1695f50b2bba4720616e5952bad85741d",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42906747",
+            "title": "I-gelTM Plus implements higher oropharyngeal leak pressure in the lateral decubitus position than original i-gelTM: a prospective randomized controlled trial.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906747/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42906747",
+              "doi": "10.1016/j.accpm.2026.101953",
+              "kind": "original",
+              "source_version": "f941865f57124870ca438b16db9f97793d833ddc5c2cc9e513a7737e3ac67ef9",
+              "fields": {
+                "title": "910c589f5635a44cf2b5d74ce7632259c0104b74643a2295ba2ac595db70e5dc",
+                "abstract": "1fb062f6654618679221463c088666d7fde00b52c80b3fecf39e6fcdb09afb58",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9232cdd1cae3d4cd6245291639ecc897062ce8c6ebe54544e1ed165dd82db344",
+                "results_known": true,
+                "numbers": "1298df897f6453233d55053f68b091f55718b9170b42037564038c5843634e27",
+                "endpoint": "30256bf6b43d44b5f4349654f235cdd3e846254e8db12a08e0f4b5b643ac42ff",
+                "methods": "fc0a215a4477411361aa2ce3bfdcda8244fb5bdbcc90f7915ea8468de642b6b3",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42901145",
+            "title": "Delivery and adherence of biomarker-guided antibiotic treatment protocols in the ADAPT-Sepsis clinical trial: an in-trial descriptive process evaluation of daily procalcitonin- and C-reactive protein-guided protocols.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901145/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42901145",
+              "doi": "10.1111/anae.70439",
+              "kind": "original",
+              "source_version": "18b57cebfc2e2c870826dfde3fd23b9d1b8271ab4a71043b8de26eb33524962f",
+              "fields": {
+                "title": "b981550d757241d0811362ffc9f5b4d0c118cb1ae00a68f7be3e1d240204bff0",
+                "abstract": "50ffb59b20a60e5b2c7a7fbdb5cb9ccf5fa646eff9825a9149b123f26df35beb",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "dbe5466fd5e16cfabba7e4dfe3b21bfb9801b4db308ca73202a4a5ff5a475ece",
+                "results_known": false,
+                "numbers": "9eb93e395350c2577748fb2fa752a4f36204457c02e39c3afa32c893c894a2c1",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "a5bfc7c348368d69fc953508508cddedae67fe05100e7bde8093f99cdf499829",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42934779",
+            "title": "Heterogeneous cardiovascular responses to acute mean arterial pressure augmentation in septic shock: the role of ventriculo-arterial coupling and venous return.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934779/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42934779",
+              "doi": "10.1186/s13054-026-06317-x",
+              "kind": "original",
+              "source_version": "694a3d89a037639ae28288c0822c3bc6ef80c375494a1f9af6a3c128b9132dfb",
+              "fields": {
+                "title": "a558fa9ac3e2f867f51150d0832334d6f4e81a6847453498fff42e33c5bcfaa1",
+                "abstract": "816d3c92c0a9f3f300a377cbba11ee5a5606b17f3580b9a60bba36f46dc761d4",
+                "types": "e61d3ab301dfa1ef529605250b29ee676f06a081b326e5f5c612b8c95cf07a54",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "acf3a9268554f6a9b4e4d6cee79eb581b61bc1383225267f4a6256361dd830f1",
+                "results_known": false,
+                "numbers": "00c2b5d4c427a4c1d7d3e1fd74c8e29c7fa533f0b4087343b99c7ed01f922ab6",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "464a4f09d6cf41589c57c0c710fda00b3a790600a9734c0cc9dd7b20a502a2e7",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42933845",
+            "title": "Correction: Local anesthetic systemic toxicity in children: a review of recent case reports and current literature.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42933845/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42933845",
+              "doi": "10.1136/rapm-2021-102529corr1",
+              "kind": "correction_notice",
+              "source_version": "e7a787b5303156e2984dbe1b5af99cc43aa2c67afad0c512c566bc69dd66201e",
+              "fields": {
+                "title": "44ecacab66c1156c8f44b750450bedf7bee2dfe38913582b557535e936c0a38a",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "56fcdf016698d4e72a5bd77372e75336578d3b917f9248145b96d5d01a122221",
+                "relations": "f21ade107d90b3037587919b6733e66b815d074f51d7269f8ea604c7f9755a70"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": [
+                {
+                  "ref_type": "ErratumFor",
+                  "pmid": "34099573"
+                }
+              ]
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42955323",
+            "title": "Immunological signatures of sepsis in abdominal solid organ transplant recipients: A multilayer and multicentric prospective cohort study.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955323/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42955323",
+              "doi": "10.1007/s00134-026-08612-1",
+              "kind": "original",
+              "source_version": "1f9dd1be52a8228f1547e7f384568f58535429f70b02ecb1a7437a07f92dca0d",
+              "fields": {
+                "title": "61d633904913546cb2f44f857759366d5a79224b81db8377134b5038fab784a3",
+                "abstract": "3a1afa2692a2d8a73e944cca6ad3765a9db4ffb708075ba75232007eebb8377c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0424773aeae6a7f72cd1fda7f0a8fc939ff3016e35c609a7018c4597816da611",
+                "results_known": false,
+                "numbers": "36c70c6b4480da4358018896ac22b07cf1609c6cb5b6523ce46bedf6a7a4f0f8",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "77cffb5ecb950a1b0c3b9a2900b82a75e22f175cece93cd341c9273fc98d5fb8",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42906748",
+            "title": "Withholding Pre-emptive Antibiotics After Pancreaticoduodenectomy in Patients with Biliary Colonization: A Multicenter Propensity Score-Matched Cohort Study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906748/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42906748",
+              "doi": "10.1016/j.accpm.2026.101954",
+              "kind": "original",
+              "source_version": "bce5ca380e460bf7fd823a9759ce7f9de679f5303ccd4f6a3f527ecc9db6a0bb",
+              "fields": {
+                "title": "221457301ac95082cf28f7edaebbe443c20a0901dc4099eb2b3173467ca16fac",
+                "abstract": "aa2d056676078f9d27b78e8c3270a7ecf7fc947533679d6c22aa5e49c042ef57",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "40247d3a609837777a9a37508d51ff805281881eba8b41490b05076b4c5402e5",
+                "results_known": true,
+                "numbers": "942979fee9e36efedd51525b46938816958c8be8620c186b55cf305f511c0827",
+                "endpoint": "2c7e71c94dbb14d3ba4d5bfb769650ce5be9b493a90f0614182a633082daecf9",
+                "methods": "feb009f67de09f3f87e0931961182ba1695f50b2bba4720616e5952bad85741d",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42906747",
+            "title": "I-gelTM Plus implements higher oropharyngeal leak pressure in the lateral decubitus position than original i-gelTM: a prospective randomized controlled trial.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906747/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42906747",
+              "doi": "10.1016/j.accpm.2026.101953",
+              "kind": "original",
+              "source_version": "f941865f57124870ca438b16db9f97793d833ddc5c2cc9e513a7737e3ac67ef9",
+              "fields": {
+                "title": "910c589f5635a44cf2b5d74ce7632259c0104b74643a2295ba2ac595db70e5dc",
+                "abstract": "1fb062f6654618679221463c088666d7fde00b52c80b3fecf39e6fcdb09afb58",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9232cdd1cae3d4cd6245291639ecc897062ce8c6ebe54544e1ed165dd82db344",
+                "results_known": true,
+                "numbers": "1298df897f6453233d55053f68b091f55718b9170b42037564038c5843634e27",
+                "endpoint": "30256bf6b43d44b5f4349654f235cdd3e846254e8db12a08e0f4b5b643ac42ff",
+                "methods": "fc0a215a4477411361aa2ce3bfdcda8244fb5bdbcc90f7915ea8468de642b6b3",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/opioid-free-anesthesia-in-cardiac-surgery/",
+            "title": "Opioid-free anesthesia in cardiac surgery",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/opioid-free-anesthesia-in-cardiac-surgery/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emottawablog.com/2026/10/the-aorta-made-me-do-it-cognitive-bias-and-acute-aortic-syndrome/",
+            "title": "The Aorta Made Me Do It: Cognitive Bias and Acute Aortic Syndrome",
+            "channel": "EMOttawa Blog",
+            "url": "https://emottawablog.com/2026/10/the-aorta-made-me-do-it-cognitive-bias-and-acute-aortic-syndrome/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-30T11:03:48+00:00"
+      },
+      "workflow_run_id": "41045004678",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-10-30:2026-10-30:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "d06b2bfc4d3a723192af032ae14472e0cc35cba8593947e53f7cd6e8d95a8689",
+        "finalization_policy": "markers",
+        "content_version": "c33c3e106377d361bd6d46b76735f46e17dc3f56a8a70e489de603797fda2d5c",
+        "message_id": "<8c870b943e6ac0808b464f02d1dde29d5e15552c46e14800d3701b5eb2115d77@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "c75b848383f70520_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "e820c4b4cce05d2207301c94a42a712cf5a039e6a44507474890e22d2322ca8f"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "4e9035254f5d54a411018c4b1f905628e83159977e1ffa33690ed4b0606fb67d"
+      }
+    },
+    "cybermed:weekly:2026-10-26:2026-10-30:production": {
+      "report_key": "cybermed",
+      "cadence": "weekly",
+      "period_start": "2026-10-26",
+      "period_end": "2026-10-30",
+      "edition_id": "cybermed:weekly:2026-10-26:2026-10-30:production",
+      "content_version": "0a30e39cabab92cd9bf29bb13111436385320f60dd95f683d80fa3e871ec7762",
+      "message_id": "<8fe21417368c701cdd32ef12e20e17a3875c3d29ec6a04d12d079534be95d3d2@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+        "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+        "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+        "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+        "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+        "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+        "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+        "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+        "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+        "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+        "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+        "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+        "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+        "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+        "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+        "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+        "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+        "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-30T11:04:01+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {},
+      "workflow_run_id": "41045004678",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:weekly:2026-10-26:2026-10-30:production",
+        "subject": "Cybermed Report — Weekly",
+        "subject_hash": "59caac393c86891f5aad81b365380b5ae9cfac256d74c54ddd101b92beb9258e",
+        "audience": [
+          "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+          "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+          "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+          "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+          "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+          "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+          "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+          "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+          "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+          "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+          "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+          "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+          "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+          "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+          "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+          "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+          "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+          "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "finalization_policy": "no_markers",
+        "content_version": "0a30e39cabab92cd9bf29bb13111436385320f60dd95f683d80fa3e871ec7762",
+        "message_id": "<8fe21417368c701cdd32ef12e20e17a3875c3d29ec6a04d12d079534be95d3d2@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "c5ce1dfb3a89ad8c_cybermed_weekly_cybermed_weekly_generated_delta.json",
+            "sha256": "d3bc7dee01adb47a8519b9eeb0779f28b1a5a0c3bf1df31ffa7eb586c51cd36f"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "b67eeb698679a61a174e4bd569d3492c075035ce17dec7dd067126d89a222626"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -11864,6 +12738,7 @@
         "42892410",
         "42892907",
         "42893020",
+        "42893967",
         "42894761",
         "42895439",
         "42896234",
@@ -11897,7 +12772,10 @@
         "42919451",
         "42919460",
         "42919629",
-        "42931902"
+        "42928302",
+        "42929692",
+        "42931902",
+        "42951064"
       ]
     }
   }
