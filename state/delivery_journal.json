@@ -10296,6 +10296,900 @@
         "approved_after_generation_checks": true,
         "seal": "a8c41a0a09b0bba9c14f2348feb938254a06bc87fb4583c851e6812db2cf2efa"
       }
+    },
+    "cyberlurch:daily:2026-10-30:2026-10-30:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-10-30",
+      "period_end": "2026-10-30",
+      "edition_id": "cyberlurch:daily:2026-10-30:2026-10-30:production",
+      "content_version": "38c3b5009075294f85235efb1284d73a47a0f627b273a737170bbe67a8c669af",
+      "message_id": "<a7a7e1f46608ed4781c9c5e98f929d7531ffeb826695afb17019156f5098e6c8@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-30T10:59:46+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "vlERdwmUe0E",
+            "title": "⚡Rich People Are Preparing for DAY X w/ J Hollerman",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=vlERdwmUe0E"
+          },
+          {
+            "source": "youtube",
+            "id": "4eKUDsesMVQ",
+            "title": "Katerina Janouch: Mohamed Ali (V) kommer undan – för att han inte är svensk",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=4eKUDsesMVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "7EdBnAFCpUs",
+            "title": "A Hidden Gem in Jerusalem! Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=7EdBnAFCpUs"
+          },
+          {
+            "source": "youtube",
+            "id": "83DJOoKa5LQ",
+            "title": "🚨🚨BREAKING: Major Factories IDLED- Watchmen Update",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=83DJOoKa5LQ"
+          },
+          {
+            "source": "youtube",
+            "id": "C8cE65xZix8",
+            "title": "Is the CRYPTO TAX NOT happening after all? 🚨 THIS is the CURRENT STATUS!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=C8cE65xZix8"
+          },
+          {
+            "source": "youtube",
+            "id": "FLbWuBcLsmc",
+            "title": "Exorcist Chad Ripperger SILENCED After Calling Out Demons At The Vatican (Enthronement Of Lucifer)",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=FLbWuBcLsmc"
+          },
+          {
+            "source": "youtube",
+            "id": "LE0_t0O5n8o",
+            "title": "PERSONALITY TRANSPLANTS--Walking in Otherworldly Graces",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=LE0_t0O5n8o"
+          },
+          {
+            "source": "youtube",
+            "id": "LXZee5MUBfk",
+            "title": "heute 7:00 PM from 10/29/2026 Civil Protection Hub, train accident in Spain, Elke Sommer has pass...",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=LXZee5MUBfk"
+          },
+          {
+            "source": "youtube",
+            "id": "zM3DJg3kK9I",
+            "title": "⚡ALERT! US Army DIGGING MASS GRAVES Fatality Drills!! *Not Clickbait* AIR DEFENSE to Mar-a-Lago.!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=zM3DJg3kK9I"
+          },
+          {
+            "source": "youtube",
+            "id": "9paqLQuu_Nk",
+            "title": "SOMETHING BIG IS COMING. THEY'RE NOT TELLING US...",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=9paqLQuu_Nk"
+          },
+          {
+            "source": "youtube",
+            "id": "BG3MdYYpSV0",
+            "title": "The UNTHINKABLE is About to Happen in America, And No One Is Ready",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=BG3MdYYpSV0"
+          },
+          {
+            "source": "youtube",
+            "id": "GkINbVpcOfw",
+            "title": "Israel Election Results: Who Will Form the Government?",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=GkINbVpcOfw"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "vlERdwmUe0E",
+            "title": "⚡Rich People Are Preparing for DAY X w/ J Hollerman",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=vlERdwmUe0E"
+          },
+          {
+            "source": "youtube",
+            "id": "4eKUDsesMVQ",
+            "title": "Katerina Janouch: Mohamed Ali (V) kommer undan – för att han inte är svensk",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=4eKUDsesMVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "7EdBnAFCpUs",
+            "title": "A Hidden Gem in Jerusalem! Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=7EdBnAFCpUs"
+          },
+          {
+            "source": "youtube",
+            "id": "83DJOoKa5LQ",
+            "title": "🚨🚨BREAKING: Major Factories IDLED- Watchmen Update",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=83DJOoKa5LQ"
+          },
+          {
+            "source": "youtube",
+            "id": "C8cE65xZix8",
+            "title": "Is the CRYPTO TAX NOT happening after all? 🚨 THIS is the CURRENT STATUS!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=C8cE65xZix8"
+          },
+          {
+            "source": "youtube",
+            "id": "FLbWuBcLsmc",
+            "title": "Exorcist Chad Ripperger SILENCED After Calling Out Demons At The Vatican (Enthronement Of Lucifer)",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=FLbWuBcLsmc"
+          },
+          {
+            "source": "youtube",
+            "id": "LE0_t0O5n8o",
+            "title": "PERSONALITY TRANSPLANTS--Walking in Otherworldly Graces",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=LE0_t0O5n8o"
+          },
+          {
+            "source": "youtube",
+            "id": "LXZee5MUBfk",
+            "title": "heute 7:00 PM from 10/29/2026 Civil Protection Hub, train accident in Spain, Elke Sommer has pass...",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=LXZee5MUBfk"
+          },
+          {
+            "source": "youtube",
+            "id": "zM3DJg3kK9I",
+            "title": "⚡ALERT! US Army DIGGING MASS GRAVES Fatality Drills!! *Not Clickbait* AIR DEFENSE to Mar-a-Lago.!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=zM3DJg3kK9I"
+          },
+          {
+            "source": "youtube",
+            "id": "9paqLQuu_Nk",
+            "title": "SOMETHING BIG IS COMING. THEY'RE NOT TELLING US...",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=9paqLQuu_Nk"
+          },
+          {
+            "source": "youtube",
+            "id": "BG3MdYYpSV0",
+            "title": "The UNTHINKABLE is About to Happen in America, And No One Is Ready",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=BG3MdYYpSV0"
+          },
+          {
+            "source": "youtube",
+            "id": "GkINbVpcOfw",
+            "title": "Israel Election Results: Who Will Form the Government?",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=GkINbVpcOfw"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "vlERdwmUe0E",
+            "title": "⚡Rich People Are Preparing for DAY X w/ J Hollerman",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=vlERdwmUe0E"
+          },
+          {
+            "source": "youtube",
+            "id": "zM3DJg3kK9I",
+            "title": "⚡ALERT! US Army DIGGING MASS GRAVES Fatality Drills!! *Not Clickbait* AIR DEFENSE to Mar-a-Lago.!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=zM3DJg3kK9I"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-10-30T10:59:42+00:00"
+      },
+      "workflow_run_id": "41044422971",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-10-30:2026-10-30:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "b4b7e75b266f6cc6104b9657cf7ae4e5914a3488ab592b318742e4d9edb7f7f6",
+        "finalization_policy": "markers",
+        "content_version": "38c3b5009075294f85235efb1284d73a47a0f627b273a737170bbe67a8c669af",
+        "message_id": "<a7a7e1f46608ed4781c9c5e98f929d7531ffeb826695afb17019156f5098e6c8@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "8bbf036ad0dbbd81_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "0a24d2465fdcdd77f0c1d78b5b7e762fc710ed5d25d98020f5744e003dd85e2d"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "f0c0164cedbac372679f2c11b4d62dcea25c02728de59be8172285ff5b7768db"
+      }
+    },
+    "cyberlurch:weekly:2026-10-23:2026-10-30:production": {
+      "report_key": "cyberlurch",
+      "cadence": "weekly",
+      "period_start": "2026-10-23",
+      "period_end": "2026-10-30",
+      "edition_id": "cyberlurch:weekly:2026-10-23:2026-10-30:production",
+      "content_version": "79cfe1078519b6d27416a18d84cf06dc8828bd0e1c33ea99f8c2e26ab443e414",
+      "message_id": "<ad17f291aca6871571084190cf7048d6273040adbf27e03b123de81fab107cbf@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-10-30T11:01:16+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "vlERdwmUe0E",
+            "title": "⚡Rich People Are Preparing for DAY X w/ J Hollerman",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=vlERdwmUe0E"
+          },
+          {
+            "source": "youtube",
+            "id": "4eKUDsesMVQ",
+            "title": "Katerina Janouch: Mohamed Ali (V) kommer undan – för att han inte är svensk",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=4eKUDsesMVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "7EdBnAFCpUs",
+            "title": "A Hidden Gem in Jerusalem! Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=7EdBnAFCpUs"
+          },
+          {
+            "source": "youtube",
+            "id": "83DJOoKa5LQ",
+            "title": "🚨🚨BREAKING: Major Factories IDLED- Watchmen Update",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=83DJOoKa5LQ"
+          },
+          {
+            "source": "youtube",
+            "id": "C8cE65xZix8",
+            "title": "Is the CRYPTO TAX NOT happening after all? 🚨 THIS is the CURRENT STATUS!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=C8cE65xZix8"
+          },
+          {
+            "source": "youtube",
+            "id": "FLbWuBcLsmc",
+            "title": "Exorcist Chad Ripperger SILENCED After Calling Out Demons At The Vatican (Enthronement Of Lucifer)",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=FLbWuBcLsmc"
+          },
+          {
+            "source": "youtube",
+            "id": "LE0_t0O5n8o",
+            "title": "PERSONALITY TRANSPLANTS--Walking in Otherworldly Graces",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=LE0_t0O5n8o"
+          },
+          {
+            "source": "youtube",
+            "id": "LXZee5MUBfk",
+            "title": "heute 7:00 PM from 10/29/2026 Civil Protection Hub, train accident in Spain, Elke Sommer has pass...",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=LXZee5MUBfk"
+          },
+          {
+            "source": "youtube",
+            "id": "9paqLQuu_Nk",
+            "title": "SOMETHING BIG IS COMING. THEY'RE NOT TELLING US...",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=9paqLQuu_Nk"
+          },
+          {
+            "source": "youtube",
+            "id": "BG3MdYYpSV0",
+            "title": "The UNTHINKABLE is About to Happen in America, And No One Is Ready",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=BG3MdYYpSV0"
+          },
+          {
+            "source": "youtube",
+            "id": "GkINbVpcOfw",
+            "title": "Israel Election Results: Who Will Form the Government?",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=GkINbVpcOfw"
+          },
+          {
+            "source": "youtube",
+            "id": "HBJlrIIDNOI",
+            "title": "Netanyahu-regeringens minister vill skicka palestinier till Europa",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=HBJlrIIDNOI"
+          },
+          {
+            "source": "youtube",
+            "id": "HS1fNkQTmBY",
+            "title": "RITE OF PASSAGE TEAM 018 | OFFICIAL DOCUMENTARY",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=HS1fNkQTmBY"
+          },
+          {
+            "source": "youtube",
+            "id": "zM3DJg3kK9I",
+            "title": "⚡ALERT! US Army DIGGING MASS GRAVES Fatality Drills!! *Not Clickbait* AIR DEFENSE to Mar-a-Lago.!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=zM3DJg3kK9I"
+          },
+          {
+            "source": "youtube",
+            "id": "xrX75VBgUTY",
+            "title": "⚡China and Russias Grids Are EMP/ Nuclear Proof, USA Declares Emergency!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=xrX75VBgUTY"
+          },
+          {
+            "source": "youtube",
+            "id": "C5lasau_lW4",
+            "title": "I'm Running Out of Time to Do this",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=C5lasau_lW4"
+          },
+          {
+            "source": "youtube",
+            "id": "-MyZ7KDDlc0",
+            "title": "THE BEST LIFE POSSIBLE--Endless New Beginnings",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=-MyZ7KDDlc0"
+          },
+          {
+            "source": "youtube",
+            "id": "-gadI27_Nbw",
+            "title": "NEW FORECAST from J.P. MORGAN! 💥 BITCOIN with BETTER RETURNS than GOLD & STOCKS! 📈",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=-gadI27_Nbw"
+          },
+          {
+            "source": "youtube",
+            "id": "2Y97u8Rex24",
+            "title": "Vad händer bakom kulisserna när Jomshof & Karlsson bråkar öppet? - Roger Richthoff",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=2Y97u8Rex24"
+          },
+          {
+            "source": "youtube",
+            "id": "7P9S2P81a6o",
+            "title": "The Biology of Puberty Is DEVASTATING For Islam",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=7P9S2P81a6o"
+          },
+          {
+            "source": "youtube",
+            "id": "9w7Ktbkvh5c",
+            "title": "AfD-Leak: Was die gehackten E-Mails bereits verraten  I 11KM - der tagesschau-Podcast",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=9w7Ktbkvh5c"
+          },
+          {
+            "source": "youtube",
+            "id": "DN_jX7qVOOc",
+            "title": "ILTV On The Hour - October 28, 2026 | Netanyahu Claims Victory — But Election Has No Clear Majority",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=DN_jX7qVOOc"
+          },
+          {
+            "source": "youtube",
+            "id": "HD5agyxtGj0",
+            "title": "Trump EXTRACTS Bolsonaro From Brazil In Shady Covert Op",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=HD5agyxtGj0"
+          },
+          {
+            "source": "youtube",
+            "id": "BNOBieYZmMM",
+            "title": "Bleiben oder gehen? Der Dunkle Parabelritter in Sachsen-Anhalt | Teil 2",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=BNOBieYZmMM"
+          },
+          {
+            "source": "youtube",
+            "id": "FRt9FeoKHc4",
+            "title": "Why SEAL Training Was So Awesome",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=FRt9FeoKHc4"
+          },
+          {
+            "source": "youtube",
+            "id": "KOfOOt_7ROM",
+            "title": "Sverigedemokraterna, lyssna inte på Expressen – de hatar er",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=KOfOOt_7ROM"
+          },
+          {
+            "source": "youtube",
+            "id": "KZKzltj87Q0",
+            "title": "Jakob Tscharntke Escaping the Wrath of God, The Rapture #jesus #bible #germany #endtimes #sermon",
+            "channel": "endzeit-kanal",
+            "url": "https://www.youtube.com/watch?v=KZKzltj87Q0"
+          },
+          {
+            "source": "youtube",
+            "id": "Lw1ys4Tt_FY",
+            "title": "🚨🚨ALERT: Shortages Appearing Across The US- Watchmen Updates",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=Lw1ys4Tt_FY"
+          },
+          {
+            "source": "youtube",
+            "id": "tbJ_E3DyCrY",
+            "title": "⚡ALERT! Russia EVACUATING Scientists, France Prepares for MARTIAL LAW + NUCLEAR WAR Simulation.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=tbJ_E3DyCrY"
+          },
+          {
+            "source": "youtube",
+            "id": "1AlQ1IrakHo",
+            "title": "Netanyahu’s Plan to Finish the Work in Iran: What It Means for the US",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=1AlQ1IrakHo"
+          },
+          {
+            "source": "youtube",
+            "id": "4AxVlpZK880",
+            "title": "Faith, Freedom and the Hispanic Vote: Pastor Sam Rodriguez Speaks Out",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=4AxVlpZK880"
+          },
+          {
+            "source": "youtube",
+            "id": "6ek9H8eKf2s",
+            "title": "PROPHETIC SURROUND SOUND--Understanding the OT & NT Symphony of End Times Prophecies",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=6ek9H8eKf2s"
+          },
+          {
+            "source": "youtube",
+            "id": "8KZgxY3JXW0",
+            "title": "Vem representerar han egentligen – Sverige eller Somalieklanen?",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=8KZgxY3JXW0"
+          },
+          {
+            "source": "youtube",
+            "id": "M58kABBhl_I",
+            "title": "The Billion-Dollar Vape Market: Who Profits From the Hype? | ZDF frontal",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=M58kABBhl_I"
+          },
+          {
+            "source": "youtube",
+            "id": "TNQ2PuDLiOg",
+            "title": "My Thoughts On XRP",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=TNQ2PuDLiOg"
+          },
+          {
+            "source": "youtube",
+            "id": "m04GCXRoqkE",
+            "title": "Jews Have Built The Third Temple Altar",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=m04GCXRoqkE"
+          },
+          {
+            "source": "youtube",
+            "id": "DaJviM8BVy4",
+            "title": "Why Does Lindsay Clancy Have So Many Supporters?",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=DaJviM8BVy4"
+          },
+          {
+            "source": "youtube",
+            "id": "HBZBGp_7Q7U",
+            "title": "Lt. Col. Daniel Davis Warns a Wider Iran War Is Coming Right After the Midterms | Redacted",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=HBZBGp_7Q7U"
+          },
+          {
+            "source": "youtube",
+            "id": "P5URJ6RdtrA",
+            "title": "State TV experts assert the US was defeated by Russia and will be defeated by Iran",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=P5URJ6RdtrA"
+          },
+          {
+            "source": "youtube",
+            "id": "Y6-3gt3vfBs",
+            "title": "France Is Burning: What the Media Isn't Showing You",
+            "channel": "MarcFriedrich7",
+            "url": "https://www.youtube.com/watch?v=Y6-3gt3vfBs"
+          },
+          {
+            "source": "youtube",
+            "id": "Z9tUv4zAXTs",
+            "title": "Sid Roth explains The Glory Story",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=Z9tUv4zAXTs"
+          },
+          {
+            "source": "youtube",
+            "id": "afzjG4aah2g",
+            "title": "How I Realized Everything Is A Scam",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=afzjG4aah2g"
+          },
+          {
+            "source": "youtube",
+            "id": "2qots60JnFA",
+            "title": "Anti-Socialization Law: Expert Doubts Dobrindt’s Plan | ZDFheute live",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=2qots60JnFA"
+          },
+          {
+            "source": "youtube",
+            "id": "3l3sMY9OzsA",
+            "title": "Does Loving Your Neighbor Require You to Vote? | Frank Turek @MorningWire",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=3l3sMY9OzsA"
+          },
+          {
+            "source": "youtube",
+            "id": "7H3uHXNN-sc",
+            "title": "The Great Loss of Control: Euro Crisis, Robot War & Violence I Ernst Wolff",
+            "channel": "ErnstWolffOffiziell",
+            "url": "https://www.youtube.com/watch?v=7H3uHXNN-sc"
+          },
+          {
+            "source": "youtube",
+            "id": "9XiPGZ63-0c",
+            "title": "Magdalena Andersson den stora förloraren – igen",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=9XiPGZ63-0c"
+          },
+          {
+            "source": "youtube",
+            "id": "JJKoH0X3d3I",
+            "title": "🚨🚨Fake FRUIT, Chemical Laced ORGANIC Produce",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=JJKoH0X3d3I"
+          },
+          {
+            "source": "youtube",
+            "id": "ammjRX14dVs",
+            "title": "Ex-Muslim Shares 8 Facts (viewer discretion)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=ammjRX14dVs"
+          },
+          {
+            "source": "youtube",
+            "id": "nTf8NZ2_uR4",
+            "title": "Evangelist Shares Faith With AOC in Halls of Congress",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=nTf8NZ2_uR4"
+          },
+          {
+            "source": "youtube",
+            "id": "8fopiBsGZvs",
+            "title": "Einfacher bauen, günstiger wohnen? / Israel wählt / Leise Supermärkte – wem das hilft | \"15 Minuten\"",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=8fopiBsGZvs"
+          },
+          {
+            "source": "youtube",
+            "id": "8sY12fmS7xs",
+            "title": "John Lennox: Apologetics Should Be Persuasive Evangelism",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=8sY12fmS7xs"
+          },
+          {
+            "source": "youtube",
+            "id": "LHcQQhxJtHU",
+            "title": "The Air Inside Your Home Is Poisoning You, And It's Driving The Lung Cancer Spike",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=LHcQQhxJtHU"
+          },
+          {
+            "source": "youtube",
+            "id": "MmW5-T3pzN4",
+            "title": "Famous Surgeon Discovered THIS About Our Brain! | Psycho-Cybernetics",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=MmW5-T3pzN4"
+          },
+          {
+            "source": "youtube",
+            "id": "N0ncPVjFAwg",
+            "title": "Vladimir Solovyov goes ballistic when his guest aligns Russia with Nazi Germany",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=N0ncPVjFAwg"
+          },
+          {
+            "source": "youtube",
+            "id": "O_LSxbfBxzg",
+            "title": "Q&A-06 PREDESTINATION--Is it the Truth?",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=O_LSxbfBxzg"
+          },
+          {
+            "source": "youtube",
+            "id": "uykV4PpFu6Y",
+            "title": "⚡ALERT!  WTF... NOW JAPAN? Global STOCKPILING for WW3, Iran Declares NUCLEAR WAR PREPARATIONS!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uykV4PpFu6Y"
+          },
+          {
+            "source": "youtube",
+            "id": "-LFYkP1xNkI",
+            "title": "The CDU is flipping now: Defectors for Siegmund",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=-LFYkP1xNkI"
+          },
+          {
+            "source": "youtube",
+            "id": "07AVwx82DEg",
+            "title": "Candace Owens is Evil (Here’s Why)",
+            "channel": "THEALPHAPATHYT",
+            "url": "https://www.youtube.com/watch?v=07AVwx82DEg"
+          },
+          {
+            "source": "youtube",
+            "id": "0aECy3OlfHA",
+            "title": "JETZT RÜCKEN ELITESOLDATEN AN! Schüsse bei Paris mit Todesopfer – Europa ESKALIERT erneut!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=0aECy3OlfHA"
+          },
+          {
+            "source": "youtube",
+            "id": "1p_kM32haq4",
+            "title": "Shocking Information About Abraham and the Promised Land",
+            "channel": "offthekirb",
+            "url": "https://www.youtube.com/watch?v=1p_kM32haq4"
+          },
+          {
+            "source": "youtube",
+            "id": "86pBwZv24To",
+            "title": "Explore the Bible – Devotionally (Part III)",
+            "channel": "beholdisrael",
+            "url": "https://www.youtube.com/watch?v=86pBwZv24To"
+          },
+          {
+            "source": "youtube",
+            "id": "9Jbzinb-IIY",
+            "title": "Frauen in der Bundeswehr: Belästigt, gemobbt, missbraucht I 11KM - der tagesschau-Podcast",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=9Jbzinb-IIY"
+          },
+          {
+            "source": "youtube",
+            "id": "CJqaUhCQ388",
+            "title": "THIS Makes The Mark Of The Beast Prophecy Make Sense",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=CJqaUhCQ388"
+          },
+          {
+            "source": "youtube",
+            "id": "8TvyMX33fV0",
+            "title": "BITCOIN HOLDING PERIOD SAVED? 🤔 RESISTANCE from the CDU ECONOMIC COUNCIL & MEETING CANCELED! 🔥",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=8TvyMX33fV0"
+          },
+          {
+            "source": "youtube",
+            "id": "9i02zBWrBmI",
+            "title": "Who Controls the Kill Switch? Starlink's Role in the Ukraine Conflict",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=9i02zBWrBmI"
+          },
+          {
+            "source": "youtube",
+            "id": "Dl_UXVf7E0w",
+            "title": "Svenska kyrkans skräck när ungdomarna läser Bibeln på allvar - Mats Selander",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=Dl_UXVf7E0w"
+          },
+          {
+            "source": "youtube",
+            "id": "FpFH82gYMTg",
+            "title": "Der Dunkle Parabelritter auf Spurensuche in Sachsen-Anhalt: Was macht Heimat aus? | Doku, Teil 1",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=FpFH82gYMTg"
+          },
+          {
+            "source": "youtube",
+            "id": "Jbma0EuU8Ek",
+            "title": "Britain's War Plans Against Russia Just Got a Lot More Serious",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=Jbma0EuU8Ek"
+          },
+          {
+            "source": "youtube",
+            "id": "MlDSqcUQGWw",
+            "title": "Riksronden: Det kommer en vänsterregering att göra",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=MlDSqcUQGWw"
+          },
+          {
+            "source": "youtube",
+            "id": "fhF7fgei4DA",
+            "title": "⚡ALERT! 500 US Military Bases Preparing for 90 DAY GRID DOWN BLACKOUT! WTF DO THEY KNOW?!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=fhF7fgei4DA"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "vlERdwmUe0E",
+            "title": "⚡Rich People Are Preparing for DAY X w/ J Hollerman",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=vlERdwmUe0E"
+          },
+          {
+            "source": "youtube",
+            "id": "4eKUDsesMVQ",
+            "title": "Katerina Janouch: Mohamed Ali (V) kommer undan – för att han inte är svensk",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=4eKUDsesMVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "7EdBnAFCpUs",
+            "title": "A Hidden Gem in Jerusalem! Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=7EdBnAFCpUs"
+          },
+          {
+            "source": "youtube",
+            "id": "83DJOoKa5LQ",
+            "title": "🚨🚨BREAKING: Major Factories IDLED- Watchmen Update",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=83DJOoKa5LQ"
+          },
+          {
+            "source": "youtube",
+            "id": "C8cE65xZix8",
+            "title": "Is the CRYPTO TAX NOT happening after all? 🚨 THIS is the CURRENT STATUS!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=C8cE65xZix8"
+          },
+          {
+            "source": "youtube",
+            "id": "FLbWuBcLsmc",
+            "title": "Exorcist Chad Ripperger SILENCED After Calling Out Demons At The Vatican (Enthronement Of Lucifer)",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=FLbWuBcLsmc"
+          },
+          {
+            "source": "youtube",
+            "id": "LE0_t0O5n8o",
+            "title": "PERSONALITY TRANSPLANTS--Walking in Otherworldly Graces",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=LE0_t0O5n8o"
+          },
+          {
+            "source": "youtube",
+            "id": "LXZee5MUBfk",
+            "title": "heute 7:00 PM from 10/29/2026 Civil Protection Hub, train accident in Spain, Elke Sommer has pass...",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=LXZee5MUBfk"
+          },
+          {
+            "source": "youtube",
+            "id": "9paqLQuu_Nk",
+            "title": "SOMETHING BIG IS COMING. THEY'RE NOT TELLING US...",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=9paqLQuu_Nk"
+          },
+          {
+            "source": "youtube",
+            "id": "BG3MdYYpSV0",
+            "title": "The UNTHINKABLE is About to Happen in America, And No One Is Ready",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=BG3MdYYpSV0"
+          },
+          {
+            "source": "youtube",
+            "id": "zM3DJg3kK9I",
+            "title": "⚡ALERT! US Army DIGGING MASS GRAVES Fatality Drills!! *Not Clickbait* AIR DEFENSE to Mar-a-Lago.!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=zM3DJg3kK9I"
+          },
+          {
+            "source": "youtube",
+            "id": "xrX75VBgUTY",
+            "title": "⚡China and Russias Grids Are EMP/ Nuclear Proof, USA Declares Emergency!",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=xrX75VBgUTY"
+          },
+          {
+            "source": "youtube",
+            "id": "C5lasau_lW4",
+            "title": "I'm Running Out of Time to Do this",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=C5lasau_lW4"
+          },
+          {
+            "source": "youtube",
+            "id": "tbJ_E3DyCrY",
+            "title": "⚡ALERT! Russia EVACUATING Scientists, France Prepares for MARTIAL LAW + NUCLEAR WAR Simulation.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=tbJ_E3DyCrY"
+          },
+          {
+            "source": "youtube",
+            "id": "uykV4PpFu6Y",
+            "title": "⚡ALERT!  WTF... NOW JAPAN? Global STOCKPILING for WW3, Iran Declares NUCLEAR WAR PREPARATIONS!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=uykV4PpFu6Y"
+          },
+          {
+            "source": "youtube",
+            "id": "fhF7fgei4DA",
+            "title": "⚡ALERT! 500 US Military Bases Preparing for 90 DAY GRID DOWN BLACKOUT! WTF DO THEY KNOW?!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=fhF7fgei4DA"
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "weekly",
+        "now_utc_iso": "2026-10-30T11:01:12+00:00"
+      },
+      "workflow_run_id": "41044422971",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:weekly:2026-10-23:2026-10-30:production",
+        "subject": "The Cyberlurch Report — Weekly",
+        "subject_hash": "aec11e60bea54202472fa0203770b1dde7bd37f34201458529bbd8444787f038",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "d8871287cc81068735bb7d408f1382003ac0d8da9ecba7223b5261a91ff11cc7",
+        "finalization_policy": "markers",
+        "content_version": "79cfe1078519b6d27416a18d84cf06dc8828bd0e1c33ea99f8c2e26ab443e414",
+        "message_id": "<ad17f291aca6871571084190cf7048d6273040adbf27e03b123de81fab107cbf@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [],
+        "approved_after_generation_checks": true,
+        "seal": "42ffc06fd2aa4ae067dd2f8a1ba8c321b6fc6dfaa637aef4b48643fcb1793420"
+      }
     }
   },
   "paper_legacy_unknown": {
