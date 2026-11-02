@@ -14580,6 +14580,234 @@
         "approved_after_generation_checks": true,
         "seal": "be79ab54889fcde6e820a83d1a895b8ba03967dbc79564e885cb434c62b5f6c9"
       }
+    },
+    "cybermed:daily:2026-11-02:2026-11-02:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-02",
+      "period_end": "2026-11-02",
+      "edition_id": "cybermed:daily:2026-11-02:2026-11-02:production",
+      "content_version": "938e607ea1f207929521be8d8f256c5c39176b407b63dc73cea83ad282c4613d",
+      "message_id": "<be050fe009701c25ba1f2eca5ef481e4623987c4d9f5e0011385048aecc1d899@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-02T12:55:01+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42946399",
+            "title": "Interpreting the limits of non-human teaching systems from small data sets.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946399/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42946398",
+            "title": "Rise of AI-assisted personal statements and letters of recommendation in pain medicine fellowship applications.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946398/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42956924",
+            "title": "Ventilation Monitoring in Out-of-Hospital Cardiac Arrest Care.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956924/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951282",
+            "title": "Impact of a large measles outbreak associated with transmission in the Americas and Canada's loss of measles elimination status: descriptive cohort study.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951282/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42945984",
+            "title": "Super El Niño threatens a public health emergency in Africa.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42945984/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42902802",
+            "title": "Serial Mass Tuberculosis Screening Among the Elderly in Eastern China from 2021-2023.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42902802/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42906612",
+            "title": "Optimum timing of cerebral computed tomography angiography for determination of death using neurological criteria: a retrospective sensitivity cohort study.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906612/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/a-re-examination-of-the-bridge-to-nowhere/",
+            "title": "A Re-Examination of the Bridge to Nowhere",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/a-re-examination-of-the-bridge-to-nowhere/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/trust-ai-medical-education/",
+            "title": "Who do you trust? Teaching in the age of AI",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/trust-ai-medical-education/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://theresusroom.libsyn.com/november-2026-papers-of-the-month",
+            "title": "November 2026; papers of the month",
+            "channel": "The Resus Room",
+            "url": "https://theresusroom.libsyn.com/november-2026-papers-of-the-month"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/journal-feed-weekly-wrap-up-193/",
+            "title": "Journal Feed Weekly Wrap-Up",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/journal-feed-weekly-wrap-up-193/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/policy-playbook-improving-health-literacy-and-health-education-in-the-ed/",
+            "title": "Policy Playbook: Improving Health Literacy and Health Education in the ED",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/policy-playbook-improving-health-literacy-and-health-education-in-the-ed/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42956924",
+            "title": "Ventilation Monitoring in Out-of-Hospital Cardiac Arrest Care.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956924/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42956924",
+              "doi": "10.1016/j.resuscitation.2026.111372",
+              "kind": "original",
+              "source_version": "3121b562ef2a1eabfad30b816ef1a063692cc90c4674ee6b8298396bb387d303",
+              "fields": {
+                "title": "95f42aed37c7eb81d6683d3a359ac53732853e91c3e2666ae4896832e6b5c63b",
+                "abstract": "cc3804731c1b1bc3ec95cd458fb0403091b50c49a10335862a7734fde9fa3bd2",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "201feefbea685fde4a3959f1bdd4cded4b7798ead6c9d82caf193a018562f78f",
+                "results_known": true,
+                "numbers": "c0cfbe23528a822041e7307694f373d936e9780630370f1aebc3dbe3e7cfa335",
+                "endpoint": "48e3260fcf9a050bc8481dd6eeed58fd709b5758d0a07db8a053ee62fee8a110",
+                "methods": "5907e45ec6432c216c079c844622f42d8e2912f547cce18c536b128f8f744905",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42906612",
+            "title": "Optimum timing of cerebral computed tomography angiography for determination of death using neurological criteria: a retrospective sensitivity cohort study.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42906612/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42906612",
+              "doi": "10.1111/anae.70438",
+              "kind": "original",
+              "source_version": "092d5563a2b2071ff706880e78c7272676d00d01d782feb021b076c3a0cdc631",
+              "fields": {
+                "title": "63add13d9a23571946bb45108cf6de60f3793a8fcd61f323c10a1fba44f61ea5",
+                "abstract": "74ca7c9279939cda539fb42b3d144ade002ab6246e6ee52952706651885d8373",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "1de55171aab7d18088517f23418bdd9981e2137c54f02b343ce585cf887e3a07",
+                "results_known": false,
+                "numbers": "7602cad0a404a333685b511f0a99a351575f870d83f2acb83d6b0acd514ce14c",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "41ec017b987ec558b9343f1d1603ac25cdf266b5dab2d1ca98a98e2e4b610483",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://theresusroom.libsyn.com/november-2026-papers-of-the-month",
+            "title": "November 2026; papers of the month",
+            "channel": "The Resus Room",
+            "url": "https://theresusroom.libsyn.com/november-2026-papers-of-the-month"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/journal-feed-weekly-wrap-up-193/",
+            "title": "Journal Feed Weekly Wrap-Up",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/journal-feed-weekly-wrap-up-193/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/a-re-examination-of-the-bridge-to-nowhere/",
+            "title": "A Re-Examination of the Bridge to Nowhere",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/a-re-examination-of-the-bridge-to-nowhere/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/policy-playbook-improving-health-literacy-and-health-education-in-the-ed/",
+            "title": "Policy Playbook: Improving Health Literacy and Health Education in the ED",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/policy-playbook-improving-health-literacy-and-health-education-in-the-ed/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-02T12:54:57+00:00"
+      },
+      "workflow_run_id": "41448247147",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-02:2026-11-02:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "7e307ef5658cdb211d981b74ee0e0cb05e8684fb94011ebe8a95fa43a54b58fb",
+        "finalization_policy": "markers",
+        "content_version": "938e607ea1f207929521be8d8f256c5c39176b407b63dc73cea83ad282c4613d",
+        "message_id": "<be050fe009701c25ba1f2eca5ef481e4623987c4d9f5e0011385048aecc1d899@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "fda6f8f5a8252c5e_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "8c171fb26bc256a86fb90270ff98f77f560ee3ed22622134ebdf48e285954d0b"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "be79f39ba817499c327e50636c7464003ee73c10ad41f6fd854dbbe4d7ea2784"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -15268,6 +15496,7 @@
         "42898077",
         "42900675",
         "42900697",
+        "42901145",
         "42901366",
         "42901370",
         "42901371",
@@ -15282,6 +15511,9 @@
         "42904906",
         "42904937",
         "42904944",
+        "42906746",
+        "42906747",
+        "42906748",
         "42918318",
         "42919415",
         "42919448",
@@ -15291,7 +15523,13 @@
         "42928302",
         "42929692",
         "42931902",
-        "42951064"
+        "42933845",
+        "42934779",
+        "42950975",
+        "42951064",
+        "42955323",
+        "42956923",
+        "42956925"
       ]
     }
   }
