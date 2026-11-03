@@ -15048,6 +15048,1085 @@
         "approved_after_generation_checks": true,
         "seal": "4b7403a482aef6d480489f38be5b821ffc3d43f5ea297781d741a224dc54564a"
       }
+    },
+    "cybermed:daily:2026-11-03:2026-11-03:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-03",
+      "period_end": "2026-11-03",
+      "edition_id": "cybermed:daily:2026-11-03:2026-11-03:production",
+      "content_version": "48860a4b3faa6126167fd13d1f410f99c9db10524af75f8e960eeb4176623fba",
+      "message_id": "<297140afe7f8f4df8c5b511e11c63ca6dc3836c92f72a3d4d2d7767fb761e4f1@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-03T12:23:53+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42968690",
+            "title": "Clarification on the interpretation of opioid-free peri-operative care and the role of transcutaneous electrical nerve stimulation.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968690/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968689",
+            "title": "Reply to: trust without verification: generation Z, generative AI, and the calibration paradox in medical education.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968689/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968688",
+            "title": "Reply to: clinical significance of catheter design during dural puncture epidural labour analgesia.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968688/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968687",
+            "title": "Reply to: multisensory virtual reality reduces postoperative delirium in elderly patients undergoing laparoscopic gastrointestinal surgery: Interpreting a multicomponent intervention.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968687/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968686",
+            "title": "Prophylactic esketamine to reduce postpartum depression in primiparous women: A multicentre, double-blind, randomised clinical trial.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968686/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968685",
+            "title": "Remifentanil patient-controlled analgesia in labour across body mass index categories: Real-world respiratory outcome data relevant to the new Obstetric Anaesthetists' Association guidance.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968685/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968684",
+            "title": "Avoiding overgeneralisation: A critical reappraisal of transversus abdominis plane block versus wound infiltration in children.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968684/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968683",
+            "title": "Reply to: catheter design in dural puncture epidural analgesia: clinical association or mechanistic evidence?",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968683/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968682",
+            "title": "Mechanistic ambiguity in the hyperangulated videolaryngoscope blade study: is operator inexperience a confounding factor for vagally mediated sinus pause?",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968682/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968681",
+            "title": "Reply to: balancing vascular complications and monitoring fidelity in paediatric arterial catheterisation.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968681/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968680",
+            "title": "Balancing vascular complications and monitoring fidelity in paediatric arterial catheterisation.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968680/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968679",
+            "title": "Pain management after hallux valgus repair surgery: an updated systematic review and procedure-specific postoperative pain management (PROSPECT) recommendations.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968679/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968678",
+            "title": "Novel method to estimate intra-operative oxygen consumption (VO2) in closed circuit general anaesthesia.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968678/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968677",
+            "title": "The effect of intravenous ondansetron on maternal spinal-induced hypotension in preeclamptic patients undergoing caesarean delivery: a randomised, controlled clinical trial.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968677/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968676",
+            "title": "Operating room extubation is a systems intervention: lessons from CARDU-FAST.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968676/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968675",
+            "title": "Statistical power and endpoint definition in the CARDU-FAST trial.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968675/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968674",
+            "title": "Extubation timing or anaesthetic bundle?: Methodological reflections on the CARDU-FAST trial.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968674/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968673",
+            "title": "Ultra-fast-track extubation after cardiac surgery: Beyond respiratory outcomes and protocol adherence.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968673/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968672",
+            "title": "Safety-focused interpretation of domain-specific language models in peri-operative antithrombotic management.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968672/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968671",
+            "title": "Beyond completeness: The case for safety-focused evaluation of large language models in peri-operative antithrombotic management.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968671/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968670",
+            "title": "Self-perception of ageing and postoperative functional decline in older adults undergoing colorectal cancer surgery: A prospective observational study.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968670/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968669",
+            "title": "Frailty trajectories in the peri-operative period: From static risk marker to dynamic target.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968669/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968668",
+            "title": "Hospital exposome and physiological resilience: Toward a new framework for understanding outcomes in peri-operative and critical care medicine.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968668/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970135",
+            "title": "When being wrong moves intensive care forward.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970135/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970134",
+            "title": "Defining ARDS: globalization and personalization to better serve the world-part 2.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970134/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970133",
+            "title": "Individualized treatment effects of high flow nasal oxygen in immunocompromised patients.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970133/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970132",
+            "title": "Defining ARDS: Globalization and personalization to better serve the World - Part 1.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970132/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970131",
+            "title": "The right drug in the wrong biological state? Alkaline phosphatase and cardiac surgery-associated acute kidney injury.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970131/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970130",
+            "title": "Is a noradrenaline dose threshold already too late for adjunctive vasopressin initiation? Author's reply.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970130/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970129",
+            "title": "Addressing spiritual, religious, and existential distress in post-intensive care syndrome: practical tools across the ICU survivorship care continuum.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970129/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970128",
+            "title": "Updating the foundations of point-of-care lung ultrasound-a long-awaited but only partially fulfilled need?",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970128/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970127",
+            "title": "Is a norepinephrine dose threshold already too late for adjunctive vasopressin initiation?",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970127/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970126",
+            "title": "Establishing curriculum priorities for intensive care recovery education: an international Delphi study.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970126/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970125",
+            "title": "Guiding therapy in the ICU: the emerging role of biomarkers and companion diagnostics.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970125/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970124",
+            "title": "Sodium bicarbonate therapy for metabolic acidosis in critically ill patients: a Bayesian systematic review and meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970124/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42972481",
+            "title": "Can full-stay lactate burden predict ICU mortality? The importance of a defined prediction time.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972481/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42972451",
+            "title": "Reply to the comment by Kuzukıran Kocataş on \"Can full-stay lactate burden predict ICU mortality? The importance of a defined prediction time\".",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972451/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42972430",
+            "title": "Differentiated effect of hypothermia versus normothermia after cardiac arrest by neurological status and clinical correlates of ischemic burden.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972430/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42972116",
+            "title": "Chinese PhD students in clinical medicine can graduate without a thesis - more degrees to follow.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972116/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969616",
+            "title": "Advances in research on combination therapy for the management of pain.",
+            "channel": "PubMed: Pain",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969616/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969615",
+            "title": "Spontaneous neuropathic pain.",
+            "channel": "PubMed: Pain",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969615/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969614",
+            "title": "Prediction and prevention of pain after surgery.",
+            "channel": "PubMed: Pain",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969614/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969612",
+            "title": "Trustworthiness in pain research is essential. Developing and implementing the ENTRUST-PE framework.",
+            "channel": "PubMed: Pain",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969612/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970306",
+            "title": "Life course trajectories of musculoskeletal pain.",
+            "channel": "PubMed: Pain",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970306/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42957169",
+            "title": "Reporting of commercial involvement and the direction of stated conclusions in the neuromodulation-for-pain literature: a meta-research study of 896 publications.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42957169/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42957168",
+            "title": "Five-in-two (FIT) ankle block and earlier ultrasound-guided boot block.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42957168/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42957167",
+            "title": "Five-in-two ankle block and the earlier ultrasound-guided boot block.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42957167/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42957166",
+            "title": "Distinguishing uncertainty from ineffectiveness in peripheral nerve corticosteroid recommendations.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42957166/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963051",
+            "title": "Climate change: Experts call on WHO to formally declare global health emergency.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963051/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42956771",
+            "title": "Prone positioning and high-frequency oscillatory ventilation in early paediatric acute respiratory distress syndrome (PROSpect): an international, two-by-two factorial, response-adaptive, phase 3, randomised controlled trial.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956771/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42956796",
+            "title": "Performance of 0/1 h versus 0/3 h pathways in patients with suspected myocardial infarction: a systematic review and individual participant data meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956796/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42956795",
+            "title": "Faster troponin, same time in the emergency department: what is next for acute coronary syndrome assessment?",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956795/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42933455",
+            "title": "Efzofitimod versus placebo in patients with pulmonary sarcoidosis (EFZO-FIT): a multicentre, randomised, double-blind, placebo-controlled, phase 3 trial.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42933455/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42933454",
+            "title": "Corticosteroid reduction and the endpoint challenge in sarcoidosis: striving for the lowest dose of uncertainty.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42933454/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42927944",
+            "title": "Acute Profound Hypotension Following Intraoperative Plasma Transfusion-A Case Series.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42927944/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42927910",
+            "title": "Swedish Consensus Recommendation for Follow-Up After ICU Stay.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42927910/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42921747",
+            "title": "Emergency granulopoiesis is associated with intermittent hypoxemia in idiopathic pulmonary fibrosis.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42921747/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42924421",
+            "title": "GDF-15 as an early marker for prognosis in patients with out-of-hospital cardiac arrest - Experience from the HAnnover COoling REgistry.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42924421/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42924343",
+            "title": "Association between baseline mean perfusion pressure and mortality in ARDS may depend on age.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42924343/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919368",
+            "title": "Repeated intra-operative heparin dosing for cardiopulmonary bypass and the PRODOSE algorithm.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919368/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42919113",
+            "title": "Salmon calcitonin prescribing for acute phantom limb pain after amputation.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42919113/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42918731",
+            "title": "Discharge anaemia after cardiac surgery: timing, operative risk and clinical actionability - a reply.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42918731/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42918723",
+            "title": "Interpreting bispectral index during remimazolam and propofol anaesthesia.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42918723/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42910655",
+            "title": "Pain management after total shoulder arthroplasty: a systematic review and procedure-specific postoperative pain management (PROSPECT) recommendations.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42910655/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/are-we-hypersensitive-about-iv-contrast-reactions/",
+            "title": "Are We Hypersensitive about IV Contrast Reactions? - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/are-we-hypersensitive-about-iv-contrast-reactions/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovEE_GcnDTZqZCVCAQLB0bf5",
+            "title": "Episode 230: Drug Reaction with Eosinophilia and Systemic Symptoms (DRESS)",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovEE_GcnDTZqZCVCAQLB0bf5"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42927910",
+            "title": "Swedish Consensus Recommendation for Follow-Up After ICU Stay.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42927910/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42927910",
+              "doi": "10.1111/aas.70361",
+              "kind": "original",
+              "source_version": "0e33dac903137188ad6907d70071920f74ad5100cc8db4a4c44502e8bf5143de",
+              "fields": {
+                "title": "3f493a487ea45a0382b3e779dd9429c2090e3642d1bf2c584dcf1169c920152a",
+                "abstract": "a68304e49741ec846a87f014f668e308ff0ac22452273ad1bccc6b7208c14596",
+                "types": "c11e1b59d7bd5fbcca5fe41c4ea952b1231f2a919b7aaf4836d7c226b45c2eb1",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0a9df28d1e2c2a8cc9513de5f1b0f59b7f1d0b8589340f3c0c1e1626a755f6b7",
+                "results_known": false,
+                "numbers": "ae5ecbca8c3626186c6bbbf66b49f436b05febee0cb0ed3e84e8c965adf9067b",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "cd06f48d62e2e5ef7c571312dca8797ac74a30cef62426c852c1e42e8cccda7f",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42927944",
+            "title": "Acute Profound Hypotension Following Intraoperative Plasma Transfusion-A Case Series.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42927944/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42927944",
+              "doi": "10.1111/aas.70365",
+              "kind": "original",
+              "source_version": "1ff447177942ab3f97bced61b28e7392123a289314ba68093015d22cb37a38c1",
+              "fields": {
+                "title": "f8091f2bc03178a62d86ca948f0bd6fa7691cba84eb0fc298c4096dba78cdce7",
+                "abstract": "c08f4307ebb74b90c04a51944848de44eeac5995d678ae437e3188910cfee0e5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "d3f6bde4519c3164c2234fa2f57b02ff57d482e37c52418e1111e6ea6e222960",
+                "results_known": false,
+                "numbers": "de8206b527b10aa464e0230cf8aa421b40ce73c7b8c6427439409ac56418826d",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "fae7721bccc55f718b5de0ebc3704372e208e1747ca1fd1b2f2970bcd684b521",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42968679",
+            "title": "Pain management after hallux valgus repair surgery: an updated systematic review and procedure-specific postoperative pain management (PROSPECT) recommendations.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968679/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42968679",
+              "doi": "10.1097/eja.0000000000002509",
+              "kind": "original",
+              "source_version": "73eb165c59e9054de2d63e1f9018f093c2bc5b3ac85d42ccacbf1f8ea57c6f3b",
+              "fields": {
+                "title": "4d33db2f82ec5df7cb56cf84ba570ad4e75ee2aad12b9a6a9ee8c0ad5910793f",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42970124",
+            "title": "Sodium bicarbonate therapy for metabolic acidosis in critically ill patients: a Bayesian systematic review and meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970124/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42970124",
+              "doi": "10.1007/s00134-026-08602-3",
+              "kind": "original",
+              "source_version": "7b781b8429cc068e00fedec09cc3a569dafd34113236747c2bbbf1170e149d31",
+              "fields": {
+                "title": "bd3558f3bf32302647fa54dd279223c9cf6a82a17c76cec48d3d5fc4a2d63b0d",
+                "abstract": "751ed8468659dbcfc595e187b92342a8d2e76c6c74bde28c2e3a63a17d45cbe3",
+                "types": "1b9c55d824ca75aeccfbcb407c650fdf0374532f323653f3d413cf1adaec7d6a",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "83a5cceb43ee28e210c4360744d8f7aeb382cbd9afbdada0980fe1e453f7392e",
+                "results_known": true,
+                "numbers": "bb5951486960f22531dbea5927db7322c709f9a886bf24dd587e6b3f2ec269fd",
+                "endpoint": "3f78744a2602b2c226116f8f3fc61de436307716c2f2f68cb9b6105b2fb6838f",
+                "methods": "3e8d935b882f21d8298032489d2839cb116809ee525ad9126ee11f98c5050e37",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42972430",
+            "title": "Differentiated effect of hypothermia versus normothermia after cardiac arrest by neurological status and clinical correlates of ischemic burden.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972430/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42972430",
+              "doi": "10.1186/s13054-026-06414-x",
+              "kind": "original",
+              "source_version": "f7c69047152fc8fd956f2fdb050f03a30d4d66775e394c28dc7701b367797b44",
+              "fields": {
+                "title": "8c5e77b824d6bb1a86c2e575b461d251e043e8d80cc52ced876e982344ab498e",
+                "abstract": "308232e531e994373f9b310b87050375228064e5c03a76b6ae73867e78b566c0",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e9a2af7814bbf20365972660f493d0011284b1506b2c861879185c213d981000",
+                "results_known": true,
+                "numbers": "cc6324217d4f0224eb12403f5bc0beb51ed8cfd4680372cab099f176a9f09028",
+                "endpoint": "4b4e6701d9b66ed32e4c0e17d8554d8f3c03eb2653084875bdbd796c79bf7e2d",
+                "methods": "bd89ae7b69b0bfd3ae36c5ac0dd1f674a5f4a2e951d06d40a5098abf1e32206f",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42970133",
+            "title": "Individualized treatment effects of high flow nasal oxygen in immunocompromised patients.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970133/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42970133",
+              "doi": "10.1007/s00134-026-08635-8",
+              "kind": "original",
+              "source_version": "f1a76d470137a62fc525633a89cd0529a39daa1bb855e7d1562899c2bd0097d5",
+              "fields": {
+                "title": "0046dc1acce1988d03d2462d45ed216b0e25ef98158d59893f96c921722b37e5",
+                "abstract": "b6faaddd9ad84c23f43efcb7e29b5672a088db5e992d03317d2aec8e144fa441",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9484c946fd958422465bdcf6edb02c0c4703c784f3de25f5933835d9dc484714",
+                "results_known": false,
+                "numbers": "adaf4f3e7824a0bdd59dcfb4bc40390dde8109aabd3f30cc7bb941df405236a5",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "8563e2f2d9795631e487ff82cfdafba4a29595a6ef897c0edcb1599e456aff41",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42969615",
+            "title": "Spontaneous neuropathic pain.",
+            "channel": "PubMed: Pain",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969615/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42969615",
+              "doi": "10.1097/j.pain.0000000000004054",
+              "kind": "original",
+              "source_version": "75643125db0cca2a071c7bf0032600b5959bab79a50d2360e71135c7725af5e1",
+              "fields": {
+                "title": "c7f52fc428732615b77ee9e2f97d47e256436a46422a12786c305af79645c43c",
+                "abstract": "9c486ecc8efc72d635cd4710e3f9c30e3d372079fe689f0da285d44452ee6fd3",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42969616",
+            "title": "Advances in research on combination therapy for the management of pain.",
+            "channel": "PubMed: Pain",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969616/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42969616",
+              "doi": "10.1097/j.pain.0000000000004046",
+              "kind": "original",
+              "source_version": "e31f4a636549f16344110424127ed688db64ef5e6880452849c14d0181b02b1c",
+              "fields": {
+                "title": "d9adeb7ae5c4850cbf997ae5a039181029ba54a2c8b4a6afb5f1d27ae4adc6f8",
+                "abstract": "a7101a17797db705cc812b1518e778a674a88d83c9ab85f63b37bd76e7f5136b",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42956771",
+            "title": "Prone positioning and high-frequency oscillatory ventilation in early paediatric acute respiratory distress syndrome (PROSpect): an international, two-by-two factorial, response-adaptive, phase 3, randomised controlled trial.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956771/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42956771",
+              "doi": "10.1016/s0140-6736(26)01949-5",
+              "kind": "original",
+              "source_version": "b0d2f0f2128896a5fb034539d7fbd8dff1c91bf41e4b3fff78b0fc4c7f51363c",
+              "fields": {
+                "title": "b01178ee95076ef3246cf6c709d81e2afd2eb0ebd417d57690056cc5e3fafbb4",
+                "abstract": "b9608ec6b6042e81f6cb1e5e60d6fa08f40add676d6f0d7016abc0e1f3ad0cf5",
+                "types": "d11fe13ff14551206957b5b95fc7b7496dea75ab559d2b2732fb85faeeb59ca1",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "5ba40cf8d55def260d40043af814712942b8080d2be2743583df17cfc454211e",
+                "results_known": false,
+                "numbers": "678a3fed17e3769522c549ee2f30f95ccb528503a1760cdd98c735fdf8a68135",
+                "endpoint": "ec10557872816e8d5bb34a4eb438a839c1f5018cf1b0ea76b5f306770dc5d22d",
+                "methods": "26969e47bf8d5ebea2a619c61a568003d95c27bdce988d0a162ca7695d124f98",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42956796",
+            "title": "Performance of 0/1 h versus 0/3 h pathways in patients with suspected myocardial infarction: a systematic review and individual participant data meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956796/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42956796",
+              "doi": "10.1016/s0140-6736(26)01767-8",
+              "kind": "original",
+              "source_version": "c09a0052ef1c3378cd38f6664931cfcd114aadd2dc4608607867d2b9a6460b3a",
+              "fields": {
+                "title": "1f746d0093e0343307c56ab71dba7ff3c634649d577b7fa1cc86e7747ac7ba12",
+                "abstract": "bc60ffd90af22ed16d159fc3bda6faa72bd7cad554037e448fa4aba1f3c0a400",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "67e71ffd0020d856a005b4b020adcfaeb2c196f4e95fe04ea57967d1cf71c089",
+                "results_known": false,
+                "numbers": "98fde0a403b589c08522f8ab34a8a874229a5ff80c8ca11c2175f1f5a232ad55",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "73965b9f9d8b2287b1571025df178d3c0cadbfbe89cf83025e6a8a3ad3b6a1be",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42933455",
+            "title": "Efzofitimod versus placebo in patients with pulmonary sarcoidosis (EFZO-FIT): a multicentre, randomised, double-blind, placebo-controlled, phase 3 trial.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42933455/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42933455",
+              "doi": "10.1016/s2213-2600(26)00283-3",
+              "kind": "original",
+              "source_version": "c5c1649611f9d58d41822a7285454cc5be14c9bb98aaffea5ac686ab24fc2074",
+              "fields": {
+                "title": "e9f5a5f79ae92e5a18857d28abe60836fd407f7544ec6e06613f7c629b6e024a",
+                "abstract": "2b1b4444f6fd29be81d4a38399a245927761762b681ce644d28f165b72d66313",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0896e0141bcfa9d9c57f36e9032a216b9037ee55071d227d48df4fed11754195",
+                "results_known": true,
+                "numbers": "d16230751826936c503bf59c7b5213b6072d43f677f012f4b78dd6ccab6f1e2b",
+                "endpoint": "f4aa338497ff3831699b833eb6cfcd9258275e227d8b4acce75d90fc2c03c617",
+                "methods": "1290eb91f07be7fc0d829ea60c671434dba025900f68a1dea789e7b1fba30225",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42924421",
+            "title": "GDF-15 as an early marker for prognosis in patients with out-of-hospital cardiac arrest - Experience from the HAnnover COoling REgistry.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42924421/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42924421",
+              "doi": "10.1093/ajrccm/aamag566",
+              "kind": "original",
+              "source_version": "ed06af00c134bf9783ae42238dce30243d6c112ceb9f570348084feb0fe51ef5",
+              "fields": {
+                "title": "b1147b0f0893fa951a6ac18e67d2e0d5f818d214ba371a3db983873ac9267ffd",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42910655",
+            "title": "Pain management after total shoulder arthroplasty: a systematic review and procedure-specific postoperative pain management (PROSPECT) recommendations.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42910655/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42910655",
+              "doi": "10.1111/anae.70427",
+              "kind": "original",
+              "source_version": "f8f82c85937c2baf9544e7da31f77411752bebfeaf2617615f9b50fc7a5d92b3",
+              "fields": {
+                "title": "cc0c23c30a7907db027509bd13b036e39d3eecfb538a84316c340b1526366297",
+                "abstract": "8ac1d62ff9eb2dcce3d32524f7afbe79bfac11e2903e5d5f5c21ce4c41ee11cc",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "707400768c271c06357d9ede41073ebd40b6afd3f1f648f8309c281307cd2f75",
+                "results_known": false,
+                "numbers": "30ee8e2f98c84bd58e435db29f87715e71c71110eaaa60df4ed088acea9e8e1c",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "09afb195c2ea59b83f7e0afe4da3acd0d7b3a8b7513a653fede6cdd6bfd81a2d",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42968670",
+            "title": "Self-perception of ageing and postoperative functional decline in older adults undergoing colorectal cancer surgery: A prospective observational study.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968670/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42968670",
+              "doi": "10.1097/eja.0000000000002503",
+              "kind": "original",
+              "source_version": "5bc2b0da82069ed52fe29789864a8cb32624d3a42c0a2423193b5b1d7a06e2f0",
+              "fields": {
+                "title": "028e49b8ec271ba7bfa4f993ebbe04e0001c5c3c213722ceaba0c1111ec80623",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42956771",
+            "title": "Prone positioning and high-frequency oscillatory ventilation in early paediatric acute respiratory distress syndrome (PROSpect): an international, two-by-two factorial, response-adaptive, phase 3, randomised controlled trial.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956771/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42956771",
+              "doi": "10.1016/s0140-6736(26)01949-5",
+              "kind": "original",
+              "source_version": "b0d2f0f2128896a5fb034539d7fbd8dff1c91bf41e4b3fff78b0fc4c7f51363c",
+              "fields": {
+                "title": "b01178ee95076ef3246cf6c709d81e2afd2eb0ebd417d57690056cc5e3fafbb4",
+                "abstract": "b9608ec6b6042e81f6cb1e5e60d6fa08f40add676d6f0d7016abc0e1f3ad0cf5",
+                "types": "d11fe13ff14551206957b5b95fc7b7496dea75ab559d2b2732fb85faeeb59ca1",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "5ba40cf8d55def260d40043af814712942b8080d2be2743583df17cfc454211e",
+                "results_known": false,
+                "numbers": "678a3fed17e3769522c549ee2f30f95ccb528503a1760cdd98c735fdf8a68135",
+                "endpoint": "ec10557872816e8d5bb34a4eb438a839c1f5018cf1b0ea76b5f306770dc5d22d",
+                "methods": "26969e47bf8d5ebea2a619c61a568003d95c27bdce988d0a162ca7695d124f98",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42970124",
+            "title": "Sodium bicarbonate therapy for metabolic acidosis in critically ill patients: a Bayesian systematic review and meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970124/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42970124",
+              "doi": "10.1007/s00134-026-08602-3",
+              "kind": "original",
+              "source_version": "7b781b8429cc068e00fedec09cc3a569dafd34113236747c2bbbf1170e149d31",
+              "fields": {
+                "title": "bd3558f3bf32302647fa54dd279223c9cf6a82a17c76cec48d3d5fc4a2d63b0d",
+                "abstract": "751ed8468659dbcfc595e187b92342a8d2e76c6c74bde28c2e3a63a17d45cbe3",
+                "types": "1b9c55d824ca75aeccfbcb407c650fdf0374532f323653f3d413cf1adaec7d6a",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "83a5cceb43ee28e210c4360744d8f7aeb382cbd9afbdada0980fe1e453f7392e",
+                "results_known": true,
+                "numbers": "bb5951486960f22531dbea5927db7322c709f9a886bf24dd587e6b3f2ec269fd",
+                "endpoint": "3f78744a2602b2c226116f8f3fc61de436307716c2f2f68cb9b6105b2fb6838f",
+                "methods": "3e8d935b882f21d8298032489d2839cb116809ee525ad9126ee11f98c5050e37",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42970133",
+            "title": "Individualized treatment effects of high flow nasal oxygen in immunocompromised patients.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970133/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42970133",
+              "doi": "10.1007/s00134-026-08635-8",
+              "kind": "original",
+              "source_version": "f1a76d470137a62fc525633a89cd0529a39daa1bb855e7d1562899c2bd0097d5",
+              "fields": {
+                "title": "0046dc1acce1988d03d2462d45ed216b0e25ef98158d59893f96c921722b37e5",
+                "abstract": "b6faaddd9ad84c23f43efcb7e29b5672a088db5e992d03317d2aec8e144fa441",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9484c946fd958422465bdcf6edb02c0c4703c784f3de25f5933835d9dc484714",
+                "results_known": false,
+                "numbers": "adaf4f3e7824a0bdd59dcfb4bc40390dde8109aabd3f30cc7bb941df405236a5",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "8563e2f2d9795631e487ff82cfdafba4a29595a6ef897c0edcb1599e456aff41",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42972430",
+            "title": "Differentiated effect of hypothermia versus normothermia after cardiac arrest by neurological status and clinical correlates of ischemic burden.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972430/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42972430",
+              "doi": "10.1186/s13054-026-06414-x",
+              "kind": "original",
+              "source_version": "f7c69047152fc8fd956f2fdb050f03a30d4d66775e394c28dc7701b367797b44",
+              "fields": {
+                "title": "8c5e77b824d6bb1a86c2e575b461d251e043e8d80cc52ced876e982344ab498e",
+                "abstract": "308232e531e994373f9b310b87050375228064e5c03a76b6ae73867e78b566c0",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e9a2af7814bbf20365972660f493d0011284b1506b2c861879185c213d981000",
+                "results_known": true,
+                "numbers": "cc6324217d4f0224eb12403f5bc0beb51ed8cfd4680372cab099f176a9f09028",
+                "endpoint": "4b4e6701d9b66ed32e4c0e17d8554d8f3c03eb2653084875bdbd796c79bf7e2d",
+                "methods": "bd89ae7b69b0bfd3ae36c5ac0dd1f674a5f4a2e951d06d40a5098abf1e32206f",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42956796",
+            "title": "Performance of 0/1 h versus 0/3 h pathways in patients with suspected myocardial infarction: a systematic review and individual participant data meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956796/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42956796",
+              "doi": "10.1016/s0140-6736(26)01767-8",
+              "kind": "original",
+              "source_version": "c09a0052ef1c3378cd38f6664931cfcd114aadd2dc4608607867d2b9a6460b3a",
+              "fields": {
+                "title": "1f746d0093e0343307c56ab71dba7ff3c634649d577b7fa1cc86e7747ac7ba12",
+                "abstract": "bc60ffd90af22ed16d159fc3bda6faa72bd7cad554037e448fa4aba1f3c0a400",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "67e71ffd0020d856a005b4b020adcfaeb2c196f4e95fe04ea57967d1cf71c089",
+                "results_known": false,
+                "numbers": "98fde0a403b589c08522f8ab34a8a874229a5ff80c8ca11c2175f1f5a232ad55",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "73965b9f9d8b2287b1571025df178d3c0cadbfbe89cf83025e6a8a3ad3b6a1be",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/are-we-hypersensitive-about-iv-contrast-reactions/",
+            "title": "Are We Hypersensitive about IV Contrast Reactions? - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/are-we-hypersensitive-about-iv-contrast-reactions/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-03T12:23:48+00:00"
+      },
+      "workflow_run_id": "41635027670",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-03:2026-11-03:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "e525fc495ba1b9f405afe26c819768cff611c61cb938ba2cad0b1f5d378ed091",
+        "finalization_policy": "markers",
+        "content_version": "48860a4b3faa6126167fd13d1f410f99c9db10524af75f8e960eeb4176623fba",
+        "message_id": "<297140afe7f8f4df8c5b511e11c63ca6dc3836c92f72a3d4d2d7767fb761e4f1@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "7f90d7d3efb6589b_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "a96870d570705fa754da2086b6835bd7184b758abe3d23d2870877b01f21e4d1"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "e19ec86f3fa6f8ea7d508bc837cd92ce872f643acf36843bd79dc7142eae1645"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -15751,6 +16830,7 @@
         "42904906",
         "42904937",
         "42904944",
+        "42906612",
         "42906746",
         "42906747",
         "42906748",
@@ -15769,6 +16849,7 @@
         "42951064",
         "42955323",
         "42956923",
+        "42956924",
         "42956925"
       ]
     }
