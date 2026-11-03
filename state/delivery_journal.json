@@ -14808,6 +14808,246 @@
         "approved_after_generation_checks": true,
         "seal": "be79f39ba817499c327e50636c7464003ee73c10ad41f6fd854dbbe4d7ea2784"
       }
+    },
+    "cyberlurch:daily:2026-11-03:2026-11-03:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-03",
+      "period_end": "2026-11-03",
+      "edition_id": "cyberlurch:daily:2026-11-03:2026-11-03:production",
+      "content_version": "f617567d0e1c7a3521635653da0d63d7fda484bfc8bdda0ba808bc47e97fc4f1",
+      "message_id": "<16126e24a459abde4b327e3e73025ba59faf9c915fc360f1b3ab2cf18ea1d5b3@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-03T12:10:39+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "sz3PYXFtFCo",
+            "title": "No One Is Talking About This. A.I. Experts REVEAL",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=sz3PYXFtFCo"
+          },
+          {
+            "source": "youtube",
+            "id": "-ytugoN3MKA",
+            "title": "🚨🚨ALERT: Trump Orders Drop Boxes GUARDED- Watchmen Updates",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=-ytugoN3MKA"
+          },
+          {
+            "source": "youtube",
+            "id": "0gG_CY2xJz8",
+            "title": "LIGHTNING and SELF-CUSTODY - Markus Vorsmann (BitBox) | Blocktrainer Event 2026",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=0gG_CY2xJz8"
+          },
+          {
+            "source": "youtube",
+            "id": "6qWrZWqjcaQ",
+            "title": "Hijabs, Turbans and Kippahs BANNED in Quebec Schools?",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=6qWrZWqjcaQ"
+          },
+          {
+            "source": "youtube",
+            "id": "9EGpVUQ2080",
+            "title": "HEAVEN'S VIEW OF EARTH",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=9EGpVUQ2080"
+          },
+          {
+            "source": "youtube",
+            "id": "IJEPaPdrlm4",
+            "title": "MOMA-Reporter: Wie Frauen sicher durch die Nacht kommen | ARD Morgenmagazin",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=IJEPaPdrlm4"
+          },
+          {
+            "source": "youtube",
+            "id": "Nefis2URtJA",
+            "title": "Efter SD:s utspel – nu granskas de nationalistiska profilerna: \"Nu måste de välja sida\"",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=Nefis2URtJA"
+          },
+          {
+            "source": "youtube",
+            "id": "R6-g38n2oZI",
+            "title": "THE SPIRIT OF THE AGE: ALL WILL CRUMBLE BECAUSE WE GRUMBLE",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=R6-g38n2oZI"
+          },
+          {
+            "source": "youtube",
+            "id": "wDNekJTOss4",
+            "title": "⚡ALERT! Multiple NUCLEAR Alert Cyberattacks, Hedge Funds SELLING! Oil Refineries BURN! Mar-a-lago!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=wDNekJTOss4"
+          },
+          {
+            "source": "youtube",
+            "id": "1lspa5l4kxs",
+            "title": "My Thoughts On Bitcoin",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=1lspa5l4kxs"
+          },
+          {
+            "source": "youtube",
+            "id": "4LgT-mV_0Oc",
+            "title": "First Time I Ever Seen A Man Cook",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=4LgT-mV_0Oc"
+          },
+          {
+            "source": "youtube",
+            "id": "5IXLNxTCxas",
+            "title": "ARMY DIGGING MASS GRAVES!!",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=5IXLNxTCxas"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "sz3PYXFtFCo",
+            "title": "No One Is Talking About This. A.I. Experts REVEAL",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=sz3PYXFtFCo"
+          },
+          {
+            "source": "youtube",
+            "id": "-ytugoN3MKA",
+            "title": "🚨🚨ALERT: Trump Orders Drop Boxes GUARDED- Watchmen Updates",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=-ytugoN3MKA"
+          },
+          {
+            "source": "youtube",
+            "id": "0gG_CY2xJz8",
+            "title": "LIGHTNING and SELF-CUSTODY - Markus Vorsmann (BitBox) | Blocktrainer Event 2026",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=0gG_CY2xJz8"
+          },
+          {
+            "source": "youtube",
+            "id": "6qWrZWqjcaQ",
+            "title": "Hijabs, Turbans and Kippahs BANNED in Quebec Schools?",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=6qWrZWqjcaQ"
+          },
+          {
+            "source": "youtube",
+            "id": "9EGpVUQ2080",
+            "title": "HEAVEN'S VIEW OF EARTH",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=9EGpVUQ2080"
+          },
+          {
+            "source": "youtube",
+            "id": "IJEPaPdrlm4",
+            "title": "MOMA-Reporter: Wie Frauen sicher durch die Nacht kommen | ARD Morgenmagazin",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=IJEPaPdrlm4"
+          },
+          {
+            "source": "youtube",
+            "id": "Nefis2URtJA",
+            "title": "Efter SD:s utspel – nu granskas de nationalistiska profilerna: \"Nu måste de välja sida\"",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=Nefis2URtJA"
+          },
+          {
+            "source": "youtube",
+            "id": "R6-g38n2oZI",
+            "title": "THE SPIRIT OF THE AGE: ALL WILL CRUMBLE BECAUSE WE GRUMBLE",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=R6-g38n2oZI"
+          },
+          {
+            "source": "youtube",
+            "id": "wDNekJTOss4",
+            "title": "⚡ALERT! Multiple NUCLEAR Alert Cyberattacks, Hedge Funds SELLING! Oil Refineries BURN! Mar-a-lago!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=wDNekJTOss4"
+          },
+          {
+            "source": "youtube",
+            "id": "1lspa5l4kxs",
+            "title": "My Thoughts On Bitcoin",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=1lspa5l4kxs"
+          },
+          {
+            "source": "youtube",
+            "id": "4LgT-mV_0Oc",
+            "title": "First Time I Ever Seen A Man Cook",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=4LgT-mV_0Oc"
+          },
+          {
+            "source": "youtube",
+            "id": "5IXLNxTCxas",
+            "title": "ARMY DIGGING MASS GRAVES!!",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=5IXLNxTCxas"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "sz3PYXFtFCo",
+            "title": "No One Is Talking About This. A.I. Experts REVEAL",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=sz3PYXFtFCo"
+          },
+          {
+            "source": "youtube",
+            "id": "wDNekJTOss4",
+            "title": "⚡ALERT! Multiple NUCLEAR Alert Cyberattacks, Hedge Funds SELLING! Oil Refineries BURN! Mar-a-lago!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=wDNekJTOss4"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-03T12:10:35+00:00"
+      },
+      "workflow_run_id": "41633072338",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-03:2026-11-03:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "bd762e4c8ed6877d8d2a2e97c36105307945b69235ab34a1b9ad000dee596123",
+        "finalization_policy": "markers",
+        "content_version": "f617567d0e1c7a3521635653da0d63d7fda484bfc8bdda0ba808bc47e97fc4f1",
+        "message_id": "<16126e24a459abde4b327e3e73025ba59faf9c915fc360f1b3ab2cf18ea1d5b3@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "3f2eb24c74d383f1_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "289d93d4a55030d8b9035f2adc07fa0e9476ce2d1172ce026c6f283f928fd6ff"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "4b7403a482aef6d480489f38be5b821ffc3d43f5ea297781d741a224dc54564a"
+      }
     }
   },
   "paper_legacy_unknown": {

@@ -142731,8 +142731,902 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@preppernewsflash"
+      },
+      "id": "sz3PYXFtFCo",
+      "source": "youtube",
+      "title": "No One Is Talking About This. A.I. Experts REVEAL",
+      "channel": "preppernewsflash",
+      "url": "https://www.youtube.com/watch?v=sz3PYXFtFCo",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11522,
+        "processed_unique_chars": 11522,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 5.921,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11522",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript warns that internal, uncensored and unreleased AI models used by labs differ substantially from consumer versions, that those models and large-scale compute can enable bio-risk and weaponization, and that military and intelligence actors take the risks seriously but face procedural slowness.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Internal models are often uncensored and will produce harmful instructions such as how to build biological weapons or child abuse material.",
+        "Companies do not follow defense-contractor security laws and their systems are repeatedly hacked, allowing foreign states to obtain powerful models.",
+        "Labs run many model copies in parallel and use cooperation between models, producing capabilities beyond single public models."
+      ],
+      "transcript_notable_claims": [
+        "Some bio-risk experts who previously downplayed AI-aided biological threats now refuse to comment, implying rising concern.",
+        "Terrorist groups in the Middle East report using open-source models to brainstorm bomb and rocket construction and find them very helpful.",
+        "The model that helped solve the Navier–Stokes problem is an unreleased next-generation model and is not publicly available.",
+        "The NSA director told the Gang of Eight that the uncensored AI 'Mythos' could break into all their classified systems in hours, not weeks.",
+        "Foreign intelligence services such as China and Russia have likely stolen and host copies of dangerous internal models because companies fail to implement nation-state-level cybersecurity."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether specific individuals at companies would be detected if they queried internal models about building bio-weapons.",
+        "It is uncertain whether terrorists possess the most advanced unreleased laboratory models rather than weaker open-source versions.",
+        "It is uncertain how many unreleased next-generation models will eventually be made public."
+      ],
+      "important_details": [
+        "United States military and intelligence officials express urgent concern and a readiness to act, but institutional procedure makes governmental response slow.",
+        "Defense and intelligence organizations are already contracting large data centers and integrating AI broadly into military applications, according to public information and Secretary Hagel's stated interest.",
+        "Companies prefer low-cost, low-security infrastructure over high-security facilities, which increases the risk of model theft by nation-states."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "sz3PYXFtFCo",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ThePoplarReport"
+      },
+      "id": "-ytugoN3MKA",
+      "source": "youtube",
+      "title": "🚨🚨ALERT: Trump Orders Drop Boxes GUARDED- Watchmen Updates",
+      "channel": "ThePoplarReport",
+      "url": "https://www.youtube.com/watch?v=-ytugoN3MKA",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 17546,
+        "processed_unique_chars": 17546,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.04,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "The video delivers a Watchman-style news roundup reporting that the US National Guard is being mobilized to observe ballot dropboxes and provide cyber support for upcoming elections, a radiological release occurred after a fire at the Savannah River National Laboratory, and multiple public-health, supply and inflation issues are affecting U.S. communities.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "US National Guard units in all 50 states are being mobilized to observe ballot dropboxes, polling locations, and provide federal cybersecurity support for next week’s elections.",
+        "A fire at the Savannah River National Laboratory near Aiken, South Carolina caused an unfiltered ground-level radiological release and prompted a site area emergency with nearby traffic restrictions.",
+        "Midwest gasoline stockpiles fell to a record low and Michigan is averaging $4.69 per gallon, while an Ohio refinery closure and other refinery issues are tightening supply."
+      ],
+      "transcript_notable_claims": [
+        "The Savannah River site is the sole producer of tritium, stores plutonium for nuclear weapons, and released radioactive water after the fire.",
+        "Netanyahu’s Likud party claims Israel’s election was stolen by Arab parties citing bribery, intimidation, violence, double voting, and ballot manipulation and is submitting hundreds of testimonies for investigation.",
+        "Scientists estimate each person consumes roughly a credit card’s worth of microplastics weekly and one study found plastic particles in 100% of lung samples.",
+        "A unique bacterial strain from Korean kimchi reportedly degrades BPA and kimchi capsules can help detoxify BPA and support digestion, brain, hormones, and cellular protection according to the video’s sponsor.",
+        "Iowa Governor Kim Reynolds issued a disaster proclamation for Sac County after H5N1 bird flu was confirmed in a commercial turkey flock, and the proclamation runs through November 27.",
+        "Women who cannot find estrogen patches switched to injectable estradiol and creams, and those forms are now in shortage after FDA removed a boxed warning last year."
+      ],
+      "transcript_uncertainties": [
+        "The video asks whether the Savannah River fire might have been sabotage but does not provide evidence.",
+        "The channel reports that tap water in nearby areas is currently safe only 'as far as we can tell' and expresses local concern about drinking water safety.",
+        "The claim that 4 million Chinese citizens in the United States are 'card carrying members of the Communist Party' is asserted without verification in the transcript."
+      ],
+      "important_details": [
+        "The recall of plant-based butter affects more than 300 cases across 10 states due to possible yeast, mold, and E. coli contamination.",
+        "Iowa’s bird-flu detection in a commercial turkey flock represents the state’s eighth detection this year and has triggered major culling operations under emergency powers.",
+        "Midwest gasoline stocks fell to 1.2 million barrels and overall U.S. stocks fell to 41 million barrels according to Energy Department data cited in the video."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "-ytugoN3MKA",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Blocktrainer"
+      },
+      "id": "0gG_CY2xJz8",
+      "source": "youtube",
+      "title": "LIGHTNING and SELF-CUSTODY - Markus Vorsmann (BitBox) | Blocktrainer Event 2026",
+      "channel": "Blocktrainer",
+      "url": "https://www.youtube.com/watch?v=0gG_CY2xJz8",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 23361,
+        "processed_unique_chars": 23361,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.04,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Markus Vorsmann of BitBox outlines BitBox's three-year development to add Lightning payments, explains Bitcoin UTXOs and Lightning channels, and describes the chosen Spark implementation with its benefits, trust trade-offs, and current beta limits for pocket-money amounts.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "BitBox released Lightning support four days before this talk after alphas and testing starting from October 2023.",
+        "BIP 85 enables deriving Lightning child keys from the BitBox 24-word backup without exposing the master key.",
+        "BitBox implemented Spark, a State Chain–based solution that is Lightning-compatible but requires trust in a Spark operator for some actions."
+      ],
+      "transcript_notable_claims": [
+        "Alpha testing with Breez/Greenlight achieved successful payments only about 80% of the time and often required 10–30 seconds per payment.",
+        "Spark keeps the on-chain vault funds stationary and transfers ownership by swapping keys, allowing subunit transfers without moving the entire vault.",
+        "The BitBox Lightning wallet stores hot keys on the phone while the 24-word BitBox keys remain cold and are required for topping up or restoring the wallet."
+      ],
+      "transcript_uncertainties": [
+        "The unilateral exit from Spark to the Bitcoin base layer is not yet implemented in the Breeze developer kit and therefore currently requires Spark operator cooperation.",
+        "The long-term security and trust implications of Spark depend on whether Spark operators could retain old keys or otherwise cheat, which remains a risk acknowledged in the beta."
+      ],
+      "important_details": [
+        "BitBox limits Lightning wallet balances in the beta to pocket-money amounts because the Lightning wallet is a hot wallet and not intended for life savings.",
+        "Users derive Lightning wallet keys via BIP 85 so only one backup (the 24 recovery words) is needed to recreate multiple Lightning wallets.",
+        "BitBox includes Lightning address support (for example Marcus@bitbox.cash) and advanced settings to create Lightning wallets after confirming with the BitBox device."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "0gG_CY2xJz8",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "6qWrZWqjcaQ",
+      "source": "youtube",
+      "title": "Hijabs, Turbans and Kippahs BANNED in Quebec Schools?",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=6qWrZWqjcaQ",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8868,
+        "processed_unique_chars": 8868,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.257,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8868",
+        "recency"
+      ],
+      "transcript_full_summary": "Quebec's Parti Québécois proposes banning religious symbols in elementary schools, sparking debate about secularism, religious freedom, and potential legal challenges already underway for teachers at Canada's Supreme Court.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Quebec's Parti Québécois proposes a ban on religious symbols in elementary schools that would include hijabs, kippahs, turbans and crosses.",
+        "Canada's Supreme Court may rule this year on existing laws that restrict teachers from wearing religious symbols.",
+        "Advocates view the proposal as an expression of an obsessive secularism that functions like a religion and suppresses visible religious expression."
+      ],
+      "transcript_notable_claims": [
+        "Religious symbols are not offensive and can be educational when visible in classrooms.",
+        "Students in American public schools do not relinquish their First Amendment rights by entering a classroom, implying a contrast with Quebec's proposal.",
+        "Secularism is described as a religion devoid of God that enforces a relativistic, atheistic worldview."
+      ],
+      "transcript_uncertainties": [
+        "A Supreme Court ruling on teachers' religious‑symbol restrictions is possible this year but not certain.",
+        "It is uncertain whether the proposed ban for students will be enacted in Quebec or reach Canada in the same form as in the United States."
+      ],
+      "important_details": [
+        "Groups and numerous opponents are speaking out against the Quebec proposal and legal challenges already exist concerning adult teachers.",
+        "Some supporters frame the ban as removing distractions such as burqas and hijabs, while critics say it would prevent Christians from wearing crosses."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "6qWrZWqjcaQ",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "9EGpVUQ2080",
+      "source": "youtube",
+      "title": "HEAVEN'S VIEW OF EARTH",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=9EGpVUQ2080",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3146,
+        "processed_unique_chars": 3146,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 1.827,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3146",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon presents a view from heaven that God sees the church as his household and intends believers to be pillars grounded in biblical truth, and it warns that truth is under growing assault as the end approaches.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "God sees the church as his household and the church as the pillar and ground of the truth according to 1 Timothy 3:15.",
+        "Believers are designed to be firmly planted and grounded in biblical truth and to represent truth on earth.",
+        "The war against truth will intensify toward the final hour, with Satan distorting and removing truth as described in Matthew 24:24."
+      ],
+      "transcript_notable_claims": [
+        "Truth is the currency that believers deal in for God on earth.",
+        "Those who are unsaved never have received the love of the truth, according to Scripture.",
+        "Increasing generations show decreasing depth of knowledge and understanding of the Bible, worsened by superficial online information."
+      ],
+      "transcript_uncertainties": [
+        "The sermon warns that Satan almost will completely remove truth from the world without stating a specific timeline.",
+        "The claim that knowledge is lessening across generations is presented without cited polling details or dates."
+      ],
+      "important_details": [
+        "The sermon cites 1 Timothy 3:15 to describe the church as the household of the living God and the pillar and ground of the truth.",
+        "The sermon refers to Matthew 24:24 to support the claim that faith will come under severe assault before the end."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "9EGpVUQ2080",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "IJEPaPdrlm4",
+      "source": "youtube",
+      "title": "MOMA-Reporter: Wie Frauen sicher durch die Nacht kommen | ARD Morgenmagazin",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=IJEPaPdrlm4",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4262,
+        "processed_unique_chars": 4262,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Ein Nightwalk mit mehr als 50 Frauen zeigt Selbstverteidigungsübungen, Verhaltensregeln und Polizeiinformationen, um Frauen im Dunkeln sicherer zu fühlen; das zentrale Ergebnis lautet, dass Stimme, Bauchgefühl und Selbstbewusstsein Schutz bieten können.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Über 50 Frauen nehmen an einem Nightwalk teil, um Sicherheit im Dunkeln zu üben.",
+        "Die Polizei nennt eine durchschnittliche Quote von 25% Fremdtätern und 75% Tätern aus Familie oder Bekanntenkreis.",
+        "Selbstverteidigungstrainer und Kripo empfehlen laute Stimme, auf das Bauchgefühl zu hören und Selbstbewusstsein als Schutzmechanismen."
+      ],
+      "transcript_notable_claims": [
+        "Die Angst vor Übergriffen spielt sich oft auch im Kopf ab.",
+        "Die Stimme ist das wichtigste Instrument zur Abwehr, weil laut sein Aufmerksamkeit erzeugt und Adrenalin mobilisiert.",
+        "Viele Übergriffe geschehen durch Personen aus dem familiären oder bekannten Umfeld und nicht hauptsächlich durch Fremde."
+      ],
+      "transcript_uncertainties": [
+        "Die Teilnehmerinnen sind sich unsicher, ob sie sich im Dunkeln tatsächlich weniger umdrehen werden.",
+        "Es bleibt offen, ob die geübten Techniken jemals angewendet werden müssen."
+      ],
+      "important_details": [
+        "Die Polizistin rät, Frauenparkplätze zu nutzen und den Autoschlüssel bereits in der Hand zu halten.",
+        "Praktische Übungen umfassen Schreien, einfache Griffe und gezielte Tritte, die nur im Ernstfall eingesetzt werden sollen."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "IJEPaPdrlm4",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "Nefis2URtJA",
+      "source": "youtube",
+      "title": "Efter SD:s utspel – nu granskas de nationalistiska profilerna: \"Nu måste de välja sida\"",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=Nefis2URtJA",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "Nefis2URtJA",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@jamiewalden756"
+      },
+      "id": "R6-g38n2oZI",
+      "source": "youtube",
+      "title": "THE SPIRIT OF THE AGE: ALL WILL CRUMBLE BECAUSE WE GRUMBLE",
+      "channel": "jamiewalden756",
+      "url": "https://www.youtube.com/watch?v=R6-g38n2oZI",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 59547,
+        "processed_unique_chars": 59547,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.04,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon identifies ingratitude as the defining trait of the 'spirit of the age' and argues that widespread grumbling and entitlement among Christians will lead to spiritual decline, divine judgment, and broken fellowship unless replaced by consistent thanksgiving and humility.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Ungratefulness is the chief indicator of the spirit of the age and precedes apostasy and moral decline.",
+        "Familiarity with God's presence and entitlement are the two root causes that fuel ingratitude among believers.",
+        "Persistent grumbling and refusal to give God thanks will result in God giving people over to their sinful desires and removing his presence and prophetic ministry."
+      ],
+      "transcript_notable_claims": [
+        "Withholding gratitude for God is war against God's glory and the people's grumblings will be unto their crumblings.",
+        "The wrath of God is being revealed from heaven because people neither glorify God nor give him thanks, which darkens their hearts.",
+        "When people refuse to give thanks, God will remove prophets, teachers, intercession, and the word, producing a famine of hearing the Lord.",
+        "Every attribute of the spirit of the age—pride, abuse, slander, sexual immorality, love growing cold—can be traced back to ingratitude.",
+        "A grateful heart secures authentic fellowship, guards the heart with peace, and disarms temptations to compromise in crises like the mark of the beast."
+      ],
+      "transcript_uncertainties": [
+        "The sermon presents the Lord's words received in the speaker's spirit without external verification of that revelation.",
+        "The timing and specific mechanism of divine removal of ministry and prophetic gifts are presented as scriptural pronouncements rather than empirical predictions."
+      ],
+      "important_details": [
+        "Romans 1 is cited to show that people who knew God but did not glorify or thank him became futile in thought and were given over to sinful desires.",
+        "Numbers 14 and Psalm 106 are used to illustrate historical consequences: grumbling against God led to a generation barred from the promised land.",
+        "Matthew 13 and Acts are referenced to claim that familiarity and contempt can restrain Jesus' works and cause ministries to be withdrawn from ungrateful communities."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "R6-g38n2oZI",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "wDNekJTOss4",
+      "source": "youtube",
+      "title": "⚡ALERT! Multiple NUCLEAR Alert Cyberattacks, Hedge Funds SELLING! Oil Refineries BURN! Mar-a-lago!",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=wDNekJTOss4",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-02T05:31:33+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-05T05:31:33+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 33064,
+        "processed_unique_chars": 33064,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 5.562,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The channel warns that recent reciprocal false emergency alerts between Russia and Ukraine illustrate a new era of AI-enabled cognitive warfare that can sow panic via hacked alert apps and deepfaked messages, and argues that escalating global conflicts, infrastructure attacks and financial moves indicate wider instability ahead.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Ukraine received a false notification of a radiological incident, chemical attacks and street fighting via its air-raid alert app, which the channel attributes to a Russian cyberattack.",
+        "Ukraine responded by sending a fabricated nuclear-attack alert into a Russian emergency app within hours, which the channel describes as tit-for-tat cyber operations.",
+        "The channel asserts that AI deepfakes and backdoors in government apps could allow adversaries to send convincing false emergency messages during power or communications outages."
+      ],
+      "transcript_notable_claims": [
+        "Both Russia and Ukraine possess backdoors and zero-day exploits in each other's alert applications and are holding cyber arsenals for days like this.",
+        "A coordinated major attack on Western society would likely be accompanied by AI-driven misinformation designed to subvert public trust and cause street chaos.",
+        "Hedge funds are accelerating liquidation of equities and Binance experienced another $3.8 billion in outflows after a reported $6.4 billion theft attributed to North Korea.",
+        "Russian infrastructure is under sustained attack, including repeated hits on major oil refineries and a suspected sabotage at a 900 MW power facility in Kaliningrad.",
+        "Iranian officials and IRGC leadership are publicly discussing nuclear weapons development and some sources claim Iran may already possess a nuclear device.",
+        "China demonstrated an anti-carrier strike capability with a weapon that produced a large mushroom-like cloud, suggesting nuclear-capable delivery development.",
+        "The United States faces multiple threats from Russia, China, North Korea and Iran and the channel contends current US political dynamics will worsen these conflicts."
+      ],
+      "transcript_uncertainties": [
+        "The channel notes uncertainty about the exact cause of the Kaliningrad 900 MW outage and states that sabotage is suspected but unconfirmed.",
+        "The channel presents unconfirmed reports that Pakistan’s Field Marshal met secretly with a CIA operative and that such diplomacy may affect Iran’s position.",
+        "The channel expresses uncertainty about the provenance and motive of the plane crash near Mar-a-Lago and whether electronic warfare or a missile were involved."
+      ],
+      "important_details": [
+        "The channel says repeated false alerts were quickly debunked because the global internet and broader governments still function in this incident.",
+        "The channel claims Russian mobilization methods differ: covert digital summons in Russia versus overt street roundups in Ukraine, affecting draft evasion and conscription dynamics.",
+        "The channel reports that U.S. and allied militaries are staging assets in theater, mentioning multiple aircraft carriers and around 80 refueling tankers reportedly near Israel."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "wDNekJTOss4",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@AndreiJikh"
+      },
+      "id": "1lspa5l4kxs",
+      "source": "youtube",
+      "title": "My Thoughts On Bitcoin",
+      "channel": "AndreiJikh",
+      "url": "https://www.youtube.com/watch?v=1lspa5l4kxs",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "1lspa5l4kxs",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@3of7Project"
+      },
+      "id": "4LgT-mV_0Oc",
+      "source": "youtube",
+      "title": "First Time I Ever Seen A Man Cook",
+      "channel": "3of7Project",
+      "url": "https://www.youtube.com/watch?v=4LgT-mV_0Oc",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4263,
+        "processed_unique_chars": 4263,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 2.106,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:4263",
+        "recency"
+      ],
+      "transcript_full_summary": "A former Navy SEAL recounts the first time he saw a man cook in his mid-20s and explains how that moment changed his habits so he began cooking regularly and now feels accomplishment cooking for his partner.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The narrator first saw a man cook when he was about 23 or 24 after graduating SEAL training and moving to Virginia Beach.",
+        "The narrator watched a friend make hamburger patties from ground beef and cook them on the stove despite no woman being present.",
+        "The narrator now cooks almost every day and feels a sense of accomplishment when he prepares food for his woman."
+      ],
+      "transcript_notable_claims": [
+        "Men did not cook in the narrator's upbringing because men worked hard manual labor and women prepared meals.",
+        "Seeing his friend cook hamburgers changed the narrator's trajectory and taught him it was acceptable for a man to buy groceries and cook.",
+        "The narrator believes that preparing a meal that his partner enjoys gives him personal satisfaction."
+      ],
+      "transcript_uncertainties": [
+        "The narrator is unsure whether his memory gaps are caused by his mind blocking out the past or by focus on current activities."
+      ],
+      "important_details": [
+        "The event occurred after the narrator and his friend graduated SEAL training, SQT, and checked into their first SEAL team in Virginia Beach.",
+        "The friend formed hamburger patties by hand from a pack of ground beef and cooked them alone in his shared house without his girlfriend present."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "4LgT-mV_0Oc",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BlackScoutSurvival"
+      },
+      "id": "5IXLNxTCxas",
+      "source": "youtube",
+      "title": "ARMY DIGGING MASS GRAVES!!",
+      "channel": "BlackScoutSurvival",
+      "url": "https://www.youtube.com/watch?v=5IXLNxTCxas",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "mixed",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "5IXLNxTCxas",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "Cp1amVGrYrA",
+      "source": "youtube",
+      "title": "ILTV On The Hour - November 2, 2026 | Trump and Netanyahu Discuss Potential Renewal of Iran War",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=Cp1amVGrYrA",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 27131,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.04,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "Cp1amVGrYrA",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelNationalTV"
+      },
+      "id": "FFvii_2Imsk",
+      "source": "youtube",
+      "title": "Nationwide Joint Operation to Strengthen Security and Enforce the Law",
+      "channel": "IsraelNationalTV",
+      "url": "https://www.youtube.com/watch?v=FFvii_2Imsk",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:30:00+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "video_id": "FFvii_2Imsk",
+      "processed_at_utc": "2026-11-03T12:10:35+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-02T12:45:09+00:00",
+  "updated_at_utc": "2026-11-03T12:10:35+00:00",
   "version": 1
 }
