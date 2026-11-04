@@ -16127,6 +16127,246 @@
         "approved_after_generation_checks": true,
         "seal": "e19ec86f3fa6f8ea7d508bc837cd92ce872f643acf36843bd79dc7142eae1645"
       }
+    },
+    "cyberlurch:daily:2026-11-04:2026-11-04:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-04",
+      "period_end": "2026-11-04",
+      "edition_id": "cyberlurch:daily:2026-11-04:2026-11-04:production",
+      "content_version": "56afce466092624c29ebf5caa93bdfba26394ae06b65d7b96d592deb2ac9a2d0",
+      "message_id": "<256a343feb1bfe6bd55b8cc73b9fbabb8cc693064f660a3a8393a27a284e76d5@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-04T12:23:25+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "2gNxvNtIHC0",
+            "title": "⚡ALERT! Widespread CYBERATTACKS on FOOD Supply, CANADAS TROOPS Move to RUSSIAN BORDER! EBOLA SPREADS",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=2gNxvNtIHC0"
+          },
+          {
+            "source": "youtube",
+            "id": "3nfTH2UCQ1g",
+            "title": "US Midterms: A Turning Point for Trump | ZDF spezial",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=3nfTH2UCQ1g"
+          },
+          {
+            "source": "youtube",
+            "id": "5q1odQOFd7Q",
+            "title": "Russian military expert wishes Trump success in the midterms",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=5q1odQOFd7Q"
+          },
+          {
+            "source": "youtube",
+            "id": "90dsoVR4MxM",
+            "title": "The Revelation of Jesus with James Lasher",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=90dsoVR4MxM"
+          },
+          {
+            "source": "youtube",
+            "id": "CD25TIJl4Hw",
+            "title": "ILTV On The Hour - November 3, 2026 | Israel's Political Shake-Up: Can Eisenkot Form a Government?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=CD25TIJl4Hw"
+          },
+          {
+            "source": "youtube",
+            "id": "IG-oCHm67bk",
+            "title": "Detta vet vi om kuppförsöket i Polen - Arnes analys 34",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=IG-oCHm67bk"
+          },
+          {
+            "source": "youtube",
+            "id": "MVVnAb-RurQ",
+            "title": "Merz redet Ausschreitungen schön – ARD mit schlimmsten Totalausfall + Tagesschau mit Mega-Skandal!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=MVVnAb-RurQ"
+          },
+          {
+            "source": "youtube",
+            "id": "na2rSCRAd5Q",
+            "title": "Atheist Survey Reveals Something VERY Telling...",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=na2rSCRAd5Q"
+          },
+          {
+            "source": "youtube",
+            "id": "7ywbau5QT0s",
+            "title": "How Will AI Actually End the World? w/ Connor Leahy",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=7ywbau5QT0s"
+          },
+          {
+            "source": "youtube",
+            "id": "JY7R_hYfwyM",
+            "title": "The Beehive",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=JY7R_hYfwyM"
+          },
+          {
+            "source": "youtube",
+            "id": "Jn8mS3kC-SU",
+            "title": "The Case Against Eliezer Yudkowsky — with Holly Elmore, PauseAI US",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=Jn8mS3kC-SU"
+          },
+          {
+            "source": "youtube",
+            "id": "OTBeTZBXg1A",
+            "title": "U.S. WARPLANES DEPLOYED! Is America About to Go to WAR?!",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=OTBeTZBXg1A"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "2gNxvNtIHC0",
+            "title": "⚡ALERT! Widespread CYBERATTACKS on FOOD Supply, CANADAS TROOPS Move to RUSSIAN BORDER! EBOLA SPREADS",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=2gNxvNtIHC0"
+          },
+          {
+            "source": "youtube",
+            "id": "3nfTH2UCQ1g",
+            "title": "US Midterms: A Turning Point for Trump | ZDF spezial",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=3nfTH2UCQ1g"
+          },
+          {
+            "source": "youtube",
+            "id": "5q1odQOFd7Q",
+            "title": "Russian military expert wishes Trump success in the midterms",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=5q1odQOFd7Q"
+          },
+          {
+            "source": "youtube",
+            "id": "90dsoVR4MxM",
+            "title": "The Revelation of Jesus with James Lasher",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=90dsoVR4MxM"
+          },
+          {
+            "source": "youtube",
+            "id": "CD25TIJl4Hw",
+            "title": "ILTV On The Hour - November 3, 2026 | Israel's Political Shake-Up: Can Eisenkot Form a Government?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=CD25TIJl4Hw"
+          },
+          {
+            "source": "youtube",
+            "id": "IG-oCHm67bk",
+            "title": "Detta vet vi om kuppförsöket i Polen - Arnes analys 34",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=IG-oCHm67bk"
+          },
+          {
+            "source": "youtube",
+            "id": "MVVnAb-RurQ",
+            "title": "Merz redet Ausschreitungen schön – ARD mit schlimmsten Totalausfall + Tagesschau mit Mega-Skandal!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=MVVnAb-RurQ"
+          },
+          {
+            "source": "youtube",
+            "id": "na2rSCRAd5Q",
+            "title": "Atheist Survey Reveals Something VERY Telling...",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=na2rSCRAd5Q"
+          },
+          {
+            "source": "youtube",
+            "id": "7ywbau5QT0s",
+            "title": "How Will AI Actually End the World? w/ Connor Leahy",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=7ywbau5QT0s"
+          },
+          {
+            "source": "youtube",
+            "id": "JY7R_hYfwyM",
+            "title": "The Beehive",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=JY7R_hYfwyM"
+          },
+          {
+            "source": "youtube",
+            "id": "Jn8mS3kC-SU",
+            "title": "The Case Against Eliezer Yudkowsky — with Holly Elmore, PauseAI US",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=Jn8mS3kC-SU"
+          },
+          {
+            "source": "youtube",
+            "id": "OTBeTZBXg1A",
+            "title": "U.S. WARPLANES DEPLOYED! Is America About to Go to WAR?!",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=OTBeTZBXg1A"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "2gNxvNtIHC0",
+            "title": "⚡ALERT! Widespread CYBERATTACKS on FOOD Supply, CANADAS TROOPS Move to RUSSIAN BORDER! EBOLA SPREADS",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=2gNxvNtIHC0"
+          },
+          {
+            "source": "youtube",
+            "id": "7ywbau5QT0s",
+            "title": "How Will AI Actually End the World? w/ Connor Leahy",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=7ywbau5QT0s"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-04T12:23:21+00:00"
+      },
+      "workflow_run_id": "41828417792",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-04:2026-11-04:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "c05f858bee1a88a4e5a24259c17f36decaaee15e58f9b8244ba7a6b77a67a483",
+        "finalization_policy": "markers",
+        "content_version": "56afce466092624c29ebf5caa93bdfba26394ae06b65d7b96d592deb2ac9a2d0",
+        "message_id": "<256a343feb1bfe6bd55b8cc73b9fbabb8cc693064f660a3a8393a27a284e76d5@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "bcb64d2c265cd2aa_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "2b3ea6f73a364888062cfc92acfec73100d1100aaa61316711f2d896b7d74ae7"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "7a27abd4018c49734a5c4765c72e590adc3fdb91fd9d80847946a497d31cde84"
+      }
     }
   },
   "paper_legacy_unknown": {

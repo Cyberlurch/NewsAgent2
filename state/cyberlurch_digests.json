@@ -143625,8 +143625,958 @@
       "cyberlurch_deep_dive_score": null,
       "cyberlurch_deep_dive_reasons": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "2gNxvNtIHC0",
+      "source": "youtube",
+      "title": "⚡ALERT! Widespread CYBERATTACKS on FOOD Supply, CANADAS TROOPS Move to RUSSIAN BORDER! EBOLA SPREADS",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=2gNxvNtIHC0",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-03T04:46:27+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-06T04:46:27+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 47403,
+        "processed_unique_chars": 47403,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 5.541,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The channel reports a cascading series of cyberattacks that have disrupted supermarket refrigeration and logistics across multiple European countries while warning of broader infrastructural vulnerabilities, and connects those events to rising geopolitical tensions including NATO deployments near Kaliningrad, Canadian troop movements to Latvia, and an expanding Ebola outbreak.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "A widespread cyber incident manipulated refrigeration systems in hundreds of grocery stores across Europe, causing food spoilage in affected locations.",
+        "More than a dozen countries reported related disruptions today, including France, Belgium, Italy, Romania, Sweden, Denmark, Finland and Britain.",
+        "Canada is deploying an expanded Canadian-led NATO brigade from Adazi, Latvia eastward toward the Russian and Belarus borders for a multi-day exercise."
+      ],
+      "transcript_notable_claims": [
+        "The cyberattacks have affected refrigerators' temperature regulation, causing frozen goods to defrost and spoil in impacted stores.",
+        "The reported incidents may involve multiple simultaneous cyberattacks and could target refrigeration, biotech, cold-storage logistics and other IoT devices.",
+        "German officials were reportedly advised not to use iPhones because of a potential compromise of smartphones.",
+        "The narrator attributes the likely perpetrators of some cyber operations to state actors such as Russia or China but admits attribution is uncertain and cyber operations enable plausible deniability.",
+        "Poland released an app mapping about 88,000 temporary shelters for its population and is deploying defensive barriers and forces near the Suwałki corridor.",
+        "Canadian troops have increased in Latvia from roughly 600 to about 2,100 and are expected to rise to around 2,800, with NATO's Canadian-led brigade deploying east this week.",
+        "The Ebola outbreak in 2026 reached roughly 10,414 reported cases with 5,372 fatalities and is growing faster than the 2014 outbreak at comparable early stages.",
+        "The narrator predicts that a large-scale ground war in Iran is imminent and that peace talks are a likely prelude to attack.",
+        "The narrator asserts that strategic actors are testing defenses, training AI systems for warfare, and preparing for potential decapitation strikes against adversary leadership and infrastructure."
+      ],
+      "transcript_uncertainties": [
+        "The full scope and confirmed causes of the refrigeration and logistics disruptions remain unknown and not all reported incidents have established attribution.",
+        "Attribution of the cyber incidents to specific state actors is speculative and presented as presumptive rather than confirmed.",
+        "The narrator expresses uncertainty about whether oil price moves reflect flooding the market from strategic reserves or indicate a larger economic contraction."
+      ],
+      "important_details": [
+        "Italy and Romania reported multiple coop stores and six Romanian stores with manipulated freezing temperatures, while Belgium reportedly had about 75 affected stores including some IKEA locations.",
+        "The narrator warns that any IoT-connected device, including gas pumps, water treatment systems, traffic lights, Ring cameras and telecom infrastructure, could be vulnerable to similar cyber disruptions.",
+        "The 2014 Ebola outbreak timeline is compared to 2026 data to suggest a possible seasonal inflection point in November–December and the potential for wider spread as African mobility and connectivity have increased."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "2gNxvNtIHC0",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "3nfTH2UCQ1g",
+      "source": "youtube",
+      "title": "US Midterms: A Turning Point for Trump | ZDF spezial",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=3nfTH2UCQ1g",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 43882,
+        "processed_unique_chars": 43882,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "trend_cluster_size": 2,
+      "trend_keywords": [
+        "midterms",
+        "trump"
+      ],
+      "transcript_full_summary": "Die Sendung analysiert die US-Midterms als möglichen Wendepunkt für Donald Trumps Handlungsfreiheit und diskutiert, wie Wählerunzufriedenheit zu Mehrheitsverschiebungen im Kongress führen könnte und welche Folgen das für US-Innenpolitik und die transatlantischen Beziehungen hätte.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Mehr als 57 Millionen Amerikanerinnen und Amerikaner haben vorab oder per Briefwahl abgestimmt, ein Rekord.",
+        "Das Repräsentantenhaus mit 435 Sitzen wird komplett neu gewählt, der Senat mit 100 Sitzen etwa zu einem Drittel.",
+        "Wenn die Demokraten beide Kammern gewinnen, könnten sie Kongressuntersuchungen einsetzen und den Haushalt als Druckmittel nutzen."
+      ],
+      "transcript_notable_claims": [
+        "Wirtschaftlicher Frust, steigende Lebenshaltungskosten und hohe Energiepreise treiben viele Wähler zur Wahlurne.",
+        "Latino- und Einwanderergemeinden berichten von Einschüchterung durch ICE-Aktionen und Umsatzeinbußen in Gemeinden wie Doral.",
+        "Donald Trump habe während seiner Amtszeit Dekrete genutzt, den Kongress umgangen und vermeintlich persönliche Bereicherung betrieben.",
+        "Abdul El-Sayed könnte als erster Muslim in den US-Senat einziehen und mobilisiert besonders junge Wähler in Michigan.",
+        "In Texas signalisiert demografischer Wandel und Unzufriedenheit mit Migration und Inflation Chancen für Demokraten wie James Talarico.",
+        "Eine demokratische Mehrheit könnte die exekutive Eskalation gegen Iran rechtlich erschweren und die Unterstützung der NATO aus dem Kongress stärken."
+      ],
+      "transcript_uncertainties": [
+        "Es ist ungewiss, ob die Demokraten tatsächlich sowohl das Repräsentantenhaus als auch den Senat gewinnen werden.",
+        "Es ist unklar, wie groß eine mögliche demokratische Mehrheit im Senat oder Repräsentantenhaus ausfallen würde.",
+        "Es bleibt offen, ob Trump nach einer möglichen Niederlage Wahlergebnisse nicht anerkennen oder Chaos säen würde."
+      ],
+      "important_details": [
+        "Mehrere Bundesstaaten mit knappen Rennen wie Georgia, Michigan und Texas entscheiden über das Gleichgewicht im Kongress.",
+        "Die Demokraten planen, bei Mehrheiten Untersuchungsausschüsse gegen Korruption und Amtsmissbrauch einzusetzen und gezielt Kabinettsmitglieder ins Visier zu nehmen.",
+        "Gerichte, einschließlich des Obersten Gerichtshofs, haben bereits Auseinandersetzungen um Wahlprozesse entschieden, etwa die Ablehnung von Trumps Versuch, 20.000 Stimmen in Kalifornien nicht auszuzählen."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "3nfTH2UCQ1g",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@russianmediamonitor"
+      },
+      "id": "5q1odQOFd7Q",
+      "source": "youtube",
+      "title": "Russian military expert wishes Trump success in the midterms",
+      "channel": "russianmediamonitor",
+      "url": "https://www.youtube.com/watch?v=5q1odQOFd7Q",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3520,
+        "processed_unique_chars": 3520,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "trend_cluster_size": 2,
+      "trend_keywords": [
+        "midterms",
+        "trump"
+      ],
+      "cyberlurch_deep_dive_score": 3.116,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3520",
+        "recency",
+        "trend_cluster:2"
+      ],
+      "transcript_full_summary": "The transcript relays a New York correspondent's view that Donald Trump's claim of an imminent Putin–Zelensky meeting serves his US midterm campaign, and a Russian military expert praises Trump's potential to open negotiations favourable to Russia while asserting that intensified Russian strikes on Ukrainian infrastructure will hasten peace.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Donald Trump's announcement of an upcoming Putin–Zelensky meeting is presented as part of his pre-election campaign ahead of the November 3 vote.",
+        "A Russian military expert reports increased effectiveness of Russian strikes on Ukrainian infrastructure and highlights attacks on Dnipro bridges as strategically important.",
+        "The Russian military expert welcomes any US action that creates conditions for negotiations that would consider and favour the Russian position."
+      ],
+      "transcript_notable_claims": [
+        "Donald Trump is trying to influence voters by shifting attention to international issues, including Ukraine, because Iran-related successes that would lower US fuel prices have not materialised.",
+        "The Russian military expert says he wishes Donald Trump success and hopes Trump will not lose control of the upper chamber of Congress.",
+        "The Russian military expert claims that there can be no cessation of hostilities today and that larger, more effective strikes on Ukrainian infrastructure will bring peace faster.",
+        "The Russian military expert states that any negotiations must take place on Russian terms and that Russian positions should be not only heard but decisive."
+      ],
+      "transcript_uncertainties": [
+        "There is no confirmation that a meeting between Putin and Zelensky will occur despite Trump's statement.",
+        "It is uncertain whether intensified strikes on Ukrainian infrastructure will actually lead to faster peace or to negotiations.",
+        "It is unclear whether US political developments will produce the negotiation conditions the Russian expert desires."
+      ],
+      "important_details": [
+        "The November 3 US vote is presented as the imminent deadline shaping Trump's pre-election statements.",
+        "The transcript singles out bridges across the Dnipro as key infrastructure targets that Russian strikes have damaged or aim to target."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "5q1odQOFd7Q",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BeardedBibleBros"
+      },
+      "id": "90dsoVR4MxM",
+      "source": "youtube",
+      "title": "The Revelation of Jesus with James Lasher",
+      "channel": "BeardedBibleBros",
+      "url": "https://www.youtube.com/watch?v=90dsoVR4MxM",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 44187,
+        "processed_unique_chars": 44187,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.036,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "James Lasher recounts his spiritual journey from a prodigal youth and military service to missionary work and journalism, and presents the Book of Revelation as a hopeful roadmap connecting current events—especially Israel, the Temple Mount, and global technologies—to biblical prophecy and final judgment.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "James Lasher returned to active faith after a 12-year prodigal season and subsequent ministry in Guatemala and at the LA Dream Center.",
+        "Lasher researches and reports on biblical prophecy, spiritual warfare, and global news for Charisma Media, reading news 8–10 hours daily.",
+        "Lasher views current events—including Israel's situation, talk of rebuilding the Temple, and rising global control technologies—as signs that align with Revelation's prophecies."
+      ],
+      "transcript_notable_claims": [
+        "The Book of Revelation is primarily a revelation of King Jesus and contains abundant praise, worship and a roadmap for understanding end-times events.",
+        "October 7th was a prophetic event that shifted global opinion against Israel and revealed an ongoing agenda to eradicate Israel tied to satanic deception.",
+        "The modern world is repeating the perversions of Noah's days, including supernatural crossbreeding and DNA tampering, as preparation for the days described in Revelation.",
+        "Global trends toward central control, digital currencies and bioengineered identification are foundations for the biblical 'mark' associated with the beast system.",
+        "Revelation functions as a love letter fulfilling God's covenants with Israel and promising ultimate justice, restoration and the millennial reign of Jesus."
+      ],
+      "transcript_uncertainties": [
+        "Lasher acknowledges that some prophecies in Revelation have not occurred yet and that exact mechanisms and timing of end-times events remain unspecified.",
+        "The precise form of the 'mark' (tattoo, chip, bioengineered gadget or other) is unknown according to the transcript."
+      ],
+      "important_details": [
+        "Lasher traces prophetic signs to specific geopolitical actors, citing Turkey and President Erdogan as participants in an Ezekiel 38–style threat to Jerusalem.",
+        "Lasher connects increasing apostasy, false miracles and a growing supernatural presence to end-times deception that will target the church and the world.",
+        "Lasher emphasizes that Revelation offers opportunities for repentance during the tribulation and describes 'tribulation saints' who will turn to faith after the rapture."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "90dsoVR4MxM",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "CD25TIJl4Hw",
+      "source": "youtube",
+      "title": "ILTV On The Hour - November 3, 2026 | Israel's Political Shake-Up: Can Eisenkot Form a Government?",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=CD25TIJl4Hw",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 14300,
+        "processed_unique_chars": 14300,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.036,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript reports President Donald Trump announcing an agreement with Benjamin Netanyahu to end $4 billion in annual U.S. military aid to Israel by year-end and outlines Israel's volatile coalition negotiations in which Gadi Eisenkot may receive the first mandate to form a government backed by a broad opposition bloc.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "President Donald Trump said he and Prime Minister Benjamin Netanyahu agreed to end $4 billion in annual military aid to Israel at the end of this year.",
+        "Gadi Eisenkot is emerging as the front runner to receive the first mandate to form Israel's next government and could have up to 67 recommendations.",
+        "Prime Minister Benjamin Netanyahu's bloc controls about 53 Knesset seats while his personal Likud tally is 27 seats."
+      ],
+      "transcript_notable_claims": [
+        "Trump claimed Israel no longer needs the $4 billion annual aid and said Netanyahu brought up not receiving it.",
+        "Without U.S. funding, Israel will have to spend billions more from its own defense budget to purchase American weapons, ammunition, and military equipment.",
+        "Naftali Bennett, Yair Golan, Avigdor Lieberman, Ra'am and the Joint List have pledged or are expected to recommend Eisenkot as Prime Minister.",
+        "President Isaac Herzog has until November 11 to assign the mandate and the chosen candidate will have 28 days with a possible two-week extension to form a government.",
+        "The United Torah Judaism list has not committed to recommendations and is focusing on securing military service exemptions for ultra-Orthodox Haredi men."
+      ],
+      "transcript_uncertainties": [
+        "It is unclear whether Prime Minister Netanyahu knew in advance about Trump's announcement or whether the IDF was surprised by it.",
+        "It is uncertain whether ending the $4 billion aid this year will be executed as described or how Congress will respond to future emergency assistance requests.",
+        "It is uncertain whether Eisenkot can form a stable government if it depends on Arab party support or on opposition parties abstaining."
+      ],
+      "important_details": [
+        "Congress has a direct role in approving defense spending and arms sales, and 40 senators earlier supported a proposal to block an arms sale to Israel this year though it did not pass.",
+        "Netanyahu rejects dependence on the Arab parties and all four Zionist opposition parties have ruled out joining a government under him.",
+        "Replacing the Knesset speaker could give the new bloc power to pass laws affecting Netanyahu, and Likud warns that removing Amir Ohana would jeopardize any unity government and could lead to new elections."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "CD25TIJl4Hw",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "IG-oCHm67bk",
+      "source": "youtube",
+      "title": "Detta vet vi om kuppförsöket i Polen - Arnes analys 34",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=IG-oCHm67bk",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 15065,
+        "processed_unique_chars": 15065,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.036,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Programmet analyserar ett påstått kuppförsök i Polen där en domstolsbyggnad ockuperades i en maktkamp mellan premiärminister Donald Tusk och presidenten Carol Navrotski, med fokus på striden om konstitutionsdomstolen och möjliga följder för landets framtida maktbalans.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Polens politiska system är semipresidentslikt och presidenten har betydande maktbefogenheter inklusive utnämningar och vetorätt.",
+        "Donald Tusk leder en EU-vänlig regering som försöker tillsätta flera konstitutionsdomare medan president Navrotski vägrar konfirmera dem.",
+        "En grupp bröt sig in i konstitutionsdomstolens byggnad genom att såga upp ett lås och en person, Anna Korvin Pjotovska, meddelade att hon övertog ledningen och suspendrade domstolspresidenten Bogdan Svickovski."
+      ],
+      "transcript_notable_claims": [
+        "Inträffade ett kuppförsök i Polen i helgen där regeringsföreträdare försökte ta kontroll över konstitutionsdomstolen.",
+        "Presidentplanet ska ha hindrats från att landa i Warszawa och 800 poliser påstås ha mobiliserats för att hindra presidenten från att nå domstolen.",
+        "EU och Bryssel betraktas av programmet som odemokratiska och anklagas för att ingripa i andra länders inre angelägenheter för att eliminera nationalistiska krafter.",
+        "Programmet jämför Tuskregeringens agerande med Hitlers stegvisa maktövertagande och kallar det en långsam statskupp."
+      ],
+      "transcript_uncertainties": [
+        "Det är osäkert om uppgiften att presidentplanet vände i luften när man försökte hindra landning i Warszawa är bekräftad.",
+        "Det är oklart och obekräftat om tyska kravallpoliser från Hamburg deltog bland polisstyrkorna.",
+        "Det är osäkert vilken väg Polen kommer att ta framöver och om inblandade kommer att straffas."
+      ],
+      "important_details": [
+        "Konflikten bottnar i att nationalkonservativa tidigare tillsatt många domare i konstitutionsdomstolen före 2023 och att den EU-vänliga regeringen försöker ersätta dem.",
+        "Ett av tre möjliga utvecklingsscenarier är att Tuskregeringen försöker ta reell makt från presidenten med militär och polis, vilket programmet beskriver som en möjlig statskupp.",
+        "Ett annat scenario är en konstitutionsändring via parlamentet, men talarna bedömer att de politiska lägren är för jämnstora för att det ska vara sannolikt."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "IG-oCHm67bk",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "MVVnAb-RurQ",
+      "source": "youtube",
+      "title": "Merz redet Ausschreitungen schön – ARD mit schlimmsten Totalausfall + Tagesschau mit Mega-Skandal!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=MVVnAb-RurQ",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "MVVnAb-RurQ",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Daily_Dose_Of_Wisdom"
+      },
+      "id": "na2rSCRAd5Q",
+      "source": "youtube",
+      "title": "Atheist Survey Reveals Something VERY Telling...",
+      "channel": "Daily_Dose_Of_Wisdom",
+      "url": "https://www.youtube.com/watch?v=na2rSCRAd5Q",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 20444,
+        "processed_unique_chars": 20444,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.036,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "A conversation critiques using a Copenhagen survey of scientists to settle explanations for cosmic fine-tuning and argues that multiverse explanations face severe probabilistic and anthropic problems compared with design or brute-fact options.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Copenhagen survey ranked intelligent design least popular and multiverse second among scientists.",
+        "The multiverse explanation invokes anthropic selection but still requires antecedent fine-tuning to produce coherent bubble universes.",
+        "The Boltzmann brain problem makes infinite multiverse hypotheses predict that observers should overwhelmingly be fluctuated brains, not inhabitants of a finely tuned universe like ours."
+      ],
+      "transcript_notable_claims": [
+        "A survey of scientists cannot settle metaphysical explanations for cosmic fine-tuning because responses reflect non-scientific worldview choices.",
+        "The odds against our universe's low-entropy initial state are about 10^(10^123) to one and therefore demand explanation beyond chance.",
+        "Penrose and Sean Carroll offer naturalistic attempts to explain the initial conditions, but an unexplained initial low entropy is unacceptable as 'it just happened.'",
+        "Infinite multiverses require their own fine-tuning to generate bubble universes and thus do not eliminate the need for explanation.",
+        "Boltzmann brain domination in an infinite multiverse would make it overwhelmingly likely that any given observer is a fluctuated brain, which conflicts with our observed coherent universe.",
+        "Even if the multiverse were true, it would not adequately account for consciousness, moral reality, or truth in the way a theistic hypothesis can by positing agency and consciousness as fundamental."
+      ],
+      "transcript_uncertainties": [
+        "The survey responses may reflect personal preferences, moral commitments, agnosticism, or non-scientific motives rather than pure scientific judgment.",
+        "It is uncertain whether causal connection can be established between a pre-big-bang state and our observed universe, especially if the big bang is a fundamental limit.",
+        "The exact numerical odds for Boltzmann brain formation versus universe formation are debated and dependent on chosen models and assumptions."
+      ],
+      "important_details": [
+        "Brute fact as an explanation means the constants just are as they are without necessity, which differs from claiming they must be so.",
+        "The Boltzmann brain argument compares probabilities of a thermal-vacuum fluctuation producing a brain versus producing a universe and concludes the former can dominate in infinite ensembles.",
+        "Consciousness may be more fundamental than materiality according to the discussed perspective, citing Thomas Nagel's Mind and Cosmos as converging toward that conclusion."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "na2rSCRAd5Q",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@preppernewsflash"
+      },
+      "id": "7ywbau5QT0s",
+      "source": "youtube",
+      "title": "How Will AI Actually End the World? w/ Connor Leahy",
+      "channel": "preppernewsflash",
+      "url": "https://www.youtube.com/watch?v=7ywbau5QT0s",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-02T18:31:18+00:00",
+      "screened_at": "2026-11-03T04:30:00+00:00",
+      "expires_at": "2026-11-05T18:31:18+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11697,
+        "processed_unique_chars": 11697,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 5.252,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11697",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "Connor Leahy warns that continued AI improvement could produce systems that economically and politically dominate humanity short of physical eradication, and he urges democratic civic engagement and government action to manage that risk.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Connor Leahy argues that incremental AI improvement could produce systems that outperform humans and compete with them for resources.",
+        "Connor Leahy distinguishes a distant 'hard point of no return' where AI becomes physically unstoppable from a nearer 'soft point of no return' where AI controls economies, militaries and governments.",
+        "Connor Leahy urges citizens to contact legislators and support initiatives like controlai.org to raise political awareness and prompt regulation."
+      ],
+      "transcript_notable_claims": [
+        "Experts including Nobel Prize–winning scientists, academics and public intellectuals are warning that AI could kill billions of people.",
+        "AI could economically outcompete individuals by running corporations, hedge funds and military strategy, leaving humans nominally alive but effectively powerless.",
+        "Creating superintelligence is described as a violent act because it threatens freedom, power and life, and thus governments have responsibility to address it."
+      ],
+      "transcript_uncertainties": [
+        "Connor Leahy states uncertainty about the timing of when AI will cross critical thresholds.",
+        "Connor Leahy concedes that the 'hard point of no return' is still some way off but that the 'soft point of no return' may be near.",
+        "Connor Leahy acknowledges that governments and institutions are currently in a weak state and may not handle the problem well."
+      ],
+      "important_details": [
+        "Leahy uses a military invasion analogy to justify preparing before a catastrophic threshold is crossed.",
+        "Leahy defines the soft point of no return as a scenario in which AI controls money, corporations and military outcomes while humans still operate infrastructure.",
+        "Leahy claims that public outreach to politicians often succeeds because many politicians have not heard of superintelligence and can be influenced by constituent contact."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "7ywbau5QT0s",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@3of7Project"
+      },
+      "id": "JY7R_hYfwyM",
+      "source": "youtube",
+      "title": "The Beehive",
+      "channel": "3of7Project",
+      "url": "https://www.youtube.com/watch?v=JY7R_hYfwyM",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5323,
+        "processed_unique_chars": 5323,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 2.367,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5323",
+        "recency"
+      ],
+      "transcript_full_summary": "A former SEAL describes the SEAL training evolution called the beehive, explains how candidates survive by remaining calm and controlling breathing, and applies that lesson to handling chaos in daily life.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The beehive is conducted in the combat training tank, a deep, fenced swimming pool used in first phase BUD/S.",
+        "Candidates are packed tightly while instructors circle, causing many to panic and quit during the evolution.",
+        "Survival in the beehive requires remaining calm, exhaling, descending to the bottom, and surfacing only when needing a breath."
+      ],
+      "transcript_notable_claims": [
+        "The combat training tank transformed the narrator's perception of swimming pools into instruments of torture.",
+        "The beehive identifies who can stay calm in chaos and who will freak out during SEAL training.",
+        "Applying the beehive lesson of regulated breathing and calmness helps a person not only survive but thrive amid societal or personal chaos."
+      ],
+      "transcript_uncertainties": [
+        "The exact number of people remaining in class during the beehive is not specified.",
+        "The narrator does not provide statistical outcomes for how many candidates quit specifically during the beehive."
+      ],
+      "important_details": [
+        "The beehive occurs midway through first phase BUD/S and follows other pool evolutions like underwater knot tying and a 50-meter underwater swim.",
+        "The mechanism for surviving is to relax, let out air, sit on the pool bottom, and push to the surface only when a breath is needed."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "JY7R_hYfwyM",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DoomDebates"
+      },
+      "id": "Jn8mS3kC-SU",
+      "source": "youtube",
+      "title": "The Case Against Eliezer Yudkowsky — with Holly Elmore, PauseAI US",
+      "channel": "DoomDebates",
+      "url": "https://www.youtube.com/watch?v=Jn8mS3kC-SU",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 121374,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.036,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_generation_status": "budget_skipped",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "Jn8mS3kC-SU",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BlackScoutSurvival"
+      },
+      "id": "OTBeTZBXg1A",
+      "source": "youtube",
+      "title": "U.S. WARPLANES DEPLOYED! Is America About to Go to WAR?!",
+      "channel": "BlackScoutSurvival",
+      "url": "https://www.youtube.com/watch?v=OTBeTZBXg1A",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 18836,
+        "processed_unique_chars": 18836,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.036,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "The video reports that US military transport aircraft and a Patriot missile battery have been moved into the Middle East amid White House briefings on options against Iran, and it warns those deployments could precede strikes after the November 3 midterm elections or be intended to pressure Iran into negotiations.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "More than 10 American military transport aircraft landed at Israeli air bases this week and additional flights went to Jordan, Saudi Arabia, Qatar, and Kuwait.",
+        "A Patriot missile defense battery is being moved into the region to reinforce American defenses.",
+        "Admiral Brad Cooper briefed President Trump on military options involving Iran while military equipment was being deployed."
+      ],
+      "transcript_notable_claims": [
+        "Military logistics movements indicate preparations that could support real operations rather than mere threats.",
+        "American officials are warning regional allies about renewed strikes coming after November 3rd, after the midterm elections.",
+        "A US operation against Iran could provoke missile and drone retaliation that forces US forces and allies to spend resources defending shipping routes and infrastructure.",
+        "Political timing suggests a national security crisis could shift public attention during the midterm elections and might be used to influence political outcomes.",
+        "Claims that Iran may attempt election interference are being reported but do not prove compromise of voting systems; such claims can destroy public confidence regardless of technical success.",
+        "The Strait of Hormuz remains a vulnerable energy corridor where attacks or mined tankers would create global economic consequences that ultimately hit consumers and taxpayers.",
+        "Diplomatic efforts involving Qatar are reportedly ongoing, and the buildup might be intended to create leverage for negotiations rather than to launch an offensive."
+      ],
+      "transcript_uncertainties": [
+        "The creator does not know what the transport aircraft are carrying and explicitly states that ignorance.",
+        "It is uncertain whether the deployments signal preparations for strikes after November 3rd or are intended merely to pressure Iran into negotiations.",
+        "There is no proof provided that Iran is compromising American voting systems despite warnings about possible interference."
+      ],
+      "important_details": [
+        "If the United States conducts a major operation against Iran, planners must anticipate retaliation that could disrupt shipping and infrastructure and escalate the conflict.",
+        "Federal election dates and congressional terms are governed by law and the Constitution, so the president does not have unilateral authority to cancel congressional elections even during war.",
+        "When senior officials change or reschedule appearances during heightened military activity, such scheduling shifts are worth watching as potential indicators of significance."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "OTBeTZBXg1A",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "PDyerc5FraI",
+      "source": "youtube",
+      "title": "Efter debatten i Malmö kommunfullmäktige: \"Kritisera inga politiker\"",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=PDyerc5FraI",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5444,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.397,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5444",
+        "recency"
+      ],
+      "video_id": "PDyerc5FraI",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@AndreiJikh"
+      },
+      "id": "QpPf_hY_Bl8",
+      "source": "youtube",
+      "title": "North Korea Suspected In Crypto Heist",
+      "channel": "AndreiJikh",
+      "url": "https://www.youtube.com/watch?v=QpPf_hY_Bl8",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-04T04:30:00+00:00",
+      "screened_at": "2026-11-04T04:30:00+00:00",
+      "expires_at": "2026-11-07T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 16830,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.036,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "QpPf_hY_Bl8",
+      "processed_at_utc": "2026-11-04T12:23:21+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-03T12:10:35+00:00",
+  "updated_at_utc": "2026-11-04T12:23:21+00:00",
   "version": 1
 }
