@@ -16367,6 +16367,506 @@
         "approved_after_generation_checks": true,
         "seal": "7a27abd4018c49734a5c4765c72e590adc3fdb91fd9d80847946a497d31cde84"
       }
+    },
+    "cybermed:daily:2026-11-04:2026-11-04:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-04",
+      "period_end": "2026-11-04",
+      "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+      "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916",
+      "message_id": "<b81e47f9dc63d04b7ed67bbc698650ddc78062c127965f9572cabceffd8ce3bd@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-04T12:34:29+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42970708",
+            "title": "TAVR in Patients with Moderate Aortic Stenosis with At-Risk Features.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970708/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970704",
+            "title": "Management of Moderate Aortic Stenosis in Older Adults - The P in PICOT.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970704/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969897",
+            "title": "Coronary CT Angiography versus Intravascular Ultrasound Guidance for PCI.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969897/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969894",
+            "title": "Extended Outcomes of the ADAPT AF-DES Trial.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969894/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969876",
+            "title": "When Patients Need an Enemy.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969876/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969872",
+            "title": "Private Health Insurance and Profit - Lessons for the United States.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969872/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969866",
+            "title": "The Learning Health System, Made Computable.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969866/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969865",
+            "title": "Disseminated Bartonellosis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969865/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963061",
+            "title": "Effectiveness of supraclavicular brachial plexus block for the cutaneous innervation of the medial elbow region: a prospective, observational study.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963061/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971312",
+            "title": "Wearable-based automated cardiac arrest detection and alerting: A systematic review.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971312/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971311",
+            "title": "Long-Term Survival Following Extracorporeal Cardiopulmonary Resuscitation: A Two-Center Five-Year Analysis.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971311/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971310",
+            "title": "Post-resuscitation ST-segment elevation and coronary angiographic phenotypes in angiography-evaluable survivors of out-of-hospital cardiac arrest with presumed coronary lesion-related arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971310/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971309",
+            "title": "Editorial: How to measure first responders' arrival time in a smartphone alerting system? An observational study.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971309/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971308",
+            "title": "AEDs in Hospitals: more than just pushing a button.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971308/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42945977",
+            "title": "Diagnostic labels, GETomics, and biostates in airway diseases.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42945977/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929478",
+            "title": "Haemodynamic and Respiratory Effects of Dexmedetomidine as an Adjuvant to Oxycodone Patient-Controlled Analgesia After Lumbar Spinal Fusion: A Post Hoc Analysis of the DoseRespDex Randomised Controlled Trial.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929478/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42934119",
+            "title": "Therapeutic Targeting of the Macrophage YTHDC1/TIGAR/NF-κB Axis Mitigates Pulmonary Hypertension.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934119/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42934091",
+            "title": "Reply to Xu and Hu: Does the BMI-by-Collapse Association Persist With HGNS Alone?",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934091/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42934090",
+            "title": "Does the BMI-by-Collapse Association Persist With HGNS Alone?",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42934090/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42931131",
+            "title": "Hyperpolarized 129Xe MRI membrane uptake associates with lung function changes in patients with idiopathic pulmonary fibrosis initiating antifibrotic therapy.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42931131/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42930928",
+            "title": "Preoperative short-term PM2.5 Exposure and Postoperative Pulmonary Complications After Lung Cancer Surgery.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42930928/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42920372",
+            "title": "Awake tracheal intubation: the default technique?",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42920372/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42922441",
+            "title": "Cheap knowledge, scarce experience: training Generation Alpha.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42922441/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42922413",
+            "title": "Liberal vs. conventional pre-operative clear fluid fasting policies in children: a systematic review and meta-analysis of randomised and non-randomised studies.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42922413/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42922294",
+            "title": "Interpreting bispectral index monitoring during remimazolam and propofol anaesthesia: a reply.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42922294/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42926040",
+            "title": "From Microbial burden to host response dysregulation: toward host-centered precision medicine in severe pneumonia and pneumonia-associated sepsis.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42926040/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901204",
+            "title": "Erratum: Ethical Considerations in Quality Improvement Research versus Human Subject Research.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901204/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901203",
+            "title": "In Response.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901203/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901202",
+            "title": "In Response.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901202/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901201",
+            "title": "Research Misconduct: Inconsistent Consequences.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901201/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901200",
+            "title": "Maintaining Scientific Integrity: The Many Faces of Fraud.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901200/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42901199",
+            "title": "Trust Under Scrutiny: The Changing Face of Scientific Integrity.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42901199/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/bubble-wrap-plus-november-2026/",
+            "title": "Bubble Wrap PLUS – November 2026",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/bubble-wrap-plus-november-2026/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42929478",
+            "title": "Haemodynamic and Respiratory Effects of Dexmedetomidine as an Adjuvant to Oxycodone Patient-Controlled Analgesia After Lumbar Spinal Fusion: A Post Hoc Analysis of the DoseRespDex Randomised Controlled Trial.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929478/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42929478",
+              "doi": "10.1111/aas.70362",
+              "kind": "original",
+              "source_version": "513f7fb3a8d014501ae406925caa7463776b8c790d952796b22a5763fd2d821b",
+              "fields": {
+                "title": "a3176d0034ed9051cb46ec31ce4a0d0d415d3032df2b8f20c0330693fbd23816",
+                "abstract": "747fb6d8eabe114d0b5ca380d9da2ebf0d52c6b9c3f857941a2eca1314540fbc",
+                "types": "81812cd5f4c078a076d4b245c7124847364f18d856c2693cea54437365dc5087",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e8c224a2f6dc0bc76102ad2a8133f5d954c14ccba0350bf000826d008bbe170b",
+                "results_known": false,
+                "numbers": "4bc0c99dbbb41a902ae0e67609b1739524e390374b48af79c7591b4b40147b07",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "866082de4add735c04ae10044df408f629ae255b78f4e1e3c3b88490cd3ce215",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42971311",
+            "title": "Long-Term Survival Following Extracorporeal Cardiopulmonary Resuscitation: A Two-Center Five-Year Analysis.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971311/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42971311",
+              "doi": "10.1016/j.resuscitation.2026.111379",
+              "kind": "original",
+              "source_version": "66c931859e53663e8ce39eba68a07a92e89e363aa1b7b115da8f778e25b65916",
+              "fields": {
+                "title": "89f5fdfc0218e9537ade6975548cc346f6e44dbeeb02c7ba883f10b502f1a587",
+                "abstract": "be372d45af1f81e167c1c4e153933688ad1d05b68fc0b4662528b4d9c2c797b0",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42971312",
+            "title": "Wearable-based automated cardiac arrest detection and alerting: A systematic review.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971312/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42971312",
+              "doi": "10.1016/j.resuscitation.2026.111378",
+              "kind": "original",
+              "source_version": "205e1c3ec4ef3f7175aeb5d6157bde434fe3b48ec65af953ee47ad6fd29d89a8",
+              "fields": {
+                "title": "de25573f24419757f46c354eed023a5423b9025f65a8e362221fd43811b38cdb",
+                "abstract": "babd8359d5f18cd6b39743c857f62e0016712fbc37fdc2da292052e0f75af7df",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "2002d97fd008c6e91d89aaa2586630fd932dbb3b51aae851eb43acbfa8b4d0de",
+                "results_known": true,
+                "numbers": "213060f29e4ffe13b645809ca5256e66cffae2fb916a36d7c94da9b6133a75e6",
+                "endpoint": "ad1a2565c4474414f880f92b9c9db06cfd66df6df7e5006ee3c884b7f7c6a9cc",
+                "methods": "44db7d186f750e0b5669c318573a1a3741e60277c8bab175ba00095b2da4bc5e",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42963061",
+            "title": "Effectiveness of supraclavicular brachial plexus block for the cutaneous innervation of the medial elbow region: a prospective, observational study.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963061/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42963061",
+              "doi": "10.1136/rapm-2026-108564",
+              "kind": "original",
+              "source_version": "452b876913efa90f3e9dad7b4be613db44f4dba01d914d8f48ae0e50c10dca9a",
+              "fields": {
+                "title": "ff1760d3828734c215d4a2097164617f239610246a046644c2bd7ee4535f7e47",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42922413",
+            "title": "Liberal vs. conventional pre-operative clear fluid fasting policies in children: a systematic review and meta-analysis of randomised and non-randomised studies.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42922413/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42922413",
+              "doi": "10.1111/anae.70441",
+              "kind": "original",
+              "source_version": "de64bc414cc010fd775237909b69b15e357bc2f66ecb93aee89d1f7ebdd66885",
+              "fields": {
+                "title": "0a6d47ed7f90701b0c8656761409ccfc4c43465573435f94bec412629a47d542",
+                "abstract": "b996107adda8618b24071e258cf1c9cfdf16b3485e970e8ebf1a99100c855c79",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "17a6a747176b2fdc85c71693570ab702e82fa351fc1e02039cbbd7c1bc2c4c78",
+                "results_known": true,
+                "numbers": "5bb46496318cfdca6883ee14b96a152b1882219e14e0a12e220f7b74be0504e2",
+                "endpoint": "86a220df6269f35b52744b3c284162a64a55d8bbea1d2dd33633bd5485cee6f5",
+                "methods": "5997a10cd9f5a6c9514d58ca785e1ed2c0919b478d96e12390d4fd958ce380c6",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42971311",
+            "title": "Long-Term Survival Following Extracorporeal Cardiopulmonary Resuscitation: A Two-Center Five-Year Analysis.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971311/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42971311",
+              "doi": "10.1016/j.resuscitation.2026.111379",
+              "kind": "original",
+              "source_version": "66c931859e53663e8ce39eba68a07a92e89e363aa1b7b115da8f778e25b65916",
+              "fields": {
+                "title": "89f5fdfc0218e9537ade6975548cc346f6e44dbeeb02c7ba883f10b502f1a587",
+                "abstract": "be372d45af1f81e167c1c4e153933688ad1d05b68fc0b4662528b4d9c2c797b0",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42929478",
+            "title": "Haemodynamic and Respiratory Effects of Dexmedetomidine as an Adjuvant to Oxycodone Patient-Controlled Analgesia After Lumbar Spinal Fusion: A Post Hoc Analysis of the DoseRespDex Randomised Controlled Trial.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929478/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42929478",
+              "doi": "10.1111/aas.70362",
+              "kind": "original",
+              "source_version": "513f7fb3a8d014501ae406925caa7463776b8c790d952796b22a5763fd2d821b",
+              "fields": {
+                "title": "a3176d0034ed9051cb46ec31ce4a0d0d415d3032df2b8f20c0330693fbd23816",
+                "abstract": "747fb6d8eabe114d0b5ca380d9da2ebf0d52c6b9c3f857941a2eca1314540fbc",
+                "types": "81812cd5f4c078a076d4b245c7124847364f18d856c2693cea54437365dc5087",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e8c224a2f6dc0bc76102ad2a8133f5d954c14ccba0350bf000826d008bbe170b",
+                "results_known": false,
+                "numbers": "4bc0c99dbbb41a902ae0e67609b1739524e390374b48af79c7591b4b40147b07",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "866082de4add735c04ae10044df408f629ae255b78f4e1e3c3b88490cd3ce215",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/bubble-wrap-plus-november-2026/",
+            "title": "Bubble Wrap PLUS – November 2026",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/bubble-wrap-plus-november-2026/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-04T12:34:25+00:00"
+      },
+      "workflow_run_id": "41830155076",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "8ebba3ceac603c5dce7c21d1825adfb83851ca8173d5179351052dad1a2d3e57",
+        "finalization_policy": "markers",
+        "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916",
+        "message_id": "<b81e47f9dc63d04b7ed67bbc698650ddc78062c127965f9572cabceffd8ce3bd@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "ed3b5220462f8393_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "ec2a2005f9170aa94ae8501938f9d300e709d344e8b84ec3972b75171d5fb2c1"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "bbc09d477f6ea7d8d22f9245a421724c8a9aeea2402244273691d66983a8743a"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -17074,23 +17574,37 @@
         "42906746",
         "42906747",
         "42906748",
+        "42910655",
         "42918318",
         "42919415",
         "42919448",
         "42919451",
         "42919460",
         "42919629",
+        "42924421",
+        "42927910",
+        "42927944",
         "42928302",
         "42929692",
         "42931902",
+        "42933455",
         "42933845",
         "42934779",
         "42950975",
         "42951064",
         "42955323",
+        "42956771",
+        "42956796",
         "42956923",
         "42956924",
-        "42956925"
+        "42956925",
+        "42968670",
+        "42968679",
+        "42969615",
+        "42969616",
+        "42970124",
+        "42970133",
+        "42972430"
       ]
     }
   }

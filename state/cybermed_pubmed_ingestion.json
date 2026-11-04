@@ -5,12 +5,14 @@
       "name": "PubMed: Acta Anaesthesiologica Scandinavica",
       "term": "\"Acta Anaesthesiol Scand\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-26",
+      "next_date": "2026-10-27",
       "recent_done": {
-        "2026-10-24": [],
         "2026-10-25": [
           "42927910",
           "42927944"
+        ],
+        "2026-10-26": [
+          "42929478"
         ]
       },
       "active": null,
@@ -27,6 +29,18 @@
             "edition_id": "cybermed:daily:2026-11-03:2026-11-03:production",
             "content_version": "48860a4b3faa6126167fd13d1f410f99c9db10524af75f8e960eeb4176623fba"
           }
+        ],
+        "2026-10-26": [
+          {
+            "generated": [
+              "42929478"
+            ],
+            "screened_out": [],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+            "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916"
+          }
         ]
       }
     },
@@ -34,30 +48,33 @@
       "name": "PubMed: American Journal of Respiratory and Critical Care Medicine",
       "term": "\"Am J Respir Crit Care Med\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-25",
+      "next_date": "2026-10-27",
       "recent_done": {
-        "2026-10-23": [],
-        "2026-10-24": [
-          "42921747",
-          "42924343",
-          "42924421"
+        "2026-10-25": [],
+        "2026-10-26": [
+          "42930928",
+          "42931131",
+          "42934090",
+          "42934091",
+          "42934119"
         ]
       },
       "active": null,
       "processing_receipts": {
-        "2026-10-24": [
+        "2026-10-26": [
           {
-            "generated": [
-              "42924421"
-            ],
+            "generated": [],
             "screened_out": [
-              "42921747",
-              "42924343"
+              "42930928",
+              "42931131",
+              "42934090",
+              "42934091",
+              "42934119"
             ],
             "deduplicated": [],
             "delivery_claim": false,
-            "edition_id": "cybermed:daily:2026-11-03:2026-11-03:production",
-            "content_version": "48860a4b3faa6126167fd13d1f410f99c9db10524af75f8e960eeb4176623fba"
+            "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+            "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916"
           }
         ]
       }
@@ -66,17 +83,20 @@
       "name": "PubMed: Anaesthesia",
       "term": "\"Anaesthesia\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-24",
+      "next_date": "2026-10-25",
       "recent_done": {
-        "2026-10-22": [
-          "42906612"
-        ],
         "2026-10-23": [
           "42910655",
           "42918723",
           "42918731",
           "42919113",
           "42919368"
+        ],
+        "2026-10-24": [
+          "42920372",
+          "42922294",
+          "42922413",
+          "42922441"
         ]
       },
       "active": null,
@@ -210,18 +230,6 @@
         }
       },
       "processing_receipts": {
-        "2026-10-22": [
-          {
-            "generated": [
-              "42906612"
-            ],
-            "screened_out": [],
-            "deduplicated": [],
-            "delivery_claim": false,
-            "edition_id": "cybermed:daily:2026-11-02:2026-11-02:production",
-            "content_version": "938e607ea1f207929521be8d8f256c5c39176b407b63dc73cea83ad282c4613d"
-          }
-        ],
         "2026-10-23": [
           {
             "generated": [
@@ -238,6 +246,22 @@
             "edition_id": "cybermed:daily:2026-11-03:2026-11-03:production",
             "content_version": "48860a4b3faa6126167fd13d1f410f99c9db10524af75f8e960eeb4176623fba"
           }
+        ],
+        "2026-10-24": [
+          {
+            "generated": [
+              "42922413"
+            ],
+            "screened_out": [
+              "42920372",
+              "42922294",
+              "42922441"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+            "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916"
+          }
         ]
       }
     },
@@ -245,29 +269,25 @@
       "name": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
       "term": "\"Anaesth Crit Care Pain Med\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-24",
+      "next_date": "2026-10-25",
       "recent_done": {
-        "2026-10-22": [
-          "42906746",
-          "42906747",
-          "42906748"
-        ],
-        "2026-10-23": []
+        "2026-10-23": [],
+        "2026-10-24": [
+          "42926040"
+        ]
       },
       "active": null,
       "processing_receipts": {
-        "2026-10-22": [
+        "2026-10-24": [
           {
-            "generated": [
-              "42906746",
-              "42906747",
-              "42906748"
+            "generated": [],
+            "screened_out": [
+              "42926040"
             ],
-            "screened_out": [],
             "deduplicated": [],
             "delivery_claim": false,
-            "edition_id": "cybermed:daily:2026-10-30:2026-10-30:production",
-            "content_version": "c33c3e106377d361bd6d46b76735f46e17dc3f56a8a70e489de603797fda2d5c"
+            "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+            "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916"
           }
         ]
       }
@@ -276,40 +296,50 @@
       "name": "PubMed: Anesthesia & Analgesia",
       "term": "\"Anesth Analg\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-19",
+      "next_date": "2026-10-21",
       "recent_done": {
-        "2026-10-17": [],
-        "2026-10-18": []
+        "2026-10-19": [],
+        "2026-10-20": [
+          "42901199",
+          "42901200",
+          "42901201",
+          "42901202",
+          "42901203",
+          "42901204"
+        ]
       },
       "active": null,
-      "processing_receipts": {}
+      "processing_receipts": {
+        "2026-10-20": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42901199",
+              "42901200",
+              "42901201",
+              "42901202",
+              "42901203",
+              "42901204"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+            "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916"
+          }
+        ]
+      }
     },
     "1572ed857278bc7b008481e2c26d8d0e70d7d8d4e823eff7d56e490746ca216d": {
       "name": "PubMed: Anesthesiology",
       "term": "\"Anesthesiology\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-20",
+      "next_date": "2026-10-22",
       "recent_done": {
-        "2026-10-18": [],
-        "2026-10-19": [
-          "42896234"
-        ]
+        "2026-10-20": [],
+        "2026-10-21": []
       },
       "active": null,
-      "processing_receipts": {
-        "2026-10-19": [
-          {
-            "generated": [
-              "42896234"
-            ],
-            "screened_out": [],
-            "deduplicated": [],
-            "delivery_claim": false,
-            "edition_id": "cybermed:daily:2026-10-23:2026-10-23:production",
-            "content_version": "5805db2cb026d79e2c0786f8822dd7609526a5fed1580b68fdb79626629895cc"
-          }
-        ]
-      }
+      "processing_receipts": {}
     },
     "5ac7677c22ed3e9788fdd67c4554d51f53ef74fdae918336b468cb035b539c19": {
       "name": "PubMed: Annals of Emergency Medicine",
@@ -528,9 +558,8 @@
       "name": "PubMed: Intensive Care Medicine",
       "term": "\"Intensive Care Med\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-11-03",
+      "next_date": "2026-11-04",
       "recent_done": {
-        "2026-11-01": [],
         "2026-11-02": [
           "42970124",
           "42970125",
@@ -544,9 +573,19 @@
           "42970133",
           "42970134",
           "42970135"
-        ]
+        ],
+        "2026-11-03": []
       },
-      "active": null,
+      "active": {
+        "day": "2026-11-04",
+        "ids": [],
+        "done": [],
+        "parked": [],
+        "records": {},
+        "closed_day_snapshot": false,
+        "snapshot_reference": "2026-11-04T04:40:00+00:00",
+        "search_count": 0
+      },
       "processing_receipts": {
         "2026-11-02": [
           {
@@ -578,19 +617,19 @@
       "name": "PubMed: JAMA (intensiv/akut Filter)",
       "term": "\"JAMA\"[jour] AND (ICU[tiab] OR \"intensive care\"[tiab] OR \"critical care\"[tiab] OR sepsis[tiab] OR shock[tiab] OR ventilat*[tiab] OR perioperat*[tiab] OR anesthe*[tiab] OR anaesthe*[tiab] OR emergency[tiab] OR resuscitat*[tiab] OR \"cardiac arrest\"[tiab])",
       "initial_start": "2026-10-13",
-      "next_date": "2026-11-03",
+      "next_date": "2026-11-04",
       "recent_done": {
-        "2026-11-01": [],
-        "2026-11-02": []
+        "2026-11-02": [],
+        "2026-11-03": []
       },
       "active": {
-        "day": "2026-11-03",
+        "day": "2026-11-04",
         "ids": [],
         "done": [],
         "parked": [],
         "records": {},
         "closed_day_snapshot": false,
-        "snapshot_reference": "2026-11-03T04:40:00+00:00",
+        "snapshot_reference": "2026-11-04T04:40:00+00:00",
         "search_count": 0
       },
       "processing_receipts": {}
@@ -599,15 +638,24 @@
       "name": "PubMed: Journal of Intensive Care",
       "term": "\"J Intensive Care\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-11-03",
+      "next_date": "2026-11-04",
       "recent_done": {
-        "2026-11-01": [],
         "2026-11-02": [
           "42972451",
           "42972481"
-        ]
+        ],
+        "2026-11-03": []
       },
-      "active": null,
+      "active": {
+        "day": "2026-11-04",
+        "ids": [],
+        "done": [],
+        "parked": [],
+        "records": {},
+        "closed_day_snapshot": false,
+        "snapshot_reference": "2026-11-04T04:40:00+00:00",
+        "search_count": 0
+      },
       "processing_receipts": {
         "2026-11-02": [
           {
@@ -628,15 +676,24 @@
       "name": "PubMed: KI in Anästhesie/ICU (breit)",
       "term": "(\"artificial intelligence\"[tiab] OR \"machine learning\"[tiab] OR \"deep learning\"[tiab]) AND (\"Br J Anaesth\"[jour] OR \"Anesth Analg\"[jour] OR \"Intensive Care Med\"[jour] OR \"Crit Care\"[jour] OR \"Resuscitation\"[jour])",
       "initial_start": "2026-10-13",
-      "next_date": "2026-11-03",
+      "next_date": "2026-11-04",
       "recent_done": {
-        "2026-11-01": [],
         "2026-11-02": [
           "42970133",
           "42972430"
-        ]
+        ],
+        "2026-11-03": []
       },
-      "active": null,
+      "active": {
+        "day": "2026-11-04",
+        "ids": [],
+        "done": [],
+        "parked": [],
+        "records": {},
+        "closed_day_snapshot": false,
+        "snapshot_reference": "2026-11-04T04:40:00+00:00",
+        "search_count": 0
+      },
       "processing_receipts": {
         "2026-11-02": [
           {
@@ -657,14 +714,23 @@
       "name": "PubMed: Nature (medizin/biomed breit)",
       "term": "\"Nature\"[jour] AND (clinical[tiab] OR trial[tiab] OR cohort[tiab] OR ICU[tiab] OR anesthesia[tiab])",
       "initial_start": "2026-10-13",
-      "next_date": "2026-11-03",
+      "next_date": "2026-11-04",
       "recent_done": {
-        "2026-11-01": [],
         "2026-11-02": [
           "42972116"
-        ]
+        ],
+        "2026-11-03": []
       },
-      "active": null,
+      "active": {
+        "day": "2026-11-04",
+        "ids": [],
+        "done": [],
+        "parked": [],
+        "records": {},
+        "closed_day_snapshot": false,
+        "snapshot_reference": "2026-11-04T04:40:00+00:00",
+        "search_count": 0
+      },
       "processing_receipts": {
         "2026-11-02": [
           {
@@ -684,30 +750,68 @@
       "name": "PubMed: New England Journal of Medicine (medizin breit)",
       "term": "\"N Engl J Med\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-11-02",
+      "next_date": "2026-11-03",
       "recent_done": {
-        "2026-10-31": [],
-        "2026-11-01": []
+        "2026-11-01": [],
+        "2026-11-02": [
+          "42969865",
+          "42969866",
+          "42969872",
+          "42969876",
+          "42969894",
+          "42969897",
+          "42970704",
+          "42970708"
+        ]
       },
       "active": null,
-      "processing_receipts": {}
+      "processing_receipts": {
+        "2026-11-02": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42969865",
+              "42969866",
+              "42969872",
+              "42969876",
+              "42969894",
+              "42969897",
+              "42970704",
+              "42970708"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+            "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916"
+          }
+        ]
+      }
     },
     "8bbfed9a9eacfa41930de5b27fc673788d383675854e1284b71584aa6dfc161e": {
       "name": "PubMed: Pain",
       "term": "\"Pain\"[jour] AND (postoperat*[tiab] OR perioperat*[tiab] OR regional[tiab] OR neuraxial[tiab] OR block[tiab] OR anesthesia[tiab] OR anaesthesia[tiab] OR ICU[tiab] OR \"intensive care\"[tiab] OR critical[tiab] OR emergency[tiab])",
       "initial_start": "2026-10-13",
-      "next_date": "2026-11-03",
+      "next_date": "2026-11-04",
       "recent_done": {
-        "2026-11-01": [],
         "2026-11-02": [
           "42969612",
           "42969614",
           "42969615",
           "42969616",
           "42970306"
-        ]
+        ],
+        "2026-11-03": []
       },
-      "active": null,
+      "active": {
+        "day": "2026-11-04",
+        "ids": [],
+        "done": [],
+        "parked": [],
+        "records": {},
+        "closed_day_snapshot": false,
+        "snapshot_reference": "2026-11-04T04:40:00+00:00",
+        "search_count": 0
+      },
       "processing_receipts": {
         "2026-11-02": [
           {
@@ -732,14 +836,16 @@
       "name": "PubMed: Regional Anesthesia & Pain Medicine",
       "term": "\"Reg Anesth Pain Med\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-30",
+      "next_date": "2026-10-31",
       "recent_done": {
-        "2026-10-28": [],
         "2026-10-29": [
           "42957166",
           "42957167",
           "42957168",
           "42957169"
+        ],
+        "2026-10-30": [
+          "42963061"
         ]
       },
       "active": null,
@@ -758,6 +864,18 @@
             "edition_id": "cybermed:daily:2026-11-03:2026-11-03:production",
             "content_version": "48860a4b3faa6126167fd13d1f410f99c9db10524af75f8e960eeb4176623fba"
           }
+        ],
+        "2026-10-30": [
+          {
+            "generated": [
+              "42963061"
+            ],
+            "screened_out": [],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+            "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916"
+          }
         ]
       }
     },
@@ -765,22 +883,46 @@
       "name": "PubMed: Resuscitation",
       "term": "\"Resuscitation\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-11-01",
+      "next_date": "2026-11-03",
       "recent_done": {
-        "2026-10-30": [],
-        "2026-10-31": []
+        "2026-11-01": [],
+        "2026-11-02": [
+          "42971308",
+          "42971309",
+          "42971310",
+          "42971311",
+          "42971312"
+        ]
       },
       "active": null,
-      "processing_receipts": {}
+      "processing_receipts": {
+        "2026-11-02": [
+          {
+            "generated": [
+              "42971311",
+              "42971312"
+            ],
+            "screened_out": [
+              "42971308",
+              "42971309",
+              "42971310"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+            "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916"
+          }
+        ]
+      }
     },
     "ecfd4995460bc49c432dce3ea29296494e4c87c0e72d79f9e8eb1c205ae64201": {
       "name": "PubMed: Science (medizin/biomed breit)",
       "term": "\"Science\"[jour] AND (clinical[tiab] OR trial[tiab] OR cohort[tiab] OR ICU[tiab] OR anesthesia[tiab])",
       "initial_start": "2026-10-13",
-      "next_date": "2026-11-01",
+      "next_date": "2026-11-03",
       "recent_done": {
-        "2026-10-30": [],
-        "2026-10-31": []
+        "2026-11-01": [],
+        "2026-11-02": []
       },
       "active": null,
       "processing_receipts": {}
@@ -789,71 +931,38 @@
       "name": "PubMed: The BMJ (intensiv/akut Filter)",
       "term": "\"BMJ\"[jour] AND (ICU[tiab] OR \"intensive care\"[tiab] OR \"critical care\"[tiab] OR sepsis[tiab] OR shock[tiab] OR ventilat*[tiab] OR perioperat*[tiab] OR anesthe*[tiab] OR anaesthe*[tiab] OR emergency[tiab] OR resuscitat*[tiab] OR \"cardiac arrest\"[tiab])",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-31",
+      "next_date": "2026-11-02",
       "recent_done": {
-        "2026-10-29": [],
-        "2026-10-30": [
-          "42963051"
-        ]
+        "2026-10-31": [],
+        "2026-11-01": []
       },
       "active": null,
-      "processing_receipts": {
-        "2026-10-30": [
-          {
-            "generated": [],
-            "screened_out": [
-              "42963051"
-            ],
-            "deduplicated": [],
-            "delivery_claim": false,
-            "edition_id": "cybermed:daily:2026-11-03:2026-11-03:production",
-            "content_version": "48860a4b3faa6126167fd13d1f410f99c9db10524af75f8e960eeb4176623fba"
-          }
-        ]
-      }
+      "processing_receipts": {}
     },
     "99e53fa79e822b1de7672b3c184e5bed8ae01388880ac308a4e5f45be7b65d2a": {
       "name": "PubMed: The Lancet (intensiv/akut Filter)",
       "term": "\"Lancet\"[jour] AND (ICU[tiab] OR \"intensive care\"[tiab] OR \"critical care\"[tiab] OR sepsis[tiab] OR shock[tiab] OR ventilat*[tiab] OR perioperat*[tiab] OR anesthe*[tiab] OR anaesthe*[tiab] OR emergency[tiab] OR resuscitat*[tiab] OR \"cardiac arrest\"[tiab])",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-30",
+      "next_date": "2026-11-01",
       "recent_done": {
-        "2026-10-28": [],
-        "2026-10-29": [
-          "42956771",
-          "42956795",
-          "42956796"
-        ]
+        "2026-10-30": [],
+        "2026-10-31": []
       },
       "active": null,
-      "processing_receipts": {
-        "2026-10-29": [
-          {
-            "generated": [
-              "42956771",
-              "42956796"
-            ],
-            "screened_out": [
-              "42956795"
-            ],
-            "deduplicated": [],
-            "delivery_claim": false,
-            "edition_id": "cybermed:daily:2026-11-03:2026-11-03:production",
-            "content_version": "48860a4b3faa6126167fd13d1f410f99c9db10524af75f8e960eeb4176623fba"
-          }
-        ]
-      }
+      "processing_receipts": {}
     },
     "b31026bce0c952c6f95c665c9e5b69a1ad0815b1b93fa4cd8f24bb765bf81cb1": {
       "name": "PubMed: The Lancet Respiratory Medicine",
       "term": "\"Lancet Respir Med\"[jour]",
       "initial_start": "2026-10-13",
-      "next_date": "2026-10-27",
+      "next_date": "2026-10-28",
       "recent_done": {
-        "2026-10-25": [],
         "2026-10-26": [
           "42933454",
           "42933455"
+        ],
+        "2026-10-27": [
+          "42945977"
         ]
       },
       "active": null,
@@ -871,11 +980,23 @@
             "edition_id": "cybermed:daily:2026-11-03:2026-11-03:production",
             "content_version": "48860a4b3faa6126167fd13d1f410f99c9db10524af75f8e960eeb4176623fba"
           }
+        ],
+        "2026-10-27": [
+          {
+            "generated": [],
+            "screened_out": [
+              "42945977"
+            ],
+            "deduplicated": [],
+            "delivery_claim": false,
+            "edition_id": "cybermed:daily:2026-11-04:2026-11-04:production",
+            "content_version": "f7a7a5c5b1c7facb9cede20b31ea981be85314cdd1fa23fef3336e6bd861c916"
+          }
         ]
       }
     }
   },
-  "rotation": 13,
+  "rotation": 14,
   "recovered": [
     "6aa1780b814a66715c4cd8c33b08a025a4ddfeda551f5bbf9d79d0b7956bb79e"
   ]
