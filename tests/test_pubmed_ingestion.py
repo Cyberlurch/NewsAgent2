@@ -95,6 +95,56 @@ def test_valid_zero(monkeypatch, no_wait):
     assert ids == [] and meta['esearch_count_total'] == 0
 
 
+@pytest.mark.parametrize('final', [[], ['123']])
+def test_invalid_esearch_count_retries_same_page_then_accepts_valid_response(monkeypatch, no_wait, final):
+    seen = http(monkeypatch, [response(data={'esearchresult': {'count': 'invalid', 'idlist': []}}),
+        response(data={'esearchresult': {'count': str(len(final)), 'idlist': final}})])
+    budget = c.RetrievalBudget(max_requests=2)
+    with c.retrieval_budget(budget):
+        ids, meta = c.discover_pubmed_ids('ICU', REFERENCE.date(), REFERENCE.date())
+    assert ids == final and meta['pages'] == 1
+    assert budget.requests == 2 and len(seen) == 2
+    assert seen[0][1]['params'] == seen[1][1]['params']
+
+
+@pytest.mark.parametrize('limit', ['attempts', 'requests', 'time'])
+def test_invalid_esearch_retry_exhaustion_preserves_failure(monkeypatch, no_wait, capsys, limit):
+    clock = [0.0]
+    monkeypatch.setattr(c.time, 'monotonic', lambda: clock[0])
+    monkeypatch.setattr(c.time, 'sleep', lambda seconds: clock.__setitem__(0, clock[0] + seconds))
+    monkeypatch.setattr(c, '_LAST_REQUEST_TS', 0)
+    if limit == 'time':
+        monkeypatch.setenv('PUBMED_BACKOFF_BASE_S', '2')
+    bad = response(data={'esearchresult': {'count': 'private-response-token', 'idlist': []}})
+    seen = http(monkeypatch, [bad, bad])
+    budget = c.RetrievalBudget(seconds=1, max_requests=1 if limit == 'requests' else 10)
+    with c.retrieval_budget(budget):
+        with pytest.raises(c.PubMedError, match='invalid_esearch_count') as err:
+            c.discover_pubmed_ids('ICU', REFERENCE.date(), REFERENCE.date())
+    assert len(seen) == (2 if limit == 'attempts' else 1)
+    assert clock[0] == 0
+    assert 'private-response-token' not in str(err.value) + capsys.readouterr().out
+
+
+def test_invalid_later_page_retries_without_losing_history_or_ids(monkeypatch, no_wait):
+    seen = http(monkeypatch, [
+        response(data={'esearchresult': {'count': '2', 'idlist': ['1'], 'webenv': 'runtime-only', 'querykey': '1'}}),
+        response(data={'esearchresult': {'idlist': []}}),
+        response(data={'esearchresult': {'count': '2', 'idlist': ['2']}})])
+    ids, meta = c.discover_pubmed_ids('ICU', REFERENCE.date(), REFERENCE.date(), page_size=1)
+    assert ids == ['1', '2'] and meta['pages'] == 2
+    assert seen[1][1]['params'] == seen[2][1]['params']
+    assert seen[2][1]['params']['retstart'] == '1'
+    assert seen[2][1]['params']['WebEnv'] == 'runtime-only'
+
+
+def test_mixed_server_and_schema_failures_share_attempt_limit(monkeypatch, no_wait):
+    seen = http(monkeypatch, [response(status=503), response(data={'esearchresult': {}})])
+    with pytest.raises(c.PubMedError, match='invalid_esearch_count'):
+        c.discover_pubmed_ids('ICU', REFERENCE.date(), REFERENCE.date())
+    assert len(seen) == 2
+
+
 @pytest.mark.parametrize('replies,category', [
     ([{'count':'10001','idlist':['1']}], 'api_result_limit'),
     ([{'count':'2','idlist':['1']}, {'count':'3','idlist':['2']}], 'search_snapshot_changed'),
@@ -387,6 +437,24 @@ def test_daily_query_failure_blocks_sender_but_keeps_successful_ingestion(monkey
     assert not path_for('CYBERMED_DAILY_DIGEST_STATE_PATH').exists()
     result=json.loads((tmp_path/'out/cybermed_daily_delivery_result.json').read_text())
     assert result['status']=='failed'
+
+
+def test_exhausted_esearch_schema_retries_block_smtp_and_coverage(monkeypatch, tmp_path, no_wait):
+    main = configure_main(monkeypatch, tmp_path,
+        [{'name': 'ICU', 'source': 'pubmed', 'query': 'ICU'}], mode='real')
+    bad = response(data={'esearchresult': {'count': 'invalid', 'idlist': []}})
+    seen = http(monkeypatch, [bad, bad])
+    monkeypatch.setattr(main, 'send_markdown', lambda *a, **k: pytest.fail('failed source must not send'))
+    with pytest.raises(RuntimeError, match='pubmed_ingestion_failed'):
+        main.main()
+    assert len(seen) == 2
+    row = ingestion.load()['queries'][ingestion.fingerprint('ICU')]
+    assert row['active'] is None and row['next_date'] == row['initial_start']
+    assert not row.get('processed_through')
+    assert not path_for('CYBERMED_DAILY_DIGEST_STATE_PATH').exists()
+    result = json.loads((tmp_path / 'out/cybermed_daily_delivery_result.json').read_text())
+    assert result['status'] == 'failed' and result['smtp_phase'] == 'not_handed_off'
+    assert result['accepted'] == [] and not result['generation_validated']
 
 
 @pytest.mark.parametrize('mode',['none','test'])
