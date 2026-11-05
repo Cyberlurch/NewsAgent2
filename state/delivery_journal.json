@@ -16867,6 +16867,246 @@
         "approved_after_generation_checks": true,
         "seal": "bbc09d477f6ea7d8d22f9245a421724c8a9aeea2402244273691d66983a8743a"
       }
+    },
+    "cyberlurch:daily:2026-11-05:2026-11-05:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-05",
+      "period_end": "2026-11-05",
+      "edition_id": "cyberlurch:daily:2026-11-05:2026-11-05:production",
+      "content_version": "1c185c4e6b9c7b0b12e6d34ad67fa138a477a21ce12f8db2fede20daaea22628",
+      "message_id": "<c245f84b945cb7291fcb5eda211007adde8d1a1066ec47622d64b43b00c6a278@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-05T12:38:29+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "9FsIMtIhTyo",
+            "title": "⚡ALERT! Drop Everything And Prepare for WW3.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=9FsIMtIhTyo"
+          },
+          {
+            "source": "youtube",
+            "id": "-4ZOXUHik40",
+            "title": "Kommer Kristersson lyckas där Andersson misslyckades? Detta säger bedömarna",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=-4ZOXUHik40"
+          },
+          {
+            "source": "youtube",
+            "id": "5Vyq1r93lMk",
+            "title": "Trump Announces End to US Military Aid to Israel as Political Uncertainty and Iran Tensions Mount",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=5Vyq1r93lMk"
+          },
+          {
+            "source": "youtube",
+            "id": "DgvQXYr6ELg",
+            "title": "Buying Russian Oil While Funding Attacks on Russian Refineries? | Chas Freeman",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=DgvQXYr6ELg"
+          },
+          {
+            "source": "youtube",
+            "id": "F33O09wCcjE",
+            "title": "ARD-Korrespondentin beantwortet Fragen zum Tod Hubert Aiwangers",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=F33O09wCcjE"
+          },
+          {
+            "source": "youtube",
+            "id": "QPhx3q6yutg",
+            "title": "CHRIST'S RETURN & PRAYING FOR HIS KINGDOM TO COME",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=QPhx3q6yutg"
+          },
+          {
+            "source": "youtube",
+            "id": "Ui8IjRv3AM0",
+            "title": "USA-WAHLHAMMER! Trump verliert Kongress + Iran-Krieg in Gefahr + Neue Ukraine-Milliarden?",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=Ui8IjRv3AM0"
+          },
+          {
+            "source": "youtube",
+            "id": "sn-YzcCNFeI",
+            "title": "Pentagon Preparing For 90 Day Grid Down Scenario (WW3)",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=sn-YzcCNFeI"
+          },
+          {
+            "source": "youtube",
+            "id": "4j3yFCa8MUI",
+            "title": "THE MILITARY IS PREPARING FOR SOMETHING... ARE YOU?",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=4j3yFCa8MUI"
+          },
+          {
+            "source": "youtube",
+            "id": "C0fcj5yUCxY",
+            "title": "Israel Daily News - November 4, 2026 | U.S. Midterms and Consequences for Israel",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=C0fcj5yUCxY"
+          },
+          {
+            "source": "youtube",
+            "id": "IuMRx9q7nfo",
+            "title": "Vladimir Solovyov says Elon Musk might move to Russia",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=IuMRx9q7nfo"
+          },
+          {
+            "source": "youtube",
+            "id": "R4r_yF_7i5o",
+            "title": "The Midterms are here! Get out and Vote!",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=R4r_yF_7i5o"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "9FsIMtIhTyo",
+            "title": "⚡ALERT! Drop Everything And Prepare for WW3.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=9FsIMtIhTyo"
+          },
+          {
+            "source": "youtube",
+            "id": "-4ZOXUHik40",
+            "title": "Kommer Kristersson lyckas där Andersson misslyckades? Detta säger bedömarna",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=-4ZOXUHik40"
+          },
+          {
+            "source": "youtube",
+            "id": "5Vyq1r93lMk",
+            "title": "Trump Announces End to US Military Aid to Israel as Political Uncertainty and Iran Tensions Mount",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=5Vyq1r93lMk"
+          },
+          {
+            "source": "youtube",
+            "id": "DgvQXYr6ELg",
+            "title": "Buying Russian Oil While Funding Attacks on Russian Refineries? | Chas Freeman",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=DgvQXYr6ELg"
+          },
+          {
+            "source": "youtube",
+            "id": "F33O09wCcjE",
+            "title": "ARD-Korrespondentin beantwortet Fragen zum Tod Hubert Aiwangers",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=F33O09wCcjE"
+          },
+          {
+            "source": "youtube",
+            "id": "QPhx3q6yutg",
+            "title": "CHRIST'S RETURN & PRAYING FOR HIS KINGDOM TO COME",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=QPhx3q6yutg"
+          },
+          {
+            "source": "youtube",
+            "id": "Ui8IjRv3AM0",
+            "title": "USA-WAHLHAMMER! Trump verliert Kongress + Iran-Krieg in Gefahr + Neue Ukraine-Milliarden?",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=Ui8IjRv3AM0"
+          },
+          {
+            "source": "youtube",
+            "id": "sn-YzcCNFeI",
+            "title": "Pentagon Preparing For 90 Day Grid Down Scenario (WW3)",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=sn-YzcCNFeI"
+          },
+          {
+            "source": "youtube",
+            "id": "4j3yFCa8MUI",
+            "title": "THE MILITARY IS PREPARING FOR SOMETHING... ARE YOU?",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=4j3yFCa8MUI"
+          },
+          {
+            "source": "youtube",
+            "id": "C0fcj5yUCxY",
+            "title": "Israel Daily News - November 4, 2026 | U.S. Midterms and Consequences for Israel",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=C0fcj5yUCxY"
+          },
+          {
+            "source": "youtube",
+            "id": "IuMRx9q7nfo",
+            "title": "Vladimir Solovyov says Elon Musk might move to Russia",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=IuMRx9q7nfo"
+          },
+          {
+            "source": "youtube",
+            "id": "R4r_yF_7i5o",
+            "title": "The Midterms are here! Get out and Vote!",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=R4r_yF_7i5o"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "9FsIMtIhTyo",
+            "title": "⚡ALERT! Drop Everything And Prepare for WW3.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=9FsIMtIhTyo"
+          },
+          {
+            "source": "youtube",
+            "id": "Ui8IjRv3AM0",
+            "title": "USA-WAHLHAMMER! Trump verliert Kongress + Iran-Krieg in Gefahr + Neue Ukraine-Milliarden?",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=Ui8IjRv3AM0"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-05T12:38:24+00:00"
+      },
+      "workflow_run_id": "42028339495",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-05:2026-11-05:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "48e99abc6ab83b93b33c2eb812d47bdac332f216f0b9b4174585a8390f3f8804",
+        "finalization_policy": "markers",
+        "content_version": "1c185c4e6b9c7b0b12e6d34ad67fa138a477a21ce12f8db2fede20daaea22628",
+        "message_id": "<c245f84b945cb7291fcb5eda211007adde8d1a1066ec47622d64b43b00c6a278@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "880e7faed38829e4_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "eb9feea356b8296f150e8ea06c7e22db23d02ad5e310601e20e20f628b77f24f"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "184a758f7718d9af33329f3a5267bc79fe1e6432bfd3442d670d751e927001af"
+      }
     }
   },
   "paper_legacy_unknown": {
