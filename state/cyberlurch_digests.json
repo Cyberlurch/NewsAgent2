@@ -142645,28 +142645,29 @@
         "Israel, Nahost & Sicherheitslage"
       ],
       "policy": "news",
-      "published_at": "2026-11-02T04:30:00+00:00",
-      "screened_at": "2026-11-02T04:30:00+00:00",
-      "expires_at": "2026-11-05T04:30:00+00:00",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
       "attempts": 0,
       "last_attempt_day": "",
       "stage": "screened",
       "selection_reason": "channel_balance",
       "source_basis": {
         "version": 1,
-        "kind": "transcript",
-        "provider": "managed_transcript",
-        "available_chars": 1221,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
         "processed_unique_chars": 0,
         "coverage": "none",
         "video_completeness": "unknown"
       },
-      "text_source": "managed_transcript",
-      "content_status": "full_text",
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
       "temporality": "trend_analysis",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
       "video_id": "FmDjpWaSIkg",
-      "processed_at_utc": "2026-11-02T12:45:09+00:00",
-      "topic_primary": null,
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
       "transcript_processing": null,
       "transcript_full_summary": null,
       "transcript_key_points": null,
@@ -145534,8 +145535,894 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "Ah864CLlp50",
+      "source": "youtube",
+      "title": "⚡ALERT! NUCLEAR TEAMS PREPARE ON IRAN BORDER! Market BLOODBATH, Putin Gets SECRET Message!",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=Ah864CLlp50",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T03:06:24+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T03:06:24+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 26064,
+        "processed_unique_chars": 26064,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 6.008,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript surveys escalating military tensions around Iran, global market turmoil, and widening preparations for large-scale conflict while asserting that US-led strikes on Iranian nuclear sites and allied mobilization are likely imminent.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The NASDAQ fell about 5.5% and the South Korean market dropped roughly 7% with a circuit breaker triggered at 8.5%.",
+        "The Iraqi nuclear regulator activated emergency response and border radiation monitoring amid concerns over potential US strikes on Iranian nuclear facilities from November 7 to 11.",
+        "Russia received an urgent message from Iran’s Supreme National Security Council Secretary to Vladimir Putin, after which Russia warned its citizens against travel to Iran."
+      ],
+      "transcript_notable_claims": [
+        "The Chinese stock market is down about 40% according to the transcript.",
+        "Iranian underground nuclear facilities are described as being built to withstand megaton nuclear blasts and too deep for current US conventional or nuclear weapons to penetrate.",
+        "Shelters opened in Shiraz and signs directed residents toward shelter facilities ahead of a possible attack.",
+        "The United States is prepositioning military assets and the USS Theodore Roosevelt carrier strike group port call was deferred to mid–late November.",
+        "Turkey ratified a Mecca agreement establishing joint defense cooperation between Turkey, Pakistan, and Saudi Arabia, surrounding Iran with allied states.",
+        "Fifteen of 38 Russian strategic refineries are out of operation with another 12 at reduced production, and five refinery sites with combined annual capacity of 65 million tons were hit in recent days.",
+        "Taiwan’s 2027 defense budget shifts toward dispersed, networked 'kill web' forces emphasizing space, cyber, electromagnetic, unmanned systems, and backup communications.",
+        "Five U.S. agencies warned about cyber threats to refrigeration and cold-chain systems that could force defrost cycles or continuous heating and destroy inventory."
+      ],
+      "transcript_uncertainties": [
+        "The transcript expresses uncertainty whether Iraqi preparations are a genuine prelude to conflict or an elaborate pressure tactic coordinated with the United States.",
+        "The author states uncertainty about the exact content of the urgent letter delivered by Iran’s national security official to Putin.",
+        "The transcript allows that some reported mobilizations and briefings could be 'cause play' or feigned actions intended to appear aggressive without intent to attack."
+      ],
+      "important_details": [
+        "The Iraqi airspace restrictions were specified to run from November 7 to November 11 according to the transcript.",
+        "The transcript claims Russia has transacted about $35 billion in gold with China since the war started and sold another 18 tons in Q3 2026.",
+        "The transcript reports widespread GPS jamming from the Baltic Sea to the Black Sea attributed to electronic warfare centered in Kaliningrad and Saint Petersburg."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "Ah864CLlp50",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@RogerLiebiLIVE"
+      },
+      "id": "19OdmwqbvDk",
+      "source": "youtube",
+      "title": "Isaac – Part 38 (Genesis 26:1): The Famine Test of Isaac; God’s Promises Confirmed.",
+      "channel": "RogerLiebiLIVE",
+      "url": "https://www.youtube.com/watch?v=19OdmwqbvDk",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 30325,
+        "processed_unique_chars": 30325,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "cyberlurch_deep_dive_score": 4.037,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon unfolds Genesis 26:1–17, presenting Isaac’s decision to stay in the Promised Land during a famine, his deception about Rebekah, God’s renewed promise to Isaac, and the ensuing social danger among the Philistines that nevertheless ends with divine blessing.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "A famine occurred during Isaac’s time and he went to Gerar in Philistine territory instead of Egypt.",
+        "God told Isaac not to go to Egypt, to dwell in the land, and repeated the covenant promises made to Abraham.",
+        "Isaac told the men of Gerar that Rebekah was his sister out of fear, and Abimelech exposed the deception and protected them."
+      ],
+      "transcript_notable_claims": [
+        "Isaac obeyed God’s warning and remained in the Promised Land rather than fleeing to Egypt.",
+        "The Philistines serve as a biblical picture of nominal believers who have not truly died and risen with Christ.",
+        "Isaac’s sowing produced a hundredfold harvest and God greatly blessed him, causing the Philistines to envy him."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain in the sermon whether the famine functioned primarily as a test of faith or as divine discipline in Isaac’s case.",
+        "The speaker leaves open whether Isaac’s deception repeats Abraham’s sin by delivering his wife into others’ hands."
+      ],
+      "important_details": [
+        "Abimelech warned his people that anyone who touched Isaac or Rebekah would be put to death.",
+        "The sermon links Genesis 26 to Genesis 12 and 20 to show repeated family mistakes across generations.",
+        "The preacher interprets God’s renewed promise to Isaac as including the messianic blessing that all nations will be blessed in his seed."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "19OdmwqbvDk",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@jamiewalden756"
+      },
+      "id": "66UFlnVSbL4",
+      "source": "youtube",
+      "title": "TRUST THE PLAN: UNDERSTANDING THE SOVEREIGNTY OF GOD",
+      "channel": "jamiewalden756",
+      "url": "https://www.youtube.com/watch?v=66UFlnVSbL4",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 52447,
+        "processed_unique_chars": 52447,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.037,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon teaches that the sovereignty of God explains suffering, injustice and confusing events, urging listeners to trust God’s hidden plan because nothing occurs outside God’s will and every affliction serves a sovereign purpose.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The sovereignty of God is the supreme attribute that governs all events and purposes.",
+        "God ordains famines, persecutions, trials and even human decisions so his greater purposes are accomplished.",
+        "Believers are called to trust, submit and rest in God’s plan even when they do not understand it."
+      ],
+      "transcript_notable_claims": [
+        "God called down the famine in Egypt and sent Joseph ahead of his family so Joseph could later preserve Israel and the bloodline of Christ.",
+        "God hardened Pharaoh’s heart and allowed 400 years of bondage so the sin of the Amorites would fill their cup and larger purposes would be accomplished.",
+        "An evil or tormenting spirit sent from the Lord persecuted David via Saul to shape David’s character and fulfill God’s plan for the Messiah.",
+        "Jesus’ crucifixion occurred according to God’s will and definite foreknowledge so that many would be justified by his suffering.",
+        "God sovereignly permits false teachers, flourishing wickedness and political figures to walk freely so that their cup of iniquity may be filled in his timing."
+      ],
+      "transcript_uncertainties": [
+        "The speaker concedes that believers cannot understand God’s ways or thoughts and repeatedly states that humans do not know why God allows specific afflictions.",
+        "The sermon acknowledges personal wrestling and occasional failure to trust God’s sovereignty without providing mechanistic proof of divine causation."
+      ],
+      "important_details": [
+        "Scriptural examples cited to illustrate sovereignty include Joseph in Genesis/Psalm 105, David and Saul (1 Samuel), Job, Abraham’s promised but delayed blessing, Ruth and Boaz, the Exodus and hardened Pharaoh, Isaiah 55:8–9 and Ephesians 1:11.",
+        "The sermon interprets personal afflictions, persecution, loss and persistent hostile opponents as sovereignly ordained means to refine character, protect from greater corruption and prepare believers for ministry.",
+        "The preacher attributes recent church fruit and a series of sermons to a long-term tormentor whose hostility drove deeper dependence on Scripture and prayer."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "66UFlnVSbL4",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelwithAline"
+      },
+      "id": "9HklhhNSRpw",
+      "source": "youtube",
+      "title": "Synagogue of Chorazin",
+      "channel": "IsraelwithAline",
+      "url": "https://www.youtube.com/watch?v=9HklhhNSRpw",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "9HklhhNSRpw",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@klartextwinkler"
+      },
+      "id": "BbhXkF3WjTY",
+      "source": "youtube",
+      "title": "Starlink Investigation: Who’s Really in Control?🚨",
+      "channel": "klartextwinkler",
+      "url": "https://www.youtube.com/watch?v=BbhXkF3WjTY",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 6318,
+        "processed_unique_chars": 6318,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.617,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:6318",
+        "recency"
+      ],
+      "transcript_full_summary": "The text reports that satellite internet restrictions for Ukraine were lifted and that a US Senate investigation will examine who had technical control and contractual authority over Starlink and Starshield, stressing that restoration does not answer who imposed the restrictions and calling for documented decision paths and oversight.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The satellite connection for Ukraine was reported restored after Elon Musk lifted restrictions according to President Trump.",
+        "Senator Richard Blumenthal announced an investigation into Starlink and Starshield focusing on decision-making paths, contracts, and dependency on a single company.",
+        "The distinction between Starlink (consumer/commercial) and Starshield (government/national security) matters for contracts and decision rights."
+      ],
+      "transcript_notable_claims": [
+        "The restoration of service does not explain who had the authority to restrict it originally.",
+        "Different reports described either an improvement or not a full restoration at varied times and locations.",
+        "Confidentiality for security reasons does not remove accountability toward parliamentary or oversight bodies.",
+        "European capabilities could reduce dependencies but require time, money, contracts and alternative routes."
+      ],
+      "transcript_uncertainties": [
+        "It remains open whether Trump personally called Elon Musk.",
+        "The responsibility for the initial restriction has not been resolved.",
+        "Reports conflict about whether service was fully restored for every location."
+      ],
+      "important_details": [
+        "Radio Free Europe reported that restrictions were still in place on Thursday morning based on a Ukrainian diplomat's earlier statement.",
+        "Reuters and the Wall Street Journal echoed reports that Trump urged Musk to lift the restrictions.",
+        "Contracts can legitimately restrict military use and some contract details must remain confidential for security reasons."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "BbhXkF3WjTY",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "HjSugUug9uY",
+      "source": "youtube",
+      "title": "Här är M-toppens plan för att sno SD:s väljare",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=HjSugUug9uY",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4626,
+        "processed_unique_chars": 4626,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.194,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:4626",
+        "recency"
+      ],
+      "transcript_full_summary": "Texten behandlar Fredrik Schultes förslag att Moderaterna kan vinna SD:s väljare genom en konservativ, nationalistisk linje och varnar för att SD riskerar att falla under 10 procent om partiet inte återvänder till sin tidigare nationalistiska profil.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Fredrik Schulte föreslår att Moderaterna kan växa till ett 35-procentparti genom konservativ realism och locka SD:s väljare.",
+        "Schulte menar att SD har övergett sin nationalistiska profil och därmed förlorat sin tydliga väljartanke.",
+        "Schulte varnar för att SD kan sjunka till ensiffriga procentandelar om partiet inte blir mer radikalt och tydligt nationalistiskt."
+      ],
+      "transcript_notable_claims": [
+        "Moderaterna kan genom att vara mer konservativa och realistiska ta nästan alla SD:s väljare.",
+        "SD har inte längre den bästa sociala politiken, den bästa ekonomiska politiken eller den bästa nationalistiska politiken enligt texten.",
+        "Moderaterna bör uttrycka att svenskarna har rätt att överleva och att vara en majoritetsgrupp i Sverige.",
+        "SD måste sparka Mattias Karlsson och Henrik Vinge och göra sig av med liberala influenser för att hindra väljarrörelser bort från partiet.",
+        "Nationalistiska väljare riskerar att övergå till Alternativ för Sverige och Örebropartiet om SD inte blir radikalt nationalistiskt igen."
+      ],
+      "transcript_uncertainties": [
+        "Det anges osäkerhet om i vilken grad SD faktiskt förlorar väljare eller hur mycket Moderaterna kan växa.",
+        "Texten uttrycker ovisshet kring exakt hur lågt SD:s stöd kan sjunka (nämner 9 %, 6 %, 7 % som möjliga nivåer)."
+      ],
+      "important_details": [
+        "Fredrik Schulte publicerade en debattartikel i Svenska Dagbladet med rubriken 'Chans för M att locka SD:s väljare'.",
+        "Schulte är toppmoderaten som satt i riksdagen för Moderaterna mellan (till) 2022 och bor på Östermalm i Stockholm.",
+        "Texten beskriver Moderaterna som mer regeringsbärande och seriösa, vilket skulle göra det lättare för väljare att byta från SD till M."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "HjSugUug9uY",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "TK0IbEC2Evg",
+      "source": "youtube",
+      "title": "heute 7:00 PM from 11/05/2026 Aiwanger found dead, austerity measures in care",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=TK0IbEC2Evg",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 21124,
+        "processed_unique_chars": 21124,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Der Beitrag meldet den überraschenden Tod von Bayern-Vize und Freie-Wähler-Chef Hubert Aiwanger, berichtet über umstrittene Pflegereformen mit Einsparzielen, berichtet politische Reaktionen international und nationale Urteile sowie Alltagsberichte zu Ernährungshilfe, Elektroauto-Nachfrage und Sportereignissen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Hubert Aiwanger wurde leblos in einem Berliner Hotelzimmer gefunden und ist 55 Jahre alt gestorben.",
+        "Das Pflegeneuordnungsgesetz soll Einsparungen von über einer Milliarde Euro bringen und verschärft die Kriterien für die ersten drei Pflegegrade.",
+        "Das Bundesarbeitsgericht entschied, dass eine Kündigung wegen Kirchenaustritt allein unzulässig ist, wenn der Austritt keine Folgen für das Arbeitsverhältnis hat."
+      ],
+      "transcript_notable_claims": [
+        "Eine erste Obduktion ergab keinen Hinweis auf Fremdverschulden beim Tod Hubert Aiwangers.",
+        "Ohne das Pflegeneuordnungsgesetz würde die gesetzliche Pflegeversicherung 2027 ein Defizit von rund acht Milliarden Euro erreichen.",
+        "Die geplante Streichung der Verhinderungspflege würde Angehörigen die bislang separaten Mittel für Ersatzpflege aus dem verbleibenden Pflegegeld nehmen.",
+        "Künftig sollen Schlachtbetriebe in Deutschland videoüberwacht werden und die Pflicht 90 % der Schlachtungen abdecken, die Regelung soll Anfang 2027 in Kraft treten.",
+        "Bei den US-Republikanern fordert die Partei eine schonungslose Analyse der Kongresswahlniederlage und US-Präsident Trump steht im Fokus, wobei Insider berichten, er erwäge das Entlassen seines Verteidigungsministers Hexet.",
+        "In Frankreich demonstrierten laut Innenministerium mindestens 600.000 Menschen für höhere Löhne und bessere Bedingungen in Schulen und Universitäten."
+      ],
+      "transcript_uncertainties": [
+        "Es ist noch unklar, woran Hubert Aiwanger gestorben ist.",
+        "Ob ein Zusammenhang oder wer hinter den wiederholten Bombendrohungen gegen Flugzeuge steckt, ist bislang unklar.",
+        "Der mögliche Entlassungsplan des US-Verteidigungsministers Hexet durch Präsident Trump ist nicht offiziell bestätigt."
+      ],
+      "important_details": [
+        "Die Beitragsbemessungsgrenze der Pflegeversicherung soll um 300 Euro steigen und der Beitrag für Kinderlose um 0,3 Prozentpunkte erhöht werden.",
+        "Die Zahl der Menschen mit Leistungen aus der gesetzlichen Pflegekasse stieg bis 2025 auf sechs Millionen.",
+        "Die Videoüberwachungspflicht für Schlachtbetriebe soll bei großen Betrieben greifen, kleinere Höfe können im Verdachtsfall überwacht werden."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "TK0IbEC2Evg",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@AndreiJikh"
+      },
+      "id": "m7hL3bVoUuQ",
+      "source": "youtube",
+      "title": "The Biggest Crypto Theft In History",
+      "channel": "AndreiJikh",
+      "url": "https://www.youtube.com/watch?v=m7hL3bVoUuQ",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 18469,
+        "processed_unique_chars": 18469,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.037,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "Binance suffered a massive security incident that allowed an attacker to empty a busy hot wallet (Binance 14), moving billions in crypto before exchanges and stablecoin issuers froze roughly $2.4 billion; the video explains the technical method, Binance's preliminary investigatory claim about a compromised DevOps engineer laptop, and recommended precautions for users.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The attacker emptied Binance 14, stealing about 167,000 ETH plus USDT, USDC and dozens of tokens in a transaction worth roughly $2.5 billion.",
+        "Binance says a compromised DevOps engineer laptop allowed the attacker to submit unauthorized withdrawal transactions without stealing the cold-wallet keys.",
+        "Tether and Circle froze about $2.4 billion of the stolen funds within about an hour, leaving estimated net losses closer to around $1 billion according to a DeFi Llama founder estimate reposted by CZ."
+      ],
+      "transcript_notable_claims": [
+        "A new wallet was funded through Tornado Cash just before the attack, which the video presents as an initial red flag.",
+        "The attacker prepared about 50 pre-signed permission slips with different nonce values and one slip matched the active ticket number, enabling an automated sweep.",
+        "The attacker left exactly one ETH in the emptied wallet so Binance's automated systems would continue refilling and the wallet could be repeatedly swept.",
+        "Compromising an employee machine rather than stealing master keys explains why the attacker needed multiple pre-signed slips.",
+        "The incident raises questions about whether the operation could be tied to North Korea because similar developer-machine compromises were previously attributed to North Korea."
+      ],
+      "transcript_uncertainties": [
+        "Binance has not yet disclosed how the DevOps engineer laptop was compromised.",
+        "No official attribution to any actor, including nation-states, has been made in the public investigation at the time of the video.",
+        "Binance had not confirmed definitively whether the event was a hack or another type of security incident when the video was made."
+      ],
+      "important_details": [
+        "Binance paused withdrawals on several networks while investigating and promised to publish a full technical breakdown after the investigation.",
+        "Binance's Secure Asset Fund for Users (SAFU) holds roughly 15,000 BTC (about $1.2 billion) but parts may be restricted as regulatory required capital for Abu Dhabi.",
+        "The video recommends multi-sig custody, hardware wallets bought only from manufacturers, limiting exchange-held crypto to active trading amounts, and enabling authenticators and withdrawal whitelists."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "m7hL3bVoUuQ",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "9b2DoHkoulw",
+      "source": "youtube",
+      "title": "ILTV On The Hour - November 5, 2026 | Bibi Fights for Survival as Eisenkot Moves Closer to Power",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=9b2DoHkoulw",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 23205,
+        "processed_unique_chars": 23205,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.037,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript reports Israeli political developments after the election, focusing on Gadi Eizenkot's likely first mandate to form a government, Benjamin Netanyahu's push for a broad national government, US political reactions to the Iran war, and domestic divisions over Arab and ultra-Orthodox party participation.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Gadi Eizenkot is widely expected to receive the first mandate to try to form Israel's next government.",
+        "Benjamin Netanyahu calls for a broad national government and demands a full investigation into alleged foreign interference in the election.",
+        "US Vice President JD Vance blames Republican midterm losses on the war with Iran and cites voter pressure to change the US–Israel relationship."
+      ],
+      "transcript_notable_claims": [
+        "Vance declared, \"The reason we lost is the war,\" and backed a diplomatic resolution to the conflict.",
+        "President Trump insists going to war with Iran was not a mistake and argues that Iran cannot be allowed to acquire a nuclear weapon.",
+        "Dealator, holding four of United Torah Judaism's seven seats, will not recommend Netanyahu following instructions from rabbinical leaders.",
+        "Eizenkot vowed to restore and deepen bipartisan support for Israel and said the alliance must remain above party politics.",
+        "Mansur Abbas would not clearly label Hamas as a terrorist organization when asked how he defines Hamas."
+      ],
+      "transcript_uncertainties": [
+        "Eizenkot may receive the mandate but it is uncertain whether he can form a coalition because potential partners are divided over working with Arab and ultra-Orthodox parties.",
+        "It is unclear whether parties refusing to work with Arab lawmakers will change their position despite President Herzog's warning against racist generalizations."
+      ],
+      "important_details": [
+        "Nineteen Knesset seats are held by Arab parties, including Ra'am and the Joint Arab List, which complicates coalition-building for Eizenkot.",
+        "The dispute over exempting ultra-Orthodox men from military service is causing a rift between Netanyahu and some ultra-Orthodox allies.",
+        "Eizenkot reached out directly to President Trump and international partners to emphasize bipartisan support and to call for a national emergency government."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "9b2DoHkoulw",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DLMChristianLifestyle"
+      },
+      "id": "CQH8rAR_5RM",
+      "source": "youtube",
+      "title": "What Will We ACTUALLY Do in Heaven for All Eternity?",
+      "channel": "DLMChristianLifestyle",
+      "url": "https://www.youtube.com/watch?v=CQH8rAR_5RM",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 40465,
+        "processed_unique_chars": 40465,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.037,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript explains what the Bible teaches about the new heaven and the new earth, describing eternal bodies, the new Jerusalem, restored relationships with God, animals in peace, rivers and trees, and rewards for believers while acknowledging many details remain unknown.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Revelation 21–22 teaches that God will create a new heaven and a new earth, that the old earth will pass away, and that the sea of the old world will be no more.",
+        "Believers will receive new eternal bodies like Jesus' resurrection body, which were physical yet transformed, and believers will live forever without death, pain, or tears.",
+        "The new Jerusalem will descend from heaven, be God’s dwelling with people, need no sun or moon because God’s glory provides light, and will feature rivers, the tree of life, precious stones, and monthly fruit."
+      ],
+      "transcript_notable_claims": [
+        "The sea in Revelation 21:1 could refer to the old earth's chaotic sea rather than prove there will be no sea at all in the new earth.",
+        "Isaiah 11:6–9, Isaiah 65:25, and Romans 8:19–21 indicate animals will exist in God’s kingdom and will live in peace with humans.",
+        "Jesus promised in Matthew 26 that He will drink anew with believers in the Father’s kingdom, which implies drinking and feasting will occur in the new earth.",
+        "Believers will be judged at the Bema seat of Christ for rewards, and faithful servants may receive authority over cities as rewards (Luke 19:17).",
+        "Revelation 22:2 says the tree of life will yield twelve kinds of fruit each month and its leaves will be for the healing of the nations.",
+        "1 John 3:2 and 1 Corinthians 15 portray Jesus as the firstfruits and indicate believers will be made like Him when He appears.",
+        "Children who die before they can rationally choose Christ will go to heaven, supported by Matthew 19:14 and 2 Samuel 12:23 according to the transcript.",
+        "The new earth will include nations and kings whose glory they bring into the new Jerusalem, implying political or social structures will exist."
+      ],
+      "transcript_uncertainties": [
+        "It is not known whether the new earth will contain a sea, because Revelation 21:1 may refer to removal of the old sea rather than the absence of any sea in the new creation.",
+        "It is unclear what specific animals (including dinosaurs) will exist on the new earth and whether extinct creatures will be present or restored.",
+        "It is unknown what exact abilities glorified bodies will have, such as teleportation, passing through walls, flight, age appearance, or underwater breathing.",
+        "It is uncertain what age people who died as children will have in the new earth because 'no time in heaven' complicates temporal identity.",
+        "It is not specified whether eating and drinking in the new earth will serve biological needs or function purely as enjoyment, since death and need will be gone."
+      ],
+      "important_details": [
+        "Revelation 21:4 promises no more death, mourning, crying, or pain because former things have passed away.",
+        "The new Jerusalem’s gates will never be shut, there will be no night, and the nations and kings of the earth will bring their glory into the city.",
+        "The transcript links Genesis' tree of life in Eden with Revelation 22:2, asserting continuity that the tree of life will reappear and heal nations."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "CQH8rAR_5RM",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ThePoplarReport"
+      },
+      "id": "KCpYD3Q5k14",
+      "source": "youtube",
+      "title": "🚨🚨ALERT: OPEN War is Hours Away- Watchmen Updates",
+      "channel": "ThePoplarReport",
+      "url": "https://www.youtube.com/watch?v=KCpYD3Q5k14",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 17233,
+        "processed_unique_chars": 17233,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.037,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The Popppler Report warns that war between the US/Israel and Iran may be imminent with Iran threatening preemptive strikes and Israel and the US preparing military action, and also reports domestic shortages and local disruptions such as bottled water and toilet paper scarcity, Alaska election confusion, Russian refinery attacks, and personal preparedness advice.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Iran announced that its armed forces will launch immediate preemptive retaliation if signs of hostile acts by the enemy are confirmed.",
+        "The Israeli Defense Forces reported that Israel completed military preparations for a joint US–Israeli operation against Iran and is at its highest state of alert.",
+        "Multiple viewers reported limited bottled water and toilet paper availability at major retailers in various US states and Ontario."
+      ],
+      "transcript_notable_claims": [
+        "An Iranian armed forces chief of staff said Iran will not wait for US or Israeli aggression to begin but will determine timing and manner of retaliation immediately.",
+        "An Israeli official told the New York Post that Israel plans an assassination-style attack targeting four top Iranian military leaders to set Iran back decades.",
+        "Approximately eight tankers have reportedly been hit in recent days near the Strait of Hormuz, with Iran saying a supertanker hit a mine east of the strait.",
+        "Three major Russian refineries were reported to have exploded on three consecutive days with attacks striking 10+ simultaneous spots on facilities.",
+        "Alaska ballots reportedly include two candidates named Dan J. Sullivan, which the transcript describes as a deliberate attempt to split the Republican vote and has prompted Justice Department segregation of ballots."
+      ],
+      "transcript_uncertainties": [
+        "The transcript states uncertainty about whether reported tanker damage is caused by magnetic limpet mines attached by speedboats rather than conventional naval mines.",
+        "The transcript expresses uncertainty about whether the host's recent high fever is dengue fever contracted from mosquito bites."
+      ],
+      "important_details": [
+        "The transcript identifies the four targeted Iranian leaders as IRGC commander Ahmad Vahidi, Supreme National Security Council Secretary Ali Shamkhani, Armed Forces Chief of Staff, and the Basij commander.",
+        "Viewers reported shortages at specific retailers including Costco, Sam's Club, and Target in locations such as North County San Diego, Riverside County, Dayton Ohio, Waterbury Connecticut, and Ontario.",
+        "The transcript links recent refinery attacks and reduced Russian repair efforts to potential impacts on gasoline and diesel prices in Alaska."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "KCpYD3Q5k14",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@breakingpoints"
+      },
+      "id": "KFU8cBkz-Jc",
+      "source": "youtube",
+      "title": "BLUE MISSISSIPPI: Republicans Suffer 40 YEAR WIPEOUT",
+      "channel": "breakingpoints",
+      "url": "https://www.youtube.com/watch?v=KFU8cBkz-Jc",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 16728,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.037,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "KFU8cBkz-Jc",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@judgingfreedom"
+      },
+      "id": "SdAthf91iIk",
+      "source": "youtube",
+      "title": "Trump's Presidency in Crisis: Why the Israel Lobby Won't Let Go",
+      "channel": "judgingfreedom",
+      "url": "https://www.youtube.com/watch?v=SdAthf91iIk",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-06T04:30:00+00:00",
+      "screened_at": "2026-11-06T04:30:00+00:00",
+      "expires_at": "2026-11-09T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2540,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.672,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:2540",
+        "recency"
+      ],
+      "video_id": "SdAthf91iIk",
+      "processed_at_utc": "2026-11-06T12:20:29+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-05T12:38:25+00:00",
+  "updated_at_utc": "2026-11-06T12:20:29+00:00",
   "version": 1
 }

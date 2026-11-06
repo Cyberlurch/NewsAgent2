@@ -17107,6 +17107,998 @@
         "approved_after_generation_checks": true,
         "seal": "184a758f7718d9af33329f3a5267bc79fe1e6432bfd3442d670d751e927001af"
       }
+    },
+    "cyberlurch:daily:2026-11-06:2026-11-06:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-06",
+      "period_end": "2026-11-06",
+      "edition_id": "cyberlurch:daily:2026-11-06:2026-11-06:production",
+      "content_version": "df31a675d90d7fd2b9d3384c810511835a2ebb7e587e49dd1235d023d5679737",
+      "message_id": "<6e56c43a275a98baad777b30e142f7895204f7c9d8050de3edfc1b2a3bad2139@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-06T12:20:33+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "Ah864CLlp50",
+            "title": "⚡ALERT! NUCLEAR TEAMS PREPARE ON IRAN BORDER! Market BLOODBATH, Putin Gets SECRET Message!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Ah864CLlp50"
+          },
+          {
+            "source": "youtube",
+            "id": "19OdmwqbvDk",
+            "title": "Isaac – Part 38 (Genesis 26:1): The Famine Test of Isaac; God’s Promises Confirmed.",
+            "channel": "RogerLiebiLIVE",
+            "url": "https://www.youtube.com/watch?v=19OdmwqbvDk"
+          },
+          {
+            "source": "youtube",
+            "id": "66UFlnVSbL4",
+            "title": "TRUST THE PLAN: UNDERSTANDING THE SOVEREIGNTY OF GOD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=66UFlnVSbL4"
+          },
+          {
+            "source": "youtube",
+            "id": "9HklhhNSRpw",
+            "title": "Synagogue of Chorazin",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=9HklhhNSRpw"
+          },
+          {
+            "source": "youtube",
+            "id": "BbhXkF3WjTY",
+            "title": "Starlink Investigation: Who’s Really in Control?🚨",
+            "channel": "klartextwinkler",
+            "url": "https://www.youtube.com/watch?v=BbhXkF3WjTY"
+          },
+          {
+            "source": "youtube",
+            "id": "HjSugUug9uY",
+            "title": "Här är M-toppens plan för att sno SD:s väljare",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=HjSugUug9uY"
+          },
+          {
+            "source": "youtube",
+            "id": "TK0IbEC2Evg",
+            "title": "heute 7:00 PM from 11/05/2026 Aiwanger found dead, austerity measures in care",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=TK0IbEC2Evg"
+          },
+          {
+            "source": "youtube",
+            "id": "m7hL3bVoUuQ",
+            "title": "The Biggest Crypto Theft In History",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=m7hL3bVoUuQ"
+          },
+          {
+            "source": "youtube",
+            "id": "9b2DoHkoulw",
+            "title": "ILTV On The Hour - November 5, 2026 | Bibi Fights for Survival as Eisenkot Moves Closer to Power",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=9b2DoHkoulw"
+          },
+          {
+            "source": "youtube",
+            "id": "CQH8rAR_5RM",
+            "title": "What Will We ACTUALLY Do in Heaven for All Eternity?",
+            "channel": "DLMChristianLifestyle",
+            "url": "https://www.youtube.com/watch?v=CQH8rAR_5RM"
+          },
+          {
+            "source": "youtube",
+            "id": "FmDjpWaSIkg",
+            "title": "Time Is Running Out: Are You Ready for Jesus?",
+            "channel": "beholdisrael",
+            "url": "https://www.youtube.com/watch?v=FmDjpWaSIkg"
+          },
+          {
+            "source": "youtube",
+            "id": "KCpYD3Q5k14",
+            "title": "🚨🚨ALERT: OPEN War is Hours Away- Watchmen Updates",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=KCpYD3Q5k14"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "Ah864CLlp50",
+            "title": "⚡ALERT! NUCLEAR TEAMS PREPARE ON IRAN BORDER! Market BLOODBATH, Putin Gets SECRET Message!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Ah864CLlp50"
+          },
+          {
+            "source": "youtube",
+            "id": "19OdmwqbvDk",
+            "title": "Isaac – Part 38 (Genesis 26:1): The Famine Test of Isaac; God’s Promises Confirmed.",
+            "channel": "RogerLiebiLIVE",
+            "url": "https://www.youtube.com/watch?v=19OdmwqbvDk"
+          },
+          {
+            "source": "youtube",
+            "id": "66UFlnVSbL4",
+            "title": "TRUST THE PLAN: UNDERSTANDING THE SOVEREIGNTY OF GOD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=66UFlnVSbL4"
+          },
+          {
+            "source": "youtube",
+            "id": "9HklhhNSRpw",
+            "title": "Synagogue of Chorazin",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=9HklhhNSRpw"
+          },
+          {
+            "source": "youtube",
+            "id": "BbhXkF3WjTY",
+            "title": "Starlink Investigation: Who’s Really in Control?🚨",
+            "channel": "klartextwinkler",
+            "url": "https://www.youtube.com/watch?v=BbhXkF3WjTY"
+          },
+          {
+            "source": "youtube",
+            "id": "HjSugUug9uY",
+            "title": "Här är M-toppens plan för att sno SD:s väljare",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=HjSugUug9uY"
+          },
+          {
+            "source": "youtube",
+            "id": "TK0IbEC2Evg",
+            "title": "heute 7:00 PM from 11/05/2026 Aiwanger found dead, austerity measures in care",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=TK0IbEC2Evg"
+          },
+          {
+            "source": "youtube",
+            "id": "m7hL3bVoUuQ",
+            "title": "The Biggest Crypto Theft In History",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=m7hL3bVoUuQ"
+          },
+          {
+            "source": "youtube",
+            "id": "9b2DoHkoulw",
+            "title": "ILTV On The Hour - November 5, 2026 | Bibi Fights for Survival as Eisenkot Moves Closer to Power",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=9b2DoHkoulw"
+          },
+          {
+            "source": "youtube",
+            "id": "CQH8rAR_5RM",
+            "title": "What Will We ACTUALLY Do in Heaven for All Eternity?",
+            "channel": "DLMChristianLifestyle",
+            "url": "https://www.youtube.com/watch?v=CQH8rAR_5RM"
+          },
+          {
+            "source": "youtube",
+            "id": "FmDjpWaSIkg",
+            "title": "Time Is Running Out: Are You Ready for Jesus?",
+            "channel": "beholdisrael",
+            "url": "https://www.youtube.com/watch?v=FmDjpWaSIkg"
+          },
+          {
+            "source": "youtube",
+            "id": "KCpYD3Q5k14",
+            "title": "🚨🚨ALERT: OPEN War is Hours Away- Watchmen Updates",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=KCpYD3Q5k14"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "Ah864CLlp50",
+            "title": "⚡ALERT! NUCLEAR TEAMS PREPARE ON IRAN BORDER! Market BLOODBATH, Putin Gets SECRET Message!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Ah864CLlp50"
+          },
+          {
+            "source": "youtube",
+            "id": "19OdmwqbvDk",
+            "title": "Isaac – Part 38 (Genesis 26:1): The Famine Test of Isaac; God’s Promises Confirmed.",
+            "channel": "RogerLiebiLIVE",
+            "url": "https://www.youtube.com/watch?v=19OdmwqbvDk"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-06T12:20:29+00:00"
+      },
+      "workflow_run_id": "42216510618",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-06:2026-11-06:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "38842977f686d9f5b4426289a86c27c71650d341d6311c91e268585edc1459d8",
+        "finalization_policy": "markers",
+        "content_version": "df31a675d90d7fd2b9d3384c810511835a2ebb7e587e49dd1235d023d5679737",
+        "message_id": "<6e56c43a275a98baad777b30e142f7895204f7c9d8050de3edfc1b2a3bad2139@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "f7970f6354253064_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "7027b0137127f1e06901da0479b2b834d70e71a8bef34bcf7277564bccd074ac"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "334746ee74221084f387bdb2ba1e4a00d82e919cf0539d7e023e2b5d0f9b25cf"
+      }
+    },
+    "cyberlurch:weekly:2026-10-30:2026-11-06:production": {
+      "report_key": "cyberlurch",
+      "cadence": "weekly",
+      "period_start": "2026-10-30",
+      "period_end": "2026-11-06",
+      "edition_id": "cyberlurch:weekly:2026-10-30:2026-11-06:production",
+      "content_version": "3bce1c33df9c4c49af88f704ec16f6b94ee6a3eaeb4e6c4489c269c5352f782e",
+      "message_id": "<cfb60c083f52c3ab09749d524de4cdda2a468cecded6692212dbf83eee48fdd6@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-06T12:22:07+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "FmDjpWaSIkg",
+            "title": "Time Is Running Out: Are You Ready for Jesus?",
+            "channel": "beholdisrael",
+            "url": "https://www.youtube.com/watch?v=FmDjpWaSIkg"
+          },
+          {
+            "source": "youtube",
+            "id": "19OdmwqbvDk",
+            "title": "Isaac – Part 38 (Genesis 26:1): The Famine Test of Isaac; God’s Promises Confirmed.",
+            "channel": "RogerLiebiLIVE",
+            "url": "https://www.youtube.com/watch?v=19OdmwqbvDk"
+          },
+          {
+            "source": "youtube",
+            "id": "66UFlnVSbL4",
+            "title": "TRUST THE PLAN: UNDERSTANDING THE SOVEREIGNTY OF GOD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=66UFlnVSbL4"
+          },
+          {
+            "source": "youtube",
+            "id": "9HklhhNSRpw",
+            "title": "Synagogue of Chorazin",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=9HklhhNSRpw"
+          },
+          {
+            "source": "youtube",
+            "id": "BbhXkF3WjTY",
+            "title": "Starlink Investigation: Who’s Really in Control?🚨",
+            "channel": "klartextwinkler",
+            "url": "https://www.youtube.com/watch?v=BbhXkF3WjTY"
+          },
+          {
+            "source": "youtube",
+            "id": "HjSugUug9uY",
+            "title": "Här är M-toppens plan för att sno SD:s väljare",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=HjSugUug9uY"
+          },
+          {
+            "source": "youtube",
+            "id": "TK0IbEC2Evg",
+            "title": "heute 7:00 PM from 11/05/2026 Aiwanger found dead, austerity measures in care",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=TK0IbEC2Evg"
+          },
+          {
+            "source": "youtube",
+            "id": "m7hL3bVoUuQ",
+            "title": "The Biggest Crypto Theft In History",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=m7hL3bVoUuQ"
+          },
+          {
+            "source": "youtube",
+            "id": "9b2DoHkoulw",
+            "title": "ILTV On The Hour - November 5, 2026 | Bibi Fights for Survival as Eisenkot Moves Closer to Power",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=9b2DoHkoulw"
+          },
+          {
+            "source": "youtube",
+            "id": "CQH8rAR_5RM",
+            "title": "What Will We ACTUALLY Do in Heaven for All Eternity?",
+            "channel": "DLMChristianLifestyle",
+            "url": "https://www.youtube.com/watch?v=CQH8rAR_5RM"
+          },
+          {
+            "source": "youtube",
+            "id": "KCpYD3Q5k14",
+            "title": "🚨🚨ALERT: OPEN War is Hours Away- Watchmen Updates",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=KCpYD3Q5k14"
+          },
+          {
+            "source": "youtube",
+            "id": "KFU8cBkz-Jc",
+            "title": "BLUE MISSISSIPPI: Republicans Suffer 40 YEAR WIPEOUT",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=KFU8cBkz-Jc"
+          },
+          {
+            "source": "youtube",
+            "id": "SdAthf91iIk",
+            "title": "Trump's Presidency in Crisis: Why the Israel Lobby Won't Let Go",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=SdAthf91iIk"
+          },
+          {
+            "source": "youtube",
+            "id": "Ah864CLlp50",
+            "title": "⚡ALERT! NUCLEAR TEAMS PREPARE ON IRAN BORDER! Market BLOODBATH, Putin Gets SECRET Message!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Ah864CLlp50"
+          },
+          {
+            "source": "youtube",
+            "id": "-4ZOXUHik40",
+            "title": "Kommer Kristersson lyckas där Andersson misslyckades? Detta säger bedömarna",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=-4ZOXUHik40"
+          },
+          {
+            "source": "youtube",
+            "id": "5Vyq1r93lMk",
+            "title": "Trump Announces End to US Military Aid to Israel as Political Uncertainty and Iran Tensions Mount",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=5Vyq1r93lMk"
+          },
+          {
+            "source": "youtube",
+            "id": "DgvQXYr6ELg",
+            "title": "Buying Russian Oil While Funding Attacks on Russian Refineries? | Chas Freeman",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=DgvQXYr6ELg"
+          },
+          {
+            "source": "youtube",
+            "id": "F33O09wCcjE",
+            "title": "ARD-Korrespondentin beantwortet Fragen zum Tod Hubert Aiwangers",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=F33O09wCcjE"
+          },
+          {
+            "source": "youtube",
+            "id": "QPhx3q6yutg",
+            "title": "CHRIST'S RETURN & PRAYING FOR HIS KINGDOM TO COME",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=QPhx3q6yutg"
+          },
+          {
+            "source": "youtube",
+            "id": "Ui8IjRv3AM0",
+            "title": "USA-WAHLHAMMER! Trump verliert Kongress + Iran-Krieg in Gefahr + Neue Ukraine-Milliarden?",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=Ui8IjRv3AM0"
+          },
+          {
+            "source": "youtube",
+            "id": "4j3yFCa8MUI",
+            "title": "THE MILITARY IS PREPARING FOR SOMETHING... ARE YOU?",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=4j3yFCa8MUI"
+          },
+          {
+            "source": "youtube",
+            "id": "C0fcj5yUCxY",
+            "title": "Israel Daily News - November 4, 2026 | U.S. Midterms and Consequences for Israel",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=C0fcj5yUCxY"
+          },
+          {
+            "source": "youtube",
+            "id": "IuMRx9q7nfo",
+            "title": "Vladimir Solovyov says Elon Musk might move to Russia",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=IuMRx9q7nfo"
+          },
+          {
+            "source": "youtube",
+            "id": "R4r_yF_7i5o",
+            "title": "The Midterms are here! Get out and Vote!",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=R4r_yF_7i5o"
+          },
+          {
+            "source": "youtube",
+            "id": "XPcDQtzq-hY",
+            "title": "TOTAL WIPEOUT: Dems 56 SEATS?, MS BLUE?",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=XPcDQtzq-hY"
+          },
+          {
+            "source": "youtube",
+            "id": "dmrsNvMTgis",
+            "title": "When All Else Fails - Just Keep Going | 4 Ridges Challenge 2026",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=dmrsNvMTgis"
+          },
+          {
+            "source": "youtube",
+            "id": "9FsIMtIhTyo",
+            "title": "⚡ALERT! Drop Everything And Prepare for WW3.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=9FsIMtIhTyo"
+          },
+          {
+            "source": "youtube",
+            "id": "3nfTH2UCQ1g",
+            "title": "US Midterms: A Turning Point for Trump | ZDF spezial",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=3nfTH2UCQ1g"
+          },
+          {
+            "source": "youtube",
+            "id": "5q1odQOFd7Q",
+            "title": "Russian military expert wishes Trump success in the midterms",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=5q1odQOFd7Q"
+          },
+          {
+            "source": "youtube",
+            "id": "90dsoVR4MxM",
+            "title": "The Revelation of Jesus with James Lasher",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=90dsoVR4MxM"
+          },
+          {
+            "source": "youtube",
+            "id": "CD25TIJl4Hw",
+            "title": "ILTV On The Hour - November 3, 2026 | Israel's Political Shake-Up: Can Eisenkot Form a Government?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=CD25TIJl4Hw"
+          },
+          {
+            "source": "youtube",
+            "id": "IG-oCHm67bk",
+            "title": "Detta vet vi om kuppförsöket i Polen - Arnes analys 34",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=IG-oCHm67bk"
+          },
+          {
+            "source": "youtube",
+            "id": "MVVnAb-RurQ",
+            "title": "Merz redet Ausschreitungen schön – ARD mit schlimmsten Totalausfall + Tagesschau mit Mega-Skandal!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=MVVnAb-RurQ"
+          },
+          {
+            "source": "youtube",
+            "id": "na2rSCRAd5Q",
+            "title": "Atheist Survey Reveals Something VERY Telling...",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=na2rSCRAd5Q"
+          },
+          {
+            "source": "youtube",
+            "id": "JY7R_hYfwyM",
+            "title": "The Beehive",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=JY7R_hYfwyM"
+          },
+          {
+            "source": "youtube",
+            "id": "Jn8mS3kC-SU",
+            "title": "The Case Against Eliezer Yudkowsky — with Holly Elmore, PauseAI US",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=Jn8mS3kC-SU"
+          },
+          {
+            "source": "youtube",
+            "id": "OTBeTZBXg1A",
+            "title": "U.S. WARPLANES DEPLOYED! Is America About to Go to WAR?!",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=OTBeTZBXg1A"
+          },
+          {
+            "source": "youtube",
+            "id": "PDyerc5FraI",
+            "title": "Efter debatten i Malmö kommunfullmäktige: \"Kritisera inga politiker\"",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=PDyerc5FraI"
+          },
+          {
+            "source": "youtube",
+            "id": "QpPf_hY_Bl8",
+            "title": "North Korea Suspected In Crypto Heist",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=QpPf_hY_Bl8"
+          },
+          {
+            "source": "youtube",
+            "id": "sn-YzcCNFeI",
+            "title": "Pentagon Preparing For 90 Day Grid Down Scenario (WW3)",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=sn-YzcCNFeI"
+          },
+          {
+            "source": "youtube",
+            "id": "2gNxvNtIHC0",
+            "title": "⚡ALERT! Widespread CYBERATTACKS on FOOD Supply, CANADAS TROOPS Move to RUSSIAN BORDER! EBOLA SPREADS",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=2gNxvNtIHC0"
+          },
+          {
+            "source": "youtube",
+            "id": "sz3PYXFtFCo",
+            "title": "No One Is Talking About This. A.I. Experts REVEAL",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=sz3PYXFtFCo"
+          },
+          {
+            "source": "youtube",
+            "id": "-ytugoN3MKA",
+            "title": "🚨🚨ALERT: Trump Orders Drop Boxes GUARDED- Watchmen Updates",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=-ytugoN3MKA"
+          },
+          {
+            "source": "youtube",
+            "id": "0gG_CY2xJz8",
+            "title": "LIGHTNING and SELF-CUSTODY - Markus Vorsmann (BitBox) | Blocktrainer Event 2026",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=0gG_CY2xJz8"
+          },
+          {
+            "source": "youtube",
+            "id": "6qWrZWqjcaQ",
+            "title": "Hijabs, Turbans and Kippahs BANNED in Quebec Schools?",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=6qWrZWqjcaQ"
+          },
+          {
+            "source": "youtube",
+            "id": "9EGpVUQ2080",
+            "title": "HEAVEN'S VIEW OF EARTH",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=9EGpVUQ2080"
+          },
+          {
+            "source": "youtube",
+            "id": "IJEPaPdrlm4",
+            "title": "MOMA-Reporter: Wie Frauen sicher durch die Nacht kommen | ARD Morgenmagazin",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=IJEPaPdrlm4"
+          },
+          {
+            "source": "youtube",
+            "id": "Nefis2URtJA",
+            "title": "Efter SD:s utspel – nu granskas de nationalistiska profilerna: \"Nu måste de välja sida\"",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=Nefis2URtJA"
+          },
+          {
+            "source": "youtube",
+            "id": "R6-g38n2oZI",
+            "title": "THE SPIRIT OF THE AGE: ALL WILL CRUMBLE BECAUSE WE GRUMBLE",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=R6-g38n2oZI"
+          },
+          {
+            "source": "youtube",
+            "id": "1lspa5l4kxs",
+            "title": "My Thoughts On Bitcoin",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=1lspa5l4kxs"
+          },
+          {
+            "source": "youtube",
+            "id": "4LgT-mV_0Oc",
+            "title": "First Time I Ever Seen A Man Cook",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=4LgT-mV_0Oc"
+          },
+          {
+            "source": "youtube",
+            "id": "5IXLNxTCxas",
+            "title": "ARMY DIGGING MASS GRAVES!!",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=5IXLNxTCxas"
+          },
+          {
+            "source": "youtube",
+            "id": "Cp1amVGrYrA",
+            "title": "ILTV On The Hour - November 2, 2026 | Trump and Netanyahu Discuss Potential Renewal of Iran War",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=Cp1amVGrYrA"
+          },
+          {
+            "source": "youtube",
+            "id": "FFvii_2Imsk",
+            "title": "Nationwide Joint Operation to Strengthen Security and Enforce the Law",
+            "channel": "IsraelNationalTV",
+            "url": "https://www.youtube.com/watch?v=FFvii_2Imsk"
+          },
+          {
+            "source": "youtube",
+            "id": "7ywbau5QT0s",
+            "title": "How Will AI Actually End the World? w/ Connor Leahy",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=7ywbau5QT0s"
+          },
+          {
+            "source": "youtube",
+            "id": "wDNekJTOss4",
+            "title": "⚡ALERT! Multiple NUCLEAR Alert Cyberattacks, Hedge Funds SELLING! Oil Refineries BURN! Mar-a-lago!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=wDNekJTOss4"
+          },
+          {
+            "source": "youtube",
+            "id": "zuspUp79HyQ",
+            "title": "⚡ALERT! WALLSTREET BLOODBATH!!! Russia BURNING! 80 TANKERS IN ISRAEL! NATO MOBILIZING",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=zuspUp79HyQ"
+          },
+          {
+            "source": "youtube",
+            "id": "2aHJPtBOB_Q",
+            "title": "Ronie Berggren: Islamo-vänstern är ett större hot i Sverige än i USA",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=2aHJPtBOB_Q"
+          },
+          {
+            "source": "youtube",
+            "id": "3G2zkqjCshM",
+            "title": "heute 19:00 Uhr vom 01.11.2026 Gen Z Proteste, Energieversorger verfehlen Gasspreicher-Ziel",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=3G2zkqjCshM"
+          },
+          {
+            "source": "youtube",
+            "id": "45UiOodCHAw",
+            "title": "Most Christians Interpret Revelation WRONG - This Will Open Your Eyes!",
+            "channel": "WretchedNetwork",
+            "url": "https://www.youtube.com/watch?v=45UiOodCHAw"
+          },
+          {
+            "source": "youtube",
+            "id": "7yjPa8BI-hk",
+            "title": "Something WORSE Than The Noahide Laws Is Coming Very Soon...",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=7yjPa8BI-hk"
+          },
+          {
+            "source": "youtube",
+            "id": "8cufVZ_Q39s",
+            "title": "It’s Starting: The Fall of Europe",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=8cufVZ_Q39s"
+          },
+          {
+            "source": "youtube",
+            "id": "A3MvNN9UdgE",
+            "title": "ILTV News Flash – November, 1, 2026",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=A3MvNN9UdgE"
+          },
+          {
+            "source": "youtube",
+            "id": "Dip7eu55lik",
+            "title": "JD Ass Joke to Desperate MAGA Voter Flops",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=Dip7eu55lik"
+          },
+          {
+            "source": "youtube",
+            "id": "4vWDToXDHlI",
+            "title": "BREAKING: Susie Wiles OUT After Midterms? Trump's White House in CHAOS",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=4vWDToXDHlI"
+          },
+          {
+            "source": "youtube",
+            "id": "6vFb-0NcS1g",
+            "title": "MOMA-Reporter: Stimmung in Alaska vor den Midterms | ARD Morgenmagazin",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=6vFb-0NcS1g"
+          },
+          {
+            "source": "youtube",
+            "id": "8EKe715zrOU",
+            "title": "He Hugged Her, Then MOCKED Her (It Backfired!)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=8EKe715zrOU"
+          },
+          {
+            "source": "youtube",
+            "id": "EtjcG1NYHSM",
+            "title": "This is Going Viral...",
+            "channel": "offthekirb",
+            "url": "https://www.youtube.com/watch?v=EtjcG1NYHSM"
+          },
+          {
+            "source": "youtube",
+            "id": "GcIDlEo5cSc",
+            "title": "20261025 precht",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=GcIDlEo5cSc"
+          },
+          {
+            "source": "youtube",
+            "id": "vlERdwmUe0E",
+            "title": "⚡Rich People Are Preparing for DAY X w/ J Hollerman",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=vlERdwmUe0E"
+          },
+          {
+            "source": "youtube",
+            "id": "4eKUDsesMVQ",
+            "title": "Katerina Janouch: Mohamed Ali (V) kommer undan – för att han inte är svensk",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=4eKUDsesMVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "7EdBnAFCpUs",
+            "title": "A Hidden Gem in Jerusalem! Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=7EdBnAFCpUs"
+          },
+          {
+            "source": "youtube",
+            "id": "83DJOoKa5LQ",
+            "title": "🚨🚨BREAKING: Major Factories IDLED- Watchmen Update",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=83DJOoKa5LQ"
+          },
+          {
+            "source": "youtube",
+            "id": "C8cE65xZix8",
+            "title": "Is the CRYPTO TAX NOT happening after all? 🚨 THIS is the CURRENT STATUS!",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=C8cE65xZix8"
+          },
+          {
+            "source": "youtube",
+            "id": "FLbWuBcLsmc",
+            "title": "Exorcist Chad Ripperger SILENCED After Calling Out Demons At The Vatican (Enthronement Of Lucifer)",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=FLbWuBcLsmc"
+          },
+          {
+            "source": "youtube",
+            "id": "LE0_t0O5n8o",
+            "title": "PERSONALITY TRANSPLANTS--Walking in Otherworldly Graces",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=LE0_t0O5n8o"
+          },
+          {
+            "source": "youtube",
+            "id": "LXZee5MUBfk",
+            "title": "heute 7:00 PM from 10/29/2026 Civil Protection Hub, train accident in Spain, Elke Sommer has pass...",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=LXZee5MUBfk"
+          },
+          {
+            "source": "youtube",
+            "id": "9paqLQuu_Nk",
+            "title": "SOMETHING BIG IS COMING. THEY'RE NOT TELLING US...",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=9paqLQuu_Nk"
+          },
+          {
+            "source": "youtube",
+            "id": "BG3MdYYpSV0",
+            "title": "The UNTHINKABLE is About to Happen in America, And No One Is Ready",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=BG3MdYYpSV0"
+          },
+          {
+            "source": "youtube",
+            "id": "GkINbVpcOfw",
+            "title": "Israel Election Results: Who Will Form the Government?",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=GkINbVpcOfw"
+          },
+          {
+            "source": "youtube",
+            "id": "HBJlrIIDNOI",
+            "title": "Netanyahu-regeringens minister vill skicka palestinier till Europa",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=HBJlrIIDNOI"
+          },
+          {
+            "source": "youtube",
+            "id": "HS1fNkQTmBY",
+            "title": "RITE OF PASSAGE TEAM 018 | OFFICIAL DOCUMENTARY",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=HS1fNkQTmBY"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "FmDjpWaSIkg",
+            "title": "Time Is Running Out: Are You Ready for Jesus?",
+            "channel": "beholdisrael",
+            "url": "https://www.youtube.com/watch?v=FmDjpWaSIkg"
+          },
+          {
+            "source": "youtube",
+            "id": "19OdmwqbvDk",
+            "title": "Isaac – Part 38 (Genesis 26:1): The Famine Test of Isaac; God’s Promises Confirmed.",
+            "channel": "RogerLiebiLIVE",
+            "url": "https://www.youtube.com/watch?v=19OdmwqbvDk"
+          },
+          {
+            "source": "youtube",
+            "id": "66UFlnVSbL4",
+            "title": "TRUST THE PLAN: UNDERSTANDING THE SOVEREIGNTY OF GOD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=66UFlnVSbL4"
+          },
+          {
+            "source": "youtube",
+            "id": "9HklhhNSRpw",
+            "title": "Synagogue of Chorazin",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=9HklhhNSRpw"
+          },
+          {
+            "source": "youtube",
+            "id": "BbhXkF3WjTY",
+            "title": "Starlink Investigation: Who’s Really in Control?🚨",
+            "channel": "klartextwinkler",
+            "url": "https://www.youtube.com/watch?v=BbhXkF3WjTY"
+          },
+          {
+            "source": "youtube",
+            "id": "HjSugUug9uY",
+            "title": "Här är M-toppens plan för att sno SD:s väljare",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=HjSugUug9uY"
+          },
+          {
+            "source": "youtube",
+            "id": "TK0IbEC2Evg",
+            "title": "heute 7:00 PM from 11/05/2026 Aiwanger found dead, austerity measures in care",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=TK0IbEC2Evg"
+          },
+          {
+            "source": "youtube",
+            "id": "m7hL3bVoUuQ",
+            "title": "The Biggest Crypto Theft In History",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=m7hL3bVoUuQ"
+          },
+          {
+            "source": "youtube",
+            "id": "9b2DoHkoulw",
+            "title": "ILTV On The Hour - November 5, 2026 | Bibi Fights for Survival as Eisenkot Moves Closer to Power",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=9b2DoHkoulw"
+          },
+          {
+            "source": "youtube",
+            "id": "CQH8rAR_5RM",
+            "title": "What Will We ACTUALLY Do in Heaven for All Eternity?",
+            "channel": "DLMChristianLifestyle",
+            "url": "https://www.youtube.com/watch?v=CQH8rAR_5RM"
+          },
+          {
+            "source": "youtube",
+            "id": "Ah864CLlp50",
+            "title": "⚡ALERT! NUCLEAR TEAMS PREPARE ON IRAN BORDER! Market BLOODBATH, Putin Gets SECRET Message!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Ah864CLlp50"
+          },
+          {
+            "source": "youtube",
+            "id": "9FsIMtIhTyo",
+            "title": "⚡ALERT! Drop Everything And Prepare for WW3.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=9FsIMtIhTyo"
+          },
+          {
+            "source": "youtube",
+            "id": "2gNxvNtIHC0",
+            "title": "⚡ALERT! Widespread CYBERATTACKS on FOOD Supply, CANADAS TROOPS Move to RUSSIAN BORDER! EBOLA SPREADS",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=2gNxvNtIHC0"
+          },
+          {
+            "source": "youtube",
+            "id": "sz3PYXFtFCo",
+            "title": "No One Is Talking About This. A.I. Experts REVEAL",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=sz3PYXFtFCo"
+          },
+          {
+            "source": "youtube",
+            "id": "7ywbau5QT0s",
+            "title": "How Will AI Actually End the World? w/ Connor Leahy",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=7ywbau5QT0s"
+          },
+          {
+            "source": "youtube",
+            "id": "wDNekJTOss4",
+            "title": "⚡ALERT! Multiple NUCLEAR Alert Cyberattacks, Hedge Funds SELLING! Oil Refineries BURN! Mar-a-lago!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=wDNekJTOss4"
+          },
+          {
+            "source": "youtube",
+            "id": "zuspUp79HyQ",
+            "title": "⚡ALERT! WALLSTREET BLOODBATH!!! Russia BURNING! 80 TANKERS IN ISRAEL! NATO MOBILIZING",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=zuspUp79HyQ"
+          },
+          {
+            "source": "youtube",
+            "id": "vlERdwmUe0E",
+            "title": "⚡Rich People Are Preparing for DAY X w/ J Hollerman",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=vlERdwmUe0E"
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "weekly",
+        "now_utc_iso": "2026-11-06T12:22:05+00:00"
+      },
+      "workflow_run_id": "42216510618",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:weekly:2026-10-30:2026-11-06:production",
+        "subject": "The Cyberlurch Report — Weekly",
+        "subject_hash": "aec11e60bea54202472fa0203770b1dde7bd37f34201458529bbd8444787f038",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "df5bfd8ac696aa253decd21390b65a8885624c6dea38c35c861c73eae0194d9c",
+        "finalization_policy": "markers",
+        "content_version": "3bce1c33df9c4c49af88f704ec16f6b94ee6a3eaeb4e6c4489c269c5352f782e",
+        "message_id": "<cfb60c083f52c3ab09749d524de4cdda2a468cecded6692212dbf83eee48fdd6@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [],
+        "approved_after_generation_checks": true,
+        "seal": "9209850072a545852d146f2340691983be75656b3aedef051330e8177ffc391d"
+      }
     }
   },
   "paper_legacy_unknown": {
