@@ -65,11 +65,12 @@ def test_recovery_plan_accepts_real_trigger_without_overriding_github_env(monkey
     output = tmp_path / 'plan.json'
     monkeypatch.setattr(sys, 'argv', ['plan', '--report-key', 'cybermed', '--maintenance',
         '--created-at', '2026-11-06T10:00:00Z', '--job-started-at', '2026-11-06T10:01:00Z', '--output', str(output)])
-    assert ep.main() == 0
+    ep.main()
     plan = json.loads(output.read_text())
     assert plan['trigger'] == 'manual' and plan['expected_slot'] is None
     assert plan['workflow_run_id'] == 'local' and ep.validate_plan(plan)
     monkeypatch.setenv('SEND_EMAIL', '1')
     output.unlink()
-    assert ep.main() == 1
+    with pytest.raises(RuntimeError, match="edition_plan_invalid"):
+        ep.main()
     assert not output.exists()
