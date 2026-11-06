@@ -167,7 +167,7 @@ def retrieval_budget(budget):
         _BUDGET.reset(token)
 
 
-def _request_with_retries(*, url, params, timeout_s, expect):
+def _request_with_retries(*, url, params, timeout_s, expect, validate=None):
     api_key, tool, email = _get_ncbi_params()
     params = dict(params)
     for name, value in (("api_key", api_key), ("tool", tool), ("email", email)):
@@ -226,7 +226,17 @@ def _request_with_retries(*, url, params, timeout_s, expect):
                     raise PubMedError("invalid_json") from None
                 if not isinstance(data, dict):
                     raise PubMedError("invalid_json_structure")
-                return data
+                if validate is None:
+                    return data
+                try:
+                    validate(data)
+                except PubMedError as exc:
+                    # A 200 response is not necessarily a usable ESearch page.
+                    # Retry the same request within the existing shared budget;
+                    # never turn an invalid response into an empty result.
+                    category = exc.category
+                else:
+                    return data
         if attempt + 1 < retries:
             try:
                 pause(delay)
@@ -237,8 +247,8 @@ def _request_with_retries(*, url, params, timeout_s, expect):
     raise PubMedError(category) from None
 
 
-def _request_json(url, params, timeout_s=25):
-    return _request_with_retries(url=url, params=params, timeout_s=timeout_s, expect="json")
+def _request_json(url, params, timeout_s=25, *, validate=None):
+    return _request_with_retries(url=url, params=params, timeout_s=timeout_s, expect="json", validate=validate)
 
 
 def _request_text(url, params, timeout_s=35):
@@ -625,7 +635,7 @@ def discover_pubmed_ids(term, start, end, *, page_size=500):
                   "sort": "pub date", "usehistory": "y"}
         if history:
             params["WebEnv"] = history[0]
-        data = _request_json(PUBMED_ESEARCH_URL, params)
+        data = _request_json(PUBMED_ESEARCH_URL, params, validate=validate_esearch)
         total, ids = validate_esearch(data)
         pages += 1
         if total > 10000:

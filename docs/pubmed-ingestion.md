@@ -100,6 +100,12 @@ request timeouts consume the shared monotonic retrieval budget. No new request
 or sleep begins beyond it, and a response arriving after the deadline is not
 accepted. An in-flight synchronous HTTP operation is not forcibly killed;
 socket timeout behavior is not a hard wall-clock completion guarantee.
+Daily ESearch also validates HTTP-200 pages inside that same retry loop. An
+invalid count/ID/error response retries the identical page with the same
+history and offset, without adding an outer retry budget. Exhaustion preserves
+the source-error category and blocks delivery; it is never treated as zero
+results or ordinary incomplete coverage. Cross-page snapshot consistency and
+the 10,000-ID limit remain separate fail-closed checks.
 When few requests remain, the ID page grows to the bounded 10,000 maximum so
 a small budget does not repeatedly retrieve the same incomplete prefix.
 Fetch batches stay within the existing per-channel limit (default 25) and the
