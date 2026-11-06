@@ -430,6 +430,12 @@ class IngestionSession:
                       "progress_is_delivery": False, "paper_decisions": self.paper_decisions}, kind=KIND)
 
     def reader_note(self):
-        # Operational capture/continuation status stays in the saved ledger
-        # and diagnostics. No generic capture disclaimer in any reader edition.
-        return ""
+        # Backlog alone is internal; an actual outage must not look like no news.
+        if not self.failed:
+            return ""
+        language = os.getenv("REPORT_LANGUAGE", "en").lower()
+        if language.startswith("de"):
+            return "Einige PubMed-Quellen waren vorübergehend nicht verfügbar. Diese Ausgabe enthält nur die verfügbaren Inhalte."
+        if language.startswith("sv"):
+            return "Vissa PubMed-källor var tillfälligt otillgängliga. Detta utskick innehåller endast tillgängligt material."
+        return "Some PubMed sources were temporarily unavailable. This edition includes only the available material."

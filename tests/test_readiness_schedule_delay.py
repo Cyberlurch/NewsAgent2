@@ -38,11 +38,11 @@ def test_actual_monday_alarm_times_do_not_mark_delayed_senders_as_failed(key,sta
 
 
 @pytest.mark.parametrize('key',['cybermed','cyberlurch'])
-def test_after_extended_deadline_still_fails_for_a_missing_daily(key):
+def test_after_extended_deadline_warns_for_a_missing_daily(key):
     seed(key); before=snapshot()
     report=op.assess(key,as_of=datetime.fromisoformat('2026-10-19T12:00:00+00:00'))
-    assert not report['ok'] and report['checks'][0]['last_daily_due']=='2026-10-19'
-    assert report['checks'][0]['categories']==['operational_daily_publication_stale']
+    assert report['ok'] and report['status']=='degraded' and report['checks'][0]['last_daily_due']=='2026-10-19'
+    assert report['checks'][0]['warnings']==['operational_daily_publication_stale']
     assert snapshot()==before
 
 
@@ -50,7 +50,7 @@ def test_after_extended_deadline_still_fails_for_a_missing_daily(key):
 def test_delay_window_does_not_hide_a_missing_previous_business_day(key):
     seed(key,prior_day='2026-10-15')
     report=op.assess(key,as_of=datetime.fromisoformat('2026-10-19T07:35:50+00:00'))
-    assert not report['ok'] and report['checks'][0]['status']=='recovery_required'
+    assert report['ok'] and report['checks'][0]['status']=='degraded'
     assert report['checks'][0]['last_daily_due']=='2026-10-16'
 
 
@@ -131,9 +131,9 @@ def test_oct28_cybermed_delayed_start_does_not_mark_previous_day_stale():
     assert early['ok']
     late = op.assess('cybermed', as_of=datetime.fromisoformat('2026-10-28T12:41:00+00:00'))
     assert late['checks'][0]['last_daily_due']=='2026-10-28'
-    assert late['checks'][0]['status']=='recovery_required'
-    assert 'operational_daily_publication_stale' in late['checks'][0]['categories']
-    assert not late['ok'] and snapshot()==before
+    assert late['checks'][0]['status']=='degraded'
+    assert 'operational_daily_publication_stale' in late['checks'][0]['warnings']
+    assert late['ok'] and snapshot()==before
 
 
 def test_completion_trigger_scopes_readiness_to_the_finished_newsletter():

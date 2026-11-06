@@ -34,7 +34,7 @@ Query metadata has these statuses:
 | --- | --- |
 | `complete` | Valid zero/open-work-free result, with the older closed-day frontier caught up and the current day searched. This does not certify all historical citations or SMTP delivery. |
 | `incomplete` | Work remains: candidates awaiting generation, a day/record/request/time budget, or a provisional current day. Its IDs or unresolved search day remain durable. |
-| `failed` | Transport/HTTP, response/schema/XML, missing IDs, changing search snapshot, or unsupported API volume prevents trustworthy retrieval. Daily delivery is blocked. |
+| `failed` | Transport/HTTP, response/schema/XML, missing IDs, changing search snapshot, or unsupported API volume prevents trustworthy retrieval. The query remains open; Daily continues with validated available content and a source-availability notice. |
 
 `count=0` is a success only after validating ESearch. Valid records without an
 abstract remain metadata records; optional abstract loading returns no text
@@ -81,7 +81,7 @@ the requested batch, including a syntactically valid but empty response.
 
 [ESearch documentation](https://www.ncbi.nlm.nih.gov/books/NBK25499/#chapter4.ESearch)
 limits PubMed retrieval to the first 10,000 IDs. Day windows bound that problem:
-more than 10,000 results in one day blocks Daily with `api_result_limit`, keeps
+more than 10,000 results in one day stops that query with `api_result_limit`, keeps
 the unresolved day, and requires an operator-reviewed narrower query policy.
 There is no silent prefix success or automatic query expansion. This environment
 could read PubMed Help; the Books documentation endpoint returned an access
@@ -103,7 +103,7 @@ socket timeout behavior is not a hard wall-clock completion guarantee.
 Daily ESearch also validates HTTP-200 pages inside that same retry loop. An
 invalid count/ID/error response retries the identical page with the same
 history and offset, without adding an outer retry budget. Exhaustion preserves
-the source-error category and blocks delivery; it is never treated as zero
+the source-error category and warns about degraded coverage; it is never treated as zero
 results or ordinary incomplete coverage. Cross-page snapshot consistency and
 the 10,000-ID limit remain separate fail-closed checks.
 When few requests remain, the ID page grows to the bounded 10,000 maximum so
@@ -111,7 +111,7 @@ a small budget does not repeatedly retrieve the same incomplete prefix.
 Fetch batches stay within the existing per-channel limit (default 25) and the
 global record cap. PubMed query order rotates between runs; other channel
 slots retain their order. A successful run with a backlog clearly labels its
-limited coverage. Actual source failures block sending.
+limited coverage. Actual source failures warn and preserve unresolved windows; they do not block the other sources or sending.
 
 Model/output budgets are unchanged. Candidate selection sees no more than the
 existing per-channel cap. Capacity omissions remain open across restarts;

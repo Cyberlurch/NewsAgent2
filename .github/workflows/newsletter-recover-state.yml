@@ -1,6 +1,14 @@
 name: Newsletter state recovery (no sending)
 
 on:
+  # Reconcile retained receipts when deploying changes to this recovery path.
+  push:
+    branches: [main]
+    paths: [.github/workflows/newsletter-recover-state.yml]
+  workflow_run:
+    workflows: [NewsAgent2 Cybermed, NewsAgent2 daily]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
     inputs:
       report_key:
@@ -20,10 +28,22 @@ permissions:
 
 jobs:
   recover:
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' ||
+          (github.event.workflow_run.conclusion != 'success' &&
+           github.event.workflow_run.conclusion != 'skipped') }}
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        report_key: >-
+          ${{ fromJSON(github.event_name == 'push' && '["cybermed","cyberlurch"]' ||
+              (inputs.report_key == 'cybermed' || github.event.workflow_run.name == 'NewsAgent2 Cybermed') && '["cybermed"]' ||
+              '["cyberlurch"]') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
-      REPORT_KEY: ${{ inputs.report_key }}
+      REPORT_KEY: ${{ matrix.report_key }}
       REPORT_MODE: daily
       EMAIL_MODE: real
       SEND_EMAIL: "0"
@@ -44,6 +64,9 @@ jobs:
           python-version: "3.12"
       - run: bash tools/install_dependencies.sh runtime
       - name: Bind recovery to this run and newsletter
+        # Recovery is maintenance, never a new scheduled publication.
+        env:
+          GITHUB_EVENT_NAME: manual
         run: python -m src.newsagent2.edition_plan --report-key "$REPORT_KEY"
       - name: Restore retained receipts and validated records
         run: |
@@ -69,7 +92,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: ${{ inputs.report_key }}-state-recovery-${{ github.run_id }}
+          name: ${{ matrix.report_key }}-state-recovery-${{ github.run_id }}
           path: |
             out/recovery/
             out/recovery_plan_metadata.json

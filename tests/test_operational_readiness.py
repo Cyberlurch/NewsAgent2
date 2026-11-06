@@ -49,7 +49,7 @@ def test_four_cadences_forecast_without_network_mutation_or_false_complete(key):
     assert not any(r.get('delivery_status') == 'accepted_by_smtp' for r in result['checks'])
     if key == 'cybermed':
         weekly = result['checks'][1]
-        assert weekly['status'] == 'recovery_required' and weekly['source_status'] == 'partial_ready'
+        assert weekly['status'] == 'degraded' and weekly['source_status'] == 'partial_ready'
         assert weekly['known_missing_dates'] == ['2026-10-14', '2026-10-15']
         assert weekly['coverage']['status'] == 'incomplete'
     assert all(not row['automatic_resend'] for row in result['historical_delivery'])
@@ -95,7 +95,7 @@ def test_stale_publication_is_not_hidden_by_an_available_partial_week():
     path_for('STATE_PATH').write_text(json.dumps({'reports': {},
         'last_successful_daily_run_utc_by_report': {'cybermed': '2026-10-13T10:00:00Z'}}))
     result = op.assess('cybermed', as_of=datetime(2026, 10, 16, 12, tzinfo=timezone.utc))
-    assert not result['ok'] and result['checks'][0]['status'] == 'recovery_required'
+    assert result['ok'] and result['checks'][0]['status'] == 'degraded'
     assert result['checks'][0]['marker_is_not_smtp_proof'] is True
     assert result['checks'][1]['source_status'] == 'partial_ready'
 
@@ -242,10 +242,10 @@ def test_actual_readonly_cli_reports_stale_state_without_mutation(monkeypatch, t
     before = snapshot(); output = tmp_path/'evidence'/'readiness.json'
     result = subprocess.run([sys.executable, '-m', 'newsagent2.operational_readiness', '--report-key', 'cybermed',
         '--as-of', '2026-10-16T12:00:00Z', '--output', str(output)], text=True, capture_output=True)
-    assert result.returncode == 1, result.stderr
-    assert '::error title=Newsletter readiness::cybermed:daily:operational_daily_publication_stale' in result.stderr
-    assert json.loads(result.stdout)['ok'] is False
-    assert json.loads(output.read_text())['checks'][0]['status'] == 'recovery_required'
+    assert result.returncode == 0, result.stderr
+    assert '::warning title=Newsletter readiness::cybermed:daily:operational_daily_publication_stale' in result.stderr
+    assert json.loads(result.stdout)['ok'] is True
+    assert json.loads(output.read_text())['checks'][0]['status'] == 'degraded'
     assert snapshot() == before and not list(directory.glob('*.lock'))
 
 
