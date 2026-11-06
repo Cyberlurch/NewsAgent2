@@ -288,6 +288,7 @@ def github_created_at():
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--report-key',choices=['cybermed','cyberlurch'],required=True)
+    parser.add_argument('--maintenance', action='store_true', help='Bind a no-send recovery plan, not a scheduled edition')
     parser.add_argument('--created-at')
     parser.add_argument('--job-started-at',default=os.getenv('NEWSAGENT_JOB_STARTED_AT'))
     parser.add_argument('--logical-date',default=os.getenv('NEWSAGENT_REQUESTED_DATE',''))
@@ -295,7 +296,10 @@ def main():
     args=parser.parse_args()
     from .run_timing import write_plan_failure
     try:
-        trigger=os.getenv('GITHUB_EVENT_NAME','manual');now=datetime.now(timezone.utc).isoformat()
+        if args.maintenance and os.getenv('SEND_EMAIL') != '0':
+            raise ValueError('edition_maintenance_send_must_be_disabled')
+        trigger='manual' if args.maintenance else os.getenv('GITHUB_EVENT_NAME','manual')
+        now=datetime.now(timezone.utc).isoformat()
         created=args.created_at or (github_created_at() if os.getenv('GITHUB_RUN_ID') else now)
         plan=make_plan(args.report_key,created_at=created,job_started_at=args.job_started_at or now,trigger=trigger,
             request='scheduled' if trigger=='schedule' else os.getenv('REPORT_MODE','daily'),mode=os.getenv('EMAIL_MODE','none'),

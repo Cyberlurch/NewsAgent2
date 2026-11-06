@@ -52,4 +52,24 @@ def test_automatic_recovery_remains_serial_without_sender_credentials():
     scripts = '\n'.join(step.get('run', '') for step in job['steps'])
     assert 'src.newsagent2.main' not in scripts and 'replay-pre-smtp' not in scripts
     bind = next(s for s in job['steps'] if s.get('name') == 'Bind recovery to this run and newsletter')
-    assert bind['env']['GITHUB_EVENT_NAME'] == 'manual'
+    assert '--maintenance' in bind['run']
+
+
+@pytest.mark.parametrize('event', ['push', 'workflow_run', 'workflow_dispatch'])
+def test_recovery_plan_accepts_real_trigger_without_overriding_github_env(monkeypatch, tmp_path, event):
+    from newsagent2 import edition_plan as ep
+    import sys
+    monkeypatch.setenv('GITHUB_EVENT_NAME', event)
+    monkeypatch.setenv('EMAIL_MODE', 'real')
+    monkeypatch.setenv('SEND_EMAIL', '0')
+    output = tmp_path / 'plan.json'
+    monkeypatch.setattr(sys, 'argv', ['plan', '--report-key', 'cybermed', '--maintenance',
+        '--created-at', '2026-11-06T10:00:00Z', '--job-started-at', '2026-11-06T10:01:00Z', '--output', str(output)])
+    assert ep.main() == 0
+    plan = json.loads(output.read_text())
+    assert plan['trigger'] == 'manual' and plan['expected_slot'] is None
+    assert plan['workflow_run_id'] == 'local' and ep.validate_plan(plan)
+    monkeypatch.setenv('SEND_EMAIL', '1')
+    output.unlink()
+    assert ep.main() == 1
+    assert not output.exists()

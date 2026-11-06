@@ -65,9 +65,7 @@ jobs:
       - run: bash tools/install_dependencies.sh runtime
       - name: Bind recovery to this run and newsletter
         # Recovery is maintenance, never a new scheduled publication.
-        env:
-          GITHUB_EVENT_NAME: manual
-        run: python -m src.newsagent2.edition_plan --report-key "$REPORT_KEY"
+        run: python -m src.newsagent2.edition_plan --maintenance --report-key "$REPORT_KEY"
       - name: Restore retained receipts and validated records
         run: |
           set -euo pipefail
