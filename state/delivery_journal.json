@@ -18099,6 +18099,560 @@
         "approved_after_generation_checks": true,
         "seal": "9209850072a545852d146f2340691983be75656b3aedef051330e8177ffc391d"
       }
+    },
+    "cybermed:daily:2026-11-05:2026-11-05:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-05",
+      "period_end": "2026-11-05",
+      "edition_id": "cybermed:daily:2026-11-05:2026-11-05:production",
+      "content_version": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "message_id": "<2fca217e8310fe644eda17e3e4838ee1c9c106744837c6bb46bdd79b5366ddcf@newsagent2.invalid>",
+      "status": "failed",
+      "category": "generation_or_finalization_failed",
+      "accepted": [],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": false,
+      "updated_at_utc": "2026-11-05T12:46:50+00:00",
+      "recipient_key_id": "",
+      "generation_validated": false,
+      "finalization": {},
+      "workflow_run_id": "42029696373",
+      "prior_attempts": [],
+      "smtp_phase": "not_handed_off",
+      "recovery": {}
+    },
+    "cybermed:daily:2026-11-06:2026-11-06:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-06",
+      "period_end": "2026-11-06",
+      "edition_id": "cybermed:daily:2026-11-06:2026-11-06:production",
+      "content_version": "8ba5565765957335e27975af8f88a562a1f9a35c316fe5b57e9d8ef02bc9ce24",
+      "message_id": "<efada31f93e537925e146a1b20a0f94a874f40fa81c923d013098298c9a05b46@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-06T12:30:54+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42983085",
+            "title": "Nectin-4 mediates rubella virus entry in airway and placental cells.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42983085/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981584",
+            "title": "Angiography-Based Physiological Assessment to Guide Revascularization. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981584/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981583",
+            "title": "Angiography-Based Physiological Assessment to Guide Revascularization.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981583/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981582",
+            "title": "PARP and Androgen-Signaling Inhibition in Metastatic Prostate Cancer. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981582/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981581",
+            "title": "PARP and Androgen-Signaling Inhibition in Metastatic Prostate Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981581/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981580",
+            "title": "PARP and Androgen-Signaling Inhibition in Metastatic Prostate Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981580/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981579",
+            "title": "PARP and Androgen-Signaling Inhibition in Metastatic Prostate Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981579/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981578",
+            "title": "Durability of Gene Therapy in Patients with Crigler-Najjar Syndrome.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981578/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981577",
+            "title": "Chemogenetic Neuromodulation for Refractory Epilepsy.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981577/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981576",
+            "title": "Use of an Artificial Intelligence Scribe for Clinical Notes.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981576/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981575",
+            "title": "Atherosclerosis across the Adult Lifespan - A Call to Act from REACT.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981575/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981574",
+            "title": "From Detection to Action in Computed Tomographic Coronary Angiography.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981574/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981573",
+            "title": "A Triple Incretin Agonist for Obesity, Osteoarthritis, and Sleep Apnea.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981573/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981572",
+            "title": "An Element Out of Place.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981572/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981571",
+            "title": "Hereditary Hemorrhagic Telangiectasia.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981571/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981570",
+            "title": "Intravenous Thrombolysis for Acute Ischemic Stroke - New Directions.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981570/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981569",
+            "title": "Plozasiran for Severe Hypertriglyceridemia and Risk of Pancreatitis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981569/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42982167",
+            "title": "Public-Access Automated External Defibrillator (AED) Density and Neighborhood Income.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982167/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42977314",
+            "title": "Early warning system for deteriorating children to expand to emergency departments across England.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42977314/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42956801",
+            "title": "Long-term safety and efficacy of twice-yearly depemokimab in type 2 asthma with an eosinophilic phenotype: 2-year integrated analysis of the phase 3a SWIFT-1 and SWIFT-2 studies and AGILE open-label extension.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956801/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42956800",
+            "title": "Twice-yearly depemokimab: beyond dosing convenience.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956800/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42945997",
+            "title": "Attitudes Towards Clinical Research in Acute Illness-A Population-Based Survey in Sweden.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42945997/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42944582",
+            "title": "Discussing Future Treatment and Care in the ICU: Perspectives From Patients.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42944582/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42935270",
+            "title": "Answer to Gricourt et al.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42935270/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42935256",
+            "title": "From Cohort to Outcome: Clarifying Patient Flow and Mortality After Prehospital Transfusion.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42935256/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42949899",
+            "title": "Locked Algorithms, Missing Data, and Surrogates: Why Auto-Adjusted NIV Should Not Yet Replace Manual Titration in OHS.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949899/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42949866",
+            "title": "Reply to Zeng et al.: Locked Algorithms, Missing Data, and Surrogates: Why Auto-Adjusted NIV Should Not Yet Replace Manual Titration in OHS.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949866/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42928599",
+            "title": "Reducing delirium after hip fracture surgery: what can anaesthetists do?",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42928599/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42904759",
+            "title": "Childhood Exposure to General Anesthesia For Surgery: Identification of a Subtle Post-Operative Cognitive Phenotype.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42904759/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/are-we-ready-for-war-part-2-preparing-our-emergency-departments-and-hospitals/",
+            "title": "Are we ready for war? Part 2: Preparing our emergency departments and hospitals",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/are-we-ready-for-war-part-2-preparing-our-emergency-departments-and-hospitals/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/suzetrigine-can-we-really-avoid-opioids-after-surgery/",
+            "title": "Suzetrigine: Can We Really Avoid Opioids After Surgery?",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/suzetrigine-can-we-really-avoid-opioids-after-surgery/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/cervical-plexus-block-after-thyroidectomy/",
+            "title": "Cervical plexus block after thyroidectomy",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/cervical-plexus-block-after-thyroidectomy/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/is-this-soda-flat-bicarb-for-icu-patients/",
+            "title": "Is This SODa Flat? Bicarb for ICU Patients - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/is-this-soda-flat-bicarb-for-icu-patients/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emottawablog.com/2026/11/are-we-treating-the-patient-or-our-own-anxiety-low-value-testing/",
+            "title": "Are We Treating the Patient or Our Own Anxiety? Low Value Testing",
+            "channel": "EMOttawa Blog",
+            "url": "https://emottawablog.com/2026/11/are-we-treating-the-patient-or-our-own-anxiety-low-value-testing/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42935147",
+            "title": "Correction to \"Temperature Dysregulation Following Intrathecal Morphine for Cesarean Delivery Patients-A Scoping Review\".",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42935147/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42956801",
+            "title": "Long-term safety and efficacy of twice-yearly depemokimab in type 2 asthma with an eosinophilic phenotype: 2-year integrated analysis of the phase 3a SWIFT-1 and SWIFT-2 studies and AGILE open-label extension.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956801/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42956801",
+              "doi": "10.1016/s2213-2600(26)00259-6",
+              "kind": "original",
+              "source_version": "545b2fdf61c1c549561b9495b6833f4c5da8bdd0f3f7f8a8244f4ea6ffde04f4",
+              "fields": {
+                "title": "154f89791c0e9d3706d9a99dd684c61a4ad1e04fcd520d4e23b85a02f11167c5",
+                "abstract": "7dbb6a1465757c221e437d5c97f0aae568c4834b3bcd5a1c31f4c7a4b6163c67",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "ab7f74b7ad51f6d057cf9110c4196595c723a86bd257ac0c898144a1570352e6",
+                "results_known": false,
+                "numbers": "0e1cfc3ae53aa752241e18444bb2e95c3f4a53f78b66e4dd78e051d14e639983",
+                "endpoint": "ccd05b74a1aa57d4cfb3faf96bf7034888760b6a1f4b1d026c10dfcffd882482",
+                "methods": "415f257d9f5ff63ff1c95e87440e0c635a8954a23f5d39b80cd4492c2b1c8dca",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42935147",
+            "title": "Correction to \"Temperature Dysregulation Following Intrathecal Morphine for Cesarean Delivery Patients-A Scoping Review\".",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42935147/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42935147",
+              "doi": "10.1111/aas.70366",
+              "kind": "correction_notice",
+              "source_version": "fdc3b8c144d836bf0b62a1b4c4885675ef0e8568909ab2b6bf71b23e511e4950",
+              "fields": {
+                "title": "f53f1a6131f07b16f9c9a61e41aad1e5c8b160ad15d071bb6c33812c5b238898",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "daec62f417fde342369cc4fe13c37aef781ae637b3d95b320312b89c98b995d9",
+                "relations": "06a5ebe84b3c0a34b4985851217814a3520b3b5cef5aff3dc7267ac07e0ca0f9"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": [
+                {
+                  "ref_type": "ErratumFor",
+                  "pmid": "42830199"
+                }
+              ]
+            }
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/are-we-ready-for-war-part-2-preparing-our-emergency-departments-and-hospitals/",
+            "title": "Are we ready for war? Part 2: Preparing our emergency departments and hospitals",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/are-we-ready-for-war-part-2-preparing-our-emergency-departments-and-hospitals/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/suzetrigine-can-we-really-avoid-opioids-after-surgery/",
+            "title": "Suzetrigine: Can We Really Avoid Opioids After Surgery?",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/suzetrigine-can-we-really-avoid-opioids-after-surgery/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/cervical-plexus-block-after-thyroidectomy/",
+            "title": "Cervical plexus block after thyroidectomy",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/cervical-plexus-block-after-thyroidectomy/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/is-this-soda-flat-bicarb-for-icu-patients/",
+            "title": "Is This SODa Flat? Bicarb for ICU Patients - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/is-this-soda-flat-bicarb-for-icu-patients/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emottawablog.com/2026/11/are-we-treating-the-patient-or-our-own-anxiety-low-value-testing/",
+            "title": "Are We Treating the Patient or Our Own Anxiety? Low Value Testing",
+            "channel": "EMOttawa Blog",
+            "url": "https://emottawablog.com/2026/11/are-we-treating-the-patient-or-our-own-anxiety-low-value-testing/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-06T12:30:48+00:00"
+      },
+      "workflow_run_id": "42217996007",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-06:2026-11-06:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "2244e1ee01fee92dcedf69385a64e0fd852f30dde40281b3f99f90f129ed6300",
+        "finalization_policy": "markers",
+        "content_version": "8ba5565765957335e27975af8f88a562a1f9a35c316fe5b57e9d8ef02bc9ce24",
+        "message_id": "<efada31f93e537925e146a1b20a0f94a874f40fa81c923d013098298c9a05b46@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "1842fcb4d2e43a6b_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "0ae6d99a7acebec2718a914cd3b116988f9f8538a6f1a18e34bdb48462d5df08"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "8b121c9287ea4293b45adeae8172dae28b0e8594963b873ea83185cff4ee6270"
+      }
+    },
+    "cybermed:weekly:2026-11-02:2026-11-06:production": {
+      "report_key": "cybermed",
+      "cadence": "weekly",
+      "period_start": "2026-11-02",
+      "period_end": "2026-11-06",
+      "edition_id": "cybermed:weekly:2026-11-02:2026-11-06:production",
+      "content_version": "1ba3e32acd936874b3cb098fd75be76da425a378b177e14faf899f0f012b312f",
+      "message_id": "<b7b15e076234816fe327d4758a6dab3365a4968e30188f777ae9383d94d385a8@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+        "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+        "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+        "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+        "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+        "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+        "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+        "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+        "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+        "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+        "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+        "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+        "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+        "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+        "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+        "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+        "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+        "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-06T12:31:04+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {},
+      "workflow_run_id": "42217996007",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:weekly:2026-11-02:2026-11-06:production",
+        "subject": "Cybermed Report — Weekly",
+        "subject_hash": "59caac393c86891f5aad81b365380b5ae9cfac256d74c54ddd101b92beb9258e",
+        "audience": [
+          "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+          "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+          "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+          "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+          "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+          "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+          "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+          "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+          "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+          "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+          "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+          "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+          "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+          "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+          "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+          "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+          "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+          "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "finalization_policy": "no_markers",
+        "content_version": "1ba3e32acd936874b3cb098fd75be76da425a378b177e14faf899f0f012b312f",
+        "message_id": "<b7b15e076234816fe327d4758a6dab3365a4968e30188f777ae9383d94d385a8@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "b629038e53ea1a6c_cybermed_weekly_cybermed_weekly_generated_delta.json",
+            "sha256": "db0b8977dd14a2b2f04b2bab4585331df3cc8a959a0a9d88e4d5b3eefecdf4df"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "2273d87701b13b8cbe0978e247279c8cdab9cf5a5125566f8dacb97d49f109a5"
+      }
+    },
+    "cybermed:monthly:2026-10-01:2026-10-31:production": {
+      "report_key": "cybermed",
+      "cadence": "monthly",
+      "period_start": "2026-10-01",
+      "period_end": "2026-10-31",
+      "edition_id": "cybermed:monthly:2026-10-01:2026-10-31:production",
+      "content_version": "a80b674f7fd11a22761d9c87648f795b56041542caad2f77b2a78bfca133f4d5",
+      "message_id": "<e977cff4a7c4a532d52538e263c9c8220926901fd6692dc2136b18a361f5e9ae@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-06T12:31:12+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {},
+      "workflow_run_id": "42217996007",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:monthly:2026-10-01:2026-10-31:production",
+        "subject": "Cybermed Report — Monthly",
+        "subject_hash": "327df689e8ce4cc4a85ee5417c8b44dfca9dff02c2d7a15c9fa61df8fcf86d4e",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "finalization_policy": "no_markers",
+        "content_version": "a80b674f7fd11a22761d9c87648f795b56041542caad2f77b2a78bfca133f4d5",
+        "message_id": "<e977cff4a7c4a532d52538e263c9c8220926901fd6692dc2136b18a361f5e9ae@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "4fb69f83e3fe5133_cybermed_monthly_rollups_generated_delta.json",
+            "sha256": "c895e69a6a2b8f8f7ca52b6d8d39e8681ad155da2e430b33a81534b3d665649f"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "e04877b32c1e24490893db8c6cf52cf789d1b94a3fbc527d88e81ad95c5ce56e"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -18813,10 +19367,12 @@
         "42919451",
         "42919460",
         "42919629",
+        "42922413",
         "42924421",
         "42927910",
         "42927944",
         "42928302",
+        "42929478",
         "42929692",
         "42931902",
         "42933455",
@@ -18830,12 +19386,15 @@
         "42956923",
         "42956924",
         "42956925",
+        "42963061",
         "42968670",
         "42968679",
         "42969615",
         "42969616",
         "42970124",
         "42970133",
+        "42971311",
+        "42971312",
         "42972430"
       ]
     }
