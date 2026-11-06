@@ -421,7 +421,7 @@ def configure_main(monkeypatch, tmp_path, channels, mode='none'):
     return main
 
 
-def test_daily_query_failure_blocks_sender_but_keeps_successful_ingestion(monkeypatch,tmp_path):
+def test_daily_query_failure_keeps_available_content_and_failed_query_open(monkeypatch,tmp_path):
     channels=[{'name':'good','source':'pubmed','query':'good'},{'name':'bad','source':'pubmed','query':'bad'}]
     main=configure_main(monkeypatch,tmp_path,channels,mode='real')
     mock_source(monkeypatch,['1'])
@@ -430,31 +430,45 @@ def test_daily_query_failure_blocks_sender_but_keeps_successful_ingestion(monkey
         if term=='bad':raise c.PubMedError('server_error')
         return original(term,*args,**kwargs)
     monkeypatch.setattr(c,'discover_pubmed_ids',discover)
-    monkeypatch.setattr(main,'send_markdown',lambda *a,**k:pytest.fail('failed source must not send'))
-    with pytest.raises(RuntimeError,match='pubmed_ingestion_failed'):
-        main.main()
-    assert ingestion.load()['queries'][ingestion.fingerprint('good')]['active']['records']['1']
-    assert not path_for('CYBERMED_DAILY_DIGEST_STATE_PATH').exists()
+    from conftest import accepted_sender_stub
+    monkeypatch.setenv('SEND_EMAIL', '1')
+    monkeypatch.setenv('REPORT_LANGUAGE', 'en')
+    monkeypatch.setenv('DELIVERY_RECIPIENT_HMAC_KEY', 'x' * 32)
+    monkeypatch.setenv('RECIPIENTS_JSON_CYBERMED', '["test@example.test"]')
+    monkeypatch.setattr(main, 'send_markdown', accepted_sender_stub)
+    main.main()
+    assert path_for('CYBERMED_DAILY_DIGEST_STATE_PATH').exists()
     result=json.loads((tmp_path/'out/cybermed_daily_delivery_result.json').read_text())
-    assert result['status']=='failed'
+    assert result['status']=='accepted_by_smtp'
+    failed = ingestion.load()['queries'][ingestion.fingerprint('bad')]
+    assert failed['active'] is None and failed['next_date'] == failed['initial_start']
+    assert 'Some PubMed sources were temporarily unavailable' in next((tmp_path/'out').glob('cybermed_daily_summary_*.md')).read_text()
 
 
-def test_exhausted_esearch_schema_retries_block_smtp_and_coverage(monkeypatch, tmp_path, no_wait):
+def test_total_source_outage_sends_honest_notice_without_advancing_coverage(monkeypatch, tmp_path, no_wait):
     main = configure_main(monkeypatch, tmp_path,
         [{'name': 'ICU', 'source': 'pubmed', 'query': 'ICU'}], mode='real')
     bad = response(data={'esearchresult': {'count': 'invalid', 'idlist': []}})
     seen = http(monkeypatch, [bad, bad])
-    monkeypatch.setattr(main, 'send_markdown', lambda *a, **k: pytest.fail('failed source must not send'))
-    with pytest.raises(RuntimeError, match='pubmed_ingestion_failed'):
-        main.main()
+    from conftest import accepted_sender_stub
+    monkeypatch.setenv('SEND_EMAIL', '1')
+    monkeypatch.setenv('REPORT_LANGUAGE', 'en')
+    monkeypatch.setenv('DELIVERY_RECIPIENT_HMAC_KEY', 'x' * 32)
+    monkeypatch.setenv('RECIPIENTS_JSON_CYBERMED', '["test@example.test"]')
+    monkeypatch.setenv('SEND_EMPTY_REPORT_EMAIL', '1')
+    monkeypatch.setattr(main, 'send_markdown', accepted_sender_stub)
+    main.main()
     assert len(seen) == 2
     row = ingestion.load()['queries'][ingestion.fingerprint('ICU')]
     assert row['active'] is None and row['next_date'] == row['initial_start']
     assert not row.get('processed_through')
-    assert not path_for('CYBERMED_DAILY_DIGEST_STATE_PATH').exists()
+    digest = json.loads(path_for('CYBERMED_DAILY_DIGEST_STATE_PATH').read_text())['digests'][0]
+    assert digest['source_capture_status'] == 'degraded'
+    assert digest['items'] == {'pubmed': [], 'foamed': []}
     result = json.loads((tmp_path / 'out/cybermed_daily_delivery_result.json').read_text())
-    assert result['status'] == 'failed' and result['smtp_phase'] == 'not_handed_off'
-    assert result['accepted'] == [] and not result['generation_validated']
+    assert result['status'] == 'accepted_by_smtp' and result['smtp_phase'] == 'completed'
+    body = next((tmp_path/'out').glob('cybermed_daily_summary_*.md')).read_text()
+    assert 'temporarily unavailable' in body and 'No new content in the last 24 hours' not in body
 
 
 @pytest.mark.parametrize('mode',['none','test'])

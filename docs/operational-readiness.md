@@ -1,3 +1,12 @@
+> Policy update, 6 November 2026: publication gaps now produce warnings and
+> `degraded` status (exit 0), not permanent recovery blocks. Unknown/partial
+> SMTP outcomes, unpersisted acceptance, corrupt State, invalid configuration
+> and unreconciled run evidence still block. Failed producers automatically
+> trigger the existing no-send recovery workflow; readiness runs after that
+> recovery, rather than racing it. Deploying recovery-workflow changes on main
+> also reconciles both newsletters serially. Earlier incident descriptions
+> below retain their historical policy context.
+
 # All-cadence operation and recovery
 
 On 16 October 2026 the operator explicitly chose **source-backed partial

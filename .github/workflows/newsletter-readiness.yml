@@ -22,6 +22,13 @@ concurrency:
 
 jobs:
   check:
+    # A failed producer first goes through credential-free state recovery.
+    # Its recovery completion triggers this check with reconciled receipts.
+    if: >-
+      ${{ github.event_name != 'workflow_run' ||
+          (github.event.workflow_run.name == 'Newsletter state recovery (no sending)' &&
+           github.event.workflow_run.conclusion != 'skipped') ||
+          github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     strategy:

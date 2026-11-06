@@ -172,7 +172,7 @@ def assess(report_key, *, as_of, check_config=False, check_actions=False):
     if report_key not in {'cybermed', 'cyberlurch'} or as_of.tzinfo is None:
         raise ValueError('operational_request_invalid')
     result = {'schema_version': 1, 'report_key': report_key, 'as_of': as_of.isoformat(),
-              'checks': [], 'inputs': {}, 'historical_delivery': [], 'errors': [], 'pending_recovery_runs': [],
+              'checks': [], 'warnings': [], 'inputs': {}, 'historical_delivery': [], 'errors': [], 'pending_recovery_runs': [],
               'actions_check': {'status':'not_requested'}, 'state_view': {
                   'commit':os.getenv('NEWSAGENT_CHECKED_COMMIT') if re.fullmatch('[0-9a-f]{40}', os.getenv('NEWSAGENT_CHECKED_COMMIT','')) else None,
                   'ref':os.getenv('GITHUB_REF_NAME') if re.fullmatch('[A-Za-z0-9_./-]+',os.getenv('GITHUB_REF_NAME','')) else None}}
@@ -354,12 +354,21 @@ def assess(report_key, *, as_of, check_config=False, check_actions=False):
         raw = path.read_bytes() if path.exists() else None
         if (hashlib.sha256(raw).hexdigest() if raw is not None else None) != preimage['sha256']:
             result['errors'].append('operational_input_changed_during_check')
+    # Publication gaps are service warnings, not permission to resend or a
+    # reason to block a later edition. Delivery ambiguity remains a hard error.
+    soft = {'operational_daily_publication_stale', 'operational_due_edition_not_finalized'}
+    for check in result['checks']:
+        check['warnings'] = [c for c in check['categories'] if c in soft]
+        check['categories'] = [c for c in check['categories'] if c not in soft]
+        result['warnings'].extend(check['cadence'] + ':' + c for c in check['warnings'])
+        if check['warnings'] and not check['categories'] and check['status'] == 'recovery_required':
+            check['status'] = 'degraded'
     result['ok'] = (not result['errors'] and not result['unresolved_delivery'] and not result['pending_recovery_runs']
         and not any(r['status'] in {'blocked', 'recovery_required'} for r in result['checks']))
     known = (bool(result['unresolved_delivery'] or result['pending_recovery_runs'])
         or any(r['status'] in {'blocked','recovery_required'} for r in result['checks'])
         or any(not e.startswith('operational_actions_') for e in result['errors']))
-    result['status'] = 'blocked' if known else 'externally_unverified' if not result['ok'] else 'prerequisites_pass'
+    result['status'] = 'blocked' if known else 'externally_unverified' if not result['ok'] else 'degraded' if result['warnings'] else 'prerequisites_pass'
     return result
 
 
@@ -397,6 +406,9 @@ def main():
             lines.append('- '+row['cadence']+': '+', '.join(row['categories']))
         if row['known_missing_dates']:
             lines.append('- '+row['cadence']+' partial source dates missing: '+', '.join(row['known_missing_dates']))
+    for warning in report['warnings']:
+        lines.append('- Warning: '+warning+'; no automatic historical resend.')
+        print(f'::warning title=Newsletter readiness::{args.report_key}:{warning}', file=sys.stderr)
     for row in report['pending_recovery_runs']:
         lines.append('- Recovery review required for run '+row['run_id']+'; plan evidence '+row['planning_evidence']+'; no resend.')
     for row in report['unresolved_delivery']:

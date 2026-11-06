@@ -3499,7 +3499,7 @@ def _main() -> None:
                     if isinstance(e, StoreError):
                         raise
                     category = e.category if isinstance(e, PubMedError) else "collector_failed"
-                    print(f"[collect] ERROR source=pubmed category={category}")
+                    print(f"[collect] WARNING source=pubmed category={category}")
                     if ingestion:
                         ingestion.failed = True
                     if is_cybermed_run:
@@ -3630,8 +3630,8 @@ def _main() -> None:
 
     if ingestion and ingestion.failed:
         _write_cybermed_diagnostics(report_dir, report_mode, {
-            "pubmed_ingestion": ingestion.metadata, "pubmed_ingestion_status": "failed"})
-        raise RuntimeError("pubmed_ingestion_failed:daily_delivery_blocked")
+            "pubmed_ingestion": ingestion.metadata, "pubmed_ingestion_status": "degraded"})
+        print("::warning title=Cybermed source coverage::PubMed retrieval incomplete; continuing with validated available content")
 
     if is_cyberlurch_daily:
         # Discovery is deliberately complete before any potentially billable content
@@ -4726,6 +4726,8 @@ def _main() -> None:
                         skip_reason = "digest_already_exists"
                     else:
                         payload = {"digest_id": digest_id, "report_key": "cybermed", "cadence": "daily", "run_date": digest_run_date, "generated_at_utc": now_utc_iso, "lookback_hours": int(args.hours), "qa_replay": bool(qa_replay_enabled), "email_mode": email_mode, "items": {"pubmed": [], "foamed": []}, "deep_dives": [], "top_picks": [], "diagnostic_summary": {"pubmed_selected_total": 0, "pubmed_deep_dive_total": 0, "pubmed_evidence_label_counts": {}, "foamed_selected_total": 0, "foamed_top_pick_total": 0, "foamed_source_quality_counts": {}, "foamed_text_confidence_counts": {}, "summary_consistency_conflict_total": 0, "summary_consistency_resolved_total": 0, "qa_replay": bool(qa_replay_enabled), "state_mutation_disabled": bool(qa_replay_state_mutation_disabled)}}
+                        if ingestion:
+                            payload["source_capture_status"] = "degraded" if ingestion.failed else "bounded"
                         if existing_idx >= 0:
                             digests[existing_idx] = payload
                         else:
@@ -6463,6 +6465,8 @@ def _main() -> None:
                     "state_mutation_disabled": bool(qa_replay_state_mutation_disabled),
                 },
             }
+            if ingestion:
+                digest_payload["source_capture_status"] = "degraded" if ingestion.failed else "bounded"
             if backfill_enabled and current_digest_nonempty:
                 from .maintenance import reviewed_backfill as reviewed
                 stamp = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
