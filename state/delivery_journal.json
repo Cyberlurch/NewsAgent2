@@ -18893,6 +18893,765 @@
         "approved_after_generation_checks": true,
         "seal": "4ac88b3b9a6d58dd09db1bfa2cbd0872c8916fa8cb95278cb761ee876a3a760f"
       }
+    },
+    "cybermed:daily:2026-11-09:2026-11-09:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-09",
+      "period_end": "2026-11-09",
+      "edition_id": "cybermed:daily:2026-11-09:2026-11-09:production",
+      "content_version": "8e64b56e793b59d15e6cb24f5fe463f3753af93127ecde7c916300f0a5c0a667",
+      "message_id": "<e619948853de07901732d4ed80c2bcf4664e94f958c26ffce8d3947814bb2894@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-09T13:25:02+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42995620",
+            "title": "Structural imbalances in open-access critical care research: a bibliometric analysis of abstracts from ICU database studies, 2018-2025.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995620/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988369",
+            "title": "Opportunistically Detecting Signs of Hypertension on a Consumer Smartwatch.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988369/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971723",
+            "title": "AI-assisted nerve tracking for novices: a negative trial or an unanswered question?",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971723/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971722",
+            "title": "Furthering research geography: continuing the discussion on global inequity in spinal cord stimulation.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971722/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971721",
+            "title": "Prevalence and intensity of chronic postsurgical pain after cranial surgery: a systematic review and meta-analysis of randomized and non-randomized studies.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971721/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988038",
+            "title": "Evaluating AI Chatbots for Real-Time Detection of Incorrect Cardiopulmonary Resuscitation Positioning.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988038/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988037",
+            "title": "2026 International Liaison Committee on Resuscitation Consensus on Science With Treatment Recommendations: Summary from the Basic Life Support; Advanced Life Support; Pediatric Life Support; Neonatal Life Support; Education, Implementation, and Teams; and First Aid Task Forces.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988037/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42986976",
+            "title": "Obesity pharmacotherapies and cognition.",
+            "channel": "PubMed: Science (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42986976/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42986964",
+            "title": "Targeting hormone conversion through dietary fiber improves polyendocrine metabolic ovarian syndrome.",
+            "channel": "PubMed: Science (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42986964/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42982504",
+            "title": "Perioperative respiratory adverse events in children undergoing adenotonsillectomy with laryngeal mask airway versus endotracheal tube ventilation: multicentre, randomised controlled trial.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982504/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42982479",
+            "title": "Interventions for adhesive capsulitis: systematic review and network meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982479/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42962693",
+            "title": "Reshaping COPD care in China: bridging geographical divides and empowering health-care workers.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42962693/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42962692",
+            "title": "The present and future of chronic obstructive pulmonary disease prevention, diagnosis, and management in China: a Lancet Respiratory Medicine Commission.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42962692/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42962691",
+            "title": "From coverage to equitable reach: addressing social inequalities in COPD in China.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42962691/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42947393",
+            "title": "Characteristics and Outcomes After General Anaesthesia in Elderly Patients: A Nationwide Cohort Study.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42947393/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42954358",
+            "title": "Reversal of nasal epithelial permeability in severe eosinophilic asthma by anti-IL5Rα antibody, benralizumab.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42954358/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42954287",
+            "title": "The Future of AI in Critical Care: An Exploration in Ten Parables.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42954287/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42954285",
+            "title": "Towards an optimized framework for human dose prediction in anti-tuberculosis drug development.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42954285/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42954283",
+            "title": "Thoracic aortic aneurysm in an ACVRL1-mutation positive patient.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42954283/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951867",
+            "title": "Front-loaded heat, ocean inertia and the limits of GWP* for desflurane: a reply.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951867/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42946131",
+            "title": "Anticholinergic Drug Burden and Postoperative Delirium: A Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946131/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42946130",
+            "title": "Which spontaneous breathing trial should be used to reproduce post-extubation respiratory effort in COVID-19-related ARDS? A multicenter randomized crossover study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946130/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42946129",
+            "title": "Impact of additional tailored Information and music to reduce preoperative anxiety in surgical outpatients: a prospective before-after study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946129/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42913494",
+            "title": "Association of Altered Anteriorization of Electroencephalographic Alpha Oscillation During Transition to Unconsciousness With Postoperative Delirium: A Prospective Observational Study.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42913494/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42910739",
+            "title": "Minds Matter: The State of Cognitive Screening in Residency Education.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42910739/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42910727",
+            "title": "Surgery: A Disease on Its Own-From Perioperative Injury to Immune Dysregulation.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42910727/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42949698",
+            "title": "Fatal Opioid-Like Toxidrome Associated With a 7-Hydroxymitragynine Kratom Product.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949698/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42949697",
+            "title": "Did Long Waits in English Emergency Departments Cause 15,860 Excess Deaths in 2025?",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949697/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42949696",
+            "title": "Associations Between Diagnostic Blood-Based Biomarkers and Neuroimaging Findings in Mild Traumatic Brain Injury.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949696/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42949695",
+            "title": "What Clinical Signs Are Associated With Mortality and Sepsis in Infants Aged 0 to 59 Days?",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949695/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42949694",
+            "title": "Ambient Artificial Intelligence Scribe Use and Objective Documentation Effort Among Emergency Physicians.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949694/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42949693",
+            "title": "Who's on Airway? Trainee Tracheal Intubation Frequency and Outcomes Within the National Emergency Airway Registry for Pediatric Emergency Medicine (NEAR4PEM).",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949693/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42927264",
+            "title": "Letter to the Editor: Balancing the Pendulum-The Risks of Universal Fluid Restriction and Over-reliance on \"Static\" Phase Models.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42927264/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42927307",
+            "title": "When a kidney risk phenotype becomes a survival subgroup.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42927307/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42926935",
+            "title": "Outcomes of patients with amyotrophic lateral sclerosis admitted to the ICU for acute respiratory failure.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42926935/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42926172",
+            "title": "State-dependent roles of inflammation across pain conditions: insights from human transcriptomics.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42926172/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/the-case-of-the-vanishing-premise/",
+            "title": "The Case of the Vanishing Premise",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/the-case-of-the-vanishing-premise/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/ttl-tip-23-open-fractures/",
+            "title": "TTL tip 23: Open fractures",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/ttl-tip-23-open-fractures/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/ecg-pointers-this-ecg-is-waiving-a-flag-are-you-paying-attention/",
+            "title": "ECG Pointers: This ECG is waiving a flag… are you paying attention?",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/ecg-pointers-this-ecg-is-waiving-a-flag-are-you-paying-attention/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42947393",
+            "title": "Characteristics and Outcomes After General Anaesthesia in Elderly Patients: A Nationwide Cohort Study.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42947393/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42947393",
+              "doi": "10.1111/aas.70384",
+              "kind": "original",
+              "source_version": "404ec252cd29be6d4716217c1cd6571fe813f9f2d7332adfb5a55442a59735c9",
+              "fields": {
+                "title": "187e6c6b2d867cf5197edb94dbe723778f5b9514089be2c495242f79e50c8ee9",
+                "abstract": "e6ba4be785e2c4566021a9a6c00c10812f8b8e62b60e53a79d4fc8e18512d379",
+                "types": "e61d3ab301dfa1ef529605250b29ee676f06a081b326e5f5c612b8c95cf07a54",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "aae0db33f1303a7506c20dc1a15311f7c8ae3962900186cd97fb3efcd975b818",
+                "results_known": true,
+                "numbers": "c27ee846387e3464c7762a06a7016b11592674ce4363017c0fde1f8a455da627",
+                "endpoint": "7d4e6fbb5f57bfbe82d6c462f5421f33cbc8ec42fb0b5000841901998f123168",
+                "methods": "cb5d935a94f232593336da6c4f9a63c42852fbef0a2e964c4924cc612b48ce9f",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42988037",
+            "title": "2026 International Liaison Committee on Resuscitation Consensus on Science With Treatment Recommendations: Summary from the Basic Life Support; Advanced Life Support; Pediatric Life Support; Neonatal Life Support; Education, Implementation, and Teams; and First Aid Task Forces.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988037/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42988037",
+              "doi": "10.1016/j.resuscitation.2026.111328",
+              "kind": "original",
+              "source_version": "d542ad72440ff4cca75e8b27e08cbcd01cd6199787f4371b3785ffb20c48536e",
+              "fields": {
+                "title": "6cf9ab0b1b19c3e9eceab8f1cc146bae228bf26ca3cb47d29b9f3c5f17b23663",
+                "abstract": "7c6644434573b02bdd623cfb991864028ea1a6e02aa0533fc442822170f4dd07",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42982504",
+            "title": "Perioperative respiratory adverse events in children undergoing adenotonsillectomy with laryngeal mask airway versus endotracheal tube ventilation: multicentre, randomised controlled trial.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982504/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42982504",
+              "doi": "10.1136/bmj-2026-101019",
+              "kind": "original",
+              "source_version": "3105dc47b57fad5e4e874d2a5d9b15cbef55f120f3e619701d35dc5d4a5fe681",
+              "fields": {
+                "title": "4ae3d45972e78b4627c77589a4c3dec8321625a06bac82fc37e5362d0df1ea96",
+                "abstract": "becc0e6ebb84db4386514a3d1d1a72c9abeaa30044edd1b551039972f8b48262",
+                "types": "6196ac8cee4235e04771fd375ce1fff1f2b94085fbc8bb6c4b153d35b8274ec9",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "75c08e53259db01c398ea6bd5b23949ccd78c670764eabf2a07e3b507c806f1d",
+                "results_known": false,
+                "numbers": "f7a75f09b60f6f42652cb49066e1bfce2c5edf23f58df04bc6008ff4fb9c61ec",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42982479",
+            "title": "Interventions for adhesive capsulitis: systematic review and network meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982479/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42982479",
+              "doi": "10.1136/bmj-2026-101057",
+              "kind": "original",
+              "source_version": "1b5b2598baaf60a63012cf85230ba15d61f825c158f32868bf9fb91f26333cc5",
+              "fields": {
+                "title": "a1701bb2ae541cb7769c7cee166f906f04f45b91a25bc9288535a5b237841baf",
+                "abstract": "50626c2aacf2cc8bbbe5748778d8c9e7369ccba9bc323ee68f34db773170bfb9",
+                "types": "8e9a65e8e66b82e703f1328297cfdc9083d0a23e58e3490fa3ffe4f2358fdf07",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "2033607ef7d468726d757aa9ebe6a86bfa05d10303656155eb2ede892c90c492",
+                "results_known": false,
+                "numbers": "21e87e0555ec10c0d89a71244ce7cb19f10715f68d99281e0aa3d1147c52dc7a",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "mixed_or_unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42971721",
+            "title": "Prevalence and intensity of chronic postsurgical pain after cranial surgery: a systematic review and meta-analysis of randomized and non-randomized studies.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971721/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42971721",
+              "doi": "10.1136/rapm-2026-108297",
+              "kind": "original",
+              "source_version": "e3290285372b79dee0e29119412a6f0967795238599966131838739293237362",
+              "fields": {
+                "title": "6d4ac70da992265c1e7f0e58d05d84751dab7cd1f4d53ce9a98db75128a1cf9e",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42946130",
+            "title": "Which spontaneous breathing trial should be used to reproduce post-extubation respiratory effort in COVID-19-related ARDS? A multicenter randomized crossover study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946130/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42946130",
+              "doi": "10.1016/j.accpm.2026.101956",
+              "kind": "original",
+              "source_version": "3876e9e06880a2c5eb61b1a1ee657d7c929a6803cda661e3ee7b227a0794e09d",
+              "fields": {
+                "title": "0a0c0f983755b627c8f441ae1fe483c642a16941203a3e71f208e6976af2006b",
+                "abstract": "4267a6f6e5d66dde4e9a4265fd1f1db4248138a5e2bb52002f03d1e8cf19c893",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "536ce55bdf1a1e38ee1871e2d8ca050d003d62817f035f65bee822e0b1fbf6d2",
+                "results_known": false,
+                "numbers": "d68f0fd7b5c1d7bd74be08877db3fe22af8240e1ce8b8b531b2c19de3818bfcb",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "0c423881bac3f3b32881a9e788d06e5469288d5c3bf341a657d368b97c8d12e4",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42946131",
+            "title": "Anticholinergic Drug Burden and Postoperative Delirium: A Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946131/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42946131",
+              "doi": "10.1016/j.accpm.2026.101957",
+              "kind": "original",
+              "source_version": "3ed626d907d142dfd09bc654268a515c4930a59a9c3081dfc245e5f444efa920",
+              "fields": {
+                "title": "564859c86867b3950369b44c55472359eeee7f19816024683d15b0dd33b81f99",
+                "abstract": "264e20d19e349f1ad5e0b1b382fbe9447d1c21099eaf275771f1c1d75fb7590e",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "8ae973cf01d2a2baac2ee49259577b7681b09d21c87e337c5b55c0f6db747450",
+                "results_known": false,
+                "numbers": "1af3a4e4bff1bca47fe1fd081ec30181b14145458d6f90735590cb57ac153a2a",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "15ed25a42d980dbe0fd4ef5e3f1473c22fc2d4a283ba0ad8f76ef5ebc50e1ef2",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42949693",
+            "title": "Who's on Airway? Trainee Tracheal Intubation Frequency and Outcomes Within the National Emergency Airway Registry for Pediatric Emergency Medicine (NEAR4PEM).",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949693/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42949693",
+              "doi": "10.1016/j.annemergmed.2026.08.729",
+              "kind": "original",
+              "source_version": "bd5590defa5027a36ba60e2812522878c12727974ad512d923e9d658af67f9ed",
+              "fields": {
+                "title": "1ccf33ae9fdf65c17433e7747e4488c32ef99725778f8b44ba481972eefece36",
+                "abstract": "d66d6019abbdef3910fc11af5596b70ee8c82e8af09fc552fcca955fd16061c6",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "1d501972bb96dfde28c0566257883b4241f74f2abb57607f2660cf8328622695",
+                "results_known": true,
+                "numbers": "d0535569031c475f3a76020be588b008169ec845257dee34a6359b742ad0d86b",
+                "endpoint": "7701d89329ad06aff5450feed2d9c2ff871f9b340e4ce83ad55736a2d12dd310",
+                "methods": "c51b060f4045c85cda2068675ac0ffcc383537757a7460ce6a582cbaf2eacd3e",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42946129",
+            "title": "Impact of additional tailored Information and music to reduce preoperative anxiety in surgical outpatients: a prospective before-after study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946129/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42946129",
+              "doi": "10.1016/j.accpm.2026.101961",
+              "kind": "original",
+              "source_version": "fadbd17031a199de694f015b98dbf9971cacc10f29018c14f60f13d6c4a6c00e",
+              "fields": {
+                "title": "89bf5351b8c62b7de55d9a60d41181fbbb5b1758d68c8a6d1914d5f98759323f",
+                "abstract": "d1cea14c1fe7cab4d3afcbdd1eaee0340f85c912c86e9f6d91bb08c692285d4a",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "77a5d1b0b63cf3a63bd58842aff50a30ef19276ce97e4e28b109e791d24cc55f",
+                "results_known": false,
+                "numbers": "ef1bf64ca44c6cc7be71aae2886019ad670aca4d87d18ce6ecaefde09c16491d",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "97a5d5a40034ede98160a602dba988e05959de14f93673b04471427eda56ee2c",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42913494",
+            "title": "Association of Altered Anteriorization of Electroencephalographic Alpha Oscillation During Transition to Unconsciousness With Postoperative Delirium: A Prospective Observational Study.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42913494/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42913494",
+              "doi": "10.1213/ane.0000000000008390",
+              "kind": "original",
+              "source_version": "3a16cd993a11dab4cd1945b4b0dd9c04dc360dc645b1bdaef95e99a64398518a",
+              "fields": {
+                "title": "37d58dedcdc9a73e86e017a73685b89d5c588f7ca5d200facaaba48baf08efd6",
+                "abstract": "c4936dace6cd0fc67075aabd736c74ee14d44377ecc998cb236aec2bb2ea6ca3",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "ed7b54c69d2a6d6fd3326d84e0645996e8e2e28c570549268b0e0ae69c2bff94",
+                "results_known": false,
+                "numbers": "08dd25e5cdd1fa94317e066a06aebc5710b5df9935f27d810e2436a4cd4f90e6",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12bba42b36343caae744f38070d4ff7a3e3eda84f4b566b0e9b45dc099e2e3e2",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42926935",
+            "title": "Outcomes of patients with amyotrophic lateral sclerosis admitted to the ICU for acute respiratory failure.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42926935/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42926935",
+              "doi": "10.1016/j.aicoj.2026.100183",
+              "kind": "original",
+              "source_version": "df02edcc8e73255581a01f957f958c44ed244c99d373688fcd906836eacfa695",
+              "fields": {
+                "title": "2f4c4211eef05a08a948d925464cd338fff186f1d638cca30f67ed57b9cf4c22",
+                "abstract": "962fc10d76336f12bbbeed9b1e8a0d07d53dbc897605d18175ca6e90687aae6f",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e3eada3549701c09f81694015a0c1e8e8e35776519ec8fa8effa3564c221c206",
+                "results_known": true,
+                "numbers": "266166f2b1dea35ab0e626abcb9c2a0f1cd80e3024ff3989e3724201b38ccaa4",
+                "endpoint": "4e006e4a7fb2db1cb22ae732543cf809a0a78eb56ce43bac2e13fc03440ccbbf",
+                "methods": "816c6b767b3d7a2f33279ac617af5b35aa7d3131e74b37f2dc55caab1bb0821f",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42995620",
+            "title": "Structural imbalances in open-access critical care research: a bibliometric analysis of abstracts from ICU database studies, 2018-2025.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995620/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42995620",
+              "doi": "10.1186/s13054-026-06274-5",
+              "kind": "original",
+              "source_version": "108f6c0772504a0a459f0354532f3baae58b07346df54c5a940ff6b47442f6ea",
+              "fields": {
+                "title": "8ab38132d15385dda0a17c908d0fe858803aee2ac80e2750d522de90f7a03dbe",
+                "abstract": "d1523f782917173e0c21cb277f495bd86512805ff0045568ec3d15e627460178",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "ffacd3cff072c45203d6b04f75fe0b5a8a22772acc39945389e0873c19f6216e",
+                "results_known": false,
+                "numbers": "8c5901c4411785acdec03920756cffddf945b0631c63fbadc3927c5ec10488f7",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "439e5e61493f8f7d019e9c6a7dd726326793c5d5295fcb2c3324910ab61e7725",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42982504",
+            "title": "Perioperative respiratory adverse events in children undergoing adenotonsillectomy with laryngeal mask airway versus endotracheal tube ventilation: multicentre, randomised controlled trial.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982504/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42982504",
+              "doi": "10.1136/bmj-2026-101019",
+              "kind": "original",
+              "source_version": "3105dc47b57fad5e4e874d2a5d9b15cbef55f120f3e619701d35dc5d4a5fe681",
+              "fields": {
+                "title": "4ae3d45972e78b4627c77589a4c3dec8321625a06bac82fc37e5362d0df1ea96",
+                "abstract": "becc0e6ebb84db4386514a3d1d1a72c9abeaa30044edd1b551039972f8b48262",
+                "types": "6196ac8cee4235e04771fd375ce1fff1f2b94085fbc8bb6c4b153d35b8274ec9",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "75c08e53259db01c398ea6bd5b23949ccd78c670764eabf2a07e3b507c806f1d",
+                "results_known": false,
+                "numbers": "f7a75f09b60f6f42652cb49066e1bfce2c5edf23f58df04bc6008ff4fb9c61ec",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42982479",
+            "title": "Interventions for adhesive capsulitis: systematic review and network meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982479/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42982479",
+              "doi": "10.1136/bmj-2026-101057",
+              "kind": "original",
+              "source_version": "1b5b2598baaf60a63012cf85230ba15d61f825c158f32868bf9fb91f26333cc5",
+              "fields": {
+                "title": "a1701bb2ae541cb7769c7cee166f906f04f45b91a25bc9288535a5b237841baf",
+                "abstract": "50626c2aacf2cc8bbbe5748778d8c9e7369ccba9bc323ee68f34db773170bfb9",
+                "types": "8e9a65e8e66b82e703f1328297cfdc9083d0a23e58e3490fa3ffe4f2358fdf07",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "2033607ef7d468726d757aa9ebe6a86bfa05d10303656155eb2ede892c90c492",
+                "results_known": false,
+                "numbers": "21e87e0555ec10c0d89a71244ce7cb19f10715f68d99281e0aa3d1147c52dc7a",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "mixed_or_unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/ttl-tip-23-open-fractures/",
+            "title": "TTL tip 23: Open fractures",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/ttl-tip-23-open-fractures/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/the-case-of-the-vanishing-premise/",
+            "title": "The Case of the Vanishing Premise",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/the-case-of-the-vanishing-premise/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/ecg-pointers-this-ecg-is-waiving-a-flag-are-you-paying-attention/",
+            "title": "ECG Pointers: This ECG is waiving a flag… are you paying attention?",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/ecg-pointers-this-ecg-is-waiving-a-flag-are-you-paying-attention/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-09T13:24:58+00:00"
+      },
+      "workflow_run_id": "42624900280",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-09:2026-11-09:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "f26ad802e1915f5b6193ec892b1dd1a2bf64f6406a8d3363996a8f5c7d7e5b91",
+        "finalization_policy": "markers",
+        "content_version": "8e64b56e793b59d15e6cb24f5fe463f3753af93127ecde7c916300f0a5c0a667",
+        "message_id": "<e619948853de07901732d4ed80c2bcf4664e94f958c26ffce8d3947814bb2894@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "873e3f6cbc112ff8_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "443d4b11d55ca48d17424d0753d83b7d42bef73ee82fe69daf13d5f04899c7ed"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "6eff101c1a726e006a708ac47748e7599e1b2cb10d95175582b034307b15a1a4"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -19618,11 +20377,13 @@
         "42933455",
         "42933845",
         "42934779",
+        "42935147",
         "42950975",
         "42951064",
         "42955323",
         "42956771",
         "42956796",
+        "42956801",
         "42956923",
         "42956924",
         "42956925",
