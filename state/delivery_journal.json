@@ -19892,6 +19892,451 @@
         "approved_after_generation_checks": true,
         "seal": "513886a8e998e7c21a8c1a86fc36fac86d9dee6eedcd5e60134f335e43673b4d"
       }
+    },
+    "cybermed:daily:2026-11-10:2026-11-10:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-10",
+      "period_end": "2026-11-10",
+      "edition_id": "cybermed:daily:2026-11-10:2026-11-10:production",
+      "content_version": "b1a22a5873dbbadf79024c5f94fdea59f44eee331d044c8fc965041493818f78",
+      "message_id": "<00620472e496293bf88b7d1ec09eef1a5c94942496c61b4fe226f3ee11e3aa14@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-10T13:01:07+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "42994815",
+            "title": "In Vivo CRISPR Base Editing of ANGPTL3 for Durable Lipid Lowering.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994815/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42977488",
+            "title": "Assessment of preoperative gastric content with ultrasound in patients taking GLP-1 receptor agonists: an observational, multicenter, cross-sectional study.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42977488/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42977487",
+            "title": "C2 suboccipital plane block (SOB-C2) for cervicogenic headache: a cadaveric study.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42977487/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994604",
+            "title": "Transfer of prehospital defibrillator recordings to receiving hospitals after out-of-hospital cardiac arrest: a 16-year retrospective study in Paris.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994604/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994603",
+            "title": "Metabolic Failure and EEG Abnormalities After Cardiac Arrest: Which Comes First, the Chicken or the Egg?",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994603/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988384",
+            "title": "Thoracic epidural versus paravertebral blockade for reducing chronic post-thoracotomy pain (TOPIC-2): open label, parallel group, superiority, multicentre, randomised controlled trial.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988384/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963077",
+            "title": "Serious Adverse Events in Adult ICU Patients: A Substudy of the PATIENCE Cohort.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963077/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42960868",
+            "title": "Pragmatic trial of a self-directed intervention for weight loss in obstructive sleep apnea (POWER).",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42960868/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42960862",
+            "title": "Lung Health after Preterm Birth: From Knowledge Gaps to Treatable Traits.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42960862/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42958645",
+            "title": "Clinician-guided digital CBT-I improves sleep quality and apnea severity in patients with co-morbid insomnia and OSA: A Double-Blind, Randomized Clinical Trial.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42958645/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951211",
+            "title": "Effect of a Tailored Educational Programme on Adequacy of Anaesthesia and Major Postoperative Complications: A Before-After Quality-Improvement Study in Intermediate- and High-Risk Surgery.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951211/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951210",
+            "title": "Procedure-specific bleeding risk assessment: a multidisciplinary expert consensus companion to the 2026 periprocedural anticoagulant management guidelines.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951210/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42924878",
+            "title": "Protamine-to-heparin Ratio and Postoperative Bleeding in Complex Cardiac Surgery: A Post Hoc Analysis of the FARES-II Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42924878/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42962852",
+            "title": "Population-based Prevalence of Bronchiectasis in the United States.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42962852/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://rebelem.com/bicaricu2/",
+            "title": "BICARICU-2: Should We Be Giving Bicarbonate in Septic Shock with Severe Metabolic Acidosis?",
+            "channel": "REBEL EM",
+            "url": "https://rebelem.com/bicaricu2/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/onscene-taking-ecpr-to-the-patient-a-game-changer-for-refractory-cardiac-arrest/",
+            "title": "On-Scene: Taking ECPR to the patient. A game changer for refractory cardiac arrest?",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/onscene-taking-ecpr-to-the-patient-a-game-changer-for-refractory-cardiac-arrest/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/best-ring-cutter-award-goes-to/",
+            "title": "Best Ring Cutter Award Goes To...? - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/best-ring-cutter-award-goes-to/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/emdocs-podcast-episode-152-tumor-lysis-syndrome/",
+            "title": "emDOCs Podcast – Episode 152: Tumor Lysis Syndrome",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/emdocs-podcast-episode-152-tumor-lysis-syndrome/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/lost-in-transfusion/",
+            "title": "Lost in Transfusion: a roadmap for paediatric blood transfusions",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/lost-in-transfusion/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42988384",
+            "title": "Thoracic epidural versus paravertebral blockade for reducing chronic post-thoracotomy pain (TOPIC-2): open label, parallel group, superiority, multicentre, randomised controlled trial.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988384/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42988384",
+              "doi": "10.1136/bmj-2026-101114",
+              "kind": "original",
+              "source_version": "fb27aac9c074ee7693fe1df62605869a90574e8268baa7f2d8f499578621acba",
+              "fields": {
+                "title": "5d6c8c69cb86b032c99c73abf178710871601d604d9ca6f1cc19665c826bf9f0",
+                "abstract": "d339af0cefe7c84184fd27e7cd91887dc7d6884969f2e75f7a1f6a2518720573",
+                "types": "b9e1c61d2e36811cd0df059ac858c60c2401e469d95f2ff05e13939d3ca7aafe",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "77be78a29c564e878e549e3e0004b63817bbbf10928c91970fb374b9add1dfe3",
+                "results_known": false,
+                "numbers": "f994902086789a767cbcf975651c75fcd9d080c9d2a8209f90b1db6a55beda00",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42977488",
+            "title": "Assessment of preoperative gastric content with ultrasound in patients taking GLP-1 receptor agonists: an observational, multicenter, cross-sectional study.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42977488/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42977488",
+              "doi": "10.1136/rapm-2026-108205",
+              "kind": "original",
+              "source_version": "e6820c8d29bb7d99a4e0e0ec4951a3d348630131e9a1ef01e0a8078f2494e60d",
+              "fields": {
+                "title": "ffbdb622013db9be8401f8e74be2c3ceb4491269f31aebd125658fa367ed4f88",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42960868",
+            "title": "Pragmatic trial of a self-directed intervention for weight loss in obstructive sleep apnea (POWER).",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42960868/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42960868",
+              "doi": "10.1093/ajrccm/aamag574",
+              "kind": "original",
+              "source_version": "a8808def27fca82f403166aff4d5e393ffd15090ea185156034926ed5429f592",
+              "fields": {
+                "title": "3344aa79815ecfc357ddaf6077e4c6023ab097e986e50c427950b493039e3d38",
+                "abstract": "dcc6b2620498c8696c4bdcb58ee182f2512db8e423ba52e240a6f2e0b88cc305",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3848a582eeb0db3f73d404f5fb437dd82a7132932d939fd22be686895064bded",
+                "results_known": true,
+                "numbers": "e4ea5f30e17e81b9cac54dadc71d9a54e536160be87a1bdc8967b4b4589de8cd",
+                "endpoint": "f996033f4187bb399f7835559f41caca821aa6193c3db497aff1c7095f64e5aa",
+                "methods": "6b18d8cb426775f61a3106a870dc29c7827ee50d41c14b8695013cadb0c9ef7f",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42958645",
+            "title": "Clinician-guided digital CBT-I improves sleep quality and apnea severity in patients with co-morbid insomnia and OSA: A Double-Blind, Randomized Clinical Trial.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42958645/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42958645",
+              "doi": "10.1093/ajrccm/aamag567",
+              "kind": "original",
+              "source_version": "e4c65aeaf9670486e566354204c6bac778a8b5a3b815f15e9dca74be7894cdf8",
+              "fields": {
+                "title": "850128036a21a190a19b939af5d65fb7da7cb265fce75e42c34289bd538f6b93",
+                "abstract": "d1440c8899ac58dd6036ca78c9cf03deaa7cd5c2d7e1a342c6812960c49e0cc5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "d234c8ad848e2c79e754b5d6eb2cde594a51ec8012cc6680a8e23c739e128176",
+                "results_known": true,
+                "numbers": "d3276853891ffc916c8996cbfb0c21b82781f9278ce7b40c9817d60e1b1b4c0a",
+                "endpoint": "2a4f69836febaafa071935f930ca12651202165bbcf79375dd8adfa133f39dad",
+                "methods": "fc677cc0533ec786a795607775402b1fad978380ad0bc0a3b10a3b9c08528e8b",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42951211",
+            "title": "Effect of a Tailored Educational Programme on Adequacy of Anaesthesia and Major Postoperative Complications: A Before-After Quality-Improvement Study in Intermediate- and High-Risk Surgery.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951211/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42951211",
+              "doi": "10.1016/j.accpm.2026.101964",
+              "kind": "original",
+              "source_version": "787b1c1cde3993baef4675da66cc8f8964c19eac51aa1ed23a7ce4f389090262",
+              "fields": {
+                "title": "e466f7cd654879981ebf935a503ce55ee2bb348b1f079a7928a7b689eca1d7b3",
+                "abstract": "f0a7a47a863a1d1e8fed4586d7603ffa71c4b821b5b81e00a37fe61bf73cf976",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "fab3c08c705edcb74f52dc66a7b5ef281cd4636e6db640c5d5119b7d76ea21d6",
+                "results_known": true,
+                "numbers": "2a60e7abd37ca729a8a2b9f0888074d3bad25241def0c7e331e8957eb068e87e",
+                "endpoint": "946d61d8c4ba2aeea05d23fa7b37149c2b8d674f27557ff6ad17b02681aa50c1",
+                "methods": "c498c0a43b1575a6b09c725e6ca272eb91850d6e24eca64fe803514965f67e9e",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42988384",
+            "title": "Thoracic epidural versus paravertebral blockade for reducing chronic post-thoracotomy pain (TOPIC-2): open label, parallel group, superiority, multicentre, randomised controlled trial.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988384/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42988384",
+              "doi": "10.1136/bmj-2026-101114",
+              "kind": "original",
+              "source_version": "fb27aac9c074ee7693fe1df62605869a90574e8268baa7f2d8f499578621acba",
+              "fields": {
+                "title": "5d6c8c69cb86b032c99c73abf178710871601d604d9ca6f1cc19665c826bf9f0",
+                "abstract": "d339af0cefe7c84184fd27e7cd91887dc7d6884969f2e75f7a1f6a2518720573",
+                "types": "b9e1c61d2e36811cd0df059ac858c60c2401e469d95f2ff05e13939d3ca7aafe",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "77be78a29c564e878e549e3e0004b63817bbbf10928c91970fb374b9add1dfe3",
+                "results_known": false,
+                "numbers": "f994902086789a767cbcf975651c75fcd9d080c9d2a8209f90b1db6a55beda00",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42960868",
+            "title": "Pragmatic trial of a self-directed intervention for weight loss in obstructive sleep apnea (POWER).",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42960868/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42960868",
+              "doi": "10.1093/ajrccm/aamag574",
+              "kind": "original",
+              "source_version": "a8808def27fca82f403166aff4d5e393ffd15090ea185156034926ed5429f592",
+              "fields": {
+                "title": "3344aa79815ecfc357ddaf6077e4c6023ab097e986e50c427950b493039e3d38",
+                "abstract": "dcc6b2620498c8696c4bdcb58ee182f2512db8e423ba52e240a6f2e0b88cc305",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3848a582eeb0db3f73d404f5fb437dd82a7132932d939fd22be686895064bded",
+                "results_known": true,
+                "numbers": "e4ea5f30e17e81b9cac54dadc71d9a54e536160be87a1bdc8967b4b4589de8cd",
+                "endpoint": "f996033f4187bb399f7835559f41caca821aa6193c3db497aff1c7095f64e5aa",
+                "methods": "6b18d8cb426775f61a3106a870dc29c7827ee50d41c14b8695013cadb0c9ef7f",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42958645",
+            "title": "Clinician-guided digital CBT-I improves sleep quality and apnea severity in patients with co-morbid insomnia and OSA: A Double-Blind, Randomized Clinical Trial.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42958645/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42958645",
+              "doi": "10.1093/ajrccm/aamag567",
+              "kind": "original",
+              "source_version": "e4c65aeaf9670486e566354204c6bac778a8b5a3b815f15e9dca74be7894cdf8",
+              "fields": {
+                "title": "850128036a21a190a19b939af5d65fb7da7cb265fce75e42c34289bd538f6b93",
+                "abstract": "d1440c8899ac58dd6036ca78c9cf03deaa7cd5c2d7e1a342c6812960c49e0cc5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "d234c8ad848e2c79e754b5d6eb2cde594a51ec8012cc6680a8e23c739e128176",
+                "results_known": true,
+                "numbers": "d3276853891ffc916c8996cbfb0c21b82781f9278ce7b40c9817d60e1b1b4c0a",
+                "endpoint": "2a4f69836febaafa071935f930ca12651202165bbcf79375dd8adfa133f39dad",
+                "methods": "fc677cc0533ec786a795607775402b1fad978380ad0bc0a3b10a3b9c08528e8b",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://rebelem.com/bicaricu2/",
+            "title": "BICARICU-2: Should We Be Giving Bicarbonate in Septic Shock with Severe Metabolic Acidosis?",
+            "channel": "REBEL EM",
+            "url": "https://rebelem.com/bicaricu2/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/onscene-taking-ecpr-to-the-patient-a-game-changer-for-refractory-cardiac-arrest/",
+            "title": "On-Scene: Taking ECPR to the patient. A game changer for refractory cardiac arrest?",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/onscene-taking-ecpr-to-the-patient-a-game-changer-for-refractory-cardiac-arrest/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/lost-in-transfusion/",
+            "title": "Lost in Transfusion: a roadmap for paediatric blood transfusions",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/lost-in-transfusion/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-10T13:01:01+00:00"
+      },
+      "workflow_run_id": "42820364802",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-10:2026-11-10:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "7c0215f1bd41c02f607d9a6b3494412e6be0b9e7be57f94beab7bb9edb940773",
+        "finalization_policy": "markers",
+        "content_version": "b1a22a5873dbbadf79024c5f94fdea59f44eee331d044c8fc965041493818f78",
+        "message_id": "<00620472e496293bf88b7d1ec09eef1a5c94942496c61b4fe226f3ee11e3aa14@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "cc10712e817df3bd_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "fb59338dbf307b5ac14358db75730acdee180510740ec148e902de9f6ef50c91"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "7bc9348bff1075ada558a62142e3330a07db89a302f3eaf25495fc6fe4b5ffe4"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -20600,6 +21045,7 @@
         "42906747",
         "42906748",
         "42910655",
+        "42913494",
         "42918318",
         "42919415",
         "42919448",
@@ -20608,6 +21054,7 @@
         "42919629",
         "42922413",
         "42924421",
+        "42926935",
         "42927910",
         "42927944",
         "42928302",
@@ -20618,6 +21065,11 @@
         "42933845",
         "42934779",
         "42935147",
+        "42946129",
+        "42946130",
+        "42946131",
+        "42947393",
+        "42949693",
         "42950975",
         "42951064",
         "42955323",
@@ -20636,7 +21088,12 @@
         "42970133",
         "42971311",
         "42971312",
-        "42972430"
+        "42971721",
+        "42972430",
+        "42982479",
+        "42982504",
+        "42988037",
+        "42995620"
       ]
     }
   }
