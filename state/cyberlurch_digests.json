@@ -147359,8 +147359,932 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "Gf9dNwfUXqA",
+      "source": "youtube",
+      "title": "⚡ALERT: HIGHLY UNUSUAL Dispersal of Military Assets, TOP IRGC DENIES Any Peace Talks",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=Gf9dNwfUXqA",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T03:17:01+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T03:17:01+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 36283,
+        "processed_unique_chars": 36283,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 6.0,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The channel claims imminent large-scale hostilities linked to Iran and wider great-power tensions, citing Iranian rejection of US negotiation progress, a dispersal of US aviation assets in the UK, Iran's seven demands, and broader militarization including Russia, NATO, and a US space-based missile-defense program.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The secretary of Iran's Supreme National Security Council denied any real progress in negotiations and said Iranian demands remain unchanged.",
+        "Nearly a dozen US aviation assets dispersed from a major UK air base to multiple continental locations in an irregular movement.",
+        "Iran's seven demands include ending the war, release of frozen assets, lifting sanctions, ending naval blockade, war reparations, US force withdrawal, and ending threats and interference."
+      ],
+      "transcript_notable_claims": [
+        "The dispersal of US aviation assets from a UK base is a sign of operational readiness or a preemptive posture ahead of possible hostilities involving Iran.",
+        "Iran deliberately included an unrealistic demand for war reparations to ensure the United States would refuse the ultimatum.",
+        "Repeated rosy portrayals of peace negotiations have historically preceded flare-ups of hostilities in this conflict.",
+        "A classified briefing to the Gang of Eight produced immediate softening of Democratic anti-war rhetoric.",
+        "Russia sent a highly unusual Tu-154 military flight to Ben Gurion Airport in Israel without public explanation, possibly to exfiltrate diplomats and families.",
+        "Ukraine targeted eight oil refineries in nine days, producing shortages and ongoing escalation in Ukraine-related conflict.",
+        "NATO and the United States are building 'Golden Dome,' a $450 million-plus space defense network to connect sensors, satellites, and missile interceptors and harden missile defenses."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether the aviation dispersal from the UK base was a covert exercise, routine redeployment, or a response to a specific national security threat.",
+        "The reason for the Russian Tu-154 landing at Ben Gurion Airport remains unexplained and unconfirmed.",
+        "The actual likelihood that the United States will honor Iran's demands, especially war reparations and full withdrawal, is described as very unlikely but not empirically verified in the transcript."
+      ],
+      "important_details": [
+        "The Iranian ultimatum is described as comprising seven specific demands that, according to the channel, preclude US acceptance.",
+        "Golden Dome's planned low Earth orbit constellation is scheduled to begin launching in spring and intends to redirect missile tracking data between satellite networks when communications are disrupted.",
+        "The channel links dispersal of forces and preparations like highway takeoff drills to standard practice for avoiding concentrated losses in a major strategic outbreak."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "Gf9dNwfUXqA",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "-kdQwKc2KiI",
+      "source": "youtube",
+      "title": "ILTV On The Hour - November 9, 2026 | Bibi's Future on the Line as Eisenkot Moves to Form Government",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=-kdQwKc2KiI",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 29027,
+        "processed_unique_chars": 29027,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.026,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The program reports that President Isaac has tasked Gadi Eisenkot with forming Israel's next government with 28 days to build a 61-seat coalition, and guests discuss possible coalitions, roles for Netanyahu, ultraorthodox and Arab parties, and US-Iran tensions including President Trump's interview and diplomatic efforts.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "President Isaac tasked Gadi Eisenkot with forming a government and Eisenkot has 28 days, plus a potential 14-day extension, to secure a 61-seat majority.",
+        "Eisenkot said he will push for a national emergency government requiring creative and unconventional political steps.",
+        "US diplomatic and military measures toward Iran continue while President Trump said strikes are highly unlikely if Qatari-mediated talks succeed."
+      ],
+      "transcript_notable_claims": [
+        "Eisenkot could become Israel's next prime minister if he forms a coalition and would oust Benjamin Netanyahu if successful.",
+        "Many Israelis would accept Netanyahu leading a short-term unity government despite being anti-Netanyahu in order to navigate security challenges.",
+        "The ultraorthodox parties may act as kingmakers despite electoral losses, and they will demand exemptions from military service, control over religion-and-state issues, and influence on general education.",
+        "A coalition without Netanyahu likely requires either ultraorthodox support, Arab party involvement, or an unexpected realignment of parties like Bennett, Lapid and Lieberman.",
+        "Some expect Avigdor Lieberman might prefer Eisenkot to fail so that Lieberman could try to form a coalition during the subsequent 21-day period.",
+        "Israeli media reported that the Israeli government authorized initial deployment of 250 multinational foreign troops into Gaza as part of a US-linked plan contingent on disarming Hamas.",
+        "US Central Command announced a 20-member task force to disrupt land routes into Iran to prevent weapons, dual-use technology, and illegal revenue flows."
+      ],
+      "transcript_uncertainties": [
+        "Eisenkot's reference to 'unconventional methods' for forming a government is not specified and may involve negotiations with Likud, ultraorthodox or Arab parties.",
+        "It is uncertain whether Bennett, Lapid, Lieberman or other party leaders will accept major ministerial roles or policy compromises to join a unity or emergency government.",
+        "Reports that Israel authorized 250 multinational troops into Gaza and the timing or participants of such a force remain unconfirmed and contingent on negotiations."
+      ],
+      "important_details": [
+        "Bennett and Lapid could demand major ministerial positions such as defense minister, foreign minister or vice prime minister as conditions to join a coalition.",
+        "Public sensitivity after October 7 makes many politicians reluctant to form a government dependent on Arab party support, especially given Arab party positions on Gaza, Lebanon and Iran.",
+        "Pressure on Lieberman from his voters and social media may influence his willingness to compromise with the ultraorthodox or to seek an alternative path to premiership."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "-kdQwKc2KiI",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "6BpBsKhHKLQ",
+      "source": "youtube",
+      "title": "EV Wallbox: How Good Is Electrician Advice Really? | WISO",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=6BpBsKhHKLQ",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 10036,
+        "processed_unique_chars": 10036,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Der Beitrag schildert eine Testreihe zur Beratung und Installation von Wallboxen durch verschiedene Elektriker und zeigt unterschiedliche Qualitätsstufen, wichtige Sicherheitsanforderungen sowie typische Missverständnisse und Preisangaben auf.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Simon Reuter empfiehlt aus Sicherheitsgründen, das E-Auto außerhalb der Garage zu laden, nennt aber die Wallbox als wasserdicht und damit auch für Innenräume geeignet.",
+        "Wallboxen bis 11 kW müssen nur angemeldet werden, für 22 kW ist eine Genehmigung des Netzbetreibers erforderlich.",
+        "Die Testbesuche ergaben teils korrekte Hinweise zur Abschalteinrichtung und Anmeldung, teils gefährliche oder falsche Vorschläge wie die Nutzung einer Kraftsteckdose oder unsachgemäße Verlegung."
+      ],
+      "transcript_notable_claims": [
+        "Die Abschalteinrichtung muss vom Netzbetreiber gefordert werden und daher eine Wallbox dem Netzbetreiber gemeldet werden.",
+        "Die Verbindung der Wallbox mit einer Photovoltaikanlage reduziert Ladekosten und sollte möglich sein, wobei einige Elektriker sich weigerten, die Anbindung anzubieten.",
+        "Bidirektionales Laden kostet etwa 1.500 Euro Aufpreis und ist für Haushalte mit ausreichend großer PV-Anlage eine Option.",
+        "Ein Elektriker empfahl eine Lösung, die Strom aus einer Kraftsteckdose zieht, was laut Beitrag sehr wahrscheinlich zu einem Brand führen könnte.",
+        "Einige Elektriker öffneten oder erneuerten die Plomben am Hausanschlusskasten, was die Pflicht zur Wiederverschluss und Meldung an den Netzbetreiber nach sich zieht."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, ob jeder getestete Elektriker die Abschalteinrichtung in persönlichen Gesprächen erwähnt hat, da schriftliche Angebote teilweise widersprüchliche Angaben enthalten.",
+        "Die Langzeitkosten-Nutzen-Rechnung für bidirektionales Laden bleibt unklar, weil die Beitragsteilnehmer unterschiedliche Aussagen zur nötigen PV-Leistung treffen."
+      ],
+      "important_details": [
+        "Der geschätzte Preisrahmen für Beratung, Konzept und Installation liegt laut einer Schätzung zwischen 3.000 und 5.000 Euro inklusive Wallbox, während einzelne Angebote zwischen 1.800 und 3.000 Euro genannt wurden.",
+        "Bei Wallboxen mit bis zu 11 kW Ladeleistung genügt in der Regel eine Anmeldung beim Netzbetreiber, während 22 kW eine Genehmigung erfordert, und die Abschalteinrichtung kann in den Stromkasten eingebaut werden.",
+        "Ein ordnungsgemäßer Einbau erfordert gegebenenfalls einen neuen Sicherungskasten oder Anbauten am Zählerschrank, und die Plombierung am Hausanschlusskasten darf nicht dauerhaft offenbleiben."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "6BpBsKhHKLQ",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DrJamesTour"
+      },
+      "id": "8dmuCOUdyEY",
+      "source": "youtube",
+      "title": "Why \"Build It and They Will Come\" Fails in Semiconductors",
+      "channel": "DrJamesTour",
+      "url": "https://www.youtube.com/watch?v=8dmuCOUdyEY",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 7981,
+        "processed_unique_chars": 7981,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 3.021,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:7981",
+        "recency"
+      ],
+      "transcript_full_summary": "The conversation advises semiconductor startups to target existing market demand, secure industry partnerships and R&D credibility, and adopt incremental, interoperable products rather than relying on “build it and they will come.”",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Founders should avoid building products without an established market because customers often do not adopt new technologies quickly enough.",
+        "Semiconductor success requires integration with existing industry standards, partners, and R&D facilities because fabs and manufacturing are extremely expensive.",
+        "Proving a commercialized, reliable product builds credibility that then enables more disruptive offerings like compute-in-memory."
+      ],
+      "transcript_notable_claims": [
+        "Many inventors assume someone will want their novel nanoparticle or component immediately, but customers usually do not materialize fast enough.",
+        "A product that is ten times cheaper and ten times better can attract attention, but customers still must change multiple steps in their workflows.",
+        "Nvidia succeeds because it is an integral component across industry players and plays well within the existing ecosystem.",
+        "The discussed company chose to design components and build partnerships rather than attempting to replace entire systems from the start.",
+        "A disruptive technology that lacks broad adoption and partnership typically loses to a less advanced technology that has better industry integration."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether customers will adopt compute-in-memory now because accompanying software and testing are not ready.",
+        "The speakers express uncertainty about who would buy certain novel nanoparticles even if production were cheap."
+      ],
+      "important_details": [
+        "Semiconductor R&D and manufacturing facilities can require billions of dollars, making partnerships necessary for small companies.",
+        "Industry standards exist to prevent new components from breaking existing computing systems, requiring agreement from incumbent players.",
+        "Proven memory products can serve as a launch point to gain trust before introducing more transformative compute-in-memory products."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "8dmuCOUdyEY",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Blocktrainer"
+      },
+      "id": "CM9PueCkGxQ",
+      "source": "youtube",
+      "title": "LAWYER SUES against EU BITCOIN SURVEILLANCE! 💥 Will DAC8 be overturned? | Interview with Dr. Völkel",
+      "channel": "Blocktrainer",
+      "url": "https://www.youtube.com/watch?v=CM9PueCkGxQ",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 26797,
+        "processed_unique_chars": 26797,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.026,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Das Interview behandelt die Klage von Rechtsanwalt Dr. Oliver Völkel gegen die EU-Richtlinie DAC8, die Krypto-Dienstleister zu umfangreicher Datenerfassung und jährlicher Meldung an Steuerbehörden verpflichtet, und erläutert Risiken für Selbstverwahrung, Datenschutz und mögliche rechtliche Schritte in Österreich und auf EU-Ebene.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "DAC8 verpflichtet Krypto-Dienstleister, Käufe, Verkäufe und Transfers auf Self‑Hosted Wallets zu erfassen und jährlich in aggregierten Summen an Steuerbehörden zu melden.",
+        "Dr. Oliver Völkel hat in Österreich eine Beschwerde bei der Datenschutzbehörde eingereicht und plant, den Fall bis zum Verfassungsgerichtshof und ggf. an den EuGH zu bringen.",
+        "Die nationalen Umsetzungen der Meldepflicht gelten seit Anfang 2026 und die erste Meldung an Steuerbehörden ist im Juli 2027 fällig."
+      ],
+      "transcript_notable_claims": [
+        "Die Erfassung von Transfers auf Self‑Hosted Wallets schafft ein anderes, höheres Risiko als Bankkonten oder Depots, weil bei Verlust oder Veröffentlichung keine Rückbuchungsmöglichkeit besteht.",
+        "In Frankreich führten geleakte Steuerdaten zu Erpressungen, Entführungen und Folter, und allein 2026 gab es dort angeblich etwa 70 derartige Fälle.",
+        "Die erhobenen Daten seien für die Bekämpfung von Steuerhinterziehung nicht notwendig; Kauf- und Verkaufsdaten genügten aus Sicht von Völkel zur Aufdeckung von Diskrepanzen."
+      ],
+      "transcript_uncertainties": [
+        "Es ist ungewiss, ob die Datenschutzbehörde die Beschwerde anerkennt oder ob der Verfassungsgerichtshof den Fall dem EuGH vorlegt.",
+        "Völkel schätzt einen möglichen Verfassungsgerichtshofstermin Mitte 2027 und ein mögliches EuGH‑Verfahren Ende 2027, aber der genaue Zeitverlauf bleibt unsicher.",
+        "Die Aussage, es habe 70 Fälle in Frankreich 2026, wird im Interview als Glaube formuliert und bleibt unbestätigt im Text."
+      ],
+      "important_details": [
+        "Coinfinity verweigerte die Löschung angefragter personenbezogener Daten, weil nationale Gesetze die Speicherung vorsehen.",
+        "Die erste verpflichtende Meldung der aggregierten Daten an Steuerbehörden ist für das zweite Halbjahr 2027 vorgesehen, wodurch erste Datenübergaben voraussichtlich stattfinden werden.",
+        "Der Verein Bitcoin Austria unterstützt Völkels Verfahren und betreibt die Informationsseite dac8.org mit Berichten und einer Karte zu Vorfällen."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "CM9PueCkGxQ",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "Fcx1dQ3BPrQ",
+      "source": "youtube",
+      "title": "Gabriel Külen: Vänstern har sålt ut Sverige för röster",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=Fcx1dQ3BPrQ",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 10316,
+        "processed_unique_chars": 10316,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.605,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:10316",
+        "recency"
+      ],
+      "transcript_full_summary": "Gabriel Külen kritiserar Vänsterpartiets riksdagsledamot Mohammed Ali för att ha spridit konspirationsteorier, motsatt Vänsterpartiets HBTQ-agenda och skadat invandrares möjligheter, och kräver konsekvenser för Ali samt att Vänsterpartiet hålls ansvarigt för sina kandidaturer.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Gabriel Külen menar att Mohammed Ali gör det svårare för invandrare genom sitt agerande.",
+        "Gabriel Külen anser att Mohammed Ali har spridit konspirationsteorier om CIA och Mossad efter 7 oktober.",
+        "Gabriel Külen kräver att riksdagen och Vänsterpartiet ger konsekvenser för Mohammed Alis handlingar."
+      ],
+      "transcript_notable_claims": [
+        "Mohammed Ali skrev på X att CIA och Mossad kände till attackerna mot Israel den 7 oktober och lät dem ske.",
+        "Mohammed Ali skrev att Israel vill framstå som ett offer inför ett krig som Israel eftersträvat.",
+        "Mohammed Ali vill förbjuda prideflaggor på myndighetsbyggnader eftersom pride går emot hans tro.",
+        "Vänsterpartiet har enligt Gabriel Külen varit redo att \"sälja Sveriges själ för röster\" genom sina kandidatval."
+      ],
+      "transcript_uncertainties": [
+        "Mohammed Ali ska enligt rapporter ha ångrat inlägget och sagt att det inte speglar hans åsikter.",
+        "Gabriel Külen säger att nya saker om Mohammed Ali ständigt dyker upp utan att specificera alla uppgifter."
+      ],
+      "important_details": [
+        "Vänsterpartiets gruppledare i riksdagen, Samuel Gonzalez Westling, uppgav till Aftonbladet att de pratat med Mohammed Ali och att han ångrar inlägget.",
+        "Gabriel Külen nämner att Mohammed Alis inlägg publicerades bara två dagar efter attacken den 7 oktober.",
+        "Gabriel Külen tar upp att Mohammed Ali enligt hans granskning har lämnat oriktiga uppgifter om sina kampanjer och personliga förhållanden."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "Fcx1dQ3BPrQ",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@judgingfreedom"
+      },
+      "id": "LQneU_PFmfc",
+      "source": "youtube",
+      "title": "The Hegseth Impeachment: Why This Could Change Everything",
+      "channel": "judgingfreedom",
+      "url": "https://www.youtube.com/watch?v=LQneU_PFmfc",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3274,
+        "processed_unique_chars": 3274,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.844,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3274",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript reports that Representative Thomas Massie claims to have sufficient House votes, including some Democrats, to send an impeachment resolution against Pete Hegseth to the Senate for trial, and it presents discussion that Hegseth misled President Trump while CIA analysis warned against a war with Iran and assessed Iran as non-nuclear and militarily formidable.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Thomas Massie told a mutual friend that he has enough Republican and Democratic votes for an impeachment resolution against Pete Hegseth.",
+        "An impeachment resolution that meets House requirements would be sent directly to the Senate, where a trial must be held according to the rules.",
+        "CIA national intelligence estimates concluded three times that Iran did not have a nuclear weapons program."
+      ],
+      "transcript_notable_claims": [
+        "Many Republican senators at whom Hegseth has screamed during Senate hearings are ready to vote yes on an impeachment trial.",
+        "Pete Hegseth played up to Trump's fantasies and could be used as a convenient scapegoat, but the responsibility lies with Trump.",
+        "A CIA red cell team concluded that Israel, not Iran, could break up and cease to exist because of the contemplated war."
+      ],
+      "transcript_uncertainties": [
+        "The claim that Thomas Massie has enough votes for impeachment is based on Massie's report to a mutual friend and is not independently verified in the transcript.",
+        "Reports that John Ratcliffe warned Trump not to listen to Bibi Netanyahu are presented as contingent on believing New York Times reporting.",
+        "The assertion that a CIA contractor named Brinkman leaked the red cell conclusion is described as an ongoing case and therefore unresolved."
+      ],
+      "important_details": [
+        "The CIA analysts judged that conquering Iran would require committing one million ground troops because of Iran's size, terrain, and population.",
+        "A CIA contractor allegedly leaked a red cell analysis to his girlfriend's blog and was arrested two weeks later, and that case is ongoing."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "LQneU_PFmfc",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@PredictiveHistory"
+      },
+      "id": "YyUl1QerHjA",
+      "source": "youtube",
+      "title": "Global Meet-Up #6 (Montreal):  The Supremacy of Sin",
+      "channel": "PredictiveHistory",
+      "url": "https://www.youtube.com/watch?v=YyUl1QerHjA",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 149054,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.026,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_generation_status": "budget_skipped",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "YyUl1QerHjA",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BlackScoutSurvival"
+      },
+      "id": "1mACKW03xyY",
+      "source": "youtube",
+      "title": "NOW LOOK WHAT HAPPENED",
+      "channel": "BlackScoutSurvival",
+      "url": "https://www.youtube.com/watch?v=1mACKW03xyY",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 26607,
+        "processed_unique_chars": 26607,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.026,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Jack Rich reviews the 2026 election losses for Republicans, blames broken promises, elite donors and foreign entanglements, warns of worsening political tribalism and infrastructure vulnerability, and promotes personal preparedness including a beef-protein coffee product.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Republicans lost control of the House and Senate and suffered major defeats, including a Democratic Senate win in South Carolina.",
+        "Voter frustration stemmed from high cost of living, housing and interest rates, and perceived contradictions over wars and accountability.",
+        "Wealthy donors back candidates on both sides, so chosen allies maintain influence regardless of party control."
+      ],
+      "transcript_notable_claims": [
+        "Annie Andrews, a Democrat, won a United States Senate seat in South Carolina despite Donald Trump winning the state by 18 points in 2024.",
+        "Miriam Adelson donated roughly $100 million to pro-Trump super PACs in the 2024 election and also backed other successful candidates across parties.",
+        "The Pentagon has launched a plan to prepare U.S. military bases to operate for at least 90 days without outside support, and Germany advised citizens to stockpile 10 days of food and water."
+      ],
+      "transcript_uncertainties": [
+        "Jack Rich states that Cash Patel's DOJ covered up an investigation involving Lindsey Graham and Jim Clyburn but provides no verification within the transcript.",
+        "The claim that wealthy donors always win regardless of party is presented as a generalization without provided evidence for every case."
+      ],
+      "important_details": [
+        "Control of Congress by Democrats will enable congressional investigations, oversight hearings and budget battles that could increase opposition to the White House's war policies.",
+        "Jack Rich recommends shelf-stable beef protein coffee as a preparedness measure providing 24 grams of protein per serving that does not require refrigeration or electricity."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "1mACKW03xyY",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "8bPhD7c_p-M",
+      "source": "youtube",
+      "title": "Mögliche Spionage für China: KI-Konzern Nvidia untersucht Affäre um Konzernchef Huang",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=8bPhD7c_p-M",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 1590,
+        "processed_unique_chars": 1590,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Der Text berichtet über eine Untersuchung gegen Nvidia-Chef Jensen Huang wegen einer Affäre mit einer chinesischen Topmanagerin aus Singapur, die möglicherweise für China spionierte, und schildert Reaktionen von Huang, dem Nvidia-Verwaltungsrat, der US-Regierung und China.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Topmanagerin aus Singapur kaufte Nvidias leistungsstarke KI-Chips und soll möglicherweise für China spioniert haben.",
+        "Jensen Huang entschuldigte sich offiziell bei seiner Familie wegen der Affäre.",
+        "Der Verwaltungsrat von Nvidia sprach Jensen Huang trotz der Affäre sein Vertrauen aus und kündigte eine Untersuchung aller Informationen an."
+      ],
+      "transcript_notable_claims": [
+        "Seit 2024 war die chinesische Managerin oft an Jensen Huangs Seite.",
+        "Es gebe keinen Anlass zu vermuten, dass Geschäftsgeheimnisse preisgegeben wurden, trotzdem werde eine Untersuchung sämtliche Informationen prüfen.",
+        "Zwischen der Managerin Cran und der US-Regierung gab es Differenzen über die Lieferung moderner KI-Chips nach China.",
+        "Trump soll bereits vor einem Jahr vom Geheimdienst über die Affäre mit einer möglichen Spion informiert worden sein.",
+        "Das chinesische Außenministerium bezeichnete den Spionageverdacht als substanzlose Schmierenkampagne."
+      ],
+      "transcript_uncertainties": [
+        "Es ist ungewiss, ob tatsächlich Geschäftsgeheimnisse preisgegeben wurden.",
+        "Der Verdacht, dass die Managerin für China spionierte, bleibt bisher ungeklärt und wird untersucht."
+      ],
+      "important_details": [
+        "Jensen Huang sprach sich im September in einem Interview gegen generelle Lieferverbote nach China aus und sagte, man solle China nicht alle Produkte verwehren.",
+        "Jensen Huang hat ein enges Verhältnis zum US-Präsidenten und begleitete ihn auf Reisen nach China.",
+        "Der Verwaltungsrat betonte, dass trotz fehlendem Anlass für Geheimnisweitergabe eine Untersuchung alle Informationen prüfen werde."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "8bPhD7c_p-M",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "GUHSiMGQkSA",
+      "source": "youtube",
+      "title": "DISCOVERING GOD'S ACTIVE NAMES IN PSALM 23--Complete Spiritual Sufficiency",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=GUHSiMGQkSA",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "GUHSiMGQkSA",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "GayrDyq71_I",
+      "source": "youtube",
+      "title": "Vänsterpartiet sparkas från regeringsplanerna - Slutet för de rödgröna? - Arne Weinz",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=GayrDyq71_I",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 6759,
+        "processed_unique_chars": 6759,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.716,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:6759",
+        "recency"
+      ],
+      "transcript_full_summary": "Magdalena Andersson utesluter Vänsterpartiet från ett möjligt regeringssamarbete och försöker pressa Vänsterpartiet att backa från kravet på ministerposter, medan Arne Weinz diskuterar risken för extraval och en möjlig borgerlig regering tolererad av Sverigedemokraterna.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Magdalena Andersson utesluter Vänsterpartiet från ett regeringssamarbete och hoppas att partiet blir ett stödparti utan ministerposter.",
+        "Vänsterpartiets krav på ministerposter utgör enligt programmet ett hinder för en rödgrön regeringsbildning och kan leda till extraval.",
+        "Sverigedemokraterna säger sig vara beredda att tolerera Ulf Kristersson men vill inte ha ministerposter, vilket kan möjliggöra en borgerlig regering med 198 mandat."
+      ],
+      "transcript_notable_claims": [
+        "Vänstern kräver ministerposter och har historiskt varit stödparti till Socialdemokraterna.",
+        "Magdalena Anderssons strategi är att lägga press på Vänsterpartiet genom att säga att de 'sabbar allting' om de inte backar.",
+        "Ett extraval skulle sannolikt skada Socialdemokraterna och gynna Moderaterna enligt programmet.",
+        "Elisabeth Tand-Ringqvist agerar i förarsätet i förhandlingarna om samarbeten mellan partierna.",
+        "Sverigedemokraterna har enligt programmet övergivit 'återvandring' som profilfråga och accepterar en mer öppen svenskhet."
+      ],
+      "transcript_uncertainties": [
+        "Det är osäkert om Vänsterpartiet kommer att backa från kravet på ministerposter.",
+        "Det är osäkert vilka exakta krav Sverigedemokraterna ställer för att tolerera en regering utan ministrar.",
+        "Det är osäkert om Centerpartiet kommer att välja att samarbeta med en borgerlig regering eller tvinga fram ett extraval."
+      ],
+      "important_details": [
+        "En borgerlig regering enligt redogörelsen skulle bestå av Moderaterna, Centerpartiet, Kristdemokraterna och Liberalerna med 198 mandat i riksdagen.",
+        "Programmet förutspår att Socialdemokraternas förtroende har minskat bland väljarna, vilket kan förvärra deras ställning vid ett extraval.",
+        "Centerpartiets profilfrågor, som att gynna småföretagare, kan enligt programmet synka med Moderaternas politik och påverka förhandlingsutfallet."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "GayrDyq71_I",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@WesHuff"
+      },
+      "id": "IsfYANKSWPo",
+      "source": "youtube",
+      "title": "The Real Prodigal was the FATHER | looking at Jesus's parable",
+      "channel": "WesHuff",
+      "url": "https://www.youtube.com/watch?v=IsfYANKSWPo",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 19048,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.026,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "IsfYANKSWPo",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BeardedBibleBros"
+      },
+      "id": "JZ8aF5ZygA8",
+      "source": "youtube",
+      "title": "Return of the Nephilim #17: The Last Nephilim",
+      "channel": "BeardedBibleBros",
+      "url": "https://www.youtube.com/watch?v=JZ8aF5ZygA8",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "video_id": "JZ8aF5ZygA8",
+      "processed_at_utc": "2026-11-10T12:53:21+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-09T13:10:55+00:00",
+  "updated_at_utc": "2026-11-10T12:53:21+00:00",
   "version": 1
 }

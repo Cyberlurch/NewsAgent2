@@ -19652,6 +19652,246 @@
         "approved_after_generation_checks": true,
         "seal": "6eff101c1a726e006a708ac47748e7599e1b2cb10d95175582b034307b15a1a4"
       }
+    },
+    "cyberlurch:daily:2026-11-10:2026-11-10:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-10",
+      "period_end": "2026-11-10",
+      "edition_id": "cyberlurch:daily:2026-11-10:2026-11-10:production",
+      "content_version": "fd8f7e32f0110f42db89b188f0d6c964e371899b36a0bc7814d3c753edfeba06",
+      "message_id": "<bb77d4b02fe36fc1c3bc93fee1681bac98a74c3983909c8f8df2dc812967ce65@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-10T12:53:25+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "Gf9dNwfUXqA",
+            "title": "⚡ALERT: HIGHLY UNUSUAL Dispersal of Military Assets, TOP IRGC DENIES Any Peace Talks",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Gf9dNwfUXqA"
+          },
+          {
+            "source": "youtube",
+            "id": "-kdQwKc2KiI",
+            "title": "ILTV On The Hour - November 9, 2026 | Bibi's Future on the Line as Eisenkot Moves to Form Government",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=-kdQwKc2KiI"
+          },
+          {
+            "source": "youtube",
+            "id": "6BpBsKhHKLQ",
+            "title": "EV Wallbox: How Good Is Electrician Advice Really? | WISO",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=6BpBsKhHKLQ"
+          },
+          {
+            "source": "youtube",
+            "id": "8dmuCOUdyEY",
+            "title": "Why \"Build It and They Will Come\" Fails in Semiconductors",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=8dmuCOUdyEY"
+          },
+          {
+            "source": "youtube",
+            "id": "CM9PueCkGxQ",
+            "title": "LAWYER SUES against EU BITCOIN SURVEILLANCE! 💥 Will DAC8 be overturned? | Interview with Dr. Völkel",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=CM9PueCkGxQ"
+          },
+          {
+            "source": "youtube",
+            "id": "Fcx1dQ3BPrQ",
+            "title": "Gabriel Külen: Vänstern har sålt ut Sverige för röster",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=Fcx1dQ3BPrQ"
+          },
+          {
+            "source": "youtube",
+            "id": "LQneU_PFmfc",
+            "title": "The Hegseth Impeachment: Why This Could Change Everything",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=LQneU_PFmfc"
+          },
+          {
+            "source": "youtube",
+            "id": "YyUl1QerHjA",
+            "title": "Global Meet-Up #6 (Montreal):  The Supremacy of Sin",
+            "channel": "PredictiveHistory",
+            "url": "https://www.youtube.com/watch?v=YyUl1QerHjA"
+          },
+          {
+            "source": "youtube",
+            "id": "1mACKW03xyY",
+            "title": "NOW LOOK WHAT HAPPENED",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=1mACKW03xyY"
+          },
+          {
+            "source": "youtube",
+            "id": "8bPhD7c_p-M",
+            "title": "Mögliche Spionage für China: KI-Konzern Nvidia untersucht Affäre um Konzernchef Huang",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=8bPhD7c_p-M"
+          },
+          {
+            "source": "youtube",
+            "id": "GUHSiMGQkSA",
+            "title": "DISCOVERING GOD'S ACTIVE NAMES IN PSALM 23--Complete Spiritual Sufficiency",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=GUHSiMGQkSA"
+          },
+          {
+            "source": "youtube",
+            "id": "GayrDyq71_I",
+            "title": "Vänsterpartiet sparkas från regeringsplanerna - Slutet för de rödgröna? - Arne Weinz",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=GayrDyq71_I"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "Gf9dNwfUXqA",
+            "title": "⚡ALERT: HIGHLY UNUSUAL Dispersal of Military Assets, TOP IRGC DENIES Any Peace Talks",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Gf9dNwfUXqA"
+          },
+          {
+            "source": "youtube",
+            "id": "-kdQwKc2KiI",
+            "title": "ILTV On The Hour - November 9, 2026 | Bibi's Future on the Line as Eisenkot Moves to Form Government",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=-kdQwKc2KiI"
+          },
+          {
+            "source": "youtube",
+            "id": "6BpBsKhHKLQ",
+            "title": "EV Wallbox: How Good Is Electrician Advice Really? | WISO",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=6BpBsKhHKLQ"
+          },
+          {
+            "source": "youtube",
+            "id": "8dmuCOUdyEY",
+            "title": "Why \"Build It and They Will Come\" Fails in Semiconductors",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=8dmuCOUdyEY"
+          },
+          {
+            "source": "youtube",
+            "id": "CM9PueCkGxQ",
+            "title": "LAWYER SUES against EU BITCOIN SURVEILLANCE! 💥 Will DAC8 be overturned? | Interview with Dr. Völkel",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=CM9PueCkGxQ"
+          },
+          {
+            "source": "youtube",
+            "id": "Fcx1dQ3BPrQ",
+            "title": "Gabriel Külen: Vänstern har sålt ut Sverige för röster",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=Fcx1dQ3BPrQ"
+          },
+          {
+            "source": "youtube",
+            "id": "LQneU_PFmfc",
+            "title": "The Hegseth Impeachment: Why This Could Change Everything",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=LQneU_PFmfc"
+          },
+          {
+            "source": "youtube",
+            "id": "YyUl1QerHjA",
+            "title": "Global Meet-Up #6 (Montreal):  The Supremacy of Sin",
+            "channel": "PredictiveHistory",
+            "url": "https://www.youtube.com/watch?v=YyUl1QerHjA"
+          },
+          {
+            "source": "youtube",
+            "id": "1mACKW03xyY",
+            "title": "NOW LOOK WHAT HAPPENED",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=1mACKW03xyY"
+          },
+          {
+            "source": "youtube",
+            "id": "8bPhD7c_p-M",
+            "title": "Mögliche Spionage für China: KI-Konzern Nvidia untersucht Affäre um Konzernchef Huang",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=8bPhD7c_p-M"
+          },
+          {
+            "source": "youtube",
+            "id": "GUHSiMGQkSA",
+            "title": "DISCOVERING GOD'S ACTIVE NAMES IN PSALM 23--Complete Spiritual Sufficiency",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=GUHSiMGQkSA"
+          },
+          {
+            "source": "youtube",
+            "id": "GayrDyq71_I",
+            "title": "Vänsterpartiet sparkas från regeringsplanerna - Slutet för de rödgröna? - Arne Weinz",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=GayrDyq71_I"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "Gf9dNwfUXqA",
+            "title": "⚡ALERT: HIGHLY UNUSUAL Dispersal of Military Assets, TOP IRGC DENIES Any Peace Talks",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Gf9dNwfUXqA"
+          },
+          {
+            "source": "youtube",
+            "id": "-kdQwKc2KiI",
+            "title": "ILTV On The Hour - November 9, 2026 | Bibi's Future on the Line as Eisenkot Moves to Form Government",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=-kdQwKc2KiI"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-10T12:53:21+00:00"
+      },
+      "workflow_run_id": "42819040419",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-10:2026-11-10:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "6b6ae7402a1435a93312a4d98b4f0dce4c852b9f2851d3b92300f6f6c27ba3d2",
+        "finalization_policy": "markers",
+        "content_version": "fd8f7e32f0110f42db89b188f0d6c964e371899b36a0bc7814d3c753edfeba06",
+        "message_id": "<bb77d4b02fe36fc1c3bc93fee1681bac98a74c3983909c8f8df2dc812967ce65@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "3f23ebbb2329dffc_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "4efd27bd87f0d54980f0d65186d40d63a5fbe65eba5c103702eec2d78cdd74c4"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "513886a8e998e7c21a8c1a86fc36fac86d9dee6eedcd5e60134f335e43673b4d"
+      }
     }
   },
   "paper_legacy_unknown": {
