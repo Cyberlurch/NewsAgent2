@@ -20577,6 +20577,671 @@
         "approved_after_generation_checks": true,
         "seal": "283d48e7f3535aaee94e6fa8def7b5e54b05d22a20c374bf2bd8386788002f46"
       }
+    },
+    "cybermed:daily:2026-11-11:2026-11-11:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-11",
+      "period_end": "2026-11-11",
+      "edition_id": "cybermed:daily:2026-11-11:2026-11-11:production",
+      "content_version": "d62d4a265483b2c6e85956353d4b721f93573e89a0a09ab7e64be7752d0bf739",
+      "message_id": "<d541be214b1ece03cbf9e9f5167ba37b2c5fec8d4af1c1a748719c81e9eeb244@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-11T12:12:48+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43002172",
+            "title": "ANGPTL4 Inhibition in Adults with Elevated Triglyceride Levels.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43002172/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001763",
+            "title": "Left Bundle-Branch Pacing versus Right Ventricular Pacing for Atrioventricular Block.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001763/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001761",
+            "title": "A Liver-Targeted CIDEB siRNA in Adults with MASLD.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001761/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001758",
+            "title": "Community and EMS Interventions to Improve Survival in Cardiac Arrest.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001758/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001755",
+            "title": "Retatrutide Once Weekly in Adults with Knee Osteoarthritis Pain and Obesity.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001755/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001754",
+            "title": "Mass Surveillance with Artificial Intelligence - A New Determinant of Health?",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001754/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001751",
+            "title": "Interleukin-6 Inhibition with Ziltivekimab for Atherosclerotic Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001751/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001750",
+            "title": "Early Days, Late Nights.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001750/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001747",
+            "title": "Bringing Rapid Reperfusion to More Patients with Out-of-Hospital Cardiac Arrest.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001747/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001746",
+            "title": "Intensive Blood-Pressure Lowering in Patients with Type 2 Diabetes.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001746/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001743",
+            "title": "Lung Hernia with a Chest-Wall Hematoma.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001743/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001742",
+            "title": "Discontinuing Statins in Older Adults without Cardiovascular Disease.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001742/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001741",
+            "title": "Intensive Blood-Pressure Control in Patients with Previous Ischemic Stroke.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001741/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001740",
+            "title": "Prehospital Extracorporeal Life Support in Refractory Out-of-Hospital Cardiac Arrest.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001740/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001735",
+            "title": "Equity in Maternal-Fetal Medicine - Technological Advances and a Potential Path Forward.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001735/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001734",
+            "title": "Pelacarsen and Cardiovascular Outcomes in Patients with High Lipoprotein(a).",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001734/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001732",
+            "title": "Hyperaldosteronism Remission after Extended Aldosterone Synthase Inhibition.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001732/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42982518",
+            "title": "Fluid dynamics of local anesthetic spread: a hypothesis-generating review.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982518/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998670",
+            "title": "Cangrelor versus crushed ticagrelor in acute myocardial infarction complicated by cardiogenic shock (DAPT-SHOCK-AMI): a randomised, double-blind trial.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998670/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42967871",
+            "title": "The Effect of Perioperative Video Interventions on Postoperative Pain Control: A Systematic Review.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42967871/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42956896",
+            "title": "Dysnatremia in critically ill burn patients: incidence, timing and association with kidney outcomes.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956896/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929532",
+            "title": "Influence of Preoperative Virtual Reality on Preoperative State Anxiety in the Ambulatory Setting: The AMBLUMEEN Randomized Controlled Trial.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929532/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42929524",
+            "title": "The Association Between Perioperative Enhanced Care Unit Characteristics and Surgical Cancelation: A Nationwide Observational Study.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929524/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42946572",
+            "title": "Dexmedetomidine produces more sleep-like brain activity compared with propofol in human participants. Response to Br J Anaesth 2026; 137: 1217-8.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946572/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42946571",
+            "title": "Regional analgesic techniques for postoperative pain after kidney transplantation: a systematic review and Bayesian meta-analysis.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946571/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42946570",
+            "title": "Inter-hemispheric asymmetry: pitfalls of commercial electroencephalographic configurations in clinical monitoring.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946570/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42947240",
+            "title": "Discordance between pupillometry indices: a matter of scale and sedation.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42947240/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951898",
+            "title": "Beyond 28-Day Mortality: The Unfinished Story of Extracorporeal Membrane Oxygenation Survivorship.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951898/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951894",
+            "title": "Variation in Pediatric Extracorporeal Cardiopulmonary Resuscitation Survival After In-Hospital Cardiac Arrest: Development and Validation of a Survival Model for Risk-Standardized Survival Rates: An Analysis of the Extracorporeal Life Support Organization Registry.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951894/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42951887",
+            "title": "Candida Septic Shock: If Every Hour Matters, Who Requires Empiric Therapy?",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951887/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/the-scene-of-four/",
+            "title": "The Scene of Four",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/the-scene-of-four/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/epic-peds-sepsis-detector-fail/",
+            "title": "Epic Peds Sepsis Detector - FAIL - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/epic-peds-sepsis-detector-fail/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emergencymedicinecases.com/em-quick-hits-74-nov-2026/",
+            "title": "EM Quick Hits 74 Non-obstructive ACS with Amal Mattu, Threadworms, NPO Guidelines, Sickle Cell Disease,  Coaching the EM Mind Part 4",
+            "channel": "EM Cases",
+            "url": "https://emergencymedicinecases.com/em-quick-hits-74-nov-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emergencymedicinecases.com/av-block-pitfalls-and-pearls/",
+            "title": "ECG Cases 64 – AV Block Pitfalls and Pearls",
+            "channel": "EM Cases",
+            "url": "https://emergencymedicinecases.com/av-block-pitfalls-and-pearls/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHXN3MblTy04gX50KYzL9tX",
+            "title": "Wound Irrigation in the ED: A Simple Hack for Better Pressure, More Volume, and Less Splash",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHXN3MblTy04gX50KYzL9tX"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovE-HFiLNl9HravLeqE6yv18",
+            "title": "Hemoptysis",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovE-HFiLNl9HravLeqE6yv18"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42967871",
+            "title": "The Effect of Perioperative Video Interventions on Postoperative Pain Control: A Systematic Review.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42967871/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42967871",
+              "doi": "10.1111/aas.70387",
+              "kind": "original",
+              "source_version": "2a5426de7a54eba2835f59902e3e0e61aeb4ac4788f8e4f287276dfdcd911272",
+              "fields": {
+                "title": "d2538904685fa33dc3b5d36cbe5eae4f5a905468e9d496fdb7938a135d1b58ee",
+                "abstract": "19c85fb9d81cf712ad5823ff2c57dfde9fa72b0f054c2e45e2740c88809f9288",
+                "types": "510a396e41d7d3a801dbb6bb6738cb7b34538a480f92e5e6789fe5009818319b",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "2a90174fcea81ff078d03b3f36958ba2ba7af9cb484c2519ae4e3c1928a874d1",
+                "results_known": true,
+                "numbers": "23f269b517b84f2067b16a11f0fb79d214b849904fb5c7523497130e12567fc1",
+                "endpoint": "9945a07e3dea58942b81af36981d016105eb26496d34a33a6e5bcec5ec8c3ca1",
+                "methods": "4fbaac40d9fa7e8b1877c3b9cf8e2a4a15e0e42fc69093f4a8249c4a6e39d910",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43001758",
+            "title": "Community and EMS Interventions to Improve Survival in Cardiac Arrest.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001758/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43001758",
+              "doi": "10.1056/nejmoa2612757",
+              "kind": "original",
+              "source_version": "609539d93a84dc89e5df06d45efed88aedf0a6e1b9e91d0ee4e10f95da234c19",
+              "fields": {
+                "title": "0a88c09301379e526deacc811c64e5584ee9dbdb99b8bec538bc672418ee0a58",
+                "abstract": "c11e50146d0374bb4406c85775efde8dfea7ddda9067ebcc8240f85fafcd6c3d",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "10ee8766d88c00c4f5e4d333245c19837db8625a351eb729eee123af4203a098",
+                "results_known": true,
+                "numbers": "3e7d757f83b76f5bd94739b78bf9ec466c434f633af83c446e4ad9a229dcfd16",
+                "endpoint": "488f70da8729a1a71b2e83ca6ced199782732494a13f6135a09c1ed5ee846f1a",
+                "methods": "1fc9f61e0e3bc0bfb0b5d9704d20efaf0eed88553a8556e1a2653ebd1658df40",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43001755",
+            "title": "Retatrutide Once Weekly in Adults with Knee Osteoarthritis Pain and Obesity.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001755/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43001755",
+              "doi": "10.1056/nejmoa2610676",
+              "kind": "original",
+              "source_version": "caf89be5f150960ffff3363bc8a96a30d1b09841356f46ba3c5b90df7c3d60aa",
+              "fields": {
+                "title": "e3c1eb35bf7ea7b9ff09381ffa3670a30246156d623928cabafcf6d45d72aad0",
+                "abstract": "1ee0aea5af7e2d22ccf7636b4d8a3784c046aadf57a33d398d074655d8fdfd89",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "cecaf51842128cd560f8f3632288e4262ab2e7e3c8d24aa207322edee4b87550",
+                "results_known": false,
+                "numbers": "088d4482e4776c2cff787554892f91a19430a1d9b96626c9ceaaeaf7d013a67b",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "904bbe81eb16758db78f68464e193ac7f32fad4efc295371b0ee641090c84afd",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43001740",
+            "title": "Prehospital Extracorporeal Life Support in Refractory Out-of-Hospital Cardiac Arrest.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001740/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43001740",
+              "doi": "10.1056/nejmoa2602919",
+              "kind": "original",
+              "source_version": "c3047af9455211d970afd2131e1433e20b3b0a46f98ef6cc1f7ea95b27a3393e",
+              "fields": {
+                "title": "cdbc3267f936c692ef1af086cb665626964a43de59a26f28477301121f0fac4e",
+                "abstract": "96fdf8e8c8362bea7631902f7256811a5221bebaff98f0093345ce36fffce20a",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e72e84ec8b8331ea02fac296934a7758f283c20806095b209a39d11ed2d94a8a",
+                "results_known": true,
+                "numbers": "062d933357fda5716dbcddf38c04ea55a7237a0d1872a924bf09495082aabc66",
+                "endpoint": "b5b21561fa8f82253dbc0ec4c7ded5156099f093f5e5eabe2de79bc66244e3bc",
+                "methods": "8357540e2c9fe7bda64d6da7909debd600f6a662d16b87471846b3b9d2e5d4b3",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42951894",
+            "title": "Variation in Pediatric Extracorporeal Cardiopulmonary Resuscitation Survival After In-Hospital Cardiac Arrest: Development and Validation of a Survival Model for Risk-Standardized Survival Rates: An Analysis of the Extracorporeal Life Support Organization Registry.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42951894/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42951894",
+              "doi": "10.1097/ccm.0000000000007383",
+              "kind": "original",
+              "source_version": "20cf9f7a7db9095b5957a1637fc7b1e92f1ebfcd7b4d0cb18783d7159a06d195",
+              "fields": {
+                "title": "4a53819fb60d28b03e8361a3e23efb2061be1c354aaa293d0d9a2ec54a6a49b9",
+                "abstract": "5b44e841711c1c58f5515d51d8dc8a8ab1cae64ec83290f00db0b4235a24f210",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "5075bc2849159b1cc2338b2102ef131e7be9cd4492c0015fcccbb01aac4cf769",
+                "results_known": false,
+                "numbers": "a3e9ba5b7709df668dffbf4a1d4c53a62d6166ba5548aae72b70b858712c2723",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42956896",
+            "title": "Dysnatremia in critically ill burn patients: incidence, timing and association with kidney outcomes.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42956896/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42956896",
+              "doi": "10.1016/j.accpm.2026.101965",
+              "kind": "original",
+              "source_version": "46be194235afe85f892f1f36526c75cdf2067cf526c6820a5b9dfeea45aedd12",
+              "fields": {
+                "title": "f40823005c99f71595f969fa28abce95f43bdcd3965716ab5b53d8827af99e70",
+                "abstract": "724fb980cb39375724c6d43df417c1c437bcf33d07745ff19a0d0323d296b17d",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0c3ccf80f730155e856e1c2cb11b25fc9189f700d7a8592bf894706e6e96fe50",
+                "results_known": true,
+                "numbers": "e7fafd88162eb96a6859902f8b638dacaa3b5ba0e323ae375464cf973e36e751",
+                "endpoint": "d9355428ba2579846c9c3d528235cf45d8af757774b9308302c52a2cdbfc7c2b",
+                "methods": "cb993421eb263272a07b1a1cc02b7ff77ba2795cd5f67ac594f404f5c8821001",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42946571",
+            "title": "Regional analgesic techniques for postoperative pain after kidney transplantation: a systematic review and Bayesian meta-analysis.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42946571/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42946571",
+              "doi": "10.1016/j.bja.2026.09.018",
+              "kind": "original",
+              "source_version": "de28fd6ab886baedf97a03fc3e23004009290aea8907264aa7d14cfeaa911937",
+              "fields": {
+                "title": "a47a8fffec2de21c866bbfac8a6dc9a4a166c5d8e807b1fa3b1bb717ea6851a1",
+                "abstract": "459d3e60d9a0eb912208d6eef1caf5b55e921778fb2ebc269d396bd13fd724e2",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e4e2eb25e4e3b3775be713386761e8c8ddc6162df452f817f9338fbfa675702d",
+                "results_known": false,
+                "numbers": "5c9646eaec9233534e52064c5906899a3b6507eb2faec129189c891252d1212a",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "bd8228279d83c893eb2a72e20c47a1d7be87f925696123a80820a041fbe099a4",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42929532",
+            "title": "Influence of Preoperative Virtual Reality on Preoperative State Anxiety in the Ambulatory Setting: The AMBLUMEEN Randomized Controlled Trial.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929532/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42929532",
+              "doi": "10.1213/ane.0000000000008360",
+              "kind": "original",
+              "source_version": "8abc9ee7463067a76caef495385d543bd295144bcc550cee84bb4c4fc8a3ae64",
+              "fields": {
+                "title": "e9c1c10e2c12fc40720854e45b70fd99784e9a7716e66ef810083123dd0cc7df",
+                "abstract": "15c0d9c155ed8047caca5749e16709deceed1d8bd1548a8079d90f4f390b7bb2",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "4f43ebece9aa018f68ee0359aee3e5c2fd392c776748c8f0b88097d6f03be5dd",
+                "results_known": false,
+                "numbers": "c32da1a35f9e562b93f5423e9e824f7095d4918e6bf6d204bda8d4a47ac8e490",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "d4a0174e8f1537d6ba1c211daf648af4251ff909beaf6f243f32357929c57747",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42929524",
+            "title": "The Association Between Perioperative Enhanced Care Unit Characteristics and Surgical Cancelation: A Nationwide Observational Study.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929524/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42929524",
+              "doi": "10.1213/ane.0000000000008309",
+              "kind": "original",
+              "source_version": "db800e9f9f5999287e4140d14a2d15f80679a8f1f8d238224de7f9c23014d7ff",
+              "fields": {
+                "title": "2db400d2632072928dd45769ab92fe2ee6a3f9a6325c2683bcc878b52c74fb87",
+                "abstract": "1fe6fa682104b1f7d127038bf46887f1cc5817810e08007646356b76ab05ef62",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "c34f65d758b252cb843e28b5821d4c994d6dda90694ab236cd9f3409442f401a",
+                "results_known": false,
+                "numbers": "fbc2b356ea042ec4b8a00b70f953ee98f2179bb7567aa6d7b3859a142bfbab4f",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "cd67e00f3dc798332b209341a911e7c68e77b4981c6bedf265c01db4a2c1eb47",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42929532",
+            "title": "Influence of Preoperative Virtual Reality on Preoperative State Anxiety in the Ambulatory Setting: The AMBLUMEEN Randomized Controlled Trial.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42929532/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42929532",
+              "doi": "10.1213/ane.0000000000008360",
+              "kind": "original",
+              "source_version": "8abc9ee7463067a76caef495385d543bd295144bcc550cee84bb4c4fc8a3ae64",
+              "fields": {
+                "title": "e9c1c10e2c12fc40720854e45b70fd99784e9a7716e66ef810083123dd0cc7df",
+                "abstract": "15c0d9c155ed8047caca5749e16709deceed1d8bd1548a8079d90f4f390b7bb2",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "4f43ebece9aa018f68ee0359aee3e5c2fd392c776748c8f0b88097d6f03be5dd",
+                "results_known": false,
+                "numbers": "c32da1a35f9e562b93f5423e9e824f7095d4918e6bf6d204bda8d4a47ac8e490",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "d4a0174e8f1537d6ba1c211daf648af4251ff909beaf6f243f32357929c57747",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43001758",
+            "title": "Community and EMS Interventions to Improve Survival in Cardiac Arrest.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001758/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43001758",
+              "doi": "10.1056/nejmoa2612757",
+              "kind": "original",
+              "source_version": "609539d93a84dc89e5df06d45efed88aedf0a6e1b9e91d0ee4e10f95da234c19",
+              "fields": {
+                "title": "0a88c09301379e526deacc811c64e5584ee9dbdb99b8bec538bc672418ee0a58",
+                "abstract": "c11e50146d0374bb4406c85775efde8dfea7ddda9067ebcc8240f85fafcd6c3d",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "10ee8766d88c00c4f5e4d333245c19837db8625a351eb729eee123af4203a098",
+                "results_known": true,
+                "numbers": "3e7d757f83b76f5bd94739b78bf9ec466c434f633af83c446e4ad9a229dcfd16",
+                "endpoint": "488f70da8729a1a71b2e83ca6ced199782732494a13f6135a09c1ed5ee846f1a",
+                "methods": "1fc9f61e0e3bc0bfb0b5d9704d20efaf0eed88553a8556e1a2653ebd1658df40",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://emergencymedicinecases.com/av-block-pitfalls-and-pearls/",
+            "title": "ECG Cases 64 – AV Block Pitfalls and Pearls",
+            "channel": "EM Cases",
+            "url": "https://emergencymedicinecases.com/av-block-pitfalls-and-pearls/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emergencymedicinecases.com/em-quick-hits-74-nov-2026/",
+            "title": "EM Quick Hits 74 Non-obstructive ACS with Amal Mattu, Threadworms, NPO Guidelines, Sickle Cell Disease,  Coaching the EM Mind Part 4",
+            "channel": "EM Cases",
+            "url": "https://emergencymedicinecases.com/em-quick-hits-74-nov-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/the-scene-of-four/",
+            "title": "The Scene of Four",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/the-scene-of-four/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/epic-peds-sepsis-detector-fail/",
+            "title": "Epic Peds Sepsis Detector - FAIL - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/epic-peds-sepsis-detector-fail/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHXN3MblTy04gX50KYzL9tX",
+            "title": "Wound Irrigation in the ED: A Simple Hack for Better Pressure, More Volume, and Less Splash",
+            "channel": "Core EM",
+            "url": "https://api.follow.it/track-rss-story-click/v3/YNdj3aCIovHXN3MblTy04gX50KYzL9tX"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-11T12:12:42+00:00"
+      },
+      "workflow_run_id": "43018031802",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-11:2026-11-11:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "bd37d5fe748fee31c524dd4ca42ac4453727b238927f2e2800897cfab9cd4029",
+        "finalization_policy": "markers",
+        "content_version": "d62d4a265483b2c6e85956353d4b721f93573e89a0a09ab7e64be7752d0bf739",
+        "message_id": "<d541be214b1ece03cbf9e9f5167ba37b2c5fec8d4af1c1a748719c81e9eeb244@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "152c3b3268d0b07a_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "777777476991a0dc30327e8c85f387ef0e1e10dbcddfbbf5d817336cf4e24a07"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "2495c63b343b5c8516cb26b9b11fe460aa79da0fb294157a0611fdfe2c905d8d"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -21312,6 +21977,7 @@
         "42949693",
         "42950975",
         "42951064",
+        "42951211",
         "42955323",
         "42956771",
         "42956796",
@@ -21319,6 +21985,8 @@
         "42956923",
         "42956924",
         "42956925",
+        "42958645",
+        "42960868",
         "42963061",
         "42968670",
         "42968679",
@@ -21330,9 +21998,11 @@
         "42971312",
         "42971721",
         "42972430",
+        "42977488",
         "42982479",
         "42982504",
         "42988037",
+        "42988384",
         "42995620"
       ]
     }
