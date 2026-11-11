@@ -20337,6 +20337,246 @@
         "approved_after_generation_checks": true,
         "seal": "7bc9348bff1075ada558a62142e3330a07db89a302f3eaf25495fc6fe4b5ffe4"
       }
+    },
+    "cyberlurch:daily:2026-11-11:2026-11-11:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-11",
+      "period_end": "2026-11-11",
+      "edition_id": "cyberlurch:daily:2026-11-11:2026-11-11:production",
+      "content_version": "f32dae3c1fe39aadc872f6a8bc549b3726e3ad79cb8fe23aa862756cfb35a2eb",
+      "message_id": "<1239f608bb866b3c44573575ee1cc8c476f352e3dc1b25a3d668749d7915e0ab@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-11T12:02:08+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "-JSgopbkAOA",
+            "title": "⚡ALERT: US Officials MOVE TO MILITARY BASES! NATO Troops Enter Ukraine! China ENCIRCLES TAIWAN!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=-JSgopbkAOA"
+          },
+          {
+            "source": "youtube",
+            "id": "1CkIkjWPP_8",
+            "title": "Ilse Aigner und die Bundespräsidentschaft: Wieso Merz so lange gezögert hat | PolitiX Talk",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=1CkIkjWPP_8"
+          },
+          {
+            "source": "youtube",
+            "id": "1v5lOnoe1gw",
+            "title": "NBA Star Jaden Ivey CUT For Calling Pride Night \"Unrighteous\"",
+            "channel": "KapChatfield",
+            "url": "https://www.youtube.com/watch?v=1v5lOnoe1gw"
+          },
+          {
+            "source": "youtube",
+            "id": "4jmFcE4WZ7M",
+            "title": "“AI Chernobyl” Will Scare Trump and Xi To Order An Immediate Pause — Jeremie & Edouard Harris",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=4jmFcE4WZ7M"
+          },
+          {
+            "source": "youtube",
+            "id": "CVJpXWNYPPw",
+            "title": "ILTV On The Hour - November 10, 2026 | Israel’s new Knesset is sworn in — the power struggle begins.",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=CVJpXWNYPPw"
+          },
+          {
+            "source": "youtube",
+            "id": "GJOvUDVp-1E",
+            "title": "Prepare: The War With Iran Just Restarted",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=GJOvUDVp-1E"
+          },
+          {
+            "source": "youtube",
+            "id": "IfeZmsaQtSY",
+            "title": "The Global Reaction to Trump's Rebuke: What They Aren't Telling You",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=IfeZmsaQtSY"
+          },
+          {
+            "source": "youtube",
+            "id": "oF3F4juTN7o",
+            "title": "History’s Deepest Rabbit Hole",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=oF3F4juTN7o"
+          },
+          {
+            "source": "youtube",
+            "id": "4ugX_oUDp4Q",
+            "title": "Jimmie Åkesson håller pressträff om valresultatet",
+            "channel": "sdwebbtv",
+            "url": "https://www.youtube.com/watch?v=4ugX_oUDp4Q"
+          },
+          {
+            "source": "youtube",
+            "id": "7XIhWx8jEzc",
+            "title": "TABERNACLE MYSTERIES ABOUT GOD",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=7XIhWx8jEzc"
+          },
+          {
+            "source": "youtube",
+            "id": "D7_QXpmmQMo",
+            "title": "„Dann stehen wir auf der Speisekarte von Putin“ – Wladimir Klitschko | maischberger",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=D7_QXpmmQMo"
+          },
+          {
+            "source": "youtube",
+            "id": "F3YEISeo21s",
+            "title": "Sverige lånar 300 miljarder - Misslyckas ändå med Natokraven - Roger Richthoff",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=F3YEISeo21s"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "-JSgopbkAOA",
+            "title": "⚡ALERT: US Officials MOVE TO MILITARY BASES! NATO Troops Enter Ukraine! China ENCIRCLES TAIWAN!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=-JSgopbkAOA"
+          },
+          {
+            "source": "youtube",
+            "id": "1CkIkjWPP_8",
+            "title": "Ilse Aigner und die Bundespräsidentschaft: Wieso Merz so lange gezögert hat | PolitiX Talk",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=1CkIkjWPP_8"
+          },
+          {
+            "source": "youtube",
+            "id": "1v5lOnoe1gw",
+            "title": "NBA Star Jaden Ivey CUT For Calling Pride Night \"Unrighteous\"",
+            "channel": "KapChatfield",
+            "url": "https://www.youtube.com/watch?v=1v5lOnoe1gw"
+          },
+          {
+            "source": "youtube",
+            "id": "4jmFcE4WZ7M",
+            "title": "“AI Chernobyl” Will Scare Trump and Xi To Order An Immediate Pause — Jeremie & Edouard Harris",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=4jmFcE4WZ7M"
+          },
+          {
+            "source": "youtube",
+            "id": "CVJpXWNYPPw",
+            "title": "ILTV On The Hour - November 10, 2026 | Israel’s new Knesset is sworn in — the power struggle begins.",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=CVJpXWNYPPw"
+          },
+          {
+            "source": "youtube",
+            "id": "GJOvUDVp-1E",
+            "title": "Prepare: The War With Iran Just Restarted",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=GJOvUDVp-1E"
+          },
+          {
+            "source": "youtube",
+            "id": "IfeZmsaQtSY",
+            "title": "The Global Reaction to Trump's Rebuke: What They Aren't Telling You",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=IfeZmsaQtSY"
+          },
+          {
+            "source": "youtube",
+            "id": "oF3F4juTN7o",
+            "title": "History’s Deepest Rabbit Hole",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=oF3F4juTN7o"
+          },
+          {
+            "source": "youtube",
+            "id": "4ugX_oUDp4Q",
+            "title": "Jimmie Åkesson håller pressträff om valresultatet",
+            "channel": "sdwebbtv",
+            "url": "https://www.youtube.com/watch?v=4ugX_oUDp4Q"
+          },
+          {
+            "source": "youtube",
+            "id": "7XIhWx8jEzc",
+            "title": "TABERNACLE MYSTERIES ABOUT GOD",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=7XIhWx8jEzc"
+          },
+          {
+            "source": "youtube",
+            "id": "D7_QXpmmQMo",
+            "title": "„Dann stehen wir auf der Speisekarte von Putin“ – Wladimir Klitschko | maischberger",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=D7_QXpmmQMo"
+          },
+          {
+            "source": "youtube",
+            "id": "F3YEISeo21s",
+            "title": "Sverige lånar 300 miljarder - Misslyckas ändå med Natokraven - Roger Richthoff",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=F3YEISeo21s"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "-JSgopbkAOA",
+            "title": "⚡ALERT: US Officials MOVE TO MILITARY BASES! NATO Troops Enter Ukraine! China ENCIRCLES TAIWAN!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=-JSgopbkAOA"
+          },
+          {
+            "source": "youtube",
+            "id": "1v5lOnoe1gw",
+            "title": "NBA Star Jaden Ivey CUT For Calling Pride Night \"Unrighteous\"",
+            "channel": "KapChatfield",
+            "url": "https://www.youtube.com/watch?v=1v5lOnoe1gw"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-11T12:02:03+00:00"
+      },
+      "workflow_run_id": "43016342082",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-11:2026-11-11:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "292755f70974ce29d478ae71fcc6725b57a417ed3738cac018eeb841f602bc00",
+        "finalization_policy": "markers",
+        "content_version": "f32dae3c1fe39aadc872f6a8bc549b3726e3ad79cb8fe23aa862756cfb35a2eb",
+        "message_id": "<1239f608bb866b3c44573575ee1cc8c476f352e3dc1b25a3d668749d7915e0ab@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "fbe92765445559c1_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "285c6ae863ac3819f90e6996ae70c8141dd254aaede559a08f8dd1e9437a3633"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "283d48e7f3535aaee94e6fa8def7b5e54b05d22a20c374bf2bd8386788002f46"
+      }
     }
   },
   "paper_legacy_unknown": {

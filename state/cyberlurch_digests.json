@@ -126042,31 +126042,82 @@
       "video_id": "nmxKVAnQu4I"
     },
     {
-      "bottom_line": null,
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@EndTimesProductions"
+      },
+      "id": "oF3F4juTN7o",
+      "source": "youtube",
+      "title": "History’s Deepest Rabbit Hole",
       "channel": "EndTimesProductions",
+      "url": "https://www.youtube.com/watch?v=oF3F4juTN7o",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-10T04:30:00+00:00",
+      "screened_at": "2026-11-10T04:30:00+00:00",
+      "expires_at": "2026-11-13T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 75902,
+        "processed_unique_chars": 75902,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
       "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.543,
       "cyberlurch_deep_dive_reasons": [
         "text_length:12000",
         "recency"
       ],
-      "cyberlurch_deep_dive_score": 4.041,
-      "editorial_relevance": null,
-      "important_details": null,
-      "processed_at_utc": "2026-09-29T10:05:32+00:00",
-      "published_at": "2026-09-29T02:27:26+00:00",
-      "temporality": "current_affairs",
-      "text_source": "managed_transcript",
-      "title": "The Secret Missions of History: What They DON'T Want You to Know About Secret Societies",
-      "top_pick": null,
-      "topic_primary": null,
-      "topics": null,
-      "transcript_full_summary": null,
-      "transcript_key_points": null,
-      "transcript_notable_claims": null,
+      "transcript_full_summary": "Chris Pinto argues that the Jesuit order and related secret societies have secretly shaped world history and continue to operate today to promote ecumenism, socialism, and political control, citing historical episodes from the Gunpowder Plot to the Civil War, World Wars, and modern institutions.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Jesuit order was founded in 1540 by Ignatius Loyola to counter the Protestant Reformation and has pursued political influence ever since.",
+        "The Jesuits and allied secret societies allegedly promoted social justice, socialism, communism, and secular humanism through figures like Luigi Taparelli and organizations linked to the Illuminati.",
+        "The Jesuit network supposedly influenced modern institutions and leaders, including Georgetown University alumni, intelligence services, and public figures involved in COVID-19 responses."
+      ],
+      "transcript_notable_claims": [
+        "Malachi Martin witnessed people openly worshiping Lucifer at certain levels in the Vatican.",
+        "Emmanuela Orlandi was allegedly kidnapped and used for Vatican sex parties and possibly killed in a satanic ritual, and Pope Francis told her family that 'your daughter is in heaven.'",
+        "Shakespeare's Macbeth and the Gunpowder Plot were historically linked to Jesuit involvement according to Gary Wills.",
+        "John Wycliffe and the Reformation resisted a papal effort to control the Bible and public life that the Jesuits later sought to reverse via the Counter-Reformation.",
+        "The Jesuits were abolished in 1773 and restored in 1814, after which they pursued revenge and new methods including alleged creation or manipulation of the Illuminati and revolutionary movements.",
+        "Jesuit influence allegedly contributed to the French Revolution, the development of socialism, and the Nazi movement, according to cited historians and writers.",
+        "The Jesuits are described as an intelligence order and 'the most advanced and sophisticated intelligence service in the world' according to a quoted E. Howard Hunt remark.",
+        "General Thomas M. Harris and others argued that the Vatican and Jesuit priests were responsible for Abraham Lincoln's assassination and for supporting the Confederacy.",
+        "A 2003 agreement 'Strangers No Longer Together on a Journey of Hope' is presented as evidence of coordinated Catholic facilitation of mass immigration into the United States.",
+        "Dr. Anthony Fauci and other public-health figures are claimed to have Jesuit education or Jesuit associations that link them to the order's influence during the COVID-19 pandemic."
+      ],
+      "transcript_uncertainties": [
+        "Malachi Martin did not claim that all Vatican officials worshiped Lucifer but said some did at certain levels.",
+        "The presenter admits some historical connections are speculative, such as links between the Jesuits and the Illuminati or the Count of Monte Cristo allegory.",
+        "The speaker says he does not fully understand certain intelligence structures within the Jesuit order because of their secrecy."
+      ],
+      "important_details": [
+        "The documentary 'American Jesuits' (released 2024) aims to document alleged Jesuit involvement in American history including the Civil War, Lincoln's assassination, and the formation of social justice doctrines.",
+        "Luigi Taparelli coined the phrase 'social justice' in 1843 and influenced Catholic social teaching through students who became Pope Leo XIII and the encyclical 'Rerum Novarum.'",
+        "Georgetown University is identified as the Jesuit headquarters in the United States and as an institutional source of influence over politicians, intelligence figures, and elites."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "oF3F4juTN7o",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
       "transcript_processing": null,
-      "transcript_uncertainties": null,
-      "url": "https://www.youtube.com/watch?v=oF3F4juTN7o",
-      "video_id": "oF3F4juTN7o"
+      "bottom_line": null,
+      "top_pick": null
     },
     {
       "bottom_line": null,
@@ -148283,8 +148334,843 @@
       "cyberlurch_deep_dive_score": null,
       "cyberlurch_deep_dive_reasons": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "-JSgopbkAOA",
+      "source": "youtube",
+      "title": "⚡ALERT: US Officials MOVE TO MILITARY BASES! NATO Troops Enter Ukraine! China ENCIRCLES TAIWAN!",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=-JSgopbkAOA",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:14:18+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:14:18+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 24240,
+        "processed_unique_chars": 24240,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 6.038,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript claims simultaneous escalations on the Ukraine, Iran, and Taiwan fronts, asserts U.S. officials have relocated to military bases, and predicts a coordinated sequence of military moves that could provoke wider conflict within about two weeks.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Several high-ranking U.S. officials, including Scott Bent and others, have moved to live on military bases because they fear for their lives.",
+        "China is practicing encirclement and area-denial drills around Taiwan while multiple Chinese aircraft carriers operate at sea.",
+        "NATO-approved EU training center and a 3,000-strong coalition exercise represent the first open NATO military presence and mission creep inside Ukraine."
+      ],
+      "transcript_notable_claims": [
+        "An armada of naval vessels is racing from the Indo-Pacific toward forces waiting outside Iran, leaving fewer U.S. carrier groups near Taiwan.",
+        "Ukrainian drones used NATO airspace through Poland and the Baltics to strike the Ust-Luga oil refinery near St. Petersburg, contributing to nine refineries hit in the last ten days.",
+        "Iranian and Russian energy infrastructure is suffering large-scale damage, with about 30% of Russian refining capacity knocked offline in nine days.",
+        "The United States has recommenced domestic onshoring of nuclear weapon production and approved thousands of long-range 'Rusty Dagger' missiles for Ukraine.",
+        "A covert coordination among China, Russia, Iran, and North Korea aims to bait the U.S. into overcommitting in Iran, after which China would encircle Taiwan.",
+        "Trump and Netanyahu had an acrimonious call over Iran described by some sources as a 'screaming call from hell' that signals imminent conflict.",
+        "The Iranian regime continues to demand seven unresolved conditions and senior Iranian sources deny any planned meetings with the Trump administration about peace talks."
+      ],
+      "transcript_uncertainties": [
+        "It is unknown whether the Pars gas platform fire was sabotage or an accident.",
+        "It is uncertain whether future articles of impeachment against Pete Hegseth will be reintroduced and pass the House or Senate.",
+        "The claim that North Korea, China, Iran, and Russia are covertly coordinating is presented as a hypothesis rather than confirmed fact."
+      ],
+      "important_details": [
+        "NATO forces had to scramble jets after the largest salvo of drones in Baltic airspace to date triggered alerts in Latvia and Lithuania.",
+        "The EU-approved training center in Ukraine has trained about 100,000 Ukrainian troops and establishes the first NATO-affiliated military mission on Ukrainian soil.",
+        "TSMC semiconductor capacity on Taiwan is described as strategically critical, with U.S. domestic fabs being only a tiny fraction of Taiwan's production."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "-JSgopbkAOA",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "1CkIkjWPP_8",
+      "source": "youtube",
+      "title": "Ilse Aigner und die Bundespräsidentschaft: Wieso Merz so lange gezögert hat | PolitiX Talk",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=1CkIkjWPP_8",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 24737,
+        "processed_unique_chars": 24737,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Sendung erklärt, wie Friedrich Merz Ilse Aigner als Kandidatin für das Bundespräsidentenamt nominierte, warum Markus Söder diesen Vorschlag vorzeitig durchsetzte und welche Folgen das für CDU/CSU-Verhältnis und die Frauenfrage hat; außerdem wird die Debatte um Vanessa Emde und die mögliche Rot-Grün-Rote Koalition in Berlin behandelt.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Friedrich Merz hat Ilse Aigner formal als CDU-Kandidatin für das Bundespräsidentenamt vorgeschlagen.",
+        "Markus Söder hatte den Namen Ilse Aigner zuerst öffentlich ins Spiel gebracht und gilt deshalb als Durchsetzer.",
+        "Vanessa Emde will ihr Mandat in der Linken behalten, was die Bildung einer Rot-Grün-Roten Koalition in Berlin gefährdet."
+      ],
+      "transcript_notable_claims": [
+        "Merz habe den Nominierungsprozess handwerklich verstolpert und dadurch geschwächt gewirkt.",
+        "Söder habe die Nominierung gezielt gespielt, um politisch zu punkten und Merz vorzuführen.",
+        "Ilse Aigner werde versuchen, eine Regierungsbildung jenseits der AfD zu unterstützen, sollte die AfD 2029 stärkste Kraft werden.",
+        "Die Berliner SPD und die Grünen sehen die Autorität der Bundesparteien gefordert, antisemitische Tendenzen und Clanverbindungen in der Linken zu ächten.",
+        "Eine Zwei-Drittel-Mehrheit der Linken-Fraktion wäre nötig, um Vanessa Emde auszuschließen, das wären 44 Stimmen."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, wer tatsächlich die endgültige Entscheidung über die Kandidatur Ilse Aigners traf, Merz oder Söder.",
+        "Es bleibt offen, ob die Linke-Fraktion in Berlin die nötige Zwei-Drittel-Mehrheit zum Ausschluss von Vanessa Emde erreichen wird.",
+        "Es ist ungewiss, ob die geplante Rot-Grün-Rote Koalition in Berlin zustande kommen wird."
+      ],
+      "important_details": [
+        "Ilse Aigner gilt in der Debatte als eine Nicht-Akademikerin mit Realschulabschluss und wird medial als 'Electrotechnikerin' dargestellt.",
+        "Die Wahl des Bundespräsidenten soll idealerweise im ersten Wahlgang am 30. Januar erfolgen, um ein Signal der Stärke der Mitte zu senden.",
+        "Die Linke benötigt 44 Stimmen in ihrer Fraktion, um Vanessa Emde auszuschließen; ein Drittel der Fraktion dürfte Emde unterstützend gegenüberstehen."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "1CkIkjWPP_8",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@KapChatfield"
+      },
+      "id": "1v5lOnoe1gw",
+      "source": "youtube",
+      "title": "NBA Star Jaden Ivey CUT For Calling Pride Night \"Unrighteous\"",
+      "channel": "KapChatfield",
+      "url": "https://www.youtube.com/watch?v=1v5lOnoe1gw",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 15445,
+        "processed_unique_chars": 15445,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.043,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Pastor and commentator Cap Chatfield explains that Chicago Bulls guard Jaden Ivey was waived after calling NBA Pride Night \"unrighteous,\" presents Ivey as a repentant Christian persecuted for speaking biblical truth, and urges believers to support pro-faith businesses and bold Christian witness.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Jaden Ivey was waived by the Chicago Bulls after posting on Instagram that Pride Month and the NBA's promotion of it celebrate \"unrighteousness.\"",
+        "Over 20,000 Jaden Ivey jerseys reportedly sold out overnight after his removal from the Bulls.",
+        "Cap Chatfield links Ivey's stance to Bible passages and calls Christians and business leaders to be bold and refuse cultural compromise."
+      ],
+      "transcript_notable_claims": [
+        "The NBA told every believer in professional sports to be silent or be removed by cutting Jaden Ivey.",
+        "The market responded against the NBA by selling out over 20,000 of Ivey's jerseys in one night.",
+        "The NBA enforces hypocrisy by keeping players accused of domestic violence, like Miles Bridges, while removing a Christian who called Pride \"unrighteous.\"",
+        "NBA ratings have declined significantly, with a 48% viewership decline since 2012 and large drops on ABC and TNT, which Cap attributes to 'wokeism.'",
+        "Jaden Ivey previously testified that he was a former fornicator, pornography addict, and drunk who found Jesus and no longer idols the NBA."
+      ],
+      "transcript_uncertainties": [
+        "The transcript does not provide independent verification for the claim that over 20,000 of Ivey's jerseys sold out overnight.",
+        "The transcript does not document an official NBA statement linking Ivey's Instagram post to his release.",
+        "The transcript does not supply sourced evidence that the cited NBA ratings declines were caused primarily by political messaging."
+      ],
+      "important_details": [
+        "Patrick Williams of the Chicago Bulls publicly said he stands with Jaden Ivey and implied the team should cut him too if they cut Ivey.",
+        "Cap Chatfield contrasts Jaden Ivey's release with Miles Bridges receiving a 30-game suspension while remaining with his team after felony domestic violence and child abuse charges.",
+        "Cap Chatfield directs viewers to switchwithcap.com to buy 'made in America non-toxic nonwoke' products as a way to influence culture."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "1v5lOnoe1gw",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DoomDebates"
+      },
+      "id": "4jmFcE4WZ7M",
+      "source": "youtube",
+      "title": "“AI Chernobyl” Will Scare Trump and Xi To Order An Immediate Pause — Jeremie & Edouard Harris",
+      "channel": "DoomDebates",
+      "url": "https://www.youtube.com/watch?v=4jmFcE4WZ7M",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 99423,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.043,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "4jmFcE4WZ7M",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "CVJpXWNYPPw",
+      "source": "youtube",
+      "title": "ILTV On The Hour - November 10, 2026 | Israel’s new Knesset is sworn in — the power struggle begins.",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=CVJpXWNYPPw",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "CVJpXWNYPPw",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@AndreiJikh"
+      },
+      "id": "GJOvUDVp-1E",
+      "source": "youtube",
+      "title": "Prepare: The War With Iran Just Restarted",
+      "channel": "AndreiJikh",
+      "url": "https://www.youtube.com/watch?v=GJOvUDVp-1E",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "GJOvUDVp-1E",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@judgingfreedom"
+      },
+      "id": "IfeZmsaQtSY",
+      "source": "youtube",
+      "title": "The Global Reaction to Trump's Rebuke: What They Aren't Telling You",
+      "channel": "judgingfreedom",
+      "url": "https://www.youtube.com/watch?v=IfeZmsaQtSY",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2463,
+        "processed_unique_chars": 2463,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "transcript_full_summary": "International reactions to President Trump's electoral rebuke vary: many European leaders expect continuity with the United States while others see a permanent rupture, and the rest of the world feels elation at the rebuke but uncertainty about a coherent Democratic agenda.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Many European leaders expect US relations and policies to return to previous patterns despite the electoral rebuke.",
+        "Some Europeans believe the relationship between Europe and the United States has been permanently severed.",
+        "Observers outside Europe feel elation at the rebuke but remain uncertain about what a Democratic agenda would entail."
+      ],
+      "transcript_notable_claims": [
+        "The electoral result was essentially a slap in the face to the sitting president rather than a clear endorsement of a Democratic agenda.",
+        "Big changes are likely to come in the Republican Party as it tries to sort out its post-election identity and agenda.",
+        "President Trump's choice of chief of staff signals continuity of Trumpism, exemplified by Miller and described as sycophantic Trumpism."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain what the Democratic agenda actually is according to international observers.",
+        "It is unclear whether US-European relations will revert to their previous state or remain fundamentally changed."
+      ],
+      "important_details": [
+        "European opinion is mixed, with some leaders expecting a return to prior relations and others seeing permanent change.",
+        "The rest of the world experiences elation over the rebuke but does not necessarily view it as endorsement of a specific policy direction."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "IfeZmsaQtSY",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@sdwebbtv"
+      },
+      "id": "4ugX_oUDp4Q",
+      "source": "youtube",
+      "title": "Jimmie Åkesson håller pressträff om valresultatet",
+      "channel": "sdwebbtv",
+      "url": "https://www.youtube.com/watch?v=4ugX_oUDp4Q",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 15957,
+        "processed_unique_chars": 15957,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.043,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Sverigedemokraterna redogör för sitt valresultat 2026 och analyserar orsaker till tapp i röster, partiets styrkor och framtida strategi samt uttrycker oro för en möjlig ny regering utan partiets inflytande.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Sverigedemokraterna har vuxit kraftigt under de senaste 20 åren och slagit medlemsrekord detta år.",
+        "Partiet uppfattar att det politiska landskapet är oförändrat jämfört med förra valet och att marginaler och tillfälligheter avgjorde resultatet 2026.",
+        "Sverigedemokraterna anser att samarbetet i regeringen och kompromisser bidragit till ett visst väljarbortfall."
+      ],
+      "transcript_notable_claims": [
+        "Sverigedemokraterna har flyttat debatten i frågor som migration, integration och kriminalpolitik.",
+        "Partiet har klarat fyra år som stödparti utan kollaps och står idag starkare som rörelse än tidigare.",
+        "Ungefär 40–50 000 väljare flyttade sig och en förklaring kan vara att SD-väljare röstade på partier utanför riksdagen i högre grad.",
+        "Debatten om utvisningar i valåret kan ha gett Sverigedemokraterna skulden för en enligt partiet beskriven orättfärdig utvisningspolitik.",
+        "En del väljare kan ha uppfattat att SD:s framgångar gjort att aktuella problem nästan är lösta, vilket minskat frågornas valbetydelse för vissa väljare.",
+        "Sverigedemokraterna anser att oppositionen saknar gemensam riktning, vision och idéer utöver att distansera sig från partiet."
+      ],
+      "transcript_uncertainties": [
+        "Det är oklart exakt vart väljare har gått eftersom tillgängliga data i nuläget främst är valresultat och opinionsmätningarna har varit missvisande.",
+        "Partiet uttrycker osäkerhet om i vilken grad tappet beror på läckage till Moderaterna, partier utanför riksdagen, eller lägre mobilisering bland kärnväljare.",
+        "Effekten av att SD samarbetat i regeringen på väljarnas beteende bedöms som sannolik men inte kvantifierad i dagens analys."
+      ],
+      "important_details": [
+        "Sverigedemokraterna har beställt en valanalys från tankesmedjan OIKOS för att grundligt utreda väljarströmningar och strukturella orsaker till tappet.",
+        "Partiets ledning menar att vissa populära reformer har frontats av andra borgerliga ministrar vilket har gjort att skillnader mellan regeringspartierna blivit mindre synliga för väljare.",
+        "Ulf Kristersson har begärt entledigande som statsminister eftersom det enligt partiet fortfarande är oklart vem som vunnit valet."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "4ugX_oUDp4Q",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "7XIhWx8jEzc",
+      "source": "youtube",
+      "title": "TABERNACLE MYSTERIES ABOUT GOD",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=7XIhWx8jEzc",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5714,
+        "processed_unique_chars": 5714,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 2.472,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5714",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript explains how each element of the Tabernacle symbolizes aspects of God’s relationship with people and points to Christ's atoning work, urging believers to live in God's presence and trust Jesus' substitutionary sacrifice.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Tabernacle in the center of the camp means God wants people to live in His presence and seek Him first.",
+        "The brazen altar and mercy seat represent that God has provided a way for sins to be dealt with through Christ's sacrifice.",
+        "The veil was torn at the cross, enabling believers to come boldly to God's throne of grace and mercy."
+      ],
+      "transcript_notable_claims": [
+        "The laver signifies that God wants to cleanse away anything that keeps people from closeness with Him.",
+        "The golden lampstand signifies that God wants believers to walk in His light.",
+        "The showbread signifies that God wants to nourish believers' souls and fill the emptiness the world attempts to satisfy.",
+        "The altar of incense signifies that the Holy Spirit prays with believers and that Christ intercedes for them.",
+        "The substitutionary atonement is the essence of salvation and Christ alone gave Himself to satisfy God's wrath.",
+        "The Ark of the Covenant signifies that believers should trust in God's promises.",
+        "Every detail of the Tabernacle, including color and placement, was engineered to point to Christ."
+      ],
+      "transcript_uncertainties": [
+        "The speaker expresses conditional uncertainty about reaching Easter with the phrase 'if we make it to Easter' tied to geopolitical concerns."
+      ],
+      "important_details": [
+        "The speaker practices seeking God first each morning before checking emails or news and recommends listening to Scripture during commutes or placing a verse on the mirror.",
+        "An elder lamented that many testimonies omit the simple statement 'He gave himself for me,' which the speaker urges believers to use when explaining assurance of heaven."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "7XIhWx8jEzc",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "D7_QXpmmQMo",
+      "source": "youtube",
+      "title": "„Dann stehen wir auf der Speisekarte von Putin“ – Wladimir Klitschko | maischberger",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=D7_QXpmmQMo",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 12005,
+        "processed_unique_chars": 12005,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Wladimir Klitschko beschreibt die laufenden Gespräche zwischen Ukraine-Vertretern und Russland in Abu Dhabi, fordert konkrete Entscheidungen statt nur Reden, betont Europas Pflicht zur Unterstützung und erklärt, dass Freiheit und demokratische Werte für die Ukraine unverhandelbar bleiben.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Ukraine führt Gespräche mit Russland in Abu Dhabi, während die Ukraine gleichzeitig schwer bombardiert wird.",
+        "Wladimir Klitschko fordert konkrete Entscheidungen statt nur konstruktiver Gespräche und wünscht europäische Teilnahme an den Verhandlungen.",
+        "Klitschko erklärt, dass die Freiheit und demokratischen Werte der Ukraine keine Option zum Aufgeben sind."
+      ],
+      "transcript_notable_claims": [
+        "Putin benutze Kälte im Winter als zusätzliche Waffe gegen die ukrainische Bevölkerung.",
+        "Kinder seien gestohlen und russifiziert worden, und dies sei Teil von Vorwürfen, die an das Konzept eines Völkermords anschließen.",
+        "Russische Propaganda behaupte, die ukrainische Nation und Sprache seien erfunden worden.",
+        "Donald Trump habe gesagt, die Ukraine werde nach Verhandlungen eine andere Form oder andere Grenzen haben können, was Fragen nach Gebietstausch aufwerfe.",
+        "Klitschko sagt, Europa habe sich bei Produktion und Verteidigung zu sehr auf China und die USA verlassen und sei nicht vorbereitet.",
+        "Klitschko zitiert die Befürchtung, dass europäische Spaltung Russland nütze und dass Europa sonst 'auf der Speisekarte von Putin' stehe."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, welche konkreten Entscheidungen aus den Abu-Dhabi-Gesprächen folgen werden.",
+        "Es bleibt offen, ob viele kleine Schritte wie Gefangenenaustausch zu einem dauerhaften Waffenstillstand führen können.",
+        "Es ist nicht bestätigt, ob Wkof (Wkov) als Vermittler Vertrauen verdient angesichts seiner Aussagen und Rolle."
+      ],
+      "important_details": [
+        "Klitschko nennt die Verteidigungslieferungen wie Patriot-Systeme lebensrettend für Zivilisten und Infrastruktur.",
+        "Klitschko betont, dass Wahlen unter Kriegsbedingungen praktisch unmöglich seien und Präsident Selenski 60 Tage Waffenruhe als Bedingung für Wahlen vorgeschlagen habe.",
+        "Klitschko weist darauf hin, dass Deutschland seit 2014 die Ukraine mehr unterstützt habe als andere Länder, fordert aber verstärkte europäische Produktion und Vorbereitung für Verteidigung."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "D7_QXpmmQMo",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "F3YEISeo21s",
+      "source": "youtube",
+      "title": "Sverige lånar 300 miljarder - Misslyckas ändå med Natokraven - Roger Richthoff",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=F3YEISeo21s",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 10443,
+        "processed_unique_chars": 10443,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.654,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:10443",
+        "recency"
+      ],
+      "transcript_full_summary": "Samtalet hävdar att Sverige trots lånet på 300 miljarder kronor och ökade försvarsutgifter ändå inte kommer att nå NATOs utgiftsmål eftersom pengarna används fel, planering saknas och Sverige anpassar sig till NATO/USA istället för att bygga eget försvar.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Sverige har tagit ett lån på 300 miljarder kronor för försvarsutgifter.",
+        "Sverige kommer enligt källan inte att nå upp till NATOs högt uppsatta utgiftsmål trots lånet.",
+        "Källan menar att bristande planering, felaktig prioritering och anpassning till NATO/USA försvagar Sveriges eget försvar."
+      ],
+      "transcript_notable_claims": [
+        "Räntekostnaderna uppgår enligt samtalet till cirka 20 miljarder kronor per år som påverkar statsskulden och andra delar av budgeten.",
+        "Källan påstår att politiker lånar för att få ihop budgeten i stället för att planera inom befintlig ram och att detta görs för att vara en lydig 'lakej' åt USA/Trump.",
+        "Källan hävdar att Sverige köper vapen från USA och tillåter amerikanska baser och robotsystem på svensk mark, vilket kommer att belasta Sverige ekonomiskt.",
+        "Källan påstår att narrativet om ett ryskt hot används för att rättfärdiga höga militära utgifter och dölja andra motiv.",
+        "Källan påstår att USA/CIA var inblandat i att bygga upp militära krafter i Ukraina och att stödet riktats till extrema nationalistgrupper, en förklaringsmodell som samtalet anser är tabu att diskutera."
+      ],
+      "transcript_uncertainties": [
+        "Källan uttrycker osäkerhet om exakt vilka konsekvenser en 5-procentssatsning får eftersom ingen konsekvensanalys ska ha gjorts.",
+        "Källan säger att det 'kanske' börjar göras planering nu vilket visar ovisshet om omedelbara åtgärder."
+      ],
+      "important_details": [
+        "Källan anger att officerarbrist och förlorad utbildningskapacitet inte kan lösas enbart med pengar utan kräver långsiktiga investeringar och tid.",
+        "Källan menar att satsningar på NATO-anpassning prioriterar insatser för internationella operationer framför kustförsvar och försvaret av Sverige."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "F3YEISeo21s",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@MarcFriedrich7"
+      },
+      "id": "Ih2qhDiRkaY",
+      "source": "youtube",
+      "title": "Why now? The mysterious warnings from governments!",
+      "channel": "MarcFriedrich7",
+      "url": "https://www.youtube.com/watch?v=Ih2qhDiRkaY",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 26416,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.043,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "Ih2qhDiRkaY",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "KBAvI8fcR0c",
+      "source": "youtube",
+      "title": "2,000-Year-Old Proof of Jesus?",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=KBAvI8fcR0c",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-11T04:30:00+00:00",
+      "screened_at": "2026-11-11T04:30:00+00:00",
+      "expires_at": "2026-11-14T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 7732,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.976,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:7732",
+        "recency"
+      ],
+      "video_id": "KBAvI8fcR0c",
+      "processed_at_utc": "2026-11-11T12:02:03+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-10T12:53:21+00:00",
+  "updated_at_utc": "2026-11-11T12:02:04+00:00",
   "version": 1
 }

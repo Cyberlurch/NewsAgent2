@@ -27957,9 +27957,18 @@
     "text": ""
   },
   "oF3F4juTN7o::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 75902,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
     "status": "success",
     "source": "managed_transcript",
-    "fetched_at_utc": "2026-09-29T10:04:25.550351+00:00",
+    "fetched_at_utc": "2026-11-11T12:00:16.183459+00:00",
     "text_hash": "94c7dcf1aa4cd79f3ae9b9c3da1b33a7d36afe7c11132363a5c8d61595cacc5a",
     "text": ""
   },
@@ -32431,6 +32440,182 @@
     "source": "managed_transcript",
     "fetched_at_utc": "2026-11-10T12:51:31.021825+00:00",
     "text_hash": "ea958a003ce7c67f89d347b9a7ec47a611be02373c9fd0b95fc9ce0b6c3ec63c",
+    "text": ""
+  },
+  "-JSgopbkAOA::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 24240,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T11:59:55.988898+00:00",
+    "text_hash": "467b265c4b9fe975fe7169fd77fda6c4e1f7c43bd60224aa55dcdcc8781f6810",
+    "text": ""
+  },
+  "1CkIkjWPP_8::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 24737,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T11:59:57.752420+00:00",
+    "text_hash": "e6f344c8984d61d197f42fd2e3b359979dfce50ed57f3412c8bf584c88dc1eba",
+    "text": ""
+  },
+  "1v5lOnoe1gw::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 15445,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T12:00:01.364944+00:00",
+    "text_hash": "241997e54ef9fd38570d6f19c18a3dc2d1bb9dcd57e3b888ad4b29167bdc54e6",
+    "text": ""
+  },
+  "4jmFcE4WZ7M::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 99423,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T12:00:03.337557+00:00",
+    "text_hash": "b3bbd24085aaf8c066dcc765b4cd2940f9fb96660cd578ed52e5673af6d4ec1e",
+    "text": ""
+  },
+  "IfeZmsaQtSY::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 2463,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T12:00:15.048062+00:00",
+    "text_hash": "7acac26b494c883d0d506dec8fc123339cc46d4f9c1180e881415f88857f8485",
+    "text": ""
+  },
+  "4ugX_oUDp4Q::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 15957,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T12:00:25.169732+00:00",
+    "text_hash": "0b4067f7e7f7c861e4b0592344121d31c8897b4e17860f9f35c2fdbfd106b957",
+    "text": ""
+  },
+  "7XIhWx8jEzc::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 5714,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T12:00:26.691002+00:00",
+    "text_hash": "6e8274c369ed815b34fe00d938fc5fcbc094f66add8ee3e7211fc5ee10e21f64",
+    "text": ""
+  },
+  "D7_QXpmmQMo::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 12005,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T12:00:30.666981+00:00",
+    "text_hash": "ed4a73ea86a8c2100f46176938bc0bcd03eb8c0a5e1f279379f14e5f345f7c5a",
+    "text": ""
+  },
+  "F3YEISeo21s::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 10443,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T12:00:34.794491+00:00",
+    "text_hash": "b4fe23be7e99e66028b61b147d62ca5fabe4f775c2deb8dd47e9c1ae4aa09bde",
+    "text": ""
+  },
+  "Ih2qhDiRkaY::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 26416,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T12:00:45.370742+00:00",
+    "text_hash": "e83d628f17061486361f6b2a8498808926d93470237fcc483e33d121070a4b1b",
+    "text": ""
+  },
+  "KBAvI8fcR0c::managed_transcript": {
+    "source_basis": {
+      "version": 1,
+      "kind": "transcript",
+      "provider": "managed_transcript",
+      "available_chars": 7732,
+      "processed_unique_chars": 0,
+      "coverage": "none",
+      "video_completeness": "unknown"
+    },
+    "status": "success",
+    "source": "managed_transcript",
+    "fetched_at_utc": "2026-11-11T12:00:47.051625+00:00",
+    "text_hash": "0a7f9c1de11edf521e556e643ac91725c88f6947fea3eb2bddd8c7210452abdb",
     "text": ""
   }
 }
