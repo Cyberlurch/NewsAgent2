@@ -21242,6 +21242,246 @@
         "approved_after_generation_checks": true,
         "seal": "2495c63b343b5c8516cb26b9b11fe460aa79da0fb294157a0611fdfe2c905d8d"
       }
+    },
+    "cyberlurch:daily:2026-11-12:2026-11-12:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-12",
+      "period_end": "2026-11-12",
+      "edition_id": "cyberlurch:daily:2026-11-12:2026-11-12:production",
+      "content_version": "581de027f7058e0ce9a06c1fea7ba0c699206ff4cdf9f7fad5dd7e45ec979480",
+      "message_id": "<967baa66cfb6367e69dd2c7719060a92f67f1dbb04736315f9715350d5411bda@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-12T13:02:43+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "Q3Ygs3uIAjM",
+            "title": "⚡ALERT! BBC 'Blacksky' EMERGENCY Broadcast System, Pentagon Builds New NUCLEAR Weapons, Iran, Russia",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Q3Ygs3uIAjM"
+          },
+          {
+            "source": "youtube",
+            "id": "-BevvV5zAVM",
+            "title": "Israel's President Swears in New Knesset as Netanyahu Government Remains Until Coalition Formed",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=-BevvV5zAVM"
+          },
+          {
+            "source": "youtube",
+            "id": "5muWMK_c3Rc",
+            "title": "Trump’s 'Toxic' Label: The End of the Netanyahu Era?",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=5muWMK_c3Rc"
+          },
+          {
+            "source": "youtube",
+            "id": "7veYoh-tU_c",
+            "title": "Det finns inget rödgrönt lag – Elisabeth Thand Ringqvists statsministeromröstning",
+            "channel": "sdwebbtv",
+            "url": "https://www.youtube.com/watch?v=7veYoh-tU_c"
+          },
+          {
+            "source": "youtube",
+            "id": "8LeQJQqX-yQ",
+            "title": "PUTINS ROTE LINIE! EU schickt Militär in Ukraine + Drohnenalarm im NATO-Gebiet!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=8LeQJQqX-yQ"
+          },
+          {
+            "source": "youtube",
+            "id": "F1jpYowClZs",
+            "title": "Jakob Tscharntke: Do not shrink back in cowardice! #jesus #bible #germany #sermon #endtimes #church",
+            "channel": "endzeit-kanal",
+            "url": "https://www.youtube.com/watch?v=F1jpYowClZs"
+          },
+          {
+            "source": "youtube",
+            "id": "F6xFj1x75QI",
+            "title": "TWO ELEMENTS FOR A LIFE USEFUL TO CHRIST--Stewardship and Sanctification",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=F6xFj1x75QI"
+          },
+          {
+            "source": "youtube",
+            "id": "GqF0_jEYcXY",
+            "title": "Ukraine: US-Verhandler wollen Europa einbeziehen – Gipfel in Dublin",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=GqF0_jEYcXY"
+          },
+          {
+            "source": "youtube",
+            "id": "JV88cwSGfa8",
+            "title": "How Agentic AI Will End the World.",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=JV88cwSGfa8"
+          },
+          {
+            "source": "youtube",
+            "id": "6urTzA55B7A",
+            "title": "ILTV On The Hour - November 11, 2026 | Eisenkot Moves to Unseat Bibi as Israel Faces Iran Threat",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=6urTzA55B7A"
+          },
+          {
+            "source": "youtube",
+            "id": "CrGSMm3t2ic",
+            "title": "Socialdemokraterna har panik – se desperata taktiken i SVT",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=CrGSMm3t2ic"
+          },
+          {
+            "source": "youtube",
+            "id": "DoAkbMvhry0",
+            "title": "Vladimir Solovyov urges using nuclear weapons against Ukraine",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=DoAkbMvhry0"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "Q3Ygs3uIAjM",
+            "title": "⚡ALERT! BBC 'Blacksky' EMERGENCY Broadcast System, Pentagon Builds New NUCLEAR Weapons, Iran, Russia",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Q3Ygs3uIAjM"
+          },
+          {
+            "source": "youtube",
+            "id": "-BevvV5zAVM",
+            "title": "Israel's President Swears in New Knesset as Netanyahu Government Remains Until Coalition Formed",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=-BevvV5zAVM"
+          },
+          {
+            "source": "youtube",
+            "id": "5muWMK_c3Rc",
+            "title": "Trump’s 'Toxic' Label: The End of the Netanyahu Era?",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=5muWMK_c3Rc"
+          },
+          {
+            "source": "youtube",
+            "id": "7veYoh-tU_c",
+            "title": "Det finns inget rödgrönt lag – Elisabeth Thand Ringqvists statsministeromröstning",
+            "channel": "sdwebbtv",
+            "url": "https://www.youtube.com/watch?v=7veYoh-tU_c"
+          },
+          {
+            "source": "youtube",
+            "id": "8LeQJQqX-yQ",
+            "title": "PUTINS ROTE LINIE! EU schickt Militär in Ukraine + Drohnenalarm im NATO-Gebiet!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=8LeQJQqX-yQ"
+          },
+          {
+            "source": "youtube",
+            "id": "F1jpYowClZs",
+            "title": "Jakob Tscharntke: Do not shrink back in cowardice! #jesus #bible #germany #sermon #endtimes #church",
+            "channel": "endzeit-kanal",
+            "url": "https://www.youtube.com/watch?v=F1jpYowClZs"
+          },
+          {
+            "source": "youtube",
+            "id": "F6xFj1x75QI",
+            "title": "TWO ELEMENTS FOR A LIFE USEFUL TO CHRIST--Stewardship and Sanctification",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=F6xFj1x75QI"
+          },
+          {
+            "source": "youtube",
+            "id": "GqF0_jEYcXY",
+            "title": "Ukraine: US-Verhandler wollen Europa einbeziehen – Gipfel in Dublin",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=GqF0_jEYcXY"
+          },
+          {
+            "source": "youtube",
+            "id": "JV88cwSGfa8",
+            "title": "How Agentic AI Will End the World.",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=JV88cwSGfa8"
+          },
+          {
+            "source": "youtube",
+            "id": "6urTzA55B7A",
+            "title": "ILTV On The Hour - November 11, 2026 | Eisenkot Moves to Unseat Bibi as Israel Faces Iran Threat",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=6urTzA55B7A"
+          },
+          {
+            "source": "youtube",
+            "id": "CrGSMm3t2ic",
+            "title": "Socialdemokraterna har panik – se desperata taktiken i SVT",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=CrGSMm3t2ic"
+          },
+          {
+            "source": "youtube",
+            "id": "DoAkbMvhry0",
+            "title": "Vladimir Solovyov urges using nuclear weapons against Ukraine",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=DoAkbMvhry0"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "Q3Ygs3uIAjM",
+            "title": "⚡ALERT! BBC 'Blacksky' EMERGENCY Broadcast System, Pentagon Builds New NUCLEAR Weapons, Iran, Russia",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=Q3Ygs3uIAjM"
+          },
+          {
+            "source": "youtube",
+            "id": "JV88cwSGfa8",
+            "title": "How Agentic AI Will End the World.",
+            "channel": "preppernewsflash",
+            "url": "https://www.youtube.com/watch?v=JV88cwSGfa8"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-12T13:02:39+00:00"
+      },
+      "workflow_run_id": "43222939165",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-12:2026-11-12:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "6833f77616675a97b38f52370402163bd94a4f0979a40d9d4cdf2241601f73a5",
+        "finalization_policy": "markers",
+        "content_version": "581de027f7058e0ce9a06c1fea7ba0c699206ff4cdf9f7fad5dd7e45ec979480",
+        "message_id": "<967baa66cfb6367e69dd2c7719060a92f67f1dbb04736315f9715350d5411bda@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "e7a4a1eab1525dc6_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "91c9424dc2b28342458aaaacb3e3e02e92a67cdc59fd614aafd1c35644470964"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "6e47c910d6cb472bd8d0e552b9357286d71566dc53d47b12a99258925babc83a"
+      }
     }
   },
   "paper_legacy_unknown": {

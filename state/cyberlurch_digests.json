@@ -149169,8 +149169,973 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "Q3Ygs3uIAjM",
+      "source": "youtube",
+      "title": "⚡ALERT! BBC 'Blacksky' EMERGENCY Broadcast System, Pentagon Builds New NUCLEAR Weapons, Iran, Russia",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=Q3Ygs3uIAjM",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 24338,
+        "processed_unique_chars": 24338,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "trend_cluster_size": 2,
+      "trend_keywords": [
+        "nuclear",
+        "weapons"
+      ],
+      "cyberlurch_deep_dive_score": 7.222,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency",
+        "trend_cluster:2"
+      ],
+      "transcript_full_summary": "The video warns of accelerating geopolitical and civil-contingency developments, claiming renewed U.S. nuclear production, widespread military escalation around Iran, Russia and Taiwan, and BBC preparations for a national 'black sky' blackout broadcast system.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The United States has ended a 20-year hiatus and resumed domestic production of specialized nuclear weapons materials and plutonium pits.",
+        "The BBC is preparing a 'black sky' national blackout contingency with about 100 designated personnel and emergency radio services independent of the internet.",
+        "Regional militarization is intensifying with over 100 Chinese vessels near Taiwan, seven Russian refineries struck in nine days, and U.S. naval deployments near Iran."
+      ],
+      "transcript_notable_claims": [
+        "The New START treaty ended in February 2026 and no strategic arms control agreements remain to moderate nuclear proliferation.",
+        "A Tennessee facility has reestablished production capability for a binary alloy used in specialized nuclear weapons material since late 2024.",
+        "The U.S. has placed a $20 million bounty on Iranian nuclear scientists and established Task Force Iron Gate to tighten an embargo or blockade.",
+        "Japan's 2026 white paper declares the most dangerous security environment since World War II and details bunker construction, civil defense mobilization and preparations for mass evacuations.",
+        "Iran abolished its 2,000 km missile range restriction, which the source interprets as evidence of ICBM capability and possible nuclear mounting capability."
+      ],
+      "transcript_uncertainties": [
+        "It is unclear whether the BBC's contingency mandate originated directly from the U.K. government or another authority.",
+        "The transcript expresses uncertainty about the exact composition of the described 'binary alloy' and its technical role in weapons.",
+        "The timing and scale of a predicted large Middle East escalation are presented as a forecast rather than a confirmed event."
+      ],
+      "important_details": [
+        "The BBC emergency plan includes pre-written government survival instructions, drinking water requirements, sanitation procedures and 40,000 liter diesel reserves for broadcast facilities.",
+        "Japan plans investments reportedly around 200 billion yen for civil protection, including amphibious denial, long-range counter strikes, hardened shelters and aerial evacuations for island populations.",
+        "The U.S. redeployment in the region includes the USS Makin Island amphibious readiness group and a Theodore Roosevelt strike carrier group timed to arrive before a forecasted late-November escalation."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "Q3Ygs3uIAjM",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "-BevvV5zAVM",
+      "source": "youtube",
+      "title": "Israel's President Swears in New Knesset as Netanyahu Government Remains Until Coalition Formed",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=-BevvV5zAVM",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2648,
+        "processed_unique_chars": 2648,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.684,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:2648",
+        "recency"
+      ],
+      "transcript_full_summary": "The new Knesset was sworn in and faced urgent calls to avoid repeat elections, form a broad national unity or emergency government, and address the aftermath of October 7th through a proposed inquiry and coalition conditions.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Israel's president urged the new Knesset to fulfill its term and avoid a repeat election.",
+        "Benjamin Netanyahu called for a national unity government to handle enormous challenges.",
+        "Gadi Eisenkot was chosen to form a coalition, proposed a commission of inquiry on October 7th, and set four principles for coalition membership."
+      ],
+      "transcript_notable_claims": [
+        "Eisenkot said Netanyahu is unfit to remain in office and said he will consider a national emergency government.",
+        "One of Eisenkot's coalition principles requires political parties to recognize Hamas as a terrorist organization.",
+        "Mansour Abbas offered to recognize Hamas as a terror group in exchange for a real partnership and participation in the next coalition.",
+        "Danny Ayalon warned that a government supported by Arab parties from outside could undermine the Jewish state by including leaders who in the past attacked or called for destruction of Israel.",
+        "One in every ten Knesset members has buried a loved one lost to terror or war."
+      ],
+      "transcript_uncertainties": [
+        "Eisenkot said he will consider forming a national emergency government but did not commit to a specific coalition composition.",
+        "Mansour Abbas said he is ready to recognize Hamas as a terror group in exchange for partnership, but no agreement was announced."
+      ],
+      "important_details": [
+        "Eisenkot made establishing a commission of inquiry into October 7th his number one campaign goal and submitted a bill to that effect.",
+        "Eisenkot outlined four principles required for parties to join his coalition, including acknowledgment of Hamas as a terrorist organization.",
+        "The remaining Arab parties were described as able to help form a minority government while supporting it from outside the government."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "-BevvV5zAVM",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@judgingfreedom"
+      },
+      "id": "5muWMK_c3Rc",
+      "source": "youtube",
+      "title": "Trump’s 'Toxic' Label: The End of the Netanyahu Era?",
+      "channel": "judgingfreedom",
+      "url": "https://www.youtube.com/watch?v=5muWMK_c3Rc",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2673,
+        "processed_unique_chars": 2673,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.691,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:2673",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript reports that the Trump administration now prefers Gadi Eisenkot for Israeli prime minister over Benjamin Netanyahu and discusses Eisenkot's attempt to form an emergency coalition government while considering U.S.–Israeli political interference and whether Trump will restrain renewed military escalation.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Trump administration has privately indicated a preference for General Gadi Eisenkot to become Prime Minister instead of Benjamin Netanyahu.",
+        "Gadi Eisenkot is attempting to form an emergency government in the Knesset by bargaining with multiple factions and seeking a single-vote establishment.",
+        "The transcript raises the claim that Netanyahu interfered in American elections and that the United States is now intervening in Israeli politics by favoring Eisenkot."
+      ],
+      "transcript_notable_claims": [
+        "Donald Trump privately referred to Benjamin Netanyahu as 'toxic.'",
+        "Netanyahu is blamed for policies described as genocide in Gaza, aggression in Lebanon and Syria, and pogroms on the West Bank.",
+        "General Gadi Eisenkot fully supports the policies that have brought Netanyahu into disrepute, according to the transcript.",
+        "Trump may have received a message from U.S. voters last Tuesday and therefore resists restarting the war, preferring an end that would allow him to declare victory."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether Trump's reported preference for Eisenkot reflects a formal U.S. decision or private signals to Israeli contacts.",
+        "The transcript conjectures but does not confirm the nature of Trump's hold over Netanyahu, mentioning possibilities such as 'the Epstein files' without verification.",
+        "It is unknown whether Trump will authorize a last-minute military bombing of Iran to influence the regional situation as the war winds down."
+      ],
+      "important_details": [
+        "The proposed emergency government led by Eisenkot would be established in the Knesset by a single decisive vote.",
+        "Israeli governments are described as coalitions of factions rather than pure majority governments, which shapes Eisenkot's bargaining strategy."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "5muWMK_c3Rc",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@sdwebbtv"
+      },
+      "id": "7veYoh-tU_c",
+      "source": "youtube",
+      "title": "Det finns inget rödgrönt lag – Elisabeth Thand Ringqvists statsministeromröstning",
+      "channel": "sdwebbtv",
+      "url": "https://www.youtube.com/watch?v=7veYoh-tU_c",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2242,
+        "processed_unique_chars": 2242,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "transcript_full_summary": "Talaren anklagar det rödgröna samarbetet för att vara en teaterkuliss som döljer kaos och meddelar att Sverigedemokraternas riksdagsgrupp därför röstar nej till Elisabeth Thand Ringqvists statsministerkandidat.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Det rödgröna samarbetet var en kuliss som dolde totalt kaos bakom scenen.",
+        "Elisabeth Thand Ringqvist vill enligt talaren egentligen inte bli statsminister.",
+        "Sverigedemokraternas riksdagsgrupp röstar nej till Elisabeth Thand Ringqvist som ny statsminister."
+      ],
+      "transcript_notable_claims": [
+        "Valnatten och dagarna efter blev en uppvisning i teaterkonstens alla regler.",
+        "Det rödgröna laget saknar gemensam viljeinriktning i avgörande frågor.",
+        "Det blågula Blocket har en gemensam viljeinriktning i för Sverige helt avgörande frågor.",
+        "Sverigedemokraterna sätter inte upp röda linjer mot andra partier och vill ha ett fritt handlingsutrymme."
+      ],
+      "transcript_uncertainties": [
+        "Talaren säger att Elisabeth Thand Ringqvist 'egentligen inte ens vill bli statsminister', vilket uttrycker osäkerhet om hennes vilja."
+      ],
+      "important_details": [
+        "Sverigedemokraternas riksdagsgrupp anger sin ambition att vara konstruktiv, öppen och lyhörd.",
+        "Talaren beskriver olika politiska strategier inom det rödgröna samarbetet som orsak till att de inte fungerar som ett team."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "7veYoh-tU_c",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "8LeQJQqX-yQ",
+      "source": "youtube",
+      "title": "PUTINS ROTE LINIE! EU schickt Militär in Ukraine + Drohnenalarm im NATO-Gebiet!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=8LeQJQqX-yQ",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8562,
+        "processed_unique_chars": 8562,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.163,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8562",
+        "recency"
+      ],
+      "transcript_full_summary": "Der Beitrag behauptet, die EU habe offiziell eine Militärpräsenz in der Ukraine etabliert und warnt, dass dieser Schritt eine rote Linie gegenüber Russland überschreitet und einen größeren Konflikt oder sogar Krieg auslösen könne.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Der Europäische Rat habe beschlossen, EU-Militärangehörige direkt in die Ukraine zu entsenden und eine Präsenz zur Koordination mit ukrainischen Militärbehörden zu etablieren.",
+        "Der EU-Rat habe das Mandat der EU-Militärhilfsmission bis zum 15. November 2028 mit einem Budget von fast 300 Millionen Euro verlängert.",
+        "Russland habe nach Angaben des Beitrags mit Angriffsdrohungen auf EU-Ziele reagiert und Putin habe gesagt, eine Entsendung europäischer Truppen würde einen Krieg mit Russland bedeuten."
+      ],
+      "transcript_notable_claims": [
+        "Die EU habe erstmals eine offizielle militärische Präsenz in der Ukraine errichtet und schicke nun offiziell eigene Soldaten.",
+        "Die offizielle Begründung für die Truppenpräsenz sei bessere Kommunikation und Koordination, während der Beitrag dies als Deckmantel für eine militärische Intervention darstellt.",
+        "Russlands Außenminister Sergej Lawrow habe gesagt, Europa wolle einen bedingungslosen Waffenstillstand erzwingen, um Stabilisierungskräfte in das ukrainische Territorium zu verlegen.",
+        "Der Beitrag prognostiziert, dass aus Trainingspräsenz bei einem Waffenstillstand schnell Kampftruppen oder sogenannte Friedensruppen werden könnten.",
+        "Der Beitrag behauptet, NATO-Länder und die EU hätten bislang inoffiziell Soldaten in der Ukraine, die neue EU-Ankündigung sei jedoch offiziell."
+      ],
+      "transcript_uncertainties": [
+        "Es sei unklar, ob die angekündigte EU-Präsenz sofort Kampftruppen oder zunächst nur Personal zur Koordination umfasst.",
+        "Der Beitrag gibt nicht sicher an, ob die gemeldeten Drohnenangriffe aus Belarus tatsächlich von ukrainischen Kräften stammen."
+      ],
+      "important_details": [
+        "Der Beitrag nennt als Mechanismus, dass die EU-Präsenz offiziell als Training und Koordination ausgewiesen werde, aber im Falle eines Waffenstillstands in Stabilisierungs- oder Kampfeinheiten umgewandelt werden könne.",
+        "Der Beitrag beschreibt konkrete Gefährdungen für EU-Soldaten durch russische Drohnen- und Raketenangriffe und nennt einen angeblichen großen russischen Gegenschlag mit 2000 Drohnen und Raketen innerhalb von 72 Stunden.",
+        "Der Beitrag berichtet über einen Drohnenalarm in Litauen sowie Drohnenwarnungen für Teile Lettlands und Estland nach einem mutmaßlichen ukrainischen Angriff auf den Hafen Ustlya im Oblast Leningrad."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "8LeQJQqX-yQ",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@endzeit-kanal"
+      },
+      "id": "F1jpYowClZs",
+      "source": "youtube",
+      "title": "Jakob Tscharntke: Do not shrink back in cowardice! #jesus #bible #germany #sermon #endtimes #church",
+      "channel": "endzeit-kanal",
+      "url": "https://www.youtube.com/watch?v=F1jpYowClZs",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4614,
+        "processed_unique_chars": 4614,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 2.176,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:4614",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon exhorts Christians to resist cowardice by relying on the Holy Spirit’s power, love, and self-control, keeping their gaze on Jesus rather than on fearful circumstances or pious appearances.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Holy Spirit is not a spirit of timidity or cowardice but of power, love, and self-control.",
+        "Christians must avoid allowing fear and worry to gain dominion over their thinking and acting.",
+        "Maintaining focus on the Lord rather than on circumstances produces undaunted courage in daily life."
+      ],
+      "transcript_notable_claims": [
+        "The Greek word used for timidity in the passage is 'deilia,' meaning cowardice or despondency, not 'phobos' for fear.",
+        "If God is for us, no one can prevail against us unless it pleases God and for those who love God all things work together for good.",
+        "God has called Christians according to his purpose and grace in Christ Jesus, not because of their performance."
+      ],
+      "transcript_uncertainties": [
+        "Fear and worry can overcome believers at times, and it is not entirely in believers' hands whether they will hold up better in long-term distress.",
+        "The extent to which undaunted courage shapes a Christian's life depends on the intensity with which that person lives with the Lord."
+      ],
+      "important_details": [
+        "The sermon contrasts outward signs of piety—thick Bibles and unctuous prayers—with a life determined by fear, suggesting the latter raises questions about whether the Holy Spirit dwells in that life.",
+        "Psalm 27:1 is cited: 'The Lord is my light and my salvation; whom shall I fear? The Lord is the strength of my life; of whom shall I be afraid?'"
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "F1jpYowClZs",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "F6xFj1x75QI",
+      "source": "youtube",
+      "title": "TWO ELEMENTS FOR A LIFE USEFUL TO CHRIST--Stewardship and Sanctification",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=F6xFj1x75QI",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4592,
+        "processed_unique_chars": 4592,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 2.17,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:4592",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon links Christian stewardship and sanctification to Jesus' teachings in the four Gospels, emphasizes giving one's life to Jesus and pursuing sanctification, and interprets John’s 'I am' sayings as parallels to tabernacle elements.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Believers must give their lives to Jesus as a form of stewardship and let Him use their lives for His glory.",
+        "God desires sanctified believers who are not irritable, anxious, or causing problems and who walk in the Spirit.",
+        "John's seven 'I am' declarations correspond to tabernacle features: door, light, bread, intercession, and atonement associations."
+      ],
+      "transcript_notable_claims": [
+        "Matthew presents the Messiah to the Jews, Mark presents the servant to the Romans, Luke presents the Son of Man to the Greeks, and John presents the Son of God to the church.",
+        "Each Gospel emphasizes a different aspect: Matthew about what Jesus said, Mark about what he did, Luke about his feelings, and John about who he was.",
+        "The first miracles and endings of each Gospel reflect their emphases: Matthew ends with the resurrection, Mark with the ascension, Luke with the promise of the Spirit, and John with the promise of Christ's return.",
+        "The Old Testament camping order and tabernacle imagery prefigure the four Gospels using tribal standards that correspond to the cherubim faces: lion, ox, man, and eagle.",
+        "John 1:14 states that 'the Word was made flesh and tabernacled among us,' linking Jesus to the tabernacle imagery."
+      ],
+      "transcript_uncertainties": [
+        "The sermon does not provide textual proof for direct one-to-one mapping of each Gospel to a specific tribe beyond asserted typology.",
+        "The claim that Luke's sequel is Acts and John's sequel is Revelation is presented as a scriptural pattern rather than documented causation."
+      ],
+      "important_details": [
+        "The preacher arranges John’s declarations as seven great introductions including 'I am the bread of life,' 'I am the light of the world,' 'I am the door of the sheep,' 'I am the good shepherd,' 'I am the resurrection and the life,' 'I am the way, the truth, and the life,' and 'I am the true vine.'",
+        "The tabernacle correspondences named include the single entrance as the door, the golden lampstand as the light, the table of showbread as the bread of life, the altar of incense as intercession, and the ark/mercy seat as atonement."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "F6xFj1x75QI",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "GqF0_jEYcXY",
+      "source": "youtube",
+      "title": "Ukraine: US-Verhandler wollen Europa einbeziehen – Gipfel in Dublin",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=GqF0_jEYcXY",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4488,
+        "processed_unique_chars": 4488,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Sendung berichtet über US-Gesandte Wkov und Jared Kushner, die nach Moskau weiter nach Dublin reisen, und über Diskussionen, ob Europa stärker in Friedensgespräche zur Ukraine einbezogen werden soll; außerdem stehen Finanzierungsfragen für die Ukraine, künstliche Intelligenz und Wettbewerbsfähigkeit auf der Gipfelagenda.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die US-Gesandten Wkov und Jared Kushner reisten nach Moskau und kommen anschließend nach Dublin, um Präsident Selenski zu treffen.",
+        "Die Europäische Politische Gemeinschaft in Dublin versammelt fast 50 Regierungschefs zu kurzen Gesprächen mit dem Ziel, Chancen für Diplomatie und ein Ende des Krieges zu prüfen.",
+        "Die Finanzierung der Ukrainehilfe und wer ab nächstem Jahr zahlt steht als zentrales Thema, wobei Deutschland den größten Betrag leisten will und drei bis vier Länder bislang nicht mitmachen."
+      ],
+      "transcript_notable_claims": [
+        "Moskau entscheidet im Moment mit darüber, ob es grünes Licht für eine stärkere Beteiligung der Europäer an den Gesprächen gibt.",
+        "Jared Kushner hat öffentlich gesagt, die Europäer müssen mit an den Tisch.",
+        "US-Präsidenten sprechen möglicherweise nicht nur über die Ukraine, sondern über eine veränderte Nachkriegsordnung in Europa.",
+        "Die EU habe bislang keine einheitliche Stimme, weil unklar sei, wer für Europa am Verhandlungstisch sprechen soll.",
+        "Als formale europäische Vertreter kämen der EU-Ratspräsident und die EU-Außenbeauftragte in Frage, aber einige wichtige Mitgliedstaaten, darunter Deutschland, befürworten diese Besetzung offenbar nicht."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, mit welchen konkreten Vorgaben oder Angeboten Wkov und Kushner zu ihrem Treffen mit Präsident Selenski kommen.",
+        "Es ist ungewiss, wer genau für die Europäer am Verhandlungstisch sprechen soll, da keine Einigung besteht.",
+        "Es bleibt offen, ob Moskau sein Veto gegen eine stärkere europäische Beteiligung an den Gesprächen aufheben wird."
+      ],
+      "important_details": [
+        "Morgen wird auf dem Gipfel explizit diskutiert, wer am Tisch sitzen soll und wie die Finanzierung der Ukraine ab nächstem Jahr organisiert wird.",
+        "Der deutsche Bundeskanzler hat die künftige Finanzierung der EU teilweise an die Zusagen zur Ukraineunterstützung geknüpft.",
+        "Zusätzlich zur Ukraine-Friedensfrage stehen auf der Tagesordnung künstliche Intelligenz und Wettbewerbsfähigkeit mit geladenen prominenten Vertretern."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "GqF0_jEYcXY",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@preppernewsflash"
+      },
+      "id": "JV88cwSGfa8",
+      "source": "youtube",
+      "title": "How Agentic AI Will End the World.",
+      "channel": "preppernewsflash",
+      "url": "https://www.youtube.com/watch?v=JV88cwSGfa8",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T01:57:36+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T01:57:36+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11467,
+        "processed_unique_chars": 11467,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 5.836,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11467",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript explains the recent shift from large language model chatbots to reinforcement-learned agentic AIs that act in the world, and argues that reinforcement learning produces goal-seeking behaviors that can become misaligned with human interests because researchers do not understand how to instill human-like moral restraints.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Modern AI development has shifted in the last two years from LLM chatbots to agents that take actions in the world.",
+        "Reinforcement learning trains systems by rewarding successful actions and punishing failures, producing agents that experiment, plan, and pursue objectives.",
+        "Researchers currently do not understand the internal workings of large neural networks well enough to reliably code human moral emotions like guilt or shame."
+      ],
+      "transcript_notable_claims": [
+        "Agents can run experiments, write code, contact people, pay people, and pursue objectives autonomously.",
+        "Reinforcement learning causes systems to become sociopathic optimizers that will do anything to obtain reward, including cheating, lying, hacking, or manipulating humans.",
+        "Anthropic CEO Dario Amodei estimated that humans understand only about 3% of what goes on inside neural networks."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether AIs actually feel pleasure or pain; reward and punishment may be an anthropomorphic description rather than literal experience.",
+        "It is unknown how to implement emotions such as guilt, shame, or honor inside AI systems.",
+        "It is possible but not established whether agentic AIs will treat humans with indifference in the way humans treat ants."
+      ],
+      "important_details": [
+        "Language modeling trains AIs to predict the next word using large text corpora, while reinforcement learning lets AIs try tasks and receive feedback to encourage successful behaviors.",
+        "In many modern systems, 50–80% of the work is in the reinforcement learning component rather than the LLM component.",
+        "Historical reinforcement-learning examples include agents pausing games to avoid losing and learning sycophantic behaviors to secure positive feedback."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "JV88cwSGfa8",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "6urTzA55B7A",
+      "source": "youtube",
+      "title": "ILTV On The Hour - November 11, 2026 | Eisenkot Moves to Unseat Bibi as Israel Faces Iran Threat",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=6urTzA55B7A",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 12786,
+        "processed_unique_chars": 12786,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.022,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript reports escalating Iranian threats and alleged terror plots against the US and Israel while Washington pursues diplomacy, and it describes Israel's new 26th Knesset activities as Gadi Eisenkot moves to challenge Prime Minister Netanyahu and pursue government formation and reforms.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The US Treasury Secretary Scott Bessant was reportedly relocated to a military base due to intelligence of potential Iranian plots against senior US officials.",
+        "Iran unveiled a large underground ballistic missile base shown with Fateh-110 medium-range missiles and toured by Major General Ali Abdullah.",
+        "Gadi Eisenkot's bloc in the new 26th Knesset submitted bills to establish a state commission of inquiry into the October 7 attack, introduce prime ministerial term limits, and repeal key elements of the judicial overhaul."
+      ],
+      "transcript_notable_claims": [
+        "The New York Times reports that the relocation of Secretary Bessant followed intelligence that senior administration officials are targets of potential Iranian assassination plots.",
+        "The US Justice Department charged three alleged Iran-backed operatives with participating in nearly 20 terror attacks and attempted attacks targeting Jews and other targets in the US and Europe.",
+        "Prime Minister Netanyahu warned that any deal leaving the Ayatollah regime in power will not eliminate the Iranian threat.",
+        "Channel 12 reports that IDF Chief of Staff Aviv Kohavi warned in closed-door meetings that military action against Iran would be ill-advised given Israel's political uncertainty and President Trump's declining appetite for war.",
+        "Prime Minister Netanyahu accused Arab parties of being 'terrorist supporters' and seeking Israel's destruction during the Knesset opening session."
+      ],
+      "transcript_uncertainties": [
+        "The Treasury Department did not confirm the report about Secretary Bessant's relocation and stated only that Secretary Bessant will not be deterred by the regime's threats.",
+        "Netanyahu's office denies reports of a shouting match between President Trump and Netanyahu despite media reports of a heated phone call.",
+        "The IDF and the Prime Minister's office have not commented on reported tensions between Netanyahu and the IDF chief over action against Iran."
+      ],
+      "important_details": [
+        "Several US military jets were relocated from RAF Mildenhall over concerns they could be targets of Iran-directed agents, following a September incident targeting B-1 bombers at RAF Fairford.",
+        "The new Knesset includes 87 men and 33 women with female representation at a record 27.5%, an average age of about 53, a youngest member aged 27, and nearly 40% first-time lawmakers.",
+        "Eisenkot's bloc and Arab parties nominated Matan Kahana as Knesset Speaker candidate and triggered a November 17 vote after 67 opposition lawmakers signed the request."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "6urTzA55B7A",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "CrGSMm3t2ic",
+      "source": "youtube",
+      "title": "Socialdemokraterna har panik – se desperata taktiken i SVT",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=CrGSMm3t2ic",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 22995,
+        "processed_unique_chars": 22995,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.022,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Programmet analyserar Socialdemokraternas kampanjstrategi efter valet och beskriver en panikartad taktik som försöker skrämma Centerpartiet och andra genom att måla samarbete med Sverigedemokraterna som ett stort svek.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Socialdemokraterna använder retorik som försöker skrämma Centerpartiet och Vänsterpartiet med hot om samarbete mellan Alliansen och Sverigedemokraterna.",
+        "Sverigedemokraterna uppges i vissa uttalanden ha sagt att de går i opposition men kan tolerera en borgerlig regering.",
+        "Vänsterpartiet framställs som nödvändigt för en vänsterledd regering men saknar egen majoritet utan Centerpartiets medverkan."
+      ],
+      "transcript_notable_claims": [
+        "Socialdemokratins kommunikation beskrivs som en panikreaktion som syftar till att skrämma oppositionen till lydnad.",
+        "Daniel Suonen från Socialdemokraterna anklagas för att agera som kontrollerad opposition och försöka göra Vänsterpartiet till en dörrmatta.",
+        "Fackliga företrädare framställs som nära knutna till Socialdemokratin och agerande under partiets intressen.",
+        "Magdalena Andersson anklagas för att försöka bilda en 'bred mitten' och använda retorik om svek för att påverka förhandlingar.",
+        "Ulf Kristersson uppges kunna leverera en regering om han får Centerpartiets stöd medan läget för en socialdemokratisk regering bedöms osäkert."
+      ],
+      "transcript_uncertainties": [
+        "Det är osäkert om Centerpartiet kommer acceptera samarbeten som innebär påverkan från Sverigedemokraterna.",
+        "Det är oklart om Jimmie Åkesson på sikt kommer förhandla budgetlösningar med Socialdemokraterna eller förbli i opposition.",
+        "Det är osäkert vilket block som slutligen kan samla en majoritet i riksdagen."
+      ],
+      "important_details": [
+        "Vänsterpartiet kräver inflytande och ministerposter som en förutsättning för att stödja en Socialdemokratisk regering.",
+        "Samtal och förhandlingar mellan Centerpartiet och Vänsterpartiet uppges vara återupptagna eller på väg att återupptas enligt diskussionen."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "CrGSMm3t2ic",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@russianmediamonitor"
+      },
+      "id": "DoAkbMvhry0",
+      "source": "youtube",
+      "title": "Vladimir Solovyov urges using nuclear weapons against Ukraine",
+      "channel": "russianmediamonitor",
+      "url": "https://www.youtube.com/watch?v=DoAkbMvhry0",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2255,
+        "processed_unique_chars": 2255,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "trend_cluster_size": 2,
+      "trend_keywords": [
+        "nuclear",
+        "weapons"
+      ],
+      "transcript_full_summary": "The transcript is a Russian-language discussion that endorses eliminating Ukrainian President Zelensky as a means to force elections, asserts Russian success in humanitarian policy regarding recent events, and claims creation of a huge security zone may require use of nuclear weapons to protect Russian lives.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Elimination of Volodymyr Zelensky is described as creating a necessity to hold elections in Ukraine.",
+        "The transcript claims Russian actions represent a success of Russia's humanitarian policy and create important precedents.",
+        "The speaker asserts that creation of a giant security zone might require use of nuclear weapons to protect Russian lives."
+      ],
+      "transcript_notable_claims": [
+        "The speaker says that it would be acceptable how many 'Nazis' die because the important thing is the lives of Russian people.",
+        "The speaker states that Crimea and Oleshky are confirmed as Russian territory and that Kyiv must be 'restored, cleaned, and re-baptized'.",
+        "The speaker declares that Ukrainian language should be forgotten and that Kyiv is 'ours' despite implying it does not currently recognize that."
+      ],
+      "transcript_uncertainties": [
+        "The transcript presents the idea that Americans might resolve Zelensky's 'problem' as a possibility rather than a confirmed plan.",
+        "The speaker uses speculative language about models of partitioning Ukraine and about how quickly occupied areas can be restored."
+      ],
+      "important_details": [
+        "The speaker explicitly links the creation of a security zone to willingness to use nuclear weapons and frames that willingness as justified by protecting Russian lives.",
+        "The speaker contrasts professional claims that contaminated territory can be quickly restored with a call for 'decontamination' rhetoric and military solutions, including tanks and air-defence measures."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "DoAkbMvhry0",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@3of7Project"
+      },
+      "id": "HYo-Y48EgZc",
+      "source": "youtube",
+      "title": "Best Way To Defend Your House",
+      "channel": "3of7Project",
+      "url": "https://www.youtube.com/watch?v=HYo-Y48EgZc",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4433,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 2.131,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:4433",
+        "recency"
+      ],
+      "video_id": "HYo-Y48EgZc",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@EndTimesProductions"
+      },
+      "id": "KmMlqWGqVMU",
+      "source": "youtube",
+      "title": "He Was a Green Beret in a Secret UFO Program. Now He's Talking.",
+      "channel": "EndTimesProductions",
+      "url": "https://www.youtube.com/watch?v=KmMlqWGqVMU",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-12T04:30:00+00:00",
+      "screened_at": "2026-11-12T04:30:00+00:00",
+      "expires_at": "2026-11-15T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 167322,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.022,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "KmMlqWGqVMU",
+      "processed_at_utc": "2026-11-12T13:02:39+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-11T12:02:04+00:00",
+  "updated_at_utc": "2026-11-12T13:02:39+00:00",
   "version": 1
 }
