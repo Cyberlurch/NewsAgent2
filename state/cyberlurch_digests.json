@@ -150134,8 +150134,975 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "1gzgIRt7Qzs",
+      "source": "youtube",
+      "title": "The 3 Levels of Prepping: What Stage Are You?",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=1gzgIRt7Qzs",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 18139,
+        "processed_unique_chars": 18139,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 6.034,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The video outlines a three-stage prepping progression—micro, meso, macro—mapped to life in your 20s, 30s, and 40s, and describes the author’s personal evolution from a bug-out-bag nomad to a land-owning regenerative prepper. The central point is that prepping skills, priorities, and resources naturally change with age and time available to work and accumulate assets.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Micro prepping in your 20s centers on a bug-out bag and nomadic survival because many people live in apartments and must evacuate cities.",
+        "Meso prepping in your 30s centers on owning a house, planting a garden, semi-portable power, skill building, and stockpiling but not yet full self-sufficiency.",
+        "Macro prepping in your 40s centers on regenerative systems, growing food, harvesting firewood, land-based resilience, and potential indefinite survival assuming security."
+      ],
+      "transcript_notable_claims": [
+        "AI will change how new generations learn prepping but may atrophy practical skills if relied on entirely.",
+        "Freeze-dried food that lasts 25 years will act as real post-collapse currency.",
+        "Most people should work long hours now and accumulate money to buy big-ticket preparedness items while opportunities exist.",
+        "Comparing yourself to long-term preppers is unhelpful because their position reflects decades of sacrifice and time spent learning."
+      ],
+      "transcript_uncertainties": [
+        "The narrator expresses uncertainty about what the next stage after macro prepping will be.",
+        "The narrator suggests that few people can foresee conditions beyond 2032 with high confidence."
+      ],
+      "important_details": [
+        "The narrator learned prepping from early YouTube creators in the 2008–2009 era and initially bought many items by trial and error.",
+        "The narrator advises pursuing a trade or skill that enables long-term independent work and recommends working extra now to accumulate resources.",
+        "The narrator cleared about 40 m of trail and describes using chainsaws, wood chips for mulch, and removing stumps to open forest access."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "1gzgIRt7Qzs",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "1snrPu9JOIU",
+      "source": "youtube",
+      "title": "ILTV On The Hour - November 12, 2026 | Iran THREATENS U.S. Bases in Europe as Trump Pushes New Deal",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=1snrPu9JOIU",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 28372,
+        "processed_unique_chars": 28372,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "trend_cluster_size": 2,
+      "trend_keywords": [
+        "iran",
+        "trump"
+      ],
+      "cyberlurch_deep_dive_score": 5.234,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency",
+        "trend_cluster:2"
+      ],
+      "transcript_full_summary": "ILTV reports on renewed U.S. diplomatic outreach to Iran amid Tehran's refusal to relinquish enriched uranium and threats to target U.S. bases in Europe, while Israeli officials debate continued pressure, blockade options and the possibility of military action during a period of political uncertainty in both Israel and the U.S.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Washington is considering direct talks with Iranian security chief Mosen Rai, with Vice President JD Vance reportedly taking the lead.",
+        "Iran refuses to transfer any enriched uranium and warns that a new U.S. attack could put American bases in Europe into Iran's crosshairs.",
+        "Former Mossad chief David Barnea proposes a complete Hormuz blockade and continued sanctions as alternatives to another full-scale war."
+      ],
+      "transcript_notable_claims": [
+        "President Trump says America has won the war against Iran but wants total victory before ending the campaign.",
+        "David Barnea asserts that Iran is already rebuilding its nuclear program and will pursue a weapon as long as the current regime remains in power.",
+        "Ambassador Mark Reg claims the U.S.-Israel partnership is very strong and that Israel would not strike Iran without at least U.S. approval."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether renewed U.S. negotiations will produce a deal that verifiably ends Iran's nuclear program.",
+        "It is uncertain whether Israel will undertake unilateral military action against Iran without U.S. coordination.",
+        "It is uncertain how domestic election outcomes in the U.S. and Israel will affect pressure tactics and the window for military or diplomatic options."
+      ],
+      "important_details": [
+        "Gadi Eisenkot urged Prime Minister Netanyahu to refrain from non-urgent military operations during Israel's government transition, warning of consequences for Israeli democracy.",
+        "Reports indicate Iran may be unable to pay its security services and that economic pressure and a naval blockade have damaged Iranian infrastructure and oil revenues.",
+        "Legal and timing constraints are cited for U.S. military action, with a 60-day window referenced and concern about the incoming Congress limiting options after January 3."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "1snrPu9JOIU",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@judgingfreedom"
+      },
+      "id": "5muZpKG0P9A",
+      "source": "youtube",
+      "title": "The Iran War Dilemma: What Trump Must Decide Now",
+      "channel": "judgingfreedom",
+      "url": "https://www.youtube.com/watch?v=5muZpKG0P9A",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3702,
+        "processed_unique_chars": 3702,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "trend_cluster_size": 2,
+      "trend_keywords": [
+        "iran",
+        "trump"
+      ],
+      "cyberlurch_deep_dive_score": 3.16,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3702",
+        "recency",
+        "trend_cluster:2"
+      ],
+      "transcript_full_summary": "The transcript reviews options presented to Trump after the midterms for escalating or ending a war with Iran and explains why Trump rejected an Israeli-favored all-out assault in favor of continuing economic pressure, while warning that the status quo risks future escalation.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Trump was presented with several alternatives for resuming or ending the Iran war shortly after the midterms.",
+        "The most aggressive option proposed would target Iran's critical infrastructure, including desalination plants, power plants and oil installations.",
+        "Trump rejected the all-out assault offers at that time and instead opted to continue economic warfare and pressures."
+      ],
+      "transcript_notable_claims": [
+        "An all-out attack on Iran's critical infrastructure would constitute clear war crimes.",
+        "Israeli advocates argue that overwhelming bombardment would eliminate Iran's ability to retaliate within seven to 23 days and bring about the fall of the Islamic Republic.",
+        "Israeli credibility is damaged because previous plans and predictions, such as the expectation that killing the supreme leader would collapse the regime, proved false."
+      ],
+      "transcript_uncertainties": [
+        "The speaker does not know the detailed contents of each alternative presented to Trump.",
+        "It is uncertain whether Trump has permanently rejected war, since he declined the offers only at that time."
+      ],
+      "important_details": [
+        "Trump hesitated previously to authorize all-out strikes partly due to fear that Iranian retaliation in GCC countries would severely worsen the global energy crisis.",
+        "Israeli advocates contend that after the midterms there would be no immediate political cost in the U.S. for pursuing major military action."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "5muZpKG0P9A",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BeardedBibleBros"
+      },
+      "id": "6kRTfBO40FI",
+      "source": "youtube",
+      "title": "Rabbi Kirt Schneider brings the Gospel to Jews.com",
+      "channel": "BeardedBibleBros",
+      "url": "https://www.youtube.com/watch?v=6kRTfBO40FI",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 33027,
+        "processed_unique_chars": 33027,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.034,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Rabbi Curt Schneider describes a God-given mandate to confront Jewish people with the gospel using large public campaigns and the domain jews.com, explains the New York billboard strategy and website response, and invites Gentile believers to share the resource and support outreach and discipleship.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Rabbi Curt Schneider reports a September 2023 nocturnal vision directing him to Acts 2:22 and to challenge Israel with the gospel.",
+        "Schneider describes buying the domain jews.com and running large billboards in New York City with phased bylines including \"what if there's more to the story?\" and later \"Who do you say that I am?\".",
+        "Schneider states that jews.com receives roughly 14,000–16,000 hits per day and receives 15–20 written inquiries daily from hostile critics, upset traditional Jews, and sincere Jewish seekers."
+      ],
+      "transcript_notable_claims": [
+        "A blurred billboard in Tel Aviv led visitors to a website showing three Messianic prophecies and then revealed a clear image of Jesus crowned with thorns.",
+        "The domain jews.com appeared by providential email during a leadership meeting when existing billboard efforts seemed ineffective.",
+        "Jewish press responses labeled the campaign a Christian missionary effort and sometimes posted warnings over the billboards.",
+        "The campaign provides downloadable Hebrew materials such as Schneider's book Messianic Prophecy Revealed and an Israeli responder handles Hebrew questions and apologetic dialogue.",
+        "Schneider asserts that Gentile Christians can share jews.com as a simple witnessing tool and that financial partnership at DiscoveringTheJewishJesus.com supports the billboard and discipleship work."
+      ],
+      "transcript_uncertainties": [
+        "Schneider expresses uncertainty about how many Jewish souls the billboard campaign will ultimately impact.",
+        "Schneider reports that initial Tel Aviv billboards spent hundreds of thousands with limited perceived breakthrough and that adjustments failed to produce the expected results."
+      ],
+      "important_details": [
+        "Schneider describes three categories of incoming responses: anti-Semites, angry traditional Jewish critics, and sincere Jewish seekers seeking guidance about following Yeshua.",
+        "The New York City rollout includes an initial run of 54 billboards by one company and close to 100 billboards planned across the city with imagery of Yeshua on the cross and a red beam of light."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "6kRTfBO40FI",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "ApNmZbk8yDU",
+      "source": "youtube",
+      "title": "TOTALER OFFENBARUNGSEID! CDU-Aufstand nach Merz' nächster SPD-Kapitulation!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=ApNmZbk8yDU",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8270,
+        "processed_unique_chars": 8270,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.102,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8270",
+        "recency"
+      ],
+      "transcript_full_summary": "Der Text schildert eine empörte CDU-Reaktion nach einer Haushalts- und Steuer-Einigung mit der SPD, behauptet, Friedrich Merz habe der SPD alles überlassen, und kritisiert neue Schulden, die Aussetzung der Stromsteuersenkung und angebliche Zweckentfremdung von Sonderkrediten.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die CDU-Fraktion erlebte eine Sondersitzung mit mehr als 30 kritischen Wortmeldungen nach der Einigung mit der SPD.",
+        "Die Senkung der Stromsteuer wurde laut Teilnehmerangaben gestrichen und gilt als gebrochene Zusage der CDU.",
+        "Das IFO-Institut stellte laut Quelle fest, dass 53% der 21,6 Milliarden Euro neuen Kredits nicht in zusätzliche Investitionen geflossen seien."
+      ],
+      "transcript_notable_claims": [
+        "Friedrich Merz habe der SPD alles gegeben und die CDU habe bei der Einigung nichts erreicht.",
+        "Finanzminister Lars Klingbeil habe versucht, die Bundesanstalt für Immobilienaufgaben 1,5 Milliarden Euro abzuführen, obwohl dies verboten sei.",
+        "Die Sonderkredite in Höhe von 1.500 Milliarden seien zum Stopfen von Haushaltslöchern statt für Investitionen genutzt worden.",
+        "Die Bundesregierung verzichte erstmals seit 15 Jahren auf einen Inflationsausgleich und treibe so heimlich neue Steuern ein.",
+        "Die SPD erprese die CDU mit der Drohung von Neuwahlen, falls die CDU nicht alle SPD-Forderungen erfülle."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar aus der Quelle, ob die behauptete Rechtswidrigkeit der Gewinnabführung der Bundesanstalt für Immobilienaufgaben juristisch festgestellt wurde.",
+        "Die Zuschreibung, dass über die Hälfte der Sonderschulden illegal eingesetzt worden sei, bleibt im Text als Behauptung ohne zitierte gerichtliche Feststellung.",
+        "Die Behauptung, die CDU sei bereits politisch tot und nur die AfD könne dies ändern, ist als Prognose und politisches Urteil formuliert."
+      ],
+      "important_details": [
+        "Olaf Guting wird im Text als CDU-Finanzexperte genannt, der nach der Fraktionssitzung erschüttert sei und sagte, die SPD habe sich in allen wichtigen Punkten durchgesetzt.",
+        "Christian von Stetten wird als Chef des Parlamentskreises Mittelstand genannt, der Finanzminister Klingbeil laut Teilnehmern Rechtsbruch vorgeworfen habe.",
+        "Der Text zitiert Zahlen: 21,6 Milliarden Euro neue Kredite und nur 10,1 Milliarden Euro zusätzliche Investitionen, was eine Zweckentfremdungsquote von 53% ergeben soll."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "ApNmZbk8yDU",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "DET97woVV3U",
+      "source": "youtube",
+      "title": "heute 19:00 Uhr vom 12.11.2026 Gesetz zur frühkindlichen Bildung, Bundeshaushalt, Huang tritt zurück",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=DET97woVV3U",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 19374,
+        "processed_unique_chars": 19374,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Sendung berichtet aus Deutschland zu Haushaltsschwierigkeiten rund um die verschobene Stromsteuersenkung, den Rücktritt des Nvidia-Chefs wegen Affären und möglichen Sicherheitsfragen, EU-Verhandlungen zur Ukraine‑Friedensrolle, ein Gesetz zur frühkindlichen Bildung mit verpflichtenden Tests ab vier Jahren sowie weiteren Politik-, Sport- und Wettermeldungen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Der Bundeshaushalt für nächstes Jahr steht bis Ende des Monats, doch die Stromsteuersenkung für Privathaushalte ist vorerst vom Tisch.",
+        "Jensen Wang, Vorstandsvorsitzender von Nvidia, ist zurückgetreten; die Aktie fiel heute um 12 Prozent.",
+        "Der Bundestag hat das Kita-Qualitätsentwicklungsgesetz beschlossen, das Tests für Kinder ab vier Jahren und mehr Personal für Kitas mit hohem Förderbedarf vorsieht."
+      ],
+      "transcript_notable_claims": [
+        "Für die versprochene Stromsteuersenkung fehlen rund 5 Milliarden Euro, woraufhin in der Union Frust herrscht.",
+        "Die SPD argumentiert, die Union müsse das Geld für die Stromsteuersenkung selbst besorgen, weil die SPD bereits rund 34 Milliarden Euro eingespart habe.",
+        "Der Rücktritt von Jensen Wang habe Schockwellen an den Börsen ausgelöst und dem Nvidia-Konzern Verluste in Milliardenhöhe beschert.",
+        "US-Demokraten fordern vertrauliche Unterrichtung des Kongresses zur Nvidia-Affäre, weil nationale Sicherheit gefährdet sein könnte.",
+        "Die EU-Staats- und Regierungschefs suchen in Dublin eine gemeinsame Position zur Ukraine-Verhandlungsbeteiligung und zusätzliches Geld für Kiew.",
+        "In Thüringen ist Medienbildung ab Klasse 5 Pflichtfach und die Schulen wollen über Fake News, KI und digitale Mechanismen aufklären."
+      ],
+      "transcript_uncertainties": [
+        "Es ist noch unklar, ob und wann die Stromsteuersenkung für Privathaushalte doch noch umgesetzt wird, weil eine Lösung bis Dienstag im Koalitionsausschuss erwartet wird.",
+        "Die politische Tragweite der Nvidia-Affäre ist noch offen, da Untersuchungen und eine mögliche Unterrichtung des Kongresses angekündigt werden.",
+        "Es bleibt unklar, welche europäischen Vertreter künftig am Verhandlungstisch in der Ukrainefrage sitzen werden, weil die Mitgliedstaaten darüber streiten."
+      ],
+      "important_details": [
+        "Die Neuverschuldung im kommenden Jahr soll auf 118,7 Milliarden Euro steigen und der Haushalt umfasst über 55 Milliarden Euro an neuen Ausgaben.",
+        "Das Kita-Qualitätsentwicklungsgesetz soll schrittweise bis 2029 in Kraft treten und richtet Tests zu Sprache, Bewegung und Entwicklung ab dem vierten Geburtstag ein.",
+        "Die Nvidia‑Aktie fiel allein heute um 12 Prozent, was im Beitrag als Verlust von mehr als 400 Milliarden Dollar für den Konzern bezeichnet wird."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "DET97woVV3U",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "DMu8pfj59VE",
+      "source": "youtube",
+      "title": "En miljon ute på gatorna – nationalismens återkomst? - Se filmer från platsen",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=DMu8pfj59VE",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3485,
+        "processed_unique_chars": 3485,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.906,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3485",
+        "recency"
+      ],
+      "transcript_full_summary": "En miljon människor demonstrerade i Warszawa på 11 november vid Polens självständighetsdag och deltagarna firade polsk nation och nationalism; arrangemangets tillväxt från några hundra till över en miljon på cirka 16–20 år framställs som ett tecken på att nationalistiska rörelser kan växa snabbt och ge hopp för liknande framväxt i Sverige och övriga Europa.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "En miljon människor deltog i Warszawa-demonstrationen den 11 november för att fira polsk nation och nationalism.",
+        "Marschen började för ungefär 16–17 år sedan med bara ett par hundra deltagare och har vuxit till en av Europas största nationalistmarscher.",
+        "Talaren bedömer att samma nationalistiska uppvaknande kan ske i Sverige och andra europeiska länder om aktivismen fortsätter."
+      ],
+      "transcript_notable_claims": [
+        "Den växande polska marschen visar att dagens insatser kan bli grunden för ett mycket större politiskt projekt om några år.",
+        "Europa och Sverige har ett stort behov av nationalism enligt talarens bedömning, och när nationalism erbjuds kommer människor vilja samlas kring den.",
+        "Polen, Tyskland och Storbritannien används som exempel där nationalistiska demonstrationer redan äger rum och där Sverige kommer se något liknande en dag."
+      ],
+      "transcript_uncertainties": [
+        "Talaren säger att vi har \"ingen aning\" om hur snabbt förändring kan ske och att allting kan vara förändrat om fyra år.",
+        "Talaren framställer utvecklingen som möjlig och hoppfull men uttrycker ingen viss prognos för exakt tidpunkt eller exakta politiska följder."
+      ],
+      "important_details": [
+        "Demonstrationen hölls på 108-årsdagen av Polens återvunna självständighet.",
+        "Talaren beskriver demonstrationens scener som \"otroligt vackra\" och säger att de väcker hopp för framtida politisk förändring."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "DMu8pfj59VE",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@jamiewalden756"
+      },
+      "id": "DOxEriMnWZg",
+      "source": "youtube",
+      "title": "DISCUSSION: WHERE ARE WE AT?",
+      "channel": "jamiewalden756",
+      "url": "https://www.youtube.com/watch?v=DOxEriMnWZg",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 70465,
+        "processed_unique_chars": 70465,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.034,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "A Christian teacher warns that multiple converging spiritual, technological and geopolitical signs point to imminent large-scale deception, lawlessness and societal collapse, and urges believers to pursue intimate knowledge of Christ, discernment, holiness and readiness rather than doctrinal dogmatism or platform-driven speculation.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The church has weakened the gospel through hireling leadership and therefore lacks answers to current crises.",
+        "Advanced technologies, including AI, nanotech, UAP/disclosure programs and weaponized systems, are being used as tactical distractions and means of large-scale deception.",
+        "Believers must cultivate personal intimacy with Christ, test every spirit, and avoid fixed eschatological dogmas while preparing to suffer and be sanctified."
+      ],
+      "transcript_notable_claims": [
+        "Two presumed underwater nuclear detonations occurred off the coast of Florida and may have been Russian Poseidon drone weapons.",
+        "Multi-generational occult networks trained operatives to trigger mass slaughter via tonal frequencies embedded in networks and culture.",
+        "CIA and other agencies acknowledge electronic warfare systems that can excite emotional responses and influence people.",
+        "Nanotech and mRNA mechanisms now provide a mass human bio-interface vulnerable to waveform or electronic excitation.",
+        "Public revelations about COVID, AI failures and cryptocurrency hacks are strategic maneuvers to foster distrust and enable a later global solution that will enslave humanity.",
+        "The beast system will present a seemingly superior technological and monetary solution after orchestrated collapse of trust in existing systems.",
+        "Ethnic mixing, border breakdown and coordinated migration are deliberate assaults that will increase tribal violence and help bring about the red horse scenario of men killing one another.",
+        "Many Christian truthers and platform-builders muddy the UAP/UFO conversation with professional speculation that risks deceiving believers.",
+        "Invoking the name of Jesus fails against some abductions because those invoking it often lack saving faith, while believers in Christ effectively repel demonic manifestations.",
+        "God may have ceased broad warning in some contexts so that in the end people will seek revelation and find none, producing staggering delusion."
+      ],
+      "transcript_uncertainties": [
+        "The speaker repeatedly states uncertainty about precise timings, mechanisms and whether specific events (like the Florida detonations) were Russian Poseidon weapons.",
+        "The speaker acknowledges lack of full articulation of a recent spiritual impression and admits some views are speculative or not fully wrestled through.",
+        "The speaker allows that prophetic scriptures often have multiple fulfillments and that many eschatological details could be both/and rather than exclusive events."
+      ],
+      "important_details": [
+        "The speaker links a predicted period of intensified upheaval to August and September, saying the Lord indicated those months when things will change.",
+        "The speaker describes a vision of a tonal siren triggering widespread, unaware slaughter and connects that vision to cinematic programming and to others' prophetic interpretations.",
+        "The speaker argues that global agendas accelerating since the Obama administration have redlined systems of energy, armaments and finance to prepare for strategic vulnerability."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "DOxEriMnWZg",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DrJamesTour"
+      },
+      "id": "9FwUwj6RcLI",
+      "source": "youtube",
+      "title": "Isaiah, Part 134 | To Be Forgiven",
+      "channel": "DrJamesTour",
+      "url": "https://www.youtube.com/watch?v=9FwUwj6RcLI",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "9FwUwj6RcLI",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@breakingpoints"
+      },
+      "id": "AJUq5Est7e4",
+      "source": "youtube",
+      "title": "Massie EXCLUSIVE: Trump TERRIFIED Epstein Files Will TAKE HIM DOWN",
+      "channel": "breakingpoints",
+      "url": "https://www.youtube.com/watch?v=AJUq5Est7e4",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 39132,
+        "processed_unique_chars": 39132,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.034,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Congressman Thomas Massie discusses his successful discharge petition for the Epstein Files Transparency Act 2, accuses DOJ and Attorney General Todd Blanche of withholding files, and argues that Trump and Republican failures on Epstein, spending, and foreign policy caused the midterm losses.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Thomas Massie reached the required 218 signatures on a discharge petition for the Epstein Files Transparency Act 2.",
+        "The Epstein Files Transparency Act 2 creates a private right of action allowing survivors, members of Congress, and state attorneys general to sue the Attorney General for failing to produce required files.",
+        "Massie attributes the Republican midterm losses to Trump alienating factions over the Epstein files, new Middle East war policy, and increased spending in the \"big beautiful bill.\""
+      ],
+      "transcript_notable_claims": [
+        "Todd Blanche has refused to follow the law requiring release of specific memos and internal DOJ documents about decisions to prosecute or investigate Epstein associates.",
+        "Millions of files are still missing from the releases, and the released files suggest more exists that has not been produced.",
+        "Donald Trump warned that releasing Epstein files would hurt his friends and Trump fears those files or related revelations could \"take him down\" even if he is not explicitly named.",
+        "The Republican conference remained loyal to Trump on the impeachment resolution and other issues because members fear primary challenges and losing Republican primary voters.",
+        "The Freedom Caucus and traditional conservative outside groups such as Club for Growth and FreedomWorks failed to constrain Republican spending and abandoned free-trade and fiscal conservative principles."
+      ],
+      "transcript_uncertainties": [
+        "Massie states uncertainty about how many gigabytes of Epstein files are missing and declines to rely on size rather than specific required documents.",
+        "Massie concedes it is uncertain whether Trump himself appears in the Epstein files because many interactions predate email and cell phones.",
+        "Massie expresses uncertainty about whether current DOJ legal defenses invoking deliberative process privilege would hold up in court if Todd Blanche were compelled to litigate."
+      ],
+      "important_details": [
+        "The Epstein Files Transparency Act 2 specifically empowers New Mexico and other state attorneys general to prosecute state offenses without statute-of-limitations barriers.",
+        "Massie says the original bill required memos and internal documents about DOJ decisions on whether to prosecute or investigate certain people, and those documents remain unreleased.",
+        "Massie reports that six Republicans who signed the discharge petition are likely to lose reelection, making it politically difficult for other Republicans to publicly support the effort."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "AJUq5Est7e4",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@AusGlaubenLeben"
+      },
+      "id": "AR7brAZA8Wk",
+      "source": "youtube",
+      "title": "Barnabas – How Your Life Can Become a Blessing to Others!",
+      "channel": "AusGlaubenLeben",
+      "url": "https://www.youtube.com/watch?v=AR7brAZA8Wk",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 46252,
+        "processed_unique_chars": 46252,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.034,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon presents Barnabas as a New Testament example of sacrificial devotion, bridge-building and Spirit-filled service whose generosity, encouragement and mentorship advanced the early Church despite personal weaknesses and later disagreement with Paul.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Barnabas sold his field and laid the proceeds at the apostles' feet as a voluntary act of devotion.",
+        "Barnabas introduced the converted Saul (Paul) to the apostles and thereby integrated him into the Christian community.",
+        "Barnabas was described as \"a good man, full of the Holy Spirit and of faith\" and he encouraged the new church in Antioch."
+      ],
+      "transcript_notable_claims": [
+        "Barnabas received the name \"son of consolation\" (Son of Encouragement) from others because he comforted and encouraged people.",
+        "The early believers often sold possessions to meet others' needs and shared a visible brotherly love and unity.",
+        "Barnabas rejoiced at the grace of God in Antioch, refrained from binding the believers to himself, and committed them to God.",
+        "Barnabas searched out Saul in Tarsus, brought him to Antioch, and together they taught the church for a year.",
+        "The Holy Spirit set apart Barnabas and Saul for missionary work and sent them out, initiating an early missionary journey.",
+        "A sharp disagreement between Paul and Barnabas over John Mark led to their separation, after which Barnabas took Mark to Cyprus and Paul chose Silas.",
+        "Barnabas continued to support John Mark, and later Paul acknowledges Mark's usefulness for ministry."
+      ],
+      "transcript_uncertainties": [
+        "The exact reasons John Mark left the missionary journey are not specified; the transcript says he \"separated from them and returned to Jerusalem.\"",
+        "The precise motives and dynamics of the sharp disagreement between Paul and Barnabas are not fully detailed in the text.",
+        "It is uncertain whether Barnabas' insistence on taking John Mark reflected family loyalty, pastoral concern, or another motive; the transcript suggests a possible family relation but does not assert certainty."
+      ],
+      "important_details": [
+        "Barnabas and Paul were entrusted with collecting contributions for Jerusalem believers when prophets warned of a coming famine.",
+        "Barnabas and Paul healed a crippled man in Lystra, were nearly worshiped as Zeus and Hermes, and later Paul was stoned and left for dead.",
+        "Barnabas and Paul spent a whole year teaching in Antioch, where the disciples were first called Christians."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "AR7brAZA8Wk",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@MarcFriedrich7"
+      },
+      "id": "G1HdSJSkyS0",
+      "source": "youtube",
+      "title": "Power Shift in the USA: My Strategy for Gold & Stocks",
+      "channel": "MarcFriedrich7",
+      "url": "https://www.youtube.com/watch?v=G1HdSJSkyS0",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 26889,
+        "processed_unique_chars": 26889,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.034,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "Das Video analysiert die Folgen der Midterm-Niederlage Donald Trumps, die Marktreaktionen bei Aktien, Öl, Gold und Silber sowie Mark Friedrichs persönliche Strategie für Gold-, Silber- und Rohstoffanlagen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Midterms führten zu einem klaren Sieg der Demokraten und zu großen Verlusten für Donald Trump, einschließlich Texas.",
+        "Aktienmärkte reagierten mit starken Kursgewinnen; S&P 500, Nasdaq und Dow schlossen deutlich im Plus.",
+        "Gold stieg rund 4% und erreichte wieder die Marke von 4.000 USD, Silber schloss über 52 USD."
+      ],
+      "transcript_notable_claims": [
+        "Der Iran-Konflikt und steigende Benzinpreise mit Gallonenpreisen um 6–7 USD werden als Hauptgründe für Trumps Wahlniederlage genannt.",
+        "Historisch stand der S&P 500 nach sieben früheren Fällen mit republikanischem Präsidenten und demokratischem Kongress in den folgenden 12 Monaten immer höher, im Schnitt um etwa 15,5%.",
+        "Zentralbanken kaufen weiterhin antizyklisch Gold; die Käufe lagen seit Jahresbeginn 6% über dem Vorjahr.",
+        "Gold tendiert negativ zu steigenden Zinsen, hohen Ölpreisen und einem starken Dollar; eine Fed-Zinserhöhung im Dezember könnte Gold ausbremsen.",
+        "Bei Öl besteht weiterhin Eskalationsgefahr, weil die USA Kriegsschiffe und Kriegsmaterial Richtung Iran verlegen könnten.",
+        "Sollte Öl $115 pro Barrel überschreiten, drohten laut Analyse Preise über $150 pro Barrel.",
+        "Silber hat einen 50 Jahre alten Widerstand retestet und könnte eine Cup-and-Handle-Formation ausbilden, mit langfristigen Kurszielen von 150–200 USD.",
+        "Gold- und Silberminenaktien werden als historisch günstig bezeichnet und als lohnende Hebel auf Edelmetallbewegungen empfohlen."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, ob der Rückgang des Ölpreises nachhaltig ist oder ob weitere Eskalationen im Iran-Konflikt folgen werden.",
+        "Es bleibt offen, ob die US-Notenbank im Dezember die Zinsen nochmals erhöht und damit den Dollar stärkt und Gold drückt.",
+        "Es besteht Unsicherheit, ob die historischen Muster für Aktienrenditen nach Midterms sich in der aktuellen Lage wiederholen werden."
+      ],
+      "important_details": [
+        "Der S&P 500 schloss nach den Midterms um 1,6% im Plus, der Nasdaq um 0,9% und der Dow um circa 3%.",
+        "Gold fiel kurzzeitig bis auf etwa 3.800 USD und stieg dann wieder über 4.000 USD; der Sprecher sieht 4.300 USD als wichtige Schwelle.",
+        "Silber verlor seit seinem Hoch über 60% und wird als Kaufchance zwischen 46 und 48 USD beschrieben."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "G1HdSJSkyS0",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "IU7Smg6nIA4",
+      "source": "youtube",
+      "title": "Help on the Way? Leader of Ministry to Iranians Says 'Life is Miserable' for Believers",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=IU7Smg6nIA4",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4012,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.037,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:4012",
+        "recency"
+      ],
+      "video_id": "IU7Smg6nIA4",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "LoBvV7Sfl1A",
+      "source": "youtube",
+      "title": "Ludvig Aspling (SD): EU hotar din åsiktsfrihet på internet",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=LoBvV7Sfl1A",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-13T04:30:00+00:00",
+      "screened_at": "2026-11-13T04:30:00+00:00",
+      "expires_at": "2026-11-16T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 16038,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.034,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "LoBvV7Sfl1A",
+      "processed_at_utc": "2026-11-13T12:28:33+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-12T13:02:39+00:00",
+  "updated_at_utc": "2026-11-13T12:28:33+00:00",
   "version": 1
 }
