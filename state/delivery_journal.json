@@ -23180,6 +23180,554 @@
         "approved_after_generation_checks": true,
         "seal": "fc435fc2cfd5c233ff411fc0c98ceb89392df61b703ac4ebd65078f35802cdfc"
       }
+    },
+    "cybermed:daily:2026-11-13:2026-11-13:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-13",
+      "period_end": "2026-11-13",
+      "edition_id": "cybermed:daily:2026-11-13:2026-11-13:production",
+      "content_version": "755ee49ab9a295a966ee1e1d5d910c77007e329956c87a4e91bd94c0fb43f46c",
+      "message_id": "<6eebc1d134e90cac9b93087e5c1e521e47d2bf6dac0f7cb0469d76651bdcb7a3@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-13T12:39:41+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43014613",
+            "title": "Beyond barriers: Understanding delays before bystander CPR as a dynamic process.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014613/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43019437",
+            "title": "The genetic landscape of canine tumors: Insights from the Canine Cancer Genome Atlas (CCGA).",
+            "channel": "PubMed: Science (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43019437/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43019411",
+            "title": "Novel gene therapy lets drug dampen brain cell activity, reducing seizures.",
+            "channel": "PubMed: Science (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43019411/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43014822",
+            "title": "Effect of discontinuing antihypertensives on perioperative hypotension in older patients before non-cardiac surgery: multicentre, randomised, double blind, controlled trial.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014822/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42983226",
+            "title": "A Survey of Clinician-Reported Management of Hypernatremia in the ICU.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42983226/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42979890",
+            "title": "Development, Implementation and Mixed-Methods Evaluation of a Multicomponent Peer-Support Programme in an Anaesthesiology Department.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42979890/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42974958",
+            "title": "As-needed inhaled corticosteroids in asthma: an Official American Thoracic Society clinical practice guideline.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42974958/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42974943",
+            "title": "Cleavage of Interleukin-5 receptor-α from eosinophils to a soluble form is linked to activation.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42974943/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42978142",
+            "title": "Assessing simulation facilitation with the VAST FORM part 4 self-assessment tool.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42978142/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42966562",
+            "title": "Completing surgery after a grade III perioperative hypersensitivity reaction: counting a cost we cannot see yet.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42966562/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42966561",
+            "title": "Better aligning perioperative care with evidence in liver surgery.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42966561/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42966560",
+            "title": "Postoperative Delirium in the ICU: Not One Syndrome, but Many?",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42966560/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42954486",
+            "title": "Perioperative Calls for Help and Associated Management Changes: A Prospective Observational Study.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42954486/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42954800",
+            "title": "The Influence of Anesthetic and Surgical Factors on Spinal Late Motor Responses: A Systematic Review.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42954800/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42949667",
+            "title": "Optimal Gas Flow in Total Intravenous Anesthesia: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42949667/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42965137",
+            "title": "Comments on Kroken et al.'s \"Long-term frailty trajectory in older ICU survivors requiring mechanical ventilation: a prospective cohort study in Norway\"- Author's reply.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42965137/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42957499",
+            "title": "Effect of remimazolam versus propofol anaesthesia on postoperative delirium in neurovascular surgery: a randomised noninferiority trial.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42957499/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42957498",
+            "title": "Ultrasound assessment of fluid tolerance in patients undergoing major gastrointestinal surgery: epidemiology of pulmonary and systemic congestion.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42957498/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42982309",
+            "title": "Giving or Taking? Ethical Guidance for Hospital Administrators Involved in Organ Procurement.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982309/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42982308",
+            "title": "\"Bold and necessary experiments:\" The redelegation of authority and responsibility to nurses at the origins of cardiac intensive care.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982308/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42982307",
+            "title": "Patient self-selection of in-person versus virtual pulmonary rehabilitation.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982307/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963775",
+            "title": "Nocturnal intravenous gamma-hydroxybutyrate and sleep architecture in non-sedated intensive care unit patients: a polysomnographic experience.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963775/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42973066",
+            "title": "Sugammadex versus neostigmine for neuromuscular blockade reversal in adults: A systematic review and meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42973066/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/ttl-tip-24-shooting-arrows-give-the-task-a-name/",
+            "title": "TTL tip 24. Shooting arrows: give the task a name",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/ttl-tip-24-shooting-arrows-give-the-task-a-name/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/lateral-qlb-vs-intrathecal-morphine-after-cesarean-delivery/",
+            "title": "Lateral QLB vs Intrathecal Morphine After Cesarean Delivery",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/lateral-qlb-vs-intrathecal-morphine-after-cesarean-delivery/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42983226",
+            "title": "A Survey of Clinician-Reported Management of Hypernatremia in the ICU.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42983226/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42983226",
+              "doi": "10.1111/aas.70386",
+              "kind": "original",
+              "source_version": "b4903c13c5db6b7824ff8ecc49bdec6d677f957fdb74c36b7eb72b037e75b92e",
+              "fields": {
+                "title": "72179a8cb9db52a3a283eccc1e125abe3a5076b91610d269464ab1f0735c67a7",
+                "abstract": "a0a6f3d17dcae7344ad808c7bd4243ac50737c904d6c4f16efdd176b040ddee4",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "6b36e130aa5a395b32162109d504ead783f7de5d00803f49f66c03ce28ac042e",
+                "results_known": false,
+                "numbers": "bc18d46d81b34757f8a0fadb8b7443489822acc03e19d09755ce48c3f55d5c7f",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "2c7c7906dd4c85d18a4300df553c1adb7b05ca79527d1167948228042b59bf29",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43014822",
+            "title": "Effect of discontinuing antihypertensives on perioperative hypotension in older patients before non-cardiac surgery: multicentre, randomised, double blind, controlled trial.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014822/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43014822",
+              "doi": "10.1136/bmj-2026-101087",
+              "kind": "original",
+              "source_version": "934077a919dbc1003b281ebe6d6b2927d7bdb1de00152c600e6a00ad101e11f4",
+              "fields": {
+                "title": "965f2b248caea508c40bb0e6d34599e1f195151adbda4716dd759c18d593ac84",
+                "abstract": "6e298b8d018339eeeecb4a7913c369931c21042542219b9a0cba0c33be348d81",
+                "types": "1eadad9f656117cc721c323fddc611dd4703b216625af48af7e8a1a016d67651",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9513379e13aeb7ba298111329823792b5668de04ce01ce3af50f3b2ef1bc5282",
+                "results_known": false,
+                "numbers": "0200627e5366bf5daef1c714fdb30d784d346e0c423bf042b742e57c8a5528f9",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42973066",
+            "title": "Sugammadex versus neostigmine for neuromuscular blockade reversal in adults: A systematic review and meta-analysis of randomised controlled trials.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42973066/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42973066",
+              "doi": "10.1097/eja.0000000000002526",
+              "kind": "original",
+              "source_version": "8850a6c43d771033c6e46876c1345cc9a283c0e6082bcccfb2000d47df36269f",
+              "fields": {
+                "title": "170ef99cf68fa9188055b8a05f6705cc715dc58b0a44a876c9fd6c3c119812a0",
+                "abstract": "755405ca6e78f928a66aeccee771e06c4913814a63db51c3d3dd277491211aa4",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "8eefa77b6d3da77bcf4638a7b7e47687590c4965c692e3b6eee5ed20207ff836",
+                "results_known": false,
+                "numbers": "ca65f4203c2e9f91b361c838171a90e6452d28acafaf0f72fb7fd3f4c0a40645",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42974958",
+            "title": "As-needed inhaled corticosteroids in asthma: an Official American Thoracic Society clinical practice guideline.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42974958/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42974958",
+              "doi": "10.1093/ajrccm/aamag577",
+              "kind": "original",
+              "source_version": "017144ab2105d2bbebe29311854a1e33be967ae207038abf0e31b5a5ca78eff6",
+              "fields": {
+                "title": "29d4eadd887057f3165fde465f9cb8d048d3858f216cb593b70b05a09dbc9a84",
+                "abstract": "df30834cd8c5f7433b44c47d54109ec31d30d4cf53d4696558dcf28b60db0b0d",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "6a96276571eec1a8c02b6218ae1a58d654594d5e69ef15071647527f96aeb9c1",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42957498",
+            "title": "Ultrasound assessment of fluid tolerance in patients undergoing major gastrointestinal surgery: epidemiology of pulmonary and systemic congestion.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42957498/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42957498",
+              "doi": "10.1016/j.bja.2026.09.022",
+              "kind": "original",
+              "source_version": "69303ae477f1928ba1001eecbbd74317c9589ab686e21be11ecf467dd1ddd3e3",
+              "fields": {
+                "title": "1f156ac1cd2e09d9d36db07018e916d3da2d118665c05fc02b2d51ff95e9fedd",
+                "abstract": "a0a076a3ae840e6d953214eb8338dabf609319e147ab744b50d6d1e0d94f6fce",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "26db7abdad31323abfbae03f24242b950367422faec785a6f56a6c8eff360bc9",
+                "results_known": true,
+                "numbers": "c191f13c7f795239f7cdb5d55056ca228520f234c1fae0b622ed3f5b2f88fc8c",
+                "endpoint": "82fffc861338e6bd1aedfdcd73d5e79112dd1b31bc16d2133944ddc49f5064bd",
+                "methods": "b02747e0189e1cc172794a0e051501cd98c2abc2c8ac14f1d4221236f25ad15b",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42954486",
+            "title": "Perioperative Calls for Help and Associated Management Changes: A Prospective Observational Study.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42954486/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42954486",
+              "doi": "10.1213/ane.0000000000008299",
+              "kind": "original",
+              "source_version": "f3b9aace0eeea2d69813c73262d63daf413da197ad5c5edd4784f9c2fdc6dfca",
+              "fields": {
+                "title": "38e2b19dfce24b556e6b678a7afafde5fe64f402a1aa54cf5cf75c78efaa1ffb",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42954800",
+            "title": "The Influence of Anesthetic and Surgical Factors on Spinal Late Motor Responses: A Systematic Review.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42954800/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42954800",
+              "doi": "10.1213/ane.0000000000008219",
+              "kind": "original",
+              "source_version": "a0b90c6033119692c7cf32a2a17ac12e9e80cf9059965f2da8bb674252ca129f",
+              "fields": {
+                "title": "6969878f2a94b1298449fdd0c59dcfcba2e9273c927e5219372aa411aabdf003",
+                "abstract": "dcd7c784f72a0ac27f48e3147e2706f775a98a2c62c8fbae89d5f2900327727c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "43014822",
+            "title": "Effect of discontinuing antihypertensives on perioperative hypotension in older patients before non-cardiac surgery: multicentre, randomised, double blind, controlled trial.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014822/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43014822",
+              "doi": "10.1136/bmj-2026-101087",
+              "kind": "original",
+              "source_version": "934077a919dbc1003b281ebe6d6b2927d7bdb1de00152c600e6a00ad101e11f4",
+              "fields": {
+                "title": "965f2b248caea508c40bb0e6d34599e1f195151adbda4716dd759c18d593ac84",
+                "abstract": "6e298b8d018339eeeecb4a7913c369931c21042542219b9a0cba0c33be348d81",
+                "types": "1eadad9f656117cc721c323fddc611dd4703b216625af48af7e8a1a016d67651",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9513379e13aeb7ba298111329823792b5668de04ce01ce3af50f3b2ef1bc5282",
+                "results_known": false,
+                "numbers": "0200627e5366bf5daef1c714fdb30d784d346e0c423bf042b742e57c8a5528f9",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-13T12:39:35+00:00"
+      },
+      "workflow_run_id": "43426800324",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-13:2026-11-13:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "52c27f7f07d018ad014d6212ab065c7dcbc2ff4014293956d032189adfe251e7",
+        "finalization_policy": "markers",
+        "content_version": "755ee49ab9a295a966ee1e1d5d910c77007e329956c87a4e91bd94c0fb43f46c",
+        "message_id": "<6eebc1d134e90cac9b93087e5c1e521e47d2bf6dac0f7cb0469d76651bdcb7a3@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "a722c27349f9442e_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "79012b4b8e4f9aaa13ca68e8ad546737dbf57b5e2e19a4fd266fb0784ce81b1e"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "ec73526507116e5776520dd6dd05e08b4d1c7a4f46cf515976dc8a5a2a63335a"
+      }
+    },
+    "cybermed:weekly:2026-11-09:2026-11-13:production": {
+      "report_key": "cybermed",
+      "cadence": "weekly",
+      "period_start": "2026-11-09",
+      "period_end": "2026-11-13",
+      "edition_id": "cybermed:weekly:2026-11-09:2026-11-13:production",
+      "content_version": "4c040df78082c35033b18f710ffc87fe4990c2ff9ca7baae66a03db102d4d6a5",
+      "message_id": "<f71a3d95b67df65ebbb5587b39d35ee900f30baff6422664e0afbc7160ab4f27@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+        "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+        "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+        "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+        "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+        "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+        "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+        "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+        "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+        "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+        "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+        "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+        "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+        "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+        "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+        "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+        "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+        "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-13T12:39:51+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {},
+      "workflow_run_id": "43426800324",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:weekly:2026-11-09:2026-11-13:production",
+        "subject": "Cybermed Report — Weekly",
+        "subject_hash": "59caac393c86891f5aad81b365380b5ae9cfac256d74c54ddd101b92beb9258e",
+        "audience": [
+          "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+          "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+          "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+          "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+          "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+          "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+          "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+          "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+          "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+          "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+          "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+          "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+          "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+          "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+          "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+          "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+          "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+          "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "finalization_policy": "no_markers",
+        "content_version": "4c040df78082c35033b18f710ffc87fe4990c2ff9ca7baae66a03db102d4d6a5",
+        "message_id": "<f71a3d95b67df65ebbb5587b39d35ee900f30baff6422664e0afbc7160ab4f27@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "1a60072e58c3d552_cybermed_weekly_cybermed_weekly_generated_delta.json",
+            "sha256": "40c66f1373127879060e3c4bd5315917b1cd81768b6c6ab86531ca49be5e74f6"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "eba64c6fdbb2dccc4be14a590317c614eb8aa3ead6205d47226e21241fe579d9"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -23919,6 +24467,7 @@
         "42950975",
         "42951064",
         "42951211",
+        "42951789",
         "42951894",
         "42955323",
         "42956771",
@@ -23928,10 +24477,15 @@
         "42956923",
         "42956924",
         "42956925",
+        "42958418",
         "42958645",
+        "42959645",
+        "42960127",
         "42960868",
         "42963061",
         "42967871",
+        "42968390",
+        "42968391",
         "42968670",
         "42968679",
         "42969615",
@@ -23941,7 +24495,10 @@
         "42971311",
         "42971312",
         "42971721",
+        "42971911",
         "42972430",
+        "42972966",
+        "42973058",
         "42977488",
         "42982479",
         "42982504",
