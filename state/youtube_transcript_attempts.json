@@ -2335,6 +2335,118 @@
       "status": "success",
       "error_kind": "",
       "retry_after_utc": ""
+    },
+    "transcriptapi:pMxsPUw0x78": {
+      "video_id": "pMxsPUw0x78",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T12:59:52+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
+    },
+    "transcriptapi:-QUoGKBWNJE": {
+      "video_id": "-QUoGKBWNJE",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T12:59:53+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
+    },
+    "transcriptapi:15YA2eSRbcI": {
+      "video_id": "15YA2eSRbcI",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:05+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
+    },
+    "transcriptapi:1ijW-fi_kpw": {
+      "video_id": "1ijW-fi_kpw",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:12+00:00",
+      "status": "error",
+      "error_kind": "http_404",
+      "retry_after_utc": "2026-11-19T13:00:12+00:00"
+    },
+    "transcriptapi:235tlwm8Ldk": {
+      "video_id": "235tlwm8Ldk",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:15+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
+    },
+    "transcriptapi:6UJ-BOyGK8U": {
+      "video_id": "6UJ-BOyGK8U",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:19+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
+    },
+    "transcriptapi:B6bmpBDqnLg": {
+      "video_id": "B6bmpBDqnLg",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:20+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
+    },
+    "transcriptapi:p5AMPURcz3w": {
+      "video_id": "p5AMPURcz3w",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:23+00:00",
+      "status": "error",
+      "error_kind": "http_404",
+      "retry_after_utc": "2026-11-19T13:00:23+00:00"
+    },
+    "transcriptapi:3-zMBzOxiyU": {
+      "video_id": "3-zMBzOxiyU",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:26+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
+    },
+    "transcriptapi:6BlwD59AoLM": {
+      "video_id": "6BlwD59AoLM",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:28+00:00",
+      "status": "error",
+      "error_kind": "http_404",
+      "retry_after_utc": "2026-11-19T13:00:28+00:00"
+    },
+    "transcriptapi:7ryuEOZSp28": {
+      "video_id": "7ryuEOZSp28",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:31+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
+    },
+    "transcriptapi:8z1GHsoBjmc": {
+      "video_id": "8z1GHsoBjmc",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:33+00:00",
+      "status": "error",
+      "error_kind": "http_408",
+      "retry_after_utc": "2026-11-19T13:00:33+00:00"
+    },
+    "transcriptapi:9z24_XpALdI": {
+      "video_id": "9z24_XpALdI",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:38+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
+    },
+    "transcriptapi:Do8PuebNSyY": {
+      "video_id": "Do8PuebNSyY",
+      "provider": "transcriptapi",
+      "last_attempt_utc": "2026-11-16T13:00:39+00:00",
+      "status": "success",
+      "error_kind": "",
+      "retry_after_utc": ""
     }
   }
 }

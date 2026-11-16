@@ -23728,6 +23728,246 @@
         "approved_after_generation_checks": true,
         "seal": "eba64c6fdbb2dccc4be14a590317c614eb8aa3ead6205d47226e21241fe579d9"
       }
+    },
+    "cyberlurch:daily:2026-11-16:2026-11-16:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-16",
+      "period_end": "2026-11-16",
+      "edition_id": "cyberlurch:daily:2026-11-16:2026-11-16:production",
+      "content_version": "be08a3b0cc81f8afc0a9f5fe646e3dc4dea3e5afceccc4128776cb9648bb35e9",
+      "message_id": "<01f83fdda109356226656c856f5bac8210a5848e5d0f39a112df0ff9f1f31cda@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-16T13:01:30+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "pMxsPUw0x78",
+            "title": "⚡ALERT! Pentagon Tells Army Families \"CANCEL PLANS\", NETWORK OUTAGE! Nuke Bunkers, Troop Deployments",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=pMxsPUw0x78"
+          },
+          {
+            "source": "youtube",
+            "id": "-QUoGKBWNJE",
+            "title": "Merz macht XXL-Schulden – AfD legt Gegenentwurf vor und will 44 MILLIARDEN € zurückgeben!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=-QUoGKBWNJE"
+          },
+          {
+            "source": "youtube",
+            "id": "15YA2eSRbcI",
+            "title": "Socialdemokraternas desperata kampanj för regeringsmakten",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=15YA2eSRbcI"
+          },
+          {
+            "source": "youtube",
+            "id": "1ijW-fi_kpw",
+            "title": "UN Ambassadors tour Gaza tunnel",
+            "channel": "IsraelNationalTV",
+            "url": "https://www.youtube.com/watch?v=1ijW-fi_kpw"
+          },
+          {
+            "source": "youtube",
+            "id": "235tlwm8Ldk",
+            "title": "Kushner and Putin: The Secret Deal That Could END the War",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=235tlwm8Ldk"
+          },
+          {
+            "source": "youtube",
+            "id": "6UJ-BOyGK8U",
+            "title": "Wie Cyberangriffe unseren Alltag bedrohen",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=6UJ-BOyGK8U"
+          },
+          {
+            "source": "youtube",
+            "id": "B6bmpBDqnLg",
+            "title": "Prepare For The Worst, We Are About to Make HISTORY...",
+            "channel": "offthekirb",
+            "url": "https://www.youtube.com/watch?v=B6bmpBDqnLg"
+          },
+          {
+            "source": "youtube",
+            "id": "p5AMPURcz3w",
+            "title": "Paul's Interview with no music or b-roll",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=p5AMPURcz3w"
+          },
+          {
+            "source": "youtube",
+            "id": "3-zMBzOxiyU",
+            "title": "ILTV On The Hour - November 15, 2026 | Like Germany Before the Holocaust - Trump's Chilling Warning",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=3-zMBzOxiyU"
+          },
+          {
+            "source": "youtube",
+            "id": "6BlwD59AoLM",
+            "title": "Why The Stock Market Just Crashed",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=6BlwD59AoLM"
+          },
+          {
+            "source": "youtube",
+            "id": "7ryuEOZSp28",
+            "title": "Jensen Spy Claims SHAKY As Potential Insider Plot REVEALED",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=7ryuEOZSp28"
+          },
+          {
+            "source": "youtube",
+            "id": "8z1GHsoBjmc",
+            "title": "Trump angry? | Nvidia scandal: New suspicions and CEO resignation!",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=8z1GHsoBjmc"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "pMxsPUw0x78",
+            "title": "⚡ALERT! Pentagon Tells Army Families \"CANCEL PLANS\", NETWORK OUTAGE! Nuke Bunkers, Troop Deployments",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=pMxsPUw0x78"
+          },
+          {
+            "source": "youtube",
+            "id": "-QUoGKBWNJE",
+            "title": "Merz macht XXL-Schulden – AfD legt Gegenentwurf vor und will 44 MILLIARDEN € zurückgeben!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=-QUoGKBWNJE"
+          },
+          {
+            "source": "youtube",
+            "id": "15YA2eSRbcI",
+            "title": "Socialdemokraternas desperata kampanj för regeringsmakten",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=15YA2eSRbcI"
+          },
+          {
+            "source": "youtube",
+            "id": "1ijW-fi_kpw",
+            "title": "UN Ambassadors tour Gaza tunnel",
+            "channel": "IsraelNationalTV",
+            "url": "https://www.youtube.com/watch?v=1ijW-fi_kpw"
+          },
+          {
+            "source": "youtube",
+            "id": "235tlwm8Ldk",
+            "title": "Kushner and Putin: The Secret Deal That Could END the War",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=235tlwm8Ldk"
+          },
+          {
+            "source": "youtube",
+            "id": "6UJ-BOyGK8U",
+            "title": "Wie Cyberangriffe unseren Alltag bedrohen",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=6UJ-BOyGK8U"
+          },
+          {
+            "source": "youtube",
+            "id": "B6bmpBDqnLg",
+            "title": "Prepare For The Worst, We Are About to Make HISTORY...",
+            "channel": "offthekirb",
+            "url": "https://www.youtube.com/watch?v=B6bmpBDqnLg"
+          },
+          {
+            "source": "youtube",
+            "id": "p5AMPURcz3w",
+            "title": "Paul's Interview with no music or b-roll",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=p5AMPURcz3w"
+          },
+          {
+            "source": "youtube",
+            "id": "3-zMBzOxiyU",
+            "title": "ILTV On The Hour - November 15, 2026 | Like Germany Before the Holocaust - Trump's Chilling Warning",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=3-zMBzOxiyU"
+          },
+          {
+            "source": "youtube",
+            "id": "6BlwD59AoLM",
+            "title": "Why The Stock Market Just Crashed",
+            "channel": "AndreiJikh",
+            "url": "https://www.youtube.com/watch?v=6BlwD59AoLM"
+          },
+          {
+            "source": "youtube",
+            "id": "7ryuEOZSp28",
+            "title": "Jensen Spy Claims SHAKY As Potential Insider Plot REVEALED",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=7ryuEOZSp28"
+          },
+          {
+            "source": "youtube",
+            "id": "8z1GHsoBjmc",
+            "title": "Trump angry? | Nvidia scandal: New suspicions and CEO resignation!",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=8z1GHsoBjmc"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "pMxsPUw0x78",
+            "title": "⚡ALERT! Pentagon Tells Army Families \"CANCEL PLANS\", NETWORK OUTAGE! Nuke Bunkers, Troop Deployments",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=pMxsPUw0x78"
+          },
+          {
+            "source": "youtube",
+            "id": "15YA2eSRbcI",
+            "title": "Socialdemokraternas desperata kampanj för regeringsmakten",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=15YA2eSRbcI"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-16T13:01:26+00:00"
+      },
+      "workflow_run_id": "43871407562",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-16:2026-11-16:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "1b4e9b049da7fd629b50a9d6186e7c25f95cb4a0b22adf582ffc73dfe6d55f73",
+        "finalization_policy": "markers",
+        "content_version": "be08a3b0cc81f8afc0a9f5fe646e3dc4dea3e5afceccc4128776cb9648bb35e9",
+        "message_id": "<01f83fdda109356226656c856f5bac8210a5848e5d0f39a112df0ff9f1f31cda@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "36c355ac8b8ccab1_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "f1a388aea6c3dbd7c012bd17c4438a592b429b48d997d2330bbdd61956ee8785"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "ce0d3cbc6bb15726edb35e0bd0d92427580ae65029924030317fc5f1550b3a69"
+      }
     }
   },
   "paper_legacy_unknown": {
