@@ -4,17 +4,17 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-10-30T15:07:45+00:00",
+      "newest_entry_datetime": "2026-11-13T14:08:40+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 0,
-      "article_fetch_attempted": 0,
-      "article_fetch_success": 0,
+      "median_final_text_length": 485,
+      "article_fetch_attempted": 1,
+      "article_fetch_success": 1,
       "article_fetch_failed": 0,
       "homepage_content_type": "text/html; charset=UTF-8"
     },
@@ -28,8 +28,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -70,8 +70,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -87,8 +87,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -106,7 +106,7 @@
       "health_epoch": "2026-08-paper-of-the-day-v1",
       "last_health": "no_dated_entries",
       "last_ok_utc": "2026-10-13T11:01:57+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": null,
       "homepage_status_code": 200,
       "homepage_content_type": "text/html; charset=utf-8",
@@ -119,16 +119,16 @@
       "article_fetch_failed": 0
     },
     "Deranged Physiology": {
-      "consecutive_failures": 1,
+      "consecutive_failures": 0,
       "disabled_until_utc": "",
-      "last_health": "parse_failed",
-      "last_ok_utc": "2026-11-12T13:17:25+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
-      "feed_status_code": 202,
-      "homepage_status_code": 202,
-      "feed_content_type": "text/html",
-      "feed_parse_result": "html_instead_of_feed",
-      "newest_entry_datetime": null,
+      "last_health": "ok_rss",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
+      "feed_status_code": 200,
+      "homepage_status_code": null,
+      "feed_content_type": "application/rss+xml; charset=utf-8",
+      "feed_parse_result": "entries",
+      "newest_entry_datetime": "2026-07-25T22:37:04+00:00",
       "freshness": "unknown",
       "median_final_text_length": 0,
       "article_fetch_attempted": 0,
@@ -140,8 +140,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -157,8 +157,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -174,25 +174,25 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-11-10T20:56:13+00:00",
+      "newest_entry_datetime": "2026-11-14T20:13:45+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 0,
-      "article_fetch_attempted": 0,
-      "article_fetch_success": 0,
+      "median_final_text_length": 13496,
+      "article_fetch_attempted": 1,
+      "article_fetch_success": 1,
       "article_fetch_failed": 0
     },
     "EMOttawa Blog": {
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -208,13 +208,13 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-10-19T10:20:00+00:00",
+      "newest_entry_datetime": "2026-11-16T11:11:00+00:00",
       "freshness": "unknown",
       "median_final_text_length": 0,
       "article_fetch_attempted": 0,
@@ -233,16 +233,16 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "health_epoch": "2026-08-article-a-day-v1",
-      "last_health": "no_dated_entries",
-      "last_ok_utc": "2026-11-12T13:17:25+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_health": "ok_html",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": null,
       "homepage_status_code": 200,
       "homepage_content_type": "text/html; charset=UTF-8",
       "feed_parse_result": "not_attempted",
-      "newest_entry_datetime": null,
+      "newest_entry_datetime": "2026-11-16T00:00:00+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 0,
+      "median_final_text_length": 5459,
       "article_fetch_attempted": 0,
       "article_fetch_success": 0,
       "article_fetch_failed": 0
@@ -269,17 +269,17 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
       "newest_entry_datetime": "2026-11-12T11:46:16+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 10902,
-      "article_fetch_attempted": 1,
-      "article_fetch_success": 1,
+      "median_final_text_length": 0,
+      "article_fetch_attempted": 0,
+      "article_fetch_success": 0,
       "article_fetch_failed": 0
     },
     "OpenAnesthesia": {
@@ -293,8 +293,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/xml; charset=utf-8",
@@ -310,13 +310,13 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-11-09T12:00:03+00:00",
+      "newest_entry_datetime": "2026-11-16T12:00:57+00:00",
       "freshness": "unknown",
       "median_final_text_length": 0,
       "article_fetch_attempted": 0,
@@ -340,17 +340,17 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
       "newest_entry_datetime": "2026-11-12T13:53:44+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 3769,
-      "article_fetch_attempted": 1,
-      "article_fetch_success": 1,
+      "median_final_text_length": 0,
+      "article_fetch_attempted": 0,
+      "article_fetch_success": 0,
       "article_fetch_failed": 0
     },
     "Taming the SRU": {
@@ -358,13 +358,13 @@
       "disabled_until_utc": "",
       "health_epoch": "2026-08-squarespace-rss-v1",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-11-04T14:01:50+00:00",
+      "newest_entry_datetime": "2026-11-16T12:55:34+00:00",
       "freshness": "unknown",
       "median_final_text_length": 0,
       "article_fetch_attempted": 0,
@@ -375,8 +375,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "text/xml;charset=UTF-8",
@@ -393,8 +393,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -410,8 +410,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=utf-8",
@@ -427,8 +427,8 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -442,11 +442,11 @@
       "homepage_content_type": "text/html; charset=UTF-8"
     },
     "WFSA Anaesthesia Tutorial of the Week": {
-      "consecutive_failures": 19,
+      "consecutive_failures": 20,
       "disabled_until_utc": "",
       "last_health": "parse_failed",
       "last_ok_utc": "2026-10-13T11:01:57+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
@@ -463,23 +463,23 @@
       "consecutive_failures": 0,
       "disabled_until_utc": "",
       "last_health": "ok_rss",
-      "last_ok_utc": "2026-11-13T12:39:12+00:00",
-      "last_seen_utc": "2026-11-13T12:39:12+00:00",
+      "last_ok_utc": "2026-11-16T13:10:14+00:00",
+      "last_seen_utc": "2026-11-16T13:10:14+00:00",
       "feed_status_code": 200,
       "homepage_status_code": null,
       "feed_content_type": "application/rss+xml; charset=UTF-8",
       "feed_parse_result": "entries",
-      "newest_entry_datetime": "2026-11-11T08:06:09+00:00",
+      "newest_entry_datetime": "2026-11-14T08:06:34+00:00",
       "freshness": "unknown",
-      "median_final_text_length": 0,
-      "article_fetch_attempted": 0,
-      "article_fetch_success": 0,
+      "median_final_text_length": 1811,
+      "article_fetch_attempted": 1,
+      "article_fetch_success": 1,
       "article_fetch_failed": 0
     }
   },
   "last_successful_daily_run_utc": "2026-11-16T13:01:26+00:00",
   "last_successful_daily_run_utc_by_report": {
-    "cybermed": "2026-11-13T12:39:35+00:00"
+    "cybermed": "2026-11-16T13:10:49+00:00"
   },
   "reports": {
     "cyberlurch": {
@@ -3250,6 +3250,24 @@
             "title": "Ebola in the DRC",
             "channel": "Don't Forget the Bubbles",
             "url": "https://dontforgetthebubbles.com/ebola-in-the-drc/"
+          },
+          "https://emcrit.org/emcrit/hypercritical-002/": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "EMCrit 438 – HyperCRITical 002",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emcrit/hypercritical-002/"
+          },
+          "https://journalfeed.org/article-a-day/category/critical-care/": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Advances in Critical Care Medicine Insights - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/category/critical-care/"
+          },
+          "https://www.emdocs.net/journal-feed-weekly-wrap-up-194/": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Journal Feed Weekly Wrap-Up",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/journal-feed-weekly-wrap-up-194/"
           }
         }
       },
@@ -5895,12 +5913,448 @@
             "url": "https://pubmed.ncbi.nlm.nih.gov/42973066/",
             "screened_at_utc": "2026-11-13T12:39:35+00:00",
             "sent_overview_at_utc": "2026-11-13T12:39:35+00:00"
+          },
+          "43020457": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Positive pressure ventilation in newborns at birth: a systematic review of recipient characteristics and temporal trends.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020457/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00",
+            "sent_overview_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "43020456": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Coronary Perfusion Pressure During Cardiopulmonary Resuscitation is Associated with Outcomes from Pediatric In-hospital Cardiac Arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020456/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00",
+            "sent_overview_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "43020455": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Cycle-to-Cycle Prediction of Return of Spontaneous Circulation Using End-Tidal Carbon Dioxide Dynamics in Out-of-Hospital Cardiac Arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020455/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "43025429": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Cangrelor for myocardial infarction-related cardiogenic shock.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025429/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42988614": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Inter-Individual Variation in LUNG Mechanics Assessed by the Non-Invasive PEEP-Step Method During Laparoscopic and Robotic Surgery Indicates Need for Individualized Ventilatory Settings.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988614/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00",
+            "sent_overview_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42982758": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Large bilateral perirenal cystic lesions in two patients with heritable PAH treated with sotatercept.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982758/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42981082": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Reduced desaturation-based detection of sleep apnea events in self-identified Black individuals across two cohorts.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981082/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42984475": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Peri-operative management of sodium-glucose cotransporter-2 inhibitors: from cessation to metabolic stewardship.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42984475/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42962222": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Patients as Partners: A New Article Type in Anesthesia & Analgesia Extending Perspectives in Practice and Research.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42962222/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42962219": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Pain That Falls Through the Gap: Recognition, Uncertainty, and Voice During Caesarean Delivery.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42962219/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42955875": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Bronchial Rupture during Endobronchial Blocker Use.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955875/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42955860": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Mechanical Power and Postoperative Lung Injury: Reply.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955860/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42955853": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Mechanical Power and Postoperative Lung Injury: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955853/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42998082": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Trends in Care and Outcomes Among Emergency Department Patients With Chest Pain Without Myocardial Infarction.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998082/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42998081": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Concepts in Practice: Understanding and Addressing Name-Based Microaggressions in Health Care.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998081/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42998079": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Youth Suicide Prevention Is Core Emergency Care.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998079/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42998078": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "A High-Yield Solution to the Emergency Medicine Resident Scholarly Activity Requirement.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998078/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42998077": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Live Versus Delayed Video-Based TEAM Assessment During Real-World Cardiac Arrest: Agreement and Exploratory Differences by Rater Experience.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998077/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00",
+            "sent_overview_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42998076": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Is a Minute Saved More Than a Minute Earned? Ambient Scribes and the Work Behind the Note.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998076/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42998080": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Survival From Traumatic Cardiac Arrest After Sequential Decompression of Dual-Tension Thoracic Physiology Without Chest Compressions.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998080/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963272": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Experience in paediatric resuscitation of anaesthetists in training. Comment on Br J Anaesth 2025; 135: 1895-6.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963272/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963273": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Dreaming during anaesthesia. Comment on Br J Anaesth 2026; 137: 506-24.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963273/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963271": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Conceptual model of multidisciplinary shared decision-making for high-risk surgical patients: a Delphi study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963271/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00",
+            "sent_overview_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963270": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Hepatic dysfunction and recovery after remimazolam-based general anaesthesia: a prospective cohort study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963270/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00",
+            "sent_overview_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963269": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Reusable versus disposable absorbent pads in perioperative care: a functional and life cycle assessment.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963269/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963268": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Single-dose intraoperative methadone QTc effects. Response to Br J Anaesth 2026; 137: 894-5.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963268/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963267": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Management of anaesthesia for transfemoral transcatheter aortic valve implantation: role of the anaesthesiologist. Response to Br J Anaesth 2026; 137: 911-2.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963267/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963266": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Perioperative intravenous fluid and chronic kidney disease: absence of evidence or evidence of absence of long-term kidney outcomes in RELIEF. Comment on Br J Anaesth 2026; 137: 479-89.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963266/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963265": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Hyperoxaemia is not hyperoxia under extracorporeal circulation: impact of restrictive versus liberal oxygenation on pulmonary decline after cardiac surgery.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963265/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42963264": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Use of perioperative allergy labels appears to be harming, not helping, patients: risks, systems, and research opportunities.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963264/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42988325": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The Impact of Undernutrition on Post-Tuberculosis Lung-Function: A Prospective Cohort Study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988325/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00",
+            "sent_overview_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42988324": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The impact of removing prior authorization for guideline-concordant maintenance inhaled medications for COPD: a population-based cohort study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988324/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00",
+            "sent_overview_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42988323": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Pretransplant Pulmonary Hemodynamics, Explant Histology, and Primary Graft Dysfunction after Lung Transplantation for Silicosis.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988323/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42968156": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Accelerating tracheostomy decannulation with intermittent oro-esophageal feeding in neurogenic dysphagia: a multicenter randomized controlled trial.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968156/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00",
+            "sent_overview_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42968112": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Understanding cerebral autoregulation and cerebrovascular reactivity: mechanistic perspectives and clinical insights from TBI.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968112/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975432": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Brachial-to-Radial Arterial Pressure Gradient: Implications for Clinical Practice.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975432/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975539": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975539/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975538": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Methodological Considerations Regarding Family Confusion Assessment Method Scoring in Delirium Screening for Spanish-Speaking ICU Patients.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975538/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975537": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975537/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975536": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Angiopoietin-2 in Critical Illness: One Biomarker, Multiple Signals.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975536/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975535": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The author replies.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975535/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975534": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Beyond Known Contraindications: Coronary Vasospasm As a Potential Life-Threatening Adverse Effect of Neostigmine.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975534/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975533": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Dual Protective Mechanisms of Neostigmine in Septic Shock: Cholinergic Anti-Inflammatory Pathway and Intestinal Barrier Preservation.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975533/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975532": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975532/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975531": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Methodological Considerations Regarding the Safety of Enteral Feeding in Patients on High-Flow Nasal Cannula.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975531/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975530": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975530/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975529": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "From Single-Point Respiratory Load to Continuous Load Assessment: Rethinking the Physiological Benefits of High-Flow Nasal Oxygen After Extubation.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975529/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975528": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975528/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975527": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Preextubation Respiratory Effort As a Physiologic Guide to Postextubation High-Flow Nasal Oxygen.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975527/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975526": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975526/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975525": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Right Ventricular Phenotyping and the Limits of Risk Stratification in Intermediate-Risk Pulmonary Embolism.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975525/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975524": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975524/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975523": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Certainty of Evidence and Interpretation of Effects in Inhaled Antibiotics for Ventilator-Associated Pneumonia.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975523/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975522": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975522/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975521": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Documented Thermoregulation Strategies Alone Do Not Benefit Comatose In-Hospital Cardiac Arrest Survivors.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975521/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975520": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975520/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975519": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Probability Is Not Evidence of Benefit: A Critical Appraisal of the Bayesian Reanalysis of the Restricted Versus Liberal Positive End-Expiratory Pressure in Patients Without Acute Respiratory Distress Syndrome (RELAx) Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975519/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975518": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975518/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975517": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Hypercapnia in Ventilated Sepsis: Signal, Target, or Lung-Protective Tradeoff?",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975517/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42975516": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "Single or Double: Does it Really Make a Difference?",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975516/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
+          },
+          "42980817": {
+            "processed_at_utc": "2026-11-16T13:10:49+00:00",
+            "title": "ICU resilience, stress and support: perceptions of ICU professionals in an international ESICM survey.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42980817/",
+            "screened_at_utc": "2026-11-16T13:10:49+00:00"
           }
         }
       }
     }
   },
-  "updated_at_utc": "2026-11-16T13:01:30+00:00",
+  "updated_at_utc": "2026-11-16T13:10:53+00:00",
   "version": 1,
   "cyberlurch_candidates": {
     "version": 1,

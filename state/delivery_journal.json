@@ -23968,6 +23968,801 @@
         "approved_after_generation_checks": true,
         "seal": "ce0d3cbc6bb15726edb35e0bd0d92427580ae65029924030317fc5f1550b3a69"
       }
+    },
+    "cybermed:daily:2026-11-16:2026-11-16:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-16",
+      "period_end": "2026-11-16",
+      "edition_id": "cybermed:daily:2026-11-16:2026-11-16:production",
+      "content_version": "1e3f8431eb289ef6865d7e027888999daf7020580a48db933bdc269420b39962",
+      "message_id": "<14cd2a5b4ab0c8f1570ae0d0936cfd046895441e877a00fc116c9715d5cc5f99@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-16T13:10:53+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43020457",
+            "title": "Positive pressure ventilation in newborns at birth: a systematic review of recipient characteristics and temporal trends.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020457/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43020456",
+            "title": "Coronary Perfusion Pressure During Cardiopulmonary Resuscitation is Associated with Outcomes from Pediatric In-hospital Cardiac Arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020456/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43020455",
+            "title": "Cycle-to-Cycle Prediction of Return of Spontaneous Circulation Using End-Tidal Carbon Dioxide Dynamics in Out-of-Hospital Cardiac Arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020455/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43025429",
+            "title": "Cangrelor for myocardial infarction-related cardiogenic shock.",
+            "channel": "PubMed: The Lancet (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025429/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988614",
+            "title": "Inter-Individual Variation in LUNG Mechanics Assessed by the Non-Invasive PEEP-Step Method During Laparoscopic and Robotic Surgery Indicates Need for Individualized Ventilatory Settings.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988614/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42982758",
+            "title": "Large bilateral perirenal cystic lesions in two patients with heritable PAH treated with sotatercept.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982758/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981082",
+            "title": "Reduced desaturation-based detection of sleep apnea events in self-identified Black individuals across two cohorts.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981082/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42984475",
+            "title": "Peri-operative management of sodium-glucose cotransporter-2 inhibitors: from cessation to metabolic stewardship.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42984475/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42962222",
+            "title": "Patients as Partners: A New Article Type in Anesthesia & Analgesia Extending Perspectives in Practice and Research.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42962222/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42962219",
+            "title": "Pain That Falls Through the Gap: Recognition, Uncertainty, and Voice During Caesarean Delivery.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42962219/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42955875",
+            "title": "Bronchial Rupture during Endobronchial Blocker Use.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955875/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42955860",
+            "title": "Mechanical Power and Postoperative Lung Injury: Reply.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955860/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42955853",
+            "title": "Mechanical Power and Postoperative Lung Injury: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42955853/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998082",
+            "title": "Trends in Care and Outcomes Among Emergency Department Patients With Chest Pain Without Myocardial Infarction.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998082/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998081",
+            "title": "Concepts in Practice: Understanding and Addressing Name-Based Microaggressions in Health Care.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998081/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998079",
+            "title": "Youth Suicide Prevention Is Core Emergency Care.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998079/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998078",
+            "title": "A High-Yield Solution to the Emergency Medicine Resident Scholarly Activity Requirement.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998078/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998077",
+            "title": "Live Versus Delayed Video-Based TEAM Assessment During Real-World Cardiac Arrest: Agreement and Exploratory Differences by Rater Experience.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998077/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998076",
+            "title": "Is a Minute Saved More Than a Minute Earned? Ambient Scribes and the Work Behind the Note.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998076/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998080",
+            "title": "Survival From Traumatic Cardiac Arrest After Sequential Decompression of Dual-Tension Thoracic Physiology Without Chest Compressions.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998080/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963272",
+            "title": "Experience in paediatric resuscitation of anaesthetists in training. Comment on Br J Anaesth 2025; 135: 1895-6.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963272/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963273",
+            "title": "Dreaming during anaesthesia. Comment on Br J Anaesth 2026; 137: 506-24.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963273/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963271",
+            "title": "Conceptual model of multidisciplinary shared decision-making for high-risk surgical patients: a Delphi study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963271/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963270",
+            "title": "Hepatic dysfunction and recovery after remimazolam-based general anaesthesia: a prospective cohort study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963270/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963269",
+            "title": "Reusable versus disposable absorbent pads in perioperative care: a functional and life cycle assessment.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963269/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963268",
+            "title": "Single-dose intraoperative methadone QTc effects. Response to Br J Anaesth 2026; 137: 894-5.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963268/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963267",
+            "title": "Management of anaesthesia for transfemoral transcatheter aortic valve implantation: role of the anaesthesiologist. Response to Br J Anaesth 2026; 137: 911-2.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963267/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963266",
+            "title": "Perioperative intravenous fluid and chronic kidney disease: absence of evidence or evidence of absence of long-term kidney outcomes in RELIEF. Comment on Br J Anaesth 2026; 137: 479-89.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963266/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963265",
+            "title": "Hyperoxaemia is not hyperoxia under extracorporeal circulation: impact of restrictive versus liberal oxygenation on pulmonary decline after cardiac surgery.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963265/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42963264",
+            "title": "Use of perioperative allergy labels appears to be harming, not helping, patients: risks, systems, and research opportunities.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963264/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988325",
+            "title": "The Impact of Undernutrition on Post-Tuberculosis Lung-Function: A Prospective Cohort Study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988325/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988324",
+            "title": "The impact of removing prior authorization for guideline-concordant maintenance inhaled medications for COPD: a population-based cohort study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988324/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988323",
+            "title": "Pretransplant Pulmonary Hemodynamics, Explant Histology, and Primary Graft Dysfunction after Lung Transplantation for Silicosis.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988323/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968156",
+            "title": "Accelerating tracheostomy decannulation with intermittent oro-esophageal feeding in neurogenic dysphagia: a multicenter randomized controlled trial.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968156/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42968112",
+            "title": "Understanding cerebral autoregulation and cerebrovascular reactivity: mechanistic perspectives and clinical insights from TBI.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968112/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975432",
+            "title": "Brachial-to-Radial Arterial Pressure Gradient: Implications for Clinical Practice.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975432/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975539",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975539/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975538",
+            "title": "Methodological Considerations Regarding Family Confusion Assessment Method Scoring in Delirium Screening for Spanish-Speaking ICU Patients.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975538/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975537",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975537/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975536",
+            "title": "Angiopoietin-2 in Critical Illness: One Biomarker, Multiple Signals.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975536/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975535",
+            "title": "The author replies.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975535/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975534",
+            "title": "Beyond Known Contraindications: Coronary Vasospasm As a Potential Life-Threatening Adverse Effect of Neostigmine.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975534/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975533",
+            "title": "Dual Protective Mechanisms of Neostigmine in Septic Shock: Cholinergic Anti-Inflammatory Pathway and Intestinal Barrier Preservation.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975533/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975532",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975532/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975531",
+            "title": "Methodological Considerations Regarding the Safety of Enteral Feeding in Patients on High-Flow Nasal Cannula.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975531/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975530",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975530/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975529",
+            "title": "From Single-Point Respiratory Load to Continuous Load Assessment: Rethinking the Physiological Benefits of High-Flow Nasal Oxygen After Extubation.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975529/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975528",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975528/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975527",
+            "title": "Preextubation Respiratory Effort As a Physiologic Guide to Postextubation High-Flow Nasal Oxygen.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975527/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975526",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975526/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975525",
+            "title": "Right Ventricular Phenotyping and the Limits of Risk Stratification in Intermediate-Risk Pulmonary Embolism.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975525/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975524",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975524/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975523",
+            "title": "Certainty of Evidence and Interpretation of Effects in Inhaled Antibiotics for Ventilator-Associated Pneumonia.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975523/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975522",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975522/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975521",
+            "title": "Documented Thermoregulation Strategies Alone Do Not Benefit Comatose In-Hospital Cardiac Arrest Survivors.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975521/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975520",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975520/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975519",
+            "title": "Probability Is Not Evidence of Benefit: A Critical Appraisal of the Bayesian Reanalysis of the Restricted Versus Liberal Positive End-Expiratory Pressure in Patients Without Acute Respiratory Distress Syndrome (RELAx) Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975519/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975518",
+            "title": "The authors reply.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975518/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975517",
+            "title": "Hypercapnia in Ventilated Sepsis: Signal, Target, or Lung-Protective Tradeoff?",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975517/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975516",
+            "title": "Single or Double: Does it Really Make a Difference?",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975516/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42980817",
+            "title": "ICU resilience, stress and support: perceptions of ICU professionals in an international ESICM survey.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42980817/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emcrit/hypercritical-002/",
+            "title": "EMCrit 438 – HyperCRITical 002",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emcrit/hypercritical-002/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://accrac.com/episode-347-article-hot-takes-part-1/",
+            "title": "Episode 347: Article Hot Takes Part 1",
+            "channel": "ACCRAC",
+            "url": "https://accrac.com/episode-347-article-hot-takes-part-1/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/category/critical-care/",
+            "title": "Advances in Critical Care Medicine Insights - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/category/critical-care/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/journal-feed-weekly-wrap-up-194/",
+            "title": "Journal Feed Weekly Wrap-Up",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/journal-feed-weekly-wrap-up-194/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42988614",
+            "title": "Inter-Individual Variation in LUNG Mechanics Assessed by the Non-Invasive PEEP-Step Method During Laparoscopic and Robotic Surgery Indicates Need for Individualized Ventilatory Settings.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988614/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42988614",
+              "doi": "10.1111/aas.70388",
+              "kind": "original",
+              "source_version": "d75f9d38bcd575031581f4f64b8f3c3fb49d882623f2e19cc5fd45f448af37d0",
+              "fields": {
+                "title": "2c54dcc9e596ae5b45e6820788fbe356bc5670b810c7d14b553f7f1c223f953d",
+                "abstract": "9fc816a78a4d00ac394b5452198dff2697e275c1dfa47e17ad5ae2fea72c9fa3",
+                "types": "e61d3ab301dfa1ef529605250b29ee676f06a081b326e5f5c612b8c95cf07a54",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "927060dbe851a1a06c3ad8cf963668dc2425cf8c6c5f3cb2cae55a1b81929c8a",
+                "results_known": false,
+                "numbers": "12b080930c7ab260466c7982c487d7a6089d12496c6ed6f815c24e648347d3dc",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "f3de52bc9dd6a6ff7846a2bdba8ad362c9ac834574fd4233b7b2cf6cc96381d2",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43020457",
+            "title": "Positive pressure ventilation in newborns at birth: a systematic review of recipient characteristics and temporal trends.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020457/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43020457",
+              "doi": "10.1016/j.resuscitation.2026.111388",
+              "kind": "original",
+              "source_version": "277bec43fed04c887d02f67527258b896447697987a67b8e59157e0ef29ba606",
+              "fields": {
+                "title": "04311f39b2845d976155015c5626ee1c65dc1041a03d8e8b86b533242271450d",
+                "abstract": "654db165a21b7faa029530badde8e838b51302948b4c26f0b9a4606cb1bfe7d9",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "194e0cd49e212b2a2ca3fe92e322de8093a9f61511c99856e7e68c44f36d3e5c",
+                "results_known": false,
+                "numbers": "efe539eedf3390140d0e46298a9c469934711adfb3129e00879df56c7b246afb",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "a4afc75fd26de331c66321512632805dbf0025ea98cdcecf555d008b75731493",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43020456",
+            "title": "Coronary Perfusion Pressure During Cardiopulmonary Resuscitation is Associated with Outcomes from Pediatric In-hospital Cardiac Arrest.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020456/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43020456",
+              "doi": "10.1016/j.resuscitation.2026.111389",
+              "kind": "original",
+              "source_version": "86f4bf0222eee347bbcaae6e24ed83144614d0e4bbb42e1da611804c2268d846",
+              "fields": {
+                "title": "6fdcbd6da8118823cc43b2edd2cb90ebea9af7eb4cdb72217c54d50289f0be2e",
+                "abstract": "59ea9f49b3848388c1abbe95c3f0af3017085e4c8d71bc04012e810606fa9c2d",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "fd84ad97bfdf7c686742b92d0157220a3196e13c0ca5c7fd4b5fa313367b6977",
+                "results_known": true,
+                "numbers": "92e3b0d5e844f62be90d37ee127a3700a79ce3b0e151a4c638ee04de98b7ffca",
+                "endpoint": "64b8a20e006d0d682b4dd1e0832e08d236945af0edc90283c822f8994284fc6a",
+                "methods": "aedc40022a5846eb6518860d18968875f7df5c62bc468d5d6bf1ba86c75bee16",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42998077",
+            "title": "Live Versus Delayed Video-Based TEAM Assessment During Real-World Cardiac Arrest: Agreement and Exploratory Differences by Rater Experience.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998077/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42998077",
+              "doi": "10.1016/j.annemergmed.2026.09.032",
+              "kind": "original",
+              "source_version": "6ae5d2200922b4702950e82d5fd0132cf6cd4b6ece953137df511a38951c2da1",
+              "fields": {
+                "title": "a6fdb3c389a2678420f29ab2a05680fbf1ab70fc6d229a6ced27d1b681d1127b",
+                "abstract": "45c7dc24248743418cd6c6f7d41a83b20ce7ff21263d0e97e40eaf0105f2a117",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3c0ef6cda6a487a1cdea472cc5f62c3cdf3d424048859e1cf7b34b59adc32c90",
+                "results_known": false,
+                "numbers": "06721d09b0f2b06a981cbc33785e1355596f192db2a1c7bd018fef2ce4da1fc4",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "61eb60438ffdcfb5ed1551770a6aedbd60f5c186d69efdfef8c339b5bee53911",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42988324",
+            "title": "The impact of removing prior authorization for guideline-concordant maintenance inhaled medications for COPD: a population-based cohort study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988324/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42988324",
+              "doi": "10.1016/j.chest.2026.10.035",
+              "kind": "original",
+              "source_version": "33289994f508097be73c1de975aca42458f093bb208bcff5ecd05758c7664091",
+              "fields": {
+                "title": "03302c3e638d99ce9aae46d2ea295a24e5c52782c214dc0cb14b68ae7407e13f",
+                "abstract": "7d1bad92236a62dd687b2004b8d7b4b1da6d4a1b200487a776b1cd68ad766896",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "acbc809a4f40e1d98cbece36728cbaac5bfbe760b532c5c00c855926a8688f4c",
+                "results_known": false,
+                "numbers": "596dd7624baf3c35336cda529c769b55c250dbc5e1c0174fa45296560867d558",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "e329c675467a84832006201349ed41b3349d0c11c742416414ce9d2f33b92281",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42988325",
+            "title": "The Impact of Undernutrition on Post-Tuberculosis Lung-Function: A Prospective Cohort Study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988325/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42988325",
+              "doi": "10.1016/j.chest.2026.10.041",
+              "kind": "original",
+              "source_version": "ea8030b95acdb5cf5b0781c3b6c91eac967a835a1eb4795355e6d002e8b0f93d",
+              "fields": {
+                "title": "1163f4199f8e9d321258be011fdc0391211542b218e735f58e3f8a4901002e6b",
+                "abstract": "2ff885b8b7d552dee300b2e6266f8d9ee645a1b13a51c9a26aa3890106a54973",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "fc20d9fcc46f22520a8f2f86fcd36197e443bb9e5ed7384a2d3b0797b3957ef9",
+                "results_known": false,
+                "numbers": "59db787eda7c3228b21f6f8c2d01cf663f95c743c853fcd47051fcbe4b591899",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "44b791463fa70b30d8f4a8174acb8b444f90ddff57e9d1f13957a464bcfa2de2",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42963271",
+            "title": "Conceptual model of multidisciplinary shared decision-making for high-risk surgical patients: a Delphi study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963271/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42963271",
+              "doi": "10.1016/j.bja.2026.09.023",
+              "kind": "original",
+              "source_version": "519e7aef2f4d1de26927367ab2765bb5a30d9ec057040f64fae79db7d2aefd2c",
+              "fields": {
+                "title": "c8d8cb16e38af27b700f0080a4f37526523a47d3ea39b4b942096ea60509ba8d",
+                "abstract": "08efce4d221cd07a45f0f7d7a577a5d9402d859e593190062fda2adc10707ca5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42963270",
+            "title": "Hepatic dysfunction and recovery after remimazolam-based general anaesthesia: a prospective cohort study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42963270/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42963270",
+              "doi": "10.1016/j.bja.2026.08.064",
+              "kind": "original",
+              "source_version": "66d1db28dabe48b8f977c6c232727ed5b2ad4f987e32ea528b00a8d6eece7a1a",
+              "fields": {
+                "title": "6209aa3a95c51dde99106cc9aa9a9c0e88cc12853bbba833553462b88a925d3b",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42968156",
+            "title": "Accelerating tracheostomy decannulation with intermittent oro-esophageal feeding in neurogenic dysphagia: a multicenter randomized controlled trial.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42968156/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42968156",
+              "doi": "10.1186/s13054-026-06235-y",
+              "kind": "original",
+              "source_version": "115b5caef940969d462de9de7024c27e1b7788ef4052c20f90a16be798d050ff",
+              "fields": {
+                "title": "39d88caea66d2fe18bf43f445c862e7358f75b1b393f1fc7bb0ef97146b73f58",
+                "abstract": "18e9fbaedc6cd0ec461dd645285fcafb93fa0ab493fa61d627ba3a61e47cfb1e",
+                "types": "1eadad9f656117cc721c323fddc611dd4703b216625af48af7e8a1a016d67651",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "78bf40541c08382f37dc9d286504d9ad9a8d2a9fd9c79eaf759719d83514e4fd",
+                "results_known": true,
+                "numbers": "665ee2c4b466801db71f1c8c373c39feda18da5d4274a7c4a91ed15cf5d8c6f4",
+                "endpoint": "98169de7e373004a2021810966e17cb54440a7d425bfc6070ba646e182838f75",
+                "methods": "32eea957c9bb1b73c129c4ec020c3d253e5c211bfb87428033113af1a3ae01de",
+                "direction": "harm"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emcrit/hypercritical-002/",
+            "title": "EMCrit 438 – HyperCRITical 002",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emcrit/hypercritical-002/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/journal-feed-weekly-wrap-up-194/",
+            "title": "Journal Feed Weekly Wrap-Up",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/journal-feed-weekly-wrap-up-194/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/category/critical-care/",
+            "title": "Advances in Critical Care Medicine Insights - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/category/critical-care/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-16T13:10:49+00:00"
+      },
+      "workflow_run_id": "43872991903",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-16:2026-11-16:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "a36ccd28821880a6184f88fc00e2c9718573193193ac1d3a0dc8aa14fd95bca0",
+        "finalization_policy": "markers",
+        "content_version": "1e3f8431eb289ef6865d7e027888999daf7020580a48db933bdc269420b39962",
+        "message_id": "<14cd2a5b4ab0c8f1570ae0d0936cfd046895441e877a00fc116c9715d5cc5f99@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "e48134809c014ff2_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "c4199d2e08e2e4b91a367d113421a4609038b924b98316b138b683ed1e87d915"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "d2c0e9731fa1781956612466626f0a7dc49e896ca64e8278269fef829f8626a3"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -24709,6 +25504,8 @@
         "42951211",
         "42951789",
         "42951894",
+        "42954486",
+        "42954800",
         "42955323",
         "42956771",
         "42956796",
@@ -24717,6 +25514,7 @@
         "42956923",
         "42956924",
         "42956925",
+        "42957498",
         "42958418",
         "42958645",
         "42959645",
@@ -24739,15 +25537,19 @@
         "42972430",
         "42972966",
         "42973058",
+        "42973066",
+        "42974958",
         "42977488",
         "42982479",
         "42982504",
+        "42983226",
         "42988037",
         "42988384",
         "42995620",
         "43001740",
         "43001755",
-        "43001758"
+        "43001758",
+        "43014822"
       ]
     }
   }
