@@ -24763,6 +24763,246 @@
         "approved_after_generation_checks": true,
         "seal": "d2c0e9731fa1781956612466626f0a7dc49e896ca64e8278269fef829f8626a3"
       }
+    },
+    "cyberlurch:daily:2026-11-17:2026-11-17:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-17",
+      "period_end": "2026-11-17",
+      "edition_id": "cyberlurch:daily:2026-11-17:2026-11-17:production",
+      "content_version": "e7a3b48d58ab0f9991b23a627d1900b5725aa4f1d0854e39d7a2ef279dc1605b",
+      "message_id": "<a20e50979df486043e04a456dfd13ad66009a3a5537a11cd980f70af1fe256fe@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-17T13:43:37+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "4HyE0I-cz-A",
+            "title": "⚡ALERT! NATO Just Did the UNTHINKABLE. Crimean bridge DESTROYED. STOCK UP NOW.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=4HyE0I-cz-A"
+          },
+          {
+            "source": "youtube",
+            "id": "-bq-DS7vmxM",
+            "title": "THEY'VE BEEN HIDING THE GIANTS FROM US",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=-bq-DS7vmxM"
+          },
+          {
+            "source": "youtube",
+            "id": "0xxNSnZhrx0",
+            "title": "BREAKING: Dem Congressman Tells Krystal NO TO JEFFRIES, YES To Ayanna Pressley",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=0xxNSnZhrx0"
+          },
+          {
+            "source": "youtube",
+            "id": "13NPMV2cCBU",
+            "title": "Why Memory Is the Bottleneck in Modern Computing",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=13NPMV2cCBU"
+          },
+          {
+            "source": "youtube",
+            "id": "1hbZA5cZTOE",
+            "title": "Bau von Robotaxis: Tesla will Milliarden in Brandenburger Werk investieren",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=1hbZA5cZTOE"
+          },
+          {
+            "source": "youtube",
+            "id": "4KVeSCWjYZQ",
+            "title": "Kristna får inte delta på mänskliga rättigheter-event: kritiserade islam",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=4KVeSCWjYZQ"
+          },
+          {
+            "source": "youtube",
+            "id": "DUivLay4oDg",
+            "title": "Border Police motorcycle officers arrest two suspects; loaded & cocked handgun found on one of them",
+            "channel": "IsraelNationalTV",
+            "url": "https://www.youtube.com/watch?v=DUivLay4oDg"
+          },
+          {
+            "source": "youtube",
+            "id": "WGuAap16rVU",
+            "title": "\"War has never been so close to our door!\" | Ernst Wolff in conversation with Dominik Kettner",
+            "channel": "ErnstWolffOffiziell",
+            "url": "https://www.youtube.com/watch?v=WGuAap16rVU"
+          },
+          {
+            "source": "youtube",
+            "id": "6UJCurOrSz4",
+            "title": "DO YOU KNOW--The Three Events That Take Place Before Christ's Return?",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=6UJCurOrSz4"
+          },
+          {
+            "source": "youtube",
+            "id": "9ZD1xwAc4lk",
+            "title": "Thand Ringqvist & Centern svänger vänster – trots problemen med Vänsterpartiet",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=9ZD1xwAc4lk"
+          },
+          {
+            "source": "youtube",
+            "id": "G7L0zg5MGCk",
+            "title": "ILTV On The Hour - November 16, 2026 |  Two Flashpoints, One Crisis: Iran, Israel and the Houthis",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=G7L0zg5MGCk"
+          },
+          {
+            "source": "youtube",
+            "id": "GDlArJw7VuA",
+            "title": "Kathy Ireland Reveals Husband's Escape From Boat Fire — and That's Not the Only Miracle",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=GDlArJw7VuA"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "4HyE0I-cz-A",
+            "title": "⚡ALERT! NATO Just Did the UNTHINKABLE. Crimean bridge DESTROYED. STOCK UP NOW.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=4HyE0I-cz-A"
+          },
+          {
+            "source": "youtube",
+            "id": "-bq-DS7vmxM",
+            "title": "THEY'VE BEEN HIDING THE GIANTS FROM US",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=-bq-DS7vmxM"
+          },
+          {
+            "source": "youtube",
+            "id": "0xxNSnZhrx0",
+            "title": "BREAKING: Dem Congressman Tells Krystal NO TO JEFFRIES, YES To Ayanna Pressley",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=0xxNSnZhrx0"
+          },
+          {
+            "source": "youtube",
+            "id": "13NPMV2cCBU",
+            "title": "Why Memory Is the Bottleneck in Modern Computing",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=13NPMV2cCBU"
+          },
+          {
+            "source": "youtube",
+            "id": "1hbZA5cZTOE",
+            "title": "Bau von Robotaxis: Tesla will Milliarden in Brandenburger Werk investieren",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=1hbZA5cZTOE"
+          },
+          {
+            "source": "youtube",
+            "id": "4KVeSCWjYZQ",
+            "title": "Kristna får inte delta på mänskliga rättigheter-event: kritiserade islam",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=4KVeSCWjYZQ"
+          },
+          {
+            "source": "youtube",
+            "id": "DUivLay4oDg",
+            "title": "Border Police motorcycle officers arrest two suspects; loaded & cocked handgun found on one of them",
+            "channel": "IsraelNationalTV",
+            "url": "https://www.youtube.com/watch?v=DUivLay4oDg"
+          },
+          {
+            "source": "youtube",
+            "id": "WGuAap16rVU",
+            "title": "\"War has never been so close to our door!\" | Ernst Wolff in conversation with Dominik Kettner",
+            "channel": "ErnstWolffOffiziell",
+            "url": "https://www.youtube.com/watch?v=WGuAap16rVU"
+          },
+          {
+            "source": "youtube",
+            "id": "6UJCurOrSz4",
+            "title": "DO YOU KNOW--The Three Events That Take Place Before Christ's Return?",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=6UJCurOrSz4"
+          },
+          {
+            "source": "youtube",
+            "id": "9ZD1xwAc4lk",
+            "title": "Thand Ringqvist & Centern svänger vänster – trots problemen med Vänsterpartiet",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=9ZD1xwAc4lk"
+          },
+          {
+            "source": "youtube",
+            "id": "G7L0zg5MGCk",
+            "title": "ILTV On The Hour - November 16, 2026 |  Two Flashpoints, One Crisis: Iran, Israel and the Houthis",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=G7L0zg5MGCk"
+          },
+          {
+            "source": "youtube",
+            "id": "GDlArJw7VuA",
+            "title": "Kathy Ireland Reveals Husband's Escape From Boat Fire — and That's Not the Only Miracle",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=GDlArJw7VuA"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "4HyE0I-cz-A",
+            "title": "⚡ALERT! NATO Just Did the UNTHINKABLE. Crimean bridge DESTROYED. STOCK UP NOW.",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=4HyE0I-cz-A"
+          },
+          {
+            "source": "youtube",
+            "id": "G7L0zg5MGCk",
+            "title": "ILTV On The Hour - November 16, 2026 |  Two Flashpoints, One Crisis: Iran, Israel and the Houthis",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=G7L0zg5MGCk"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-17T13:43:33+00:00"
+      },
+      "workflow_run_id": "44095058512",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-17:2026-11-17:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "8abfb8cc0f322d3bffdcb0962715f3033acfa81baf43efe9855150be43977051",
+        "finalization_policy": "markers",
+        "content_version": "e7a3b48d58ab0f9991b23a627d1900b5725aa4f1d0854e39d7a2ef279dc1605b",
+        "message_id": "<a20e50979df486043e04a456dfd13ad66009a3a5537a11cd980f70af1fe256fe@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "9b218f6fa71cb413_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "8b7bff90c1d2dcc23cdd3a19971c3cfe46b7b783f664adb3645926e114b30f3c"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "84679be8cb6e538edfaf90dfa16a4e42dff049c8933ec4a5883d8904215c3eef"
+      }
     }
   },
   "paper_legacy_unknown": {
