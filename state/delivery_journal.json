@@ -25003,6 +25003,570 @@
         "approved_after_generation_checks": true,
         "seal": "84679be8cb6e538edfaf90dfa16a4e42dff049c8933ec4a5883d8904215c3eef"
       }
+    },
+    "cybermed:daily:2026-11-17:2026-11-17:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-17",
+      "period_end": "2026-11-17",
+      "edition_id": "cybermed:daily:2026-11-17:2026-11-17:production",
+      "content_version": "cd89c46e944e27cd899eb55be44e4ef21f5022b511399d0ed9fceedcedf1a8a1",
+      "message_id": "<a23e236f0775148e1fec28566513b0208236b483972a6e3d315740b6a2ab480f@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-17T13:53:20+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43008755",
+            "title": "Obstructive sleep apnoea: an overlooked challenge in the current NHS Strategy.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43008755/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43008754",
+            "title": "Laennec beyond the stethoscope.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43008754/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42986064",
+            "title": "End of the Beginning: The Second Generation of Anti-fibrotic Therapy Grows.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42986064/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42982124",
+            "title": "Effect of age on the association between oxygen exposure and mortality in ARDS: a secondary analysis of randomized controlled trials with independent multicenter evaluation.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982124/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43002154",
+            "title": "Unintended Exposure to Medical Aid in Dying Drug Mixtures: Principles of Emergency Care.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43002154/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42966683",
+            "title": "Perioperative intravenous fluid and chronic kidney disease: long-term follow-up of the restrictive versus liberal fluid therapy in major abdominal surgery randomised trial. Comment on Br J Anaesth 2026; 137: 479-89.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42966683/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994751",
+            "title": "Efficacy and Safety of Ulinastatin in the Treatment of Patients with Sepsis: The ADJUST Trial.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994751/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42972576",
+            "title": "Concomitant assessment of immunosuppression and Herpesvirus reactivation in blood at Day 7 after ICU admission in a mixed population.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972576/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42972412",
+            "title": "Deconstructing cardiovascular heterogeneity in septic shock: V0-LV invariance, vasopressin mismatch, and RVR circularity.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972412/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42972380",
+            "title": "Coronary microvascular dysfunction and obstructive coronary artery disease in sepsis-associated myocardial injury: authors' reply.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972380/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42972582",
+            "title": "Coagulopathy and anticoagulation management in adult ECPR patients.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972582/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42972580",
+            "title": "Distinct transcriptomic signatures discriminate hyperinflammation from immune paralysis in sepsis: a single-cell RNA sequencing study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972580/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975515",
+            "title": "Laboratory Investigation in Critical Care Medicine: Why It Matters.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975515/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42989969",
+            "title": "Sedation success and safety of combination regimens in paediatric MRI: A network meta-analysis of randomised trials.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42989969/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42989963",
+            "title": "Critical adverse events during emergency department ketamine-propofol sedation in children.: A secondary analysis of a multicentre study.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42989963/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42986439",
+            "title": "Consensus on a core outcome set for ventilation trials in critically ill patients with acute brain injury: results of an international Delphi consensus study.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42986439/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42986438",
+            "title": "Vibroacoustic music therapy for postoperative delirium in the ICU: the VIMUD-ICU single-center exploratory randomized controlled trial.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42986438/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42986437",
+            "title": "Vasopressors as immunomodulators: a hidden axis in septic shock.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42986437/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://rebelem.com/hypercapnia-on-rv/",
+            "title": "Targeted Mild Hypercapnia and Right Ventricular Function After OHCA",
+            "channel": "REBEL EM",
+            "url": "https://rebelem.com/hypercapnia-on-rv/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://theresusroom.libsyn.com/nitrite-poisoning-roadside-to-resus",
+            "title": "Nitrite Poisoning; Roadside to Resus",
+            "channel": "The Resus Room",
+            "url": "https://theresusroom.libsyn.com/nitrite-poisoning-roadside-to-resus"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/managing-the-physiologically-difficult-airway/",
+            "title": "Managing the Physiologically Difficult Airway - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/managing-the-physiologically-difficult-airway/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://first10em.com/prehospital-ecpr-a-20-survival-benefit/",
+            "title": "Prehospital ECPR: A 20% survival benefit?!?!",
+            "channel": "First10EM",
+            "url": "https://first10em.com/prehospital-ecpr-a-20-survival-benefit/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/dka-related-cerebral-injury/",
+            "title": "DKA-Related Cerebral Injury",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/dka-related-cerebral-injury/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.tamingthesru.com/blog/diagnostics/withdrawalsyndromes",
+            "title": "Withdrawal Syndromes",
+            "channel": "Taming the SRU",
+            "url": "https://www.tamingthesru.com/blog/diagnostics/withdrawalsyndromes"
+          },
+          {
+            "source": "pubmed",
+            "id": "42987921",
+            "title": "Correction to: Rocuronium dose and first-attempt intubation success in the critically ill: secondary analysis of two multicenter trials.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42987921/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "43002154",
+            "title": "Unintended Exposure to Medical Aid in Dying Drug Mixtures: Principles of Emergency Care.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43002154/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43002154",
+              "doi": "10.1016/j.annemergmed.2026.09.004",
+              "kind": "original",
+              "source_version": "212265cfd953d63677bbb70e69115eb4773e437b07bec92089b5acb8a9e264a5",
+              "fields": {
+                "title": "477a478384ec0088fbe97eff3da4ad8395368e9c0ba4366a46d621804b948536",
+                "abstract": "a883ce16f96e8b09c98c4f70f97631bb89239b56b81334443532957f53e0efc5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42994751",
+            "title": "Efficacy and Safety of Ulinastatin in the Treatment of Patients with Sepsis: The ADJUST Trial.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994751/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42994751",
+              "doi": "10.1016/j.chest.2026.10.033",
+              "kind": "original",
+              "source_version": "7357a3bde6026f8a2e1dd2bf3b912ba49032b5c959d06c60bbcbabf3bef898e7",
+              "fields": {
+                "title": "7fb8d8c8e19bc863e5567895087df4eedc52102ce045f1b3afd4f93d1219991e",
+                "abstract": "db962f24a3c3047742d3a1e777097b242786ce06c7f4cbe545ca49bb75e3c7fd",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "b6f45fbe50afb6ee5ed64be374a75e0936636759df98ed220b27f72eff2be5e4",
+                "results_known": true,
+                "numbers": "079ae837681c172e8e94cbdadff8e3d9590974934d1a48422cdafe558861b246",
+                "endpoint": "6a1845e625f883abc0287b187001af6e4f33b241ea68f3ceff81d117260e6e27",
+                "methods": "dd50949ee64d5fa834543d02034cc79b1967c9aab8e5dd9a7067c20700fab159",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42989969",
+            "title": "Sedation success and safety of combination regimens in paediatric MRI: A network meta-analysis of randomised trials.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42989969/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42989969",
+              "doi": "10.1097/eja.0000000000002524",
+              "kind": "original",
+              "source_version": "2aa07509b2944d27e0a711e1ae859d28feea3469f0562995a5b60be0af0fb03f",
+              "fields": {
+                "title": "3d488b125e05974e3149f6f1e25b9ec4b954694f4eb919daa9179917469472df",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42989963",
+            "title": "Critical adverse events during emergency department ketamine-propofol sedation in children.: A secondary analysis of a multicentre study.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42989963/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42989963",
+              "doi": "10.1097/eja.0000000000002530",
+              "kind": "original",
+              "source_version": "a3c8477529d852effdfd7416a971a134a5541e0ef37fb3c8516a4637818e2d7d",
+              "fields": {
+                "title": "ee5b571c099acefffe90a0b926024ac03112f66537a44f6e2281a5923ed46b9c",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42982124",
+            "title": "Effect of age on the association between oxygen exposure and mortality in ARDS: a secondary analysis of randomized controlled trials with independent multicenter evaluation.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982124/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42982124",
+              "doi": "10.1016/j.accpm.2026.101974",
+              "kind": "original",
+              "source_version": "1f5e7750eb7b3ca22399c3feb93cfc99a00201d55eece568bcb70e2f5dac2cae",
+              "fields": {
+                "title": "82b293966c36d2537b6e68d34bfd9e591765ec0818b6f6978e5c5056d7b773b1",
+                "abstract": "eaf7cc5f051429f203894532ef76840beb6af2b8687ae7910cb0839e642efc7c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "b6a0cc479932cd0a4ca9ce3a90c2c37467de80aea94ad7179dc6a6fe692ea8eb",
+                "results_known": false,
+                "numbers": "8c0ba8e8fdda2729dafd8d2bc61561c02c34caf83704460c6cfc07a8d3387de3",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "0f610d9dfbb422e9472d4ac7bc8bf2722c6a61e1ec8ab8849c5af5edfdae52c5",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42972580",
+            "title": "Distinct transcriptomic signatures discriminate hyperinflammation from immune paralysis in sepsis: a single-cell RNA sequencing study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972580/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42972580",
+              "doi": "10.1186/s13054-026-06229-w",
+              "kind": "original",
+              "source_version": "f2e8427d8ca84b587e28a013c4aa9b841d025e8224e8a2c7b0fd660675687b98",
+              "fields": {
+                "title": "8441ce56e44ee0defdb869f50bba19769ff880565aaf3ef41bf89432922e99be",
+                "abstract": "c51e996fe664ff65aaa72ed92b91b531dc875e9738329d26bc86e97be4292c7b",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "af120c60e48f2121319ad6f272ff9897157985ec4d001af0c1ff3b8b81e92eb8",
+                "results_known": false,
+                "numbers": "5dd919819f5f1549c0004f1a68f8072b1f656d5adecbade143b14e100ab7e1fd",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "4ec536637f4f418b7698d182d0ea6fa4b0a8271f2f5beadc93f29216c51828bc",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42987921",
+            "title": "Correction to: Rocuronium dose and first-attempt intubation success in the critically ill: secondary analysis of two multicenter trials.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42987921/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42987921",
+              "doi": "10.1093/ajrccm/aamag565",
+              "kind": "correction_notice",
+              "source_version": "1f41fab42708e2562aeeeb70c894d7e714b691a6dbf807f74c57eca3b964bbc0",
+              "fields": {
+                "title": "950521897b19602356ae2e014516af5fe663cec6cd008c1833310cc98a656973",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "daec62f417fde342369cc4fe13c37aef781ae637b3d95b320312b89c98b995d9",
+                "relations": "fac79b205b74e4e6c387f469079d7b2e64ead8b24de26a9d72f86d100c0a1dfc"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": [
+                {
+                  "ref_type": "ErratumFor",
+                  "pmid": "42149702"
+                }
+              ]
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42982124",
+            "title": "Effect of age on the association between oxygen exposure and mortality in ARDS: a secondary analysis of randomized controlled trials with independent multicenter evaluation.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42982124/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42982124",
+              "doi": "10.1016/j.accpm.2026.101974",
+              "kind": "original",
+              "source_version": "1f5e7750eb7b3ca22399c3feb93cfc99a00201d55eece568bcb70e2f5dac2cae",
+              "fields": {
+                "title": "82b293966c36d2537b6e68d34bfd9e591765ec0818b6f6978e5c5056d7b773b1",
+                "abstract": "eaf7cc5f051429f203894532ef76840beb6af2b8687ae7910cb0839e642efc7c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "b6a0cc479932cd0a4ca9ce3a90c2c37467de80aea94ad7179dc6a6fe692ea8eb",
+                "results_known": false,
+                "numbers": "8c0ba8e8fdda2729dafd8d2bc61561c02c34caf83704460c6cfc07a8d3387de3",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "0f610d9dfbb422e9472d4ac7bc8bf2722c6a61e1ec8ab8849c5af5edfdae52c5",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42994751",
+            "title": "Efficacy and Safety of Ulinastatin in the Treatment of Patients with Sepsis: The ADJUST Trial.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994751/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42994751",
+              "doi": "10.1016/j.chest.2026.10.033",
+              "kind": "original",
+              "source_version": "7357a3bde6026f8a2e1dd2bf3b912ba49032b5c959d06c60bbcbabf3bef898e7",
+              "fields": {
+                "title": "7fb8d8c8e19bc863e5567895087df4eedc52102ce045f1b3afd4f93d1219991e",
+                "abstract": "db962f24a3c3047742d3a1e777097b242786ce06c7f4cbe545ca49bb75e3c7fd",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "b6f45fbe50afb6ee5ed64be374a75e0936636759df98ed220b27f72eff2be5e4",
+                "results_known": true,
+                "numbers": "079ae837681c172e8e94cbdadff8e3d9590974934d1a48422cdafe558861b246",
+                "endpoint": "6a1845e625f883abc0287b187001af6e4f33b241ea68f3ceff81d117260e6e27",
+                "methods": "dd50949ee64d5fa834543d02034cc79b1967c9aab8e5dd9a7067c20700fab159",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42972580",
+            "title": "Distinct transcriptomic signatures discriminate hyperinflammation from immune paralysis in sepsis: a single-cell RNA sequencing study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42972580/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42972580",
+              "doi": "10.1186/s13054-026-06229-w",
+              "kind": "original",
+              "source_version": "f2e8427d8ca84b587e28a013c4aa9b841d025e8224e8a2c7b0fd660675687b98",
+              "fields": {
+                "title": "8441ce56e44ee0defdb869f50bba19769ff880565aaf3ef41bf89432922e99be",
+                "abstract": "c51e996fe664ff65aaa72ed92b91b531dc875e9738329d26bc86e97be4292c7b",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "af120c60e48f2121319ad6f272ff9897157985ec4d001af0c1ff3b8b81e92eb8",
+                "results_known": false,
+                "numbers": "5dd919819f5f1549c0004f1a68f8072b1f656d5adecbade143b14e100ab7e1fd",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "4ec536637f4f418b7698d182d0ea6fa4b0a8271f2f5beadc93f29216c51828bc",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://www.tamingthesru.com/blog/diagnostics/withdrawalsyndromes",
+            "title": "Withdrawal Syndromes",
+            "channel": "Taming the SRU",
+            "url": "https://www.tamingthesru.com/blog/diagnostics/withdrawalsyndromes"
+          },
+          {
+            "source": "foamed",
+            "id": "https://first10em.com/prehospital-ecpr-a-20-survival-benefit/",
+            "title": "Prehospital ECPR: A 20% survival benefit?!?!",
+            "channel": "First10EM",
+            "url": "https://first10em.com/prehospital-ecpr-a-20-survival-benefit/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/managing-the-physiologically-difficult-airway/",
+            "title": "Managing the Physiologically Difficult Airway - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/managing-the-physiologically-difficult-airway/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/dka-related-cerebral-injury/",
+            "title": "DKA-Related Cerebral Injury",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/dka-related-cerebral-injury/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://rebelem.com/hypercapnia-on-rv/",
+            "title": "Targeted Mild Hypercapnia and Right Ventricular Function After OHCA",
+            "channel": "REBEL EM",
+            "url": "https://rebelem.com/hypercapnia-on-rv/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-17T13:53:16+00:00"
+      },
+      "workflow_run_id": "44096902167",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-17:2026-11-17:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "a7bea8b97e0bc223832f372bdc02276bd3b787719345ab10b99698dcc64b2c66",
+        "finalization_policy": "markers",
+        "content_version": "cd89c46e944e27cd899eb55be44e4ef21f5022b511399d0ed9fceedcedf1a8a1",
+        "message_id": "<a23e236f0775148e1fec28566513b0208236b483972a6e3d315740b6a2ab480f@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "e74ea71afe97c92d_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "1a9aecd1d1ddfd6620410cb500e61ca9308c16cb72cbffb10f2e852469a02aeb"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "5f6c095dba5dc085a38ce2aadc205fdc3db1afe96c89976b3247a8fbad90de3d"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -25761,7 +26325,10 @@
         "42960127",
         "42960868",
         "42963061",
+        "42963270",
+        "42963271",
         "42967871",
+        "42968156",
         "42968390",
         "42968391",
         "42968670",
@@ -25784,12 +26351,18 @@
         "42982504",
         "42983226",
         "42988037",
+        "42988324",
+        "42988325",
         "42988384",
+        "42988614",
         "42995620",
+        "42998077",
         "43001740",
         "43001755",
         "43001758",
-        "43014822"
+        "43014822",
+        "43020456",
+        "43020457"
       ]
     }
   }
