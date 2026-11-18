@@ -25807,6 +25807,579 @@
         "approved_after_generation_checks": true,
         "seal": "e3527a5991c855dcffe7bc471033ea4280b75af3a4bb80146d1b81f66800ae82"
       }
+    },
+    "cybermed:daily:2026-11-18:2026-11-18:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-18",
+      "period_end": "2026-11-18",
+      "edition_id": "cybermed:daily:2026-11-18:2026-11-18:production",
+      "content_version": "cbf30f8a4b58d37b540c8b21796d286e64eabed02a3ffcb963f75097d9306fa6",
+      "message_id": "<0d29a0bc501377903f83e6ea18a0649bc9573f84a2725b59543b982cd0058058@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-18T13:28:37+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43039425",
+            "title": "Detecting deterioration of children in emergency departments requires more than a score alone.",
+            "channel": "PubMed: The BMJ (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43039425/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43014331",
+            "title": "Longitudinal change in FEV1 in adults with cystic fibrosis treated with elexacaftor-tezacaftor-ivacaftor in France: a prospective observational study.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014331/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43014330",
+            "title": "Consensus on the definition, components, and grading of composite postoperative pulmonary complication outcomes (PrECiSIOn): insights from an international Delphi expert panel.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014330/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43014329",
+            "title": "Ending the global neglect of pneumonia: from awareness to accountability.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014329/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43014328",
+            "title": "Defining residual lung disease with CFTR modulators.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014328/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43000120",
+            "title": "Streamlining the Evidence-to-Practice Pathway With Computerised Decision Support in Anaesthesiology and Critical Care: A Qualitative Study of Clinician and System-Level Interest Holder Perspectives Across Five Scandinavian Countries.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43000120/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43000116",
+            "title": "Biomarkers in Patients With Acute Ischaemic Stroke Undergoing Thrombectomy Compared With Controls: A Pilot Study.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43000116/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42993086",
+            "title": "The FOXF1 gene and the Developmental Origins of Pulmonary Arterial Hypertension: Time to embrace the heterogenous nature of genetic susceptibility?",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42993086/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42993071",
+            "title": "Historical Blood Eosinophil Counts and Mepolizumab Response in COPD: Does Clinical Context Matter?",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42993071/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42993069",
+            "title": "Development and Validation of a Pre-COPD Score to Predict Incident COPD.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42993069/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42992455",
+            "title": "Ebola Virus Outbreak.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42992455/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42989547",
+            "title": "Endobronchial Cobblestoning in Fibrosing Mediastinitis.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42989547/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43000173",
+            "title": "Large language models and the assessment of obstetric anaesthetic care from medical records.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43000173/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988048",
+            "title": "Letter to the Editor: \"General Anesthesia Versus Non-General Anesthesia in Young Adults Undergoing Thrombectomy\".",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988048/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988047",
+            "title": "Dietitian involvement and nutritional care organization in intensive care and perioperative settings in France: a cross-sectional survey of healthcare professionals.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988047/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988046",
+            "title": "The epidemiology we create: how changing clinical practice reshapes perioperative hypersensitivity reactions.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988046/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988045",
+            "title": "Response to Comment on \"Associations of Pain, Analgesia Technique, and Psychological Factors with Central Sensitization after Childbirth\".",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988045/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988044",
+            "title": "Quality Improvement: An Approach to Improve Postoperative Pain Management.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988044/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988043",
+            "title": "Reply to \"Confounding by indication beyond exposure misclassification in cesarean anesthesia and postpartum depression\".",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988043/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970774",
+            "title": "In Response.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970774/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970773",
+            "title": "Pre-op.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970773/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970772",
+            "title": "Before the Pain Score.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970772/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970771",
+            "title": "Estimand Ambiguity, Time to Surgery, and the Limits of Causal Inference in Anesthesia Comparisons for Geriatric Hip Arthroplasty.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970771/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970770",
+            "title": "See One, Do One, Teach One.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970770/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970769",
+            "title": "A Methodological Note on Dexmedetomidine Use and Mechanical Ventilation After Cardiac Surgery.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970769/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42970768",
+            "title": "Not All Dural Punctures Are Equal: Reconsidering the Pooling of Dural Puncture Epidural and Combined Spinal-Epidural in Postdural Puncture Headache Meta-analyses.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42970768/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42969496",
+            "title": "Rapid Diagnostic Assay for the Sevoflurane Hypersensitivity-related Mitochondrial ND4 Variant m.11232T>C.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42969496/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007248",
+            "title": "Violent Reinjury Trajectories Across Injury Mechanisms: A Multicenter Cohort Study.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007248/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007247",
+            "title": "Utilization of Medications for Alcohol Use Disorder in United States Emergency Departments.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007247/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42990992",
+            "title": "Comments on Kroken et al.'s \"Long-term frailty trajectory in older ICU survivors requiring mechanical ventilation: a prospective cohort study in Norway\".",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42990992/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42991490",
+            "title": "Balancing the pendulum- the risk of universal fluid restriction and overreliance on the 'static' phase model. The Authors' reply.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42991490/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971892",
+            "title": "Counting reactions, not just variants: what malignant hyperthermia can teach precision medicine.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971892/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42971891",
+            "title": "Medication errors in the operating room: a 12-year analysis of the French National Pharmacovigilance Database.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42971891/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42983500",
+            "title": "Harmonizing the diagnosis of citrate accumulation - a call for standardized criteria.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42983500/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42980510",
+            "title": "Diaphragmatic Neurostimulation: Potentially Beneficial, Possibly Cost-Saving, but Uncertain Cost-Effectiveness.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42980510/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42999998",
+            "title": "Low-Voltage Area Ablation for Persistent Atrial Fibrillation: The COAST-AF Randomized Clinical Trial.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42999998/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.criticalcarepractitioner.co.uk/hemotion-vs-train-trials/",
+            "title": "Hemotion vs Train Trials",
+            "channel": "Critical Care Practitioner",
+            "url": "https://www.criticalcarepractitioner.co.uk/hemotion-vs-train-trials/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emergencymedicinecases.com/em-cases-summit-live-or-on-demand/",
+            "title": "EM Cases Summit – Live or On Demand, There’s Still Time to Join EM Cases Summit ’26",
+            "channel": "EM Cases",
+            "url": "https://emergencymedicinecases.com/em-cases-summit-live-or-on-demand/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/shift-pearls-glp-1-agonists/",
+            "title": "Shift Pearls: GLP-1 Agonists",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/shift-pearls-glp-1-agonists/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/world-amr-awareness-week/",
+            "title": "World AMR Awareness Week",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/world-amr-awareness-week/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "43000120",
+            "title": "Streamlining the Evidence-to-Practice Pathway With Computerised Decision Support in Anaesthesiology and Critical Care: A Qualitative Study of Clinician and System-Level Interest Holder Perspectives Across Five Scandinavian Countries.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43000120/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43000120",
+              "doi": "10.1111/aas.70389",
+              "kind": "original",
+              "source_version": "5489b6b862e9cf5f010a0bb14f9c371e960bb7860e84584400503cbe53778c19",
+              "fields": {
+                "title": "5cf7622944810ef0b2d6882bb28734ddf9d170b803ccb37cc36eeede04a9bc81",
+                "abstract": "52cbd175ecba2af1a37b3dc4121eee823509dbcdfc061b8735fc509f8c23f5b2",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "c3805884f8e8e9e2e80fdc92ac26fd7fb33761f77015c5fd3e6bbcfa1cc8903a",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "bd19343288bead200876295fd8e7633ad1e678c3af22fc19b711c2e0c92b3ee6",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43000116",
+            "title": "Biomarkers in Patients With Acute Ischaemic Stroke Undergoing Thrombectomy Compared With Controls: A Pilot Study.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43000116/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43000116",
+              "doi": "10.1111/aas.70391",
+              "kind": "original",
+              "source_version": "20849fad7616341848641070889e516a71a4eddcfccefd297af66e3b3adbad00",
+              "fields": {
+                "title": "3b1d929b047fdb310083b23a86e596a776c254565a1e46307677ef30adb8f9a2",
+                "abstract": "3f9c547e0c294f1ac9f29fee9c3cfbb24935b3dab01eae7e7249c3d0fafe8363",
+                "types": "e61d3ab301dfa1ef529605250b29ee676f06a081b326e5f5c612b8c95cf07a54",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "56d941249e6df2aa0f0a804a7eecf234b9ba39fb1bc6497f6ed76deff300536e",
+                "results_known": false,
+                "numbers": "8d882660d60868dc971c53fdcd331f2aa9627ed38f2ea7ee359963451d4bd3a7",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "092ca5733d9e81e3b03d4e770799dfa8934b1e2378fd313604dd7e6f087e49b9",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43014330",
+            "title": "Consensus on the definition, components, and grading of composite postoperative pulmonary complication outcomes (PrECiSIOn): insights from an international Delphi expert panel.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014330/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43014330",
+              "doi": "10.1016/s2213-2600(26)00296-1",
+              "kind": "original",
+              "source_version": "0c8c1bfb8625b15b3c2e064153e13dc615741c99e42e7508d5e56a68639f621a",
+              "fields": {
+                "title": "abfac88e1cdf4ea642df3f76fef301a3a602f83779b05e26f522efee16c92521",
+                "abstract": "2cbc85a87364c9547cb293d9d342f595ce244f6a1991c67fcea6724624e011dc",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43014331",
+            "title": "Longitudinal change in FEV1 in adults with cystic fibrosis treated with elexacaftor-tezacaftor-ivacaftor in France: a prospective observational study.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014331/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43014331",
+              "doi": "10.1016/s2213-2600(26)00281-x",
+              "kind": "original",
+              "source_version": "4de00db3bc3e4b53f02909662c34a36b969c377b2bb242f3d8143262b0c3a5e3",
+              "fields": {
+                "title": "38b501da0caeb7acf3f430e275f804aa39e9cd66b307eb731d8b775f6dcef70c",
+                "abstract": "df6501c8e4e29b085f62c3f3939177a910d50f27879274fb7e4f33a3821821de",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "49da10c5525040f1b21fe655c2e987f10ac1fd6d7f96fc8164c5d33391670a06",
+                "results_known": false,
+                "numbers": "fb467c32ab940d0e2bfd46c2fcd1e9508295ef7f701676f8483d243505e42201",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "5b063ce00db0bef100ffcbc6ae3d4ca7aec72f5e930fa6516074986eef68f582",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43007248",
+            "title": "Violent Reinjury Trajectories Across Injury Mechanisms: A Multicenter Cohort Study.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007248/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43007248",
+              "doi": "10.1016/j.annemergmed.2026.09.024",
+              "kind": "original",
+              "source_version": "0b889c7f1687997e011d4b3fdc472e6d2c1222f3ddd30b293c9ca45647ef4f40",
+              "fields": {
+                "title": "fb3818b35bd0c2785493c91ca0e60fbc37942e6f3ee3ed84f4ef1cae4dda3934",
+                "abstract": "cc3ac56344f756fc5367dfb8c622f32e81175abe5e195d12f17cdada2cc0af87",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "f8fdbc674e87daa842e25c3590f396761c8bb3b3b5ab1c8045ba1684a08f9ad1",
+                "results_known": true,
+                "numbers": "d31c5f104bf1bb24a437bb720ab1654da53ae16f01de184103d3420a4f958189",
+                "endpoint": "81fdd43ad14f17ed4743ca7a2f502f214e4f708a2ffc6289507f5fe849ed0bb7",
+                "methods": "13cabb067a8fcfb8b5514832745f56bf40350e7d41ed39348575059ee2bbb6df",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42999998",
+            "title": "Low-Voltage Area Ablation for Persistent Atrial Fibrillation: The COAST-AF Randomized Clinical Trial.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42999998/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42999998",
+              "doi": "10.1001/jama.2026.24331",
+              "kind": "original",
+              "source_version": "2cee52503685ab79d9100c56c19e5526d0c88613c70c12f516bd20aa7b4f94ed",
+              "fields": {
+                "title": "71c5c6e357d49e1b4b80e452fdf309adda48db5c79699d3877d6d00bb18a77a7",
+                "abstract": "b0229123f20ebff3c2fa0a55c8939644ccf05b7dd2f67382b0cf67fbcc9be9ac",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "5bc9bb15578bcafe770c31ee4ecaf8241da8213c0bb9487be6f858c0ec92e31d"
+              },
+              "evidence": {
+                "results": "36b3783987cd64ad7d6c4fea57f8a7e5dd8e81050ceddf95de94c06fb7228e44",
+                "results_known": false,
+                "numbers": "edfd6301d84958804442e8c2bf92cb1d854c96918a126dac4a9f7f77badefda1",
+                "endpoint": "465af464d5113544d603c809154d91abd0da19dda20d09fa04fd93d594e8bd67",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": [
+                {
+                  "ref_type": "CommentIn",
+                  "pmid": ""
+                }
+              ]
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42999998",
+            "title": "Low-Voltage Area Ablation for Persistent Atrial Fibrillation: The COAST-AF Randomized Clinical Trial.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42999998/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42999998",
+              "doi": "10.1001/jama.2026.24331",
+              "kind": "original",
+              "source_version": "2cee52503685ab79d9100c56c19e5526d0c88613c70c12f516bd20aa7b4f94ed",
+              "fields": {
+                "title": "71c5c6e357d49e1b4b80e452fdf309adda48db5c79699d3877d6d00bb18a77a7",
+                "abstract": "b0229123f20ebff3c2fa0a55c8939644ccf05b7dd2f67382b0cf67fbcc9be9ac",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "5bc9bb15578bcafe770c31ee4ecaf8241da8213c0bb9487be6f858c0ec92e31d"
+              },
+              "evidence": {
+                "results": "36b3783987cd64ad7d6c4fea57f8a7e5dd8e81050ceddf95de94c06fb7228e44",
+                "results_known": false,
+                "numbers": "edfd6301d84958804442e8c2bf92cb1d854c96918a126dac4a9f7f77badefda1",
+                "endpoint": "465af464d5113544d603c809154d91abd0da19dda20d09fa04fd93d594e8bd67",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": [
+                {
+                  "ref_type": "CommentIn",
+                  "pmid": ""
+                }
+              ]
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/world-amr-awareness-week/",
+            "title": "World AMR Awareness Week",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/world-amr-awareness-week/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.criticalcarepractitioner.co.uk/hemotion-vs-train-trials/",
+            "title": "Hemotion vs Train Trials",
+            "channel": "Critical Care Practitioner",
+            "url": "https://www.criticalcarepractitioner.co.uk/hemotion-vs-train-trials/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/shift-pearls-glp-1-agonists/",
+            "title": "Shift Pearls: GLP-1 Agonists",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/shift-pearls-glp-1-agonists/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-18T13:28:32+00:00"
+      },
+      "workflow_run_id": "44313714105",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-18:2026-11-18:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "b59196a28ee16faeedd77764a0b0c67afbf97f0bec9358d7d63318fbeead757b",
+        "finalization_policy": "markers",
+        "content_version": "cbf30f8a4b58d37b540c8b21796d286e64eabed02a3ffcb963f75097d9306fa6",
+        "message_id": "<0d29a0bc501377903f83e6ea18a0649bc9573f84a2725b59543b982cd0058058@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "810e1e21eb0f6b40_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "49dde0df36c5001801112e4a186499449cdecc67a71612456a36c25dab207754"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "45530ff805731dccbaf7084eac6cd2f095fc0a4e2e59644becf8818d297ef1b6"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -26582,24 +27155,31 @@
         "42971721",
         "42971911",
         "42972430",
+        "42972580",
         "42972966",
         "42973058",
         "42973066",
         "42974958",
         "42977488",
+        "42982124",
         "42982479",
         "42982504",
         "42983226",
+        "42987921",
         "42988037",
         "42988324",
         "42988325",
         "42988384",
         "42988614",
+        "42989963",
+        "42989969",
+        "42994751",
         "42995620",
         "42998077",
         "43001740",
         "43001755",
         "43001758",
+        "43002154",
         "43014822",
         "43020456",
         "43020457"
