@@ -152929,8 +152929,930 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "3AklZ5HpITg",
+      "source": "youtube",
+      "title": "⚡ALERT: DEFCON?!! NORAD SHUT DOWN! Widespread CYBERATTACKS Events \"UPDATE FAILURE\" Airbases SHUTDOWN",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=3AklZ5HpITg",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11977,
+        "processed_unique_chars": 11977,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 6.011,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11977",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript links a nationwide grounding of flights and simultaneous aviation system failures to possible causes including a failed FAA software/AI update, cyberattacks, or escalation toward open conflict, while surveying global military tensions and announcing a forthcoming prepping video series.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "10,000 flights were grounded and about a million people were stranded during the nationwide grounding.",
+        "The FAA reportedly expanded SMARTT across 22 regional control centers and consolidated 200+ data streams when the outage struck.",
+        "The transcript lists three plausible explanations: a failed software update or AI integration, a cyberattack, or an undisclosed defensive readiness action (e.g., DEFCON-related measures)."
+      ],
+      "transcript_notable_claims": [
+        "A closure of NORAD airspace would be a leading indicator of Defensive Condition One, which signals imminent nuclear war.",
+        "Multiple simultaneous outages affected radars, radio frequencies, and air traffic control systems, which some say is unlikely to stem from a single update.",
+        "Foreign incidents and military base lockdowns occurred concurrently, including reported lockdowns at RAF Lakenheath, Mildenhall, and Feltwell.",
+        "Russia and Ukraine are described as escalating with Russian ships burning in the Baltic, massive bombardments, and massive drone salvos in both directions.",
+        "An analyst at Rybar claimed Russian front lines are collapsing and that Ukrainians are making progress, which the transcript treats as an uncertain but significant report.",
+        "France reportedly attributed its recent fridge-related cybersecurity issues to Iran, and the transcript suggests such attributions could be used as pretexts for intervention.",
+        "The transcript asserts that a nationwide grounding of all flights had not happened since 2023, and the 2023 grounding was software-related."
+      ],
+      "transcript_uncertainties": [
+        "The transcript explicitly states there is no definitive answer yet for the cause of the aviation outages.",
+        "The narrator admits uncertainty about whether official statements like 'we have no idea what it is' are truthful or prescribed public messaging.",
+        "The Rybar analyst's claim that Russian lines are collapsing is presented with explicit doubt about its veracity."
+      ],
+      "important_details": [
+        "Homeland Security Chief Alejandro Mayorkas (referred to as Mullen in the transcript) publicly said 'Don't worry, there's nothing to fear' during the outage response.",
+        "The FAA expansion of SMARTT aimed to consolidate over 200 data streams, which the transcript suggests could explain a single-point failure across systems.",
+        "The transcript links contemporaneous events—drone sightings, military base lockdowns, ship GPS failures, and global cyber disruptions—as part of a broader pattern of instability affecting aviation and national security."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "3AklZ5HpITg",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "0C2wYZC4_tA",
+      "source": "youtube",
+      "title": "MOMA-Reporter: Ein Dorf kümmert sich um seine Alten | ARD Morgenmagazin",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=0C2wYZC4_tA",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4350,
+        "processed_unique_chars": 4350,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Das Dorf Fres organisiert umfassende lokale Altenbetreuung mit Ehrenamt, Tagesbetreuung, Fahrdienst, kleinem Pflegehaus mit 12 Apartments und generationenübergreifenden Aktivitäten, sodass viele Bewohner im Ort bleiben können.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Der Sofabus fungiert als sozialer Fahrdienst und holt Seniorinnen zur Tagesbetreuung ab.",
+        "In Fres gibt es ein Pflegehaus mit 12 Apartments, deren Miete rund 700 € pro Monat beträgt.",
+        "Ehrenamtliche organisieren Fahrdienste, Kunstkurse und generationenübergreifende Angebote wie Rikscha-Ausflüge."
+      ],
+      "transcript_notable_claims": [
+        "Die Gemeinde Fres hat das Pflegehaus gebaut, weil ältere Menschen sonst entwurzelt und aus dem Dorf weggebracht worden wären.",
+        "Die Apartments im Pflegehaus sind günstiger als ein reguläres Pflegeheim.",
+        "Seniorinnen entscheiden einmal pro Woche gemeinsam den neuen Speiseplan in der Tagesbetreuung."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, wie viele Ehrenamtliche dauerhaft verfügbar sind und wie nachhaltig die Freiwilligenstrukturen langfristig bleiben.",
+        "Der genaue Anteil der Kosten, den Land oder EU-Fördergelder für die Rikscha übernommen haben, wird im Text nicht genannt."
+      ],
+      "important_details": [
+        "Die Bewohner bauen Kräuter selbst an und nutzen sie direkt für gemeinsame Mahlzeiten.",
+        "Die Rikscha-Anschaffung wurde vom Verein 'Altwerden in Fres' mit Fördergeldern vom Land und der EU unterstützt.",
+        "Verwandte können durch die Tagesbetreuung eine Entlastung erfahren, weil pflegende Angehörige zu Hause einmal durchatmen können."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "0C2wYZC4_tA",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CrossExamined"
+      },
+      "id": "0ObfijEJ5CY",
+      "source": "youtube",
+      "title": "Frank Turek Responds to Dave Chappelle & Jennifer Welch Mocking Charlie Kirk",
+      "channel": "CrossExamined",
+      "url": "https://www.youtube.com/watch?v=0ObfijEJ5CY",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 18259,
+        "processed_unique_chars": 18259,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Frank Turek discusses responses to the murder of Charlie Kirk, criticizes comedians who celebrated the killing, urges Christians to engage politically and vote, and argues that Christian moral commands require love for enemies and active civic participation to protect innocent people.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Frank Turek says Dave Chappelle said he felt better that Charlie Kirk had been murdered and calls that remark demonic.",
+        "Frank Turek says Christianity commands loving enemies and forgiving, citing Erica forgiving her husband's murderer as an example of Christian behavior.",
+        "Frank Turek argues that millions of evangelical Christians did not vote in the recent election and that lower turnout contributed to electoral losses."
+      ],
+      "transcript_notable_claims": [
+        "Frank Turek claims that after Charlie Kirk's murder there have been lies, accusations, and slander seeking to 'steal, kill, and destroy.'",
+        "Frank Turek claims that other worldviews such as atheism, Marxism, and Islam do not command loving one's enemy like Christianity does.",
+        "Frank Turek claims that Jennifer Welch and others laughed about exhuming and shooting Charlie Kirk again and that sponsors have the right to withdraw support.",
+        "Frank Turek claims that Christians could control every election in every state if they all voted biblically and that the church bears responsibility for low turnout."
+      ],
+      "transcript_uncertainties": [
+        "Frank Turek expresses uncertainty about whether Dave Chappelle would feel the same if he had witnessed the murder in person.",
+        "The hosts state ongoing investigation into accusations of voter fraud and say they are 'still investigating' those claims."
+      ],
+      "important_details": [
+        "Frank Turek says the primary government role is to punish wrongdoers and protect innocent people, naming abortion, 'child mutilation,' and open borders as major safety issues.",
+        "The hosts describe a reported drop from 24% to 17% evangelical share of the electorate between 2024 and the recent election and say 14.1 million fewer Republicans voted in 2026 compared to 2024."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "0ObfijEJ5CY",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@russianmediamonitor"
+      },
+      "id": "2ksvC82GooY",
+      "source": "youtube",
+      "title": "Vladimir Solovyov states Russia's intentions",
+      "channel": "russianmediamonitor",
+      "url": "https://www.youtube.com/watch?v=2ksvC82GooY",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5307,
+        "processed_unique_chars": 5307,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.343,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5307",
+        "recency"
+      ],
+      "transcript_full_summary": "Vladimir Solovyov describes the Ukraine conflict as a mere episode in a global struggle for a new world order and asserts that Western leaders and institutions cannot sustain Ukraine without US control of weapons and logistics.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The conflict on Ukrainian territory is described as an episode in a struggle for a new global world order.",
+        "Three decisive 'calls' from the United States to Elon Musk, Hekett, and CIA director Redcliffe would, according to the source, stop delivery and use of American technology and weapons to Ukraine.",
+        "Russia will not cede any meter of its territory under the current Constitution and Russian statements from the MFA and Sergei Lavrov set those terms."
+      ],
+      "transcript_notable_claims": [
+        "If the United States forbids use and transfer of American equipment, the Ukrainian army will 'die' and disappear within about a month.",
+        "Europe lacks the technologies and capability to replace US support and cannot ensure European or global security independently.",
+        "Western leaders can eliminate Ukraine quickly if Donald Trump makes three calls and demands cessation of US support.",
+        "Ukraine and Zelensky are characterized as a corrupt, decaying 'hunta' that will be 'cleansed' for its 'rudeness' when larger powers decide."
+      ],
+      "transcript_uncertainties": [
+        "The claim that three telephone calls would immediately end US support and cause Ukraine's armed forces to vanish is presented as a forecast without verification.",
+        "It is uncertain whether world leaders at the upcoming meeting in China will adopt the speaker's proposed approach to 'global security' or the alleged treatment of Ukraine."
+      ],
+      "important_details": [
+        "The speaker asserts that agreements prohibit using terminals bought for commercial needs for military purposes and that enforcement of such agreements could be demanded of Elon Musk.",
+        "The speaker identifies Donald Trump as a decisive actor who could, by 'raising an eyebrow' and making calls, make Ukraine and Zelensky disappear from geopolitical relevance.",
+        "Sergei Lavrov and the Russian MFA are said to have articulated that Russia will accept no territorial concessions and will only negotiate on Russia's stated terms."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "2ksvC82GooY",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "60OzpYE9kUQ",
+      "source": "youtube",
+      "title": "Israel Daily News - November 17, 2026 | Iran Planned To Detonate 'Dirty Bomb' In DC",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=60OzpYE9kUQ",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 22767,
+        "processed_unique_chars": 22767,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript reports on the upcoming trilateral summit in Shenzhen between Trump, Xi and Putin with Iran central to Israel's concerns, details alleged Iranian plots including a reported plan to detonate a dirty bomb in Washington, D.C., and covers related regional and domestic Israeli political developments.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "U.S. President Donald Trump will meet Chinese President Xi Jinping and Russian President Vladimir Putin in Shenzhen for a first-ever trilateral summit.",
+        "U.S. intelligence sources reported that Iran planned to target senior Trump administration officials with a dirty bomb or chemical weapon attack in Washington, D.C.",
+        "The Iranian-backed Houthis have advanced to within about 60 km of Aden after Saudi-backed forces pulled back near the Bab el-Mandeb Strait."
+      ],
+      "transcript_notable_claims": [
+        "The White House says President Trump intends to raise the war with Tehran at the trilateral summit.",
+        "Vice President J.D. Vance says the United States has destroyed Iran's nuclear program and conventional military and will not remain engaged for years.",
+        "Brigadier General Amir Avivi says the Iranian regime feels existentially threatened by blockades, economic collapse, and pressure, and might attempt drastic actions to force U.S. retreat.",
+        "CNN reported that top U.S. administration officials, including Secretary of State Mike Pompeo and Secretary of the Treasury Scott Bessent, are living on military bases due to the Iranian threat."
+      ],
+      "transcript_uncertainties": [
+        "U.S. officials say no agreement on nuclear arms reductions is expected at the trilateral summit.",
+        "Brigadier General Amir Avivi expresses belief that a kinetic attack against Iran is 'pretty imminent' but does not present a definitive timeline.",
+        "The transcript cites a CNN report attributing the dirty-bomb plot to numerous U.S. officials, leaving the report's underlying evidence unspecified."
+      ],
+      "important_details": [
+        "Houthi control of more Yemeni coast could give the group greater leverage over international shipping and the ability to threaten Israeli-linked vessels and the road to Eilat.",
+        "Waiting to attack Iran risks allowing Hamas, Hezbollah and Iranian missile and nuclear-related programs to regroup, rearm and continue aggressions such as drone attacks on American bases."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "60OzpYE9kUQ",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "BYV5nr2SGsA",
+      "source": "youtube",
+      "title": "Näthatsgranskaren hotar Richard Jomshof med FN - \"Allvarligt hot mot yttrandefriheten\"",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=BYV5nr2SGsA",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "BYV5nr2SGsA",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Daily_Dose_Of_Wisdom"
+      },
+      "id": "F2iUJIxqY4E",
+      "source": "youtube",
+      "title": "Atheist ACTUALLY Speechless In Debate Over Jesus' Divinity",
+      "channel": "Daily_Dose_Of_Wisdom",
+      "url": "https://www.youtube.com/watch?v=F2iUJIxqY4E",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 31815,
+        "processed_unique_chars": 31815,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "A debate segment presents Elijah Johnson defending the claim that Jesus is God with historical arguments focused on the resurrection and New Testament passages, while his opponent questions scriptural clarity, human fallibility, and evidential standards.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Elijah Johnson argues that the resurrection of Jesus provides historical ground for accepting scriptural claims about Jesus' divinity.",
+        "Elijah Johnson cites New Testament passages such as Revelation 22:13, John 8, Matthew 14:22–33 and Mark 14:62 as evidence that Jesus claims divine identity and accepts worship.",
+        "The opponent insists that human authorship, fallibility, and cultural bias in the Bible undermine its clarity and reliability as proof that Jesus is God."
+      ],
+      "transcript_notable_claims": [
+        "Josephus provides external attestation that Jesus was crucified under Pontius Pilate and that followers claimed to see him alive afterward.",
+        "Jesus walking on water in Matthew echoes Job 9:8 and includes an 'I am' statement and acceptance of worship, which Johnson interprets as a divine claim.",
+        "Women were the first witnesses at the tomb and that detail lends credibility because female testimony was culturally disadvantageous, qualifying as a criterion of embarrassment.",
+        "Johnson maintains that the resurrection is the decisive evidence that justifies trusting scripture and Christian claims about Jesus' identity.",
+        "The opponent claims that if sacred texts are written by fallible humans within patriarchal contexts, inherent biases make those texts non-absolute and therefore insufficient proof of Jesus' divinity."
+      ],
+      "transcript_uncertainties": [
+        "The opponent repeatedly expresses uncertainty about where the 'real evidence' for Jesus' divinity resides and admits 'I know nothing for sure.'",
+        "Johnson presents the resurrection as the best explanation of certain historical data but does not claim universal certainty for every interpreter or believer."
+      ],
+      "important_details": [
+        "Johnson invokes the 'minimal facts' approach and recent scholarship defending the authenticity of a Josephus passage to support external corroboration of New Testament claims.",
+        "Johnson argues that the Gospel sources are close to eyewitness testimony: Matthew and John as disciples, Mark as Peter's interpreter, and Luke relying on eyewitnesses, which he says supports historical reliability.",
+        "Johnson references church tradition concepts such as 'invincibly ignorant' to explain differential judgment and to argue that divine revelation can be mediated through fallible human authors under the guidance of the Holy Spirit."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "F2iUJIxqY4E",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ErnstWolffOffiziell"
+      },
+      "id": "nYWmbABKBRQ",
+      "source": "youtube",
+      "title": "The End of Money - What Awaits Us Now | Ernst Wolff",
+      "channel": "ErnstWolffOffiziell",
+      "url": "https://www.youtube.com/watch?v=nYWmbABKBRQ",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 30359,
+        "processed_unique_chars": 30359,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Ernst Wolff discusses geopolitical shifts, the future of money and work, and technological change, arguing that centralised financial-digital power will reshape currencies, war, employment and social order while warning of major social upheavals and both dystopian and potentially positive outcomes.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Donald Trump publicly called for a new president for Ukraine and argued Zelenskyy refuses to negotiate with Russia.",
+        "A possible deal on Russian diesel exports has not produced significant price relief in the US so far.",
+        "The United States holds over 8,000 tons of gold on its books at $42.22 per ounce, which Wolff says could be revalued to free large sums of money.",
+        "Wolff predicts a massive global rise in inflation driven by energy shortages, destroyed refineries, strategic reserve depletion and fertilizer losses.",
+        "Wolff expects future wars to be dominated by drones and machines rather than traditional tanks and infantry.",
+        "AI and robotics will eliminate millions of jobs, leading to a likely introduction of universal basic income distributed via CBDCs.",
+        "Wolff identifies a rising global power bloc he calls the digital-financial complex headquartered in the USA, spanning Wall Street asset managers and Silicon Valley.",
+        "Russia has enabled access to a central bank digital currency through normal bank accounts in an initial pilot phase."
+      ],
+      "transcript_notable_claims": [
+        "Zelenskyy bombed diesel refineries and therefore should be replaced, according to Donald Trump’s speech as quoted in the transcript.",
+        "If US gold reserves were revalued to market prices, they would be worth about $1.1 trillion rather than $11 billion on the books.",
+        "A revaluation of gold could fund Donald Trump’s proposed $5,000 payment to every adult American if Republicans win midterms.",
+        "Central bank digital currencies will be issued as CBDCs and used to distribute a universal basic income, which will cause persistent inflation.",
+        "The future world will be unipolar under a digital-financial complex that transcends national borders and ultimately dominates China and Russia.",
+        "Elon Musk intends to place data centers in space to prevent public access or takeover, concentrating power out of human reach.",
+        "Humanoid robots and AI development, especially mass-produced robots in China, will erase the line between human and machine and represent a grave danger.",
+        "Russia’s pilot CBDC allows citizens to convert normal bank rubles into a digital central bank currency accessible via their existing bank accounts."
+      ],
+      "transcript_uncertainties": [
+        "Wolff does not know for certain whether the US actually possesses the full 8,000 tons of gold attributed to it.",
+        "Wolff expresses uncertainty about the technical mechanism and feasibility of globally revaluing gold to a much higher price.",
+        "Wolff does not know whether reported diesel deals between Trump and Putin are true and notes no clear market effects so far.",
+        "Wolff says it is unclear how CBDCs will function long term and whether they will be adopted without resistance."
+      ],
+      "important_details": [
+        "Wolff links energy shortages and a 30% loss of global fertilizer from Strait of Hormuz disruptions to an expected sharp food price rise next year.",
+        "Wolff warns that CBDCs could enable governments to block purchases for individuals, for example denying fuel purchases or access to services.",
+        "Wolff reports that Russia’s CBDC pilot currently limits amounts exchanged and functions in an initial phase with a separate digital account."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "nYWmbABKBRQ",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "32sr5EFfuNI",
+      "source": "youtube",
+      "title": "Anschlagspläne auf USA, “schmutzige Bombe”? Aktuelle Lage im Iran-Krieg | ZDFheute live",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=32sr5EFfuNI",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 18290,
+        "processed_unique_chars": 18290,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Der Beitrag analysiert die zunehmende Zuspitzung des Konflikts zwischen USA und Iran, thematisiert Berichte über Pläne für eine \"schmutzige Bombe\", Cyberangriffe auf Supermärkte, Angriffe in der Straße von Hormus und die innenpolitische sowie militärische Lage im Iran.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Eine schmutzige Bombe verteilt strahlendes Material ohne nukleare Detonation und würde ein Gebiet verstrahlen.",
+        "US-Behörden sehen die Logistik für einen Iran-Export strahlenden Materials in die USA als sehr schwierig und gut überwacht an.",
+        "Die Revolutionsgarden kündigten laut Quelle Angriffe auf US-Interessen außerhalb der Golfregion an und US-Militär verlegte kürzlich bedeutende Kräfte in die Region."
+      ],
+      "transcript_notable_claims": [
+        "Donald Trump bezeichnete eine mögliche Dirty-Bomb-Bedrohung als sehr ernste Gefahr und warnte, das Iran dafür einen hohen Preis zahlen werde.",
+        "Die US-Regierung brachte führenede Regierungsmitglieder wie den Finanzminister vorübergehend in Sicherheit wegen konkreter Morddrohungen.",
+        "Französische Behörden führen Cyberangriffe auf Supermärkte auf iranische Revolutionsgarden zurück und identifizierten charakteristische Codebestandteile und IP-Adressen."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, ob und wie die Revolutionsgarden tatsächlich eine Dirty Bomb bauen oder in die USA einschleusen könnten.",
+        "Die iranische Regierung wies die Anschuldigungen zurück und bezeichnete US-Darstellungen als Versuch, Aggressionen zu legitimieren.",
+        "Nur die französischen Behörden haben sich offiziell zur Urheberschaft der Cyberangriffe geäußert; Zuordnungen in Deutschland oder anderen Ländern sind noch offen."
+      ],
+      "important_details": [
+        "Die US-Marine und Luftwaffe eskortieren Schiffe durch die Straße von Hormus und haben die Öl- und Gastransporte auf fast 80% des Vorkriegsniveaus gebracht.",
+        "Die Revolutionsgarden stören weiterhin zivile Schifffahrt im Golf und nutzen Seeminen und Angriffe auf Schiffe, wodurch das Druckmittel gegen den Welthandel anfangs wirkte, jetzt aber abnimmt.",
+        "Im Iran steigen Inflation und Lebensmittelpreise massiv, das Regime reagiert mit öffentlichen Hinrichtungen von Protestierenden und sieht sich innenpolitisch und wirtschaftlich starkem Druck ausgesetzt."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "32sr5EFfuNI",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "5UODgCJ8OkE",
+      "source": "youtube",
+      "title": "GOD SAID THIS IS THE ONLY PROTECTIVE GEAR TO RESIST THE SATANIC INVASION WE'RE ALREADY FACING",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=5UODgCJ8OkE",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 24677,
+        "processed_unique_chars": 24677,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "A sermon on Ephesians 6:10–17 presents the armor of God as the only protective gear against Satanic attacks and urges believers to daily choose to put on truth, righteousness, peace, faith, salvation, and the Spirit’s sword, with prayer as the overarching covering.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The church must put on the belt of truth, the breastplate of righteousness, the shoes of peace, the shield of faith, the helmet of salvation, and wield the sword of the Spirit.",
+        "Verse 16 calls the shield of faith a missile-defense that can quench every flaming dart Satan shoots if believers raise it by choice.",
+        "Prayer is described as the seventh covering that overlays and unifies the armor and everything hinges on the conscious daily choice to wear it."
+      ],
+      "transcript_notable_claims": [
+        "God lays out each believer’s armor every morning and expects them to dress in it to resist the devil’s wiles.",
+        "If believers do not raise the shield of faith, Satan’s fiery darts hit and produce anger, lust, fear, doubt, anxiety, or distance from God.",
+        "Standing in the armor produces visible joy, peace, hope, and love that will mark disciples before the world and enable effective ministry."
+      ],
+      "transcript_uncertainties": [
+        "The preacher confesses uncertainty about how to prepare Sunday material between sundown Saturday and sunrise after speaking late at a convention.",
+        "The sermon notes that most people would not be sure what it means to be wearing the armor of God despite familiar Sunday school images."
+      ],
+      "important_details": [
+        "Paul’s exhortation to 'stand' appears three times (verses 11, 13, 14) and frames the repeated command to remain steadfast in the abundant life God gives.",
+        "The sermon compares ancient Roman legionary shields intercepting flaming arrows to the shield of faith quenching Satan’s attacks against believers."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "5UODgCJ8OkE",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BlackScoutSurvival"
+      },
+      "id": "98zJwcxZGVQ",
+      "source": "youtube",
+      "title": "WE JUST GOT HIT?! AMERICA ON ALERT",
+      "channel": "BlackScoutSurvival",
+      "url": "https://www.youtube.com/watch?v=98zJwcxZGVQ",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 12059,
+        "processed_unique_chars": 12059,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The channel reports a nationwide FAA ground stop amid Microsoft outages and 911 service problems, links these disruptions to possible Iranian retaliation and broader cyber threats, and urges Americans to prioritize security and personal preparedness.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Federal Aviation Administration has issued a nationwide ground stop ordering aircraft to remain on the ground.",
+        "Microsoft experienced a massive global outage that affected Outlook, Teams and other services.",
+        "Hundreds of users reportedly submitted complaints about 911 call failures and busy signals across the United States."
+      ],
+      "transcript_notable_claims": [
+        "American military aircraft were relocated from RAF Middleton after officials identified a credible threat.",
+        "Iran's Revolutionary Guards claimed they targeted and destroyed an American early warning radar system in Bahrain.",
+        "President Trump said he could destroy Iranian energy infrastructure, bridges, and manufacturing capabilities in three days."
+      ],
+      "transcript_uncertainties": [
+        "The source does not know whether the FAA ground stop, Microsoft outage, and 911 failures are connected.",
+        "There is no confirmed public attribution that any foreign actor or Iran carried out the outages.",
+        "US CENTCOM statements denying certain incidents create unresolved questions about what actually occurred."
+      ],
+      "important_details": [
+        "The channel warns that communications failures could prevent people from reaching emergency services during crimes, medical emergencies, or fires.",
+        "The channel links increased security measures at US bases in Britain to credible threats affecting aerial refueling and regional force protection.",
+        "The channel argues that modern conflict can disrupt civilian infrastructure like shipping, fuel, communications and emergency systems without traditional battlefield engagements."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "98zJwcxZGVQ",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "DpVR17kxyDY",
+      "source": "youtube",
+      "title": "Richard Jomshof: Islam kan inte bli svenskt",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=DpVR17kxyDY",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "DpVR17kxyDY",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@WretchedNetwork"
+      },
+      "id": "MQysJMGtWXA",
+      "source": "youtube",
+      "title": "This Kind of Preaching Is Common, but It’s a DANGER to Your Soul",
+      "channel": "WretchedNetwork",
+      "url": "https://www.youtube.com/watch?v=MQysJMGtWXA",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 14150,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "MQysJMGtWXA",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelNationalTV"
+      },
+      "id": "RnJD21GY_lA",
+      "source": "youtube",
+      "title": "'We are defending Europe': Herzog's stark warning to Czech Prime Minister",
+      "channel": "IsraelNationalTV",
+      "url": "https://www.youtube.com/watch?v=RnJD21GY_lA",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T04:30:00+00:00",
+      "screened_at": "2026-11-18T04:30:00+00:00",
+      "expires_at": "2026-11-21T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 1738,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "video_id": "RnJD21GY_lA",
+      "processed_at_utc": "2026-11-18T13:20:11+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-17T13:43:33+00:00",
+  "updated_at_utc": "2026-11-18T13:20:11+00:00",
   "version": 1
 }
