@@ -26380,6 +26380,246 @@
         "approved_after_generation_checks": true,
         "seal": "45530ff805731dccbaf7084eac6cd2f095fc0a4e2e59644becf8818d297ef1b6"
       }
+    },
+    "cyberlurch:daily:2026-11-19:2026-11-19:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-19",
+      "period_end": "2026-11-19",
+      "edition_id": "cyberlurch:daily:2026-11-19:2026-11-19:production",
+      "content_version": "e7abc614e6b28a21ddc369c59410a8802e32c3d1bed8fe737d176f6c92c93735",
+      "message_id": "<eb7963a28bcd5a640d96fc83271eff5d0e4f55f1570e737dd9a366127e22274a@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-19T13:40:19+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "V65nwuaYelM",
+            "title": "The 3 Minute Rule: Surviving the Coming Collapse",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=V65nwuaYelM"
+          },
+          {
+            "source": "youtube",
+            "id": "1EpAHU9lbgM",
+            "title": "Head of RT Margarita Simonyan talks about Ukraine and America",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=1EpAHU9lbgM"
+          },
+          {
+            "source": "youtube",
+            "id": "1_6IFZJMf8A",
+            "title": "The Most Compelling Scientific Evidence for God Atheists Can't Explain Away",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=1_6IFZJMf8A"
+          },
+          {
+            "source": "youtube",
+            "id": "56GifUMebkc",
+            "title": "Evidence Of Biblical GIANTS Found In Israel",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=56GifUMebkc"
+          },
+          {
+            "source": "youtube",
+            "id": "9KGuh4i9lFc",
+            "title": "Controlled detonation of 400 mines in the Golan Heights",
+            "channel": "IsraelNationalTV",
+            "url": "https://www.youtube.com/watch?v=9KGuh4i9lFc"
+          },
+          {
+            "source": "youtube",
+            "id": "BXorpgyEAgU",
+            "title": "Skatteverket ville lägga på 125 % i skatt – nu stäms Sverige",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=BXorpgyEAgU"
+          },
+          {
+            "source": "youtube",
+            "id": "EBgVa9rgG9g",
+            "title": "CDU unter Schock: Jetzt ermittelt das LKA – und Schulze will eine 5er-Koalition gegen die AfD!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=EBgVa9rgG9g"
+          },
+          {
+            "source": "youtube",
+            "id": "Sn26D4qYrzA",
+            "title": "Superintelligenz: Was hinter der KI-Vision steckt I 11KM - der tagesschau-Podcast",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=Sn26D4qYrzA"
+          },
+          {
+            "source": "youtube",
+            "id": "7CTZgQfAIOw",
+            "title": "GRID DOWN: THE FEARSOME DAY OF THE LORD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=7CTZgQfAIOw"
+          },
+          {
+            "source": "youtube",
+            "id": "7OkxYnB3zZg",
+            "title": "Do Elephants Mourn?",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=7OkxYnB3zZg"
+          },
+          {
+            "source": "youtube",
+            "id": "8NGnhd-fBZk",
+            "title": "NYT FLIPS On Epstein: Expert Says IT WAS MURDER",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=8NGnhd-fBZk"
+          },
+          {
+            "source": "youtube",
+            "id": "8SOnRoQZTR4",
+            "title": "THEY OPENED A PORTAL INTO ANOTHER WORLD",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=8SOnRoQZTR4"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "V65nwuaYelM",
+            "title": "The 3 Minute Rule: Surviving the Coming Collapse",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=V65nwuaYelM"
+          },
+          {
+            "source": "youtube",
+            "id": "1EpAHU9lbgM",
+            "title": "Head of RT Margarita Simonyan talks about Ukraine and America",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=1EpAHU9lbgM"
+          },
+          {
+            "source": "youtube",
+            "id": "1_6IFZJMf8A",
+            "title": "The Most Compelling Scientific Evidence for God Atheists Can't Explain Away",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=1_6IFZJMf8A"
+          },
+          {
+            "source": "youtube",
+            "id": "56GifUMebkc",
+            "title": "Evidence Of Biblical GIANTS Found In Israel",
+            "channel": "SlingandStoneVideos",
+            "url": "https://www.youtube.com/watch?v=56GifUMebkc"
+          },
+          {
+            "source": "youtube",
+            "id": "9KGuh4i9lFc",
+            "title": "Controlled detonation of 400 mines in the Golan Heights",
+            "channel": "IsraelNationalTV",
+            "url": "https://www.youtube.com/watch?v=9KGuh4i9lFc"
+          },
+          {
+            "source": "youtube",
+            "id": "BXorpgyEAgU",
+            "title": "Skatteverket ville lägga på 125 % i skatt – nu stäms Sverige",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=BXorpgyEAgU"
+          },
+          {
+            "source": "youtube",
+            "id": "EBgVa9rgG9g",
+            "title": "CDU unter Schock: Jetzt ermittelt das LKA – und Schulze will eine 5er-Koalition gegen die AfD!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=EBgVa9rgG9g"
+          },
+          {
+            "source": "youtube",
+            "id": "Sn26D4qYrzA",
+            "title": "Superintelligenz: Was hinter der KI-Vision steckt I 11KM - der tagesschau-Podcast",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=Sn26D4qYrzA"
+          },
+          {
+            "source": "youtube",
+            "id": "7CTZgQfAIOw",
+            "title": "GRID DOWN: THE FEARSOME DAY OF THE LORD",
+            "channel": "jamiewalden756",
+            "url": "https://www.youtube.com/watch?v=7CTZgQfAIOw"
+          },
+          {
+            "source": "youtube",
+            "id": "7OkxYnB3zZg",
+            "title": "Do Elephants Mourn?",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=7OkxYnB3zZg"
+          },
+          {
+            "source": "youtube",
+            "id": "8NGnhd-fBZk",
+            "title": "NYT FLIPS On Epstein: Expert Says IT WAS MURDER",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=8NGnhd-fBZk"
+          },
+          {
+            "source": "youtube",
+            "id": "8SOnRoQZTR4",
+            "title": "THEY OPENED A PORTAL INTO ANOTHER WORLD",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=8SOnRoQZTR4"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "V65nwuaYelM",
+            "title": "The 3 Minute Rule: Surviving the Coming Collapse",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=V65nwuaYelM"
+          },
+          {
+            "source": "youtube",
+            "id": "1_6IFZJMf8A",
+            "title": "The Most Compelling Scientific Evidence for God Atheists Can't Explain Away",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=1_6IFZJMf8A"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-19T13:40:15+00:00"
+      },
+      "workflow_run_id": "44535259270",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-19:2026-11-19:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "b36c4b5c585e037c0dff01628bf0b4e7cae9fd73da5f97f55806c7f766ea4955",
+        "finalization_policy": "markers",
+        "content_version": "e7abc614e6b28a21ddc369c59410a8802e32c3d1bed8fe737d176f6c92c93735",
+        "message_id": "<eb7963a28bcd5a640d96fc83271eff5d0e4f55f1570e737dd9a366127e22274a@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "34370463371dd545_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "23dfaa2754e084055b43fff1d97665c14599ca63b476f018b3c59f83dcac5e7e"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "7f56359f996c6d540b14f791c5b766a2f737c03c0a4e50597c684f5d181a4104"
+      }
     }
   },
   "paper_legacy_unknown": {

@@ -153851,8 +153851,943 @@
       "cyberlurch_deep_dive_score": null,
       "cyberlurch_deep_dive_reasons": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "V65nwuaYelM",
+      "source": "youtube",
+      "title": "The 3 Minute Rule: Surviving the Coming Collapse",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=V65nwuaYelM",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-18T23:34:30+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-21T23:34:30+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 19378,
+        "processed_unique_chars": 19378,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 5.907,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The video explains respiratory survival for the '3 minutes without air' rule, covering respirators, gas mask filters, hazmat suits, detection and filtration systems, radiation countermeasures, and basic first aid to preserve breathing.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "N95 and N99 respirators filter 95% and 99% of particles respectively but require a tight face seal.",
+        "CBRN-rated gas masks with 40 mm NATO filters accept P100, activated charcoal, or hopolyte canisters for different threats.",
+        "Positive pressure rooms filter incoming air for shelters and negative pressure rooms isolate and filter air expelled from quarantined spaces."
+      ],
+      "transcript_notable_claims": [
+        "P100 particulate filters will block smoke particles, airborne viruses, bacteria, and alpha and beta radioactive particles but will not neutralize certain chemicals or carbon monoxide.",
+        "Activated charcoal 40 mm filters include particulate filtration and adsorb many heavy metals and chemical contaminants released in industrial fires.",
+        "Hopolite filters add an extra oxygen to carbon monoxide to convert it to carbon dioxide and thereby neutralize carbon monoxide.",
+        "HEPA scrubbers, polyethylene sheeting (minimum 4 mil), and heavy-duty tape are needed to build positive or negative pressure rooms.",
+        "Potassium iodide tablets prevent uptake of radioactive iodine by loading the thyroid and should be taken immediately after a localized radiological emergency.",
+        "A scintillator C2008 can measure alpha, beta and gamma radiation, report accumulated dose, and map radioactive hotspots.",
+        "Level C hazmat protection uses a respirator and a MOP suit and can protect against CBRN threats except gamma radiation.",
+        "Level B hazmat requires a self-contained breathing apparatus and oxygen tanks and typically leaves no exposed skin without an airtight suit.",
+        "Level A hazmat consists of an airtight suit plus a self-contained breathing apparatus and provides the highest protection movie-style.",
+        "In an enclosed collapse, creating a pocket of air with hands in front of the face increases survival chances and conserving cries for help saves oxygen."
+      ],
+      "transcript_uncertainties": [
+        "Filter service life varies between 24 and 72 hours depending on environmental contaminant density.",
+        "Some consumer air quality detectors measure parts per million but cannot identify the specific contaminant present.",
+        "Corrective vision inserts for gas mask spectacle kits may take four to six weeks to fabricate."
+      ],
+      "important_details": [
+        "Single-use smoke hoods cost about $30 to $50 and are recommended to have one per family member in high-rise buildings.",
+        "Rubber gloves and overboots provide the highest chemical resistance and are required for equipment to be considered CBRN-capable.",
+        "For nuclear fallout sheltering, the goal is to put three feet of earth or an equivalent mass between occupants and radiation, using sandbags or water bottles as examples."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "V65nwuaYelM",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@russianmediamonitor"
+      },
+      "id": "1EpAHU9lbgM",
+      "source": "youtube",
+      "title": "Head of RT Margarita Simonyan talks about Ukraine and America",
+      "channel": "russianmediamonitor",
+      "url": "https://www.youtube.com/watch?v=1EpAHU9lbgM",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5946,
+        "processed_unique_chars": 5946,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.496,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5946",
+        "recency"
+      ],
+      "transcript_full_summary": "Margarita Simonyan describes Russian unity, contrasts Russian respect for authority with Ukrainian disrespect for power, diagnoses American society as terminally ill after Trump’s electoral setback, and calls for Russia to close itself informationally and gather 'normal' people worldwide.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Russian society must unite with the authorities to survive and achieve victory.",
+        "Ukrainian society lacks respect for any authority after 1991.",
+        "American society is described as seriously ill and has lost traditional Protestant values."
+      ],
+      "transcript_notable_claims": [
+        "Only unity with power can ensure survival of Russia and the Russian people.",
+        "The conflict with Ukraine requires relentless strikes until the Ukrainian state is destroyed like a cancerous organ.",
+        "Donald Trump represented an old Protestant America that no longer exists and his electoral setback confirms American societal decline.",
+        "Russia will become the remaining refuge for 'normal' people worldwide and should close itself informationally to protect its values."
+      ],
+      "transcript_uncertainties": [
+        "Simonyan expresses uncertainty about Europe’s ability to make Russia lose on the battlefield but asserts Europe will fail.",
+        "Simonyan reports that conversations with a US public opinion leader could cause that person problems, indicating uncertainty about the public disclosure of such contacts."
+      ],
+      "important_details": [
+        "Simonyan likens the Russia–Ukraine situation to oncology, arguing sometimes the whole organ must be removed when nothing can be preserved.",
+        "Simonyan recalls an interview with Tucker Carlson in which Putin explained Russian history to Americans who allegedly had never heard of events before the 18th century.",
+        "Simonyan urges authorities to 'close' Russia informationally to prevent foreign influence and preserve societal 'skrepy' (bonds)."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "1EpAHU9lbgM",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CrossExamined"
+      },
+      "id": "1_6IFZJMf8A",
+      "source": "youtube",
+      "title": "The Most Compelling Scientific Evidence for God Atheists Can't Explain Away",
+      "channel": "CrossExamined",
+      "url": "https://www.youtube.com/watch?v=1_6IFZJMf8A",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 45799,
+        "processed_unique_chars": 45799,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.009,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript argues that the universe exhibits extreme fine-tuning in its initial conditions, physical laws and local planetary features, and that this fine-tuning strongly points to an intelligent designer rather than chance, physical necessity, or multiverse speculation.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Roger Penrose calculated the chance of the universe’s initial high degree of order as one in 10^(10^43) (presented as one chance in 10 to the 123rd power in the transcript).",
+        "Stephen Hawking stated that a tiny change in the universe’s early expansion rate would have prevented stars and planets from forming.",
+        "Local solar system and Earth features such as oxygen level, Jupiter’s protective role, Earth’s rotation and axial tilt are presented as precisely tuned for life."
+      ],
+      "transcript_notable_claims": [
+        "Fine-tuning offers positive, empirically verifiable evidence for an intelligent cause and for a lawgiver because natural laws are precise and contingent.",
+        "The multiverse hypothesis lacks evidence, multiplies explanatory problems, and cannot avoid the need for a designer because a universe-generating mechanism would itself require explanation.",
+        "Probabilities for key parameters are astronomically small, e.g., the cosmological constant is fine-tuned to about one part in 10^90 (some estimates 10^120).",
+        "Dr. Frank Turek concludes that the best explanation for fine-tuning is a spaceless, timeless, immaterial, powerful, personal and intelligent cause—identified as God."
+      ],
+      "transcript_uncertainties": [
+        "Penrose may not identify a personal God; he only calculated an extraordinarily low chance for the universe's initial order.",
+        "Estimates for cosmological fine-tuning vary between about 10^90 and 10^120 depending on different scientists' calculations.",
+        "The transcript acknowledges that some cited scientists (e.g., Penrose, Hawking) did not themselves conclude the designer is the Christian God."
+      ],
+      "important_details": [
+        "Dr. U. (presumably Hugh Ross) calculated the probability that 122 fine-tuned Earth/solar-system features would arise by chance as one in 10^138.",
+        "The strong nuclear force is about 10^40 times stronger than gravity, and altering their ratio by one part in 10^34 would preclude life-supporting planets.",
+        "Quotations from scientists are invoked: Arno Penzias described astronomy as pointing to a delicately balanced universe, and Sir Fred Hoyle called fine-tuning suggestive of a super-intellect."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "1_6IFZJMf8A",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@SlingandStoneVideos"
+      },
+      "id": "56GifUMebkc",
+      "source": "youtube",
+      "title": "Evidence Of Biblical GIANTS Found In Israel",
+      "channel": "SlingandStoneVideos",
+      "url": "https://www.youtube.com/watch?v=56GifUMebkc",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "56GifUMebkc",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelNationalTV"
+      },
+      "id": "9KGuh4i9lFc",
+      "source": "youtube",
+      "title": "Controlled detonation of 400 mines in the Golan Heights",
+      "channel": "IsraelNationalTV",
+      "url": "https://www.youtube.com/watch?v=9KGuh4i9lFc",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "9KGuh4i9lFc",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "BXorpgyEAgU",
+      "source": "youtube",
+      "title": "Skatteverket ville lägga på 125 % i skatt – nu stäms Sverige",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=BXorpgyEAgU",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11454,
+        "processed_unique_chars": 11454,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.873,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11454",
+        "recency"
+      ],
+      "transcript_full_summary": "Finansmannen Ola Nordqvist tar Sverige till Europadomstolen efter att Skatteverket försökt pålägga 125 % i skatt, och advokater och experter kräver granskning av Skatteverkets agerande, domstolars oberoende och politisk ansvarstagande.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Ola Nordqvist överklagar till Europadomstolen för mänskliga rättigheter efter ett skattekrav på 125 procent.",
+        "Skatteverket uppges ha vägrat lämna ut uppgifter om vilka som granskat Nordqvists ärende med motiveringen att man saknar ett dataprogram.",
+        "Kritik riktas mot svenska förvaltningsdomstolar för att de enligt källan accepterat vad som kallas en uppenbar lögn från Skatteverket."
+      ],
+      "transcript_notable_claims": [
+        "Skatteverket ville lägga på 125 % i skatt på Ola Nordqvist.",
+        "Skatteverket har tidigare lämnat ut uppgifter om vilka som varit inne i ärendet vid tre tillfällen före förundersökningar mot Katrin Wessling Palm.",
+        "Minst 89 personer har enligt källan varit inne och rotat i Nordqvists ärende.",
+        "Europadomstolen har uttalat att skattenivåer nära eller över 90 procent kan vara konfiskation snarare än skatt.",
+        "Två höga chefer på Skatteverket och en generaldirektör har varit föremål för brottsutredning i samband med ärendet.",
+        "Domare som prövar ärendet uppges vara jäviga genom personliga relationer till dem som handlagt ärendet.",
+        "Den svenska politiska passiviteten gentemot Skatteverkets handläggning beskrivs som slående och ett politiskt haveri."
+      ],
+      "transcript_uncertainties": [
+        "Skatteverkets påstående att man saknar ett dataprogram för att lämna ut uppgifter betecknas av källan som en lögn men tidpunkt och fullständiga bevis för detta framgår inte i texten.",
+        "Det är osäkert om Europadomstolen kommer att ta upp fallet eftersom domstolen normalt sett inte ofta dömer i skattefrågor."
+      ],
+      "important_details": [
+        "Den påstådda skattenivån på 125 procent uppstod enligt källan delvis därför att inkomster redovisats i utlandet men ändå bedömts som skattepliktiga i Sverige.",
+        "Källan framhåller att fallet kan skrämma bort entreprenörer och utländska investeringar om risken för extrema skattenivåer kvarstår."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "BXorpgyEAgU",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "EBgVa9rgG9g",
+      "source": "youtube",
+      "title": "CDU unter Schock: Jetzt ermittelt das LKA – und Schulze will eine 5er-Koalition gegen die AfD!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=EBgVa9rgG9g",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8859,
+        "processed_unique_chars": 8859,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.224,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8859",
+        "recency"
+      ],
+      "transcript_full_summary": "Der Text berichtet über Ermittlungen des LKA und der Staatsanwaltschaft gegen Ministerpräsident Sven Schulze und CDU-Abgeordnete in Sachsen-Anhalt wegen des Verdachts, Abgeordnete zur Abgabe eidesstattlicher Versicherungen über ihr geheimes Abstimmungsverhalten genötigt zu haben, und über Scholzes Prüfung einer Fünfer-Koalition mit Linken, SPD, Grünen und BSW gegen die AfD sowie eine anstehende Verfassungsgerichtsentscheidung zum BSW-Widerspruch gegen das Bundestagswahlergebnis.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Das Landeskriminalamt Sachsen-Anhalt ermittelt wegen des Verdachts der Nötigung im Zusammenhang mit einer CDU-Fraktionssitzung am 13. Oktober.",
+        "Ministerpräsident und Fraktionschef Sven Schulze soll an der Sitzung teilgenommen haben, bei der vorgefertigte eidesstattliche Erklärungen verteilt worden sein sollen.",
+        "Sven Schulze kündigt an, einen Kurswechsel zur Regierungsbildung zu prüfen und eine mögliche Fünfer-Koalition mit Linken, SPD, Grünen und BSW gegen die AfD zu beraten."
+      ],
+      "transcript_notable_claims": [
+        "Abgeordnete sollen zur Abgabe einer eidesstattlichen Versicherung gedrängt worden sein, in der sie versicherten, bei der Landtagssitzung am 6. Oktober weder AfD-Politiker Tobias Rausch noch Till Schneider gewählt zu haben.",
+        "Die Ermittler sehen in der Drohung, bei Widerlegung das Mandat niederzulegen, einen möglichen Nötigungstatbestand nach Paragraph 240 StGB.",
+        "Die Staatsanwaltschaft Magdeburg bestätigte, dass es Dutzende Anzeigen gibt, weshalb die Untersuchungen intensiv sind.",
+        "Der BSW hat eine Verfassungsbeschwerde gegen das Bundestagswahlergebnis 2025 eingereicht und fordert eine Neuauszählung, weil die Partei mit 4,981 % knapp unter der 5-%-Hürde lag.",
+        "Der Text behauptet, dass eine erfolgreiche Neuauszählung für das BSW die Mehrheit der Merz-Regierung im Bund sofort beenden und die Regierung ‚illegal‘ machen würde."
+      ],
+      "transcript_uncertainties": [
+        "Es besteht nur ein Verdacht der Nötigung; die Ermittlungen laufen und es ist nicht bestätigt, dass strafbares Verhalten stattgefunden hat.",
+        "Die mögliche Auswirkung einer BSW-Erfolg bei der Verfassungsgerichtsentscheidung ist prognostiziert und nicht als feststehendes Ergebnis dargestellt.",
+        "Der Text äußert Unsicherheit darüber, wer die eidesstattlichen Erklärungen verfasst und deren Unterzeichnung veranlasst hat."
+      ],
+      "important_details": [
+        "In einem Anhörungsbogen wurden CDU-Abgeordnete als mögliche Zeugen geladen und ihnen insgesamt 23 Fragen zur Erklärung, Druckausübung und Offenlegung des Wahlverhaltens gestellt.",
+        "Eine Anzeige wurde laut Quelle bereits am 3. Oktober über die Onlinewache der Polizei eingereicht.",
+        "Das Bundesverfassungsgericht kündigte an, den Beschluss zur BSW-Beschwerde ohne mündliche Verhandlung zu verkünden."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "EBgVa9rgG9g",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "Sn26D4qYrzA",
+      "source": "youtube",
+      "title": "Superintelligenz: Was hinter der KI-Vision steckt I 11KM - der tagesschau-Podcast",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=Sn26D4qYrzA",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 24397,
+        "processed_unique_chars": 24397,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Folge erklärt die Idee der Superintelligenz als Silicon-Valley-Vorstellung einer überlegenen, sich selbst verbessernden KI, zeichnet deren historische Wurzeln und Transhumanismus-Verknüpfung nach und betont die aktuellen Risiken und gesellschaftlichen Machtfragen selbst ohne eine solche Superintelligenz.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Superintelligenz wird im Silicon Valley als mögliche Entwicklung gesehen, bei der eine allgemeine KI sich selbst verbessert und eine Intelligenzexplosion auslöst.",
+        "Nick Bostrom prägte das moderne Superintelligenz-Narrativ und behauptet, eine Superintelligenz könne menschliche Entwicklungen um Jahrtausende komprimieren.",
+        "Die aktuelle KI-Technologie ist menschengemacht und schon heute gefährlich durch Überwachung, militärische Nutzung und den Ersatz von Arbeit."
+      ],
+      "transcript_notable_claims": [
+        "Donald Trump kündigte an, künftig statt „Artificial Intelligence“ nur noch „Superintelligenz“ verwenden zu wollen.",
+        "Elon Musk schlug vor, Begriffe wie SpaceX in Richtung ‚Super Intelligence‘ umzubenennen.",
+        "Irving Good schrieb 1965 über eine ‚ultraintelligente Maschine‘ als mögliche letzte Erfindung der Menschheit.",
+        "Nick Bostrom behauptet, eine Superintelligenz könne in kurzer Zeit Entwicklungsfortschritte erreichen, für die Menschen 20.000 Jahre bräuchten.",
+        "Einige KI-Firmen wie OpenAI und Anthropic warnen vor existenziellen Risiken und fordern Regulierung, während sie gleichzeitig Einfluss auf die Regelsetzung beanspruchen.",
+        "Transhumanismus im Silicon Valley propagiert das Hochstufen der Technik, das digitale Hochladen von Gehirnen und die Schaffung einer neuen, überlegenen Spezies.",
+        "Kritikerinnen wie Meredith Whittaker und Timnit Gebru bezeichnen das Superintelligenz-Narrativ als Hype oder Marketing, das Macht, Geld und Kontrolle fördert."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, ob und wann eine allgemeine künstliche Intelligenz oder eine Superintelligenz tatsächlich existieren kann.",
+        "Vorhersagen über das Eintreten einer Superintelligenz haben historisch stark variierte und widersprüchliche Zeitangaben geliefert."
+      ],
+      "important_details": [
+        "Die Idee, Intelligenz als skalierbare Größe zu betrachten, hat historische Verbindungen zur Eugenik und zu rassistischen Intelligenzrankings.",
+        "Aktuelle KI-Anwendungen verursachen hohen Ressourcenverbrauch durch große Rechenzentren mit Folgen für Strom-, Wasserverbrauch und lokale Infrastruktur.",
+        "Der Einsatz von KI in militärischen Zielketten und autonomen Waffen schafft Verantwortlichkeitsprobleme und reale Gefahren unabhängig von Superintelligenz."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "Sn26D4qYrzA",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@jamiewalden756"
+      },
+      "id": "7CTZgQfAIOw",
+      "source": "youtube",
+      "title": "GRID DOWN: THE FEARSOME DAY OF THE LORD",
+      "channel": "jamiewalden756",
+      "url": "https://www.youtube.com/watch?v=7CTZgQfAIOw",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 41228,
+        "processed_unique_chars": 41228,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.009,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon warns that a grid-down event is certain and will be enacted by God as a divine judgment to silence human distractions so people must prepare for eternity rather than only short-term survival scenarios.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The speaker asserts that a grid-down scenario is a certainty and may occur by divine action rather than solely by human adversaries.",
+        "The speaker describes the coming silence as a supernatural, deafening thirty-minute stillness that will expose every person before God.",
+        "The speaker urges listeners to prepare spiritually for eternity and to repent, not merely to stockpile supplies for ninety days."
+      ],
+      "transcript_notable_claims": [
+        "Undersea fiber-optic cables carry most global communications and are vulnerable to attack from drones and state actors.",
+        "The Department of Defense has introduced a concept called 'fortress' preparing domestic military bases for long blackouts and supply-chain collapse.",
+        "The grid-down event will be executed by Yahweh Elohim against 'mystery Babylon' to silence vain human clamor and force people to hear God's voice.",
+        "Scriptural passages cited to describe this event include Zephaniah, Revelation 18, Isaiah, Job, Proverbs 1, Habakkuk 2, Zechariah 2, and Psalm 46.",
+        "When God commands silence the wicked will be speechless and condemned, while the faithful will be made speechless in awe and then praise God eternally."
+      ],
+      "transcript_uncertainties": [
+        "The speaker repeatedly states uncertainty about the human agents, methods, timing, and geographic extent of secular threats to the grid.",
+        "The speaker admits not to know exact historical dates (e.g., the first undersea cable year) and asks listeners not to quote him on that detail."
+      ],
+      "important_details": [
+        "The speaker connects contemporary warnings and chatter—EMP commissions, state actors, EU discussion of comms shutdowns—with a broader continuity of messaging about impending darkness.",
+        "The speaker describes practical consequences of a grid-down urban blackout: cities becoming unnervingly silent with no lights, cars, water, or vibrations, using Baghdad in 2003 as an example.",
+        "The speaker frames the silence as courtroom-like: God will command silence before pronouncing judgment, leaving no place to file grievance or offer excuses."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "7CTZgQfAIOw",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DrJamesTour"
+      },
+      "id": "7OkxYnB3zZg",
+      "source": "youtube",
+      "title": "Do Elephants Mourn?",
+      "channel": "DrJamesTour",
+      "url": "https://www.youtube.com/watch?v=7OkxYnB3zZg",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 12739,
+        "processed_unique_chars": 12739,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.009,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript recounts Lawrence Anthony calming a rogue elephant herd after their matriarch was poached and later describes the herd returning to mourn Anthony at his house after his 2012 death, using that story to argue animals possess spirit, emotions, and lessons for humans within a Christian worldview.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Lawrence Anthony calmed a rogue elephant herd in South Africa and relocated them to a preserve after their matriarch was killed by a poacher.",
+        "Twelve years later the elephants traveled miles to Anthony's house and encircled it for days to mourn him after his sudden heart attack.",
+        "The transcript interprets animal behavior as evidence that animals have spirit, emotions, and teach humans about creation within a Christian framework."
+      ],
+      "transcript_notable_claims": [
+        "The elephants somehow knew Lawrence Anthony had died and intentionally traveled to his house to grieve him.",
+        "Animals possess spirit and deep feelings even though they are not image bearers.",
+        "Nature displays both riot and dance: fallen, destructive interactions coexist with choreography and beauty at ecosystem, organismal and molecular levels.",
+        "Some aspects of biological life may transcend materialistic, measurable explanations and suggest non-material senses or interfaces."
+      ],
+      "transcript_uncertainties": [
+        "The speaker admits limited knowledge about the historical details and mechanisms behind the elephants' journey to Anthony's house.",
+        "The transcript explicitly states uncertainty about distinctions between soul and spirit in animals."
+      ],
+      "important_details": [
+        "Psalm 104 and Proverbs 12:10 are cited to argue for human responsibility to care for domestic and wild animals and to preserve adequate habitats.",
+        "The book title 'The Riot and the Dance' was chosen to present a thoroughly Christian textbook that acknowledges both the fallen violence in nature and its persistent beauty and order.",
+        "Migratory navigation examples like birds using Earth's magnetic field are invoked as parallels suggesting future empirical discoveries could explain some animal abilities."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "7OkxYnB3zZg",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@breakingpoints"
+      },
+      "id": "8NGnhd-fBZk",
+      "source": "youtube",
+      "title": "NYT FLIPS On Epstein: Expert Says IT WAS MURDER",
+      "channel": "breakingpoints",
+      "url": "https://www.youtube.com/watch?v=8NGnhd-fBZk",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 15655,
+        "processed_unique_chars": 15655,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.009,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript reviews forensic claims that Jeffrey Epstein was murdered, reactions to a New York Times report citing a forensic scientist, and related political moves to force release of Epstein-related files in Congress.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Forensic scientist Michael Freeman reviewed autopsy photos provided by Mark Epstein and concluded the injuries are most consistent with homicidal ligature strangulation rather than suicide by hanging.",
+        "The New York Times published a report presenting Freeman's view, which the program frames as shifting mainstream coverage of Epstein's death.",
+        "Representative Thomas Massie and allies are advancing the Epstein Files Transparency Act 2 to create private rights of action and compel release of files, and the bill has about 218 supporters."
+      ],
+      "transcript_notable_claims": [
+        "Freeman said he cannot think of a scenario in which Epstein could have caused the full spectrum of injuries to himself and that staging a suicide as a homicide is an exceedingly rare possibility.",
+        "Freeman said the thyroid bone was broken into three pieces and that ligature marks on Epstein's neck are inconsistent with typical suicidal hanging.",
+        "The transcript asserts that missing footage, inattentive guards, and blind spots in cameras create inconsistencies with the official account of Epstein's death.",
+        "The program suggests that Leslie Wexner enabled Epstein by giving him power of attorney and access to Victoria's Secret connections that aided trafficking.",
+        "The transcript quotes Johnny McInty claiming White House staff pushed to redact Epstein files and blaming Susie Wiles for discouraging full unredacted release."
+      ],
+      "transcript_uncertainties": [
+        "Freeman allowed a remote one-in-ten-thousand possibility that Epstein staged his suicide as a homicide but called it highly unlikely.",
+        "The transcript notes that camera footage is partially missing and that it is unclear how many blind spots allowed unobserved movement in and out of the cell.",
+        "The transcript expresses uncertainty about which political pressures will determine whether Speaker Johnson blocks a floor vote or whether Jeff will pursue the transparency bill."
+      ],
+      "important_details": [
+        "Mark Epstein, Jeffrey Epstein's brother, provided autopsy photos to Michael Freeman and uploaded the pictures that Freeman reviewed.",
+        "Thomas Massie reported having 218 supporters for the transparency bill, which would allow victims and state attorneys general to sue for access to files.",
+        "Harvard Kennedy School formed a working group to contextualize Leslie Wexner's ties to Epstein and concluded legal constraints prevent removing Wexner's name from a building despite $142 million in donations."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "8NGnhd-fBZk",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@EndTimesProductions"
+      },
+      "id": "8SOnRoQZTR4",
+      "source": "youtube",
+      "title": "THEY OPENED A PORTAL INTO ANOTHER WORLD",
+      "channel": "EndTimesProductions",
+      "url": "https://www.youtube.com/watch?v=8SOnRoQZTR4",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 18412,
+        "processed_unique_chars": 18412,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 4.009,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript claims that CERN and the Gotthard Base Tunnel ceremonies are occult rituals intended to open interdimensional portals and release demonic entities, linking CERN symbolism, statues and statements to biblical prophecy and pagan rites.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "CERN's Large Hadron Collider aims to recreate early-universe conditions and has been associated by the source with attempts to open portals to other dimensions.",
+        "A Shiva statue at CERN is presented as symbolic evidence connecting modern physics to ancient pagan imagery and the concept of a destroyer.",
+        "The Gotthard Base Tunnel opening ceremony on June 1, 2016 is described as an occult ritual featuring interfaith blessings, pagan imagery, erotic dancers, a goat-man figure and an implied summoning."
+      ],
+      "transcript_notable_claims": [
+        "The opening ceremony at Goddard made it clear that these portals are intended to release demonic entities.",
+        "Sergio Bertolucci said, 'yes, out of this door might come something or we might send something through it.'",
+        "One of CERN's goals is described as recreating Jacob's ladder and reopening a portal that once connected Earth, Mars, Venus, and Saturn.",
+        "The Gotthard ceremony enacted sex rites, human-sacrifice symbolism and the invocation of a triple goddess and horned god to herald a reversal of Judeo-Christian order.",
+        "The twin tunnels of the Gotthard Base Tunnel symbolize the death-birth-death cycle of the Green Man and the ascension of something from the abyss to the surface."
+      ],
+      "transcript_uncertainties": [
+        "The transcript concedes uncertainty with 'who knows?' when asserting CERN's intent to open portals for use.",
+        "The transcript allows speculation with phrases such as 'perhaps you remember' and 'of course, I can only speculate' about symbolic connections and motives.",
+        "The transcript notes that CERN publicly called a ritual-depicting video 'just a joke' and leaves unresolved whether supernatural associations are admitted by CERN."
+      ],
+      "important_details": [
+        "The Shiva Nataraja bronze was gifted to CERN by the government of India in 2004 and stands between buildings 39 and 40 with a plaque linking ancient dancing Shivas to modern physicists' 'cosmic dance' metaphor.",
+        "The Gotthard Base Tunnel opening included an interfaith blessing at a statue of Saint Barbara, a tribute to nine miners who died, and a live-streamed performance invoking miners, zombies, erotic dancers and a goat-man with a Baphomet headdress."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "8SOnRoQZTR4",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "9tVIuX-LtyM",
+      "source": "youtube",
+      "title": "Digital Sharia? Christians Face Online Censorship in Pakistan",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=9tVIuX-LtyM",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 6896,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.733,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:6896",
+        "recency"
+      ],
+      "video_id": "9tVIuX-LtyM",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "QUl38VKKjWY",
+      "source": "youtube",
+      "title": "THE DECLINE & FALL OF CHRISTIANITY IN AMERICA--THE RISE OF THE ANTICHRIST'S WORLD (ROK-14)",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=QUl38VKKjWY",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T04:30:00+00:00",
+      "screened_at": "2026-11-19T04:30:00+00:00",
+      "expires_at": "2026-11-22T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 41373,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.009,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "video_id": "QUl38VKKjWY",
+      "processed_at_utc": "2026-11-19T13:40:15+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-18T13:20:11+00:00",
+  "updated_at_utc": "2026-11-19T13:40:15+00:00",
   "version": 1
 }
