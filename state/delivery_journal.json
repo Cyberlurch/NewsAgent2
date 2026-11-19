@@ -26620,6 +26620,696 @@
         "approved_after_generation_checks": true,
         "seal": "7f56359f996c6d540b14f791c5b766a2f737c03c0a4e50597c684f5d181a4104"
       }
+    },
+    "cybermed:daily:2026-11-19:2026-11-19:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-19",
+      "period_end": "2026-11-19",
+      "edition_id": "cybermed:daily:2026-11-19:2026-11-19:production",
+      "content_version": "40a9e6332667f4c486382ed92a64c0a3988665d529750a4267a845231f3e14ed",
+      "message_id": "<71ea1d5340de84edf138135b334bda3bc6b99e4d5aa9367cdd6e6aa025ba95a3@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-19T13:56:19+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43020108",
+            "title": "RSV multidose vaccine puts Africa's RSV burden in focus.",
+            "channel": "PubMed: The Lancet Respiratory Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020108/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42997979",
+            "title": "Systemic Inflammation in Bronchiectasis: Data from the EMBARC-BRIDGE Study.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42997979/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003764",
+            "title": "Videolaryngoscopy vs. direct laryngoscopy for tracheal intubation by anaesthesia resident doctors (VILARE): a pragmatic multicentre randomised trial.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003764/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994623",
+            "title": "Comment on: \"Enhanced Recovery after Distal Radius Fracture Surgery using Combined Short- and Long-Acting Nerve Blocks: A Randomized Controlled Trial\".",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994623/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994622",
+            "title": "Comment on \"Associations of Pain, Analgesia Technique, and Psychological Factors with Central Sensitization after Childbirth\".",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994622/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994621",
+            "title": "Antibiotic prophylaxis in pancreaticoduodenectomy after biliary drainage: should local ecology and perioperative factors guide practice?",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994621/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994620",
+            "title": "Population pharmacokinetics of fibrinogen in postpartum haemorrhage during Caesarean section: a secondary analysis of the TRACES trial.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994620/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994618",
+            "title": "Postoperative pain management: a national prospective study including 3879 patients.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994618/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994617",
+            "title": "Authors reply.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994617/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42994619",
+            "title": "Artificial Intelligence in Pre-anaesthetic Evaluation and Perioperative Planning: A Narrative Review.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994619/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981595",
+            "title": "The December Lesson: When Strategy Matters More Than the Drug.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981595/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42981594",
+            "title": "The Wretched Gift of Life.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42981594/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42975396",
+            "title": "Project SPRUCE: Formation of an International Consortium of Pediatric Anesthesia Groups to Reduce Greenhouse Gas Emissions from Inhaled Anesthetics.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42975396/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42997845",
+            "title": "Chloride load and serum chloride in critically ill adults: a randomization-anchored analysis of the BaSICS trial.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42997845/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42997026",
+            "title": "Sex differences in limitations of life-sustaining treatment in the intensive care unit: A nationwide cohort study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42997026/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003647",
+            "title": "Response.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003647/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003646",
+            "title": "Stratification by Nocturnal BP Dipping Phenotype: A Missing Piece in the FIX PAP Trial.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003646/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003645",
+            "title": "Response.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003645/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003644",
+            "title": "Response.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003644/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003643",
+            "title": "Does Accelerometry Add Prognostic Value Beyond Established Risk Assessment in Pulmonary Arterial Hypertension?",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003643/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003642",
+            "title": "Same-Source Bias Confounds Pulmonary Hypertension Functional Class Self-Report Validation in Pulmonary Hypertension.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003642/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003641",
+            "title": "Response.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003641/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003640",
+            "title": "Rhabdomyolysis: A Consensus-Based Approach.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003640/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003639",
+            "title": "Response.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003639/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003638",
+            "title": "Divining the Population-Level Mortality Trajectories of ARDS in the United States.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003638/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003637",
+            "title": "Response.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003637/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003636",
+            "title": "From Response to Remission in Adult Severe Asthma: Practical Clarifications Following the New American College of Chest Physicians Biologic Guideline.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003636/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003635",
+            "title": "Nonsustained Ventricular Tachycardia in a Patient After Placement of Transjugular Intrahepatic Portosystemic Shunt.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003635/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003634",
+            "title": "Mediastinal Mass With Recurrent Hemorrhagic Pleural Effusion.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003634/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003633",
+            "title": "A 63-Year-Old Man With Dyspnea and Loculated Pleural Effusion.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003633/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003632",
+            "title": "Persistent Severe OSA Despite Ongoing CPAP Therapy.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003632/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003631",
+            "title": "Bilateral Pulmonary Nodules After Lung Transplantation: A Rare Diagnosis.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003631/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003630",
+            "title": "A Young Man With Hypereosinophilia and Pseudochylothorax.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003630/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003629",
+            "title": "Cone-Beam CT Real-Time Guided Bronchoscopic Laser Ablation for Complete Cicatricial Subglottic Airway Atresia: A Case Report.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003629/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003628",
+            "title": "The Days I Lost.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003628/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003627",
+            "title": "Borrowed Son.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003627/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003626",
+            "title": "Reconsidering the Role of Surgical Lung Biopsy in Fibrotic Lung Disease.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003626/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003625",
+            "title": "Obstructive Airway and Lung Disease Begins Before Birth: Prevention Must Start Early.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003625/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003624",
+            "title": "Robots and the Rays: Characteristics of Radiation Exposure Among Diagnostic Bronchoscopy Modalities.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003624/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003623",
+            "title": "Not All Variability Is Equal in OSA.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003623/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42983571",
+            "title": "Time-varying dose decisions in CRRT: why marginal structural and baseline Cox estimates should not be pooled.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42983571/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42989315",
+            "title": "Early adequate empiric antifungal therapy and 28-day mortality in ICU patients with candidemia: a pooled patient-level analysis of EUROBACT-1 and EUROBACT-2 cohorts.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42989315/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42983840",
+            "title": "Treatment and outcomes of difficult-to-treat Stenotrophomonas maltophilia pneumonia in the intensive care unit: a multinational retrospective cohort study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42983840/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42983576",
+            "title": "Assessing vascular barrier permeability in critically ill patients: what are we really measuring?",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42983576/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42983565",
+            "title": "Eleven questions on Hantavirus cardiopulmonary syndrome management in the ICU.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42983565/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42983577",
+            "title": "Physiological determinants of piperacillin and cefazolin clearance in septic and trauma patients.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42983577/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42987192",
+            "title": "Long-Term Mortality in Sepsis Survivors: A Population-Based Study During 15 Years.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42987192/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42987170",
+            "title": "Shortening the Family Satisfaction in the ICU (FS-ICU): Development and Validation of a 12-Item Family Satisfaction Survey for Adult ICUs.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42987170/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/cues-ed-urgent-ecg-review/",
+            "title": "The ECG Thrust revisited: which ECGs need urgent review?",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/cues-ed-urgent-ecg-review/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/ttl-tip-25-penetrating-rectal-injury/",
+            "title": "TTL tip 25. Penetrating Rectal Injury",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/ttl-tip-25-penetrating-rectal-injury/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/intrathecal-drug-delivery-may-provide-meaningful-pain-relief-in-chronic-refractory-non-cancer-pain/",
+            "title": "Intrathecal drug delivery may provide meaningful pain relief in chronic refractory non-cancer pain",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/intrathecal-drug-delivery-may-provide-meaningful-pain-relief-in-chronic-refractory-non-cancer-pain/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/different-not-less/",
+            "title": "Different, Not Less",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/different-not-less/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.tamingthesru.com/blog/journal-club/beforethebaydoors",
+            "title": "Before the Bay Doors",
+            "channel": "Taming the SRU",
+            "url": "https://www.tamingthesru.com/blog/journal-club/beforethebaydoors"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "42997979",
+            "title": "Systemic Inflammation in Bronchiectasis: Data from the EMBARC-BRIDGE Study.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42997979/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42997979",
+              "doi": "10.1093/ajrccm/aamag590",
+              "kind": "original",
+              "source_version": "0554977dc1f3c605f2330ea69b768d5d6a3e087b4fcfbd275560cfcb47511608",
+              "fields": {
+                "title": "1f7c6c119c511e47457e12168605825d076c7c5584eddd0a74483b8d3659b3a0",
+                "abstract": "cbdf53e82f809128e9544a03c0cbf4e467f1e4ddeae3bf639790bad69116cdcc",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "f7d0fa47355872a072de8020806e0d42b899946a6490ab9488e853756d7a8da9",
+                "results_known": false,
+                "numbers": "c99f313f30a33e970ae6b4906e19071926f4987f322801f3ecd8da71b997c346",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "16b12c7f6030fa6603226512216dafe831c497e646f9690e8f615734cbe0726d",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42994618",
+            "title": "Postoperative pain management: a national prospective study including 3879 patients.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994618/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42994618",
+              "doi": "10.1016/j.accpm.2026.101977",
+              "kind": "original",
+              "source_version": "a8e8979558312336454c97e6531401de476b195f0c5da51180ac041c25dc7bf1",
+              "fields": {
+                "title": "4e3abdc568be897c4a601c42b18b49496c2d4fe7d1d7d10c9c8abcba22762322",
+                "abstract": "6d8ac5c5b729d8985a840f97b1ecc7ccc3d63e76101fc8ef5f4c13df53574a85",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "05edfbeb64fd3e828244283732280653ee55b2bec228c44e21285d0a88ddcddf",
+                "results_known": false,
+                "numbers": "73e7d956c84ef50dba2052bef581edc8d646550eb3e6eacd44a601ce00407903",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "571bd51c39ad343cec078c53c62f1ef87261d501f4d59854bd921ba7322463da",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42994620",
+            "title": "Population pharmacokinetics of fibrinogen in postpartum haemorrhage during Caesarean section: a secondary analysis of the TRACES trial.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994620/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42994620",
+              "doi": "10.1016/j.accpm.2026.101958",
+              "kind": "original",
+              "source_version": "de45f95f78b1db8c121e8fe9868897280fe02fa589013d3fde98c6c6551efc7f",
+              "fields": {
+                "title": "a3d42faef49d1d6f3fcdc9d676c50d2987e614a13e74ae920b22845af760a677",
+                "abstract": "ce5bb031cb33ff9f8c34683ae531370e9b48e4370becca88e69ea0642a864f64",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9653d24a4773c59743d184380584311ad6f6399f5a7a7f81dcae6012d699457f",
+                "results_known": false,
+                "numbers": "08d864b2f6d9867a2a302e086f602662d8e88ea2486b4b6612335e2f8ebdb48f",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "677a6824f999262c158a575fd81ab96765f9735932a64a9155f87b4bd2a23a30",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42987192",
+            "title": "Long-Term Mortality in Sepsis Survivors: A Population-Based Study During 15 Years.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42987192/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42987192",
+              "doi": "10.1097/ccm.0000000000007415",
+              "kind": "original",
+              "source_version": "faf146f05f6bf07e8b02279aae50213861e0f6071edd19c3943b84cff166b64c",
+              "fields": {
+                "title": "c8ec4b0f73e0c1d9907c88be0e8f698f5f290a06b5c08d81150c97043521e2db",
+                "abstract": "78465bd3447599bce8984936bb6348943639e9741e0742b7750bfcfd35ee1230",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3b5c8b15817ac6b4dffcedebf05f7467bfc134c80de162aa6ffb024c66c2bdd5",
+                "results_known": false,
+                "numbers": "4e386d4302107be03bcc91bb30a0d5c2b47c03554ed2bd6f47d84016947901ed",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42997845",
+            "title": "Chloride load and serum chloride in critically ill adults: a randomization-anchored analysis of the BaSICS trial.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42997845/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42997845",
+              "doi": "10.1016/j.aicoj.2026.100191",
+              "kind": "original",
+              "source_version": "abdd4757694196861d923336c141225ba9a4bbb5b1c225163602d2d9ed2e443d",
+              "fields": {
+                "title": "aa55229a64a2725208552ee0e1f71acec918817f1c32a445c3c4ac9609972e44",
+                "abstract": "bbcf5a363b2a4c5fbfece5d9d3457a2af9e2df13c09cd4fa9f985db7434d3fd1",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "232e4b7d9268edf202c41bb6c529582094138d0ddc6cba122d0652750e79a3cd",
+                "results_known": false,
+                "numbers": "4b24f6bd5b5dad5e2004ac9dd3f235991b864ed5dd38b0970e6e4fd7b6a19bf3",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "5c436b3db8c1ab1032ad0aeccabe59fdd41e8ff51db20a936ce90a47f26aaaa7",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42989315",
+            "title": "Early adequate empiric antifungal therapy and 28-day mortality in ICU patients with candidemia: a pooled patient-level analysis of EUROBACT-1 and EUROBACT-2 cohorts.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42989315/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42989315",
+              "doi": "10.1186/s13054-026-06373-3",
+              "kind": "original",
+              "source_version": "333af36d1eb1079b3f7bcb16ebb3d6381deb8d49eced41a80abd5e6ff135c412",
+              "fields": {
+                "title": "104d7143c597ff024765d2bd64e44a0c54b552c300c25097ea982cee229778af",
+                "abstract": "b6858329a6bd7dde4288996b561365166e81e9ea857dd29a5f39ad274a0fe10e",
+                "types": "e61d3ab301dfa1ef529605250b29ee676f06a081b326e5f5c612b8c95cf07a54",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "69f1b34c8cbd5031ed4ad477c4b977861425cb093ce205f11e1bdf8db1ceabe6",
+                "results_known": false,
+                "numbers": "257d191226be709e3eb91d930caee818a2eecef66bf8e6099bbaf653d603d599",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "2a025a9b542a2c86b1a12c9b2ddd5abeaf0d6c8c2e40f5e749d0463643823cb4",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42994619",
+            "title": "Artificial Intelligence in Pre-anaesthetic Evaluation and Perioperative Planning: A Narrative Review.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42994619/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42994619",
+              "doi": "10.1016/j.accpm.2026.101984",
+              "kind": "original",
+              "source_version": "6ef233590427ef61d2336021c085f8b8425747a0b72029b1cb54a69d0f0e4bf7",
+              "fields": {
+                "title": "aad75f5725dac992b31af377e108c5314f225750defacacc8657d5e6a399362c",
+                "abstract": "28c4c70c9de87009b42dea22129fccf5022f846b8a892a4ba6d2c376dce50300",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "42997845",
+            "title": "Chloride load and serum chloride in critically ill adults: a randomization-anchored analysis of the BaSICS trial.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42997845/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42997845",
+              "doi": "10.1016/j.aicoj.2026.100191",
+              "kind": "original",
+              "source_version": "abdd4757694196861d923336c141225ba9a4bbb5b1c225163602d2d9ed2e443d",
+              "fields": {
+                "title": "aa55229a64a2725208552ee0e1f71acec918817f1c32a445c3c4ac9609972e44",
+                "abstract": "bbcf5a363b2a4c5fbfece5d9d3457a2af9e2df13c09cd4fa9f985db7434d3fd1",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "232e4b7d9268edf202c41bb6c529582094138d0ddc6cba122d0652750e79a3cd",
+                "results_known": false,
+                "numbers": "4b24f6bd5b5dad5e2004ac9dd3f235991b864ed5dd38b0970e6e4fd7b6a19bf3",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "5c436b3db8c1ab1032ad0aeccabe59fdd41e8ff51db20a936ce90a47f26aaaa7",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/ttl-tip-25-penetrating-rectal-injury/",
+            "title": "TTL tip 25. Penetrating Rectal Injury",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/ttl-tip-25-penetrating-rectal-injury/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/intrathecal-drug-delivery-may-provide-meaningful-pain-relief-in-chronic-refractory-non-cancer-pain/",
+            "title": "Intrathecal drug delivery may provide meaningful pain relief in chronic refractory non-cancer pain",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/intrathecal-drug-delivery-may-provide-meaningful-pain-relief-in-chronic-refractory-non-cancer-pain/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.tamingthesru.com/blog/journal-club/beforethebaydoors",
+            "title": "Before the Bay Doors",
+            "channel": "Taming the SRU",
+            "url": "https://www.tamingthesru.com/blog/journal-club/beforethebaydoors"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/different-not-less/",
+            "title": "Different, Not Less",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/different-not-less/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-19T13:56:15+00:00"
+      },
+      "workflow_run_id": "44538060308",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-19:2026-11-19:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "7524b1c07adf48ef2ddaae6de5a380b19c3b09ec7224bfb12f33ef11068e7391",
+        "finalization_policy": "markers",
+        "content_version": "40a9e6332667f4c486382ed92a64c0a3988665d529750a4267a845231f3e14ed",
+        "message_id": "<71ea1d5340de84edf138135b334bda3bc6b99e4d5aa9367cdd6e6aa025ba95a3@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "453f6079a3e0e647_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "beac0e5846495948ef8b0ed249ac1907a2ed847e459f4739e3f56396514cc064"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "c9294d983aa4dae0d7cce7d06b4cf6d3720109a2e37d22d5be80de6d5047f2b7"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -27416,10 +28106,16 @@
         "42994751",
         "42995620",
         "42998077",
+        "42999998",
+        "43000116",
+        "43000120",
         "43001740",
         "43001755",
         "43001758",
         "43002154",
+        "43007248",
+        "43014330",
+        "43014331",
         "43014822",
         "43020456",
         "43020457"
