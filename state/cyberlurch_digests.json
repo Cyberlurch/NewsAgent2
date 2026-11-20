@@ -151947,28 +151947,29 @@
         "Mainstream DE/SE News"
       ],
       "policy": "news",
-      "published_at": "2026-11-16T04:30:00+00:00",
-      "screened_at": "2026-11-16T04:30:00+00:00",
-      "expires_at": "2026-11-19T04:30:00+00:00",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
       "attempts": 0,
       "last_attempt_day": "",
       "stage": "screened",
-      "selection_reason": "channel_balance",
+      "selection_reason": "topic_coverage",
       "source_basis": {
         "version": 1,
-        "kind": "transcript",
-        "provider": "managed_transcript",
-        "available_chars": 16673,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
         "processed_unique_chars": 0,
         "coverage": "none",
         "video_completeness": "unknown"
       },
-      "text_source": "managed_transcript",
-      "content_status": "full_text",
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
       "temporality": "current_affairs",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
       "video_id": "Do8PuebNSyY",
-      "processed_at_utc": "2026-11-16T13:01:26+00:00",
-      "topic_primary": null,
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
       "transcript_processing": null,
       "transcript_full_summary": null,
       "transcript_key_points": null,
@@ -154786,8 +154787,885 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "5LtrTwUju5A",
+      "source": "youtube",
+      "title": "⚡ALERT! IRAN STANDOFF IMMINENT. You Aint Seen Nothing Yet With Cyberwar. RUSSIA SAYS NO DEAL.",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=5LtrTwUju5A",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T02:42:05+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T02:42:05+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 41855,
+        "processed_unique_chars": 41855,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 5.979,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The video warns that an imminent Iran–US naval standoff and rising cyber threats could trigger supply, energy, and infrastructure crises, and urges civilian preparedness while outlining how cyberattacks could cascade into widespread physical harms.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Iranian navy plans to send about 12–14 tankers to attempt to break the U.S. oil blockade and threatens to retaliate against regional infrastructure if attacked.",
+        "A major cyberattack could disable banking, 911, water treatment, electricity, transportation, and food distribution, producing shortages and fatalities.",
+        "Current shopping shelves appear stocked but the speaker asserts just-in-time inventory leaves no back warehouses and fragile supplies for a severe disruption."
+      ],
+      "transcript_notable_claims": [
+        "Average accessible physical cash per person during a sudden collapse would be below about $100, more likely around $50.",
+        "U.S. forces could sink the Iranian ships quickly, but Iran threatens to authorize the Houthis and strike regional infrastructure in response.",
+        "The Treasury auctioning $15 billion in 9-day bills at 3.91% is an unusual maturity pattern not seen since 2008 and could signal market stress.",
+        "An ongoing NSA outage could expose government systems and open doors for wider hacks into agencies and critical infrastructure.",
+        "Cyberattacks could cause thermal runaway in lithium batteries, disable smart locks and vehicles, corrupt medical records, and erase cloud-stored personal data.",
+        "Attacks on the electrical grid could cascade via decades-old transformers and take weeks, months, or years to repair, causing mass spoilage, loss of heating, and deaths."
+      ],
+      "transcript_uncertainties": [
+        "The timing of the Iranian ships transiting the Arabian Sea is uncertain and described as likely sometime in the next couple days.",
+        "The speaker expresses uncertainty about whether the U.S. will fully retaliate against Iranian attempts to break the blockade.",
+        "The speaker does not provide exact ATM cash capacity numbers and admits some estimates are rough or based on general statistics."
+      ],
+      "important_details": [
+        "The speaker links rising insurance and shipping costs for transits like the Strait of Hormuz to sharply higher per-vessel expenses and higher oil transport costs.",
+        "Hospitals could lose access to digital medical records and face logistical shortages for time-sensitive treatments and organ transport if cyber disruptions persist.",
+        "Fire suppression could fail in major cities because electrical-dependent hydrant pressure and pump systems may be disabled during extended grid outages."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "5LtrTwUju5A",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@breakingpoints"
+      },
+      "id": "-YW2WqsNGeo",
+      "source": "youtube",
+      "title": "Trump FUMES AT JD Vance: Wants RESTART IRAN War",
+      "channel": "breakingpoints",
+      "url": "https://www.youtube.com/watch?v=-YW2WqsNGeo",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 17295,
+        "processed_unique_chars": 17295,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript reports that President Trump is considering new strikes on Iran amid Israeli-provided intelligence and pressure, while Trump is reportedly furious with Vice President JD Vance for not defending the Iran war strongly enough.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "President Trump is weighing plans for another round of extensive military strikes on Iran based on new intelligence and Israeli pressure.",
+        "Israeli intelligence, including material presented by the Mossad director in Washington, is described as influencing US assessments of Iranian missile, drone and alleged chemical/biological programs.",
+        "Trump has grown frustrated with Vice President JD Vance for publicly suggesting the Iran war harmed Republican midterm prospects and for failing to fully defend the war."
+      ],
+      "transcript_notable_claims": [
+        "The New York Times reported that Trump is considering alleged new intelligence provided by Israel about Iranian capabilities.",
+        "The transcript asserts that the media coverage about Iranian threats is manufacturing consent to create a pretext for military action.",
+        "The transcript claims neoconservatives and Israeli sources are pressuring Trump and have fed talking points into his phone and advisers.",
+        "The transcript claims Trump praised Marco Rubio because Rubio publicly defended the Iran war in the way Trump wanted.",
+        "The transcript claims JD Vance publicly stated there is 'no daylight' between him and President Trump on policy implementation."
+      ],
+      "transcript_uncertainties": [
+        "Trump has yet to make a decision about launching new strikes on Iran.",
+        "The source expresses uncertainty about whether the new intelligence originates from US agencies or more likely from Israeli sources.",
+        "The transcript leaves unresolved whether JD Vance's comments will politically damage him in future Republican primaries or a general election."
+      ],
+      "important_details": [
+        "The Mossad director reportedly visited Washington and presented intelligence to the US intelligence community the Friday before these developments.",
+        "Trump addressed his frustration with JD Vance during an interview in Shenzhen, China, saying he would have gone to war again and calling the memorandum of understanding a delay.",
+        "The transcript links Republican primary voter enthusiasm, Fox News consumption, and loyalty to Trump as reasons Vance cannot publicly distance himself from Trump."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "-YW2WqsNGeo",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "0azBgJGlyVs",
+      "source": "youtube",
+      "title": "Is JD Vance Losing His Grip on the GOP?",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=0azBgJGlyVs",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3032,
+        "processed_unique_chars": 3032,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.774,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3032",
+        "recency"
+      ],
+      "transcript_full_summary": "An Emerson College poll shows Marco Rubio leading JD Vance 44% to 24% in a hypothetical 2028 Republican primary, and the hosts discuss voter dissatisfaction, Rubio's cross-appeal, and a call to pray for national leaders and the country's soul.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "An Emerson College poll gives Marco Rubio 44% and JD Vance 24% in a hypothetical 2028 Republican primary.",
+        "The hosts attribute voter movement to economic concerns, high gas prices, and the ongoing war.",
+        "The hosts call for prayer for current and future leaders and for the nation's spiritual well-being."
+      ],
+      "transcript_notable_claims": [
+        "Marco Rubio has surged past the vice president in the Emerson College hypothetical 2028 Republican primary with 44% support.",
+        "Voter dissatisfaction over the economy and ongoing war is reducing support for the vice president role regardless of the individual who holds it.",
+        "Marco Rubio appeals to some moderates and has presidential experience that could broaden his support."
+      ],
+      "transcript_uncertainties": [
+        "The hosts say it is uncertain whether Democrats who express openness to Rubio would actually vote for him.",
+        "The hosts express uncertainty about how Rubio will 'lean into' his apparent polling advantage going forward."
+      ],
+      "important_details": [
+        "The hosts link lower support for the vice president to perceived financial struggles and a weak economy among voters.",
+        "The hosts note that Rubio's prior presidential runs and Senate experience are factors in his broader appeal."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "0azBgJGlyVs",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BeardedBibleBros"
+      },
+      "id": "11r1U_3ATRs",
+      "source": "youtube",
+      "title": "Unseen Dominion: Battling Nephilim Spirits",
+      "channel": "BeardedBibleBros",
+      "url": "https://www.youtube.com/watch?v=11r1U_3ATRs",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 33963,
+        "processed_unique_chars": 33963,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The Bearded Bible Brothers conclude their Return of the Nephilim series, present interviews about spiritual warfare and deliverance, and share testimonies from Rabbi Jonathan Cahn about a demon-possessed airplane attack and Pastor Billy Crone about former occult involvement and conversion to Christ.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Bearded Bible Brothers finished their 17-episode Return of the Nephilim series and consider continuing with a season 2.",
+        "Jonathan Cahn describes being attacked on an airplane by a demon-possessed man who disrupted the flight, threatened him, and prompted an emergency landing.",
+        "Billy Crone recounts involvement in Satanism, new age practices, and demonic possession before a sudden conversion at age 25 that he attributes to Jesus delivering him."
+      ],
+      "transcript_notable_claims": [
+        "The Return of the Nephilim series has prompted spiritual attacks on the hosts according to their view.",
+        "Jonathan Cahn claims the demon-possessed passenger reacted violently to the cover image of his book and tried to destroy Cahn's laptop.",
+        "Jonathan Cahn claims the incident generated widespread media attention allowing him to speak about God on outlets such as Inside Edition and People Magazine.",
+        "Billy Crone claims he was multiply demon-possessed, made a pact with Satan, attempted suicide multiple times, and experienced instantaneous conversion and deliverance when he prayed to Jesus.",
+        "Billy Crone claims that Satan's strategy has been to pollute the church and invent false paths away from Jesus, causing apostasy."
+      ],
+      "transcript_uncertainties": [
+        "Jonathan Cahn indicates he knew he would be attacked that week but did not foresee an actual man attacking or the incident becoming world news.",
+        "Jonathan Cahn expresses uncertainty about how the black bar spread across his computer screen when the passenger touched it.",
+        "Billy Crone describes his conversion as sudden and attributes the timing to seeds previously planted by Christians rather than a progressive change."
+      ],
+      "important_details": [
+        "Jonathan Cahn reports that two passengers and crew restrained the violent man using duct tape and that the pilot radioed for an emergency landing.",
+        "Jonathan Cahn reports that the incident left the passenger duct-taped and that video of the altercation appeared on TMZ and other news outlets.",
+        "Billy Crone reports that his deliverance occurred around Easter 1993 when he prayed, ‘‘Jesus Christ, would you please save me and forgive me,’’ and he immediately felt darkness leave."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "11r1U_3ATRs",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "5zbiMvLNiB4",
+      "source": "youtube",
+      "title": "SD-topparna förklarar: nu kan vi äntligen riva medborgarskapen",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=5zbiMvLNiB4",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 52857,
+        "processed_unique_chars": 52857,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Grundlagsändringen öppnar för återkallande av svenskt medborgarskap vid felaktiga ansökningar eller grov brottslighet, men vanlig lag krävs för tillämpning och politiska strider kvarstår om omfattning, retroaktivitet och risk för statslöshet.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Riksdagen ändrade grundlagen så att medborgarskap kan återkallas om det förvärvats på felaktiga grunder eller vid brott som hotar statens vitala intressen.",
+        "Återkallande kräver att personen har ett annat medborgarskap enligt grundlagsändringen, medan detaljerna bestäms i kommande vanlig lag.",
+        "Implementeringen i vanlig lag är politisk och kan bli snabbare eller svagare beroende på regeringens vilja och majoritet."
+      ],
+      "transcript_notable_claims": [
+        "Tidigare kunde en person ljuga i sin medborgarskapsansökan utan att medborgarskapet påverkades, men nu kan det leda till återkallande.",
+        "Begreppet 'Sveriges vitala intressen' hämtas från medborgarskapskonventionen och lämnar medlemsstaterna flexibla tolkningar av vad som utgör allvarlig brottslighet.",
+        "Grundlagsändringen möjliggör även retroaktivt återkallande av medborgarskap för brott som begåtts före lagändringen om vanlig lag tillåter det.",
+        "Utredaren föreslog att nya regler inte ska gälla för dem som redan fått medborgarskap, vilket kritiseras av SD-ledamöterna som oacceptabelt.",
+        "Återkallande av medborgarskap kommer sannolikt att användas mot gängkriminella, organiserade sexualbrottslingar och personer som begått omfattande bedrägerier mot staten.",
+        "Migrationsverket har redan praxis för att fastställa andras medborgarskap även utan dokument, vilket talas om som grund för att kunna återkalla medborgarskap.",
+        "Det finns risk att retroaktivitet och möjligheten att göra människor statslösa ifrågasätts och begränsas i den kommande lagstiftningen."
+      ],
+      "transcript_uncertainties": [
+        "Det är oklart exakt vilka brott som kommer att omfattas av begreppet 'hot mot statens vitala intressen' eftersom tolkningen lämnas till medlemsstaterna och kommande lagstiftning.",
+        "Det är osäkert huruvida regeln om att undanta redan utfärdade medborgarskap från återkallande kommer att stå kvar i slutlig lagstiftning.",
+        "Det är osäkert hur lagstiftaren kommer hantera fall där det är svårt att bevisa ett andra medborgarskap och risken för statslöshet."
+      ],
+      "important_details": [
+        "Utredningen föreslår ett straffvärde på fyra år eller mer som en tröskel för att kunna återkalla medborgarskap på grund av brott.",
+        "Kommande vanlig lag måste ange processer för utredning av medborgarskap, beviskrav och om retroaktiv tillämpning ska tillåtas.",
+        "Människor med dubbla medborgarskap från många muslimska länder anses ofta ha ett implicit andra medborgarskap därför att medborgarskap där går i arv, vilket påverkar tillämpningen."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "5zbiMvLNiB4",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "NuXUx6dSvnY",
+      "source": "youtube",
+      "title": "Beitragsfreie Kitas: AfD-Antrag im Parlament durchgesetzt! Riesige Entlastung für Familien!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=NuXUx6dSvnY",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8978,
+        "processed_unique_chars": 8978,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.261,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8978",
+        "recency"
+      ],
+      "transcript_full_summary": "Der Beitrag berichtet, dass der Landtag von Sachsen-Anhalt einen AfD‑BSW‑Antrag zur vollständigen Beitragsfreiheit für Kitas ab 1. Januar 2029 angenommen hat und fordert die Landesregierung auf, bis Ende 2027 einen Gesetzesentwurf und Stufenplan vorzulegen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Der Landtag von Sachsen-Anhalt hat einen gemeinsamen AfD‑BSW‑Antrag zur beitragsfreien Kita ab dem 1. Januar 2029 beschlossen.",
+        "Die Landesregierung soll bis spätestens Ende 2027 einen Stufenplan und einen Gesetzesentwurf zur Änderung des Kita‑Förderungsgesetzes vorlegen.",
+        "Die Kommunen sollen für die wegfallenden Elternbeiträge vollständig vom Land entschädigt werden."
+      ],
+      "transcript_notable_claims": [
+        "Die vollständige Beitragsfreiheit der Kitas würde nach Schätzung des Sozialministeriums jährlich rund 250 Millionen Euro kosten.",
+        "Das Land finanziert bereits 60 Millionen Euro an Beitragsentlastungen, es würden demnach zusätzlich etwa 190 Millionen Euro pro Jahr fehlen.",
+        "AfD und BSW wollen die bisherige Geschwisterkindregelung verlängern und haben einen Gesetzentwurf eingebracht, der die Entlastung bis Ende 2028 fortsetzen soll.",
+        "Der Gesetzentwurf zur Geschwisterkindregelung wurde an die Ausschüsse überwiesen, in denen AfD und BSW derzeit ebenfalls Mehrheiten haben.",
+        "Sachsen‑Anhalt könnte laut dem Beitrag in Bereichen wie Verwaltungspersonal, Förderprogrammen, Flüchtlingskosten und externen Dienstleistungen Einsparungen vornehmen, um Mittel für beitragsfreie Kitas freizumachen."
+      ],
+      "transcript_uncertainties": [
+        "Die mittelfristige Finanzplanung enthält bislang keine Mittel zur vollständigen Beitragsfreiheit, sodass die Finanzierung ungesichert bleibt.",
+        "Eine Einigung über die Verlängerung der Geschwisterkindregelung existiert bislang nicht, da die übrigen Fraktionen unterschiedliche Zeiträume vorschlagen."
+      ],
+      "important_details": [
+        "Das Sozialministerium schätzt die zusätzlichen Kosten für vollständige Beitragsfreiheit auf rund 190 Millionen Euro jährlich neben den bereits vorhandenen 60 Millionen Euro.",
+        "Der Antrag verlangt, dass Eltern ab dem 1. Januar 2029 keine Beiträge mehr für Kita‑Betreuung und Tagespflege zahlen müssen.",
+        "Das Land soll bis Ende 2027 die Kommunen für entfallene Elternbeiträge vollständig entschädigen."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "NuXUx6dSvnY",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@EndTimesProductions"
+      },
+      "id": "ihaeSV9utM4",
+      "source": "youtube",
+      "title": "GTA 6 is a Psyop, Here's Why.",
+      "channel": "EndTimesProductions",
+      "url": "https://www.youtube.com/watch?v=ihaeSV9utM4",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-19T11:13:16+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-22T11:13:16+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 20061,
+        "processed_unique_chars": 20061,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.656,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The video argues that Grand Theft Auto VI is a psychological operation (\"scop\") designed to distract and hypnotize a hurting public, keeping people docile and focused on entertainment while society collapses and powerholders benefit.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "GTA 6 received a 99/100 review score but many players say the game is disappointing and 'woke'.",
+        "The creator compares modern distraction by games to ancient examples like the Lydians in Sardis and Rome's 'bread and circuses'.",
+        "The video links loneliness, AI-driven job loss, rising cost of living, and social decay to a mass tendency toward escapism in video games."
+      ],
+      "transcript_notable_claims": [
+        "GTA 6 is a scop, short for psychological operation, intended to change how a crowd thinks and acts.",
+        "An estimated 17 million copies of GTA 6 had been sold before the game launched.",
+        "Playing video games releases dopamine similar to drugs and can produce focused attention that reduces awareness of surroundings.",
+        "Governments and rulers historically used free food and entertainment to keep populations controllable, and modern entertainment serves the same role.",
+        "Elon Musk proposed 'universal high income' as a response to AI job loss and the video's narrator equates that to Rome's 'bread' while GTA 6 acts as the 'circus'.",
+        "Rockstar claimed GTA 6 satirizes internet culture, influencers, and streamers, but the studio's hiding of mysteries has previously turned players into obsessive conspiracy seekers."
+      ],
+      "transcript_uncertainties": [
+        "There is no direct evidence presented that any government or agency deliberately engineered GTA 6 as a psychological operation.",
+        "The claim that most people obsessing over the game are harmed or controlled is presented as interpretation rather than proven fact."
+      ],
+      "important_details": [
+        "Herodotus wrote that the Lydians played games to avoid famine and maintained the practice for 18 years, which the narrator uses as an ancient parallel.",
+        "A 1998 brain-scan study is cited to support that video games activate dopamine pathways similar to drugs.",
+        "The narrator recounts personal experience quitting college and jobs to play World of Warcraft and achieving a top-100 global ranking as evidence that games can deeply addict players."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "ihaeSV9utM4",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "15DvZho7lC0",
+      "source": "youtube",
+      "title": "ILTV On The Hour - November 19, 2026 | Three World Powers, One Nuclear Threat: What Happens Next?",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=15DvZho7lC0",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "15DvZho7lC0",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DLMChristianPerspective"
+      },
+      "id": "Amm-PUSaR_U",
+      "source": "youtube",
+      "title": "What Moving to America Made Us Realize About South Africa",
+      "channel": "DLMChristianPerspective",
+      "url": "https://www.youtube.com/watch?v=Amm-PUSaR_U",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 76302,
+        "processed_unique_chars": 76302,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "A South African couple describe why they emigrated to California, how they obtained EB-3 visas after a four-year process, and how living in the U.S. changed their safety, ministry opportunities, daily life and faith over nearly three years.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The couple obtained U.S. residency through an EB-3 work-based immigration process that took nearly four years with attorney assistance.",
+        "The refugee program recently opened for some South Africans offers faster placement, flight assistance, initial payments and caseworker support, but it still requires work and adjustment.",
+        "The move to America delivered greater personal safety, reliable infrastructure, free public schooling and expanded ministry and cultural opportunities compared with their experience in South Africa."
+      ],
+      "transcript_notable_claims": [
+        "The immigration opportunity to California came through a job offer and what they describe as God opening a door via someone who supports their ministry.",
+        "Frequent power outages and cable theft in South Africa made online ministry and media collaborations very difficult for them.",
+        "Public schools in the U.S. provide free meals, computers and extracurricular opportunities such as musical instruments and museum visits that the couple found superior to their South African experience.",
+        "Law enforcement and bylaw compliance in the U.S. felt more consistent, with immediate traffic citations and greater pedestrian respect compared to South Africa.",
+        "Community and public events such as rodeos with open prayer, parachuted flags and veterans’ recognition impressed the couple and reinforced American civic pride.",
+        "The couple know multiple families who have arrived in the U.S. through the refugee program and estimate around ten have already arrived with several more applying.",
+        "Refugee program arrivals receive help with flights (to be repaid), temporary accommodation if no family tie exists, initial cash assistance, medical support enrollment, and a caseworker who helps secure social security numbers and employment authorization.",
+        "The couple assert that South Africa is experiencing deepening corruption, rising crime, and racialized bylaws that disadvantage some groups, and they frame emigration as seeking safety and future opportunity for children.",
+        "They report that American culture surprised them with widespread friendliness, abundant infrastructure (Wi‑Fi, electricity), and varied recreational and natural landscapes such as Alaska, Texas and the redwoods."
+      ],
+      "transcript_uncertainties": [
+        "The couple is unsure about precise refugee program timelines because processing times vary by case and some people wait weeks while others wait months.",
+        "The couple is not certain about the exact current duration of medical assistance eligibility for new arrivals, noting it increased from three or four months to about eight months.",
+        "The couple says they can apply for U.S. citizenship after two and a half years of residence, but they do not confirm the exact legal residency-to-citizenship timeline or requirements."
+      ],
+      "important_details": [
+        "The couple lived near Vandenberg Air Force Base and observed rocket launches, and they traveled extensively across U.S. states including Alaska, Oregon, Texas, Florida, Arkansas and Iowa.",
+        "They experienced bureaucratic ease in the U.S. such as simpler DMV processes, reliable utilities, libraries with technology (3D printers), and rest stops with clean facilities, which contrasted with their South African experiences.",
+        "They emphasize practical refugee program realities: applicants cannot choose the receiving state, some arrive with family ties that reduce costs, and caseworker support quality varies by location."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "Amm-PUSaR_U",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@3of7Project"
+      },
+      "id": "C-oqTvJibX8",
+      "source": "youtube",
+      "title": "FAA Ground Stop",
+      "channel": "3of7Project",
+      "url": "https://www.youtube.com/watch?v=C-oqTvJibX8",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 4068,
+        "processed_unique_chars": 4068,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 2.033,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:4068",
+        "recency"
+      ],
+      "transcript_full_summary": "The host discusses the FAA ground stop that shut down air travel across the continental United States and uses listeners' emotional responses to that event to evaluate personal preparedness and mindset toward potential societal disruption.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The FAA issued a ground stop that halted air travel across the continental United States.",
+        "A strong fearful or anxious reaction to the ground stop indicates insufficient personal preparedness according to the host.",
+        "Calmness in response to the ground stop signals that a person has practiced staying calm and may be better prepared."
+      ],
+      "transcript_notable_claims": [
+        "The government will not tell the public the real reasons for major events like the FAA ground stop.",
+        "People who feel excited by the collapse of modern civilization are fools who do not understand the reality of such a collapse.",
+        "The host advises assessing one’s internal reaction to crises to determine actual capability and preparedness."
+      ],
+      "transcript_uncertainties": [
+        "The exact cause of the FAA ground stop is unknown and may have been a communications issue, a legitimate threat, or another reason.",
+        "The host asserts that they and others will never know the real reasons because the government will not disclose them."
+      ],
+      "important_details": [
+        "The host frames personal emotional response to the ground stop as diagnostic of how one would fare if civilization were interrupted.",
+        "The host emphasizes the importance of being able to stay calm amidst chaos as a key component of preparedness."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "C-oqTvJibX8",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "DIZNjrkUGB8",
+      "source": "youtube",
+      "title": "RUNNING THE AGONIZING RACE--Paul's Final Laps in Rome",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=DIZNjrkUGB8",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 1247,
+        "processed_unique_chars": 1247,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "transcript_full_summary": "The transcript connects Piazza Navona and the buried Domitian Stadium to Paul’s metaphor in 2 Timothy 4:7–8, interpreting his words about finishing the course as running the agōn, the agonizing race, and promising a crown from the righteous judge despite persecution under Emperor Domitian.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Piazza Navona sits above Domitian Stadium, which lies 4.5 meters below the plaza.",
+        "Paul’s phrase in 2 Timothy 4:7 uses the race image to say, \"I have fought the good fight. I have finished the course.\"",
+        "The ancient race was called the agōn, described here as the agonizing race."
+      ],
+      "transcript_notable_claims": [
+        "Piazza Navona is 275 meters long and exactly follows the shape of Domitian Stadium.",
+        "Domitian exiled the Apostle John to Patmos according to the transcript.",
+        "Domitian is characterized in the transcript as the persecuting emperor whose family included Vespasian, builder of the Colosseum, and a brother who destroyed Jerusalem and killed Jews.",
+        "Paul finished the course despite persecution and hardship and will receive a crown from the righteous judge on that day."
+      ],
+      "transcript_uncertainties": [
+        "The transcript does not state specific historical sources for the claims about Domitian’s actions.",
+        "The transcript does not specify how directly Paul intended the agōn image to reference Roman stadiums like Domitian Stadium."
+      ],
+      "important_details": [
+        "The transcript links Paul’s metaphor of finishing the course to the physical layout of Domitian Stadium beneath Piazza Navona, using that connection to illustrate the agonizing nature of the race.",
+        "The transcript frames Paul’s reward as a crown that the righteous judge will give him on that day, tying the metaphor to eschatological reward."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "DIZNjrkUGB8",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DrJamesTour"
+      },
+      "id": "H30W3cTC5lc",
+      "source": "youtube",
+      "title": "Isaiah, Part 135 | Blessing of Virtue",
+      "channel": "DrJamesTour",
+      "url": "https://www.youtube.com/watch?v=H30W3cTC5lc",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "video_id": "H30W3cTC5lc",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@offthekirb"
+      },
+      "id": "HMg4b2CSUqg",
+      "source": "youtube",
+      "title": "The Internet Just Noticed Something That Israel is Not Mentioning...",
+      "channel": "offthekirb",
+      "url": "https://www.youtube.com/watch?v=HMg4b2CSUqg",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-20T04:30:00+00:00",
+      "screened_at": "2026-11-20T04:30:00+00:00",
+      "expires_at": "2026-11-23T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 13579,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 4.016,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "HMg4b2CSUqg",
+      "processed_at_utc": "2026-11-20T13:20:51+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-19T13:40:15+00:00",
+  "updated_at_utc": "2026-11-20T13:20:51+00:00",
   "version": 1
 }
