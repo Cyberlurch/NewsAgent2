@@ -28295,6 +28295,739 @@
         "approved_after_generation_checks": true,
         "seal": "8c4344171399720fccf04d39a98a0fc02045a927d182ced76583fd4937672828"
       }
+    },
+    "cybermed:daily:2026-11-20:2026-11-20:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-20",
+      "period_end": "2026-11-20",
+      "edition_id": "cybermed:daily:2026-11-20:2026-11-20:production",
+      "content_version": "9ac4a33b70c6cebdfdc5aaf0c1376b6043a53da99f65acd9913a7a3de99006c8",
+      "message_id": "<fd92ad478a1d8fe371809a8fff8af049a087e89068557f4db3d436cba016aa2d@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-20T13:38:42+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43004583",
+            "title": "Complications in neonates with difficult tracheal intubation: an analysis of the Pediatric Difficult Intubation Registry.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43004583/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998767",
+            "title": "Intraoperative desaturation: the anesthesiologist's routine, research's blind spot.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998767/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42998766",
+            "title": "Finding the right balance - not just papering over the cracks. A broader system change is required not quotas alone.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42998766/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988713",
+            "title": "Effects of dexmedetomidine on outcomes after cardiac surgery (DOCS). Response to Br J Anaesth 2026; 137: 937-8.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988713/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988712",
+            "title": "Haemodynamic responses to tracheal intubation are context-dependent rather than patient-specific: risk is patient-derived but sympathetic tone-dependent. Comment on Br J Anaesth 2026; 137: 872-4.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988712/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42988714",
+            "title": "Cardiac output monitoring using an automatic arm cuff device in surgical patients.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42988714/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003622",
+            "title": "Targeted Therapy Before Balloon Pulmonary Angioplasty: How Low Should We Go?",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003622/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003621",
+            "title": "Beyond Airflow Obstruction: Preserved-Ratio Spirometric Impairment in People With HIV.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003621/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003620",
+            "title": "The Greenest Inhaler Is Not Always the 1 With the Lowest Carbon Footprint.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003620/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003619",
+            "title": "When Pulmonary Edema Becomes a 1-Sided Affair.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003619/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003618",
+            "title": "Counting What We Waste: The Environmental Burden of Bronchoscopy.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003618/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003617",
+            "title": "The ARDS, Pneumonia, and Sepsis Consortium and the Path to Precision Medicine: No Future Without Open, Quality Data.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003617/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003616",
+            "title": "References Early Detection of Structural Lung Damage in Primary Ciliary Dyskinesia.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003616/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003615",
+            "title": "Clinical History Still Matters in Adult Primary Ciliary Dyskinesia.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003615/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42995585",
+            "title": "Controlling time-related biases in ECPR observational studies.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995585/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42995612",
+            "title": "Fluid-intolerance signals as bedside safety limits during early septic shock resuscitation: a multicenter randomized trial.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995612/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007422",
+            "title": "AI - Train with the best.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007422/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007421",
+            "title": "Efficacy and safety of oliceridine versus remifentanil for analgesia in mechanically ventilated critically ill adults (CO-ROAM): a multicenter, assessor-blinded, non-inferiority randomized controlled trial.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007421/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013314",
+            "title": "HOPO 14-1, an Oral Actinide Chelator: A Phase 1 Nonrandomized Clinical Trial.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013314/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013836",
+            "title": "Subretinal Gene Therapy in X-Linked Retinoschisis. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013836/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013835",
+            "title": "Subretinal Gene Therapy in X-Linked Retinoschisis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013835/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013834",
+            "title": "Subretinal Gene Therapy in X-Linked Retinoschisis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013834/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013833",
+            "title": "Iptacopan in IgA Nephropathy - Final 24-Month Data. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013833/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013832",
+            "title": "Iptacopan in IgA Nephropathy - Final 24-Month Data.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013832/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013831",
+            "title": "Iptacopan in IgA Nephropathy - Final 24-Month Data.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013831/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013830",
+            "title": "Iptacopan in IgA Nephropathy - Final 24-Month Data.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013830/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013829",
+            "title": "Perioperative Apalutamide in High-Risk Localized Prostate Cancer. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013829/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013828",
+            "title": "Perioperative Apalutamide in High-Risk Localized Prostate Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013828/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013827",
+            "title": "Perioperative Apalutamide in High-Risk Localized Prostate Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013827/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013826",
+            "title": "Perioperative Apalutamide in High-Risk Localized Prostate Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013826/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013825",
+            "title": "Autoantibodies against Type I Interferons and Death from H7N7 Avian Influenza.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013825/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013824",
+            "title": "Interferon-γ Underlying Thymoma-Associated Immune Dysregulation.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013824/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013823",
+            "title": "Aspirin Therapy - Enough after Arthroplasty?",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013823/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013822",
+            "title": "Case 32-2026: A 50-Year-Old Man with Recurrent Cardiomyopathy.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013822/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013821",
+            "title": "Lung Hernia with a Chest-Wall Bulge.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013821/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013820",
+            "title": "High-Flow Oxygen Therapy with Nasal Cannula.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013820/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013819",
+            "title": "Preventing Malaria Infections and Moving toward Malaria Elimination.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013819/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013818",
+            "title": "Prevention of Venous Thromboembolism after Total Hip or Knee Replacement.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013818/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013837",
+            "title": "Intismeran Autogene plus Pembrolizumab for Resected Stage IIB to IV Melanoma.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013837/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43013817",
+            "title": "Cancer Vaccines - From Treatment to Prevention.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013817/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-october-2026/",
+            "title": "Critical Care Evidence Updates – October 2026",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-october-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-october-2026/",
+            "title": "Emergency Evidence Updates – October 2026",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-october-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/summaries/icm/mercuri-2-dapagliflozin-and-aki-post-cardiac-surgery/",
+            "title": "MERCURI-2 – Dapagliflozin and AKI Post Cardiac Surgery",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/summaries/icm/mercuri-2-dapagliflozin-and-aki-post-cardiac-surgery/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/summaries/icm/intermittent-or-continuous-renal-replacement-therapy-in-acute-kidney-injury/",
+            "title": "Intermittent or Continuous Renal-Replacement Therapy in Acute Kidney Injury",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/summaries/icm/intermittent-or-continuous-renal-replacement-therapy-in-acute-kidney-injury/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/norepinephrine-dose-and-postoperative-aki/",
+            "title": "Norepinephrine dose and postoperative AKI",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/norepinephrine-dose-and-postoperative-aki/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/toxcard-gyromitra/",
+            "title": "ToxCard: Gyromitra",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/toxcard-gyromitra/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43010838",
+            "title": "Correction to \"Ephedrine for Reducing Onset Time of Rocuronium in Elderly Patients: A Randomised Study\".",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43010838/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "43013314",
+            "title": "HOPO 14-1, an Oral Actinide Chelator: A Phase 1 Nonrandomized Clinical Trial.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013314/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43013314",
+              "doi": "10.1001/jama.2026.19809",
+              "kind": "original",
+              "source_version": "7831cefb88e05044bb3778873b1342274040d218801141b87455ff5bdec1ef68",
+              "fields": {
+                "title": "a87363601807e30a7561d8092cc4664db0b0e311bed71505eb3d6e3ba2d3ea71",
+                "abstract": "53a422417187d9f4fad3dcf65a76f7345bf1f532f1504c5ad18fc38d5a05eb41",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "5bc9bb15578bcafe770c31ee4ecaf8241da8213c0bb9487be6f858c0ec92e31d"
+              },
+              "evidence": {
+                "results": "7e941b923d3bac44a004c583b966d5062d477dc6153a266343b212069bba8e68",
+                "results_known": false,
+                "numbers": "074e41c183b5acf45b9bca9771e0db80e212507c0ce5f870d6cfe38ed1af04f3",
+                "endpoint": "e12358e28d2044b3be6f808cdf653ea1984942a493bce43d84d74a2459556f80",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": [
+                {
+                  "ref_type": "CommentIn",
+                  "pmid": ""
+                }
+              ]
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43007421",
+            "title": "Efficacy and safety of oliceridine versus remifentanil for analgesia in mechanically ventilated critically ill adults (CO-ROAM): a multicenter, assessor-blinded, non-inferiority randomized controlled trial.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007421/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43007421",
+              "doi": "10.1007/s00134-026-08643-8",
+              "kind": "original",
+              "source_version": "c68e6e1ed341f27262574bff2003bff934566f282b1320961fbe5c05c81504bd",
+              "fields": {
+                "title": "1d58890e9a39ee84de9d05696979c1f36b589ee08e9078d821f8a98caf635408",
+                "abstract": "6e891d92de2e607a7095b5962ca2c9552c113fb005a757ff210c3604968d353c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "cd29ce5615128a25e40469ee218686d2b346c854c4068c038dff8f78b89cfc72",
+                "results_known": true,
+                "numbers": "ac8d733e8213b14af06843e2ccb874a2b4a071f4eb2d0305094d12c721e0b729",
+                "endpoint": "df7379d896f19097881d986bfe22ea1e66c48ba96cfc2586041287e1ade71d53",
+                "methods": "205ac50f0fd4374a5df91e819d4558a2dcc74d30a6956e7f577ae1fb16423e1d",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43004583",
+            "title": "Complications in neonates with difficult tracheal intubation: an analysis of the Pediatric Difficult Intubation Registry.",
+            "channel": "PubMed: Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43004583/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43004583",
+              "doi": "10.1111/anae.70448",
+              "kind": "original",
+              "source_version": "64cf6f76821ecf9b6735d0d361f5a8f28f70fe574e57f5ef468e339d59e85487",
+              "fields": {
+                "title": "6b35b4711f6697088773ffd07b011d7accfb1044a60568284abe32b4532f751c",
+                "abstract": "3585ca3820681833fe66f42d66bfe5a43c539b4cfa1414dea0ebaa22e26782ca",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "54096297782da5a0db6f694ee5f174da0c24abd1a5b1048c8454cb6724644456",
+                "results_known": false,
+                "numbers": "b65ce33f8e875d109c29bd6490d79fd0eabf18cb36f6832b8786fd4182871d5f",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "24980b6bcaa0fd96e8c60ee9de8530b30d2ccab943f751f032de112779577fdd",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42995612",
+            "title": "Fluid-intolerance signals as bedside safety limits during early septic shock resuscitation: a multicenter randomized trial.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995612/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42995612",
+              "doi": "10.1186/s13054-026-06316-y",
+              "kind": "original",
+              "source_version": "0d1beb19cec20cabb67eb992d3e09b523732dcdbdfaddbe56e8956a2a04ec642",
+              "fields": {
+                "title": "938a90b4d06c5510b28d8c6d7e0d5f7f879d554b73d3d94f6601c519451fb085",
+                "abstract": "34b219e054088b32e0b7d010b8d23e3a675e7dd60d0061a6f085d8b54bd8c8cb",
+                "types": "1eadad9f656117cc721c323fddc611dd4703b216625af48af7e8a1a016d67651",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "4e4c21d646f16457ff656521a8b9bcea97466d44676d64d0a024464327f7c1f9",
+                "results_known": true,
+                "numbers": "2957ad9b57326a00a935c4aaffa0a5667eb7d60943b054ed8d8784e546effa8a",
+                "endpoint": "77ae5e7b969a47bee790d3997661fae9267addf127aacad930de1253aa54c3d5",
+                "methods": "e25bab07e42e5a9e9e0b618f8e683d3284837f38bfdc6ef952d1c7ed29620e56",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43010838",
+            "title": "Correction to \"Ephedrine for Reducing Onset Time of Rocuronium in Elderly Patients: A Randomised Study\".",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43010838/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43010838",
+              "doi": "10.1111/aas.70392",
+              "kind": "correction_notice",
+              "source_version": "014b2ed9fd80facbada34e3ed903c19a7a2040011b9712d0877f181e017be710",
+              "fields": {
+                "title": "1d96196c6a3370e974ca65ea0f3e540e1a3c8349142772dbcfddb8da90c29d5c",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "daec62f417fde342369cc4fe13c37aef781ae637b3d95b320312b89c98b995d9",
+                "relations": "3211033599cbcd2fe6d37809227417375ea52f8713b2becae78faf6bf3b3dbc1"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": [
+                {
+                  "ref_type": "ErratumFor",
+                  "pmid": "42791593"
+                }
+              ]
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "43007421",
+            "title": "Efficacy and safety of oliceridine versus remifentanil for analgesia in mechanically ventilated critically ill adults (CO-ROAM): a multicenter, assessor-blinded, non-inferiority randomized controlled trial.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007421/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43007421",
+              "doi": "10.1007/s00134-026-08643-8",
+              "kind": "original",
+              "source_version": "c68e6e1ed341f27262574bff2003bff934566f282b1320961fbe5c05c81504bd",
+              "fields": {
+                "title": "1d58890e9a39ee84de9d05696979c1f36b589ee08e9078d821f8a98caf635408",
+                "abstract": "6e891d92de2e607a7095b5962ca2c9552c113fb005a757ff210c3604968d353c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "cd29ce5615128a25e40469ee218686d2b346c854c4068c038dff8f78b89cfc72",
+                "results_known": true,
+                "numbers": "ac8d733e8213b14af06843e2ccb874a2b4a071f4eb2d0305094d12c721e0b729",
+                "endpoint": "df7379d896f19097881d986bfe22ea1e66c48ba96cfc2586041287e1ade71d53",
+                "methods": "205ac50f0fd4374a5df91e819d4558a2dcc74d30a6956e7f577ae1fb16423e1d",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43013314",
+            "title": "HOPO 14-1, an Oral Actinide Chelator: A Phase 1 Nonrandomized Clinical Trial.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43013314/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43013314",
+              "doi": "10.1001/jama.2026.19809",
+              "kind": "original",
+              "source_version": "7831cefb88e05044bb3778873b1342274040d218801141b87455ff5bdec1ef68",
+              "fields": {
+                "title": "a87363601807e30a7561d8092cc4664db0b0e311bed71505eb3d6e3ba2d3ea71",
+                "abstract": "53a422417187d9f4fad3dcf65a76f7345bf1f532f1504c5ad18fc38d5a05eb41",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "5bc9bb15578bcafe770c31ee4ecaf8241da8213c0bb9487be6f858c0ec92e31d"
+              },
+              "evidence": {
+                "results": "7e941b923d3bac44a004c583b966d5062d477dc6153a266343b212069bba8e68",
+                "results_known": false,
+                "numbers": "074e41c183b5acf45b9bca9771e0db80e212507c0ce5f870d6cfe38ed1af04f3",
+                "endpoint": "e12358e28d2044b3be6f808cdf653ea1984942a493bce43d84d74a2459556f80",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": [
+                {
+                  "ref_type": "CommentIn",
+                  "pmid": ""
+                }
+              ]
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/summaries/icm/intermittent-or-continuous-renal-replacement-therapy-in-acute-kidney-injury/",
+            "title": "Intermittent or Continuous Renal-Replacement Therapy in Acute Kidney Injury",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/summaries/icm/intermittent-or-continuous-renal-replacement-therapy-in-acute-kidney-injury/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-october-2026/",
+            "title": "Critical Care Evidence Updates – October 2026",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/blog/critical-care-evidence-updates-october-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/norepinephrine-dose-and-postoperative-aki/",
+            "title": "Norepinephrine dose and postoperative AKI",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/norepinephrine-dose-and-postoperative-aki/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/summaries/icm/mercuri-2-dapagliflozin-and-aki-post-cardiac-surgery/",
+            "title": "MERCURI-2 – Dapagliflozin and AKI Post Cardiac Surgery",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/summaries/icm/mercuri-2-dapagliflozin-and-aki-post-cardiac-surgery/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-october-2026/",
+            "title": "Emergency Evidence Updates – October 2026",
+            "channel": "The Bottom Line",
+            "url": "https://www.thebottomline.org.uk/blog/emergency-evidence-updates-october-2026/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/toxcard-gyromitra/",
+            "title": "ToxCard: Gyromitra",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/toxcard-gyromitra/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-20T13:38:36+00:00"
+      },
+      "workflow_run_id": "44745816139",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-20:2026-11-20:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "e1358276186fcd74015347835d56c1ee4c97734e8bc5e9e8336bedcb94db61f8",
+        "finalization_policy": "markers",
+        "content_version": "9ac4a33b70c6cebdfdc5aaf0c1376b6043a53da99f65acd9913a7a3de99006c8",
+        "message_id": "<fd92ad478a1d8fe371809a8fff8af049a087e89068557f4db3d436cba016aa2d@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "976dbb906b8c7e2b_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "d6aa03ecc534203df12cac388b1a1203ec9bc6cc47bed0d6bec293e835134618"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "ff06409542bfde5a493133173a1ea4b4c6af2906e7de26b6a55bb5a7c14ec26b"
+      }
+    },
+    "cybermed:weekly:2026-11-16:2026-11-20:production": {
+      "report_key": "cybermed",
+      "cadence": "weekly",
+      "period_start": "2026-11-16",
+      "period_end": "2026-11-20",
+      "edition_id": "cybermed:weekly:2026-11-16:2026-11-20:production",
+      "content_version": "473400913d4296692ec56450f1f774119c7acc911c95236dfe7b2b82ece9609c",
+      "message_id": "<6b36ff8ca2b9f0125b4bf93dfa49f5bf5a9b0e4dc45c3ec82814d502917df7aa@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+        "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+        "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+        "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+        "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+        "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+        "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+        "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+        "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+        "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+        "ae054757510d3e3c43adbde5c4862e1129c9df27276422be7011fc8d45adc3eb",
+        "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+        "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+        "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+        "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+        "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+        "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+        "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+        "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-20T13:38:56+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {},
+      "workflow_run_id": "44745816139",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:weekly:2026-11-16:2026-11-20:production",
+        "subject": "Cybermed Report — Weekly",
+        "subject_hash": "59caac393c86891f5aad81b365380b5ae9cfac256d74c54ddd101b92beb9258e",
+        "audience": [
+          "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+          "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+          "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+          "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+          "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+          "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+          "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+          "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+          "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+          "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+          "ae054757510d3e3c43adbde5c4862e1129c9df27276422be7011fc8d45adc3eb",
+          "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+          "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+          "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+          "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+          "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+          "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+          "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+          "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "finalization_policy": "no_markers",
+        "content_version": "473400913d4296692ec56450f1f774119c7acc911c95236dfe7b2b82ece9609c",
+        "message_id": "<6b36ff8ca2b9f0125b4bf93dfa49f5bf5a9b0e4dc45c3ec82814d502917df7aa@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "a699c43864da12b1_cybermed_weekly_cybermed_weekly_generated_delta.json",
+            "sha256": "5eb151fe5893c246b3380c3e58d84768b11270ec41c5feffb983128b5742f039"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "9719de3b348bea50cd1bbe4f618ee31db0fd37fe0799c13b4f12526dbadd78f4"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -29080,16 +29813,23 @@
         "42982479",
         "42982504",
         "42983226",
+        "42987192",
         "42987921",
         "42988037",
         "42988324",
         "42988325",
         "42988384",
         "42988614",
+        "42989315",
         "42989963",
         "42989969",
+        "42994618",
+        "42994619",
+        "42994620",
         "42994751",
         "42995620",
+        "42997845",
+        "42997979",
         "42998077",
         "42999998",
         "43000116",
