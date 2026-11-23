@@ -29268,6 +29268,586 @@
         "approved_after_generation_checks": true,
         "seal": "77dbcc14c9b140daf8a7a15e6ea9404f82f7156b00f820928c29806cd4b7882f"
       }
+    },
+    "cybermed:daily:2026-11-23:2026-11-23:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-23",
+      "period_end": "2026-11-23",
+      "edition_id": "cybermed:daily:2026-11-23:2026-11-23:production",
+      "content_version": "37232b779a21cd4e41870f097b189d2033ed7032181e6dd8b7f3c6e446f4950a",
+      "message_id": "<0d0dd16e74c91f4442f2c1b1cd0cbc2c40cb80dcf6ee371bc2097283db5dab6f@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-23T15:24:27+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43025863",
+            "title": "Predicting Gastrointestinal Complications After Cardiac Surgery From Mean Arterial Blood Pressure Under a Data-Driven Threshold for Hypotension: Protocol for an Advanced Database Study.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025863/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43023303",
+            "title": "Digital Versus in-Person Pre-Anaesthetic Assessment and Postoperative Outcomes in Low-Risk Patients: An Observational Study.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023303/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43021611",
+            "title": "Avoidance Versus Use of Neuromuscular Blocking Agents for Optimising Video Laryngoscopy-Assisted Tracheal Intubation-A Systematic Review With Meta-Analysis and Trial Sequential Analysis.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43021611/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43006857",
+            "title": "Bronchiolocentric Interstitial Pneumonia and the Occam's Razor.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006857/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43006854",
+            "title": "Serial Bronchoscopic Evaluation of Reconstructed Trachea.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006854/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43006851",
+            "title": "Acute Exacerbation of Fibrotic Interstitial Lung Disease: One Endpoint or Several Endotypes?",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006851/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43006850",
+            "title": "Lumpers and splitters in acute exacerbations of fibrotic ILD: one syndrome, one treatment?",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006850/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43006844",
+            "title": "Reply to Juárez-León et al., and to Amati and Stainer.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006844/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43006843",
+            "title": "Reply to Zompatori et al.: Bronchiolocentric Interstitial Pneumonia and the Occam's Razor.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006843/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42993977",
+            "title": "Individualized mean arterial pressure during cardiac surgery The OPTIPAM Randomized Clinical Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42993977/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42995051",
+            "title": "Asymmetric effects of remimazolam on autonomic cardiovascular regulation assessed by spectral and transfer function analysis.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995051/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42995050",
+            "title": "Sugammadex versus neostigmine for reversal of neuromuscular blockade and postoperative pulmonary complications: reversal adequacy in the SNaPP pragmatic trial.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995050/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42995049",
+            "title": "Association of duration of amino acid infusion and renal protection: the less, the better. Response to Br J Anaesth. 2026; 137: 652-3.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995049/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42995048",
+            "title": "Sensory data-driven classification of complex regional pain syndrome: interpreting disease duration. Comment on Br J Anaesth 2026; 137: 785-95.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995048/"
+          },
+          {
+            "source": "pubmed",
+            "id": "42995047",
+            "title": "Silencing the fire alarm: responding to intraoperative blood pressure targets.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42995047/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43014670",
+            "title": "Pragmatic Clinical Indicators of TB Transmission Risk: A Household Contact Cohort Study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014670/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43014669",
+            "title": "Associations between temperatures, extreme temperature events, and onset of acute exacerbations of COPD: a time-stratified case-crossover study in China.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014669/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43002075",
+            "title": "The Post-Sepsis Neutrophil: Lymphocyte Ratio: A Population Signal in Search of Individual Meaning.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43002075/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43002070",
+            "title": "Association Between the Neutrophil:Lymphocyte Ratio After Hospitalization for Sepsis and Long-Term Outcomes: A Population-Based Cohort Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43002070/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012979",
+            "title": "Rapid molecular diagnostics for VAP: unresolved questions and directions for future research.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012979/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012978",
+            "title": "Learning at the bedside is not the same as reaching it.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012978/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018963",
+            "title": "Treatment of Acute Ischemic Stroke: A Review.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018963/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43021411",
+            "title": "Reduced multimodal physiological signal complexity during neurointensive care is associated with delayed cerebral ischaemia and worse functional outcome in aneurysmal subarachnoid haemorrhage: a single-centre retrospective study.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43021411/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015472",
+            "title": "Epigenetic heterogeneity in breast tumours informs diagnosis and prognosis.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015472/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015459",
+            "title": "Validation of clinical and preclinical obesity across global cohorts.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015459/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/the-scarlet-letters/",
+            "title": "The Scarlet Letters",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/the-scarlet-letters/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.pulmccm.org/p/unlocked-the-real-world-boards-question-c60",
+            "title": "[UNLOCKED] The Real-World Boards: Question #51",
+            "channel": "PulmCCM",
+            "url": "https://www.pulmccm.org/p/unlocked-the-real-world-boards-question-c60"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/tetris-resuscitative-thoracotomy-traumatic-cardiac-arrest-and-the-importance-of-patient-selection/",
+            "title": "TETRiS: Resuscitative thoracotomy, traumatic cardiac arrest and the importance of patient selection",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/tetris-resuscitative-thoracotomy-traumatic-cardiac-arrest-and-the-importance-of-patient-selection/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/vasspr-rct-early-or-late-vasopressin-for-septic-shock/",
+            "title": "VASSPR RCT – Early or Late Vasopressin for Septic Shock? - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/vasspr-rct-early-or-late-vasopressin-for-septic-shock/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "43021611",
+            "title": "Avoidance Versus Use of Neuromuscular Blocking Agents for Optimising Video Laryngoscopy-Assisted Tracheal Intubation-A Systematic Review With Meta-Analysis and Trial Sequential Analysis.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43021611/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43021611",
+              "doi": "10.1111/aas.70369",
+              "kind": "original",
+              "source_version": "41e3c96dcd276e17e83603d83b697af7633814456d12a640cce84065bf416c23",
+              "fields": {
+                "title": "edb6f73df0edda456c1f72040cc74273cbd85e8a263dadbad3a3dab58ac8e4bb",
+                "abstract": "732b21d14dec51dde0b1a4c3e35137536d2331300982711f22c7758b9ae1c24e",
+                "types": "2e3f8caac3233e0dca34061736eaf94546dd9f4635d893b60276e4079c2e57c7",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "bc768a8c320dc87b0371764802f80c95e6aae3255d83fd494ad23c0133560699",
+                "results_known": true,
+                "numbers": "f8396a0c9f4b64c4fdd5d4b22c79d7c472a04831468c5c65fceb50c15d85bd03",
+                "endpoint": "ea4ce891444fedb9ad1ee1403b747d64e13eb057f4a13a4f53ee9a94315c33b1",
+                "methods": "07d8d28cd9b6ecca68999f6d581844a6eb46d982657592c1a76790cb8315c655",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43023303",
+            "title": "Digital Versus in-Person Pre-Anaesthetic Assessment and Postoperative Outcomes in Low-Risk Patients: An Observational Study.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023303/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43023303",
+              "doi": "10.1111/aas.70393",
+              "kind": "original",
+              "source_version": "8610ab64b4db55fcc9263e78301a6ddd2c1fd7d64b6ffb3e2c81c7d6aed64285",
+              "fields": {
+                "title": "718352fbcf0d5b80ae3de264f9f6cba129bba8332e1384307b47b8e96773ae20",
+                "abstract": "e5fcf1141e1e7bc8352d640cd048d09fa893b6c5ad6a92d278b2b42c5af12b3f",
+                "types": "3a473877d25ad66d22868372f0287f40799b2ebccb1dc6d688a5f866e40ee251",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "bcbf97047b3cb49e1539e13b69e54a1823588674f32471c0a2f1d295647b7141",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "b587a96fab919dd2e780ab95251ad43ec4787312bd05140d83157f48b4c15ea2",
+                "methods": "39a9048c2e50bd87b76a10747f45aeddd9515417380d502883da4b8bd19010f9",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43021411",
+            "title": "Reduced multimodal physiological signal complexity during neurointensive care is associated with delayed cerebral ischaemia and worse functional outcome in aneurysmal subarachnoid haemorrhage: a single-centre retrospective study.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43021411/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43021411",
+              "doi": "10.1186/s40560-026-00956-6",
+              "kind": "original",
+              "source_version": "fd03b42f0b77daab43bfcba04e1fa4a79b416d58d78aa03c838958e003a8dcc1",
+              "fields": {
+                "title": "0afdb6287b1e7425e1971251e88e5979e651495b6e7cd50f7135447a791ef493",
+                "abstract": "1041fc3ab49b7a22179f9d001c0d2ef6dc4f688125cccdcb731a89584f6c4e44",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "a67e39148faf0229e90dc7cbfdba0d8d94b03df0af685c5e8f13a252b507b481",
+                "results_known": false,
+                "numbers": "26a6ce94f8d2ece150a6caa06e71f7d032764e0638a47b58e868257bb3dea578",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "7a903305af2eae0c6e274d2c6fa7c15eabb9b3ef5b00e7406cbd86e5222300de",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43018963",
+            "title": "Treatment of Acute Ischemic Stroke: A Review.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018963/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43018963",
+              "doi": "10.1001/jama.2026.19482",
+              "kind": "original",
+              "source_version": "363b192facef62cb97147af0c01cd7003a1f231524873101493c08cf3b012fff",
+              "fields": {
+                "title": "22ae2c84c8b823ee946246e22393b50e74f99d9107917fab47ed77904b36d615",
+                "abstract": "88d1cc75148575b2ee9985f1fde8247d13ac036b9eff99b6d572e676aa4140e7",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43014669",
+            "title": "Associations between temperatures, extreme temperature events, and onset of acute exacerbations of COPD: a time-stratified case-crossover study in China.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014669/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43014669",
+              "doi": "10.1016/j.chest.2026.10.047",
+              "kind": "original",
+              "source_version": "468c2f6881de7ecbeda2d5c8e283d4fc8103df444d457fa945075e3bc99e3ed8",
+              "fields": {
+                "title": "ac0ed338a457e7cd27d94356d3a8e8dd53e9416dd797927c8b872ed70fd3f574",
+                "abstract": "14d588ec5f6cc5972db5fdb29a992124056eb64a2da6c28f6c27267e8b649dfa",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "8bcb18634c8e84e9b5055060139e081eb9ed6ef7896c4e6b3348e0d242173fc8",
+                "results_known": false,
+                "numbers": "6b64d76a45bce91704e91014088d3974128efc83ee09dc33cd4595ddd9c2195d",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "c9055791f6c8fd801930f230b038165e69c85185e80afe1b826cd15023750e77",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43014670",
+            "title": "Pragmatic Clinical Indicators of TB Transmission Risk: A Household Contact Cohort Study.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43014670/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43014670",
+              "doi": "10.1016/j.chest.2026.11.001",
+              "kind": "original",
+              "source_version": "b6ca7845878003f9408a8b99167019a249f5ffd9eed57ca0bd6294cb1f30ba0e",
+              "fields": {
+                "title": "53f9613a8835eaf9a4bbe48c0ca7b57a7d7b2a1184731e8b327f4542e8364512",
+                "abstract": "ae92774e27f98441b0da97487f8f3c42995fd685fce0bf2f64bbd39134b9b0f6",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "d5a40b149f5bf6fb591b10d06e4f6df6a6f17169e87902a2b81c8e8a040a7e3d",
+                "results_known": false,
+                "numbers": "0082be2817d4d925516079bc9f25d06b57f27a9ad18079fc3afb6b0fb01f26b8",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "95ae6617d99d98e989547395f9ba228963bf7592e19780c2fafa8e5cc6bce60b",
+                "direction": "mixed_or_unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42993977",
+            "title": "Individualized mean arterial pressure during cardiac surgery The OPTIPAM Randomized Clinical Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42993977/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42993977",
+              "doi": "10.1097/aln.0000000000006471",
+              "kind": "original",
+              "source_version": "f4e550bbdf1fb97e5b9121272afc6b3c90b53762b435188ad0fa043eb359828c",
+              "fields": {
+                "title": "933ddf03de847ed8e36e917e1c6678ba085157ce55f9456050f9a286de5a62e7",
+                "abstract": "6bf69bf2b4bab635f9d93ff7257c3fd04f76d701d52919c2b66079aa24e19fb3",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "79c1ed249fdaace3f61c295d272e76f2a1b75f940ecee32187b3e96e246cef84",
+                "results_known": true,
+                "numbers": "52012539754b632310e3c5d4fb3488fd5f7e2d6d6d85857150260e8ef14d1c2c",
+                "endpoint": "98521ce41c205755e189936ba4f2cb5aed1d0022d99d26064d9432697d7c1d86",
+                "methods": "ab35bcf51112000ed23df140f965c32ca12116c922b29f5793c6b4f7689639f2",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "43021611",
+            "title": "Avoidance Versus Use of Neuromuscular Blocking Agents for Optimising Video Laryngoscopy-Assisted Tracheal Intubation-A Systematic Review With Meta-Analysis and Trial Sequential Analysis.",
+            "channel": "PubMed: Acta Anaesthesiologica Scandinavica",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43021611/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43021611",
+              "doi": "10.1111/aas.70369",
+              "kind": "original",
+              "source_version": "41e3c96dcd276e17e83603d83b697af7633814456d12a640cce84065bf416c23",
+              "fields": {
+                "title": "edb6f73df0edda456c1f72040cc74273cbd85e8a263dadbad3a3dab58ac8e4bb",
+                "abstract": "732b21d14dec51dde0b1a4c3e35137536d2331300982711f22c7758b9ae1c24e",
+                "types": "2e3f8caac3233e0dca34061736eaf94546dd9f4635d893b60276e4079c2e57c7",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "bc768a8c320dc87b0371764802f80c95e6aae3255d83fd494ad23c0133560699",
+                "results_known": true,
+                "numbers": "f8396a0c9f4b64c4fdd5d4b22c79d7c472a04831468c5c65fceb50c15d85bd03",
+                "endpoint": "ea4ce891444fedb9ad1ee1403b747d64e13eb057f4a13a4f53ee9a94315c33b1",
+                "methods": "07d8d28cd9b6ecca68999f6d581844a6eb46d982657592c1a76790cb8315c655",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43018963",
+            "title": "Treatment of Acute Ischemic Stroke: A Review.",
+            "channel": "PubMed: JAMA (intensiv/akut Filter)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018963/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43018963",
+              "doi": "10.1001/jama.2026.19482",
+              "kind": "original",
+              "source_version": "363b192facef62cb97147af0c01cd7003a1f231524873101493c08cf3b012fff",
+              "fields": {
+                "title": "22ae2c84c8b823ee946246e22393b50e74f99d9107917fab47ed77904b36d615",
+                "abstract": "88d1cc75148575b2ee9985f1fde8247d13ac036b9eff99b6d572e676aa4140e7",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "42993977",
+            "title": "Individualized mean arterial pressure during cardiac surgery The OPTIPAM Randomized Clinical Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/42993977/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "42993977",
+              "doi": "10.1097/aln.0000000000006471",
+              "kind": "original",
+              "source_version": "f4e550bbdf1fb97e5b9121272afc6b3c90b53762b435188ad0fa043eb359828c",
+              "fields": {
+                "title": "933ddf03de847ed8e36e917e1c6678ba085157ce55f9456050f9a286de5a62e7",
+                "abstract": "6bf69bf2b4bab635f9d93ff7257c3fd04f76d701d52919c2b66079aa24e19fb3",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "79c1ed249fdaace3f61c295d272e76f2a1b75f940ecee32187b3e96e246cef84",
+                "results_known": true,
+                "numbers": "52012539754b632310e3c5d4fb3488fd5f7e2d6d6d85857150260e8ef14d1c2c",
+                "endpoint": "98521ce41c205755e189936ba4f2cb5aed1d0022d99d26064d9432697d7c1d86",
+                "methods": "ab35bcf51112000ed23df140f965c32ca12116c922b29f5793c6b4f7689639f2",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://www.pulmccm.org/p/unlocked-the-real-world-boards-question-c60",
+            "title": "[UNLOCKED] The Real-World Boards: Question #51",
+            "channel": "PulmCCM",
+            "url": "https://www.pulmccm.org/p/unlocked-the-real-world-boards-question-c60"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/vasspr-rct-early-or-late-vasopressin-for-septic-shock/",
+            "title": "VASSPR RCT – Early or Late Vasopressin for Septic Shock? - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/vasspr-rct-early-or-late-vasopressin-for-septic-shock/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/the-scarlet-letters/",
+            "title": "The Scarlet Letters",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/the-scarlet-letters/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.stemlynsblog.org/tetris-resuscitative-thoracotomy-traumatic-cardiac-arrest-and-the-importance-of-patient-selection/",
+            "title": "TETRiS: Resuscitative thoracotomy, traumatic cardiac arrest and the importance of patient selection",
+            "channel": "St Emlyn's",
+            "url": "https://www.stemlynsblog.org/tetris-resuscitative-thoracotomy-traumatic-cardiac-arrest-and-the-importance-of-patient-selection/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-23T15:24:23+00:00"
+      },
+      "workflow_run_id": "45204481519",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-23:2026-11-23:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "2f128b532daa9637e2f27bffe7f6d6360b710c4b9b6565405fecaaca32824bc5",
+        "finalization_policy": "markers",
+        "content_version": "37232b779a21cd4e41870f097b189d2033ed7032181e6dd8b7f3c6e446f4950a",
+        "message_id": "<0d0dd16e74c91f4442f2c1b1cd0cbc2c40cb80dcf6ee371bc2097283db5dab6f@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "141ad6f45f1cc2a4_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "ecec2c91ddc60b98d37abcccdb95b8bffe3d80ffdc9c0cc5fff7f052d9a6046b"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "c2df3e95e422872655e8e4c6ce1f1f5307acda8cf3b43017e47e5e9bb02ff5eb"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -30067,6 +30647,7 @@
         "42994619",
         "42994620",
         "42994751",
+        "42995612",
         "42995620",
         "42997845",
         "42997979",
@@ -30078,7 +30659,11 @@
         "43001755",
         "43001758",
         "43002154",
+        "43004583",
         "43007248",
+        "43007421",
+        "43010838",
+        "43013314",
         "43014330",
         "43014331",
         "43014822",
