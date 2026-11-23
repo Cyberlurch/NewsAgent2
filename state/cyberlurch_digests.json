@@ -155664,8 +155664,977 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "JThxARcBv4c",
+      "source": "youtube",
+      "title": "When The Coming Collapse Starts: You Will Have 3 DAYS",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=JThxARcBv4c",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-22T18:49:37+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-25T18:49:37+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 15820,
+        "processed_unique_chars": 15820,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 5.778,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The video explains how to procure, store, and purify water for short-term survival, detailing urban and off-grid risks to municipal supply, low-cost storage and transport options, and multiple filtration and disinfection methods.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The average human can survive three days without water and water is required for drinking, sanitation, and irrigation.",
+        "In a grid-down event municipal water pressure may drop quickly, so immediately filling containers is recommended.",
+        "Rain catchment, sand point wells, and various storage containers such as water bob bathtub liners, blue barrels, and 1,000 L totes are practical water sources and storage methods."
+      ],
+      "transcript_notable_claims": [
+        "A $30 water bob liner can convert a bathtub into a water storage tank and includes a hand pump for extraction.",
+        "Every square foot of surface area in a 1-in rain storm can accumulate around 2.5 L of water, so 1,000 square feet can yield roughly 600 gallons in one storm.",
+        "Sand point wells work where the water table is under about 15 ft but require trial and error and variable flow rates.",
+        "Water totes from Craigslist can store about 1,000 L but may need scrubbing if previously used for pesticides or herbicides.",
+        "Black polyethylene storage tanks reduce algae buildup compared with white containers, which require bleach or calcium hypochlorite treatments.",
+        "Melting snow yields roughly 100 ml of water per liter of snow (a 10-to-1 ratio), making snow inefficient as a primary water source.",
+        "Gravity-fed activated carbon filters such as ProOne or Berkey remove bacteria, protozoa, and many chemicals and are practical household systems.",
+        "Desalination and reverse osmosis require immense energy and distilled water can leach minerals from the body, requiring mineral supplementation.",
+        "A man-portable hand-pump desalinator worked in recent testing but required a large amount of kinetic energy to push water through the membrane.",
+        "Household bleach loses potency after about 6 to 12 months, while calcium hypochlorite (pool shock) can be used to make a more shelf-stable bleach solution."
+      ],
+      "transcript_uncertainties": [
+        "Digging a sand point well may not find water everywhere and flow rates will vary.",
+        "Some companies claim gravity filters can remove viruses, but virus removal is presented conditionally rather than as guaranteed.",
+        "The energy requirements and long-term feasibility of air-to-water dehumidifier systems depend on power availability and replacement remineralization cartridges."
+      ],
+      "important_details": [
+        "If municipal power fails, water pressure will likely fall quickly, so people should immediately fill any available containers.",
+        "To disinfect water using calcium hypochlorite, one teaspoon of hypochlorite makes up to 2 gallons of bleach and two teaspoons of that prepared solution will disinfect 1 L of water.",
+        "For winter extraction from frozen lakes, manual ice augers avoid fuel and mechanical failure but require substantial physical effort and calorie burn."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "JThxARcBv4c",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ThePoplarReport"
+      },
+      "id": "0txIbz8hEzs",
+      "source": "youtube",
+      "title": "🚨🚨ALERT: BRACE For Impact- Watchmen Updates",
+      "channel": "ThePoplarReport",
+      "url": "https://www.youtube.com/watch?v=0txIbz8hEzs",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 16804,
+        "processed_unique_chars": 16804,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 3.98,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The Poplar Report warns of escalating Iran–US tensions over a planned Iranian tanker sortie through the Strait of Hormuz, reports multiple cyber incidents affecting banks and U.S. agencies, and describes widespread local disruptions to water, supply chains, and travel while urging preparedness and Medicare enrollment action.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Iran has loaded dozens of oil tankers at Kharg Island and intends to try to break the U.S. naval blockade through the Strait of Hormuz.",
+        "Multiple cyber incidents have leaked personal data from Chase, Visa, and MasterCard customers and have left the NSA’s classified network offline for three days.",
+        "A major submarine internet cable near the Gulf of Oman faulted, causing reduced connectivity in Pakistan and broader Asia–Europe backbone disruptions."
+      ],
+      "transcript_notable_claims": [
+        "Iran warned that any attack on its tankers would trigger immediate strikes on oil terminals in the UAE, Saudi Arabia, and Qatar.",
+        "More than 16,000 customers’ data tied to an invitation-only JPMorgan Reserve program were released, including emails, phone numbers, and account IDs.",
+        "The Pentagon reported that the Iran war has cost the U.S. military $48.3 billion as of November 13th.",
+        "A Fairfield, California 15-year water deal will let Chinese billionaire Zhang Shan-Chan’s Nongfu Spring use 1.65 million gallons of city water daily, about 10% of the city’s usage.",
+        "The USDA experienced a cyber incident that forced divisions to reset database passwords and take multiple critical systems offline."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain how effective fired munitions were during the Iran war after the Navy launched expired but repairable missiles.",
+        "It is unclear whether the cyberattack chain that hit JPMorgan Chase also fully compromised Visa and MasterCard beyond company statements.",
+        "The cause of the submarine cable fault 11 km off Pakistan’s shore remains unknown."
+      ],
+      "important_details": [
+        "The NSA internal classified network outage affected a Georgia site that handles Middle East electronic intelligence.",
+        "Spartanburg’s main water line was repaired and crews began refilling 1,600 miles of pipes and tanks, with cloudy water and a boil advisory expected for about 72 hours afterward.",
+        "Fox Weather gave a 60% chance that the low pressure system near the Bahamas could form into tropical or subtropical Storm Kyle within seven days, threatening gusty winds, rip currents, and coastal flooding along the Southeast to Mid-Atlantic during Thanksgiving travel."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "0txIbz8hEzs",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "1_Yn4VBF3HQ",
+      "source": "youtube",
+      "title": "Gustav Kasselstrand: Därför ska du komma den 30:e november i Stockholm",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=1_Yn4VBF3HQ",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 7711,
+        "processed_unique_chars": 7711,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.907,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:7711",
+        "recency"
+      ],
+      "transcript_full_summary": "Alternativ för Sverige bjuder in till en minnesmanifestation vid Riddarholmskyrkan den 30 november för att hedra Karl XII och uppmuntrar fysiska möten som ett sätt att stärka svensk historia och nätverk istället för enbart digital aktivitet.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Alternativ för Sverige ordnar en minnesmanifestation för Karl XII vid Riddarholmskyrkan den 30 november.",
+        "Partiet säger att fysiska demonstrationer och torgmöten skapar närvaro och stärker spridningen på sociala medier.",
+        "Arrangörerna beskriver tidigare manifestationer som oftast fredliga och menar att risken för våld är liten."
+      ],
+      "transcript_notable_claims": [
+        "Ett folk måste minnas sin historia och hämta kraft ur den inför nutida uppgifter.",
+        "De nu återupptagna manifestationerna är en återknytning till en tradition som ofta samlade tiotusentals personer under 1800-talet och vid särskilda skeden som finska vinterkriget.",
+        "Majoriteten av demonstrationer i Stockholm stödjer främmande länder och det saknas tillräckligt många svenskvänliga demonstrationer.",
+        "Alternativ för Sverige anser att sociala medier och fysiska möten hör ihop och att fysiska möten har lett till radikalt ökad närvaro på sociala medier."
+      ],
+      "transcript_uncertainties": [
+        "Det är ospecificerat exakt hur många deltagare som förväntas komma till manifestationen den 30 november.",
+        "Påståendet att demonstrationer för främmande länder utgör cirka 95 % av alla demonstrationer i Stockholm är obekräftat i texten.",
+        "Uppgiften att motståndare blivit marginaliserade och inte kan störa mötena ges utan detaljer om vilka år eller vilka incidenter som avses."
+      ],
+      "important_details": [
+        "Arrangemanget presenteras som en möjlighet att lära sig svensk historia, träffa andra svenskar och föra en gammal tradition vidare.",
+        "Talaren uppger att manifestationen historiskt ibland mötts av våld och attacker från vad som beskrivs som invandrarvänliga extremister, men att sådant motstånd idag är mycket litet.",
+        "Talaren uppmanar åskådare att delta även vid ett tidigare datum den 13 november för att samla stöd och konkret närvaro istället för enbart digital spridning."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "1_Yn4VBF3HQ",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@PredictiveHistory"
+      },
+      "id": "3xwJFjWcFow",
+      "source": "youtube",
+      "title": "Global Meet-Up #8 (Hong Kong):  The Occult of the Meritocracy",
+      "channel": "PredictiveHistory",
+      "url": "https://www.youtube.com/watch?v=3xwJFjWcFow",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 124141,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.98,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_generation_status": "budget_skipped",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "3xwJFjWcFow",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "4mDT54lO12k",
+      "source": "youtube",
+      "title": "Kaliningrad zum ERSTEN Mal seit 2.Weltkrieg angegriffen - NATO involviert!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=4mDT54lO12k",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8937,
+        "processed_unique_chars": 8937,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.214,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8937",
+        "recency"
+      ],
+      "transcript_full_summary": "Der Text berichtet über angebliche Drohnenangriffe auf Kaliningrad und einen russischen Frachter im Finnischen Meerbusen, beschreibt bestätigte russische Luftabwehrreaktionen und Luftalarme, spekuliert über ukrainische Urheberschaft und NATO-Unterstützung und warnt vor möglicher russischer Vergeltung.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "In der Region Kaliningrad wurde nach Angaben des Gouverneurs Alexei Beschrom am Abend des 21. November Luftalarm und Drohnenalarm ausgelöst.",
+        "Russische Luftabwehrfeuer wurden in Kaliningrad registriert und es wurden Explosionen und Brände im Hafenbereich berichtet.",
+        "Ein russischer Frachter namens Sparta 2 wurde nach russischen Angaben am Samstagmorgen im Finnischen Meerbusen von zwei Drohnen getroffen."
+      ],
+      "transcript_notable_claims": [
+        "Mehrere ukrainische Militärblogger behaupten, die Ukraine habe Kaliningrad erstmals in der Geschichte mit Drohnen angegriffen.",
+        "Der Kanal Exil Nova Plus und Exionova melden gesichtete Drohnen über dem Finnischen Meerbusen und vermuten Angriffe auf Hafeninfrastruktur.",
+        "Der Text behauptet, ein NATO-Aufklärungsflugzeug E-3A Sentry habe mehrere Stunden über Nordpolen und nahe Kaliningrad operiert und danach nach Litauen zurückgeflogen.",
+        "Der Text behauptet, Finnland habe zugelassen, dass das beschädigte Frachtschiff Sparta 2 aus finnischen Gewässer in russische Gewässer abgeschleppt werde, obwohl es auf Sanktionslisten stehe.",
+        "Der Text zitiert Putins Aussage vom 1. Oktober, Kaliningrad notfalls mit Atomwaffen verteidigen zu wollen, und stellt dies als Warnung im Kontext des Angriffs dar."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, ob die Explosionen im Hafenbereich von Kaliningrad durch erfolgreiche Drohnentreffer oder durch abstürzende Drohnen verursacht wurden.",
+        "Die Herkunft, genaue Ziele und Urheberschaft der eingesetzten Drohnen bei den Angriffen auf Kaliningrad sind bisher nicht bestätigt.",
+        "Es bleibt unklar, ob die Berichte über Waffen an Bord der Sparta 2 zutreffen."
+      ],
+      "important_details": [
+        "Der Gouverneur von Kaliningrad, Alexei Beschrom, erklärte, es bestehe nach den Überprüfungen keine Gefahr mehr und Beschränkungen würden aufgehoben.",
+        "Finnische Behörden führen Rettungsmaßnahmen für 16 Besatzungsmitglieder des Frachters Sparta 2 durch und untersuchen ein mögliches russisches Heli-Eindringen in finnischen Luftraum nahe Lovisa.",
+        "Der Text behauptet, ukrainische Drohnen hätten lange Flugrouten um mehrere Länder genommen und dabei NATO-Lufträume passiert oder NATO-Unterstützung erhalten, inklusive Nutzung der Suwalki-Lücke als möglicher Korridor."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "4mDT54lO12k",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "7USMR80ofIU",
+      "source": "youtube",
+      "title": "Tea Time with Devo | Yonatan Barak | Crossing the Comedic Line",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=7USMR80ofIU",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 42342,
+        "processed_unique_chars": 42342,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.98,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Yonatan Barak describes his 25-plus year career in Israeli stand-up, explains how comedians find and test the moving line of what can be said, and discusses accents, crowd work, Israeli audiences, and why he prefers performing in Israel and in Hebrew.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Yonatan Barak has done comedy since age 17 and has a 25-plus year career.",
+        "Comedians must take risks to learn where the moving line of acceptable jokes lies, and a joke that crosses the line becomes unacceptable.",
+        "Yonatan prefers performing in Israel in Hebrew and avoids doing stand-up for foreign audiences who will zone him into talking about Israel and Gaza."
+      ],
+      "transcript_notable_claims": [
+        "Yonatan began writing short stories at age six and screenplays by eight or nine.",
+        "Yonatan uses accents and characters on stage, often portraying a self with diminished intelligence for comedic effect.",
+        "Israeli audiences primarily pay to laugh and dance and regularly attend many different comedians' shows.",
+        "Yonatan believes good comedy often exposes hypocrisy or highlights unnoticed small things in life.",
+        "Yonatan says comedians learn the line by crossing it and sometimes being burned until they know where to place jokes.",
+        "Yonatan refused to sacrifice his career for a joke and said he will not move to perform long-term in America because he prefers performing to Israeli audiences in Hebrew.",
+        "Yonatan compared Shahar Hason to Robin Williams and suggested he has both children's and adult appeal.",
+        "Yonatan described Tropic Thunder as satire that examines where the line is in immersive acting, using Robert Downey Jr.'s role to question limits rather than endorse blackface."
+      ],
+      "transcript_uncertainties": [
+        "Yonatan says there is a line of something that can never be said but also that the line is always moving and room-dependent.",
+        "Yonatan indicates he has told many jokes he regretted but declines to repeat them."
+      ],
+      "important_details": [
+        "Yonatan performs crowd work early as a warm-up and allows audience members to ask him questions under a rule that he must answer.",
+        "One bit about choosing whether to smoke a joint with BB or Robin received strong audience and social media reaction and was judged by Yonatan as hitting the line correctly.",
+        "Yonatan limits travel to short trips of three weeks or less to avoid losing time on his touring schedule in Israel and to remain present for family and weekly shows."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "7USMR80ofIU",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "AHvuCyWVedU",
+      "source": "youtube",
+      "title": "Today at 7 p.m. on November 22, 2026: World Climate Conference without agreement, AfD-NRW party c...",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=AHvuCyWVedU",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 10274,
+        "processed_unique_chars": 10274,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Sendung berichtet über das Scheitern der Weltklimakonferenz COP31 ohne Bekenntnis zum Ausstieg aus fossilen Energien, die Festnahme eines mächtigen Drogenbosses in Mexiko mit tödlicher Gewalt und die Kritik am Umgang des FC Bayern mit Jamal Musiala.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Weltklimakonferenz COP31 in Antalya endete ohne gemeinsame Abschlusserklärung nach 49 Stunden Verlängerung.",
+        "Bei der Festnahme des Drogenbosses Fausto Isidro Meza Flores in Mexiko kam es zu Gewalt, elf Menschen starben und ein Baseballspiel wurde abgebrochen.",
+        "Beim FC Bayern steht Jamal Musiala nach einem mutmaßlichen medizinischen Rückfall im Zentrum von Kritik und Debatten um seine Zukunft."
+      ],
+      "transcript_notable_claims": [
+        "Deutschland, die EU und andere Länder stimmten gegen den letzten Entwurf, weil der Ausstieg aus Kohle, Öl und Gas nicht verankert war.",
+        "Saudi-Arabien und Russland blockierten die Konferenz und trügen maßgeblich Verantwortung für das Scheitern.",
+        "Afrikanische Staaten verließen frustriert die Konferenz und forderten finanzielle Unterstützung für Anpassung an den Klimawandel.",
+        "Der nordrhein-westfälische CDU-Ministerpräsident Wüst lehnte den Ausgleich der kalten Progression als finanziell nicht machbar ab.",
+        "Die NRW-AfD einigte sich auf ein Wahlprogramm mit verschärfter Zuwanderungspolitik und propagiert 'Remigration' als zentrales Konzept.",
+        "Justizministerin Hubig will Femizide künftig ausdrücklich als Mord mit geschlechtsspezifischen Beweggründen einordnen.",
+        "Beim Einsatz gegen den Drogenboss Fausto Isidro Meza Flores wurden Barrikaden errichtet und mit Waffengewalt die Festnahme verhindert.",
+        "Karl-Heinz Rummenigge äußerte erhebliche Zweifel, ob Jamal Musiala nach seiner neurologischen Erkrankung wieder Topform erreichen kann."
+      ],
+      "transcript_uncertainties": [
+        "Es ist unklar, welche Länder genau neben Saudi-Arabien und Russland zusätzlich Verantwortung für das Scheitern der Konferenz tragen.",
+        "Die Sendung nennt einen 'vermeintlichen' medizinischen Rückfall bei Jamal Musiala nur laut Medienberichten, ohne offizielle Bestätigung.",
+        "Die genaue Höhe und der Zeitplan für die von afrikanischen Staaten geforderten Finanzmittel zur Klimaanpassung wurden nicht genannt."
+      ],
+      "important_details": [
+        "Die Europäer verließen die Verhandlungsrunde, weil der Ausstieg aus fossilen Brennstoffen nicht im Abschlusstext stand.",
+        "Fausto Isidro Meza Flores steht auf einer US-Liste der zehn meistgesuchten Verbrecher und wird des großflächigen Drogenschmuggels in die USA verdächtigt.",
+        "Die NRW-AfD zeigte auf ihrem Parteitag interne Machtkämpfe zwischen einem radikaleren Lager um Matthias Helferich und einem moderateren Lager um Martin Vincentz."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "AHvuCyWVedU",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CrossExamined"
+      },
+      "id": "D3ZS_Bf8liY",
+      "source": "youtube",
+      "title": "Atheist: Christianity Sounds Logical, BUT...",
+      "channel": "CrossExamined",
+      "url": "https://www.youtube.com/watch?v=D3ZS_Bf8liY",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 6409,
+        "processed_unique_chars": 6409,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 2.582,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:6409",
+        "recency"
+      ],
+      "transcript_full_summary": "A conversation between an atheist named Matt and a Christian interlocutor examines whether immaterial realities and the origin of the universe point to God, while Matt remains unconvinced due to lack of empirical evidence and physical location for God.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The atheist Matt finds theism logically plausible but cannot accept it without empirical evidence locating God.",
+        "The Christian argues that the universe's beginning implies a spaceless, timeless, immaterial, powerful, personal and intelligent cause.",
+        "The Christian claims minds, the laws of logic, morality, and historical evidence for Jesus' resurrection indicate immaterial realities pointing to God."
+      ],
+      "transcript_notable_claims": [
+        "The Christian claims the cause of the universe must transcend space, time and matter and therefore be spaceless, timeless, immaterial, powerful, personal and intelligent.",
+        "The Christian claims the laws of logic are immaterial and that the mind is immaterial because purely physical processes cannot yield truth.",
+        "The Christian claims experiments with brain-injured or comatose patients show the brain controls perception and memory but does not control logical faculties, implying mind independence.",
+        "The Christian claims moral law written on human hearts, apparent design in creation, and Jesus' predicted and accomplished resurrection are effects that point back to God as their cause."
+      ],
+      "transcript_uncertainties": [
+        "Matt expresses uncertainty about empirical evidence for God and asks 'if God exists, where is he?'",
+        "The Christian acknowledges that immaterial realities are not physically present or locatable in the way Matt expects."
+      ],
+      "important_details": [
+        "The Christian references Michael Egnor, a brain surgeon at Stony Brook, and his book on the immaterial mind to support mind-brain distinction.",
+        "Matt cites Jim Jones and the Jonestown poisonings as an example where belief in the unseen led to harm.",
+        "The Christian offers the book 'Stealing from God' to Matt and notes Matt previously read it without being convinced."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "D3ZS_Bf8liY",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@krissyrieger"
+      },
+      "id": "6F6RRKXACHo",
+      "source": "youtube",
+      "title": "Save yourself while you still can!",
+      "channel": "krissyrieger",
+      "url": "https://www.youtube.com/watch?v=6F6RRKXACHo",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 14296,
+        "processed_unique_chars": 14296,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.98,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The video argues that a wide range of measures and trends in 2027 will amount to different forms of expropriation — of money, wealth, time and thought — and urges viewers to take financial action and invest to retain control over their lives.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The German government plans multiple tax and levy changes in 2027, including a new 47% tax bracket starting at €280,000 and proposals for a capital gains tax, sugar tax, plastic tax and higher alcohol and tobacco duties.",
+        "Rising costs of living, inflation, higher energy and food prices, and cuts to benefits are reducing individuals' real purchasing power and perceived public services.",
+        "An average German life uses large amounts of time for sleep, work, media consumption and household tasks, and the presenter frames that consumption and distraction as a system that robs people of time and agency."
+      ],
+      "transcript_notable_claims": [
+        "Finance Minister Klingbeil has proposed a higher tax on capital gains to finance reductions in electricity taxes for everyone.",
+        "A new additional income tax bracket of 47% will apply to taxable income starting at €280,000 in the 2027 income tax reform.",
+        "The Federal Ministry of Finance plans to tax cryptocurrency sales like stocks from 2027 with a flat 25% withholding tax plus solidarity surcharge irrespective of holding period.",
+        "Alcohol taxes for spirits, sparkling wine, champagne, liqueur, wines and alcopops are set to rise by around 20% on January 1, 2027.",
+        "The employer flat-rate tax for mini-jobs is planned to rise from 2% to 5%.",
+        "Tobacco tax will rise in four stages from 2027 to 2030, with the 2027 per-cigarette rate increasing from €0.20 to €0.22.",
+        "Violent crime and sexual crime in Germany have risen sharply according to official figures cited by the presenter.",
+        "The presenter calculates that with an average lifespan near 81 years, roughly 30 years are spent sleeping, over 11 years in full-time work, 16.5 years in leisure/media and 11.5 years on housework, shopping and family.",
+        "The presenter asserts that constant crises, media manipulation and distraction are intended to keep people obedient, passive and focused on consumption."
+      ],
+      "transcript_uncertainties": [
+        "It is unclear which of the debated measures such as the plastic tax or sugar tax will actually be enacted.",
+        "The exact scope and implementation details of the proposed cryptocurrency withholding tax remain under coordination and are not finalized."
+      ],
+      "important_details": [
+        "The presenter links cuts to the tradesman bonus, higher contributions to long-term care insurance, and the elimination of sick pay claims for old-age pensioners to the broader pattern of financial pressures.",
+        "The presenter cites market returns as examples of potential self-directed financial action, noting over 700% gain for an S&P 500 ETF, over 200% for gold and over 800% for Apple in recent decades.",
+        "The presenter offers a free course on how the monetary system works as a resource for viewers to learn investing and monetary mechanics."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "6F6RRKXACHo",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "6skBhAMOjLg",
+      "source": "youtube",
+      "title": "Vänsterextremist döms för misshandel av Nick Alinia",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=6skBhAMOjLg",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 9064,
+        "processed_unique_chars": 9064,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.246,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:9064",
+        "recency"
+      ],
+      "transcript_full_summary": "Svea hovrätt ändrade tingsrättens friande dom och dömde vänsterextremisten Andreas Klominck för att ha knäat journalisten Nick Alinia i huvudet under ett envarsingrepp efter en 1 maj-demonstration, och Alinia beskriver rättsprocessens förlopp och sina invändningar mot tingsrättens sammansättning.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Svea hovrätt dömde Andreas Klominck för misshandel efter att ha knäat Nick Alinia i huvudet.",
+        "Nick Alinia filmade 1 maj-demonstrationer när en maskerad person slog mobilen ur hans händer och envarsin grepp följde.",
+        "Tingsrätten friade först med motiveringen putativ nödvärn, men hovrätten ändrade domen."
+      ],
+      "transcript_notable_claims": [
+        "En nämndeman i tingsrätten var kopplad till Expo och tidigare AFA-aktivism, vilket Alinia beskriver som jävigt i målet.",
+        "Alinia säger att Expo pekade ut och förtalde honom, att AFA sedan misshandlade honom och att Expo därefter friade AFA i tingsrätten.",
+        "Alinia beskriver massmedia som ett 'synkroniserat vänsterliberalt propagandaorgan' och anklagar Expressen för att framställa händelsen som ett jämbördigt bråk.",
+        "Alinia påstår att vänsterextremister i allmänhet får lindrigare rättsliga konsekvenser än högerextremister och att fler våldsamma vänsterextremister bör sitta inne."
+      ],
+      "transcript_uncertainties": [
+        "Alinia uppger att tingsrättens juristdomare ville fälla men att nämndemännen friade, men exakt röstfördelning och skälen redovisas inte detaljerat i texten.",
+        "Alinia uttrycker att han inte förstod varför han inte tilldelades målsägandebiträde i misshandelsfallet."
+      ],
+      "important_details": [
+        "Alinia uppger att envarsin grepp som han och hans team utförde fastställdes av hovrätten som lagligt envarsin grepp.",
+        "Alinia nämner att Klominck tidigare är dömd för hot och ofredande, inklusive att ha lämnat äpplen med Hitleransikten utanför ministrars bostäder."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "6skBhAMOjLg",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Blocktrainer"
+      },
+      "id": "913ByJczho8",
+      "source": "youtube",
+      "title": "The BITCOIN CENTRAL HEATING is coming! 🔥 HEAT your house and EARN BITCOIN! | Interview with 21ene...",
+      "channel": "Blocktrainer",
+      "url": "https://www.youtube.com/watch?v=913ByJczho8",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 42375,
+        "processed_unique_chars": 42375,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.98,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Das Interview stellt die Bitcoin-Zentralheizung Vocavo von 21 Energy vor und erläutert, wie die Geräte gleichzeitig Heizung, Warmwasserbereitung und Bitcoin-Mining koppeln, um Heizkosten zu senken, Netzdienstleistungen zu ermöglichen und zusätzliche Einnahmen durch Bitcoin-Cashback zu erzielen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "21 Energy hat über 10.000 Kunden mit sechs Generationen an Space Healern beliefert.",
+        "Die neue Bitcoin-Zentralheizung Vocavo kommt am 16. November in Vorreservierung und liefert bis zu 7 kW Heizleistung pro Gerät.",
+        "Die Vocavo kombiniert Hydrominer-Bitcoin-Miner mit Wärmetauschertechnik und lässt sich an Standard-Heizkreise, Bufferspeicher und Rippenrohr-Wärmetauscher anschließen."
+      ],
+      "transcript_notable_claims": [
+        "Die Bitcoin-Zentralheizung kann als Ergänzung zu bestehenden Heizsystemen 90–95% der Heizleistung abdecken und so Heizölverbrauch stark reduzieren.",
+        "Bei aktuellen österreichischen Preisen könnten Haushalte mit Vocavo effektiv nur circa 4 Cent pro kWh Wärme zahlen im Vergleich zu etwa 25 Cent mit Ölheizung, wenn man Strompreis 19 Cent und durchschnittlich 15 Cent Bitcoin-Cashback annimmt.",
+        "21 Energy plant, Hashrate-Futures und Stromkauf zu nutzen, um Preisgarantien für die Kilowattstunde Wärme über 12 bis 24 Monate zu geben.",
+        "Aggregierte Steuerung vieler Zentralheizungen kann flexible Lasten und Regelenergie bereitstellen und so zusätzliche Einnahmen pro Gerät generieren.",
+        "Bei Volumen von Bitcoin-Zentralheizungen in Europa könnte die dezentrale Mining-Leistung die regionale Bitcoin-Mining-Infrastruktur signifikant erhöhen."
+      ],
+      "transcript_uncertainties": [
+        "Die ökonomische Rentabilität hängt vom individuellen Strompreis, Heizsystem und zukünftiger Hashpreis- und Bitcoin-Entwicklung ab.",
+        "Die Vorreservierung endet mit verbindlichem Kaufvertrag erst vier Wochen vor Auslieferung, Lieferbeginn ist ab April Q2 2027 geplant, genaue Termine sind unsicher.",
+        "Die langfristige Hardware- und Marktentwicklung bleibt ungewiss, insbesondere bezüglich Hashpreis, Hardware-Austausch durch AI-Datacenter und zukünftiger Effizienzsteigerungen."
+      ],
+      "important_details": [
+        "Die Vocavo ist 80 x 60 cm groß, benötigt Starkstrom und WLAN/LAN und soll in wenigen Stunden vom Installateur angeschlossen werden.",
+        "Für die Vorreservierung verlangt 21 Energy eine Anzahlung von 990 €, die jederzeit vollständig zurückerstattet werden kann; die Auslieferung soll ab Q2 2027 erfolgen.",
+        "Auf die Heizungstechnik gibt 21 Energy fünf Jahre Gewährleistung und auf den Bitcoin-Miner zwei Jahre Gewährleistung; Ersatzteile und Austausch sollen einfach möglich sein."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "913ByJczho8",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@RedactedNews"
+      },
+      "id": "9_PYPq1NH1I",
+      "source": "youtube",
+      "title": "BE PREPARED!  Something Big is Coming...and They KNOW It",
+      "channel": "RedactedNews",
+      "url": "https://www.youtube.com/watch?v=9_PYPq1NH1I",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 26563,
+        "processed_unique_chars": 26563,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.98,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript warns that recent cyberattacks on major institutions presage a larger crisis that could cripple healthcare systems, and promotes daily kimchi consumption and a kimchi-based supplement to strengthen immunity and prepare families for societal disruptions.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Recent cyber breaches have affected Microsoft, the FAA, Mastercard, Visa, major banks, and the European Commission according to the transcript.",
+        "Healthcare systems, supply chains, medical devices, and pharmacies could be disabled by targeted attacks, causing immediate shortages and life-threatening consequences for patients.",
+        "Daily consumption of kimchi or the promoted Kimchi 1 supplement is presented as a way to rebuild gut microbiome diversity and strengthen T cells to protect against infections and chronic disease."
+      ],
+      "transcript_notable_claims": [
+        "The breaches are described as tremors before a much larger catastrophe that is 'quietly taking shape' in a critical sector the public ignores.",
+        "Locked electronic health records, disabled medical equipment, halted supply chains, and failed pharmacy systems will force hospitals to turn away patients and cause immediate shortages of essential medications.",
+        "Kimchi reportedly contains over 900 strains of beneficial bacteria and transforms T cells into 'elite high intelligent commanders' that prevent infections and reduce chronic disease risk.",
+        "Biotech companies are said to be signing deals with the World Kimchi Research Institute to commercialize probiotics derived from kimchi.",
+        "The transcript alleges that Israel covered up hundreds of COVID vaccine deaths and hospitalizations and that U.S. regulators hid cases of sudden cardiac deaths and other vaccine-related harms.",
+        "The transcript claims that 9% of 'Senate demon rats' who pushed vaccinations have suffered strokes and that vaccine spike proteins and mRNA were found in stroke patients' cerebral arteries 17 months after vaccination."
+      ],
+      "transcript_uncertainties": [
+        "The timeline for when healthcare collapse effects would become deadly is disputed within the transcript, with one voice rejecting a 72-hour estimate as too long and asserting a more condensed timeline without specifying exact timing.",
+        "The transcript states that pharmaceutical companies may try to patent components from kimchi but expresses uncertainty about whether they will be able to do so."
+      ],
+      "important_details": [
+        "Patients dependent on daily medications for diabetes, heart disease, and blood pressure are described as especially vulnerable if pharmacy verification and restocking systems fail.",
+        "Kimchi 1 is marketed as a cold-processed, low-sodium, non-GMO, USA-made capsule intended to deliver fermented kimchi benefits without taste or odor and with three-plus years of shelf life.",
+        "The promotion includes an offer of 25% to 50% off, free shipping, and a free bottle of Revive capsules for early callers, with Revive described as containing five types of collagen, hyaluronic acid, biotin, and vitamin C to support bones, joints, and muscle mass."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "9_PYPq1NH1I",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelwithAline"
+      },
+      "id": "AXoLtD4-kXA",
+      "source": "youtube",
+      "title": "Discovering King Herod's Legacy in Israel with Aline",
+      "channel": "IsraelwithAline",
+      "url": "https://www.youtube.com/watch?v=AXoLtD4-kXA",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 17513,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.979,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "video_id": "AXoLtD4-kXA",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "B20AJDyOnlc",
+      "source": "youtube",
+      "title": "Muslims to Surpass the Number of Christians in the World",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=B20AJDyOnlc",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-23T04:30:00+00:00",
+      "screened_at": "2026-11-23T04:30:00+00:00",
+      "expires_at": "2026-11-26T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5255,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.293,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5255",
+        "recency"
+      ],
+      "video_id": "B20AJDyOnlc",
+      "processed_at_utc": "2026-11-23T15:05:51+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-20T13:20:51+00:00",
+  "updated_at_utc": "2026-11-23T15:05:51+00:00",
   "version": 1
 }
