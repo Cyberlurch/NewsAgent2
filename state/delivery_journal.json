@@ -29848,6 +29848,246 @@
         "approved_after_generation_checks": true,
         "seal": "c2df3e95e422872655e8e4c6ce1f1f5307acda8cf3b43017e47e5e9bb02ff5eb"
       }
+    },
+    "cyberlurch:daily:2026-11-24:2026-11-24:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-24",
+      "period_end": "2026-11-24",
+      "edition_id": "cyberlurch:daily:2026-11-24:2026-11-24:production",
+      "content_version": "01feabf5349daf034f59ebf1b350f1af03ca5727c38328d657096f78ac83e635",
+      "message_id": "<3e65737ec4ae201f371d58cb06f623d8543b0518757e2d780e59754c4dd49d8a@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-24T15:07:04+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "BZeSODTQwVQ",
+            "title": "⚡ALERT! Europe Braces for NUCLEAR War, NATO Emergency Meeting, Nuclear Weapons in Space by DECEMBER!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=BZeSODTQwVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "0_61srvobxA",
+            "title": "Today at 7 PM on November 23, 2026: Flying objects in Poland, Ukraine sinks Russian ship, Black Week",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=0_61srvobxA"
+          },
+          {
+            "source": "youtube",
+            "id": "0ayC9yZCCNs",
+            "title": "Vladimir Solovyov threatens all Ukrainians for Crimean bridge strikes",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=0ayC9yZCCNs"
+          },
+          {
+            "source": "youtube",
+            "id": "6jKIkAS6No0",
+            "title": "Dr. James Tour: Origin-of-Life Claims Outrun Chemistry",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=6jKIkAS6No0"
+          },
+          {
+            "source": "youtube",
+            "id": "F1Qyx9-9SFs",
+            "title": "Viktig omröstning - läkemedelsindustrin slipper ansvar för skador",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=F1Qyx9-9SFs"
+          },
+          {
+            "source": "youtube",
+            "id": "Row8KvRbHHk",
+            "title": "Islam Is False By Its Own Standard (Science)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=Row8KvRbHHk"
+          },
+          {
+            "source": "youtube",
+            "id": "WucQ22tmSro",
+            "title": "The Missing Context: The Ideology Behind Modern Jihad: Where Did It All Begin?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=WucQ22tmSro"
+          },
+          {
+            "source": "youtube",
+            "id": "btu7_5KqHiM",
+            "title": "Merz fordert deutsche Firmen zu Investitionen in der Ukraine auf, obwohl wir gerade kollabieren!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=btu7_5KqHiM"
+          },
+          {
+            "source": "youtube",
+            "id": "57fDX340dkI",
+            "title": "Grenzübertritte von Migranten: Dürfen Menschen zurückgewiesen werden?",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=57fDX340dkI"
+          },
+          {
+            "source": "youtube",
+            "id": "C48XWOO5EPI",
+            "title": "Hakeem Jeffries WON'T COMMIT To Iran War Shutdown Fight",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=C48XWOO5EPI"
+          },
+          {
+            "source": "youtube",
+            "id": "GR3U1pJ9uwk",
+            "title": "Trump’s War Strategy: Why He’s Changing His Tune on Vance",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=GR3U1pJ9uwk"
+          },
+          {
+            "source": "youtube",
+            "id": "N_icrMaF_Ac",
+            "title": "Isaac – Part 40 (Genesis 27:1): The elderly father Isaac blesses the younger son Jacob through de...",
+            "channel": "RogerLiebiLIVE",
+            "url": "https://www.youtube.com/watch?v=N_icrMaF_Ac"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "BZeSODTQwVQ",
+            "title": "⚡ALERT! Europe Braces for NUCLEAR War, NATO Emergency Meeting, Nuclear Weapons in Space by DECEMBER!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=BZeSODTQwVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "0_61srvobxA",
+            "title": "Today at 7 PM on November 23, 2026: Flying objects in Poland, Ukraine sinks Russian ship, Black Week",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=0_61srvobxA"
+          },
+          {
+            "source": "youtube",
+            "id": "0ayC9yZCCNs",
+            "title": "Vladimir Solovyov threatens all Ukrainians for Crimean bridge strikes",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=0ayC9yZCCNs"
+          },
+          {
+            "source": "youtube",
+            "id": "6jKIkAS6No0",
+            "title": "Dr. James Tour: Origin-of-Life Claims Outrun Chemistry",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=6jKIkAS6No0"
+          },
+          {
+            "source": "youtube",
+            "id": "F1Qyx9-9SFs",
+            "title": "Viktig omröstning - läkemedelsindustrin slipper ansvar för skador",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=F1Qyx9-9SFs"
+          },
+          {
+            "source": "youtube",
+            "id": "Row8KvRbHHk",
+            "title": "Islam Is False By Its Own Standard (Science)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=Row8KvRbHHk"
+          },
+          {
+            "source": "youtube",
+            "id": "WucQ22tmSro",
+            "title": "The Missing Context: The Ideology Behind Modern Jihad: Where Did It All Begin?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=WucQ22tmSro"
+          },
+          {
+            "source": "youtube",
+            "id": "btu7_5KqHiM",
+            "title": "Merz fordert deutsche Firmen zu Investitionen in der Ukraine auf, obwohl wir gerade kollabieren!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=btu7_5KqHiM"
+          },
+          {
+            "source": "youtube",
+            "id": "57fDX340dkI",
+            "title": "Grenzübertritte von Migranten: Dürfen Menschen zurückgewiesen werden?",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=57fDX340dkI"
+          },
+          {
+            "source": "youtube",
+            "id": "C48XWOO5EPI",
+            "title": "Hakeem Jeffries WON'T COMMIT To Iran War Shutdown Fight",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=C48XWOO5EPI"
+          },
+          {
+            "source": "youtube",
+            "id": "GR3U1pJ9uwk",
+            "title": "Trump’s War Strategy: Why He’s Changing His Tune on Vance",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=GR3U1pJ9uwk"
+          },
+          {
+            "source": "youtube",
+            "id": "N_icrMaF_Ac",
+            "title": "Isaac – Part 40 (Genesis 27:1): The elderly father Isaac blesses the younger son Jacob through de...",
+            "channel": "RogerLiebiLIVE",
+            "url": "https://www.youtube.com/watch?v=N_icrMaF_Ac"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "BZeSODTQwVQ",
+            "title": "⚡ALERT! Europe Braces for NUCLEAR War, NATO Emergency Meeting, Nuclear Weapons in Space by DECEMBER!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=BZeSODTQwVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "Row8KvRbHHk",
+            "title": "Islam Is False By Its Own Standard (Science)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=Row8KvRbHHk"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-24T15:07:00+00:00"
+      },
+      "workflow_run_id": "45420672597",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-24:2026-11-24:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "e86372a803a7d4ea94a4dc0a1bebe59ff39bf83faa245fd8bc56a660b7d76e58",
+        "finalization_policy": "markers",
+        "content_version": "01feabf5349daf034f59ebf1b350f1af03ca5727c38328d657096f78ac83e635",
+        "message_id": "<3e65737ec4ae201f371d58cb06f623d8543b0518757e2d780e59754c4dd49d8a@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "83210e06eb13d450_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "a8e56a98befea109eb1ee4f3f4938a5a3edadb407c184186f51416cc71ba248b"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "3bfa41243edc7835e04ff90def7df03a04f8d243ce65a9a98b9c8de808d32fec"
+      }
     }
   },
   "paper_legacy_unknown": {

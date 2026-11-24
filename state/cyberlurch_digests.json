@@ -156633,8 +156633,939 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "BZeSODTQwVQ",
+      "source": "youtube",
+      "title": "⚡ALERT! Europe Braces for NUCLEAR War, NATO Emergency Meeting, Nuclear Weapons in Space by DECEMBER!",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=BZeSODTQwVQ",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T03:08:51+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T03:08:51+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 44431,
+        "processed_unique_chars": 44431,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 5.951,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "The video reports escalating hostilities around Europe, describes NATO and Russian preparations including alleged plans to put nuclear weapons in space, and reiterates Dmitry Medvedev's restated Russian nuclear doctrine as a growing justification for possible preemptive nuclear use.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Multiple maritime corridors including the Mediterranean, Black Sea, Baltic Sea, and Caspian Sea have seen spillover attacks and increased naval harassment.",
+        "Dmitry Medvedev reiterated Russian nuclear doctrine, saying nuclear weapons would be useful and could be justified if Russia's existence is threatened or if Western actions cause unacceptable damage.",
+        "NATO intelligence, led in reports by Germany, alleges Russia may place a nuclear weapon in orbit before the end of 2026, violating the anti-space nuclear treaty."
+      ],
+      "transcript_notable_claims": [
+        "The Kerch Bridge has been rendered incapacitated for at least a year and is unlikely to be rebuilt due to reconstruction vulnerability.",
+        "KH-101 missiles entered Polish airspace and NATO placed Polish air defenses on high alert while deploying an AWACS aircraft.",
+        "Fifteen Russian oil refineries were struck this month, significantly reducing Russian refining capacity.",
+        "Kaliningrad suffered attacks and is preparing for a blockade and investing 600 million in railway ferries to bypass the Suwałki Corridor.",
+        "A 1962 US exo-atmospheric nuclear test, Starfish Prime, destroyed roughly one third of the satellites then in orbit and produced damaging EMP effects.",
+        "A high-altitude nuclear detonation today could collapse GPS, telecommunications, and electrical grids depending on yield and location.",
+        "Medvedev declared that Western nuclear weapons supplied to Ukraine, covertly or overtly, would justify a Russian preemptive nuclear strike."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether the Kaliningrad attack originated from Lithuania or from the Baltic Sea, with competing attributions mentioned.",
+        "NATO's allegation that Russia will put a nuclear weapon in space by the end of 2026 remains an accusation and is presented without independent verification in the transcript.",
+        "The transcript expresses uncertainty about whether nations like North Korea already have exo-atmospheric nuclear-capable satellites, citing expert claims without confirmation."
+      ],
+      "important_details": [
+        "NATO has convened meetings and placed Polish air defenses on high alert while deploying an AWACS early warning aircraft to the region.",
+        "Russia is allocating funds to build rail-ferry capacity to mitigate a potential closure of the Suwałki Corridor that would choke overland supply routes to Kaliningrad.",
+        "Operation Dominic / Starfish Prime in 1962 produced E1, E2, and E3 EMP components that destroyed electronics near the epicenter and damaged satellites globally."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "BZeSODTQwVQ",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "0_61srvobxA",
+      "source": "youtube",
+      "title": "Today at 7 PM on November 23, 2026: Flying objects in Poland, Ukraine sinks Russian ship, Black Week",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=0_61srvobxA",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 21531,
+        "processed_unique_chars": 21531,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Die Nachrichtensendung berichtet über NATO-Besorgnis wegen russischer Flugobjekte in Polen, ukrainische Angriffe auf ein russisches Kriegsschiff vor Libyen, die Rückkehr des Nvidia-Gründers Huang nach Rücktritt, das Scheitern der Weltklimakonferenz in Antalya sowie weitere nationale Themen wie Waldgesundheit, Bombendrohungen gegen Schulen und Tarifstreiks.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Bei einem NATO-Treffen in Berlin warnt Bundeskanzler März vor russischen Provokationen nach mehreren Luftraumverletzungen und Einschlägen in Polen.",
+        "Die ukrainischen Streitkräfte berichten, die Corvette Mercury vor der Küste Libyens mit sieben selbstgebauten Seedrohnen versenkt zu haben.",
+        "Nvidia bringt Mitbegründer Huang zehn Tage nach seinem Rücktritt wieder als Konzernchef zurück, worauf der Aktienkurs um mehr als 30% stieg."
+      ],
+      "transcript_notable_claims": [
+        "Polen meldet, dass drei russische Flugobjekte, darunter offenbar Marschflugkörper, im Rahmen eines Manövers eingeschlagen seien.",
+        "NATO-Generalsekretär Rütte bezeichnete den Einschlag in Polen als gefährlichen Vorfall, den die NATO genau untersuche.",
+        "Der ukrainische Präsident Selenski erklärte, die Angriffe sollen Russland zeigen, dass seine globalen Interessen verwundbar sind.",
+        "US-Präsident Trump sagte, er habe Einfluss auf die Entscheidung genommen, Huang wieder als Nvidia-Chef zu installieren.",
+        "Die Weltklimakonferenz in Antalya endete nach zwei Wochen Verhandlungen ohne Abschlusserklärung.",
+        "Eine Untersuchung zeigt, dass sich seit 2025 die Schäden in deutschen Wäldern teilweise zurückbilden, weil geschwächte Fichtenbestände abgestorben sind."
+      ],
+      "transcript_uncertainties": [
+        "Bei dem ukrainischen Angriff auf die Corvette Mercury ist unklar, von wo die Seedrohnen gestartet wurden.",
+        "Es gibt keine gesicherten Hinweise darauf, wer die Bombendrohungs-E-Mails an hunderte Schulen verschickte.",
+        "Die Ermittlungen gegen Huang wegen der Affäre und möglicher Sicherheitsprobleme dauern bei Aufsichtsbehörden und Geheimdiensten an."
+      ],
+      "important_details": [
+        "Die NATO erwägt eine Ausweitung der Fähigkeiten an der Ostflanke und Polen soll offenbar ein Airwax-Frühwarnflugzeug zugesagt bekommen haben.",
+        "Die DB Regio testet Pilotprojekte mit Doppelbesetzung und Bodycams mit Ton, auf den getesteten Strecken gingen Übergriffe spürbar zurück.",
+        "Die IGM fordert im Tarifstreit 5% mehr Geld und tarifliche Beschäftigungssicherung; die Arbeitgeber bieten eine Einmalzahlung und 1,3% ab Juli 2028."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "0_61srvobxA",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@russianmediamonitor"
+      },
+      "id": "0ayC9yZCCNs",
+      "source": "youtube",
+      "title": "Vladimir Solovyov threatens all Ukrainians for Crimean bridge strikes",
+      "channel": "russianmediamonitor",
+      "url": "https://www.youtube.com/watch?v=0ayC9yZCCNs",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 1813,
+        "processed_unique_chars": 1813,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "transcript_full_summary": "Vladimir Solovyov threatens comprehensive destruction of Ukrainians and major Ukrainian cities in retaliation for strikes such as those on the Crimean bridge, promising revenge after a China meeting and naming specific targets for annihilation.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Vladimir Solovyov declares that Russia will 'destroy you all' in response to Ukrainian attacks.",
+        "Solovyov asserts that Russia will restore and improve any damaged structures and that such attacks will only harden Russian resolve.",
+        "Solovyov names Odessa, Mykolaiv, Kyiv, Kharkiv and Dnipropetrovsk as cities that 'should not exist' and calls to 'erase them from the face of the earth'."
+      ],
+      "transcript_notable_claims": [
+        "Russia's people survived the 2012 Moscow fire, the destruction of Stalingrad, the siege blockade tragedies and 1,400 burned villages and towns.",
+        "Solovyov predicts that after the China meeting Russia will take terrible revenge and that consequences of 'your baseness' will become visible.",
+        "Solovyov expresses hope that the Southern bridge will be destroyed tonight and that the Kyiv dam will be destroyed."
+      ],
+      "transcript_uncertainties": [
+        "Solovyov says 'I hope' the Southern bridge and the Kyiv dam will be destroyed, indicating uncertainty about whether those attacks will occur.",
+        "Solovyov admits that destruction of some targets 'most likely will take some time', indicating timing is uncertain."
+      ],
+      "important_details": [
+        "Solovyov frames Ukrainian target selection as subjective and asserts that what Ukrainians deem 'principled' does not affect Russian determination.",
+        "Solovyov ties Russian resilience to historical traumas as justification for extreme retaliation."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "0ayC9yZCCNs",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DrJamesTour"
+      },
+      "id": "6jKIkAS6No0",
+      "source": "youtube",
+      "title": "Dr. James Tour: Origin-of-Life Claims Outrun Chemistry",
+      "channel": "DrJamesTour",
+      "url": "https://www.youtube.com/watch?v=6jKIkAS6No0",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "6jKIkAS6No0",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "F1Qyx9-9SFs",
+      "source": "youtube",
+      "title": "Viktig omröstning - läkemedelsindustrin slipper ansvar för skador",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=F1Qyx9-9SFs",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 760,
+        "processed_unique_chars": 760,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "transcript_full_summary": "En kommande omröstning i Europaparlamentet behandlar möjligheten att kräva ansvar av läkemedelsbolag, och en film på Rumble beskriver vad som beslutas i EU och hur det drabbar små aktörer.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Europaparlamentet kommer på onsdag att rösta om möjligheten till ansvarsutkrävande för läkemedelsbolag.",
+        "En film på Rumble förklarar vad som beslutas i EU bakom medborgarnas ryggar.",
+        "Kvinnan i samtalet säger att förslaget drabbar den lilla, inte den stora."
+      ],
+      "transcript_notable_claims": [
+        "Vad som röstats fram i EU sker bakom medborgarnas ryggar.",
+        "Det föreslagna beslutet kommer att drabba små aktörer snarare än stora företag."
+      ],
+      "transcript_uncertainties": [
+        "Det framgår inte exakt hur omröstningen formellt utformas eller vilka juridiska förändringar som föreslås.",
+        "Det är oklart vilka specifika konsekvenser omröstningen skulle få i det långa loppet enligt filmen."
+      ],
+      "important_details": [
+        "Filmen om omröstningen har publicerats på Rumble och uppmanas att ses före onsdagens omröstning."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "F1Qyx9-9SFs",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Daily_Dose_Of_Wisdom"
+      },
+      "id": "Row8KvRbHHk",
+      "source": "youtube",
+      "title": "Islam Is False By Its Own Standard (Science)",
+      "channel": "Daily_Dose_Of_Wisdom",
+      "url": "https://www.youtube.com/watch?v=Row8KvRbHHk",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 13145,
+        "processed_unique_chars": 13145,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.979,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript argues that the Quran and associated Hadiths describe stars as missiles thrown at devils, presents this as a literal divine claim that conflicts with modern astronomy, and uses that conflict among other scientific and moral issues to explain why some people leave Islam.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Quran describes stars as adornments placed in a nearest heaven and as missiles thrown at rebellious devils.",
+        "Authenticated Hadiths describe shooting stars as fireballs thrown at jinns that attempt to steal information from Allah's throne.",
+        "The transcript contrasts the Quran's claimed divine, literal perspective with the Bible's human-perspective inspiration and treats Quranic natural descriptions as factual assertions."
+      ],
+      "transcript_notable_claims": [
+        "The Quran repeatedly appeals to the natural world to prove its divine truth and therefore makes scientific claims that can be evaluated.",
+        "Shooting stars are meteorites and not stars, so the Quranic description of stars as missiles is a primitive and wrong description.",
+        "Because Muslims regard the Quran as the flawless direct speech of Allah, factual errors in Quranic natural descriptions must be ascribed to Allah himself."
+      ],
+      "transcript_uncertainties": [
+        "Some Muslims argue the Quran should not be taken literally or that its references to nature are not scientific claims.",
+        "There is no single method that reliably convinces every Muslim that Islam is false, and different individuals respond to scientific, moral, or literary critiques differently."
+      ],
+      "important_details": [
+        "The Quran mentions seven heavens including a specific nearest heaven called the heaven of the earth where stars are placed.",
+        "Hadith narratives state that jinns collaborate with soothsayers and attempt to ascend to Allah's throne to learn secrets, prompting angels to throw stars as missiles."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "Row8KvRbHHk",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "WucQ22tmSro",
+      "source": "youtube",
+      "title": "The Missing Context: The Ideology Behind Modern Jihad: Where Did It All Begin?",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=WucQ22tmSro",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 28271,
+        "processed_unique_chars": 28271,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.979,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The video traces the historical development of Islamism from Muhammad's 7th-century community through early Sunni–Shia disputes to 20th-century figures like Hassan al-Banna, Sayyid Qutb, Abdullah Azzam, and the 1979 Iranian Revolution, arguing that Islamism is a political ideology distinct from Islam that globalized jihad and now threatens the West.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Muhammad founded a religious and political community in 7th-century Arabia that expanded by preaching and conquest.",
+        "The Sunni–Shia split began over succession disputes after Muhammad's death, culminating in Hussein's death at Karbala in 680.",
+        "Hassan al-Banna founded the Muslim Brotherhood in 1928 to make Islam the organizing principle of society and government."
+      ],
+      "transcript_notable_claims": [
+        "Ibn Taymiyya argued that rulers who called themselves Muslim but did not govern by Islamic law could be fought and deemed unbelievers.",
+        "Sayyid Qutb reinterpreted jahiliyyah as a modern political condition and argued that many Muslim societies lived in a state of ignorance requiring radical change.",
+        "Abdullah Azzam declared defending formerly Muslim lands a personal religious obligation (fard al-ayn) and organized transnational recruitment for the Afghan jihad.",
+        "The Afghan war networks helped create the Taliban and al-Qaeda and internationalized violent jihad.",
+        "The 1979 Iranian Revolution demonstrated that a Shia Islamist movement could overthrow a state and build a government around its ideology.",
+        "Islamism is a political ideology distinct from Islam that seeks to organize society and government by a particular interpretation of Islam and can threaten Western democratic values."
+      ],
+      "transcript_uncertainties": [
+        "The transcript presents Qutb's claim that many Muslim countries were in jahiliyyah without independent verification of that diagnosis.",
+        "The transcript asserts that networks from the Afghan war directly produced groups like the Taliban and al-Qaeda without documenting specific organizational links.",
+        "The transcript states that the West is in danger from Islamism as a general claim without specifying measured criteria or evidence."
+      ],
+      "important_details": [
+        "Ali became the fourth caliph but was assassinated in 661, and the subsequent succession conflict led to Yazid's contested rule and Hussein's martyrdom at Karbala.",
+        "The Muslim Brotherhood expanded from three branches in 1929 to 300 branches by 1938 and built schools, mosques, charities, and community networks across Egypt.",
+        "Abdullah Azzam established madrasas in Pakistan that provided free education to poor boys and promoted recruitment for the Afghan jihad."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "WucQ22tmSro",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "btu7_5KqHiM",
+      "source": "youtube",
+      "title": "Merz fordert deutsche Firmen zu Investitionen in der Ukraine auf, obwohl wir gerade kollabieren!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=btu7_5KqHiM",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8025,
+        "processed_unique_chars": 8025,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.985,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8025",
+        "recency"
+      ],
+      "transcript_full_summary": "Der Beitrag kritisiert Friedrich Merz scharf dafür, deutsche Firmen aufzufordern, in der Ukraine zu investieren, und behauptet, dass Deutschland bereits für Kriegsschäden in der Ukraine zahle und dadurch die eigene Wirtschaft und Arbeitsplätze geschädigt würden.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Friedrich Merz hat deutsche Firmen aufgefordert, trotz Krieg in der Ukraine jetzt zu investieren.",
+        "Das Bundeswirtschaftsministerium vergibt günstige Darlehen im Programm Connect zur Förderung dieser Investitionen.",
+        "Die Bundesregierung habe seit Beginn der Invasion rund 80 Milliarden Euro für die Ukraine bereitgestellt."
+      ],
+      "transcript_notable_claims": [
+        "Merz fordert deutsche Unternehmen auf, Werke in der Ukraine zu bauen, statt in Deutschland zu investieren.",
+        "Deutschland soll per Investitionsgarantien und Versicherungsfonds für Kriegsschäden in der Ukraine haften.",
+        "Der ukrainische Ministerpräsident Serhij Korretzkyj dankt der deutschen Bevölkerung und bezeichnet Deutschland als unverzichtbar.",
+        "Die Präsenz deutscher Firmen in der Ukraine habe sich seit 2022 verdreifacht.",
+        "Der Fonds zur Absicherung von Kriegsrisiken starte mit einem Startkapital von 3 Milliarden Euro.",
+        "Die Umfrage der Rating Group im August 2026 zeige 64% positive Bewertung Merz’ in der Ukraine und 12% in Deutschland."
+      ],
+      "transcript_uncertainties": [
+        "Die Aussage, dass Deutschland bereits indirekt für alle Schäden in der Ukraine zahle, bleibt ohne detaillierte rechtliche Belege im Text.",
+        "Die Behauptung, Investitionsgarantien würden ausdrücklich Entschädigungen für entgangenen Gewinn einschließen, wird im Beitrag behauptet, aber ohne zitierte vertragliche Dokumente erklärt."
+      ],
+      "important_details": [
+        "Das Programm Connect soll günstige Darlehen bereitstellen, um private Investitionen in der Ukraine zu fördern.",
+        "Europäische Flagship-Fonds sollen mit 220 Euro ein Vielfaches an privatem Kapital mobilisieren, um Investitionen zu stimulieren.",
+        "Russland habe in den vergangenen Tagen 71 Marschflugkörper, 29 ballistische Raketen und 404 Drohnen auf die Ukraine abgefeuert, weshalb ein Versicherungsfonds gegen Kriegsrisiken gestartet werde."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "btu7_5KqHiM",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "57fDX340dkI",
+      "source": "youtube",
+      "title": "Grenzübertritte von Migranten: Dürfen Menschen zurückgewiesen werden?",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=57fDX340dkI",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5001,
+        "processed_unique_chars": 5001,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Der Europäische Gerichtshof für Menschenrechte hat entschieden, dass Staaten in der besonderen Lage, dass Belarus Migranten instrumentalisiert, die Einreise verweigern und Menschen zurückführen dürfen, aber bestimmte besonders schutzbedürftige Personen von Rückführungen ausgenommen sind.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Der Europäische Gerichtshof für Menschenrechte hat differenziert entschieden, dass Staaten die Einreise verweigern und Rückführungen vornehmen dürfen, wenn Belarus Migranten gezielt instrumentalisiert.",
+        "Vom Rückführungsverbot ausgenommen sind besonders hilfsbedürftige Personen wie kleine Kinder, hilflose Erwachsene, alte Menschen und sehr Kranke sowie Personen, denen bei Rückführung Folter oder Ermordung droht.",
+        "Die europäische Menschenrechtskonvention verpflichtet zu menschenwürdigem Umgang mit eingereisten Migranten und verbietet etwa willkürliche Inhaftierung."
+      ],
+      "transcript_notable_claims": [
+        "Belarus hat Migranten bewusst durch eigene Grenzbeamte an die Grenzen zu Polen, Litauen und Lettland gebracht, um in diesen Staaten eine Migrationskrise hervorzurufen.",
+        "Staaten dürfen in solchen Sonderlagen Menschen die Einreise verwehren und bereits Eingereiste zurückführen, allerdings nicht die besonders Schutzbedürftigen oder diejenigen, denen Folter droht.",
+        "Die europäische Menschenrechtskonvention ist Recht des Europarats mit 46 Mitgliedern und hat kein eigenes Asylrecht, das aber im EU-Recht und im deutschen Grundgesetz verankert ist."
+      ],
+      "transcript_uncertainties": [
+        "Das Urteil ist sehr lang und komplex, und nicht alle Einzelklagen gingen gleich aus, sodass Details der Urteilsanwendung variieren können.",
+        "Es ist unklar, ob eine vergleichbare Situation wie die Instrumentalisierung durch Belarus realistischerweise an den deutschen Grenzen auftreten wird."
+      ],
+      "important_details": [
+        "Die Ausnahmen vom Zurückweisungsrecht betreffen Personen, die 'beweisen können', dass ihnen bei Rückführung Folter oder Ermordung droht.",
+        "Die europäische Menschenrechtskonvention gilt für Staaten außerhalb der EU wie die Türkei, Serbien und die Schweiz, weshalb ihre Rechtsordnung anders ist als EU-Recht."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "57fDX340dkI",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@breakingpoints"
+      },
+      "id": "C48XWOO5EPI",
+      "source": "youtube",
+      "title": "Hakeem Jeffries WON'T COMMIT To Iran War Shutdown Fight",
+      "channel": "breakingpoints",
+      "url": "https://www.youtube.com/watch?v=C48XWOO5EPI",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 7737,
+        "processed_unique_chars": 7737,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 2.913,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:7737",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript contrasts Abdul El-Sayed's push to shut down the government to defund the war with Iran with Hakeem Jeffries's refusal to commit to a shutdown, and argues that new members and the Democratic base must force party leaders to end the war funding.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Abdul El-Sayed is leading efforts to shut down the government to defund the war with Iran.",
+        "Hakeem Jeffries refused to commit to shutting down the government to stop war funding and said he would not say one way or the other.",
+        "The hosts claim that Democratic leaders such as Jeffries and Chuck Schumer prefer to avoid a shutdown fight despite public mandate to end the war funding."
+      ],
+      "transcript_notable_claims": [
+        "Donald Trump has chosen his war over a functional government and over Americans' ability to afford gas and groceries.",
+        "Congress does not have a responsibility to fund an illegal, unjustified war according to the quoted statement.",
+        "Chuck Schumer has been extremely hawkish on Iran and opposed Obama's nuclear deal earlier in his career.",
+        "If Senatorial challenger Van Hollen defeats Schumer, the landscape for forcing an end to the war funding could change.",
+        "New members like Abdul are driving policy and negotiations more than established leaders such as Chuck Schumer."
+      ],
+      "transcript_uncertainties": [
+        "Hakeem Jeffries said he would not commit 'one way or the other' because possibilities depend on the appropriations process.",
+        "The hosts express uncertainty about whether Democrats will actually use a shutdown to end war funding."
+      ],
+      "important_details": [
+        "The hosts argue that the recent election gave Democrats at least a 258-member House majority and a mandate they attribute largely to opposition to the Iran war.",
+        "The transcript states that Iran is in a stronger position now than before the war began, implying greater difficulty in ending the conflict."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "C48XWOO5EPI",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@judgingfreedom"
+      },
+      "id": "GR3U1pJ9uwk",
+      "source": "youtube",
+      "title": "Trump’s War Strategy: Why He’s Changing His Tune on Vance",
+      "channel": "judgingfreedom",
+      "url": "https://www.youtube.com/watch?v=GR3U1pJ9uwk",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3975,
+        "processed_unique_chars": 3975,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.973,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3975",
+        "recency"
+      ],
+      "transcript_full_summary": "The transcript describes internal US political conflict over the Iran war and predicts a forthcoming massive US bombing campaign against Iran while criticizing Vice President Vance's political standing and Trump's inconsistent directives.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Vice President Vance adopted Trump rhetoric and later tried to distance himself from it.",
+        "Millions of voters repudiated Donald Trump and his administration at the polls, according to the transcript.",
+        "The transcript predicts a massive saturation bombing operation against Iran will occur before January 1."
+      ],
+      "transcript_notable_claims": [
+        "Trump repeatedly said he was not on the ballot and that this affected the election outcome.",
+        "The US has been conducting pinprick attacks on Iran that provoke Iranian retaliatory damage to US assets such as radars in Bahrain.",
+        "The intended bombing campaign aims to cause the Iranian government to implode, kill many people associated with it, and disintegrate Iranian society."
+      ],
+      "transcript_uncertainties": [
+        "It is uncertain whether Congressional Democrats will actually defund the Iran war despite debate and discussion.",
+        "The timing of orders to Admiral Cooper and the exact military instructions are not confirmed in the transcript.",
+        "The prediction that the massive bombing will occur before January 1 is stated as the speaker's belief and could be wrong."
+      ],
+      "important_details": [
+        "Repeated US attacks on Iran have resulted in the loss of important and costly radars that are vital to air force command and control.",
+        "Political consequences include that people associated with Trump risk being politically ostracized or losing office because millions repudiated Trump at the polls.",
+        "Trump initially directed Vice President Vance to begin negotiations in Islamabad and then reversed course, ordering him to return and work on domestic corruption."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "GR3U1pJ9uwk",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@RogerLiebiLIVE"
+      },
+      "id": "N_icrMaF_Ac",
+      "source": "youtube",
+      "title": "Isaac – Part 40 (Genesis 27:1): The elderly father Isaac blesses the younger son Jacob through de...",
+      "channel": "RogerLiebiLIVE",
+      "url": "https://www.youtube.com/watch?v=N_icrMaF_Ac",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 36917,
+        "processed_unique_chars": 36917,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "cyberlurch_deep_dive_score": 3.979,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "The sermon examines Genesis 26–27, portraying Isaac as a God-blessed witness whose failing sight and spiritual blindness allow Rebekah to conspire with Jacob to obtain the patriarchal blessing meant for Esau, producing family division and long-term consequences.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Isaac lived as a visible witness among the Gentiles, and God made even his enemies be at peace with him.",
+        "Esau married Hittite and Canaanite women, which caused grief to Isaac and Rebekah and revealed Esau's godlessness.",
+        "Rebekah instructed Jacob to deceive blind Isaac so Jacob would receive the Abrahamic blessing intended for the firstborn Esau."
+      ],
+      "transcript_notable_claims": [
+        "Proverbs 16:7 is illustrated by Isaac's experience of peace with hostile neighbors.",
+        "Old Testament mission consisted of Abraham and Isaac serving as witnesses for the true God among Canaanites.",
+        "1 Peter 3 recommends behaving well so neighbors and colleagues will show respect, though suffering for righteousness may still occur.",
+        "The Genesis narrative deceives all five of Isaac's senses—sight, taste, touch, hearing and smell—so that Jacob obtains the blessing.",
+        "God's sovereign counsel would have been fulfilled without Jacob and Rebekah's deception, but they forced a sinful course with catastrophic family consequences.",
+        "Age and comfort made Isaac susceptible to sinful decisions, and trying to force God's promise through sin leads to disaster."
+      ],
+      "transcript_uncertainties": [
+        "The sermon suggests God could have caused Esau to die during the hunt as an alternative but does not assert that occurred.",
+        "The speaker acknowledges that Jacob's receiving the blessing does not necessarily mean Esau was rejected in terms of salvation."
+      ],
+      "important_details": [
+        "Isaac blessed Jacob with promises of dew from heaven, the fatness of the earth, abundant grain and wine, and dominion so that peoples and nations would serve him.",
+        "After Isaac unknowingly blessed Jacob, Esau returned, wept bitterly, and received a lesser blessing that promised a life by the sword and eventual breaking of Jacob's yoke.",
+        "Rebekah instructed Jacob to flee to her brother Laban in Haran until Esau's anger subsided, causing Jacob to leave the land for about twenty years."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "N_icrMaF_Ac",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BlackScoutSurvival"
+      },
+      "id": "ReH3DKNTUq0",
+      "source": "youtube",
+      "title": "This Is Getting Worse Than They're Telling Us...",
+      "channel": "BlackScoutSurvival",
+      "url": "https://www.youtube.com/watch?v=ReH3DKNTUq0",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 16763,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.979,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "video_id": "ReH3DKNTUq0",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@THEALPHAPATHYT"
+      },
+      "id": "T64_u9Kc0ao",
+      "source": "youtube",
+      "title": "Elijah Killed 450 Prophets. S Tier? (Bible Tier List)",
+      "channel": "THEALPHAPATHYT",
+      "url": "https://www.youtube.com/watch?v=T64_u9Kc0ao",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-24T04:30:00+00:00",
+      "screened_at": "2026-11-24T04:30:00+00:00",
+      "expires_at": "2026-11-27T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 40503,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 3.979,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "video_id": "T64_u9Kc0ao",
+      "processed_at_utc": "2026-11-24T15:07:00+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-23T15:05:51+00:00",
+  "updated_at_utc": "2026-11-24T15:07:00+00:00",
   "version": 1
 }
