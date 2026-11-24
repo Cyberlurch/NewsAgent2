@@ -30088,6 +30088,935 @@
         "approved_after_generation_checks": true,
         "seal": "3bfa41243edc7835e04ff90def7df03a04f8d243ce65a9a98b9c8de808d32fec"
       }
+    },
+    "cybermed:daily:2026-11-24:2026-11-24:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-24",
+      "period_end": "2026-11-24",
+      "edition_id": "cybermed:daily:2026-11-24:2026-11-24:production",
+      "content_version": "a507ce96d8ea56bcdb178e58bf644802c8b1cd21c1ede43db0c30956d8fa3e7e",
+      "message_id": "<09c2575f62003771c77010a7a0e0f656466b216c9af483df5db3f11af278c25e@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-24T15:20:04+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43010735",
+            "title": "Reply to Yu et al. and to Liu.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43010735/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43010729",
+            "title": "One Size Does Not Fit All: The Blind Spot of Spirometry in the ELEVATE-IPF Trial.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43010729/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43010728",
+            "title": "Bedside EIT Identifies Prone-Position-Associated V/Q Deterioration, Prompting Therapy Modification in an Infant with Severe Pneumonia and BPD.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43010728/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43010726",
+            "title": "Dose Pooling and Informative Withdrawal Complicate the ELEVATE-IPF Efficacy Claim.",
+            "channel": "PubMed: American Journal of Respiratory and Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43010726/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43009017",
+            "title": "Sugammadex versus Neostigmine-Glycopyrrolate for Reducing the Risk of Postoperative Urinary Retention in High-Risk Patients Undergoing Otolaryngologic Surgery: A Randomised Controlled Trial.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43009017/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007875",
+            "title": "Expertise by Design: Why Modern Training Requires Deliberate Cultivation.",
+            "channel": "PubMed: Anesthesia & Analgesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007875/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43043325",
+            "title": "Ultrasound-Guided Suprascapular Nerve Block Versus Intravenous Fentanyl for Analgesia in Patients Presenting to the Emergency Department With Traumatic Scapular Fractures.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43043325/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43023038",
+            "title": "Beyond blood glucose targets: integrating glucose variability into acute glycemic care in French ICUs - a multicenter prospective study.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023038/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43025806",
+            "title": "How I Do It: An Intensivist's guide to RV Failure and Right Ventricular Assist Devices.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025806/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43025805",
+            "title": "Comparative Effectiveness of GLP-1 Receptor Agonists versus DPP-4 and SGLT2 Inhibitors in Patients with Bronchiectasis and Type 2 Diabetes.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025805/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43025804",
+            "title": "The Burden of Chronic Cough in Patients With Interstitial Lung Disease: a US Survey-Based Analysis of Its Effects on Daily Life and Emotional and Social Well-Being.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025804/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015891",
+            "title": "Optimizing aztreonam/ceftazidime-avibactam for difficult-to-treat Stenotrophomonas maltophilia pneumonia: the importance of continuous infusion and therapeutic drug monitoring.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015891/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015851",
+            "title": "Cardioversion and stroke volume index rather than heart rate alone define haemodynamic success of rate control in septic shock-associated atrial fibrillation.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015851/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015887",
+            "title": "Early albumin use and mortality in critically III children with severe hypoalbuminemia: a target trial emulation study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015887/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015817",
+            "title": "Sigh ventilation versus conventional protective ventilation in cardiac surgery: a proof-of-concept randomized controlled trial.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015817/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015803",
+            "title": "Dynamic reprogramming of alveolar epithelial-immune cell interactions in ARDS: from mechanisms to clinical translation.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015803/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015890",
+            "title": "Conflict in intensive care units: a conceptual framework for patient, family, team, and inter-service disagreement.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015890/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015819",
+            "title": "The evolution of biocontainment unit care for high-consequence infectious diseases: progress, lessons learned, and future directions.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015819/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015830",
+            "title": "Using capnography to differentiate airway from gastrointestinal placement of nasogastric tubes: a prospective multicentre diagnostic accuracy study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015830/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012627",
+            "title": "Characterization of Urgent ICU Consultations in the Evaluation of Processes of Care and the Outcomes of Children in Hospital (EPOCH) Randomized Clinical Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012627/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012624",
+            "title": "Low Physical Activity and Reported Barriers Among Survivors of Critical Illness: A Mixed-Method Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012624/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012622",
+            "title": "Evaluation of Sequential Organ Failure Assessment-2 Performance Across Demographic Subgroups: An External Validation Using MIMIC-IV.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012622/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012620",
+            "title": "The Effect of Guanfacine on Delirium in Surgical and Trauma ICU Patients: A Pilot Randomized Clinical Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012620/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012619",
+            "title": "Composite Endpoints in Critical Care Delirium Trials.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012619/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012617",
+            "title": "Normocapnia Versus Mild Hypercapnia During Lung Protective Ventilation in Acute Respiratory Distress Syndrome: A Target Trial Emulation.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012617/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012576",
+            "title": "Circulating Cell-Free Mitochondrial DNA, Delirium, and Long-Term Cognitive Impairment in Critically Ill Adults With Sepsis: A Prospective Cohort Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012576/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43012575",
+            "title": "Alarm Fatigue Across Critical Care Domains: Comparative Insights and Independent Predictors From a Cross-Sectional Multicenter Survey Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012575/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018723",
+            "title": "What is your diagnosis? A life-threatening complication in severe acute pancreatitis.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018723/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018722",
+            "title": "From pneumonia to ARDS: a dynamic pulmonary-systemic framework.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018722/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/fgebm-hypothermia/",
+            "title": "FGEBM 005 – In Which We Beat a Slow Retreat from Therapeutic Hypothermia",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/fgebm-hypothermia/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://rebelem.com/clinical-conundrum-does-panscanning-stable-trauma-patients-improve-outcomes/",
+            "title": "Clinical Conundrum — Does Panscanning Stable Trauma Patients Improve Outcomes?",
+            "channel": "REBEL EM",
+            "url": "https://rebelem.com/clinical-conundrum-does-panscanning-stable-trauma-patients-improve-outcomes/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/speng-block-a-single-posterior-injection-for-suprascapular-and-axillary-nerve-coverage/",
+            "title": "SPENG Block: A Single Posterior Injection for Suprascapular and Axillary Nerve Coverage",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/speng-block-a-single-posterior-injection-for-suprascapular-and-axillary-nerve-coverage/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/hypoxia-in-a-well-neonate/",
+            "title": "Hypoxia in a well neonate: when the numbers don’t fit",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/hypoxia-in-a-well-neonate/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.tamingthesru.com/blog/diagnostics/tickborneillnesses",
+            "title": "Tick-Borne Illnesses",
+            "channel": "Taming the SRU",
+            "url": "https://www.tamingthesru.com/blog/diagnostics/tickborneillnesses"
+          },
+          {
+            "source": "pubmed",
+            "id": "43023009",
+            "title": "Corrigendum to \"Innate Immune Response in COVID-19 Pneumonia During the Pandemic: A Prospective Cohort Study\" [Ann Intensive Care (2026) 100182].",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023009/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "43043325",
+            "title": "Ultrasound-Guided Suprascapular Nerve Block Versus Intravenous Fentanyl for Analgesia in Patients Presenting to the Emergency Department With Traumatic Scapular Fractures.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43043325/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43043325",
+              "doi": "10.1016/j.annemergmed.2026.09.009",
+              "kind": "original",
+              "source_version": "e819f3a6050c8ea81d14bbbbf4eb052c33d555f47084c92cf71dcbc7c7e944ac",
+              "fields": {
+                "title": "82559e201686c72e0f25e6be7755105d9a603a83fd57be076a1d2685387a3e7b",
+                "abstract": "e49e8fec0e01780e59e73ffa0ac049bf817b92aaf4d87b6c0688663e1506c8fc",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "156d76fdca127468a17c260f4a8273ce269b6eedf5b8f99067db07ff8cf3b346",
+                "results_known": false,
+                "numbers": "c08080893392e86d5dd644ae39c542ae921a9fb0abf1caa8f3115a79e7ffe2d0",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "7689204438c674e63af6beaf1eed2c712c274189617bca591efd52198b5659eb",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43025805",
+            "title": "Comparative Effectiveness of GLP-1 Receptor Agonists versus DPP-4 and SGLT2 Inhibitors in Patients with Bronchiectasis and Type 2 Diabetes.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025805/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43025805",
+              "doi": "10.1016/j.chest.2026.11.005",
+              "kind": "original",
+              "source_version": "3a289afdad7c568b4b63575abad19541e1ce265576f2460312e1eef26e3553ba",
+              "fields": {
+                "title": "c2e4b581481ae8996d4a0ac57e9217049395512843ec4c4c4fc2271080a018c5",
+                "abstract": "03fe585df581fcd0e0b60514011b57b9c4d61db6d75bd852dcc14c2f030df55e",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "f7f4ee5d0bcfc0368bf30b0c172e22580b287f868acdd802f614f2f877f39a58",
+                "results_known": false,
+                "numbers": "82314960f7d4919a4e054b814788c9818a27f73d2c4cbecef24af6e9630eaafb",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "bcf60d4e9c5022fadcb54ebaf0f9cd476a9e5aad7f6fd3b6f0986069e25a6dbd",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43025804",
+            "title": "The Burden of Chronic Cough in Patients With Interstitial Lung Disease: a US Survey-Based Analysis of Its Effects on Daily Life and Emotional and Social Well-Being.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025804/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43025804",
+              "doi": "10.1016/j.chest.2026.11.003",
+              "kind": "original",
+              "source_version": "6e59df3d69a4b7b1db08e8f2fe893f989bab29b5e6b364ce5ebeb34cd877ad63",
+              "fields": {
+                "title": "d9979a9cf31df009129845d4d59b3e2d4e976817499c3ff99a52f890f1c5b450",
+                "abstract": "1a97754efcaf4b86f1c68ec95da7686d37c3ca73868ccf441e428ef1aeee70df",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0c1ad6a8d018bcfa7b9729e7c4256ba35f38e05bf826e8c9e4a6b36ef9ca9c68",
+                "results_known": false,
+                "numbers": "f6bc70441dddda71bbb63941966813cb2b50288c5a0a6690c6eb4f0551f85a2f",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "b3cc418df827cdfad1f277fc8a59b6832b4def4d7fd630452fab3bbef4c0a78e",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43012620",
+            "title": "The Effect of Guanfacine on Delirium in Surgical and Trauma ICU Patients: A Pilot Randomized Clinical Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012620/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43012620",
+              "doi": "10.1097/ccm.0000000000007448",
+              "kind": "original",
+              "source_version": "9814c9206ba2870015a167290945ce1b7592c3bb46a72215d494de3b9901f3a5",
+              "fields": {
+                "title": "62be0ead5e63a22143bdece292f195b7dc28200a0ea4cffd36cbe655a42e6055",
+                "abstract": "2fee49e69a535f45fecc8aeb50ac34bea54357ee0677885c326b3c7616410237",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "36754ed69cf96d37d197aee42f18931eecc83a95afd3fc62e6f6f45c4060811d",
+                "results_known": false,
+                "numbers": "cb8131f1638f5b164831b1fc6b3d026caf1897b59ceea88b578dd7d9c25042dc",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43012619",
+            "title": "Composite Endpoints in Critical Care Delirium Trials.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012619/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43012619",
+              "doi": "10.1097/ccm.0000000000007420",
+              "kind": "original",
+              "source_version": "71bf6d0ba47215e7bbac7d0f9783d88b9d177877db935033d7f38f4e8814afa1",
+              "fields": {
+                "title": "5fe81e7376593dab29162c1a150ac5506e4cf00eade216b1e09e5378415b3e1d",
+                "abstract": "ea56d287d9b181f063edf4dd916d7f7aaeb3c3f351c1c32274d4ebbb4157d980",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43012617",
+            "title": "Normocapnia Versus Mild Hypercapnia During Lung Protective Ventilation in Acute Respiratory Distress Syndrome: A Target Trial Emulation.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012617/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43012617",
+              "doi": "10.1097/ccm.0000000000007434",
+              "kind": "original",
+              "source_version": "763737a20682eb8e6bd4ab6e7718672babe5490fcdcaa53db7f34291407b3e61",
+              "fields": {
+                "title": "213dcb90d81cd7446574a662bedcbd037c48f3eb814750fe616b29094b1a006f",
+                "abstract": "f11351e6b19bd7001c61c16e948e3d0ff63b195435617299760857aab6288fde",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3142bb0c552610d74397d8eec2c7e86804f04ebc8fe32c6747cd78e729bf2a7d",
+                "results_known": false,
+                "numbers": "b0900483ac6760b7c6e1d5929990e7477f23b24071ec15f62ccbbe535ea25678",
+                "endpoint": "24a5a27d0bad6c31fc7fb56e47b56e8eb99d27445b1049ca52a979f701e45025",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43012576",
+            "title": "Circulating Cell-Free Mitochondrial DNA, Delirium, and Long-Term Cognitive Impairment in Critically Ill Adults With Sepsis: A Prospective Cohort Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012576/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43012576",
+              "doi": "10.1097/ccm.0000000000007414",
+              "kind": "original",
+              "source_version": "9d84c329fa2dd7ed7d51af10e63705848e88d9ed7fc4b9d44fd7a967f4290313",
+              "fields": {
+                "title": "3aac25ddb073a4ab7393069b97c352b2926e0132d6fa5c984cccf6278cf7b239",
+                "abstract": "0bef6ead2de89121ee7a2abb6339333ce893006ec7e925ee59974569fdff05fd",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "6d03e4e96321d74868735f97d6a531f0abd87772f74518c585a41810ea7e363b",
+                "results_known": false,
+                "numbers": "dd41c9bbcea9b3d0349c824f6f27d8fc2e5ce11aed5144ad51987c2624e7ea80",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43012627",
+            "title": "Characterization of Urgent ICU Consultations in the Evaluation of Processes of Care and the Outcomes of Children in Hospital (EPOCH) Randomized Clinical Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012627/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43012627",
+              "doi": "10.1097/ccm.0000000000007438",
+              "kind": "original",
+              "source_version": "360a1332fe9d929605175bfbecfad7a7abd1be90abe3f59e7e0db89c5f9945fe",
+              "fields": {
+                "title": "75941be2682eda25fc631f1156be9fde825a81c9151444b8988c0f23fcd68aa2",
+                "abstract": "cf0c66c458e0021e07af7ad931337909950ddaa2c6e060aa0e3946e28d357b01",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e418916af6115ab20268354f8ba75d3c27fb19738106cb17a096967056da5e46",
+                "results_known": false,
+                "numbers": "38709d0d73f0760844255e23eff787120a0b719ecef6eb3a3f5f81fea0a17256",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43012622",
+            "title": "Evaluation of Sequential Organ Failure Assessment-2 Performance Across Demographic Subgroups: An External Validation Using MIMIC-IV.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012622/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43012622",
+              "doi": "10.1097/ccm.0000000000007419",
+              "kind": "original",
+              "source_version": "148cf7ee20d06fed256e0c021c12b7a0e192e8c59501f8a2884a5243281cd727",
+              "fields": {
+                "title": "dcb75bdcdf36213641efbdbda16b02cd5b4818f516e0298c82d721044470c5d9",
+                "abstract": "658ead462574eb004830658db172adf1dff0d00bf6420b68cc2cec4b39ed0440",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "387634039d85ad70e5d777019fbaae2861743f6511969f6f4aab25342acc8014"
+              },
+              "evidence": {
+                "results": "84249a1e9287016ca2df3c25a9a6e74e432b584b3c37bef57a22335f067f92fb",
+                "results_known": false,
+                "numbers": "6c21a4b3c34068dffe1fdb02b1f73410d0679a224f60d290922ea115a020fe7f",
+                "endpoint": "7089a682161a798eb1fd5fba553ff0a901635c3567107f14959a0c47a81bad5a",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": [
+                {
+                  "ref_type": "UpdateOf",
+                  "pmid": "41959822"
+                }
+              ]
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43015817",
+            "title": "Sigh ventilation versus conventional protective ventilation in cardiac surgery: a proof-of-concept randomized controlled trial.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015817/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43015817",
+              "doi": "10.1186/s13054-026-06251-y",
+              "kind": "original",
+              "source_version": "adcc192430d5e8070cc874426210a80ed3981040c30371ba90c054779c3670e7",
+              "fields": {
+                "title": "6c9d47d4945f38a050f7f3bd6b201ea2113415f76735860ed7ab9657422d1ff5",
+                "abstract": "ed1a5ed63ce757b1bd7cf27f26fcfbfd1297c3894eff78ab98f6024472d12b95",
+                "types": "60746e2402b0c05056a57132572366e296b7b7f71376f4671d6399139619c926",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "d4cdffe0d863ca697c74eb58824207ae21d554d3b67bea0d21fe66fd342d9d1a",
+                "results_known": true,
+                "numbers": "217bba391e3e600b3411275806e2b955526494da9e3617d87181a37a61053478",
+                "endpoint": "61331e9d3769fbd85df1838025687f3abd5b8331049552b454325e1dd3aeb782",
+                "methods": "c451c6203b5925b4f45fa87e926f494eebf8047658106c5f8315db2e09e66f32",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43015887",
+            "title": "Early albumin use and mortality in critically III children with severe hypoalbuminemia: a target trial emulation study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015887/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43015887",
+              "doi": "10.1186/s13054-026-06237-w",
+              "kind": "original",
+              "source_version": "8af90c2b38e3eb166f81f581aed5964274f0b4ea3ee9637a16388c1b34641085",
+              "fields": {
+                "title": "0d7831ec58a0e82060229a5bfff33095fa8213f1e539693d359485613a3928c2",
+                "abstract": "4fb2f686978c237b739cac7ac8dcf03e0b8089ff4d9d7966a00155d5bcd8fea5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "c71169cf701f3c6d1249fa8f32f952edd6f22afa78c2540eb6472aa90f6ca344",
+                "results_known": true,
+                "numbers": "337db645afc81e3d1cab02f94a2b9df4d55bbb25cc464b79eaf1036d3d1b4af4",
+                "endpoint": "e60673d3b827258273fdae6c2c947d9a16c8d8c785ba2b3ffb0964f78f59d1b2",
+                "methods": "063cc15ec70c4c30f80b86c7c6ba9049b88243c5f3f22878474e0d6098dd52b9",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43015803",
+            "title": "Dynamic reprogramming of alveolar epithelial-immune cell interactions in ARDS: from mechanisms to clinical translation.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015803/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43015803",
+              "doi": "10.1186/s13054-026-06265-6",
+              "kind": "original",
+              "source_version": "b1346b7b2fa8ffd4f5a2bf6ddb15de6df61818c0a9306641a0b48947f3ecd5c6",
+              "fields": {
+                "title": "db3c9b0c162939dee254e9fc83d699fcfc850ff19d2add890cafd47c51f6a763",
+                "abstract": "92c5f655d3193236a2c817f42f595fd831a7b02c90df48801b0af6441ed99c35",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43015830",
+            "title": "Using capnography to differentiate airway from gastrointestinal placement of nasogastric tubes: a prospective multicentre diagnostic accuracy study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015830/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43015830",
+              "doi": "10.1186/s13054-026-06246-9",
+              "kind": "original",
+              "source_version": "3b4018ba91ac6a2987c5b2dcf837afdf4dbfff11dc5d2717327ff51f042e177f",
+              "fields": {
+                "title": "bcc2b7b66d5cfffcdddbeb89406f6747ac1fe9cf996b32355aee39e272aee5a3",
+                "abstract": "6ca4035ea262d88517d78e53482266e4ae7d66f8f197b462eac114e2674dc9e2",
+                "types": "0706729bc0e528950d6a29c7bcdbb349596d9c10d6e4c3fae42490592b699b9f",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "1434311de06c720616da55ce1d7f77e96665e575018d096fd3d4c8f36c9f164e",
+                "results_known": false,
+                "numbers": "750e19e27bd2315ee709e7a55d1fb54699f1fd7ecd8f6abfd3f9739bf01293f0",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "5a1166f1d4795e48acbd8e236a19e98933b4782e88276161f43e0656682cc897",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43023009",
+            "title": "Corrigendum to \"Innate Immune Response in COVID-19 Pneumonia During the Pandemic: A Prospective Cohort Study\" [Ann Intensive Care (2026) 100182].",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023009/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43023009",
+              "doi": "10.1016/j.aicoj.2026.100192",
+              "kind": "correction_notice",
+              "source_version": "03ebb8fd7c397a5ed9ac7102c6ede1163b174b8753d472e44c96143d75c3d98c",
+              "fields": {
+                "title": "a2443b4017d791a7c63ddceac70eaecd56c76c423da3eaf261dd63369342023e",
+                "abstract": "758a0d8fdfa596be6016f2c467a6659aee921974c996422916fb78c4ab2d20fd",
+                "types": "daec62f417fde342369cc4fe13c37aef781ae637b3d95b320312b89c98b995d9",
+                "relations": "7122a229c16815bc9f0327b64f8450101bc61a269a416a97ac40e2f95906dbea"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": [
+                {
+                  "ref_type": "ErratumFor",
+                  "pmid": "42903821"
+                }
+              ]
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "43012627",
+            "title": "Characterization of Urgent ICU Consultations in the Evaluation of Processes of Care and the Outcomes of Children in Hospital (EPOCH) Randomized Clinical Trial.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012627/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43012627",
+              "doi": "10.1097/ccm.0000000000007438",
+              "kind": "original",
+              "source_version": "360a1332fe9d929605175bfbecfad7a7abd1be90abe3f59e7e0db89c5f9945fe",
+              "fields": {
+                "title": "75941be2682eda25fc631f1156be9fde825a81c9151444b8988c0f23fcd68aa2",
+                "abstract": "cf0c66c458e0021e07af7ad931337909950ddaa2c6e060aa0e3946e28d357b01",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e418916af6115ab20268354f8ba75d3c27fb19738106cb17a096967056da5e46",
+                "results_known": false,
+                "numbers": "38709d0d73f0760844255e23eff787120a0b719ecef6eb3a3f5f81fea0a17256",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43015817",
+            "title": "Sigh ventilation versus conventional protective ventilation in cardiac surgery: a proof-of-concept randomized controlled trial.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015817/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43015817",
+              "doi": "10.1186/s13054-026-06251-y",
+              "kind": "original",
+              "source_version": "adcc192430d5e8070cc874426210a80ed3981040c30371ba90c054779c3670e7",
+              "fields": {
+                "title": "6c9d47d4945f38a050f7f3bd6b201ea2113415f76735860ed7ab9657422d1ff5",
+                "abstract": "ed1a5ed63ce757b1bd7cf27f26fcfbfd1297c3894eff78ab98f6024472d12b95",
+                "types": "60746e2402b0c05056a57132572366e296b7b7f71376f4671d6399139619c926",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "d4cdffe0d863ca697c74eb58824207ae21d554d3b67bea0d21fe66fd342d9d1a",
+                "results_known": true,
+                "numbers": "217bba391e3e600b3411275806e2b955526494da9e3617d87181a37a61053478",
+                "endpoint": "61331e9d3769fbd85df1838025687f3abd5b8331049552b454325e1dd3aeb782",
+                "methods": "c451c6203b5925b4f45fa87e926f494eebf8047658106c5f8315db2e09e66f32",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43015830",
+            "title": "Using capnography to differentiate airway from gastrointestinal placement of nasogastric tubes: a prospective multicentre diagnostic accuracy study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015830/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43015830",
+              "doi": "10.1186/s13054-026-06246-9",
+              "kind": "original",
+              "source_version": "3b4018ba91ac6a2987c5b2dcf837afdf4dbfff11dc5d2717327ff51f042e177f",
+              "fields": {
+                "title": "bcc2b7b66d5cfffcdddbeb89406f6747ac1fe9cf996b32355aee39e272aee5a3",
+                "abstract": "6ca4035ea262d88517d78e53482266e4ae7d66f8f197b462eac114e2674dc9e2",
+                "types": "0706729bc0e528950d6a29c7bcdbb349596d9c10d6e4c3fae42490592b699b9f",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "1434311de06c720616da55ce1d7f77e96665e575018d096fd3d4c8f36c9f164e",
+                "results_known": false,
+                "numbers": "750e19e27bd2315ee709e7a55d1fb54699f1fd7ecd8f6abfd3f9739bf01293f0",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "5a1166f1d4795e48acbd8e236a19e98933b4782e88276161f43e0656682cc897",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43012619",
+            "title": "Composite Endpoints in Critical Care Delirium Trials.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012619/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43012619",
+              "doi": "10.1097/ccm.0000000000007420",
+              "kind": "original",
+              "source_version": "71bf6d0ba47215e7bbac7d0f9783d88b9d177877db935033d7f38f4e8814afa1",
+              "fields": {
+                "title": "5fe81e7376593dab29162c1a150ac5506e4cf00eade216b1e09e5378415b3e1d",
+                "abstract": "ea56d287d9b181f063edf4dd916d7f7aaeb3c3f351c1c32274d4ebbb4157d980",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43012576",
+            "title": "Circulating Cell-Free Mitochondrial DNA, Delirium, and Long-Term Cognitive Impairment in Critically Ill Adults With Sepsis: A Prospective Cohort Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43012576/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43012576",
+              "doi": "10.1097/ccm.0000000000007414",
+              "kind": "original",
+              "source_version": "9d84c329fa2dd7ed7d51af10e63705848e88d9ed7fc4b9d44fd7a967f4290313",
+              "fields": {
+                "title": "3aac25ddb073a4ab7393069b97c352b2926e0132d6fa5c984cccf6278cf7b239",
+                "abstract": "0bef6ead2de89121ee7a2abb6339333ce893006ec7e925ee59974569fdff05fd",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "6d03e4e96321d74868735f97d6a531f0abd87772f74518c585a41810ea7e363b",
+                "results_known": false,
+                "numbers": "dd41c9bbcea9b3d0349c824f6f27d8fc2e5ce11aed5144ad51987c2624e7ea80",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43043325",
+            "title": "Ultrasound-Guided Suprascapular Nerve Block Versus Intravenous Fentanyl for Analgesia in Patients Presenting to the Emergency Department With Traumatic Scapular Fractures.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43043325/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43043325",
+              "doi": "10.1016/j.annemergmed.2026.09.009",
+              "kind": "original",
+              "source_version": "e819f3a6050c8ea81d14bbbbf4eb052c33d555f47084c92cf71dcbc7c7e944ac",
+              "fields": {
+                "title": "82559e201686c72e0f25e6be7755105d9a603a83fd57be076a1d2685387a3e7b",
+                "abstract": "e49e8fec0e01780e59e73ffa0ac049bf817b92aaf4d87b6c0688663e1506c8fc",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "156d76fdca127468a17c260f4a8273ce269b6eedf5b8f99067db07ff8cf3b346",
+                "results_known": false,
+                "numbers": "c08080893392e86d5dd644ae39c542ae921a9fb0abf1caa8f3115a79e7ffe2d0",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "7689204438c674e63af6beaf1eed2c712c274189617bca591efd52198b5659eb",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/speng-block-a-single-posterior-injection-for-suprascapular-and-axillary-nerve-coverage/",
+            "title": "SPENG Block: A Single Posterior Injection for Suprascapular and Axillary Nerve Coverage",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/speng-block-a-single-posterior-injection-for-suprascapular-and-axillary-nerve-coverage/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://dontforgetthebubbles.com/hypoxia-in-a-well-neonate/",
+            "title": "Hypoxia in a well neonate: when the numbers don’t fit",
+            "channel": "Don't Forget the Bubbles",
+            "url": "https://dontforgetthebubbles.com/hypoxia-in-a-well-neonate/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.tamingthesru.com/blog/diagnostics/tickborneillnesses",
+            "title": "Tick-Borne Illnesses",
+            "channel": "Taming the SRU",
+            "url": "https://www.tamingthesru.com/blog/diagnostics/tickborneillnesses"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/emnerd/fgebm-hypothermia/",
+            "title": "FGEBM 005 – In Which We Beat a Slow Retreat from Therapeutic Hypothermia",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/emnerd/fgebm-hypothermia/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://rebelem.com/clinical-conundrum-does-panscanning-stable-trauma-patients-improve-outcomes/",
+            "title": "Clinical Conundrum — Does Panscanning Stable Trauma Patients Improve Outcomes?",
+            "channel": "REBEL EM",
+            "url": "https://rebelem.com/clinical-conundrum-does-panscanning-stable-trauma-patients-improve-outcomes/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-24T15:20:00+00:00"
+      },
+      "workflow_run_id": "45423698546",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-24:2026-11-24:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "bca8111144c07516bd939f9a57587af9d73a604f40c2d3ac97c90178a5e2d792",
+        "finalization_policy": "markers",
+        "content_version": "a507ce96d8ea56bcdb178e58bf644802c8b1cd21c1ede43db0c30956d8fa3e7e",
+        "message_id": "<09c2575f62003771c77010a7a0e0f656466b216c9af483df5db3f11af278c25e@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "afa0ecabcad8327c_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "55225eff6b7f534ee1fcb014ccf47d887916fb454965f0f9945285351593b2e8"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "c95d15428c8ec4904bff703129415e7913a9265a7a4781e2a3ed18a7d26249ea"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -30883,6 +31812,7 @@
         "42989315",
         "42989963",
         "42989969",
+        "42993977",
         "42994618",
         "42994619",
         "42994620",
@@ -30906,9 +31836,15 @@
         "43013314",
         "43014330",
         "43014331",
+        "43014669",
+        "43014670",
         "43014822",
+        "43018963",
         "43020456",
-        "43020457"
+        "43020457",
+        "43021411",
+        "43021611",
+        "43023303"
       ]
     }
   }
