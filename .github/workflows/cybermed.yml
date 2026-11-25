@@ -73,6 +73,7 @@ jobs:
       CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN || '80000' }}
       CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: ${{ vars.CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN || '1.50' }}
       CYBERMED_MODEL_EVAL_MODE: "0"
+      CYBERMED_APPROVED_MODEL: ${{ vars.CYBERMED_APPROVED_MODEL || '' }}
       PYTHONUNBUFFERED: "1"
 
       SEND_EMAIL: ${{ github.event_name == 'workflow_dispatch' && (inputs.email_mode || 'none') == 'none' && '0' || (vars.SEND_EMAIL || '1') }}

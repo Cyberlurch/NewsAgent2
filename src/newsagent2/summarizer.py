@@ -21,17 +21,34 @@ from .cybermed_quality import (
     validate_generated_text,
 )
 from .cybermed_openai import cybermed_chat_create
+from .openai_model_compat import prepare_chat_request
 from .utils import diagnostics as diagnostics_module
+
+# Cyberlurch's Actions variables may still contain retired model names.
+# Scope the translation to Cyberlurch; Cybermed has a separate clinical gate.
+def _cyberlurch_model(value: str) -> str:
+    value = value.strip()
+    if (os.getenv("REPORT_KEY") or "").strip().lower() != "cyberlurch":
+        return value
+    if re.fullmatch(r"gpt-(?:5-mini|4\.1(?:-mini)?)(?:-\d{4}-\d{2}-\d{2})?", value, re.IGNORECASE):
+        return "gpt-6.1-terra"
+    return value
+
 
 # Default model used for all summaries (override via OPENAI_MODEL env var)
 OPENAI_MODEL = (os.getenv("OPENAI_MODEL") or "gpt-4.1").strip()
-OPENAI_MODEL_CYBERLURCH_CHUNKS = (os.getenv("OPENAI_MODEL_CYBERLURCH_CHUNKS") or OPENAI_MODEL).strip()
-OPENAI_MODEL_CYBERLURCH_OVERVIEW = (os.getenv("OPENAI_MODEL_CYBERLURCH_OVERVIEW") or OPENAI_MODEL).strip()
-OPENAI_MODEL_CYBERLURCH_DEEPDIVE = (os.getenv("OPENAI_MODEL_CYBERLURCH_DEEPDIVE") or OPENAI_MODEL).strip()
-OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST = (os.getenv("OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST") or OPENAI_MODEL_CYBERLURCH_CHUNKS).strip()
-OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK = (os.getenv("OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK") or OPENAI_MODEL_CYBERLURCH_OVERVIEW).strip()
+if (os.getenv('REPORT_KEY') or '').strip().lower() == 'cyberlurch':
+    OPENAI_MODEL = _cyberlurch_model(OPENAI_MODEL)
+OPENAI_MODEL_CYBERLURCH_CHUNKS = _cyberlurch_model((os.getenv("OPENAI_MODEL_CYBERLURCH_CHUNKS") or OPENAI_MODEL).strip())
+OPENAI_MODEL_CYBERLURCH_OVERVIEW = _cyberlurch_model((os.getenv("OPENAI_MODEL_CYBERLURCH_OVERVIEW") or OPENAI_MODEL).strip())
+OPENAI_MODEL_CYBERLURCH_DEEPDIVE = _cyberlurch_model((os.getenv("OPENAI_MODEL_CYBERLURCH_DEEPDIVE") or OPENAI_MODEL).strip())
+OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST = _cyberlurch_model((os.getenv("OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST") or OPENAI_MODEL_CYBERLURCH_CHUNKS).strip())
+OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK = _cyberlurch_model((os.getenv("OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST_FALLBACK") or OPENAI_MODEL_CYBERLURCH_OVERVIEW).strip())
 OPENAI_MODEL_PUBMED_DEEPDIVE = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE") or OPENAI_MODEL).strip()
 OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK = (os.getenv("OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK") or "").strip()
+if (os.getenv("REPORT_KEY") or "").strip().lower() == "cyberlurch":
+    OPENAI_MODEL_PUBMED_DEEPDIVE = _cyberlurch_model(OPENAI_MODEL_PUBMED_DEEPDIVE)
+    OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK = _cyberlurch_model(OPENAI_MODEL_PUBMED_DEEPDIVE_FALLBACK)
 OPENAI_MODEL_CYBERMED = (
     os.getenv("OPENAI_MODEL_CYBERMED") or "gpt-4.1-2025-04-14"
 ).strip()
@@ -47,6 +64,15 @@ OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK = (
 OPENAI_MODEL_CYBERMED_BOTTOM_LINE = (
     os.getenv("OPENAI_MODEL_CYBERMED_BOTTOM_LINE") or OPENAI_MODEL_CYBERMED
 ).strip()
+# An explicit reviewed choice takes precedence over stale stage-specific
+# Actions variables, and prevents an unreviewed legacy fallback.
+_CYBERMED_APPROVED_MODEL = (os.getenv("CYBERMED_APPROVED_MODEL") or "").strip().lower()
+if (os.getenv("REPORT_KEY") or "").strip().lower() == "cybermed" and _CYBERMED_APPROVED_MODEL:
+    OPENAI_MODEL_CYBERMED = _CYBERMED_APPROVED_MODEL
+    OPENAI_MODEL_CYBERMED_OVERVIEW = _CYBERMED_APPROVED_MODEL
+    OPENAI_MODEL_CYBERMED_DEEPDIVE = _CYBERMED_APPROVED_MODEL
+    OPENAI_MODEL_CYBERMED_BOTTOM_LINE = _CYBERMED_APPROVED_MODEL
+    OPENAI_MODEL_CYBERMED_DEEPDIVE_FALLBACK = ""
 
 
 @dataclass
@@ -1056,7 +1082,7 @@ def _openai_chat_create(
             model=model,
             **request,
         )
-    return client.chat.completions.create(model=model, **request)
+    return client.chat.completions.create(model=model, **prepare_chat_request(model, request))
 
 
 def _raise_safe_cybermed_generation_error(exc: BaseException, *, stage: str) -> None:
@@ -1097,7 +1123,7 @@ def _cyberlurch_chat_create(client: OpenAI, *, stage: str, model: str, metadata_
     diag = diagnostics_module.CYBERLURCH_OPENAI_DIAGNOSTICS
     diag.record_attempt(stage, model, metadata_only=metadata_only)
     try:
-        response = client.chat.completions.create(model=model, **request)
+        response = client.chat.completions.create(model=model, **prepare_chat_request(model, request))
         diag.record_success(stage, model, response)
         return response
     except Exception as exc:
@@ -1965,8 +1991,10 @@ def summarize_cyberlurch_bottom_line(item: Dict[str, Any], *, language: str = "e
 
     try:
         client = _get_client()
-        r = client.chat.completions.create(
-            model=OPENAI_MODEL,
+        r = _openai_chat_create(
+            client,
+            stage="excerpt_bottom_line",
+            model=OPENAI_MODEL_CYBERMED_BOTTOM_LINE if _is_cybermed_generation() else OPENAI_MODEL,
             messages=[
                 {"role": "system", "content": sys_prompt},
                 {"role": "user", "content": user_prompt},
