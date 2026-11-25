@@ -66,11 +66,29 @@ jobs:
               item = {"title":case["title"], "text":case["source_text"],
                       "source":"pubmed" if case["task"].startswith("pubmed") else "foamed"}
               if item["source"] == "pubmed":
-                  item["abstract"] = item["text"]
+                  # The clinical facts guard intentionally requires labelled
+                  # results for primary endpoint claims; give it a realistic
+                  # structured form of the same synthetic source.
+                  if case["case_id"] == "rct_postoperative_analgesia":
+                      item["abstract"] = ("Design: Multicentre assessor-blinded randomized trial.\n"
+                          "Population: 612 adults after major abdominal surgery.\n"
+                          "Interventions: Low-dose ketamine.\nComparators: Placebo.\n"
+                          "Primary endpoint: 24-hour opioid consumption.\n"
+                          "Results: Median 24-hour opioid consumption was 42 mg versus 47 mg morphine equivalents (difference -5 mg; 95% CI -9 to -1). Hallucinations occurred in 8% versus 2%.\n"
+                          "Limitations: The trial was not powered for mortality or rare harms.")
+                      expected = ("42", "47")
+                  else:
+                      item["abstract"] = ("Design: Retrospective multicentre cohort.\n"
+                          "Population: 18,420 mechanically ventilated adults.\n"
+                          "Results: Early mobilization was associated with lower hospital mortality after measured adjustment (adjusted odds ratio 0.82; 95% CI 0.74 to 0.91).\n"
+                          "Limitations: Treatment assignment was not randomized, mobilization exposure was incompletely measured, and residual confounding is likely. The study cannot establish a causal mortality benefit.")
+                      expected = ("0.82", "0.74", "0.91")
+                  item["text"] = item["abstract"]
                   item["bottom_line"] = validate_generated_text(summarizer.summarize_pubmed_bottom_line(item), stage="smoke")
                   print("Synthetic bottom line:", item["bottom_line"])
                   detail = validate_generated_text(summarizer.summarize_item_detail(item, language="en", profile="medical"), stage="smoke")
                   print("Synthetic deep dive:", detail)
+                  assert all(number in detail for number in expected), "synthetic evidence lost"
               else:
                   item["bottom_line"] = validate_generated_text(summarizer.summarize_foamed_bottom_line(item, language="en"), stage="smoke")
                   print("Synthetic FOAMed:", item["bottom_line"])
