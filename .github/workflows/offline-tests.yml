@@ -41,8 +41,9 @@ jobs:
         run: |
           python tools/verify_configs.py
           # Optional host-provided linters must not change validation by runner.
-          # Existing production shell lint is outside this dependency-only edit.
-          "$RUNNER_TEMP/actionlint/actionlint" -shellcheck="" -pyflakes=""
+          # actionlint 1.7.12 predates the documented concurrency.queue (issue #746).
+          # verify_configs.py validates this property; all other lint remains enabled.
+          "$RUNNER_TEMP/actionlint/actionlint" -shellcheck="" -pyflakes="" -ignore 'unexpected key "queue" for "concurrency" section[.] expected one of "cancel-in-progress", "group"'
           bash -n tools/install_dependencies.sh tools/install_actionlint.sh
       - name: Verify actual multi-cadence workflow control flow with a sender stub
         run: python tools/check_cadence_loops.py

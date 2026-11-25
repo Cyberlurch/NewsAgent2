@@ -1,0 +1,109 @@
+name: OpenAI model smoke (no sending)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    if: github.repository == 'Cyberlurch/NewsAgent2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CYBERMED_MODEL_EVAL_MODE: "1"
+      CYBERMED_OPENAI_MAX_CALLS_PER_RUN: "12"
+      CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN: "100000"
+      CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: "20000"
+      CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: "0.50"
+      OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST: gpt-6.1-terra
+      EMAIL_MODE: none
+      SEND_EMAIL: "0"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: bash tools/install_dependencies.sh runtime
+      - name: Live Terra JSON extraction on synthetic text
+        env:
+          REPORT_KEY: cyberlurch
+        run: |
+          python - <<'PY'
+          from src.newsagent2.summarizer import summarize_youtube_transcript_direct
+          result = summarize_youtube_transcript_direct({"title":"Synthetic council report","text":"The council approved 25 sites on 5 August. The chair said four sites still require safety inspections and the council has not set an opening date.","language":"en"}, language="en")
+          assert result["transcript_generation_status"] == "validated"
+          import json
+          print(json.dumps(result, ensure_ascii=False))
+          PY
+      - name: Live clinical A-B comparison on synthetic benchmark
+        env:
+          REPORT_KEY: cybermed
+        run: |
+          python -m src.newsagent2.maintenance.evaluate_cybermed_models --baseline-model gpt-4.1-2025-04-14 --candidate-model gpt-6.2-sol --output-dir out/cybermed-model-eval
+          python - <<'PY'
+          from pathlib import Path
+          for file in ("blinded-review.md", "model-mapping.json"):
+              print(Path("out/cybermed-model-eval", file).read_text())
+          PY
+      - name: Exercise production clinical request paths without sending
+        env:
+          REPORT_KEY: cybermed
+          CYBERMED_MODEL_EVAL_MODE: "0"
+          CYBERMED_APPROVED_MODEL: gpt-6.2-sol
+          CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: "1.50"
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from src.newsagent2 import summarizer, cybermed_openai
+          from src.newsagent2.cybermed_quality import validate_generated_text
+          cases = json.loads(Path("data/cybermed_model_eval_cases.json").read_text())["cases"]
+          items = []
+          for case in cases:
+              item = {"title":case["title"], "text":case["source_text"],
+                      "source":"pubmed" if case["task"].startswith("pubmed") else "foamed"}
+              if item["source"] == "pubmed":
+                  # The clinical facts guard intentionally requires labelled
+                  # results for primary endpoint claims; give it a realistic
+                  # structured form of the same synthetic source.
+                  if case["case_id"] == "rct_postoperative_analgesia":
+                      item["abstract"] = ("Design: Multicentre assessor-blinded randomized trial.\n"
+                          "Population: 612 adults after major abdominal surgery.\n"
+                          "Interventions: Low-dose ketamine.\nComparators: Placebo.\n"
+                          "Primary endpoint: 24-hour opioid consumption.\n"
+                          "Results: Median 24-hour opioid consumption was 42 mg versus 47 mg morphine equivalents (difference -5 mg; 95% CI -9 to -1). Hallucinations occurred in 8% versus 2%.\n"
+                          "Limitations: The trial was not powered for mortality or rare harms.")
+                      expected = ("42", "47")
+                  else:
+                      item["abstract"] = ("Design: Retrospective multicentre cohort.\n"
+                          "Population: 18,420 mechanically ventilated adults.\n"
+                          "Results: Early mobilization was associated with lower hospital mortality after measured adjustment (adjusted odds ratio 0.82; 95% CI 0.74 to 0.91).\n"
+                          "Limitations: Treatment assignment was not randomized, mobilization exposure was incompletely measured, and residual confounding is likely. The study cannot establish a causal mortality benefit.")
+                      expected = ("0.82", "0.74", "0.91")
+                  item["text"] = item["abstract"]
+                  item["bottom_line"] = validate_generated_text(summarizer.summarize_pubmed_bottom_line(item), stage="smoke")
+                  print("Synthetic bottom line:", item["bottom_line"])
+                  detail = validate_generated_text(summarizer.summarize_item_detail(item, language="en", profile="medical"), stage="smoke")
+                  print("Synthetic deep dive:", detail)
+                  assert all(number in detail for number in expected), "synthetic evidence lost"
+              else:
+                  item["bottom_line"] = validate_generated_text(summarizer.summarize_foamed_bottom_line(item, language="en"), stage="smoke")
+                  print("Synthetic FOAMed:", item["bottom_line"])
+              items.append(item)
+          overview = validate_generated_text(summarizer.summarize(items, language="en", profile="medical"), stage="smoke")
+          print("Synthetic overview:", overview)
+          report = cybermed_openai.CYBERMED_OPENAI_DIAGNOSTICS.to_dict()
+          print(json.dumps({"usage":report["budget_accounted"], "attempts":report["provider_calls_attempted_total"],
+                            "succeeded":report["provider_calls_succeeded_total"], "failed":report["provider_calls_failed_total"],
+                            "blocked":report["budget_blocked_total"], "stages":sorted(report["calls_by_stage_model"])}))
+          assert report["provider_calls_attempted_total"] >= 6
+          assert report["provider_calls_failed_total"] == report["budget_blocked_total"] == 0
+          assert all(key.endswith("|gpt-6.2-sol") for key in report["calls_by_stage_model"])
+          PY
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: synthetic-model-smoke-${{ github.run_id }}
+          path: out/cybermed-model-eval/
+          if-no-files-found: warn
+          retention-days: 14

@@ -50,12 +50,24 @@ def validate_config(name, data):
         if any(not isinstance(value, str) or not value for value in ids) or len(set(ids)) != len(ids): raise ValueError("unique case IDs required")
 
 
+def validate_concurrency(scope):
+    value = scope.get("concurrency")
+    if isinstance(value, dict) and "queue" in value:
+        if value["queue"] not in {"single", "max"} or not value.get("group"):
+            raise ValueError("invalid concurrency.queue configuration")
+        if value["queue"] == "max" and value.get("cancel-in-progress", "false").lower() != "false":
+            raise ValueError("queue:max requires cancel-in-progress:false or omitted")
+
+
 def verify(root=ROOT):
     for name in CONFIGS: validate_config(name, load_json(root / "data" / name))
     files = sorted((root / ".github/workflows").glob("*.yml"))
     for path in files:
         data = yaml.load(path.read_text(), Loader=UniqueYaml)
         if not isinstance(data, dict) or not data.get("name") or not isinstance(data.get("on"), dict) or not isinstance(data.get("jobs"), dict): raise ValueError("workflow name/events/jobs required: " + path.name)
+        validate_concurrency(data)
+        for job in data["jobs"].values():
+            validate_concurrency(job)
     print(f"Validated {len(CONFIGS)} JSON configurations and {len(files)} workflows; historical stores untouched")
 
 

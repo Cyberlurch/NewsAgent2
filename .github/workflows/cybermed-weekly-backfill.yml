@@ -33,6 +33,7 @@ permissions:
 concurrency:
   group: newsagent2-state-writers-${{ github.ref }}
   cancel-in-progress: false
+  queue: max
 
 jobs:
   audit-or-apply:

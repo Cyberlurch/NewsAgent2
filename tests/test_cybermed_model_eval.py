@@ -51,7 +51,8 @@ def test_model_eval_workflow_is_manual_non_mutating_and_separate_from_production
 
     assert "gpt-4.1-mini" not in production_text
     assert 'CYBERMED_MODEL_EVAL_MODE: "0"' in production_text
-    assert "OPENAI_MODEL_CYBERMED: ${{ vars.OPENAI_MODEL_CYBERMED || 'gpt-4.1-2025-04-14' }}" in production_text
+    assert "OPENAI_MODEL_CYBERMED: ${{ vars.OPENAI_MODEL_CYBERMED || 'gpt-6.2-sol' }}" in production_text
+    assert "CYBERMED_APPROVED_MODEL: ${{ vars.CYBERMED_APPROVED_MODEL || 'gpt-6.2-sol' }}" in production_text
     assert "CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN" in production_text
 
 

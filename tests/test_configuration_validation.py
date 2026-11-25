@@ -28,3 +28,16 @@ def test_duplicate_yaml_keys_are_rejected_and_github_on_remains_a_string():
 
 def test_configuration_shape_failure_is_not_tolerated():
     with pytest.raises(ValueError): validation.validate_config('channels.json',{'topic_buckets':[{'channels':[{'name':'missing locator'}]}]})
+
+
+@pytest.mark.parametrize("value", [
+    {"group":"writers","queue":"unlimited"},
+    {"group":"writers","queue":"max","cancel-in-progress":"true"},
+    {"queue":"max"},
+])
+def test_invalid_concurrency_queue_rejected(value):
+    with pytest.raises(ValueError):
+        validation.validate_concurrency({"concurrency":value})
+
+def test_valid_concurrency_queue_accepted():
+    validation.validate_concurrency({"concurrency":{"group":"writers","queue":"max","cancel-in-progress":"false"}})

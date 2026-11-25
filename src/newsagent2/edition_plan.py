@@ -97,19 +97,25 @@ def make_plan(key, *, created_at, job_started_at, trigger, request='scheduled', 
             raise ValueError('edition_slot_ambiguous_explicit_date_required')
     if request != 'scheduled' and request != 'all' and request not in CADENCES:
         raise ValueError('edition_cadence_invalid')
+    calendar_dispatch = trigger == 'workflow_dispatch' and request == 'scheduled'
+    if calendar_dispatch and (not logical_date or day != created.astimezone(STO).date() or month_override or year_override):
+        raise ValueError('edition_calendar_dispatch_requires_current_date')
     modes = planned_modes(key,day) if request=='scheduled' else list(CADENCES) if request=='all' else [request]
-    entries = [entry_for(key,cadence,day,trigger,mode,month_override,year_override) for cadence in modes]
-    return dict(schema_version=1, report_key=key, trigger=trigger, mode=mode, workflow_run_id=str(run_id),
+    entries = [entry_for(key,cadence,day,'schedule' if calendar_dispatch else trigger,mode,month_override,year_override) for cadence in modes]
+    plan = dict(schema_version=1, report_key=key, trigger=trigger, mode=mode, workflow_run_id=str(run_id),
                 logical_date=day.isoformat(), slot_source=source, slot_certainty='explicit' if logical_date else 'inferred' if trigger=='schedule' else 'not_scheduled',
                 expected_slot=slot.isoformat() if trigger=='schedule' or logical_date else None,
                 run_created_at=created.isoformat(), job_started_at=job.isoformat(), entries=entries,
                 already_finalized_editions=[],reason='' if entries else 'calendar_no_op')
+    if calendar_dispatch:
+        plan['calendar_dispatch'] = True
+    return plan
 
 
 def validate_plan(value):
     try:
         required = {'schema_version','report_key','trigger','mode','workflow_run_id','logical_date','slot_source','slot_certainty','expected_slot','run_created_at','job_started_at','entries','already_finalized_editions','reason'}
-        if not required <= set(value) or set(value) - required - {'quarantined_editions'}: return False
+        if not required <= set(value) or set(value) - required - {'quarantined_editions','calendar_dispatch'}: return False
         if value['schema_version'] != 1 or value['report_key'] not in {'cybermed','cyberlurch'}: return False
         key, day = value['report_key'], date.fromisoformat(value['logical_date'])
         if value['mode'] not in {'real','none','test'} or value['trigger'] not in {'schedule','manual','workflow_dispatch'}: return False
@@ -118,6 +124,10 @@ def validate_plan(value):
         if not (value['workflow_run_id']=='local' or str(value['workflow_run_id']).isdigit()): return False
         for field in ('run_created_at','job_started_at'): instant(value[field])
         if value['expected_slot']: instant(value['expected_slot'])
+        calendar_dispatch = value.get('calendar_dispatch') is True
+        if 'calendar_dispatch' in value and (not calendar_dispatch or value['trigger'] != 'workflow_dispatch'
+                or value['slot_source'] != 'explicit_logical_date' or value['slot_certainty'] != 'explicit'
+                or day != instant(value['run_created_at']).astimezone(STO).date()): return False
         if not isinstance(value['entries'],list) or len(value['entries'])>4: return False
         seen = set()
         for entry in value['entries']:
@@ -130,6 +140,7 @@ def validate_plan(value):
             if entry['edition_id']!=f'{key}:{cadence}:{start}:{end}:{purpose}': return False
             rebuilt=entry_for(key,cadence,day,value['trigger'],value['mode'],start.isoformat()[:7] if cadence=='monthly' else '',str(start.year) if cadence=='yearly' else '')
             if entry != rebuilt: return False
+            if calendar_dispatch and (cadence not in planned_modes(key,day) or entry != entry_for(key,cadence,day,'schedule',value['mode'])): return False
         if not isinstance(value['already_finalized_editions'],list) or any(not isinstance(v,str) or not v.startswith(key+':') for v in value['already_finalized_editions']): return False
         if 'quarantined_editions' in value:
             from .legacy_transition import FRESH_START, active
@@ -138,7 +149,7 @@ def validate_plan(value):
             quarantined_ids = set()
             for row in value['quarantined_editions']:
                 if (not isinstance(row, dict) or not isinstance(row.get('edition_id'), str)
-                    or not active() or key != 'cybermed' or value['mode'] != 'real' or value['trigger'] != 'schedule'
+                    or not active() or key != 'cybermed' or value['mode'] != 'real' or (value['trigger'] != 'schedule' and not calendar_dispatch)
                     or set(row) != {'edition_id', 'category', 'automatic_resend'}
                     or row['category'] != 'legacy_delivery_history_unknown' or row['automatic_resend'] is not False):
                     return False
@@ -307,7 +318,7 @@ def main():
             run_id=os.getenv('GITHUB_RUN_ID','local'),schedule=os.getenv('NEWSAGENT_TRIGGER_SCHEDULE',''))
         # Already finalized scheduled editions need no model/SMTP retry. Journal
         # read is strict, and sending still rechecks under the writer lock.
-        if trigger=='schedule' and plan['mode']=='real':
+        if (trigger=='schedule' or plan.get('calendar_dispatch')) and plan['mode']=='real':
             from .delivery import load_journal
             journal=load_journal(path_for('DELIVERY_JOURNAL_PATH'))
             completed=[e for e in plan['entries'] if
@@ -336,7 +347,7 @@ def main():
                 for k,v in outputs.items(): file.write(f'{k}={v}\n')
         print(json.dumps({'report_key':args.report_key,'modes':modes,'reason':plan['reason'],'slot_source':plan['slot_source']}))
     except Exception as exc:
-        known={'edition_slot_ambiguous_explicit_date_required','edition_schedule_unrecognized','edition_run_metadata_unavailable','edition_cadence_invalid','edition_job_precedes_run_creation','edition_future_logical_date'}
+        known={'edition_slot_ambiguous_explicit_date_required','edition_schedule_unrecognized','edition_run_metadata_unavailable','edition_cadence_invalid','edition_job_precedes_run_creation','edition_future_logical_date','edition_calendar_dispatch_requires_current_date'}
         category=str(exc) if str(exc) in known else 'edition_plan_invalid'
         write_plan_failure(args.report_key,category)
         raise RuntimeError(category+'; inspect plan metadata and supply an explicit logical_date for reviewed manual recovery') from None
