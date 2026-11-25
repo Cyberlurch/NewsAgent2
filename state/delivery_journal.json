@@ -31257,6 +31257,808 @@
         "approved_after_generation_checks": true,
         "seal": "5cb048643852423a10af267aaa53f3f7c0c6772020c5d79307b78cc38adfe0f4"
       }
+    },
+    "cybermed:daily:2026-11-25:2026-11-25:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-25",
+      "period_end": "2026-11-25",
+      "edition_id": "cybermed:daily:2026-11-25:2026-11-25:production",
+      "content_version": "4054fc78383e15803b7e9d240a53914cc15a709b6435c382a4ef24ec2e61d0c8",
+      "message_id": "<c95b72d4a4fb489b62fa94b99a57f274e65accefae2198c93f7c49bcecdbb245@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-25T15:00:08+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43002136",
+            "title": "Preincision Soft-point Pinprick Testing during Awake Shoulder Arthroscopy after Interscalene and Superficial Cervical Plexus Blocks.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43002136/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001745",
+            "title": "Intravenous Lidocaine in Liver Surgery ‒ A Randomized Double-Blind Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001745/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43001736",
+            "title": "Intraoperative Noise Isolation and Postoperative Nausea and Vomiting after Gynecological Laparoscopic Surgery: A Randomized Controlled Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001736/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057822",
+            "title": "In reply.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057822/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057821",
+            "title": "Sex Differences in Clinical Outcomes and Resource Utilization Among Emergency Department Patients With Unexplained Syncope or Presyncope.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057821/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057820",
+            "title": "In reply.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057820/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057819",
+            "title": "Should Opioid Use Disorder Classification by Large Language Models Require Anchoring to Behavioral Evidence Rather Than Diagnostic Labels?",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057819/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057818",
+            "title": "Nocturnist's Lament.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057818/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057817",
+            "title": "An Adolescent Boy With Left Knee Pain During a Basketball Game.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057817/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057816",
+            "title": "Adolescent Girl With Upper Abdominal Pain.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057816/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057815",
+            "title": "Man With Right Eye Pain and Visual Loss.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057815/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057814",
+            "title": "Young Child With a Rash.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057814/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057813",
+            "title": "Woman With Sudden Painless Visual Loss.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057813/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057812",
+            "title": "A Teenage Boy With Abdominal Contusion.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057812/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43057811",
+            "title": "Wide-Complex Tachycardia at 39 Weeks Pregnancy.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43057811/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43055713",
+            "title": "Prehospital Management of Pediatric Traumatic Out-of-Hospital Circulatory Arrest - A Joint Position Statement.",
+            "channel": "PubMed: Annals of Emergency Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43055713/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43032663",
+            "title": "Neuroprognostication in unconscious patients after cardiac arrest: considering the time course of prognostic markers.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43032663/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43032658",
+            "title": "Outcomes of extracorporeal membrane oxygenation in critically ill patients with sickle cell disease: a systematic review and meta-analysis.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43032658/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003743",
+            "title": "Chronic preoperative benzodiazepine use and perioperative outcomes: a scoping review.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003743/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003742",
+            "title": "Reference values and web-based tool for intraoperative heart rate and blood pressure in paediatric patients undergoing general anaesthesia for noncardiac procedures.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003742/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43021385",
+            "title": "Prognostic relevance of protein prescriptions based on adjusted body weight in critically ill overweight or obese patients - analysis of a large international database.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43021385/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43021283",
+            "title": "Functional assessment of the NLRP3 inflammasome activity in sepsis: a missing component of precision medicine.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43021283/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43021269",
+            "title": "Asking the better question - analytic approaches to failed ventilation transitions.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43021269/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018426",
+            "title": "National Early Warning Score 2-Guided Sepsis Hour-1 Bundle Care for Adults With Suspected Sepsis in the Emergency Department: A Hybrid Type 1 Effectiveness-Implementation Stepped-Wedge Randomized Controlled Trial Pilot Study (NEWS-1 TRIPS).",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018426/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018419",
+            "title": "Global Prevalence of Obstetric Causes of Critical Illness in Pregnancy: A Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018419/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018417",
+            "title": "Neurological Outcomes of Rhythm Transitions in Out-of-Hospital Cardiac Arrest With Initial Nonshockable Rhythms: A Nationwide Population-Based Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018417/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018413",
+            "title": "New-Onset Atrial Fibrillation in Critically Ill Patients: A Systematic Review of In-Hospital and Post-Discharge Outcomes.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018413/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018411",
+            "title": "Structured Patient and Family-Centered Rounding in the ICU is Associated With Increased Family Confidence in Staff Compassion and Perceived Quality of Information Shared.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018411/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018409",
+            "title": "The Impact of Hospital Extracorporeal Membrane Oxygenation Volume and Its Distribution Across ICUs on Adult Patients' Outcomes: An Analysis of the Extracorporeal Life Support Organization Registry.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018409/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43018408",
+            "title": "A Telemedicine Intervention for Spontaneous Awakening and Breathing Trials in Small and Large ICUs.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018408/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43041112",
+            "title": "Postoperative pulmonary function after video-assisted thoracic surgery using epidural analgesia or oral morphine for pain management: A secondary analysis of the SEAVATS randomised trial.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43041112/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43040367",
+            "title": "Baseline frailty severity and survival to ICU discharge without ongoing invasive mechanical ventilation in patients with sepsis: a multicenter cohort study.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43040367/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43040530",
+            "title": "Development and external validation of age-specific predictive models for sepsis in critically ill neonates and children using multidimensional hematological parameters: a multicenter retrospective study.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43040530/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43037246",
+            "title": "The Unexamined Subsidy - Rethinking Incentives for Outpatient Clinical Preceptors.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43037246/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43037244",
+            "title": "What the Robot Still Can't Do.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43037244/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43037241",
+            "title": "Reimagining Health Policy Research.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43037241/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43037238",
+            "title": "Functional Fixed Dystonia of the Foot.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43037238/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43037562",
+            "title": "Semaglutide for the Treatment of Obesity in Children 6 to <12 Years of Age.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43037562/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43003665",
+            "title": "Peak expectations: a question of power and timing.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003665/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/pulmcrit/cmm/",
+            "title": "PulmCrit: Physician-delivered Comprehensive Medication Management (CMM) in the ICU",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/pulmcrit/cmm/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/pressure-rct-lower-map-target-in-hypotensive-kids/",
+            "title": "PRESSURE RCT – Lower MAP Target in Hypotensive Kids - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/pressure-rct-lower-map-target-in-hypotensive-kids/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://www.emdocs.net/emdocs-podcast-episode-153-peripartum-cardiomyopathy/",
+            "title": "emDOCs Podcast – Episode 153: Peripartum Cardiomyopathy",
+            "channel": "emDocs",
+            "url": "https://www.emdocs.net/emdocs-podcast-episode-153-peripartum-cardiomyopathy/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "43041112",
+            "title": "Postoperative pulmonary function after video-assisted thoracic surgery using epidural analgesia or oral morphine for pain management: A secondary analysis of the SEAVATS randomised trial.",
+            "channel": "PubMed: European Journal of Anaesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43041112/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43041112",
+              "doi": "10.1097/eja.0000000000002537",
+              "kind": "original",
+              "source_version": "303b22a9a21cc617d3e00208288effc05b2ed619300e20c9edd5ed5e1ec1411f",
+              "fields": {
+                "title": "abdb0bc495baa3d0ba16888fb71c1a8fa799aca98d6d430575b500d03003ff2c",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43040367",
+            "title": "Baseline frailty severity and survival to ICU discharge without ongoing invasive mechanical ventilation in patients with sepsis: a multicenter cohort study.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43040367/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43040367",
+              "doi": "10.1186/s40560-026-00964-6",
+              "kind": "original",
+              "source_version": "ff73b7e9a010a524fc24c67b34037ff4281effc6eb2c392e398ae16e2f0d9d41",
+              "fields": {
+                "title": "69037b272d909ca47397a12273fb129bafdb0bd0da5a22608d07839b9b2d4b68",
+                "abstract": "7005c903ef425813796ec9c98345c1ae83ff54bdd685a0a0be2c2b27afb344a8",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "4449b333f3ca207a75506a20edbc9e26c6e546c581fec724fb35bef7aba158eb",
+                "results_known": true,
+                "numbers": "505ec920dcd9c4c12dfeca8d81369752ba35af22137a4c9ea82ba78e37af1c9e",
+                "endpoint": "2d8c1e80171fb0285f473ffc3fa130771d3757bb555dbc7a86b233c999eae9a5",
+                "methods": "5a7e4a52b548a0894353616c6cfa022b1e1885dd527d822a79e820ec86f9a421",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43018426",
+            "title": "National Early Warning Score 2-Guided Sepsis Hour-1 Bundle Care for Adults With Suspected Sepsis in the Emergency Department: A Hybrid Type 1 Effectiveness-Implementation Stepped-Wedge Randomized Controlled Trial Pilot Study (NEWS-1 TRIPS).",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018426/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43018426",
+              "doi": "10.1097/ccm.0000000000007447",
+              "kind": "original",
+              "source_version": "f60cf45972d6715d16d7cb01a9a1367c5c61c8d98384c2fec8755f499adfdc8f",
+              "fields": {
+                "title": "012d7a2e221f290289a03905808798a5594fc86039b9bf7cb57359a691904f0c",
+                "abstract": "11c049ac8d33993e99358c3e21577ea209b57e6ae78e0ae2e7ddc3e688d7bb1c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "1d256670a545ebf0f9acdcee4377889b464f9ff985103f0c319164749e9be9ec",
+                "results_known": false,
+                "numbers": "8e376c1cb2c941c60e6c06f4fa16fcc1c073748a60f68ed58aba6f7cd1812d23",
+                "endpoint": "29d42746b7099ab11f8e3ff9c84eb52f742e7043285db91a1bc710fc9884bde7",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43018419",
+            "title": "Global Prevalence of Obstetric Causes of Critical Illness in Pregnancy: A Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018419/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43018419",
+              "doi": "10.1097/ccm.0000000000007417",
+              "kind": "original",
+              "source_version": "3c6504232b87aff9812aced95df8aec56040f6d3dbe40b8393e73519b1096998",
+              "fields": {
+                "title": "410c89e9c93caa6dd434153fb14f241f45cfff2bd6db4b3ace0820d39b98d5e5",
+                "abstract": "4cb921748312572814582e11a876a575735fad753f44c4ab8712f5d74be79979",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43018409",
+            "title": "The Impact of Hospital Extracorporeal Membrane Oxygenation Volume and Its Distribution Across ICUs on Adult Patients' Outcomes: An Analysis of the Extracorporeal Life Support Organization Registry.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018409/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43018409",
+              "doi": "10.1097/ccm.0000000000007442",
+              "kind": "original",
+              "source_version": "ba4eebc45b2966acc9982c243b967850f0a25d497eccd74c19245e575c41f143",
+              "fields": {
+                "title": "aff94ac9953628d842f08eb5490bb480a2bbecc907ef0da43d15338952da9f61",
+                "abstract": "baa82da59485925531b826257895716bc3530f1f726ab65dc8d48860af2ae4ce",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9da6df19e8a443e1f3b3b7c988619f787f6fc9bfbc20865c479e835e9c2b189b",
+                "results_known": false,
+                "numbers": "65b88ddf2287622a394bda6377e8874fb72a5d5cdfa20b89ec24eee86c062b97",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43018413",
+            "title": "New-Onset Atrial Fibrillation in Critically Ill Patients: A Systematic Review of In-Hospital and Post-Discharge Outcomes.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018413/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43018413",
+              "doi": "10.1097/ccm.0000000000007412",
+              "kind": "original",
+              "source_version": "b0381b80bb4ea50ab867efc9263a797db5f12cc2056866e7f0cf923dddbd1d2b",
+              "fields": {
+                "title": "8ca8cd57046f124f0142d5475f3ff0bd1cf7bb0413e0d095a39546599c2bd5b6",
+                "abstract": "614d1ca59e25f70ec9d3554500e2fbe3f2da133fdbeb1c8baa80545f1adcf578",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43018417",
+            "title": "Neurological Outcomes of Rhythm Transitions in Out-of-Hospital Cardiac Arrest With Initial Nonshockable Rhythms: A Nationwide Population-Based Study.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018417/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43018417",
+              "doi": "10.1097/ccm.0000000000007449",
+              "kind": "original",
+              "source_version": "5ade5b15248166eacf2694b63631cb72388f5a2b707ff74b82dce48f92f721a4",
+              "fields": {
+                "title": "460e80aff69e4555fd7fbef60b9f434ae0268ac9ee5500277dffbfa44ce3f100",
+                "abstract": "f53010df9b9e1cb6610e6e584cc280509de2e1bad3d538b54536e7975cc4f71b",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "aa7273f373aad59088a76d16a4c2a6d9de4827086af2677cbdc4ed1bc0103762",
+                "results_known": false,
+                "numbers": "fefcca8eef26396e51f58e1860603320ce769b7354061f7267b00d604059d7a6",
+                "endpoint": "c170a33195ff1144ce9e14b21572e018d3a9808aba258d2a6e4e0b5eec759a44",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43018411",
+            "title": "Structured Patient and Family-Centered Rounding in the ICU is Associated With Increased Family Confidence in Staff Compassion and Perceived Quality of Information Shared.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43018411/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43018411",
+              "doi": "10.1097/ccm.0000000000007439",
+              "kind": "original",
+              "source_version": "9edaefad16575975124ed8dfce62ef23d16aa38c2ff666ed9127e922875aec1f",
+              "fields": {
+                "title": "26fb88bb3ea6968dcb68d1fbc719e1c9c9487c13c79e8e9fc1e4ba968288c374",
+                "abstract": "01dbf3b9df18fb94198f8befa0eb32a1bb27498e54e9fd803f999a82118ed458",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "2444cbfa9a386b366a17a7f86e31927c757cd96e947ab028c7fb1cca5a38bce3",
+                "results_known": false,
+                "numbers": "c56b87c19fabdae5e947b1ff114222b1a1b71cb6bb89821891f4f806236c54ca",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43003743",
+            "title": "Chronic preoperative benzodiazepine use and perioperative outcomes: a scoping review.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003743/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43003743",
+              "doi": "10.1016/j.bja.2026.10.001",
+              "kind": "original",
+              "source_version": "72387ec7cdbfccc5e56676001db2ca075673ef83725a0def2bfd6559efcd86e8",
+              "fields": {
+                "title": "a91c2c4f673352108d19505ac86bb2cd30ca96f68412ffea725b3d0027c81e22",
+                "abstract": "c6b311b8c3d71f35187a0afb6ff7d6e5b7d634c9d2b53f8bf6fd0a9776a3c708",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "8ce76493a4a07cd0852e79ffffe0f55ab27ee37891d0813b34dd05680ec4aca7",
+                "results_known": false,
+                "numbers": "30e8b7d9cc19d3b9b244f15886bc469bae5767d000db9d8a7fa10d0d04eecfd0",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "5545bb03c6495084a86b45a610be10d94091a32c2f256f8ad619da1000d40a26",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43003742",
+            "title": "Reference values and web-based tool for intraoperative heart rate and blood pressure in paediatric patients undergoing general anaesthesia for noncardiac procedures.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43003742/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43003742",
+              "doi": "10.1016/j.bja.2026.09.024",
+              "kind": "original",
+              "source_version": "f5791d32bb8968f43fa96250b3d39d60f68865aa86a627a210ac4b56d2d1761f",
+              "fields": {
+                "title": "ad26644cf53fd802dc3c1dc4428183b9506fba00c62fa95d65cbace3b0342dd3",
+                "abstract": "35acd8c3d3c70ff9bc2cc38177e5cfe9b44320d8d7dec215c36d6df619a752e0",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "2c6b085ac7e81ad00ecbc149d7c8b049a7348eee3fdb2a290cc8af6f854c76b8",
+                "results_known": false,
+                "numbers": "b67e04a7f6831cd48d8a0b13613532af6bbd6d967aca6daa739d325aa4b2f413",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "3892cfe646d84be3178fcc19c0d9a40abe741202e663e8cb5b6d38635fb561a7",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43001736",
+            "title": "Intraoperative Noise Isolation and Postoperative Nausea and Vomiting after Gynecological Laparoscopic Surgery: A Randomized Controlled Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001736/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43001736",
+              "doi": "10.1097/aln.0000000000006466",
+              "kind": "original",
+              "source_version": "51cb0f447825089ff12d2e01e43e826940d5f19e352554d07f83ac61c1904248",
+              "fields": {
+                "title": "3c643a5f9f3853d5fba1942ce42b58bcded9491da50a36854e544fb3c2fa0969",
+                "abstract": "5cae2a42dd9b61d6b1391ef79ce59bc5f21579a965d1eeb897e9d2702db973b5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3dec8d061cef20d081dba780877d339d3c126d2ff27ccc909a65909cfb0d1576",
+                "results_known": true,
+                "numbers": "fefa9fed5c49ee93c74a9e3fbe3c17386e0ac1a7360d64ce4c7a8295e5510f49",
+                "endpoint": "1ee2756eb190b2f5261a52328be0b699d9d7ff446628957abe562b56aa0c4569",
+                "methods": "24e1595e77c0ab502c7829e6529efd9e43a92760cd579bd0bdd53dca838a80f1",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43001745",
+            "title": "Intravenous Lidocaine in Liver Surgery ‒ A Randomized Double-Blind Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001745/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43001745",
+              "doi": "10.1097/aln.0000000000006467",
+              "kind": "original",
+              "source_version": "4ce54299d58fe1a949df3c1a07aac4cc0fc2cebf7a5544ca55789fa8e49acbda",
+              "fields": {
+                "title": "93baa669fa6809679f5af3682baaff652c339946fd81023298fa928e8da300e3",
+                "abstract": "38fbef2726571da7a3bfddc9a2b3520a1e2b90a17eccae079904241a8ed7d378",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "54a868ac3927c975d2a2097663e91cfbc340b8709bf9a2fd028c2b9a3455fb54",
+                "results_known": true,
+                "numbers": "fdcc92e7eb4afdc49136084440fcbfd27d965fb06880beff58e64cab01e96a6e",
+                "endpoint": "27a1433f1431ef2e34e14cd6f406341d9454d2c638fc29539aab99471a4779f8",
+                "methods": "97f1584c63ce4612697e8bad5a4ad2ced8a1ced6d0e6cf829452141a0f0f0b49",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43032658",
+            "title": "Outcomes of extracorporeal membrane oxygenation in critically ill patients with sickle cell disease: a systematic review and meta-analysis.",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43032658/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43032658",
+              "doi": "10.1016/j.aicoj.2026.100194",
+              "kind": "original",
+              "source_version": "a2b218fc53cd8127f6febf7961173934aaf3319e12ace0c22e8faee99999bee4",
+              "fields": {
+                "title": "6de2aacc6e808939f51bdb38dee5da0a16f25f4ce5666ab684f7a26807a85546",
+                "abstract": "5b6fe3494f8ec5de9fd23ddd4e35e252235d1b126925b0305fba8fa595cf7492",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "ce65d1c1882728df738153dce7dcc6e9101c88cb79bd470b044d0fe3ff1e3683",
+                "results_known": false,
+                "numbers": "c3f06b945051ea8bc31fd13b0e7730f7bea0f628528e6f25562da39a059633ef",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "4b2b6b78d0a24651be7038dac2ae54887b7a6039d4dca3735b828c8952f5835c",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "43001736",
+            "title": "Intraoperative Noise Isolation and Postoperative Nausea and Vomiting after Gynecological Laparoscopic Surgery: A Randomized Controlled Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001736/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43001736",
+              "doi": "10.1097/aln.0000000000006466",
+              "kind": "original",
+              "source_version": "51cb0f447825089ff12d2e01e43e826940d5f19e352554d07f83ac61c1904248",
+              "fields": {
+                "title": "3c643a5f9f3853d5fba1942ce42b58bcded9491da50a36854e544fb3c2fa0969",
+                "abstract": "5cae2a42dd9b61d6b1391ef79ce59bc5f21579a965d1eeb897e9d2702db973b5",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "3dec8d061cef20d081dba780877d339d3c126d2ff27ccc909a65909cfb0d1576",
+                "results_known": true,
+                "numbers": "fefa9fed5c49ee93c74a9e3fbe3c17386e0ac1a7360d64ce4c7a8295e5510f49",
+                "endpoint": "1ee2756eb190b2f5261a52328be0b699d9d7ff446628957abe562b56aa0c4569",
+                "methods": "24e1595e77c0ab502c7829e6529efd9e43a92760cd579bd0bdd53dca838a80f1",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43001745",
+            "title": "Intravenous Lidocaine in Liver Surgery ‒ A Randomized Double-Blind Trial.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43001745/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43001745",
+              "doi": "10.1097/aln.0000000000006467",
+              "kind": "original",
+              "source_version": "4ce54299d58fe1a949df3c1a07aac4cc0fc2cebf7a5544ca55789fa8e49acbda",
+              "fields": {
+                "title": "93baa669fa6809679f5af3682baaff652c339946fd81023298fa928e8da300e3",
+                "abstract": "38fbef2726571da7a3bfddc9a2b3520a1e2b90a17eccae079904241a8ed7d378",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "54a868ac3927c975d2a2097663e91cfbc340b8709bf9a2fd028c2b9a3455fb54",
+                "results_known": true,
+                "numbers": "fdcc92e7eb4afdc49136084440fcbfd27d965fb06880beff58e64cab01e96a6e",
+                "endpoint": "27a1433f1431ef2e34e14cd6f406341d9454d2c638fc29539aab99471a4779f8",
+                "methods": "97f1584c63ce4612697e8bad5a4ad2ced8a1ced6d0e6cf829452141a0f0f0b49",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://emcrit.org/pulmcrit/cmm/",
+            "title": "PulmCrit: Physician-delivered Comprehensive Medication Management (CMM) in the ICU",
+            "channel": "EMCrit",
+            "url": "https://emcrit.org/pulmcrit/cmm/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://journalfeed.org/article-a-day/2026/pressure-rct-lower-map-target-in-hypotensive-kids/",
+            "title": "PRESSURE RCT – Lower MAP Target in Hypotensive Kids - JournalFeed",
+            "channel": "JournalFeed (Critical Care)",
+            "url": "https://journalfeed.org/article-a-day/2026/pressure-rct-lower-map-target-in-hypotensive-kids/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-25T15:00:03+00:00"
+      },
+      "workflow_run_id": "45639698696",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-25:2026-11-25:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "d2f264df087561eb3d783e6f0c03ecbf059a3b2c1b2c477cca17228b207ad4c6",
+        "finalization_policy": "markers",
+        "content_version": "4054fc78383e15803b7e9d240a53914cc15a709b6435c382a4ef24ec2e61d0c8",
+        "message_id": "<c95b72d4a4fb489b62fa94b99a57f274e65accefae2198c93f7c49bcecdbb245@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "8d3dc3397a42529c_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "6d47ce2a26b9895eff6ac0262c377f532f91123adb6a0ed11419931ef893b899"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "058300bdf6a485a56fa363cff4798f8e12da28bedf7f8e37a972e27fbd4eef2c"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -32073,18 +32875,32 @@
         "43007248",
         "43007421",
         "43010838",
+        "43012576",
+        "43012617",
+        "43012619",
+        "43012620",
+        "43012622",
+        "43012627",
         "43013314",
         "43014330",
         "43014331",
         "43014669",
         "43014670",
         "43014822",
+        "43015803",
+        "43015817",
+        "43015830",
+        "43015887",
         "43018963",
         "43020456",
         "43020457",
         "43021411",
         "43021611",
-        "43023303"
+        "43023009",
+        "43023303",
+        "43025804",
+        "43025805",
+        "43043325"
       ]
     }
   }
