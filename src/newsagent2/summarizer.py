@@ -30,7 +30,7 @@ def _cyberlurch_model(value: str) -> str:
     value = value.strip()
     if (os.getenv("REPORT_KEY") or "").strip().lower() != "cyberlurch":
         return value
-    if re.fullmatch(r"gpt-(?:5-mini|4\\.1(?:-mini)?)(?:-\\d{4}-\\d{2}-\\d{2})?", value, re.IGNORECASE):
+    if re.fullmatch(r"gpt-(?:5-mini|4\.1(?:-mini)?)(?:-\d{4}-\d{2}-\d{2})?", value, re.IGNORECASE):
         return "gpt-6.1-terra"
     return value
 
