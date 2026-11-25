@@ -2,6 +2,15 @@ name: Cybermed model A-B evaluation
 
 on:
   workflow_dispatch:
+    inputs:
+      candidate_model:
+        description: Candidate model (baseline is the current GPT-4.1 snapshot)
+        type: choice
+        options:
+          - gpt-6.2-sol
+          - gpt-6.1-terra
+          - gpt-6-luna
+        default: gpt-6.2-sol
 
 concurrency:
   group: cybermed-model-eval-${{ github.ref }}
@@ -17,10 +26,11 @@ jobs:
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CYBERMED_MODEL_EVAL_MODE: "1"
+      CANDIDATE_MODEL: ${{ inputs.candidate_model }}
       CYBERMED_OPENAI_MAX_CALLS_PER_RUN: "12"
       CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN: "100000"
-      CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: "10000"
-      CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: "0.25"
+      CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: "20000"
+      CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: "0.50"
 
     steps:
       - name: Checkout
@@ -34,11 +44,11 @@ jobs:
       - name: Install dependencies
         run: bash tools/install_dependencies.sh runtime
 
-      - name: Run blinded GPT-4.1 versus GPT-4.1 mini evaluation
+      - name: Run blinded GPT-4.1 versus selected GPT-6 candidate evaluation
         run: |
           python -m src.newsagent2.maintenance.evaluate_cybermed_models \
             --baseline-model gpt-4.1-2025-04-14 \
-            --candidate-model gpt-4.1-mini-2025-04-14 \
+            --candidate-model "$CANDIDATE_MODEL" \
             --output-dir out/cybermed-model-eval
 
       - name: Upload blinded review
