@@ -21,7 +21,7 @@ from ..cybermed_quality import (
 
 
 BASELINE_MODEL = "gpt-4.1-2025-04-14"
-CANDIDATE_MODEL = "gpt-4.1-mini-2025-04-14"
+CANDIDATE_MODEL = "gpt-6.2-sol"
 
 _SYSTEM_PROMPTS = {
     "pubmed_bottom_line": (
@@ -121,8 +121,10 @@ def _run_case(
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0,
-            max_tokens=max(1, int(case.get("max_output_tokens") or 600)),
+            max_tokens=max(1, int(case.get("max_output_tokens") or 600)) + (1200 if model == "gpt-6.2-sol" else 0),
         )
+        if getattr(response.choices[0], "finish_reason", None) not in {None, "stop"}:
+            raise CybermedGenerationError(stage="model_eval", category="incomplete_response")
         output = validate_generated_text(
             (response.choices[0].message.content or "").strip(),
             stage="model_eval",
@@ -272,7 +274,7 @@ def _load_cases(path: Path) -> list[dict[str, Any]]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Run a non-production blinded Cybermed GPT-4.1 A/B evaluation."
+        description="Run a non-production blinded Cybermed model A/B evaluation."
     )
     parser.add_argument(
         "--cases",
