@@ -135,8 +135,7 @@ makes artifacts secret or durable beyond their configured retention.
 The 23 October run-creation observations were 08:42:23 UTC (Cyberlurch) and
 08:50:09 UTC (Cybermed), respectively 5h12m23s and 5h10m09s after their native
 Stockholm slots. Creation-to-job and later application/SMTP/publication timings
-must be evaluated separately. The six-hour readiness grace is an alarm policy,
-not a punctuality fix, and is not extended here.
+must be evaluated separately. The current eight-hour readiness grace is an alarm policy, not a punctuality fix. It is not extended in this change.
 
 ## Offline preview and future independent trigger
 
@@ -157,32 +156,71 @@ protects production stores, caches and markers. Use temporary state paths and
 the offline tests from [development.md](development.md); do not run a productive
 dispatch or provider probe to validate a calendar change.
 
-A future independent timer may use the existing newsletter-specific
-`workflow_dispatch` with `logical_date`, cadence and existing month/year
-override inputs, pointing at the intended branch. Monthly dispatches must
-explicitly set `rollup_month_override` to the preceding month and Yearly must
-set `year_in_review_year` to the preceding year, so manual defaults cannot
-change the native edition. Use the canonical calendar to select eligible
-cadences; an explicit manual `all` request is not a calendar-driven trigger. It must have only the action
-dispatch access it needs, pass no secrets in inputs, and use the same edition
-for duplicate triggers. A fixed historical replay still requires original
-receipt/readiness/audience checks. No external timer, credentials, extra
-secrets or timing service are installed by this PR. A native Actions watchdog
-does not establish independent punctuality.
+## Independent morning trigger (November 2026)
 
-A minimal remaining infrastructure option is one operator-owned timer on an
-already trusted machine, at 05:45 Europe/Stockholm, using a narrowly scoped
-GitHub App/token with Actions dispatch access. It would load this repository's
-canonical calendar, freeze the intended local date, inspect active/finalized
-editions, and dispatch the existing workflows for missing eligible cadences.
-Dispatch cadences **sequentially**, waiting for completion: Actions may replace
-pending jobs even when `cancel-in-progress` is false. Use `logical_date`, the
-preceding month's explicit override and the preceding year's explicit override,
-so native and independent triggers retain the same edition IDs and audiences.
-Partial/unknown SMTP or unavailable verification requires review, never automatic
-replay. This reduces dependency on the native cron event, but still depends on
-GitHub's dispatch API and runner availability. Operator approval, a timer host
-and credential management remain decisions; none are installed here.
+The production runs on November 24 were created at 16:01:32 and 16:17:03
+Stockholm time, despite native 05:30/05:40 slots; they completed at 16:07:14
+and 16:20:17. The delay was in GitHub's creation of the scheduled events,
+not the model, generation or local State writer. Simply extending grace or
+changing native cron cannot guarantee a 07:00–07:30 reading window.
+
+Both producers now accept an explicit `report_mode=scheduled` workflow
+dispatch, with today's Stockholm `logical_date`, no month/year overrides and
+an explicit email mode. This is different from manual `all`: it uses the
+canonical native calendar and preceding-period identities. The plan records
+the true workflow-dispatch event and explicit date. It rejects a missing,
+future or historical date for this automated mode. Already accepted and
+persisted editions are pruned in both native and independent plans, so a
+later native fallback is a no-op rather than another generation/send.
+All existing recovery and audience checks remain in force.
+
+The producer, recovery and State backfill workflows share the same
+`newsagent2-state-writers` concurrency group with `queue: max` and
+`cancel-in-progress: false`. GitHub's multi-entry queue is documented at
+https://docs.github.com/en/actions/concepts/workflows-and-actions/concurrency.
+It avoids replacing an earlier pending run when another writer arrives.
+No cross-newsletter ordering is required; within each newsletter the existing
+Daily → Weekly → Monthly → Yearly dependency order remains unchanged.
+
+### Deploy on one independent timer host
+
+Use the provided timer on an always-on Mac signed in to the local user
+account, with Python 3 and the GitHub CLI installed. The timer needs only
+GitHub Actions read/write access to this repository; it never needs SMTP,
+recipient data or an OpenAI key. Prefer repository-scoped authorization. Keep
+the credentials in the CLI's credential store, never in a plist, script or log.
+
+In an existing trusted clone on the Mac:
+
+```bash
+git pull --ff-only
+gh auth status --hostname github.com
+python3 tools/morning_dispatch.py
+bash tools/install_morning_timer_macos.sh
+```
+
+The Python command is a dry-run; it makes no network call or State change.
+The installer registers a per-user LaunchAgent at local 06:50, 07:00, 07:10
+and 07:20, with the Python driver independently checking Europe/Stockholm
+06:50–07:30 including DST. The driver records an intent atomically before
+each API POST and stores the returned run ID. A repeat timer, local crash
+or uncertain API response cannot automatically repeat that day's dispatch.
+Both newsletters are submitted individually; the shared writer queue
+serializes their work without discarding pending jobs. A producer failure
+does not prevent dispatch of the other. The existing native schedules remain
+as fallback; the timer does not reset the production journal or replay old dates.
+
+Monitor ~/Library/Logs/NewsAgent2/morning-dispatch.log and the returned Actions
+run IDs. The local record is ~/.local/state/newsagent2/morning-dispatch.json.
+An uncertain POST requires checking Actions before any operator retry. Do not
+delete a same-day intent merely because mail has not yet arrived. The
+LaunchAgent requires the Mac to be on, connected and the user session loaded;
+GitHub's dispatch API and hosted runners must also be available. The timer
+is not installed merely by merging this change, and the target window is
+not a guaranteed SLA. Verify the next morning's creation, SMTP and publication
+timestamps; compare the two accepted receipts. Remove the timer with
+`launchctl bootout gui/$(id -u)/org.newsagent2.morning-dispatch` and then remove
+the plist from ~/Library/LaunchAgents if desired.
 
 Rollback is a normal code/workflow revert. Preserve all produced valid stores
 and receipts: never reset state or rename period keys. V2 Weekly identity is
