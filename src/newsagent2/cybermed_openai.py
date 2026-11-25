@@ -9,6 +9,7 @@ from decimal import Decimal
 from typing import Any, Mapping, Sequence
 
 from .cybermed_quality import CybermedGenerationError, classify_generation_error
+from .openai_model_compat import prepare_chat_request
 
 
 DEFAULT_MAX_CALLS_PER_RUN = 96
@@ -148,6 +149,12 @@ def estimate_request_input_tokens(request: Mapping[str, Any]) -> int:
 
 def _pricing_for_model(model: str) -> tuple[Decimal, Decimal, str]:
     normalized = str(model or "").strip().lower()
+    if normalized == "gpt-6.2-sol":
+        return Decimal("2.00"), Decimal("10.00"), "gpt-6.2-sol"
+    if normalized == "gpt-6.1-terra":
+        return Decimal("1.00"), Decimal("5.00"), "gpt-6.1-terra"
+    if normalized == "gpt-6-luna":
+        return Decimal("0.10"), Decimal("0.50"), "gpt-6-luna"
     if _GPT_41_MINI_MODEL_RE.fullmatch(normalized):
         return Decimal("0.40"), Decimal("1.60"), "gpt-4.1-mini"
     if _GPT_41_MODEL_RE.fullmatch(normalized):
@@ -436,6 +443,9 @@ class CybermedOpenAIDiagnostics:
                 "pricing_usd_per_million_tokens": {
                     "gpt-4.1": {"input": 2.0, "output": 8.0},
                     "gpt-4.1-mini": {"input": 0.4, "output": 1.6},
+                    "gpt-6.2-sol": {"input": 2.0, "output": 10.0},
+                    "gpt-6.1-terra": {"input": 1.0, "output": 5.0},
+                    "gpt-6-luna": {"input": 0.1, "output": 0.5},
                 },
                 "budget_limits": {
                     "calls": self.budget.max_calls_per_run,
@@ -501,6 +511,7 @@ def cybermed_chat_create(
     eval_model_allowed = eval_mode and safe_stage == "model_eval" and bool(
         _GPT_41_MODEL_RE.fullmatch(normalized_model)
         or _GPT_41_MINI_MODEL_RE.fullmatch(normalized_model)
+        or normalized_model in {"gpt-6.2-sol", "gpt-6.1-terra", "gpt-6-luna"}
     )
     if not production_model_allowed and not eval_model_allowed:
         with CYBERMED_OPENAI_DIAGNOSTICS._lock:
@@ -521,6 +532,7 @@ def cybermed_chat_create(
         with CYBERMED_OPENAI_DIAGNOSTICS._lock:
             CYBERMED_OPENAI_DIAGNOSTICS.request_output_limit_injected_total += 1
 
+    request_for_provider = prepare_chat_request(normalized_model, request_for_provider)
     reservation = CYBERMED_OPENAI_DIAGNOSTICS._reserve(
         stage=stage,
         model=model,
