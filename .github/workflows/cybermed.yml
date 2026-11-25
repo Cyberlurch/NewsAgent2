@@ -18,6 +18,7 @@ on:
         default: daily
         type: choice
         options:
+          - scheduled
           - all
           - daily
           - weekly
@@ -47,6 +48,7 @@ on:
 concurrency:
   group: newsagent2-state-writers-${{ github.ref }}
   cancel-in-progress: false
+  queue: max
 
 permissions:
   contents: write
