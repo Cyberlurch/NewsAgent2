@@ -425,7 +425,7 @@ class CybermedOpenAIDiagnostics:
             return {
                 "telemetry_schema_version": 1,
                 "content_free_telemetry": True,
-                "production_model_policy": "gpt-4.1_only_until_ab_validation",
+                "production_model_policy": "explicit_approved_model_or_gpt-4.1_until_ab_validation",
                 "preflight_checks_total": self.preflight_checks_total,
                 "provider_calls_attempted_total": self.provider_calls_attempted_total,
                 "provider_calls_succeeded_total": self.provider_calls_succeeded_total,
@@ -507,7 +507,13 @@ def cybermed_chat_create(
     normalized_model = str(model or "").strip().lower()
     safe_stage = _safe_label(stage, fallback="unknown")
     eval_mode = (os.getenv("CYBERMED_MODEL_EVAL_MODE") or "").strip() == "1"
-    production_model_allowed = bool(_GPT_41_MODEL_RE.fullmatch(normalized_model))
+    approved = (os.getenv("CYBERMED_APPROVED_MODEL") or "").strip().lower()
+    # Explicit operator approval after the clinical A/B review. Without it,
+    # the existing production snapshot remains the only permitted model.
+    production_model_allowed = (
+        normalized_model == approved and approved in {"gpt-6.2-sol", "gpt-6.1-terra", "gpt-6-luna"}
+        if approved else bool(_GPT_41_MODEL_RE.fullmatch(normalized_model))
+    )
     eval_model_allowed = eval_mode and safe_stage == "model_eval" and bool(
         _GPT_41_MODEL_RE.fullmatch(normalized_model)
         or _GPT_41_MINI_MODEL_RE.fullmatch(normalized_model)
@@ -532,6 +538,11 @@ def cybermed_chat_create(
         with CYBERMED_OPENAI_DIAGNOSTICS._lock:
             CYBERMED_OPENAI_DIAGNOSTICS.request_output_limit_injected_total += 1
 
+    if (normalized_model == "gpt-6.2-sol" and safe_stage != "model_eval"
+            and request_for_provider.get("max_completion_tokens") is None):
+        # Existing max_tokens values are visible-output limits. Reserve extra
+        # reasoning tokens before applying the unchanged per-run budget.
+        request_for_provider["max_tokens"] = int(request_for_provider["max_tokens"]) + 1200
     request_for_provider = prepare_chat_request(normalized_model, request_for_provider)
     reservation = CYBERMED_OPENAI_DIAGNOSTICS._reserve(
         stage=stage,
