@@ -77,6 +77,7 @@ def test_clinical_candidate_only_allowed_in_eval_and_budgeted(monkeypatch, model
     monkeypatch.setattr(med, "CYBERMED_OPENAI_DIAGNOSTICS",
                         med.CybermedOpenAIDiagnostics(med.CybermedOpenAIBudget.from_env()))
     monkeypatch.delenv("CYBERMED_MODEL_EVAL_MODE", raising=False)
+    monkeypatch.delenv("CYBERMED_APPROVED_MODEL", raising=False)
     with pytest.raises(CybermedGenerationError, match="model_policy_violation"):
         med.cybermed_chat_create(client, stage="overview", model=model, messages=[])
     monkeypatch.setenv("CYBERMED_MODEL_EVAL_MODE", "1")
@@ -90,3 +91,26 @@ def test_clinical_candidate_only_allowed_in_eval_and_budgeted(monkeypatch, model
     report = med.CYBERMED_OPENAI_DIAGNOSTICS.to_dict()
     assert report["provider_calls_attempted_total"] == 1
     assert report["budget_accounted"]["estimated_cost_usd"] > 0
+
+
+def test_explicit_clinical_approval_enables_only_reviewed_model(monkeypatch):
+    calls = []
+    def create(**kw):
+        calls.append(kw)
+        return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content="ok"))],
+                               usage=SimpleNamespace(prompt_tokens=10, completion_tokens=5, total_tokens=15))
+    client = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+    monkeypatch.setattr(med, "CYBERMED_OPENAI_DIAGNOSTICS",
+                        med.CybermedOpenAIDiagnostics(med.CybermedOpenAIBudget.from_env()))
+    monkeypatch.delenv("CYBERMED_MODEL_EVAL_MODE", raising=False)
+    monkeypatch.setenv("CYBERMED_APPROVED_MODEL", "gpt-6.2-sol")
+    for wrong in ("gpt-4.1-2025-04-14", "gpt-6.1-terra"):
+        with pytest.raises(CybermedGenerationError, match="model_policy_violation"):
+            med.cybermed_chat_create(client, stage="overview", model=wrong, messages=[])
+    med.cybermed_chat_create(client, stage="overview", model="gpt-6.2-sol",
+                            messages=[{"role":"user","content":"Synthetic"}],
+                            max_tokens=240, temperature=0.2)
+    assert len(calls) == 1
+    assert calls[0]["max_completion_tokens"] == 1440
+    assert calls[0]["reasoning_effort"] == "low"
+    assert "temperature" not in calls[0]
