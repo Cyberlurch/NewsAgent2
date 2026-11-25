@@ -1,0 +1,57 @@
+name: OpenAI model smoke (no sending)
+on:
+  workflow_dispatch:
+  push:
+    branches: [fix/2026-11-morning-delivery]
+    paths: ['.github/workflows/openai-model-smoke.yml']
+permissions:
+  contents: read
+jobs:
+  smoke:
+    if: github.repository == 'Cyberlurch/NewsAgent2'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CYBERMED_MODEL_EVAL_MODE: "1"
+      CYBERMED_OPENAI_MAX_CALLS_PER_RUN: "12"
+      CYBERMED_OPENAI_MAX_INPUT_TOKENS_PER_RUN: "100000"
+      CYBERMED_OPENAI_MAX_OUTPUT_TOKENS_PER_RUN: "20000"
+      CYBERMED_OPENAI_MAX_ESTIMATED_COST_USD_PER_RUN: "0.50"
+      OPENAI_MODEL_CYBERLURCH_DIRECT_DIGEST: gpt-6.1-terra
+      EMAIL_MODE: none
+      SEND_EMAIL: "0"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: bash tools/install_dependencies.sh runtime
+      - name: Live Terra JSON extraction on synthetic text
+        env:
+          REPORT_KEY: cyberlurch
+        run: |
+          python - <<'PY'
+          from src.newsagent2.summarizer import summarize_youtube_transcript_direct
+          result = summarize_youtube_transcript_direct({"title":"Synthetic council report","text":"The council approved 25 sites on 5 August. The chair said four sites still require safety inspections and the council has not set an opening date.","language":"en"}, language="en")
+          assert result["transcript_generation_status"] == "validated"
+          import json
+          print(json.dumps(result, ensure_ascii=False))
+          PY
+      - name: Live clinical A-B comparison on synthetic benchmark
+        env:
+          REPORT_KEY: cybermed
+        run: |
+          python -m src.newsagent2.maintenance.evaluate_cybermed_models --baseline-model gpt-4.1-2025-04-14 --candidate-model gpt-6.2-sol --output-dir out/cybermed-model-eval
+          python - <<'PY'
+          from pathlib import Path
+          for file in ("blinded-review.md", "model-mapping.json"):
+              print(Path("out/cybermed-model-eval", file).read_text())
+          PY
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: synthetic-model-smoke-${{ github.run_id }}
+          path: out/cybermed-model-eval/
+          if-no-files-found: warn
+          retention-days: 14
