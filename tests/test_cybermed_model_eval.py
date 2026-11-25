@@ -36,7 +36,9 @@ def test_model_eval_workflow_is_manual_non_mutating_and_separate_from_production
     assert 'permissions:\n  contents: read' in eval_text
     assert 'CYBERMED_MODEL_EVAL_MODE: "1"' in eval_text
     assert "gpt-4.1-2025-04-14" in eval_text
-    assert "gpt-4.1-mini-2025-04-14" in eval_text
+    assert "gpt-6.2-sol" in eval_text
+    assert "gpt-6.1-terra" in eval_text
+    assert "gpt-6-luna" in eval_text
     for forbidden in (
         "SEND_EMAIL",
         "RECIPIENTS",
