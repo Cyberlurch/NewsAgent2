@@ -31017,6 +31017,246 @@
         "approved_after_generation_checks": true,
         "seal": "c95d15428c8ec4904bff703129415e7913a9265a7a4781e2a3ed18a7d26249ea"
       }
+    },
+    "cyberlurch:daily:2026-11-25:2026-11-25:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-25",
+      "period_end": "2026-11-25",
+      "edition_id": "cyberlurch:daily:2026-11-25:2026-11-25:production",
+      "content_version": "a8581a8414295b2d55c32a77b3260ed234902fa118850d8f797eb068161fd213",
+      "message_id": "<856685cfcc8128bbeba9d00b432bf904a1fcab84625e1afb17a928ea338c9aad@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-25T14:46:27+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "y6DCeQ0cPbc",
+            "title": "⚡ALERT! BLOODBATH Everything SELL OFF Means WAR is Imminent, Russia HITS Poland, IRAN GEARS UP!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=y6DCeQ0cPbc"
+          },
+          {
+            "source": "youtube",
+            "id": "-9DxglTgPY0",
+            "title": "„Der Ausgangspunkt ist eine rechtsextremistische Chatgruppe im Internet“ – ARD-Rechtsexperte",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=-9DxglTgPY0"
+          },
+          {
+            "source": "youtube",
+            "id": "18XfKlEAHfM",
+            "title": "They Said The Bible Was Myth, Then THIS Happened!",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=18XfKlEAHfM"
+          },
+          {
+            "source": "youtube",
+            "id": "2QDmWMW1Qbs",
+            "title": "The New Hanseatic League: How Germany Becomes Wealthy Again",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=2QDmWMW1Qbs"
+          },
+          {
+            "source": "youtube",
+            "id": "8Zn0KIydhBg",
+            "title": "Israel Daily News - November 24, 2026 | Iran's Chilling Warning",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=8Zn0KIydhBg"
+          },
+          {
+            "source": "youtube",
+            "id": "ChA7DCzOjF8",
+            "title": "Nya attacker mot ryska fartyg - Då talar Nato om svensk krigsberedskap",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=ChA7DCzOjF8"
+          },
+          {
+            "source": "youtube",
+            "id": "IF6X-Zf-oR4",
+            "title": "THE DEADLIEST GLOBAL CONTAMINATION--THE DECLINE & FALL OF THE HUMAN RACE",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=IF6X-Zf-oR4"
+          },
+          {
+            "source": "youtube",
+            "id": "QFkMX4s2PaA",
+            "title": "What is heading our way?",
+            "channel": "MarcFriedrich7",
+            "url": "https://www.youtube.com/watch?v=QFkMX4s2PaA"
+          },
+          {
+            "source": "youtube",
+            "id": "2RC5f9EGDUU",
+            "title": "Why more and more companies want to leave Germany | WISO",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=2RC5f9EGDUU"
+          },
+          {
+            "source": "youtube",
+            "id": "Ed8edFpUkmo",
+            "title": "The Military's Plan Was Exposed… Now It's HALTED",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=Ed8edFpUkmo"
+          },
+          {
+            "source": "youtube",
+            "id": "EmOYwV5k0SA",
+            "title": "There's ZERO Chance of AI Doom By 2050 — Debate with Prakash Narayanan, Host of AI in the AM",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=EmOYwV5k0SA"
+          },
+          {
+            "source": "youtube",
+            "id": "L5rSztw0Vs4",
+            "title": "Christians HAVE to Stop Following “Preachers” Like This",
+            "channel": "WretchedNetwork",
+            "url": "https://www.youtube.com/watch?v=L5rSztw0Vs4"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "y6DCeQ0cPbc",
+            "title": "⚡ALERT! BLOODBATH Everything SELL OFF Means WAR is Imminent, Russia HITS Poland, IRAN GEARS UP!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=y6DCeQ0cPbc"
+          },
+          {
+            "source": "youtube",
+            "id": "-9DxglTgPY0",
+            "title": "„Der Ausgangspunkt ist eine rechtsextremistische Chatgruppe im Internet“ – ARD-Rechtsexperte",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=-9DxglTgPY0"
+          },
+          {
+            "source": "youtube",
+            "id": "18XfKlEAHfM",
+            "title": "They Said The Bible Was Myth, Then THIS Happened!",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=18XfKlEAHfM"
+          },
+          {
+            "source": "youtube",
+            "id": "2QDmWMW1Qbs",
+            "title": "The New Hanseatic League: How Germany Becomes Wealthy Again",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=2QDmWMW1Qbs"
+          },
+          {
+            "source": "youtube",
+            "id": "8Zn0KIydhBg",
+            "title": "Israel Daily News - November 24, 2026 | Iran's Chilling Warning",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=8Zn0KIydhBg"
+          },
+          {
+            "source": "youtube",
+            "id": "ChA7DCzOjF8",
+            "title": "Nya attacker mot ryska fartyg - Då talar Nato om svensk krigsberedskap",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=ChA7DCzOjF8"
+          },
+          {
+            "source": "youtube",
+            "id": "IF6X-Zf-oR4",
+            "title": "THE DEADLIEST GLOBAL CONTAMINATION--THE DECLINE & FALL OF THE HUMAN RACE",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=IF6X-Zf-oR4"
+          },
+          {
+            "source": "youtube",
+            "id": "QFkMX4s2PaA",
+            "title": "What is heading our way?",
+            "channel": "MarcFriedrich7",
+            "url": "https://www.youtube.com/watch?v=QFkMX4s2PaA"
+          },
+          {
+            "source": "youtube",
+            "id": "2RC5f9EGDUU",
+            "title": "Why more and more companies want to leave Germany | WISO",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=2RC5f9EGDUU"
+          },
+          {
+            "source": "youtube",
+            "id": "Ed8edFpUkmo",
+            "title": "The Military's Plan Was Exposed… Now It's HALTED",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=Ed8edFpUkmo"
+          },
+          {
+            "source": "youtube",
+            "id": "EmOYwV5k0SA",
+            "title": "There's ZERO Chance of AI Doom By 2050 — Debate with Prakash Narayanan, Host of AI in the AM",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=EmOYwV5k0SA"
+          },
+          {
+            "source": "youtube",
+            "id": "L5rSztw0Vs4",
+            "title": "Christians HAVE to Stop Following “Preachers” Like This",
+            "channel": "WretchedNetwork",
+            "url": "https://www.youtube.com/watch?v=L5rSztw0Vs4"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "y6DCeQ0cPbc",
+            "title": "⚡ALERT! BLOODBATH Everything SELL OFF Means WAR is Imminent, Russia HITS Poland, IRAN GEARS UP!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=y6DCeQ0cPbc"
+          },
+          {
+            "source": "youtube",
+            "id": "18XfKlEAHfM",
+            "title": "They Said The Bible Was Myth, Then THIS Happened!",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=18XfKlEAHfM"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-25T14:46:22+00:00"
+      },
+      "workflow_run_id": "45636763930",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-25:2026-11-25:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "d84b94e55364bbc602d482349c5419d22dc5f3e150ad7c15202822724749fc6f",
+        "finalization_policy": "markers",
+        "content_version": "a8581a8414295b2d55c32a77b3260ed234902fa118850d8f797eb068161fd213",
+        "message_id": "<856685cfcc8128bbeba9d00b432bf904a1fcab84625e1afb17a928ea338c9aad@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "a9bc0b0b1302eea4_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "584ab9dfbfbfbc21e2d5778e605e3ec39e3ae1eb41f3521a412c81490c39dd48"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "5cb048643852423a10af267aaa53f3f7c0c6772020c5d79307b78cc38adfe0f4"
+      }
     }
   },
   "paper_legacy_unknown": {
