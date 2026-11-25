@@ -41,7 +41,7 @@ python -m compileall -q src tests tools
 python -c 'from newsagent2 import main, emailer, delivery, pre_smtp_recovery, run_context'
 python tools/verify_configs.py
 python tools/check_cadence_loops.py
-/tmp/newsagent-actionlint/actionlint -shellcheck="" -pyflakes="" .github/workflows/*.yml
+/tmp/newsagent-actionlint/actionlint -shellcheck="" -pyflakes="" -ignore 'unexpected key "queue" for "concurrency" section[.] expected one of "cancel-in-progress", "group"' .github/workflows/*.yml
 bash -n tools/install_dependencies.sh tools/install_actionlint.sh
 python -m pytest -q tests/test_youtube_rss_fallback.py tests/test_delivery_boundary.py tests/test_pre_smtp_recovery.py tests/test_offline_isolation.py tests/test_configuration_validation.py tests/test_youtube_content_providers.py tests/test_managed_transcript_provider.py tests/test_backfill_audit.py
 python -m pytest -q --junitxml=.ci-results/pytest.xml
@@ -121,6 +121,8 @@ its own concurrency group, no production secrets, and normal checkout of the
 PR merge ref. All validation/test failures fail the job. The six production
 workflows retain their writer locks, refs, permissions and recovery behavior;
 only their common dependency installation changes.
+
+Actionlint 1.7.12 still rejects the official concurrency.queue key ([upstream issue #746](https://github.com/rhysd/actionlint/issues/746)). Only that exact diagnostic is filtered; verify_configs.py validates queue values and incompatible cancellation settings, and tests assert the shared writer queue. Remove the filter when upstream supports the key.
 
 Actionlint explicitly disables optional host-provided ShellCheck/Pyflakes so
 its checks are identical on local machines and hosted runners. Workflow syntax,
