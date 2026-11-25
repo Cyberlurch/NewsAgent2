@@ -35,6 +35,7 @@ on:
 concurrency:
   group: newsagent2-state-writers-${{ github.ref }}
   cancel-in-progress: false
+  queue: max
 
 permissions:
   contents: write
