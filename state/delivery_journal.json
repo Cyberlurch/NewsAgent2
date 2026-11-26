@@ -32299,6 +32299,908 @@
         "approved_after_generation_checks": true,
         "seal": "b2d0624bec75a4b5e7de76c5718f8e5c35b169d589a3aeb299c97357ca12c7a7"
       }
+    },
+    "cybermed:daily:2026-11-26:2026-11-26:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-26",
+      "period_end": "2026-11-26",
+      "edition_id": "cybermed:daily:2026-11-26:2026-11-26:production",
+      "content_version": "2f44130ea43917d9d3a87e688ee22cfd2e7589f49150116c44f72ebf72781517",
+      "message_id": "<1ad57e95aeac48efa0a1c662f425a5cc74e5601eb050e8ff9f826fcc41346ef6@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-26T14:30:47+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43033846",
+            "title": "Impact of preoperative cardiology consultations on perioperative management in patients undergoing non-cardiac surgery: a prospective cohort study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43033846/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43033845",
+            "title": "From Sellick To The Ramped Position: Completing The Triangle Of Neck Pressure In The Videolaryngoscopy Era.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43033845/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43033844",
+            "title": "Acute postoperative pain in surgical patients with cognitive impairment: A systematic review and meta-analysis.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43033844/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43033843",
+            "title": "Renal Replacement Therapy in Cardiogenic Shock supported by microAxial Flow Pumps: A European multicentre study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43033843/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007278",
+            "title": "Pediatric Anesthesia and Respiratory Complications: Comment: Erratum.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007278/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007277",
+            "title": "Postanesthesia Apnea in Former Preterm Infants for Inguinal Herniorrhaphy: An Update of Risk Factors from an Individual Participant Data Meta-analysis: Erratum.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007277/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007276",
+            "title": "Dronabinol Use in Total Knee Arthroplasty: Reply.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007276/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007275",
+            "title": "Dronabinol Use in Total Knee Arthroplasty: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007275/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007274",
+            "title": "Cannabinoid Opioid Knee Osteoarthritis Trial: Comment.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007274/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007273",
+            "title": "Clinical Validation of Registered Artificial Intelligence Trials in Perioperative Anesthesia.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007273/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007272",
+            "title": "Anterior Chest Wall Loading in Acute Respiratory Distress Syndrome: What Can We Learn from It?",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007272/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007271",
+            "title": "Aligning Prediction with Purpose in Clinical Machine Learning.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007271/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007270",
+            "title": "Hypotension Prediction Index versus Mean Arterial Pressure Threshold-based Intraoperative Blood Pressure Management: Lessons from Two Randomized Trials.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007270/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43007269",
+            "title": "What Does a Fragility Index Tell Us (or Not)?",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007269/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43006820",
+            "title": "Postoperative Digital Health Interventions After Non-Cardiac Surgery: A Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006820/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43006814",
+            "title": "Quality of Recovery After Primary Breast Cancer Surgery: A Randomized, Two-Centre, Triple-Blinded Trial Comparing Erector Spinae Plane Block and Intravenous Lidocaine Infusion Within a Multimodal Analgesia Framework.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006814/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43009371",
+            "title": "Delayed gastric emptying in adolescent patients on glucagon-like peptide-1 receptor agonists with standard preoperative fasting guidelines: separate drug effects from disease effects. Comment on Br J Anaesth 2026; 137: 1507-13.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43009371/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43009370",
+            "title": "Regional anaesthesia and chronic postsurgical pain: no low-income countries in the evidence base. Comment on Br J Anaesth 2026; 137: 838-48.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43009370/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43009369",
+            "title": "Assessing impact of supervision in aerobic exercise training on fitness and clinical outcomes: standardised effect sizes reported and interpreted as metres. Comment on Br J Anaesth 2026; 137: 976-96.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43009369/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43009368",
+            "title": "Patient-reported disability has insufficient clinical accuracy for predicting physical function in survivors of critical illness: a secondary analysis of a cluster-randomised trial.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43009368/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43026604",
+            "title": "Drawing before counting: causal diagrams and g-methods in critical care evidence synthesis.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43026604/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43026573",
+            "title": "Weaning success and ventilation duration in PRiVENT: reply to Cheng.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43026573/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43026563",
+            "title": "Impact of antibiotic prophylaxis on the occurrence of early-onset ventilator-associated pneumonia in trauma patients (antiVAP): a propensity score-weighted, retrospective cohort study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43026563/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43026548",
+            "title": "Acute kidney injury and renal replacement therapy: a critical synthesis of metabolic derangements and nutritional implications.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43026548/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43024946",
+            "title": "A Guytonian Atlas of Venous Return in Septic Shock: Reconstruction of Hemodynamic States.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43024946/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43024934",
+            "title": "Association of Care Intensity With Survival and Long-Term Cost-Effectiveness in Sepsis Without Initial Organ Support After Emergency Admission: A Multicenter Cohort Study in Japan.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43024934/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43023826",
+            "title": "The Impact of Early Changes in Albumin Levels on Long-Term Kidney and Mortality Outcomes in Patients With Acute Kidney Injury Undergoing Continuous Kidney Replacement Therapy.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023826/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43023821",
+            "title": "Dynamics of Mitochondrial Structure, Biogenesis and Function in Skeletal Muscle of Critically Ill Patients.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023821/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43023815",
+            "title": "Language Concordance in Critical Care: A Systematic Review.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023815/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43039983",
+            "title": "Earning a place in care by learning in it.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43039983/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43044726",
+            "title": "Early Prehospital Prediction of Neurological Outcome After Out-of-Hospital Cardiac Arrest Derivation and External Validation of the MIRA-29 Score.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43044726/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43044723",
+            "title": "Commercially available multimodal LLMs for EEG-based prognostication after cardiac arrest.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43044723/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43046097",
+            "title": "Bacteriological profiling and antimicrobial resistance of combat-related infections: analysis of war wounds from Ukraine during 2024-2025.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43046097/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43040015",
+            "title": "Chinese scientist sacked after child died in gene-editing trial.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43040015/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050671",
+            "title": "Meningococcal B Vaccine to Prevent Gonorrhea. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050671/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050670",
+            "title": "Meningococcal B Vaccine to Prevent Gonorrhea.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050670/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050669",
+            "title": "Enfortumab Vedotin and Pembrolizumab for Cisplatin-Eligible Bladder Cancer. Reply.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050669/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050668",
+            "title": "Enfortumab Vedotin and Pembrolizumab for Cisplatin-Eligible Bladder Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050668/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050667",
+            "title": "Enfortumab Vedotin and Pembrolizumab for Cisplatin-Eligible Bladder Cancer.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050667/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050666",
+            "title": "Revertant Autograft Replacement in Recessive Dystrophic Epidermolysis Bullosa.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050666/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050665",
+            "title": "Healing Health Care in Rural America - Toward Community-Centered Learning Health Systems.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050665/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050664",
+            "title": "Too Soon to Say Goodbye - Aspirin at the Door in STEMI.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050664/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050663",
+            "title": "Case 33-2026: A 73-Year-Old Woman with Fever, Weight Loss, and Leg Weakness.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050663/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050662",
+            "title": "Cutaneous Anthrax.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050662/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050661",
+            "title": "Acute Respiratory Distress Syndrome.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050661/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43050660",
+            "title": "Closing the Gap.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43050660/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43025537",
+            "title": "Sixty years after the café coronary: witnessed but untreated choking in restaurants.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025537/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43025536",
+            "title": "Immediate Postresuscitation Ventilation.",
+            "channel": "PubMed: Resuscitation",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43025536/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/intrathecal-drug-delivery-in-practice-a-guide-to-patient-selection-treatment-and-long-term-safety/",
+            "title": "Intrathecal drug delivery in practice: A guide to patient selection, treatment, and long-term safety",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/intrathecal-drug-delivery-in-practice-a-guide-to-patient-selection-treatment-and-long-term-safety/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "43044726",
+            "title": "Early Prehospital Prediction of Neurological Outcome After Out-of-Hospital Cardiac Arrest Derivation and External Validation of the MIRA-29 Score.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43044726/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43044726",
+              "doi": "10.1016/j.resuscitation.2026.111403",
+              "kind": "original",
+              "source_version": "68a1c7209f58ba7a5cdcf9b3bf9a6f84bf277dc7499611233b4787ac91fab605",
+              "fields": {
+                "title": "7b9cee41f3b8533b523ae43cbffd696569496a20bf2adbe04f364a472c36af61",
+                "abstract": "11289fa4025a1477d5e08e9f4d0f26c67fe57847859658f3c00dc5e7e23e5d5c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "427ad4080dffbff86887bac3c57469c3b264e7a2d2f35265306358e11cd65992",
+                "results_known": false,
+                "numbers": "0046a2d13e7164bbf51e59701a4e134ef74e978055c6d06fd2d840f5e88d697d",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "9be7d471e07b95056714491e93fa4b586fd7177d09e938940728fcb324a3c82a",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43044723",
+            "title": "Commercially available multimodal LLMs for EEG-based prognostication after cardiac arrest.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43044723/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43044723",
+              "doi": "10.1016/j.resuscitation.2026.111398",
+              "kind": "original",
+              "source_version": "04828d13081f3ce09a419be6ecefbb69a5767bcac05a0601f953f5209e1d6cdb",
+              "fields": {
+                "title": "83c0781cc6a752c57c212597c726370d893793b7161e86e33a0d0d5864efbe42",
+                "abstract": "8d2d3da7c657564caead2093be3a16632ad2d8ade95261d1995081bdffa041bf",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "c78c051d68ed07ef7d89b0b6703deceb0305c9f23110888debcacdb96f96a68f",
+                "results_known": false,
+                "numbers": "e2557f1ecff420ea63565582076ac861f5b7490e6804bc052ed7b5f2c04b4a68",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "6651d04f0a01b9c4a1c97510a664b60b2cebad63b8fb53b6661eeaab9341ed63",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43033846",
+            "title": "Impact of preoperative cardiology consultations on perioperative management in patients undergoing non-cardiac surgery: a prospective cohort study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43033846/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43033846",
+              "doi": "10.1016/j.accpm.2026.101990",
+              "kind": "original",
+              "source_version": "22a3ecbf1a6dd8c5efcd92d9bd411583c195217f0841f010cc6b77ef081134e8",
+              "fields": {
+                "title": "d28650adf49ef5a94a373570f78b68044029d6cc437fcd06fb0dbef025e2f9b2",
+                "abstract": "b7ba83e8e7b4ee188e8326c140b395395fbcdc16e19ce92e370d8de51870a505",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "e4e015f70c59020bb06984094f86b752458dac1c68c1b921ef497e4981690d9d",
+                "results_known": true,
+                "numbers": "fb6de4d133f6f4014b87a6a54036266cea9f653e09814425a17f0d519b574500",
+                "endpoint": "fbef22e3a952598e89b04138f0b9fb588ec21c5be27e24792edb9c25876a351d",
+                "methods": "ff0894be142c02d9fa91fb10cd920dc218711f6a71d25cd3d4db1906d09a84fe",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43033844",
+            "title": "Acute postoperative pain in surgical patients with cognitive impairment: A systematic review and meta-analysis.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43033844/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43033844",
+              "doi": "10.1016/j.accpm.2026.101991",
+              "kind": "original",
+              "source_version": "4f261a93b75de34316e5f959366cc3851dc26876c6d2687374547b3e1fc1f34f",
+              "fields": {
+                "title": "bbd046dadc1190137c71aed5a31aad564fc253a22b64d8018c1f32a26ccca42d",
+                "abstract": "98213414a82ea9e887f5a3211de81c4fed94f00bbedfefe61c27120475fb9a38",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "57693799326cfc8c4c0249485be7c6664eb106cee028d85c8c26737bacf6e896",
+                "results_known": true,
+                "numbers": "bf0b333df9ece5d00bda2499e47974087fd85a06526c89e5d036eed5c4097ec7",
+                "endpoint": "32337c732211b90b8b26778e4357bf20374c6de3128130e88333fbbe7b3f97c2",
+                "methods": "743bb5a516262740425b9a522a1b9d0c57288936e1dbac9d19866a3b39ac9959",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43033843",
+            "title": "Renal Replacement Therapy in Cardiogenic Shock supported by microAxial Flow Pumps: A European multicentre study.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43033843/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43033843",
+              "doi": "10.1016/j.accpm.2026.101992",
+              "kind": "original",
+              "source_version": "c82b662daf1d66b61bda35a459c4c652400994a1b38542ce998b787fe64a1fad",
+              "fields": {
+                "title": "ea1ee5fa9d6a4e71fbae70182f9c29f663a4f0cf1e934a26a0bf439367c56dd7",
+                "abstract": "26fe02d2dfe3c80a64e0e048473f1b212b585c32d8579c4fbd58dbd6bcf89a21",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "fd077b7fca3f53fd9d8d3212f30faa33103a858036d314065c1e4331637226e8",
+                "results_known": true,
+                "numbers": "4d1bc597027d3ec20bc3d987da4df1c7cec5dee9cd38c9b7a3030d54422e9130",
+                "endpoint": "9ef34f7c4aad801c1c5efbda67d0f562446b45042c594b20e8c9eabab005788e",
+                "methods": "5e8042538e9edc0e9b8b26fac4c0b53f98d9708c732991c3697f36a9a30bfde6",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43024934",
+            "title": "Association of Care Intensity With Survival and Long-Term Cost-Effectiveness in Sepsis Without Initial Organ Support After Emergency Admission: A Multicenter Cohort Study in Japan.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43024934/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43024934",
+              "doi": "10.1097/ccm.0000000000007435",
+              "kind": "original",
+              "source_version": "149bf0125dab203b7cf9cc85940e0b332c470fa9ae5b8690cd4fc248fac95f21",
+              "fields": {
+                "title": "9a6eb68debbd4a07dcdb2d8a5bb93250e31fbf2b8ccce768a79d776c33008232",
+                "abstract": "a7adbc92589fe510f3e329dd0edc7c290042fe0aa5ea48f66870d67861b81f42",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "b135f8056642cc72b10283dc787bbe039807bc2812314849cddb41861a85fb0a",
+                "results_known": false,
+                "numbers": "28825d69c087e8c78bacd46a9a797d9f7ae3358b3af7e2a66f181b9ff242882a",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43023815",
+            "title": "Language Concordance in Critical Care: A Systematic Review.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023815/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43023815",
+              "doi": "10.1097/ccm.0000000000007450",
+              "kind": "original",
+              "source_version": "b79f326cfeac5135dba71db595dd316fdc49accef674c70c26308a92f13baa75",
+              "fields": {
+                "title": "78215540152df07ed2c99dbf09d99864cba11321ff10a931046b978e3567b93b",
+                "abstract": "1a3c0dc16ff8699b7537b02591103ffdbaadfa86b15c420ad5d1054029da7459",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43024946",
+            "title": "A Guytonian Atlas of Venous Return in Septic Shock: Reconstruction of Hemodynamic States.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43024946/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43024946",
+              "doi": "10.1097/ccm.0000000000007446",
+              "kind": "original",
+              "source_version": "7e87dc9ea390b1e293de6607528fb86856a74b2a874fae32a572731e2bce96b9",
+              "fields": {
+                "title": "463a27bd5d4c4e1ad40c8140e5885b266008c783bb90f481c7910b0327909666",
+                "abstract": "deda30974d029df93b017ca868c63b921e636c279f1ec4fcf6f068ddd564499c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "cec17f987b90ae951f00c410fd6ee966c826794d1df9722da019f9589bcb5407",
+                "results_known": false,
+                "numbers": "fcd3ae9e35953140d32eebc827e9bbc29e79b0c1f141af6175708252165094fa",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43023826",
+            "title": "The Impact of Early Changes in Albumin Levels on Long-Term Kidney and Mortality Outcomes in Patients With Acute Kidney Injury Undergoing Continuous Kidney Replacement Therapy.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023826/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43023826",
+              "doi": "10.1097/ccm.0000000000007408",
+              "kind": "original",
+              "source_version": "e2695daa0b366ceaed98dcceeed8a57daf8347d5f3d6741673dbc0f18f562ad8",
+              "fields": {
+                "title": "62bfb380fb6c49c65041891f2f8db09bbed81f4fd94143ab7046ee293c02ddc9",
+                "abstract": "9daec2c06d741d5e00103501800ac0a2cc75ac0a5a9e0cc03ce9d28f0bf3d4d0",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "f0d962c0f01ab0afe1c3121a7f6a4e65e1dc4f5bd80dd0b272e85a6961c1fd54",
+                "results_known": false,
+                "numbers": "b08cae68ac0db0996a3d3c261e39bbeb253ffd274db5844b9c8551aa5cb6b63d",
+                "endpoint": "151e4c415a3a4ec09f323551a06df81c069f700c149c1b90b9affa34bd60033e",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43023821",
+            "title": "Dynamics of Mitochondrial Structure, Biogenesis and Function in Skeletal Muscle of Critically Ill Patients.",
+            "channel": "PubMed: Critical Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43023821/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43023821",
+              "doi": "10.1097/ccm.0000000000007433",
+              "kind": "original",
+              "source_version": "48f8f9bc751fb2a1212cfa86cadbe4505c2660867fc854cc9bbf877689d527a7",
+              "fields": {
+                "title": "a4a9d57c80d28844a5541dbe99e16d6c9a5b7bf0c4021395865da127737698d6",
+                "abstract": "b2ec2898c3aacdc4c15b706a31912f71255644f17dd27e6c47fabb634e1dff68",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "72880875ccc2b960be95a69b63a77c4c8f3e947f767021b723b1dfde36571263",
+                "results_known": false,
+                "numbers": "4ae847fec05788d6bffba8a34b3f317f03db8022acc759d85d6942c597a31da4",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43026563",
+            "title": "Impact of antibiotic prophylaxis on the occurrence of early-onset ventilator-associated pneumonia in trauma patients (antiVAP): a propensity score-weighted, retrospective cohort study.",
+            "channel": "PubMed: Critical Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43026563/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43026563",
+              "doi": "10.1186/s13054-026-06408-9",
+              "kind": "original",
+              "source_version": "76a59a0c217644fed52cbecf0167deceb5da64f281acade4df2bbed0ccef2d35",
+              "fields": {
+                "title": "210e9c829d1bafef796474607a78e0c99223db47db8981cbbc535e6e963c8250",
+                "abstract": "c4455bf248b681898292f6256ad7daa3cb67f938dd7640bfb1a2371865a9e18e",
+                "types": "0706729bc0e528950d6a29c7bcdbb349596d9c10d6e4c3fae42490592b699b9f",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9c789d57d9bce1d7d41dc6fb40d4e04c7b0d5574a1c95a5107ec87c63c7e6da7",
+                "results_known": true,
+                "numbers": "c61379588edc56bcd034b74b9c50f49e8e4039050a3a50761841361719cdb53e",
+                "endpoint": "013ef4b486ba59b37cb9cca91793620a18a72ea1a1fecc957f235480bb9c0ea5",
+                "methods": "66ef248ae472e68b2b4a34ea3655b17a7de8d8effb6813b061d2dd0fdca6827b",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43006820",
+            "title": "Postoperative Digital Health Interventions After Non-Cardiac Surgery: A Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006820/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43006820",
+              "doi": "10.1097/aln.0000000000006477",
+              "kind": "original",
+              "source_version": "956675bd2c6861e6f75d1321b0c0abf12bb9a9ca6559daa84ac0a1ad57392feb",
+              "fields": {
+                "title": "14aeb55613f36cf8a403a4c2d12b25377004f8ef95adec338067c56621f70ce8",
+                "abstract": "3dc46423bcd9904131e8ee3e09ff49f2fdb45dbbaf4b528628b98c48f64b90db",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0f0fbeb10110ea5e0529c000b32b43727b51bbf57311580ab67d5a465cd48c1c",
+                "results_known": true,
+                "numbers": "c9c14f66e4d6d207ab0660eacfa96e26c087fd8600e54a27bbfe65366e222992",
+                "endpoint": "174c2908339c95be7bfc9d625d7d0e95ff6dd9d2b8606963904802033aaaf566",
+                "methods": "7bb2eb17cf29d8ca7c90dd050c405c1559cae4c5a27f13c6870e297d2a7d0ca3",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43006814",
+            "title": "Quality of Recovery After Primary Breast Cancer Surgery: A Randomized, Two-Centre, Triple-Blinded Trial Comparing Erector Spinae Plane Block and Intravenous Lidocaine Infusion Within a Multimodal Analgesia Framework.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006814/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43006814",
+              "doi": "10.1097/aln.0000000000006476",
+              "kind": "original",
+              "source_version": "94520ed60d70079bcada6fdf80bf4913520b012c972a2e15db71a40f6034828b",
+              "fields": {
+                "title": "7923f453ce8a07d95146244d5dda2448431bfb059ebf7fde11de0514c362394e",
+                "abstract": "dae904dacd1351939ff9f2ffe4d4f7e0afd066ae0c1c1731d18f0d088af4d1d8",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "9a9e15db05ddb3311bae62dc625878f7984505e064e9f10f37de0a7d142d20be",
+                "results_known": true,
+                "numbers": "c8bd20d786c69d526b40d6f1380ac465b21df710e6248bbfd65c9c607f848e2a",
+                "endpoint": "1e9e2b41111406fe619e229565159d1942bf8b0c7f616628135ca17678628003",
+                "methods": "acf208d73ad6bd7c32c7fb0fd906f1f3f71478a1822ffe4634b8627654bdbe84",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43009368",
+            "title": "Patient-reported disability has insufficient clinical accuracy for predicting physical function in survivors of critical illness: a secondary analysis of a cluster-randomised trial.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43009368/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43009368",
+              "doi": "10.1016/j.bja.2026.10.002",
+              "kind": "original",
+              "source_version": "a9f34ae763047ef9f04fb1568ffe75ef39a4363dc962ae75f12e5370fc971292",
+              "fields": {
+                "title": "0a81c929b80694322f12598252c000d55e21c881268cbeb55cd7fdd2b58d9e0e",
+                "abstract": "30aa519f915433e5df060e2428f4156713a93354e12684912bb147ba1f6d755c",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "4f7c7fc8941da4ffea309ca68cec7f7042c92581d422811b0cfe40d18ce1625b",
+                "results_known": false,
+                "numbers": "96afd29759d47a7f88b6aec7db61ca002f5831f8adf49f330c29e66d0cc03c70",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "58f9dae40d7e30949a04743cc3cc52bba3b8d593e654bee44a5e51331a004ff5",
+                "direction": "positive"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43007270",
+            "title": "Hypotension Prediction Index versus Mean Arterial Pressure Threshold-based Intraoperative Blood Pressure Management: Lessons from Two Randomized Trials.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43007270/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43007270",
+              "doi": "10.1097/aln.0000000000006406",
+              "kind": "original",
+              "source_version": "3b38cd9cd5f9626010227519e0752e37ca8b00eb2ec8938931bbd6b28a7eca43",
+              "fields": {
+                "title": "487f6444c0b5227a425304b7a18c3b2236c188c6eab7f8d8357b009554943ee3",
+                "abstract": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "pubmed",
+            "id": "43006820",
+            "title": "Postoperative Digital Health Interventions After Non-Cardiac Surgery: A Systematic Review and Meta-Analysis.",
+            "channel": "PubMed: Anesthesiology",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43006820/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43006820",
+              "doi": "10.1097/aln.0000000000006477",
+              "kind": "original",
+              "source_version": "956675bd2c6861e6f75d1321b0c0abf12bb9a9ca6559daa84ac0a1ad57392feb",
+              "fields": {
+                "title": "14aeb55613f36cf8a403a4c2d12b25377004f8ef95adec338067c56621f70ce8",
+                "abstract": "3dc46423bcd9904131e8ee3e09ff49f2fdb45dbbaf4b528628b98c48f64b90db",
+                "types": "2b961451d50907b9f71edb753315a71254cfd558dba1f5b8a6bbf143c152928e",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "0f0fbeb10110ea5e0529c000b32b43727b51bbf57311580ab67d5a465cd48c1c",
+                "results_known": true,
+                "numbers": "c9c14f66e4d6d207ab0660eacfa96e26c087fd8600e54a27bbfe65366e222992",
+                "endpoint": "174c2908339c95be7bfc9d625d7d0e95ff6dd9d2b8606963904802033aaaf566",
+                "methods": "7bb2eb17cf29d8ca7c90dd050c405c1559cae4c5a27f13c6870e297d2a7d0ca3",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          },
+          {
+            "source": "pubmed",
+            "id": "43033844",
+            "title": "Acute postoperative pain in surgical patients with cognitive impairment: A systematic review and meta-analysis.",
+            "channel": "PubMed: Anaesthesia, Critical Care & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43033844/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43033844",
+              "doi": "10.1016/j.accpm.2026.101991",
+              "kind": "original",
+              "source_version": "4f261a93b75de34316e5f959366cc3851dc26876c6d2687374547b3e1fc1f34f",
+              "fields": {
+                "title": "bbd046dadc1190137c71aed5a31aad564fc253a22b64d8018c1f32a26ccca42d",
+                "abstract": "98213414a82ea9e887f5a3211de81c4fed94f00bbedfefe61c27120475fb9a38",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "57693799326cfc8c4c0249485be7c6664eb106cee028d85c8c26737bacf6e896",
+                "results_known": true,
+                "numbers": "bf0b333df9ece5d00bda2499e47974087fd85a06526c89e5d036eed5c4097ec7",
+                "endpoint": "32337c732211b90b8b26778e4357bf20374c6de3128130e88333fbbe7b3f97c2",
+                "methods": "743bb5a516262740425b9a522a1b9d0c57288936e1dbac9d19866a3b39ac9959",
+                "direction": "negative_or_null"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://nysora.com/education-news/intrathecal-drug-delivery-in-practice-a-guide-to-patient-selection-treatment-and-long-term-safety/",
+            "title": "Intrathecal drug delivery in practice: A guide to patient selection, treatment, and long-term safety",
+            "channel": "NYSORA",
+            "url": "https://nysora.com/education-news/intrathecal-drug-delivery-in-practice-a-guide-to-patient-selection-treatment-and-long-term-safety/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-26T14:30:42+00:00"
+      },
+      "workflow_run_id": "45839281671",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-26:2026-11-26:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "857a9a2509eef3cfea0b8eb3caa0067f90156361bb65a5624b6eced30cf36f79",
+        "finalization_policy": "markers",
+        "content_version": "2f44130ea43917d9d3a87e688ee22cfd2e7589f49150116c44f72ebf72781517",
+        "message_id": "<1ad57e95aeac48efa0a1c662f425a5cc74e5601eb050e8ff9f826fcc41346ef6@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "7d91cf0342098478_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "11df6a53cb725efc7cabf1cf88feda4fe1c667409f82e1365d1e0787bf9cb489"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "dc4288d48b58d1684f321272194dd75ef2d9f84378a7f830d3d4e91dba14dbe5"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -33107,10 +34009,14 @@
         "42999998",
         "43000116",
         "43000120",
+        "43001736",
         "43001740",
+        "43001745",
         "43001755",
         "43001758",
         "43002154",
+        "43003742",
+        "43003743",
         "43004583",
         "43007248",
         "43007421",
@@ -33131,6 +34037,12 @@
         "43015817",
         "43015830",
         "43015887",
+        "43018409",
+        "43018411",
+        "43018413",
+        "43018417",
+        "43018419",
+        "43018426",
         "43018963",
         "43020456",
         "43020457",
@@ -33140,6 +34052,9 @@
         "43023303",
         "43025804",
         "43025805",
+        "43032658",
+        "43040367",
+        "43041112",
         "43043325"
       ]
     }
