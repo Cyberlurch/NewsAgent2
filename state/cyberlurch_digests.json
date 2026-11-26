@@ -158495,8 +158495,934 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "gXwen7JNWmo",
+      "source": "youtube",
+      "title": "⚡ALERT! \"Next Week Determines Fate of Our Society\"",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=gXwen7JNWmo",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 40720,
+        "processed_unique_chars": 40720,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 5.999,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "Clem Chambers expects the Federal Reserve to inject more money to fund US artificial intelligence and manufacturing, but predicts a catastrophic stock market crash if it does not act by the end of the following week. He sees China’s energy advantage as a threat to US technological leadership and expects European energy shortages this winter.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Clem Chambers attributes the broad market selloff to insufficient money in the financial system and calls for more liquidity to fund AI and US manufacturing.",
+        "Chambers predicts a catastrophic stock market crash if the Federal Reserve does not act by the end of the following week, although he expects intervention.",
+        "Chambers argues that China’s energy advantage could give it AI supremacy if the United States does not invest heavily and expand its energy supply."
+      ],
+      "transcript_notable_claims": [
+        "Federal Reserve interest-rate increases choked off money during the credit crisis, breaking the real estate market and ultimately the financial system.",
+        "Silicon Valley and Wall Street have committed so much to AI that failure to fund its expansion would destroy both and end American leadership.",
+        "Gold is accumulated in preparation for war and sold during war, putting downward pressure on its price.",
+        "European governments are encouraging preparedness partly because energy shortages could cause winter power cuts, for which officials will blame others.",
+        "AI-enabled hacking is exposing numerous security flaws, and hurried attempts to patch legacy systems are causing software instability.",
+        "Fear-driven media and social media are damaging mental health and contributing to widespread unhappiness."
+      ],
+      "transcript_uncertainties": [
+        "Chambers expects a liquidity intervention within days but acknowledges that the Federal Reserve could refuse to tolerate the resulting inflation.",
+        "Chambers says a market crash could resemble 1929 or 2008, but asset prices cannot be predicted if a crash occurs.",
+        "Chambers expects gold to repeat its boom-and-bust cycle a year or two after bottoming, but says its precise bottom is uncertain.",
+        "Chambers considers the Russia situation particularly dangerous if Vladimir Putin has no exit and believes he and those around him have nothing to lose.",
+        "Chambers says a very cold European winter would bring power cuts and brownouts, while describing winter power cuts more generally as probable."
+      ],
+      "important_details": [
+        "Chambers expects AI construction to raise blue-collar wages and consumer spending, creating inflation that he considers a cost of economic growth.",
+        "Chambers says a severe crash could halve asset values or worse without government support, but expects officials to intervene partly because their own portfolios and property are exposed.",
+        "Chambers says people saving in gold can dollar-cost average, while those with fixed-rate debt may benefit from inflation."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "gXwen7JNWmo",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "5PSRH5pQdF0",
+      "source": "youtube",
+      "title": "Det här är Centerns spel inför måndagens omröstningen - Adam Rydström",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=5PSRH5pQdF0",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 12790,
+        "processed_unique_chars": 12790,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.999,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Adam Rydström tror att Centerpartiet lägger ner sina röster och tolererar Ulf Kristersson som statsminister vid omröstningen den 30 november. Han ser regeringsförhandlingarna som ett spel och förutspår att en återupprättad borgerlig allians får svårt att hantera växande statsskuld och en försämrad ekonomi.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Ulf Kristersson ska prövas som statsminister i riksdagen måndagen den 30 november.",
+        "Adam Rydström tror att Centerpartiet lägger ner sina röster och motiverar sin tolerans för Kristersson med att Sverige behöver en regering.",
+        "Rydström tror att Moderaterna vill återupprätta en allians med Centerpartiet och samtidigt isolera Sverigedemokraterna."
+      ],
+      "transcript_notable_claims": [
+        "Regeringsförhandlingarna har varit ett spel där alla partier deltagit och utfallet sannolikt var klart redan långt före valet.",
+        "Vänsterpartiets ovilja att diskutera elpriser vidare visar att partiet är en slags köpt opposition.",
+        "Centerpartiet och Miljöpartiet driver den gröna agendan på varsin sida av blockgränsen, medan partierna arbetar för samma oligarker.",
+        "Opinionsundersökningar manipuleras för att styra valresultat och legitimera Kristersson som statsminister.",
+        "Det politiska systemet är riggat för att ge samma politik oavsett vilket block som vinner valet."
+      ],
+      "transcript_uncertainties": [
+        "Ett extraval är inte omöjligt, men Rydström tror att det ändå skulle leda till en alliansregering.",
+        "Socialdemokraternas vilja att diskutera svenska elpriser kan tolkas som en öppning för Sverigepriser på el.",
+        "Ekonomin har antagligen försämrats om fyra år, och regeringen under den kommande mandatperioden kommer antagligen att förlora nästa val."
+      ],
+      "important_details": [
+        "Höga elpriser minskar hushållens konsumtionsutrymme och industrins konkurrenskraft, driver inflation och samlar pengar hos elbolagen och staten.",
+        "Centerpartiets nedlagda röster skulle låta partiet hävda att det tar ansvar utan att behöva välja sida och riskera att svika höger- eller vänsterväljare.",
+        "Nästa års militära utgifter på 235 miljarder kronor ska finansieras med lån och väntas bidra till en kraftigt växande statsskuld."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "5PSRH5pQdF0",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@ZDFheute"
+      },
+      "id": "BQyI1r2Kg8M",
+      "source": "youtube",
+      "title": "heute 7:00 PM from 11/25/2026 Orange Day, federal budget, prostitution, EU candidate Serbia",
+      "channel": "ZDFheute",
+      "url": "https://www.youtube.com/watch?v=BQyI1r2Kg8M",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 22269,
+        "processed_unique_chars": 22269,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Im Bundestag verteidigte Kanzler Friedrich Merz den schuldenfinanzierten Haushalt 2027 gegen scharfe Kritik der Opposition. Weitere Themen sind der Schutz von Frauen und Prostituierten, Festnahmen mutmaßlicher Rechtsterroristen und der politische Umbruch in Serbien nach dem Wahlsieg der Studentenliste.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Der Haushalt 2027 soll am Freitag verabschiedet werden; nachträglich wurde eine Stromsteuersenkung für ein Jahr aufgenommen.",
+        "Ermittler nahmen in Brandenburg, Niedersachsen und Schleswig-Holstein drei 14- bis 15-jährige mutmaßliche Mitglieder der rechtsextremistischen Gruppe Terror 18 fest.",
+        "Die serbische Studentenliste gewann Ende Oktober die Parlamentswahl; eine neue Regierung steht noch nicht."
+      ],
+      "transcript_notable_claims": [
+        "Die Grünen nannten den Haushalt eine „windschiefe Bretterbude ohne Fundament“, während die AfD der Regierung Ausgabensucht vorwarf.",
+        "Friedrich Merz hält den Haushalt angesichts jahrzehntelang versäumter Investitionen und vernachlässigter Wirtschafts- und Demografiefragen für vertretbar.",
+        "Serbiens vorläufig amtierender Staatspräsident Alexander Chupit ist enttäuscht, dass Brüssel den Machtmissbrauch unter Alexander Vucic lange geduldet habe.",
+        "Serbien wird laut Alexander Chupit keine Sanktionen gegen Russland verhängen; eine Abkehr vom Putin-freundlichen Kurs ist wegen der Abhängigkeit von russischem Öl und Gas vorerst nicht zu erwarten."
+      ],
+      "transcript_uncertainties": [
+        "Die Zahl der nicht gemeldeten Prostituierten könnte nach Expertenschätzungen zehnmal so hoch sein wie die der registrierten.",
+        "Die neuen US-Zölle auf betroffene EU-Produkte könnten ab Januar gelten, sind bislang aber nur ein Vorschlag.",
+        "Die Gruppe Terror 18 ist nach den jüngsten und drei früheren Festnahmen wohl zerschlagen.",
+        "Die Ursache für Borussia Dortmunds schwachen Beginn gegen Arsenal blieb auch für einen Spieler unklar."
+      ],
+      "important_details": [
+        "Eine Expertenkommission empfiehlt für Prostituierte ein Mindestalter von 21 Jahren, eine starke Einschränkung der Straßenprostitution und Strafen für Freier nicht angemeldeter Prostituierter.",
+        "Das Bundesverwaltungsgericht entschied, dass die Einstufung einer Partei als extremistischer Verdachtsfall allein nicht für den Entzug von Waffenerlaubnissen ihrer Mitglieder genügt.",
+        "ESA-Nahaufnahmen zeigen auf dem Asteroiden Dimorphos einen größeren Einschlagskrater als erwartet; der NASA-Aufprall hat seine Flugbahn verändert."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "BQyI1r2Kg8M",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "MwcKKwibGak",
+      "source": "youtube",
+      "title": "Pope Francis' Terrifying Encounter With the Devil, Chilling Vision of Hell",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=MwcKKwibGak",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5922,
+        "processed_unique_chars": 5922,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.48,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5922",
+        "recency"
+      ],
+      "transcript_full_summary": "Pope Francis reportedly described three encounters with Satan and a vision of the entrance to hell in a private diary. The hosts connect his account to a spiritual war against evil and urge Christians to respond through faith, prayer, scripture and service.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Pope Francis reportedly described Satan's eyes as bolts of fire and said he would never forget their gaze.",
+        "Acts 19 recounts an evil spirit telling the sons of a Jewish chief priest that it knew Jesus and Paul but not them.",
+        "Ephesians 6 calls Christians to put on the full armor of God and stand against the devil's schemes."
+      ],
+      "transcript_notable_claims": [
+        "Francis's experiences point to a spiritual world that may be more tangible and real than people realize.",
+        "Christians should be a problem for the kingdom of darkness by spreading the gospel, serving people in need and pursuing righteousness.",
+        "People cannot win a spiritual war if they do not know they are in it.",
+        "Destruction and confusion in culture or individual lives can result from sin, but sometimes they result from evil."
+      ],
+      "transcript_uncertainties": [
+        "The account of Pope Francis's three encounters with Satan and his vision of hell is presented as reported."
+      ],
+      "important_details": [
+        "The sons of a Jewish chief priest invoked Jesus's name while attempting to drive out evil spirits.",
+        "Prayer and scripture help Christians stand firm against spiritual forces rather than becoming terrified or overwhelmed.",
+        "Serving the kingdom of God includes feeding hungry people, helping widows and orphans, digging wells and ministering to prisoners."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "MwcKKwibGak",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Daily_Dose_Of_Wisdom"
+      },
+      "id": "OHnaC9PRKf8",
+      "source": "youtube",
+      "title": "Top Critics CONCEDE Data For Resurrection Of JESUS (19 Minute Breakdown!)",
+      "channel": "Daily_Dose_Of_Wisdom",
+      "url": "https://www.youtube.com/watch?v=OHnaC9PRKf8",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 21802,
+        "processed_unique_chars": 21802,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.999,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "recency"
+      ],
+      "transcript_full_summary": "Gary Habermas presents early Christian testimony as historical evidence for Jesus’s resurrection, arguing that alternative explanations do not account for the data. The surrounding argument holds that some skeptics reject miraculous testimony because of philosophical assumptions rather than differences over historical evidence.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Paul’s account in 1 Corinthians 15 preserves an early resurrection message that Habermas traces through Paul’s meetings with Peter and James.",
+        "Habermas places Paul’s first Jerusalem visit five or six years after the crucifixion and his later meeting with the apostles around AD 48.",
+        "Jesus’s earliest followers had experiences they believed were appearances of the risen Jesus, a proposition Habermas says is widely accepted by scholars."
+      ],
+      "transcript_notable_claims": [
+        "The rejection of a miracle despite hypothetical reliable eyewitness testimony reflects a philosophical judgment about miracles rather than a disagreement over historical data.",
+        "The evidence for the earliest followers’ experiences rules out alternatives such as lying or hallucination, leaving a resurrection appearance as the explanation.",
+        "Most critical New Testament scholars classify the Gospels as Greco-Roman biographies, and many Greco-Roman historians also reported miracles.",
+        "Bart Ehrman identifies 11 independent historical sources for Jesus’s crucifixion and dates some resurrection material to one or two years afterward."
+      ],
+      "transcript_uncertainties": [
+        "Paul’s activities during his three years in Arabia are not known, although some people think he preached.",
+        "Paul’s meeting with Peter and James may have occurred five or six years after the crucifixion, depending on the date assigned to his Damascus-road experience.",
+        "E. P. Sanders did not know exactly how the earliest disciples saw the risen Jesus."
+      ],
+      "important_details": [
+        "Paul says in Galatians that he met Peter for 15 days and also saw James; Habermas infers that their conversations must at least have touched on the gospel.",
+        "Paul’s account of a later Jerusalem meeting says the apostles added nothing to his gospel and agreed that he and Barnabas would preach to Gentiles while they preached to Jews.",
+        "The memorable form of 1 Corinthians 15:3 and following is presented as evidence of an early creed that was formulated before Paul received it."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "OHnaC9PRKf8",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@russianmediamonitor"
+      },
+      "id": "STg35GVro7U",
+      "source": "youtube",
+      "title": "Vladimir Solovyov insists Russia should not talk to Europe",
+      "channel": "russianmediamonitor",
+      "url": "https://www.youtube.com/watch?v=STg35GVro7U",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 3790,
+        "processed_unique_chars": 3790,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 1.947,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:3790",
+        "recency"
+      ],
+      "transcript_full_summary": "Russia should disregard Europe and orient its foreign relations toward the East as a fairer, multipolar world order emerges. Europe and America are no longer the world’s centers, while attacks on Russian territory cannot fundamentally change Russia’s course.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Major meetings in China are drawing the world’s attention as the global order changes.",
+        "Symbolic attacks on Russian territory change nothing and attempts to influence the Russian people have the opposite effect.",
+        "Russia should exclude Europe from great-power negotiations and look eastward rather than build relations with Britain, France and Germany."
+      ],
+      "transcript_notable_claims": [
+        "A fairer multipolar order is emerging because Europe and America are no longer the world’s centers.",
+        "European leaders have no standing to determine the future or lecture Russia, a giant Eurasian power.",
+        "Europe is returning to the status of a global backwater after centuries in that position."
+      ],
+      "transcript_uncertainties": [],
+      "important_details": [
+        "Colby assessed strikes deep inside Russian territory skeptically.",
+        "The Baltic states, Poland and European leaders are dismissed as too insignificant to shape Russia’s future or join negotiations with great powers.",
+        "Russia should focus on itself domestically and direct its external attention toward the East."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "STg35GVro7U",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DLMChristianLifestyle"
+      },
+      "id": "gBawIpGk9aE",
+      "source": "youtube",
+      "title": "5 Things That Make a GODLY MAN Choose a Woman & Keep Choosing Her",
+      "channel": "DLMChristianLifestyle",
+      "url": "https://www.youtube.com/watch?v=gBawIpGk9aE",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "gBawIpGk9aE",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "RvLS_bvz904",
+      "source": "youtube",
+      "title": "GAS-SUPER-GAU! Norwegen-Lieferungen brechen ein + deutsche Speicher fallen immer schneller!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=RvLS_bvz904",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-25T16:32:03+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-28T16:32:03+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8981,
+        "processed_unique_chars": 8981,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.995,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8981",
+        "recency"
+      ],
+      "transcript_full_summary": "Deutschlands Gasspeicher stehen nach früher Kälte und hohen Entnahmen unter Druck, während Störungen norwegische Gaslieferungen verringern. Bei anhaltend extremen Entnahmen drohen nach einer Szenariorechnung eine Gasmangellage und Abschaltungen der Industrie.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die Initiative EnergiespeicherV erwartet bei normalem oder warmem Wetter eine gesicherte Gasversorgung, bei extremer Kälte aber mögliche Versorgungslücken von Januar bis März 2027.",
+        "Vom 9. bis 15. November wurden rund 24,5 Terawattstunden Gas verbraucht, knapp 29 Prozent mehr als in der Vorjahreswoche.",
+        "Norwegens Pipelineexporte sanken laut Reuters von 335 auf 285,7 Millionen Kubikmeter täglich; mehrere Gasfelder waren von Drosselungen oder Ausfällen betroffen."
+      ],
+      "transcript_notable_claims": [
+        "Deutschland steuert wegen niedriger Speicherstände, früher Kälte, fehlenden Gases aus Russland und dem Nahen Osten sowie norwegischer Lieferprobleme auf das Extremszenario zu.",
+        "Ein Krieg im Iran verschärft den weltweiten Wettbewerb um Flüssiggas, sodass Tanker zu Höchstbietenden fahren und bei höheren Angeboten unterwegs umkehren.",
+        "Eine Rückkehr zu mäßigen Gasentnahmen ist wegen der Kriege, der Probleme in Norwegen und des kalten Winters nicht zu erwarten."
+      ],
+      "transcript_uncertainties": [
+        "Bei anhaltend extremer Kälte entsprechend dem Referenzjahr 2010 könnte der Gasbedarf von Januar bis März 2027 nicht vollständig gedeckt werden.",
+        "Bei anhaltend extremer Entnahme würden die Speicher laut einer ChatGPT-Szenariorechnung Mitte Januar unter 20 Prozent fallen und am 1. März leer sein.",
+        "Bei hoher statt extremer Entnahme würde laut derselben Szenariorechnung Mitte Februar eine Gasmangellage erreicht."
+      ],
+      "important_details": [
+        "Die norwegische Plattform Visund wurde nach einem Brand in einem elektronischen System am 4. November stillgelegt; ihr Ausfall wurde bis zum 1. Januar verlängert.",
+        "Eine Explosion an einer Kabelendhülse im Umspannwerk Endrup reduzierte die Stromübertragung zwischen Dänemark und Deutschland um ein Gigawatt.",
+        "Weniger dänischer Strom während einer Dunkelflaute könnte die Gasverstromung erhöhen und die deutschen Speicher schneller leeren.",
+        "Bei einer Gasmangellage unter 20 Prozent Speicherfüllstand müsste die Industrie abgeschaltet werden."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "RvLS_bvz904",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "CZEa85NHWog",
+      "source": "youtube",
+      "title": "Rückstand bei KI: „Ich mache mir große Sorgen um unser Land“ – Frank Thelen | maischberger",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=CZEa85NHWog",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 17609,
+        "processed_unique_chars": 17609,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "Frank Thelen sieht Deutschland bei KI und Robotik weit abgeschlagen und macht sich große Sorgen um die wirtschaftliche Zukunft des Landes. Er hält außergewöhnliche Unternehmer für entscheidend, kritisiert Friedrich Merz’ ausbleibende Reformen und lehnt eine KI-Steuer ab.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Frank Thelen hält die Rückkehr des im Transkript Jensen Wang genannten Nvidia-Chefs für entscheidend und trennt dessen Privatleben von seiner unternehmerischen Leistung.",
+        "Thelen sieht Deutschland wegen hoher Energiepreise und fehlender Chips und großer KI-Modelle bei den kommenden Wachstumstechnologien weit abgeschlagen.",
+        "Thelen kritisiert ausbleibende Reformen unter Friedrich Merz und lehnt Carsten Wildbergers Überlegung ab, KI-Umsätze zur Finanzierung des Arbeitsmarktumbaus zu besteuern."
+      ],
+      "transcript_notable_claims": [
+        "Außergewöhnliche Gründerpersönlichkeiten sind für große Technologieunternehmen schwer zu ersetzen und müssen in Europa stärker gefördert werden.",
+        "Das Privatleben eines Unternehmenschefs ist von seiner Leistung zu trennen; bei Spionage müsste er das Unternehmen jedoch sofort verlassen.",
+        "Donald Trump erkennt trotz anderer abscheulicher Verhaltensweisen, was wirtschaftlich für die USA wichtig ist, und hört führenden Unternehmern zu.",
+        "Deutschland sollte KI nicht besteuern, solange es in diesem Bereich kaum Umsätze erzielt und die Technologie noch zu wenig einsetzt.",
+        "Die Verbindung böswilliger Menschen mit neuesten KI-Werkzeugen könnte eine Milliarde Menschen das Leben kosten.",
+        "Europa sollte mit seinen Werten an der Entwicklung und Regulierung von KI beteiligt sein; auf KI zu verzichten wäre keine Antwort auf deren Gefahren, während China und die USA voranschreiten."
+      ],
+      "transcript_uncertainties": [
+        "Thelen glaubt, dass die Untersuchung der Spionagevorwürfe vernünftig durchgeführt wurde, hält deren Ergebnis aber noch für abzuwarten.",
+        "Thelen weiß nicht, ob US-Chipverkäufe nach China oder die Verweigerung solcher Lieferungen langfristig die bessere Strategie sind.",
+        "Thelen hält Merz grundsätzlich für fähig, sieht aber derzeit keine Alternative für die Führung Deutschlands.",
+        "Thelen ist nicht zuversichtlich, dass Deutschland den Rückstand bei KI noch aufholen kann."
+      ],
+      "important_details": [
+        "Die Rückkehr des Nvidia-Chefs erzeugte laut Thelen an einem Tag einen Marktwertzuwachs von ungefähr 42 Prozent des DAX-Werts.",
+        "Thelen unterstützte Merz im Wahlkampf nach dessen Zusage, Reformen durchzusetzen, ist aber über die ausbleibende Umsetzung und dessen Kommunikation frustriert.",
+        "Thelen hält Finanzminister Lars Klingbeil für politisch inkompetent und meint, er verstehe Finanzen nicht.",
+        "Thelen äußert schwere moralische Vorwürfe gegen Bill Gates im Zusammenhang mit sehr jungen Mädchen und hält sie für mehr als Gerüchte."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "CZEa85NHWog",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@BlackScoutSurvival"
+      },
+      "id": "LrK-O_MqEcw",
+      "source": "youtube",
+      "title": "This Is How World War 3 Starts…",
+      "channel": "BlackScoutSurvival",
+      "url": "https://www.youtube.com/watch?v=LrK-O_MqEcw",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 13106,
+        "processed_unique_chars": 13106,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.999,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Russian aerial objects entering Poland raise concerns about a possible provocation and accidental escalation between NATO and Russia, though World War III has not started. Separately, an apparent intrusion into an FBI law-enforcement database has prompted questions about its scope and the administration’s response.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Three aerial objects reportedly entered Poland during Russia’s November 20 attack on Ukraine; Polish authorities recovered two suspected missiles and one suspected jet-powered drone.",
+        "Polish Prime Minister Donald Tusk considers the timing a possible deliberate provocation, while Donald Trump called the incident a mistake.",
+        "The FBI is investigating an apparent intrusion into the National Crime Information Center, a database used by police agencies across the United States."
+      ],
+      "transcript_notable_claims": [
+        "Repeated Russian incursions into NATO territory may test the boundaries of what the alliance will tolerate, without necessarily indicating a Russian decision to attack NATO.",
+        "A misidentified missile, a pilot’s decision to fire or a radar operator’s error could escalate an incident between two nuclear-armed sides.",
+        "NATO’s Article 5 does not automatically start a world war; allies must determine how to respond to an armed attack.",
+        "Trump’s positive spin on the FBI intrusion diverted attention from questions about what happened to the database."
+      ],
+      "transcript_uncertainties": [
+        "The Institute for the Study of War assesses that Russia may have been testing NATO’s response, but that is not proof that Vladimir Putin personally ordered missiles into Poland.",
+        "The scope of the apparent FBI database intrusion and the identity of those responsible are unknown.",
+        "Russia’s willingness to discourage a potential European deployment into Ukraine, and NATO’s willingness to respond, remain open questions."
+      ],
+      "important_details": [
+        "One suspected missile landed approximately 35 kilometres from a multinational exercise rehearsing how European forces could operate in Ukraine after the war; no casualties or major damage were reported.",
+        "NATO Secretary General Mark Rutte said the alliance would defend Polish territory, while Poland sought stronger air defences, additional surveillance aircraft and F-35 fighters.",
+        "The New York Times reported that Stephen Miller ordered Homeland Security Secretary Mark Wayne Mullen to stand down from the administration’s public response to outages after controversial television appearances."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "LrK-O_MqEcw",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@RedactedNews"
+      },
+      "id": "Ptv_f3Wtjlg",
+      "source": "youtube",
+      "title": "EXPOSED: Your Favorite MAGA Influencers Are Being PAID?! The Dark Money Scandal ROCKING X!",
+      "channel": "RedactedNews",
+      "url": "https://www.youtube.com/watch?v=Ptv_f3Wtjlg",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 27880,
+        "processed_unique_chars": 27880,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.999,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "A Midas Project report links right-wing influencers to a campaign promoting Nvidia chip sales to China. Journalist Gabrielle Cuchia describes undisclosed paid posts and a separate effort to make White House messaging appear organic, arguing that money and access have compromised supposedly independent media.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The Midas Project identified similar posts and tracking links in a campaign promoting Nvidia chip sales to China, but it is unclear which people sharing the links were paid.",
+        "Gabrielle Cuchia used an Urban Legend account to inspect campaigns without posting and says payments vary by campaign and influencer reach, often without disclosure.",
+        "Cuchia says VFT sought to use her voice and scripts to present White House messaging about Chinese influence as an organic video."
+      ],
+      "transcript_notable_claims": [
+        "Cuchia says CJ Pearson receives $20,000 a month from Extend Reality, an Israeli autonomous drone company.",
+        "A VFT document on reactions to the Charlie Kirk assassination described foreign actors using a Russian disinformation playbook and called for a whole-of-government response comparable to cyberattacks or terrorism.",
+        "Cuchia sees the VFT document as treating dissenters as national security threats while using the same manufactured-consensus tactics it attributes to others.",
+        "Influencers' pursuit of money and White House access has turned media that promised independence into an extension of lobbying and access journalism.",
+        "Cuchia says she was asked to leave the Pentagon because she angered Pete Hegseth and the administration, not because of poor reporting."
+      ],
+      "transcript_uncertainties": [
+        "The Midas Project list does not establish whether people who reposted tracking links were paid or how much individual influencers received.",
+        "Cuchia does not know whether Urban Legend's influencer network was used after she exposed the proposed VFT China video.",
+        "Cuchia doubts that influencers visiting Israel were taken into genuine secure facilities, but she does not know whether the facilities were real or mock-ups.",
+        "Cuchia could not determine which of several companies named Makabe paid for influencer trips to Israel.",
+        "A third party told Cuchia that the proposed VFT China report would benefit Nick Shirley, but Shirley denied that account."
+      ],
+      "important_details": [
+        "Urban Legend's campaigns offer different rates, with larger-reach influencers paid more, and Cuchia says sponsored posts should carry an ad disclosure.",
+        "Cuchia says an intermediary who hired her for research on a family farm later connected her to VFT and White House messaging work intended to look organic.",
+        "Cuchia says Trump and influencers denied there was a war while US airstrikes were underway and an Iranian surface-to-air missile narrowly missed US personnel."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "Ptv_f3Wtjlg",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "_J6Td7o2ijM",
+      "source": "youtube",
+      "title": "Jan Ericson (M): En regering ledd av Magdalena Andersson vore dysfunktionell",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=_J6Td7o2ijM",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "_J6Td7o2ijM",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "aT1qMrptCQc",
+      "source": "youtube",
+      "title": "Inside Bat Yam’s Real Estate Market",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=aT1qMrptCQc",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "video_id": "aT1qMrptCQc",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "pHZrro2mUmg",
+      "source": "youtube",
+      "title": "THE FINAL SIGN--Divine Law, Human History & Prophetic Destiny",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=pHZrro2mUmg",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-26T04:30:00+00:00",
+      "screened_at": "2026-11-26T04:30:00+00:00",
+      "expires_at": "2026-11-29T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 6030,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 2.507,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:6030",
+        "recency"
+      ],
+      "video_id": "pHZrro2mUmg",
+      "processed_at_utc": "2026-11-26T14:10:09+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-25T14:46:22+00:00",
+  "updated_at_utc": "2026-11-26T14:10:09+00:00",
   "version": 1
 }

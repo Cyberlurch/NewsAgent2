@@ -32059,6 +32059,246 @@
         "approved_after_generation_checks": true,
         "seal": "058300bdf6a485a56fa363cff4798f8e12da28bedf7f8e37a972e27fbd4eef2c"
       }
+    },
+    "cyberlurch:daily:2026-11-26:2026-11-26:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-26",
+      "period_end": "2026-11-26",
+      "edition_id": "cyberlurch:daily:2026-11-26:2026-11-26:production",
+      "content_version": "a28a58d0fe702e96d0a17903201118b06fc8a460b8c2a97bf5a3f47be9d0a372",
+      "message_id": "<d7bcf987dde6ece95e3373ce92baff88aa2cfa1968ae62fe3f1f4862a61d7a21@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-26T14:10:13+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "gXwen7JNWmo",
+            "title": "⚡ALERT! \"Next Week Determines Fate of Our Society\"",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=gXwen7JNWmo"
+          },
+          {
+            "source": "youtube",
+            "id": "5PSRH5pQdF0",
+            "title": "Det här är Centerns spel inför måndagens omröstningen - Adam Rydström",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=5PSRH5pQdF0"
+          },
+          {
+            "source": "youtube",
+            "id": "BQyI1r2Kg8M",
+            "title": "heute 7:00 PM from 11/25/2026 Orange Day, federal budget, prostitution, EU candidate Serbia",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=BQyI1r2Kg8M"
+          },
+          {
+            "source": "youtube",
+            "id": "MwcKKwibGak",
+            "title": "Pope Francis' Terrifying Encounter With the Devil, Chilling Vision of Hell",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=MwcKKwibGak"
+          },
+          {
+            "source": "youtube",
+            "id": "OHnaC9PRKf8",
+            "title": "Top Critics CONCEDE Data For Resurrection Of JESUS (19 Minute Breakdown!)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=OHnaC9PRKf8"
+          },
+          {
+            "source": "youtube",
+            "id": "STg35GVro7U",
+            "title": "Vladimir Solovyov insists Russia should not talk to Europe",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=STg35GVro7U"
+          },
+          {
+            "source": "youtube",
+            "id": "gBawIpGk9aE",
+            "title": "5 Things That Make a GODLY MAN Choose a Woman & Keep Choosing Her",
+            "channel": "DLMChristianLifestyle",
+            "url": "https://www.youtube.com/watch?v=gBawIpGk9aE"
+          },
+          {
+            "source": "youtube",
+            "id": "RvLS_bvz904",
+            "title": "GAS-SUPER-GAU! Norwegen-Lieferungen brechen ein + deutsche Speicher fallen immer schneller!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=RvLS_bvz904"
+          },
+          {
+            "source": "youtube",
+            "id": "CZEa85NHWog",
+            "title": "Rückstand bei KI: „Ich mache mir große Sorgen um unser Land“ – Frank Thelen | maischberger",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=CZEa85NHWog"
+          },
+          {
+            "source": "youtube",
+            "id": "LrK-O_MqEcw",
+            "title": "This Is How World War 3 Starts…",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=LrK-O_MqEcw"
+          },
+          {
+            "source": "youtube",
+            "id": "Ptv_f3Wtjlg",
+            "title": "EXPOSED: Your Favorite MAGA Influencers Are Being PAID?! The Dark Money Scandal ROCKING X!",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=Ptv_f3Wtjlg"
+          },
+          {
+            "source": "youtube",
+            "id": "_J6Td7o2ijM",
+            "title": "Jan Ericson (M): En regering ledd av Magdalena Andersson vore dysfunktionell",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=_J6Td7o2ijM"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "gXwen7JNWmo",
+            "title": "⚡ALERT! \"Next Week Determines Fate of Our Society\"",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=gXwen7JNWmo"
+          },
+          {
+            "source": "youtube",
+            "id": "5PSRH5pQdF0",
+            "title": "Det här är Centerns spel inför måndagens omröstningen - Adam Rydström",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=5PSRH5pQdF0"
+          },
+          {
+            "source": "youtube",
+            "id": "BQyI1r2Kg8M",
+            "title": "heute 7:00 PM from 11/25/2026 Orange Day, federal budget, prostitution, EU candidate Serbia",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=BQyI1r2Kg8M"
+          },
+          {
+            "source": "youtube",
+            "id": "MwcKKwibGak",
+            "title": "Pope Francis' Terrifying Encounter With the Devil, Chilling Vision of Hell",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=MwcKKwibGak"
+          },
+          {
+            "source": "youtube",
+            "id": "OHnaC9PRKf8",
+            "title": "Top Critics CONCEDE Data For Resurrection Of JESUS (19 Minute Breakdown!)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=OHnaC9PRKf8"
+          },
+          {
+            "source": "youtube",
+            "id": "STg35GVro7U",
+            "title": "Vladimir Solovyov insists Russia should not talk to Europe",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=STg35GVro7U"
+          },
+          {
+            "source": "youtube",
+            "id": "gBawIpGk9aE",
+            "title": "5 Things That Make a GODLY MAN Choose a Woman & Keep Choosing Her",
+            "channel": "DLMChristianLifestyle",
+            "url": "https://www.youtube.com/watch?v=gBawIpGk9aE"
+          },
+          {
+            "source": "youtube",
+            "id": "RvLS_bvz904",
+            "title": "GAS-SUPER-GAU! Norwegen-Lieferungen brechen ein + deutsche Speicher fallen immer schneller!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=RvLS_bvz904"
+          },
+          {
+            "source": "youtube",
+            "id": "CZEa85NHWog",
+            "title": "Rückstand bei KI: „Ich mache mir große Sorgen um unser Land“ – Frank Thelen | maischberger",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=CZEa85NHWog"
+          },
+          {
+            "source": "youtube",
+            "id": "LrK-O_MqEcw",
+            "title": "This Is How World War 3 Starts…",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=LrK-O_MqEcw"
+          },
+          {
+            "source": "youtube",
+            "id": "Ptv_f3Wtjlg",
+            "title": "EXPOSED: Your Favorite MAGA Influencers Are Being PAID?! The Dark Money Scandal ROCKING X!",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=Ptv_f3Wtjlg"
+          },
+          {
+            "source": "youtube",
+            "id": "_J6Td7o2ijM",
+            "title": "Jan Ericson (M): En regering ledd av Magdalena Andersson vore dysfunktionell",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=_J6Td7o2ijM"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "gXwen7JNWmo",
+            "title": "⚡ALERT! \"Next Week Determines Fate of Our Society\"",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=gXwen7JNWmo"
+          },
+          {
+            "source": "youtube",
+            "id": "5PSRH5pQdF0",
+            "title": "Det här är Centerns spel inför måndagens omröstningen - Adam Rydström",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=5PSRH5pQdF0"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-26T14:10:09+00:00"
+      },
+      "workflow_run_id": "45835483183",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-26:2026-11-26:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "1a123f740622a0a69ed12fb72de18033f707b29066e074cf903d7b92cefb45a7",
+        "finalization_policy": "markers",
+        "content_version": "a28a58d0fe702e96d0a17903201118b06fc8a460b8c2a97bf5a3f47be9d0a372",
+        "message_id": "<d7bcf987dde6ece95e3373ce92baff88aa2cfa1968ae62fe3f1f4862a61d7a21@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "1f252a766c81c4ba_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "0182325cc80746e5eb455c466b2080f752daa625435f83a9177b0803b596dc4d"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "b2d0624bec75a4b5e7de76c5718f8e5c35b169d589a3aeb299c97357ca12c7a7"
+      }
     }
   },
   "paper_legacy_unknown": {
