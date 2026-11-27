@@ -33201,6 +33201,970 @@
         "approved_after_generation_checks": true,
         "seal": "dc4288d48b58d1684f321272194dd75ef2d9f84378a7f830d3d4e91dba14dbe5"
       }
+    },
+    "cyberlurch:daily:2026-11-27:2026-11-27:production": {
+      "report_key": "cyberlurch",
+      "cadence": "daily",
+      "period_start": "2026-11-27",
+      "period_end": "2026-11-27",
+      "edition_id": "cyberlurch:daily:2026-11-27:2026-11-27:production",
+      "content_version": "019922c0e805778886082db5b0f41bd35da65845bd0a66fe861bfd8aa072af3d",
+      "message_id": "<91c31482a32217d9c1c1c1df229c4e0161750cbfec32a84fb73bb1aeff52f43c@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-27T14:09:13+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "w9s5quDnFU4",
+            "title": "⚡ALERT! UK Summons 100,000 Soldiers! Russia Issues PREEMPTIVE NUCLEAR Strike Threat!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=w9s5quDnFU4"
+          },
+          {
+            "source": "youtube",
+            "id": "2lErBc5KRlg",
+            "title": "ILTV On The Hour - November 26, 2026 | A Zionist Superhero Takes on the World – And Faces Censorship",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=2lErBc5KRlg"
+          },
+          {
+            "source": "youtube",
+            "id": "3mKWxtccuzk",
+            "title": "World Economic Forum Advisor on the Future, Yuval Noah Harari #jesus #bible #germany",
+            "channel": "endzeit-kanal",
+            "url": "https://www.youtube.com/watch?v=3mKWxtccuzk"
+          },
+          {
+            "source": "youtube",
+            "id": "9JWnlhft7rc",
+            "title": "Frauen bei der Polizei in Kabul: Ausnahmeregelung der Taliban",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=9JWnlhft7rc"
+          },
+          {
+            "source": "youtube",
+            "id": "IAyRmkBnZqc",
+            "title": "An Arab Spills the Beans on Ray Comfort",
+            "channel": "WretchedNetwork",
+            "url": "https://www.youtube.com/watch?v=IAyRmkBnZqc"
+          },
+          {
+            "source": "youtube",
+            "id": "ImeqltO6hN4",
+            "title": "The Nvidia Scandal: Is the AI Bubble Bursting Now?",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=ImeqltO6hN4"
+          },
+          {
+            "source": "youtube",
+            "id": "IpLTv9dlTkM",
+            "title": "Måste jobba för sin lön – då gnäller riksdagspolitikerna - Roger Richthoff",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=IpLTv9dlTkM"
+          },
+          {
+            "source": "youtube",
+            "id": "RILu1NPdJ3U",
+            "title": "Polens brisanter Militärplan. Polen bringt Militär in Gefechtsbereitschaft!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=RILu1NPdJ3U"
+          },
+          {
+            "source": "youtube",
+            "id": "APscydfzm04",
+            "title": "What Americans Have Forgotten About the True Meaning of Thanksgiving",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=APscydfzm04"
+          },
+          {
+            "source": "youtube",
+            "id": "AXoLtD4-kXA",
+            "title": "Discovering King Herod's Legacy in Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=AXoLtD4-kXA"
+          },
+          {
+            "source": "youtube",
+            "id": "Meo6B2dwWWo",
+            "title": "6 Men, 1 Island, and the Greatest Heist in American History",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=Meo6B2dwWWo"
+          },
+          {
+            "source": "youtube",
+            "id": "Oz4FrdrZ2-g",
+            "title": "Henrik Vinge (SD): Sänkt bistånd ska finansiera din välfärd",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=Oz4FrdrZ2-g"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "w9s5quDnFU4",
+            "title": "⚡ALERT! UK Summons 100,000 Soldiers! Russia Issues PREEMPTIVE NUCLEAR Strike Threat!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=w9s5quDnFU4"
+          },
+          {
+            "source": "youtube",
+            "id": "2lErBc5KRlg",
+            "title": "ILTV On The Hour - November 26, 2026 | A Zionist Superhero Takes on the World – And Faces Censorship",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=2lErBc5KRlg"
+          },
+          {
+            "source": "youtube",
+            "id": "3mKWxtccuzk",
+            "title": "World Economic Forum Advisor on the Future, Yuval Noah Harari #jesus #bible #germany",
+            "channel": "endzeit-kanal",
+            "url": "https://www.youtube.com/watch?v=3mKWxtccuzk"
+          },
+          {
+            "source": "youtube",
+            "id": "9JWnlhft7rc",
+            "title": "Frauen bei der Polizei in Kabul: Ausnahmeregelung der Taliban",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=9JWnlhft7rc"
+          },
+          {
+            "source": "youtube",
+            "id": "IAyRmkBnZqc",
+            "title": "An Arab Spills the Beans on Ray Comfort",
+            "channel": "WretchedNetwork",
+            "url": "https://www.youtube.com/watch?v=IAyRmkBnZqc"
+          },
+          {
+            "source": "youtube",
+            "id": "ImeqltO6hN4",
+            "title": "The Nvidia Scandal: Is the AI Bubble Bursting Now?",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=ImeqltO6hN4"
+          },
+          {
+            "source": "youtube",
+            "id": "IpLTv9dlTkM",
+            "title": "Måste jobba för sin lön – då gnäller riksdagspolitikerna - Roger Richthoff",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=IpLTv9dlTkM"
+          },
+          {
+            "source": "youtube",
+            "id": "RILu1NPdJ3U",
+            "title": "Polens brisanter Militärplan. Polen bringt Militär in Gefechtsbereitschaft!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=RILu1NPdJ3U"
+          },
+          {
+            "source": "youtube",
+            "id": "APscydfzm04",
+            "title": "What Americans Have Forgotten About the True Meaning of Thanksgiving",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=APscydfzm04"
+          },
+          {
+            "source": "youtube",
+            "id": "AXoLtD4-kXA",
+            "title": "Discovering King Herod's Legacy in Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=AXoLtD4-kXA"
+          },
+          {
+            "source": "youtube",
+            "id": "Meo6B2dwWWo",
+            "title": "6 Men, 1 Island, and the Greatest Heist in American History",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=Meo6B2dwWWo"
+          },
+          {
+            "source": "youtube",
+            "id": "Oz4FrdrZ2-g",
+            "title": "Henrik Vinge (SD): Sänkt bistånd ska finansiera din välfärd",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=Oz4FrdrZ2-g"
+          }
+        ],
+        "detail_items": [
+          {
+            "source": "youtube",
+            "id": "w9s5quDnFU4",
+            "title": "⚡ALERT! UK Summons 100,000 Soldiers! Russia Issues PREEMPTIVE NUCLEAR Strike Threat!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=w9s5quDnFU4"
+          },
+          {
+            "source": "youtube",
+            "id": "2lErBc5KRlg",
+            "title": "ILTV On The Hour - November 26, 2026 | A Zionist Superhero Takes on the World – And Faces Censorship",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=2lErBc5KRlg"
+          }
+        ],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-27T14:09:09+00:00"
+      },
+      "workflow_run_id": "46012453708",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:daily:2026-11-27:2026-11-27:production",
+        "subject": "The Cyberlurch Report",
+        "subject_hash": "e818aaa1300724cbebf02f41b3176a8fdb7fc51afeb63c35096182f097e32508",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "43ed249f91f2ea8a4173fcf5b33b1836f9b12f05093e7aaa639673bd6637181f",
+        "finalization_policy": "markers",
+        "content_version": "019922c0e805778886082db5b0f41bd35da65845bd0a66fe861bfd8aa072af3d",
+        "message_id": "<91c31482a32217d9c1c1c1df229c4e0161750cbfec32a84fb73bb1aeff52f43c@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "28f18657609c7875_cyberlurch_daily_cyberlurch_digests_generated_delta.json",
+            "sha256": "2646fcd98793e3d823dcb3dcd4e489cbaaa4aaf1a3761e63d79d15638c6caaae"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "7f0cbd6bcd42b684a8e6d8d98d7f1ab2d47db2f80b9aabb06949ef52d7ffc99c"
+      }
+    },
+    "cyberlurch:weekly:2026-11-20:2026-11-27:production": {
+      "report_key": "cyberlurch",
+      "cadence": "weekly",
+      "period_start": "2026-11-20",
+      "period_end": "2026-11-27",
+      "edition_id": "cyberlurch:weekly:2026-11-20:2026-11-27:production",
+      "content_version": "1c6d56a89124018524ff331b9f1957eadddf3c28851080981594f48f1397d4e7",
+      "message_id": "<ecfd3087471d653f7139f37dae7abdd45403acedcc52e687e573c620703ea070@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-27T14:10:33+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "youtube",
+            "id": "AXoLtD4-kXA",
+            "title": "Discovering King Herod's Legacy in Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=AXoLtD4-kXA"
+          },
+          {
+            "source": "youtube",
+            "id": "2lErBc5KRlg",
+            "title": "ILTV On The Hour - November 26, 2026 | A Zionist Superhero Takes on the World – And Faces Censorship",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=2lErBc5KRlg"
+          },
+          {
+            "source": "youtube",
+            "id": "3mKWxtccuzk",
+            "title": "World Economic Forum Advisor on the Future, Yuval Noah Harari #jesus #bible #germany",
+            "channel": "endzeit-kanal",
+            "url": "https://www.youtube.com/watch?v=3mKWxtccuzk"
+          },
+          {
+            "source": "youtube",
+            "id": "9JWnlhft7rc",
+            "title": "Frauen bei der Polizei in Kabul: Ausnahmeregelung der Taliban",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=9JWnlhft7rc"
+          },
+          {
+            "source": "youtube",
+            "id": "IAyRmkBnZqc",
+            "title": "An Arab Spills the Beans on Ray Comfort",
+            "channel": "WretchedNetwork",
+            "url": "https://www.youtube.com/watch?v=IAyRmkBnZqc"
+          },
+          {
+            "source": "youtube",
+            "id": "ImeqltO6hN4",
+            "title": "The Nvidia Scandal: Is the AI Bubble Bursting Now?",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=ImeqltO6hN4"
+          },
+          {
+            "source": "youtube",
+            "id": "IpLTv9dlTkM",
+            "title": "Måste jobba för sin lön – då gnäller riksdagspolitikerna - Roger Richthoff",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=IpLTv9dlTkM"
+          },
+          {
+            "source": "youtube",
+            "id": "RILu1NPdJ3U",
+            "title": "Polens brisanter Militärplan. Polen bringt Militär in Gefechtsbereitschaft!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=RILu1NPdJ3U"
+          },
+          {
+            "source": "youtube",
+            "id": "APscydfzm04",
+            "title": "What Americans Have Forgotten About the True Meaning of Thanksgiving",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=APscydfzm04"
+          },
+          {
+            "source": "youtube",
+            "id": "Meo6B2dwWWo",
+            "title": "6 Men, 1 Island, and the Greatest Heist in American History",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=Meo6B2dwWWo"
+          },
+          {
+            "source": "youtube",
+            "id": "Oz4FrdrZ2-g",
+            "title": "Henrik Vinge (SD): Sänkt bistånd ska finansiera din välfärd",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=Oz4FrdrZ2-g"
+          },
+          {
+            "source": "youtube",
+            "id": "Pn2Ih_lB-BI",
+            "title": "THE JERUSALEM DOSSIER--Understanding the End Game Plan of God",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=Pn2Ih_lB-BI"
+          },
+          {
+            "source": "youtube",
+            "id": "UFRIrhFpo38",
+            "title": "They Told Us It's Not a Cyber Attack. Here's What Really Happened.",
+            "channel": "EndTimesProductions",
+            "url": "https://www.youtube.com/watch?v=UFRIrhFpo38"
+          },
+          {
+            "source": "youtube",
+            "id": "w9s5quDnFU4",
+            "title": "⚡ALERT! UK Summons 100,000 Soldiers! Russia Issues PREEMPTIVE NUCLEAR Strike Threat!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=w9s5quDnFU4"
+          },
+          {
+            "source": "youtube",
+            "id": "gXwen7JNWmo",
+            "title": "⚡ALERT! \"Next Week Determines Fate of Our Society\"",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=gXwen7JNWmo"
+          },
+          {
+            "source": "youtube",
+            "id": "5PSRH5pQdF0",
+            "title": "Det här är Centerns spel inför måndagens omröstningen - Adam Rydström",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=5PSRH5pQdF0"
+          },
+          {
+            "source": "youtube",
+            "id": "BQyI1r2Kg8M",
+            "title": "heute 7:00 PM from 11/25/2026 Orange Day, federal budget, prostitution, EU candidate Serbia",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=BQyI1r2Kg8M"
+          },
+          {
+            "source": "youtube",
+            "id": "MwcKKwibGak",
+            "title": "Pope Francis' Terrifying Encounter With the Devil, Chilling Vision of Hell",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=MwcKKwibGak"
+          },
+          {
+            "source": "youtube",
+            "id": "OHnaC9PRKf8",
+            "title": "Top Critics CONCEDE Data For Resurrection Of JESUS (19 Minute Breakdown!)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=OHnaC9PRKf8"
+          },
+          {
+            "source": "youtube",
+            "id": "STg35GVro7U",
+            "title": "Vladimir Solovyov insists Russia should not talk to Europe",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=STg35GVro7U"
+          },
+          {
+            "source": "youtube",
+            "id": "gBawIpGk9aE",
+            "title": "5 Things That Make a GODLY MAN Choose a Woman & Keep Choosing Her",
+            "channel": "DLMChristianLifestyle",
+            "url": "https://www.youtube.com/watch?v=gBawIpGk9aE"
+          },
+          {
+            "source": "youtube",
+            "id": "CZEa85NHWog",
+            "title": "Rückstand bei KI: „Ich mache mir große Sorgen um unser Land“ – Frank Thelen | maischberger",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=CZEa85NHWog"
+          },
+          {
+            "source": "youtube",
+            "id": "LrK-O_MqEcw",
+            "title": "This Is How World War 3 Starts…",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=LrK-O_MqEcw"
+          },
+          {
+            "source": "youtube",
+            "id": "Ptv_f3Wtjlg",
+            "title": "EXPOSED: Your Favorite MAGA Influencers Are Being PAID?! The Dark Money Scandal ROCKING X!",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=Ptv_f3Wtjlg"
+          },
+          {
+            "source": "youtube",
+            "id": "_J6Td7o2ijM",
+            "title": "Jan Ericson (M): En regering ledd av Magdalena Andersson vore dysfunktionell",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=_J6Td7o2ijM"
+          },
+          {
+            "source": "youtube",
+            "id": "aT1qMrptCQc",
+            "title": "Inside Bat Yam’s Real Estate Market",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=aT1qMrptCQc"
+          },
+          {
+            "source": "youtube",
+            "id": "pHZrro2mUmg",
+            "title": "THE FINAL SIGN--Divine Law, Human History & Prophetic Destiny",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=pHZrro2mUmg"
+          },
+          {
+            "source": "youtube",
+            "id": "RvLS_bvz904",
+            "title": "GAS-SUPER-GAU! Norwegen-Lieferungen brechen ein + deutsche Speicher fallen immer schneller!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=RvLS_bvz904"
+          },
+          {
+            "source": "youtube",
+            "id": "y6DCeQ0cPbc",
+            "title": "⚡ALERT! BLOODBATH Everything SELL OFF Means WAR is Imminent, Russia HITS Poland, IRAN GEARS UP!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=y6DCeQ0cPbc"
+          },
+          {
+            "source": "youtube",
+            "id": "-9DxglTgPY0",
+            "title": "„Der Ausgangspunkt ist eine rechtsextremistische Chatgruppe im Internet“ – ARD-Rechtsexperte",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=-9DxglTgPY0"
+          },
+          {
+            "source": "youtube",
+            "id": "18XfKlEAHfM",
+            "title": "They Said The Bible Was Myth, Then THIS Happened!",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=18XfKlEAHfM"
+          },
+          {
+            "source": "youtube",
+            "id": "2QDmWMW1Qbs",
+            "title": "The New Hanseatic League: How Germany Becomes Wealthy Again",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=2QDmWMW1Qbs"
+          },
+          {
+            "source": "youtube",
+            "id": "8Zn0KIydhBg",
+            "title": "Israel Daily News - November 24, 2026 | Iran's Chilling Warning",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=8Zn0KIydhBg"
+          },
+          {
+            "source": "youtube",
+            "id": "ChA7DCzOjF8",
+            "title": "Nya attacker mot ryska fartyg - Då talar Nato om svensk krigsberedskap",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=ChA7DCzOjF8"
+          },
+          {
+            "source": "youtube",
+            "id": "IF6X-Zf-oR4",
+            "title": "THE DEADLIEST GLOBAL CONTAMINATION--THE DECLINE & FALL OF THE HUMAN RACE",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=IF6X-Zf-oR4"
+          },
+          {
+            "source": "youtube",
+            "id": "QFkMX4s2PaA",
+            "title": "What is heading our way?",
+            "channel": "MarcFriedrich7",
+            "url": "https://www.youtube.com/watch?v=QFkMX4s2PaA"
+          },
+          {
+            "source": "youtube",
+            "id": "2RC5f9EGDUU",
+            "title": "Why more and more companies want to leave Germany | WISO",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=2RC5f9EGDUU"
+          },
+          {
+            "source": "youtube",
+            "id": "Ed8edFpUkmo",
+            "title": "The Military's Plan Was Exposed… Now It's HALTED",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=Ed8edFpUkmo"
+          },
+          {
+            "source": "youtube",
+            "id": "EmOYwV5k0SA",
+            "title": "There's ZERO Chance of AI Doom By 2050 — Debate with Prakash Narayanan, Host of AI in the AM",
+            "channel": "DoomDebates",
+            "url": "https://www.youtube.com/watch?v=EmOYwV5k0SA"
+          },
+          {
+            "source": "youtube",
+            "id": "L5rSztw0Vs4",
+            "title": "Christians HAVE to Stop Following “Preachers” Like This",
+            "channel": "WretchedNetwork",
+            "url": "https://www.youtube.com/watch?v=L5rSztw0Vs4"
+          },
+          {
+            "source": "youtube",
+            "id": "QT6vLOijFpQ",
+            "title": "Sörman om Centerns kris: Annie Lööf-arvet slits itu",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=QT6vLOijFpQ"
+          },
+          {
+            "source": "youtube",
+            "id": "Td6q44Jenxk",
+            "title": "How Can I Share the Gospel Over the Holidays? (Expert Tips!)",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=Td6q44Jenxk"
+          },
+          {
+            "source": "youtube",
+            "id": "0_61srvobxA",
+            "title": "Today at 7 PM on November 23, 2026: Flying objects in Poland, Ukraine sinks Russian ship, Black Week",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=0_61srvobxA"
+          },
+          {
+            "source": "youtube",
+            "id": "0ayC9yZCCNs",
+            "title": "Vladimir Solovyov threatens all Ukrainians for Crimean bridge strikes",
+            "channel": "russianmediamonitor",
+            "url": "https://www.youtube.com/watch?v=0ayC9yZCCNs"
+          },
+          {
+            "source": "youtube",
+            "id": "6jKIkAS6No0",
+            "title": "Dr. James Tour: Origin-of-Life Claims Outrun Chemistry",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=6jKIkAS6No0"
+          },
+          {
+            "source": "youtube",
+            "id": "F1Qyx9-9SFs",
+            "title": "Viktig omröstning - läkemedelsindustrin slipper ansvar för skador",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=F1Qyx9-9SFs"
+          },
+          {
+            "source": "youtube",
+            "id": "Row8KvRbHHk",
+            "title": "Islam Is False By Its Own Standard (Science)",
+            "channel": "Daily_Dose_Of_Wisdom",
+            "url": "https://www.youtube.com/watch?v=Row8KvRbHHk"
+          },
+          {
+            "source": "youtube",
+            "id": "WucQ22tmSro",
+            "title": "The Missing Context: The Ideology Behind Modern Jihad: Where Did It All Begin?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=WucQ22tmSro"
+          },
+          {
+            "source": "youtube",
+            "id": "btu7_5KqHiM",
+            "title": "Merz fordert deutsche Firmen zu Investitionen in der Ukraine auf, obwohl wir gerade kollabieren!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=btu7_5KqHiM"
+          },
+          {
+            "source": "youtube",
+            "id": "57fDX340dkI",
+            "title": "Grenzübertritte von Migranten: Dürfen Menschen zurückgewiesen werden?",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=57fDX340dkI"
+          },
+          {
+            "source": "youtube",
+            "id": "C48XWOO5EPI",
+            "title": "Hakeem Jeffries WON'T COMMIT To Iran War Shutdown Fight",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=C48XWOO5EPI"
+          },
+          {
+            "source": "youtube",
+            "id": "GR3U1pJ9uwk",
+            "title": "Trump’s War Strategy: Why He’s Changing His Tune on Vance",
+            "channel": "judgingfreedom",
+            "url": "https://www.youtube.com/watch?v=GR3U1pJ9uwk"
+          },
+          {
+            "source": "youtube",
+            "id": "N_icrMaF_Ac",
+            "title": "Isaac – Part 40 (Genesis 27:1): The elderly father Isaac blesses the younger son Jacob through de...",
+            "channel": "RogerLiebiLIVE",
+            "url": "https://www.youtube.com/watch?v=N_icrMaF_Ac"
+          },
+          {
+            "source": "youtube",
+            "id": "ReH3DKNTUq0",
+            "title": "This Is Getting Worse Than They're Telling Us...",
+            "channel": "BlackScoutSurvival",
+            "url": "https://www.youtube.com/watch?v=ReH3DKNTUq0"
+          },
+          {
+            "source": "youtube",
+            "id": "T64_u9Kc0ao",
+            "title": "Elijah Killed 450 Prophets. S Tier? (Bible Tier List)",
+            "channel": "THEALPHAPATHYT",
+            "url": "https://www.youtube.com/watch?v=T64_u9Kc0ao"
+          },
+          {
+            "source": "youtube",
+            "id": "BZeSODTQwVQ",
+            "title": "⚡ALERT! Europe Braces for NUCLEAR War, NATO Emergency Meeting, Nuclear Weapons in Space by DECEMBER!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=BZeSODTQwVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "0txIbz8hEzs",
+            "title": "🚨🚨ALERT: BRACE For Impact- Watchmen Updates",
+            "channel": "ThePoplarReport",
+            "url": "https://www.youtube.com/watch?v=0txIbz8hEzs"
+          },
+          {
+            "source": "youtube",
+            "id": "1_Yn4VBF3HQ",
+            "title": "Gustav Kasselstrand: Därför ska du komma den 30:e november i Stockholm",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=1_Yn4VBF3HQ"
+          },
+          {
+            "source": "youtube",
+            "id": "3xwJFjWcFow",
+            "title": "Global Meet-Up #8 (Hong Kong):  The Occult of the Meritocracy",
+            "channel": "PredictiveHistory",
+            "url": "https://www.youtube.com/watch?v=3xwJFjWcFow"
+          },
+          {
+            "source": "youtube",
+            "id": "4mDT54lO12k",
+            "title": "Kaliningrad zum ERSTEN Mal seit 2.Weltkrieg angegriffen - NATO involviert!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=4mDT54lO12k"
+          },
+          {
+            "source": "youtube",
+            "id": "7USMR80ofIU",
+            "title": "Tea Time with Devo | Yonatan Barak | Crossing the Comedic Line",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=7USMR80ofIU"
+          },
+          {
+            "source": "youtube",
+            "id": "AHvuCyWVedU",
+            "title": "Today at 7 p.m. on November 22, 2026: World Climate Conference without agreement, AfD-NRW party c...",
+            "channel": "ZDFheute",
+            "url": "https://www.youtube.com/watch?v=AHvuCyWVedU"
+          },
+          {
+            "source": "youtube",
+            "id": "D3ZS_Bf8liY",
+            "title": "Atheist: Christianity Sounds Logical, BUT...",
+            "channel": "CrossExamined",
+            "url": "https://www.youtube.com/watch?v=D3ZS_Bf8liY"
+          },
+          {
+            "source": "youtube",
+            "id": "6F6RRKXACHo",
+            "title": "Save yourself while you still can!",
+            "channel": "krissyrieger",
+            "url": "https://www.youtube.com/watch?v=6F6RRKXACHo"
+          },
+          {
+            "source": "youtube",
+            "id": "6skBhAMOjLg",
+            "title": "Vänsterextremist döms för misshandel av Nick Alinia",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=6skBhAMOjLg"
+          },
+          {
+            "source": "youtube",
+            "id": "913ByJczho8",
+            "title": "The BITCOIN CENTRAL HEATING is coming! 🔥 HEAT your house and EARN BITCOIN! | Interview with 21ene...",
+            "channel": "Blocktrainer",
+            "url": "https://www.youtube.com/watch?v=913ByJczho8"
+          },
+          {
+            "source": "youtube",
+            "id": "9_PYPq1NH1I",
+            "title": "BE PREPARED!  Something Big is Coming...and They KNOW It",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=9_PYPq1NH1I"
+          },
+          {
+            "source": "youtube",
+            "id": "B20AJDyOnlc",
+            "title": "Muslims to Surpass the Number of Christians in the World",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=B20AJDyOnlc"
+          },
+          {
+            "source": "youtube",
+            "id": "JThxARcBv4c",
+            "title": "When The Coming Collapse Starts: You Will Have 3 DAYS",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=JThxARcBv4c"
+          },
+          {
+            "source": "youtube",
+            "id": "Do8PuebNSyY",
+            "title": "Everything Got Worse After 2020",
+            "channel": "VanessaWingardh",
+            "url": "https://www.youtube.com/watch?v=Do8PuebNSyY"
+          },
+          {
+            "source": "youtube",
+            "id": "-YW2WqsNGeo",
+            "title": "Trump FUMES AT JD Vance: Wants RESTART IRAN War",
+            "channel": "breakingpoints",
+            "url": "https://www.youtube.com/watch?v=-YW2WqsNGeo"
+          },
+          {
+            "source": "youtube",
+            "id": "0azBgJGlyVs",
+            "title": "Is JD Vance Losing His Grip on the GOP?",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=0azBgJGlyVs"
+          },
+          {
+            "source": "youtube",
+            "id": "11r1U_3ATRs",
+            "title": "Unseen Dominion: Battling Nephilim Spirits",
+            "channel": "BeardedBibleBros",
+            "url": "https://www.youtube.com/watch?v=11r1U_3ATRs"
+          },
+          {
+            "source": "youtube",
+            "id": "5zbiMvLNiB4",
+            "title": "SD-topparna förklarar: nu kan vi äntligen riva medborgarskapen",
+            "channel": "Riks",
+            "url": "https://www.youtube.com/watch?v=5zbiMvLNiB4"
+          },
+          {
+            "source": "youtube",
+            "id": "NuXUx6dSvnY",
+            "title": "Beitragsfreie Kitas: AfD-Antrag im Parlament durchgesetzt! Riesige Entlastung für Familien!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=NuXUx6dSvnY"
+          },
+          {
+            "source": "youtube",
+            "id": "15DvZho7lC0",
+            "title": "ILTV On The Hour - November 19, 2026 | Three World Powers, One Nuclear Threat: What Happens Next?",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=15DvZho7lC0"
+          },
+          {
+            "source": "youtube",
+            "id": "Amm-PUSaR_U",
+            "title": "What Moving to America Made Us Realize About South Africa",
+            "channel": "DLMChristianPerspective",
+            "url": "https://www.youtube.com/watch?v=Amm-PUSaR_U"
+          },
+          {
+            "source": "youtube",
+            "id": "C-oqTvJibX8",
+            "title": "FAA Ground Stop",
+            "channel": "3of7Project",
+            "url": "https://www.youtube.com/watch?v=C-oqTvJibX8"
+          },
+          {
+            "source": "youtube",
+            "id": "DIZNjrkUGB8",
+            "title": "RUNNING THE AGONIZING RACE--Paul's Final Laps in Rome",
+            "channel": "DTBM",
+            "url": "https://www.youtube.com/watch?v=DIZNjrkUGB8"
+          },
+          {
+            "source": "youtube",
+            "id": "H30W3cTC5lc",
+            "title": "Isaiah, Part 135 | Blessing of Virtue",
+            "channel": "DrJamesTour",
+            "url": "https://www.youtube.com/watch?v=H30W3cTC5lc"
+          },
+          {
+            "source": "youtube",
+            "id": "HMg4b2CSUqg",
+            "title": "The Internet Just Noticed Something That Israel is Not Mentioning...",
+            "channel": "offthekirb",
+            "url": "https://www.youtube.com/watch?v=HMg4b2CSUqg"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "youtube",
+            "id": "AXoLtD4-kXA",
+            "title": "Discovering King Herod's Legacy in Israel with Aline",
+            "channel": "IsraelwithAline",
+            "url": "https://www.youtube.com/watch?v=AXoLtD4-kXA"
+          },
+          {
+            "source": "youtube",
+            "id": "2lErBc5KRlg",
+            "title": "ILTV On The Hour - November 26, 2026 | A Zionist Superhero Takes on the World – And Faces Censorship",
+            "channel": "IsraelEnglishNews",
+            "url": "https://www.youtube.com/watch?v=2lErBc5KRlg"
+          },
+          {
+            "source": "youtube",
+            "id": "3mKWxtccuzk",
+            "title": "World Economic Forum Advisor on the Future, Yuval Noah Harari #jesus #bible #germany",
+            "channel": "endzeit-kanal",
+            "url": "https://www.youtube.com/watch?v=3mKWxtccuzk"
+          },
+          {
+            "source": "youtube",
+            "id": "9JWnlhft7rc",
+            "title": "Frauen bei der Polizei in Kabul: Ausnahmeregelung der Taliban",
+            "channel": "tagesschau",
+            "url": "https://www.youtube.com/watch?v=9JWnlhft7rc"
+          },
+          {
+            "source": "youtube",
+            "id": "IAyRmkBnZqc",
+            "title": "An Arab Spills the Beans on Ray Comfort",
+            "channel": "WretchedNetwork",
+            "url": "https://www.youtube.com/watch?v=IAyRmkBnZqc"
+          },
+          {
+            "source": "youtube",
+            "id": "ImeqltO6hN4",
+            "title": "The Nvidia Scandal: Is the AI Bubble Bursting Now?",
+            "channel": "LIONMediaNews",
+            "url": "https://www.youtube.com/watch?v=ImeqltO6hN4"
+          },
+          {
+            "source": "youtube",
+            "id": "IpLTv9dlTkM",
+            "title": "Måste jobba för sin lön – då gnäller riksdagspolitikerna - Roger Richthoff",
+            "channel": "frihetsnytt2745",
+            "url": "https://www.youtube.com/watch?v=IpLTv9dlTkM"
+          },
+          {
+            "source": "youtube",
+            "id": "RILu1NPdJ3U",
+            "title": "Polens brisanter Militärplan. Polen bringt Militär in Gefechtsbereitschaft!",
+            "channel": "Vermietertagebuch",
+            "url": "https://www.youtube.com/watch?v=RILu1NPdJ3U"
+          },
+          {
+            "source": "youtube",
+            "id": "APscydfzm04",
+            "title": "What Americans Have Forgotten About the True Meaning of Thanksgiving",
+            "channel": "CBNnewsonline",
+            "url": "https://www.youtube.com/watch?v=APscydfzm04"
+          },
+          {
+            "source": "youtube",
+            "id": "Meo6B2dwWWo",
+            "title": "6 Men, 1 Island, and the Greatest Heist in American History",
+            "channel": "RedactedNews",
+            "url": "https://www.youtube.com/watch?v=Meo6B2dwWWo"
+          },
+          {
+            "source": "youtube",
+            "id": "w9s5quDnFU4",
+            "title": "⚡ALERT! UK Summons 100,000 Soldiers! Russia Issues PREEMPTIVE NUCLEAR Strike Threat!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=w9s5quDnFU4"
+          },
+          {
+            "source": "youtube",
+            "id": "gXwen7JNWmo",
+            "title": "⚡ALERT! \"Next Week Determines Fate of Our Society\"",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=gXwen7JNWmo"
+          },
+          {
+            "source": "youtube",
+            "id": "y6DCeQ0cPbc",
+            "title": "⚡ALERT! BLOODBATH Everything SELL OFF Means WAR is Imminent, Russia HITS Poland, IRAN GEARS UP!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=y6DCeQ0cPbc"
+          },
+          {
+            "source": "youtube",
+            "id": "BZeSODTQwVQ",
+            "title": "⚡ALERT! Europe Braces for NUCLEAR War, NATO Emergency Meeting, Nuclear Weapons in Space by DECEMBER!",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=BZeSODTQwVQ"
+          },
+          {
+            "source": "youtube",
+            "id": "JThxARcBv4c",
+            "title": "When The Coming Collapse Starts: You Will Have 3 DAYS",
+            "channel": "CanadianPrepper",
+            "url": "https://www.youtube.com/watch?v=JThxARcBv4c"
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [],
+        "report_key": "cyberlurch",
+        "report_mode": "weekly",
+        "now_utc_iso": "2026-11-27T14:10:30+00:00"
+      },
+      "workflow_run_id": "46012453708",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cyberlurch:weekly:2026-11-20:2026-11-27:production",
+        "subject": "The Cyberlurch Report — Weekly",
+        "subject_hash": "aec11e60bea54202472fa0203770b1dde7bd37f34201458529bbd8444787f038",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "b8f07c7af20f4913e98c8a47cfbd4099e9e076d8a970eb92887d496f19ada80a",
+        "finalization_policy": "markers",
+        "content_version": "1c6d56a89124018524ff331b9f1957eadddf3c28851080981594f48f1397d4e7",
+        "message_id": "<ecfd3087471d653f7139f37dae7abdd45403acedcc52e687e573c620703ea070@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [],
+        "approved_after_generation_checks": true,
+        "seal": "9b2cfad36101185627667cd3598079c2f7b0d570811ae40eb53e95568dee0d15"
+      }
     }
   },
   "paper_legacy_unknown": {

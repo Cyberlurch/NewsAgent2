@@ -156544,33 +156544,29 @@
         "Israel, Nahost & Sicherheitslage"
       ],
       "policy": "news",
-      "published_at": "2026-11-23T04:30:00+00:00",
-      "screened_at": "2026-11-23T04:30:00+00:00",
-      "expires_at": "2026-11-26T04:30:00+00:00",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
       "attempts": 0,
       "last_attempt_day": "",
       "stage": "screened",
       "selection_reason": "channel_balance",
       "source_basis": {
         "version": 1,
-        "kind": "transcript",
-        "provider": "managed_transcript",
-        "available_chars": 17513,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
         "processed_unique_chars": 0,
         "coverage": "none",
         "video_completeness": "unknown"
       },
-      "text_source": "managed_transcript",
-      "content_status": "full_text",
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
       "temporality": "trend_analysis",
-      "cyberlurch_deep_dive_score": 3.979,
-      "cyberlurch_deep_dive_reasons": [
-        "text_length:11999",
-        "recency"
-      ],
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
       "video_id": "AXoLtD4-kXA",
-      "processed_at_utc": "2026-11-23T15:05:51+00:00",
-      "topic_primary": null,
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
       "transcript_processing": null,
       "transcript_full_summary": null,
       "transcript_key_points": null,
@@ -156579,6 +156575,8 @@
       "important_details": null,
       "editorial_relevance": null,
       "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
       "top_pick": null
     },
     {
@@ -159421,8 +159419,860 @@
       "editorial_relevance": null,
       "bottom_line": null,
       "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CanadianPrepper"
+      },
+      "id": "w9s5quDnFU4",
+      "source": "youtube",
+      "title": "⚡ALERT! UK Summons 100,000 Soldiers! Russia Issues PREEMPTIVE NUCLEAR Strike Threat!",
+      "channel": "CanadianPrepper",
+      "url": "https://www.youtube.com/watch?v=w9s5quDnFU4",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T03:15:28+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T03:15:28+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 27371,
+        "processed_unique_chars": 27371,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "breaking_news",
+      "cyberlurch_deep_dive_score": 5.973,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11999",
+        "priority_daily_channel",
+        "recency"
+      ],
+      "transcript_full_summary": "Western military preparations and Russian nuclear warnings point toward a widening war rather than peace. A viral British compulsory service notice is fake, however, and the request for information from 100,000 veterans was not a call to arms.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "The UK is seeking information from 100,000 veterans, including reservists’ civilian skills, while Canada is pursuing a 24,000-strong strategic military force.",
+        "Poland’s mobilization cards assign reporting or standby duties, while Russia has warned of possible preemptive nuclear strikes to protect Baltic Sea oil routes.",
+        "A viral British compulsory service notice is fake; the request for veterans’ information was not a call to arms."
+      ],
+      "transcript_notable_claims": [
+        "Western military preparations are laying the groundwork for larger armies and future drafts, while conventional forces in a nuclear war would police their own populations.",
+        "Poland’s mobilization measures and Ukraine’s coercive conscription practices foreshadow similar tactics elsewhere.",
+        "The Trump, Putin and Xi Jinping summit accomplished nothing significant, and subsequent tariffs, military threats and attacks point toward war rather than peace.",
+        "The attack on the Kerch Bridge could only have been approved by NATO, and continued US support for Ukraine amounts to tacit approval of attacks on the bridge and Russian oil facilities.",
+        "Russia could feel compelled to strike preemptively if US artificial intelligence threatened to neutralize its nuclear deterrent.",
+        "Financial markets are crashing, and insufficient liquidity could cause an overvalued market bubble to burst."
+      ],
+      "transcript_uncertainties": [
+        "The identity of the Russian missiles that fell in Poland is uncertain: they may have been Iskander or Kh-101 missiles.",
+        "The red mobilization cards are presumed to be intended for people who have already received military training.",
+        "The significance of reported cyberattacks and outages is uncertain, and government system updates could plausibly explain some outages.",
+        "The prospect of a Ukrainian ground offensive next year remains a rumor.",
+        "The seriousness of Russia’s preemptive nuclear warning, as opposed to its use as a coercive diplomatic tactic, remains uncertain.",
+        "The financial market bubble could burst, but markets could also rise again."
+      ],
+      "important_details": [
+        "Poland’s red and blue cards require reporting within six hours; blue-card holders would perform civilian support work such as transport, communications and maintenance.",
+        "Failure to report for Polish military service during wartime mobilization can bring up to three years in prison.",
+        "Russian nuclear-capable warships have been ordered to escort tankers carrying more than 60% of Russia’s seaborne oil through the Baltic."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "w9s5quDnFU4",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@IsraelEnglishNews"
+      },
+      "id": "2lErBc5KRlg",
+      "source": "youtube",
+      "title": "ILTV On The Hour - November 26, 2026 | A Zionist Superhero Takes on the World – And Faces Censorship",
+      "channel": "IsraelEnglishNews",
+      "url": "https://www.youtube.com/watch?v=2lErBc5KRlg",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 26573,
+        "processed_unique_chars": 26573,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.999,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Israeli comic artists Maya and Yehuda Devir say Instagram permanently removed their new superhero account after anti-Israeli responses, calling the decision censorship. The news roundup also covers Netanyahu’s corruption trial, Gadi Eisenkot’s coalition talks and Israeli strikes on Hamas.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Maya and Yehuda Devir say Instagram restored their Iron Dome Comics account after an initial block but permanently removed it after a second post.",
+        "A Jerusalem court raised doubts about the evidence in Netanyahu’s corruption cases; no charges have been dropped and no verdict has been issued.",
+        "Gadi Eisenkot is seeking a 61-seat coalition, while his four-party bloc holds 48 Knesset seats and negotiations with other parties continue."
+      ],
+      "transcript_notable_claims": [
+        "Maya and Yehuda Devir view the account removal as a deliberate violation of free speech against people promoting Israel, not a mistake.",
+        "Dan Feferman sees targeted strikes as insufficient to replace Hamas without a regional framework and economic and diplomatic measures.",
+        "Dan Feferman proposes reconstruction in Israeli-controlled areas cleared of Hamas, with vetted Palestinian civilians admitted, as an alternative to the disarmament-and-withdrawal deadlock."
+      ],
+      "transcript_uncertainties": [
+        "United Torah Judaism’s participation in an Eisenkot coalition awaits a decision from Rabbi Dov Lando.",
+        "The Devirs believe anti-Israeli reporting contributed to their account’s removal; Instagram cited impersonation."
+      ],
+      "important_details": [
+        "The Devirs created Iron Dome to help explain missile attacks to their young children; the superhero protects civilians of every background against terror.",
+        "The Devirs say an illustration after October 7 led to boycotts, lost convention invitations and companies declining to work with them.",
+        "The Knesset approved a state commission of inquiry into October 7 and advanced proposals affecting prime ministerial terms and indicted lawmakers; the bills face further legislative hurdles."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "2lErBc5KRlg",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@endzeit-kanal"
+      },
+      "id": "3mKWxtccuzk",
+      "source": "youtube",
+      "title": "World Economic Forum Advisor on the Future, Yuval Noah Harari #jesus #bible #germany",
+      "channel": "endzeit-kanal",
+      "url": "https://www.youtube.com/watch?v=3mKWxtccuzk",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "topic_primary": "Prophetie, Endzeit & Weltdeutung",
+      "topic": "Prophetie, Endzeit & Weltdeutung",
+      "video_id": "3mKWxtccuzk",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@tagesschau"
+      },
+      "id": "9JWnlhft7rc",
+      "source": "youtube",
+      "title": "Frauen bei der Polizei in Kabul: Ausnahmeregelung der Taliban",
+      "channel": "tagesschau",
+      "url": "https://www.youtube.com/watch?v=9JWnlhft7rc",
+      "topics": [
+        "Mainstream DE/SE News"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 2637,
+        "processed_unique_chars": 2637,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "transcript_full_summary": "In Kabul arbeitet Shima als Polizistin für die Taliban, die Frauen zugleich weitgehend aus dem öffentlichen Leben und vom Arbeitsmarkt verdrängen. Frauenaktivistin Tapsie SIA Pos sieht in der Beschäftigung von Polizistinnen Symbolpolitik und fordert die Wiederöffnung von Schulen und Universitäten.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die 45-jährige Polizistin Shima kontrolliert gemeinsam mit zwei Kolleginnen ein Haus, nachdem eine Frau bei einem Nachbarschaftsstreit geschlagen worden sein soll.",
+        "Laut Einsatzleiter betreten männliche Polizisten gemäß der Scharia auch mit Genehmigung kein Haus ohne weibliche Polizeikräfte.",
+        "Das Innenministerium gibt an, mehr als 2000 Polizistinnen zu beschäftigen und bei Bedarf weitere Frauen einzustellen."
+      ],
+      "transcript_notable_claims": [
+        "Für Frauenaktivistin Tapsie SIA Pos ist die Beschäftigung einiger Polizistinnen Symbolpolitik, solange Frauen fast vollständig vom Arbeitsmarkt ausgeschlossen bleiben.",
+        "Erst mit der Wiederöffnung von Schulen und Universitäten können Frauen laut Tapsie SIA Pos sagen, dass sie sicher sind und ihre Rechte erlangt haben.",
+        "Shima ist stolz auf die Zusammenarbeit mit ihren Taliban-Kollegen und sieht dabei keinerlei Probleme."
+      ],
+      "transcript_uncertainties": [
+        "Die Zahl von mehr als 2000 Polizistinnen und die Frage, ob sie tatsächlich alle arbeiten, lassen sich nicht unabhängig überprüfen.",
+        "Bei dem Nachbarschaftsstreit soll eine Frau geschlagen worden sein."
+      ],
+      "important_details": [
+        "Shima arbeitete bereits vor der Machtübernahme der Taliban bei der Polizei und erhielt danach eine mehrmonatige Ausbildung durch die Islamisten.",
+        "Shima wünscht sich, dass auch andere Frauen arbeiten und ihre Familien ernähren können.",
+        "Die Taliban wählten Shima für das Gespräch aus und überprüften jede Aufnahme; bei der vierfachen Mutter zu Hause durfte nicht gedreht werden."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Mainstream DE/SE News",
+      "topic": "Mainstream DE/SE News",
+      "video_id": "9JWnlhft7rc",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@WretchedNetwork"
+      },
+      "id": "IAyRmkBnZqc",
+      "source": "youtube",
+      "title": "An Arab Spills the Beans on Ray Comfort",
+      "channel": "WretchedNetwork",
+      "url": "https://www.youtube.com/watch?v=IAyRmkBnZqc",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 46714,
+        "processed_unique_chars": 46714,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "evergreen",
+      "cyberlurch_deep_dive_score": 3.999,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Living Waters president Emil Swain recounts his conversion from gang involvement and explains how Christians can find assurance of salvation through faith and its fruits. He praises Ray Comfort’s kindness and evangelism, emphasizing God’s law as the means of revealing sin and the need for Christ.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Swain says he ran with the Crips, attempted suicide and experienced an immediate, dramatic change when he became a Christian on August 15, 1991.",
+        "Christians concerned about salvation should examine their belief in Christ and the fruit of their lives, while remembering that salvation rests on Christ’s work, not their own.",
+        "Living Waters uses God’s law in evangelism to reveal sin and the danger of judgment before presenting forgiveness through Christ."
+      ],
+      "transcript_notable_claims": [
+        "Every Christian testimony is extraordinary because cleansing from sin and adoption as a child of God are remarkable regardless of a person’s past.",
+        "Persistent self-examination can trap Christians in circular doubts; prayer, Scripture and service can help them live out their faith.",
+        "Love is an act of obedience rather than merely a feeling, and even difficult people deserve kindness because they bear God’s image.",
+        "Much evangelical Christianity has replaced repentance and the gospel with promises of life enhancement and entertainment that attracts people without regeneration.",
+        "Christ took sinners’ punishment on the cross, and those who repent and believe receive forgiveness, everlasting life and his righteousness."
+      ],
+      "transcript_uncertainties": [
+        "Todd says Swain may be the nicest person he has met, while allowing that someone else may be nicer."
+      ],
+      "important_details": [
+        "Swain says Ray Comfort’s teaching prompted him to use God’s law when evangelizing, including with a 90-year-old neighbor who trembled as she recognized her sins.",
+        "Swain says messages from concerned Christians during a severe case of COVID impressed on him the power of genuine love and care.",
+        "Swain describes Comfort, his father-in-law of 30 years, as consistently generous and tireless in sharing his faith; Comfort once offered $500 to Todd’s flooded neighbors."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Christlicher Glaube, Bibel & Apologetik",
+      "topic": "Christlicher Glaube, Bibel & Apologetik",
+      "video_id": "IAyRmkBnZqc",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@LIONMediaNews"
+      },
+      "id": "ImeqltO6hN4",
+      "source": "youtube",
+      "title": "The Nvidia Scandal: Is the AI Bubble Bursting Now?",
+      "channel": "LIONMediaNews",
+      "url": "https://www.youtube.com/watch?v=ImeqltO6hN4",
+      "topics": [
+        "Geopolitik, Krieg & Machtblöcke"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 11978,
+        "processed_unique_chars": 11978,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.994,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:11978",
+        "recency"
+      ],
+      "transcript_full_summary": "An affair involving Nvidia CEO Jensen Huang coincides with falling technology stocks and mounting financing pressures across the AI industry. The AI boom has not yet crashed, but debt, rising interest rates and data-center restrictions threaten it; Germany may be less exposed, although its ETF investors remain vulnerable.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Jensen Huang told Nvidia employees he had been unfaithful with Alice Huang, a MegaSpeed manager whom US intelligence services believe is a Chinese spy; Nvidia’s board considered firing him.",
+        "The Nasdaq 100 fell more than 10% from its October record by November 2, while Nvidia lost over $1.5 trillion in market value from its October 6 peak.",
+        "Oracle raised roughly $20 billion in shares and loans for AI expansion, while the yield on Coreweave’s 2032 bond rose to 16%."
+      ],
+      "transcript_notable_claims": [
+        "The AI boom rests on fragile valuations and credit-dependent businesses, with good corporate news no longer reliably supporting share prices.",
+        "A Coreweave bond yield of 20% or more would effectively end financing for data-center expansion because interest would consume money needed for construction.",
+        "Europe, especially Germany, may be less affected by a US technology crash because it has participated less in the AI hype."
+      ],
+      "transcript_uncertainties": [
+        "MegaSpeed denies US intelligence accusations that Alice Huang brought restricted chips to China, calling them a smear campaign; nothing has been conclusively proven.",
+        "The extent to which Alice Huang obtained Nvidia company secrets and brought them to China remains unclear.",
+        "Steve Einmann estimates a roughly 70% probability that the AI boom will end in a bear market or worse, while Joachim Clement expects the bubble to burst in 2027 or 2028.",
+        "Ed Yardeni’s analyst firm considers the price slide a temporary setback."
+      ],
+      "important_details": [
+        "Half of Oracle’s $664 billion order backlog is tied to OpenAI, whose future inability to meet payment commitments could push Oracle toward bankruptcy.",
+        "Coreweave reported 168% sales growth but also a $709 million quarterly net loss and $846 million in interest costs, up from $640 million in the preceding quarter.",
+        "Germany’s roughly 5.8 million monthly ETF savings plans can expose investors to the US AI boom: the MSCI World is 71% US stocks, with Nvidia accounting for over 5%."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Geopolitik, Krieg & Machtblöcke",
+      "topic": "Geopolitik, Krieg & Machtblöcke",
+      "video_id": "ImeqltO6hN4",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@frihetsnytt2745"
+      },
+      "id": "IpLTv9dlTkM",
+      "source": "youtube",
+      "title": "Måste jobba för sin lön – då gnäller riksdagspolitikerna - Roger Richthoff",
+      "channel": "frihetsnytt2745",
+      "url": "https://www.youtube.com/watch?v=IpLTv9dlTkM",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 5384,
+        "processed_unique_chars": 5384,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 2.345,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:5384",
+        "recency"
+      ],
+      "transcript_full_summary": "Den tidigare riksdagsledamoten Roger Richthoff kritiserar Vänsterpartiets Hanna Gunnarsson för att kalla en extra resdag inför måndagens statsministeromröstning ett straff. Han anser att många ledamöter är bortskämda och i praktiken har en tredagarsvecka, även om vissa utskottsansvariga arbetar hela veckan.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Hanna Gunnarsson beskrev det som ett straff att ledamöter utanför Stockholm måste resa in en dag tidigare för att delta i måndagens statsministeromröstning.",
+        "Roger Richthoff säger att många ledamöter anländer på tisdagen och reser hem efter torsdagens sista omröstning.",
+        "Hanna Gunnarsson hänvisar till att hon arbetar med sin valkrets på måndagar, men Richthoff föreslår att hon i stället lägger arbetet på fredagar."
+      ],
+      "transcript_notable_claims": [
+        "De flesta riksdagsledamöter saknar arbetslivserfarenhet, och bara ett fåtal arbetar medan resten trycker på den knapp som gruppledaren anger.",
+        "Riksdagsledamöter bör vara tillräckligt flexibla för att delta när talmannen bestämmer att en viktig omröstning ska hållas.",
+        "Hanna Gunnarsson bör sluta klaga eller lämna riksdagen om villkoren inte passar henne."
+      ],
+      "transcript_uncertainties": [
+        "Roger Richthoff vet inte om Hanna Gunnarsson arbetar i valkretsen på fredagar."
+      ],
+      "important_details": [
+        "Ledamöternas resor betalas av skattebetalarna, och den som bor utanför femmilsgränsen får enligt Richthoff även traktamente i Stockholm.",
+        "Utskottsledamöter med ansvar för partiets politik har enligt Richthoff i regel en full arbetsvecka, beroende på deras tidigare kompetens och gruppens kunnande.",
+        "Riksdagen har enligt Richthoff nästan aldrig omröstningar på fredagar, vilket ger möjlighet att lägga valkretsmöten då."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "IpLTv9dlTkM",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Vermietertagebuch"
+      },
+      "id": "RILu1NPdJ3U",
+      "source": "youtube",
+      "title": "Polens brisanter Militärplan. Polen bringt Militär in Gefechtsbereitschaft!",
+      "channel": "Vermietertagebuch",
+      "url": "https://www.youtube.com/watch?v=RILu1NPdJ3U",
+      "topics": [
+        "Finanzen, Wirtschaft & Krypto"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "topic_coverage",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 8800,
+        "processed_unique_chars": 8800,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.199,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:8800",
+        "recency"
+      ],
+      "transcript_full_summary": "Polen plant eine Flugverbotszone an seiner Grenze zur Ukraine und will Verbündete zum Abschuss russischer Raketen über ukrainischem Gebiet bewegen. Ministerpräsident Donald Tusk wird vorgeworfen, Polen zur Abwendung strafrechtlicher Konsequenzen bewusst in einen Krieg mit Russland führen zu wollen.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Die geplante polnische Flugverbotszone soll dem Militär mehr Spielraum gegen mögliche Bedrohungen aus der Luft geben und Ende Dezember oder Anfang Januar in Kraft treten.",
+        "Polen brachte bei einem Treffen der NATO-Botschafter in Brüssel den Vorschlag ein, auf NATO-Gebiet zusteuernde russische Raketen bereits über der Ukraine abzuschießen.",
+        "Polen versetzte Patriot-, Poprad- und Pilica-Luftabwehrsysteme bei Rzeszów-Jasionka und nahe Świdnik in Gefechtsbereitschaft."
+      ],
+      "transcript_notable_claims": [
+        "Donald Tusk will Polen nach einem gescheiterten Putschversuch in den Krieg führen, um einer strafrechtlichen Verfolgung zu entgehen.",
+        "Die Flugverbotszone über Polen ist eine Ausrede für einen zweiten Schritt, der unmittelbar zum Kriegseintritt gegen Russland führen würde.",
+        "Ein NATO-Luftschutzschirm über der Ukraine würde Russland zum Angriff auf NATO-Patriot-Systeme in Polen veranlassen und die USA würden Europa den Krieg allein führen lassen.",
+        "Die kürzlich gelieferten Patriot-Raketen der Ukraine sind offenbar bereits aufgebraucht, weil beim jüngsten Angriff kein Abwehrversuch unternommen wurde."
+      ],
+      "transcript_uncertainties": [
+        "Ob Polen den Abschuss russischer Raketen über der Ukraine tatsächlich durchsetzen und ob Bundeskanzler Merz sich daran beteiligen würde, bleibt offen.",
+        "Der militärische Nutzen einer polnischen Flugverbotszone ist fraglich, weil nahe der Grenze ohnehin kaum Flugzeuge fliegen.",
+        "Ob Russland bei einer NATO-Luftverteidigung über der Ukraine unmittelbar Warschau oder Berlin angreifen würde, bleibt offen."
+      ],
+      "important_details": [
+        "Bei einem russischen Raketenangriff auf Kiew ab dem späten Abend des 25. November wurden laut Bürgermeister Klitschko vier Menschen verletzt und zwei davon schwer verletzt ins Krankenhaus gebracht.",
+        "Nach drei auf polnischem Gebiet abgestürzten russischen Marschflugkörpern soll die Flugverbotszone mehrere Dutzend Kilometer von der Grenze reichen; einige NATO-Mitglieder unterstützen den weitergehenden Abschussvorschlag.",
+        "Polen verlegt Truppen, Panzer, Spezialeinheiten, Drohnen und zusätzliche Luftverteidigungssysteme; niederländische Apache-Kampfhubschrauber sind ebenfalls auf dem Weg nach Polen."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Finanzen, Wirtschaft & Krypto",
+      "topic": "Finanzen, Wirtschaft & Krypto",
+      "video_id": "RILu1NPdJ3U",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@CBNnewsonline"
+      },
+      "id": "APscydfzm04",
+      "source": "youtube",
+      "title": "What Americans Have Forgotten About the True Meaning of Thanksgiving",
+      "channel": "CBNnewsonline",
+      "url": "https://www.youtube.com/watch?v=APscydfzm04",
+      "topics": [
+        "Israel, Nahost & Sicherheitslage"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "trend_analysis",
+      "topic_primary": "Israel, Nahost & Sicherheitslage",
+      "topic": "Israel, Nahost & Sicherheitslage",
+      "video_id": "APscydfzm04",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@RedactedNews"
+      },
+      "id": "Meo6B2dwWWo",
+      "source": "youtube",
+      "title": "6 Men, 1 Island, and the Greatest Heist in American History",
+      "channel": "RedactedNews",
+      "url": "https://www.youtube.com/watch?v=Meo6B2dwWWo",
+      "topics": [
+        "Preparedness, Sicherheit & Survival"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 28483,
+        "processed_unique_chars": 28483,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "mixed",
+      "cyberlurch_deep_dive_score": 3.999,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "In 1910, six men secretly drafted a central-banking plan on Jekyll Island after the Panic of 1907. Clayton Morris traces its influence on the Federal Reserve Act and questions who controls money and to whom they are answerable.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Senator Nelson Aldrich, Treasury official A. Piatt Andrew and four banking or staff representatives traveled secretly to Jekyll Island in November 1910.",
+        "The island plan proposed a central reserve association with 15 branches, bank-controlled boards and more votes for larger banks.",
+        "The Federal Reserve Act passed in December 1913 with similar technical provisions but regional banks and a presidentially appointed oversight board."
+      ],
+      "transcript_notable_claims": [
+        "The Jekyll Island participants concealed their work because public knowledge that Wall Street had written the plan would have jeopardized its passage.",
+        "Critics see the Federal Reserve Act as a rebranded Aldrich plan, while defenders consider its public governance changes decisive.",
+        "A 1913 dollar lost about 97% of its purchasing power by September 2026, although wars, depression, congressional spending and the end of the gold standard also contributed.",
+        "Representative Charles Lindbergh Sr. called the Federal Reserve Act a Christmas present to the money trust that would legalize government by the money power."
+      ],
+      "transcript_uncertainties": [
+        "Benjamin Strong's attendance at Jekyll Island is unlikely according to Federal Reserve historians, although Frank Vanderlip remembered him there.",
+        "Charles Norton's presence on Jekyll Island is disputed, and Federal Reserve historians and B.C. Forbes do not list him.",
+        "Accounts differ on the meeting's length: Vanderlip recalled a week or ten days, Forbes about a week, and Jekyll Island authorities nine days."
+      ],
+      "important_details": [
+        "The Panic of 1907 followed a failed United Copper stock-cornering scheme, bank runs and Knickerbocker Trust's closure; J.P. Morgan organized private rescues.",
+        "Aldrich presented the plan to the National Monetary Commission in January 1911 without explaining how it had been developed.",
+        "The House approved the final Federal Reserve Act 298–60 on December 22, 1913; the Senate approved it 43–25 the next day, and President Wilson signed it that evening."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Preparedness, Sicherheit & Survival",
+      "topic": "Preparedness, Sicherheit & Survival",
+      "video_id": "Meo6B2dwWWo",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@Riks"
+      },
+      "id": "Oz4FrdrZ2-g",
+      "source": "youtube",
+      "title": "Henrik Vinge (SD): Sänkt bistånd ska finansiera din välfärd",
+      "channel": "Riks",
+      "url": "https://www.youtube.com/watch?v=Oz4FrdrZ2-g",
+      "topics": [
+        "Gesellschaft, Medienkritik & Debatte"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 49363,
+        "processed_unique_chars": 49363,
+        "coverage": "available_text",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "trend_analysis",
+      "cyberlurch_deep_dive_score": 3.999,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:12000",
+        "recency"
+      ],
+      "transcript_full_summary": "Henrik Vinge presenterar Sverigedemokraternas första oppositionsbudget efter att Tidöavtalet avslutats. Partiet vill sänka kostnaderna för el och bränsle, fortsätta välfärdssatsningar och finansiera en stor del av förslagen genom minskat bistånd.",
+      "editorial_relevance": "",
+      "transcript_key_points": [
+        "Sverigedemokraterna vill förlänga en tillfällig bränsleskattesänkning och använda flaskhalsintäkter till elstöd och lägre elskatt.",
+        "SD vill fortsätta satsningar på cancervård, äldreomsorg och kortare vårdköer samt bygga ut skyddade boenden för kvinnor och barn.",
+        "SD vill minska biståndet med 8 miljarder kronor men behålla humanitärt bistånd och Ukrainabistånd."
+      ],
+      "transcript_notable_claims": [
+        "Lägre el- och bränslekostnader kan pressa matpriser och ge företag större möjligheter att investera och anställa.",
+        "Sverige bör ställa ultimatum till EU-kommissionen om att få använda flaskhalsintäkterna för återbetalning till elkonsumenter.",
+        "Minskningar av långsiktigt bistånd kan tvinga fram en granskning och effektivisering av pengar som annars försvinner bland annat genom korruption.",
+        "Välfärdssatsningar och skattesänkningar är svåra att förena med stor invandring, som kostar mycket pengar.",
+        "Ett skatteavdrag kopplat till flerbarnstillägget kan ge bättre incitament att arbeta än bidrag till familjer utanför arbetsmarknaden."
+      ],
+      "transcript_uncertainties": [
+        "Henrik Vinge vet inte vilken regering som kommer att bildas eller om ett borgerligt budgetpaket blir tillräckligt bra för SD.",
+        "Bränslepriserna kommer sannolikt att öka med 3 kronor per liter i början av december om tillfälliga sänkningar upphör.",
+        "Vintern kan bli extra kall och energipriserna kan stiga, men Vinge är inte meteorolog.",
+        "AI kan vara en del av förklaringen till att återhämtningen sker utan fler nyanställningar, men det är svårt att säga medan förändringen pågår.",
+        "Tandvårdsreformens utvidgning beror på riksdagsmajoriteten och hur snabbt antalet tandläkarmottagningar kan öka.",
+        "Vinge vet inte om Anders Borgs beräkning av invandringens kostnader speglar en verklig insikt eller ett spel under regeringsbildningen."
+      ],
+      "important_details": [
+        "SD:s förslag om bränsleskatten skulle enligt Vinge sänka priset vid pump med minst en krona per liter jämfört med om sänkningen upphör.",
+        "Strängare krav slog ut oseriösa skyddade boenden, men även bra boenden som inte hade råd att uppfylla kraven; SD vill finansiera en återuppbyggnad.",
+        "SD vill fortsätta med en miljard kronor till cancervård, en halv miljard till äldreomsorg och 400 miljoner till kortare vårdköer, satsningar som enligt Vinge saknas i övergångsbudgeten."
+      ],
+      "transcript_generation_status": "validated",
+      "topic_primary": "Gesellschaft, Medienkritik & Debatte",
+      "topic": "Gesellschaft, Medienkritik & Debatte",
+      "video_id": "Oz4FrdrZ2-g",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "transcript_processing": null,
+      "bottom_line": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@DTBM"
+      },
+      "id": "Pn2Ih_lB-BI",
+      "source": "youtube",
+      "title": "THE JERUSALEM DOSSIER--Understanding the End Game Plan of God",
+      "channel": "DTBM",
+      "url": "https://www.youtube.com/watch?v=Pn2Ih_lB-BI",
+      "topics": [
+        "Christlicher Glaube, Bibel & Apologetik"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "metadata_only",
+        "provider": "metadata_only",
+        "available_chars": 0,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "metadata_only",
+      "content_status": "metadata_only",
+      "temporality": "evergreen",
+      "video_id": "Pn2Ih_lB-BI",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "cyberlurch_deep_dive_score": null,
+      "cyberlurch_deep_dive_reasons": null,
+      "top_pick": null
+    },
+    {
+      "channel_identity": {
+        "status": "unresolved",
+        "channel_id": "",
+        "evidence": "none",
+        "source_url": "https://www.youtube.com/@EndTimesProductions"
+      },
+      "id": "UFRIrhFpo38",
+      "source": "youtube",
+      "title": "They Told Us It's Not a Cyber Attack. Here's What Really Happened.",
+      "channel": "EndTimesProductions",
+      "url": "https://www.youtube.com/watch?v=UFRIrhFpo38",
+      "topics": [
+        "Prophetie, Endzeit & Weltdeutung"
+      ],
+      "policy": "news",
+      "published_at": "2026-11-27T04:30:00+00:00",
+      "screened_at": "2026-11-27T04:30:00+00:00",
+      "expires_at": "2026-11-30T04:30:00+00:00",
+      "attempts": 0,
+      "last_attempt_day": "",
+      "stage": "screened",
+      "selection_reason": "channel_balance",
+      "source_basis": {
+        "version": 1,
+        "kind": "transcript",
+        "provider": "managed_transcript",
+        "available_chars": 10731,
+        "processed_unique_chars": 0,
+        "coverage": "none",
+        "video_completeness": "unknown"
+      },
+      "text_source": "managed_transcript",
+      "content_status": "full_text",
+      "temporality": "current_affairs",
+      "cyberlurch_deep_dive_score": 3.682,
+      "cyberlurch_deep_dive_reasons": [
+        "text_length:10731",
+        "recency"
+      ],
+      "video_id": "UFRIrhFpo38",
+      "processed_at_utc": "2026-11-27T14:09:09+00:00",
+      "topic_primary": null,
+      "transcript_processing": null,
+      "transcript_full_summary": null,
+      "transcript_key_points": null,
+      "transcript_notable_claims": null,
+      "transcript_uncertainties": null,
+      "important_details": null,
+      "editorial_relevance": null,
+      "bottom_line": null,
+      "top_pick": null
     }
   ],
-  "updated_at_utc": "2026-11-26T14:10:09+00:00",
+  "updated_at_utc": "2026-11-27T14:09:09+00:00",
   "version": 1
 }
