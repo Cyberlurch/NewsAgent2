@@ -34165,6 +34165,304 @@
         "approved_after_generation_checks": true,
         "seal": "9b2cfad36101185627667cd3598079c2f7b0d570811ae40eb53e95568dee0d15"
       }
+    },
+    "cybermed:daily:2026-11-27:2026-11-27:production": {
+      "report_key": "cybermed",
+      "cadence": "daily",
+      "period_start": "2026-11-27",
+      "period_end": "2026-11-27",
+      "edition_id": "cybermed:daily:2026-11-27:2026-11-27:production",
+      "content_version": "e66f9ffa8d76a2c7e429a0741b27de59385fb3d9aaeb85ed969be477802615bb",
+      "message_id": "<fe555a3b6aecb35db894d4687a8f54716a7afd6840743c8e532622684ea08e2b@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-27T14:22:15+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {
+        "items_all_new": [
+          {
+            "source": "pubmed",
+            "id": "43041877",
+            "title": "Oliguria in critically ill patients: physiological or pathological?",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43041877/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015226",
+            "title": "Differential effects of prone positioning and PEEP on ventilation/perfusion distribution across inflammatory ARDS subphenotypes: a porcine experimental study.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015226/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43015225",
+            "title": "Withholding or continuing glucose-lowering drugs for elective surgery in patients with type 2 diabetes mellitus: withholding or continuing perioperative metformin. Responses to Br J Anaesth 2026; 137: 1280-1 and Br J Anaesth 2026; 137: 1282-3.",
+            "channel": "PubMed: British Journal of Anaesthesia",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43015225/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43051450",
+            "title": "Atherosclerotic cardiovascular disease risk prediction in individuals with and without impaired spirometry.",
+            "channel": "PubMed: CHEST",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43051450/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43049889",
+            "title": "Multiplex PCR in suspected ventilator-associated pneumonia: for which settings, and at what price?",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43049889/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43049888",
+            "title": "The path towards precision transfusion medicine in critical care: focus on patient physiology, not only on study populations.",
+            "channel": "PubMed: Intensive Care Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43049888/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43053244",
+            "title": "Prehospital antibiotics in septic shock of digestive origin: target-trial alignment, effect modification, and source-control interpretation.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43053244/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43053117",
+            "title": "Early prediction of ICU-acquired weakness with quadriceps ultrasound: outcome verification, prediction timing, and transportability.",
+            "channel": "PubMed: Journal of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43053117/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43053186",
+            "title": "CT-based radiomics for interpretable outcome prediction after aneurysmal subarachnoid hemorrhage: a multicenter cohort study.",
+            "channel": "PubMed: KI in Anästhesie/ICU (breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43053186/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43045786",
+            "title": "'Light and sound' therapy for Alzheimer's flops in long-anticipated trial.",
+            "channel": "PubMed: Nature (medizin/biomed breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43045786/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43056226",
+            "title": "Slightly Alive - Improving Antituberculosis Therapy.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43056226/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43056221",
+            "title": "Assessing Multiple Treatment Regimens for Tuberculosis.",
+            "channel": "PubMed: New England Journal of Medicine (medizin breit)",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43056221/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43020658",
+            "title": "Censoring, missing outcomes, and interpretation of similarity in a trial of intravenous dexamethasone timing.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020658/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43020657",
+            "title": "Timing of intravenous dexamethasone and duration of analgesia: in reply.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020657/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43020656",
+            "title": "Trends in medications for opioid use disorder before surgery by payer type, 2016-2021.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020656/"
+          },
+          {
+            "source": "pubmed",
+            "id": "43020655",
+            "title": "Things pain takes.",
+            "channel": "PubMed: Regional Anesthesia & Pain Medicine",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43020655/"
+          },
+          {
+            "source": "foamed",
+            "id": "https://emottawablog.com/2026/11/baby-on-board-trauma-in-pregnancy/",
+            "title": "Baby on Board: Trauma in Pregnancy",
+            "channel": "EMOttawa Blog",
+            "url": "https://emottawablog.com/2026/11/baby-on-board-trauma-in-pregnancy/"
+          }
+        ],
+        "overview_items": [
+          {
+            "source": "pubmed",
+            "id": "43041877",
+            "title": "Oliguria in critically ill patients: physiological or pathological?",
+            "channel": "PubMed: Annals of Intensive Care",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/43041877/",
+            "paper_delivery": {
+              "version": 1,
+              "pmid": "43041877",
+              "doi": "10.1016/j.aicoj.2026.100196",
+              "kind": "original",
+              "source_version": "2cbcb4f6333af165668ccf2fab2ac4e7c1eb59503d6b2841d03d924a9dd78c2e",
+              "fields": {
+                "title": "fd20bb7ec6a86a8261a6fffa2c6b9dde9cbaa403c0fc996fd85d7a68729e3ed9",
+                "abstract": "96011c15a73f46aed38cfc509f9d3988789cca1e71048d59bce0a5ad42527605",
+                "types": "59a0a9d997bedbc69089190fcc3505a78cd0ede8329f80f029c90af0ed6b08dc",
+                "relations": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+              },
+              "evidence": {
+                "results": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "results_known": false,
+                "numbers": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                "endpoint": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "methods": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+                "direction": "unclear"
+              },
+              "relations": []
+            }
+          }
+        ],
+        "detail_items": [],
+        "foamed_overview_items": [
+          {
+            "source": "foamed",
+            "id": "https://emottawablog.com/2026/11/baby-on-board-trauma-in-pregnancy/",
+            "title": "Baby on Board: Trauma in Pregnancy",
+            "channel": "EMOttawa Blog",
+            "url": "https://emottawablog.com/2026/11/baby-on-board-trauma-in-pregnancy/"
+          }
+        ],
+        "report_key": "cybermed",
+        "report_mode": "daily",
+        "now_utc_iso": "2026-11-27T14:22:11+00:00"
+      },
+      "workflow_run_id": "46015082625",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:daily:2026-11-27:2026-11-27:production",
+        "subject": "Cybermed Report",
+        "subject_hash": "e3e70219ffa222660a8b52d73c7e5bb2c9da3f65911b665db752b9cc0216e7b7",
+        "audience": [
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "22482448b294c6b65e00ae2633004e0e83373513c3dc5ffb9c62d55d1a31dda3",
+        "finalization_policy": "markers",
+        "content_version": "e66f9ffa8d76a2c7e429a0741b27de59385fb3d9aaeb85ed969be477802615bb",
+        "message_id": "<fe555a3b6aecb35db894d4687a8f54716a7afd6840743c8e532622684ea08e2b@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "0ff8fefc199e7b0b_cybermed_daily_cybermed_daily_generated_delta.json",
+            "sha256": "51cda05117260b1e5159765cbadcdfbe70f3ce6bc3711db7d1f7300293e026a6"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "c13fb57194bacecec739fe5b200986bcf70472723843189776229119f2f7df68"
+      }
+    },
+    "cybermed:weekly:2026-11-23:2026-11-27:production": {
+      "report_key": "cybermed",
+      "cadence": "weekly",
+      "period_start": "2026-11-23",
+      "period_end": "2026-11-27",
+      "edition_id": "cybermed:weekly:2026-11-23:2026-11-27:production",
+      "content_version": "59e4aabff82d059145de4306014eb1ec9691bed54928ae06d97ed985a27e97b4",
+      "message_id": "<a16e74b3d85dbe46d68e79c97e03962ab2b00b2eff0ff5edb3f53e3fc1b0501d@newsagent2.invalid>",
+      "status": "accepted_by_smtp",
+      "category": "",
+      "accepted": [
+        "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+        "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+        "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+        "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+        "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+        "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+        "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+        "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+        "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+        "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+        "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+        "ae054757510d3e3c43adbde5c4862e1129c9df27276422be7011fc8d45adc3eb",
+        "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+        "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+        "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+        "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+        "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+        "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+        "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+        "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+      ],
+      "rejected": [],
+      "unknown": [],
+      "state_persisted": true,
+      "updated_at_utc": "2026-11-27T14:22:23+00:00",
+      "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+      "generation_validated": true,
+      "finalization": {},
+      "workflow_run_id": "46015082625",
+      "prior_attempts": [],
+      "smtp_phase": "completed",
+      "recovery": {
+        "version": 1,
+        "edition_id": "cybermed:weekly:2026-11-23:2026-11-27:production",
+        "subject": "Cybermed Report — Weekly",
+        "subject_hash": "59caac393c86891f5aad81b365380b5ae9cfac256d74c54ddd101b92beb9258e",
+        "audience": [
+          "0a3617c18305b79f481aa4db17cc9d2d52857ad31b5d8941ea0a7f30aecdcfb5",
+          "158b67d915d8f299796465a58e3eef346cae4518f295cdccec7de9fa3e367979",
+          "3b80a52692a2f4750dfe7fa2379271b837170c81f8a48a2e2727ddef36b3949f",
+          "40a9c9be9703f45f4c2f66d15d5937d2148d0dcd61caaf41ceb516ae4c490da4",
+          "4730159ff254044ed36a771821a2595a4190c27311af1fc1f0b83fb18410ac6f",
+          "4b982e4bc932e21e542ead90a71754d8468a91ece324374f97d2190b6bd00b0c",
+          "4cd042f22b18d95eff4e9ee2a97ee4fbdf554a4b8f800a1c5041443499b2d7c0",
+          "57e8c45c90d88728e519cd1864f08ad12c07f47c51d2105530b8bdde4b016b76",
+          "6991b9ca69023b04904c22d421cd44c186aa90d5c8ebbaa588d8ceab14472bf6",
+          "7a201bd9599b7486b546c27e7afb019ed2cdff930650ab5b1e380d6cbadf7d6e",
+          "97e4359c8b22c62acfede26b1a666b817ab4ab31f12bf8e3bc806a44934855ff",
+          "ae054757510d3e3c43adbde5c4862e1129c9df27276422be7011fc8d45adc3eb",
+          "bd8e34f1c0a02c1f95d5ed5425bc43f6d47bcbd168cc2b9f773e92096df16b0e",
+          "c4e86cdab9cd108c64efba651e8e9637f196769c7c176d46eda1816e6d945bf6",
+          "c8b008e1b45fc5b67fe652333af0d7f1a66323b1ddbb27747cb1e18370eb88c8",
+          "d1b337ad4681950ab0a5adf7297c1cf71dafb7a65d8fc7486cd878309e177c37",
+          "ecb8abfb004628f75cf734acecdac9fde12f442e926b7002a6573422895971f0",
+          "f093385f8f5774648d399375a741c713cff47e808c801203e25c5202096abb71",
+          "f1cef6842d1537497c7a80230a73af12133e8cbbdf4bb1eafe07f81eff77b15c",
+          "f2cc85be67701ba9a01750b798550ba89a000cd86df3fd5f54465f840926e04f"
+        ],
+        "recipient_key_id": "4ddbd3661fe071296853bed5d1eaf4d1d30d6577f767fc76a8b39131e6b3ee0e",
+        "finalization_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "finalization_policy": "no_markers",
+        "content_version": "59e4aabff82d059145de4306014eb1ec9691bed54928ae06d97ed985a27e97b4",
+        "message_id": "<a16e74b3d85dbe46d68e79c97e03962ab2b00b2eff0ff5edb3f53e3fc1b0501d@newsagent2.invalid>",
+        "history_clear": true,
+        "generated_deltas": [
+          {
+            "file": "062d7d74de360af6_cybermed_weekly_cybermed_weekly_generated_delta.json",
+            "sha256": "81a3d8f48d47f7a5940b6f29337f66a8ea7c03a483798e11cdf48bd807214e6a"
+          }
+        ],
+        "approved_after_generation_checks": true,
+        "seal": "96c1cbf64add9932bcb85812589dcaaec3f3a8d5c5abcef7e3f47a46f6b28d96"
+      }
     }
   },
   "paper_legacy_unknown": {
@@ -34982,8 +35280,12 @@
         "43003742",
         "43003743",
         "43004583",
+        "43006814",
+        "43006820",
         "43007248",
+        "43007270",
         "43007421",
+        "43009368",
         "43010838",
         "43012576",
         "43012617",
@@ -35014,12 +35316,23 @@
         "43021611",
         "43023009",
         "43023303",
+        "43023815",
+        "43023821",
+        "43023826",
+        "43024934",
+        "43024946",
         "43025804",
         "43025805",
+        "43026563",
         "43032658",
+        "43033843",
+        "43033844",
+        "43033846",
         "43040367",
         "43041112",
-        "43043325"
+        "43043325",
+        "43044723",
+        "43044726"
       ]
     }
   }
